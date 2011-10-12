@@ -1,0 +1,29 @@
+{
+  'name'           : 'SlimJim',
+  'description'    : 'Remote execution of JS on multiple browsers / node.js',
+  'homepage'       : '',
+  'keywords'       : [],
+  'author'         : 'Vojta Jina <vojta.jina@gmail.com>',
+  'contributors'   : [],
+  'dependencies'   : {
+    'socket.io'      : '0.8.5'
+  },
+  'devDependencies': {
+    'coffee-script'  : '1.1.2',
+    'jasmine-node'   : '1.0.11'
+  },
+  'repository'     : {
+    'type'           : 'git',
+    'url'            : 'git://github.com/vojtajina/slim-jim.git'
+  },
+  'main'           : 'lib/index',
+  'bin'            : {
+    'slimjim'        : './bin/slimjim',
+    'slimjim-run'    : './bin/slimjim-run'
+  },
+  'scripts'        : {
+    'test'           : 'run tests...'
+  },
+  'engines'        : {'node': ''},
+  'version'        : '0.0.1'
+}
