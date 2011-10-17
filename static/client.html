@@ -1,0 +1,23 @@
+<html>
+<head>
+  <title>SlimJim</title>
+</head>
+<body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://localhost');
+
+    socket.on('execute', function (files) {
+//        var files = data.split(';');
+        var head = document.getElementsByTagName('head')[0];
+
+        for (var i = 0; i < files.length; i++) {
+            var script = document.createElement('script');
+            script.src = files[i] + '?' + Math.random();
+            script.type = 'text/javascript';
+            head.appendChild(script);
+        }
+    });
+  </script>
+</body>
+</html>

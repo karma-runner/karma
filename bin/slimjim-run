@@ -1,1 +1,3 @@
 #!/usr/bin/env node
+
+require('../lib/runner').run(process.argv.slice(2));

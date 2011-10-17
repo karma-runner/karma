@@ -1,1 +1,6 @@
 #!/usr/bin/env node
+
+var path = require('path'),
+    server = require('../lib/server');
+
+server.start(path.resolve(process.argv[2]));
