@@ -30,8 +30,8 @@ e.stat = function(path, callback) {
   validatePath(path);
   process.nextTick(function() {
     var pointer = getPointer(path, data);
-    return pointer ? callback(null, new Stats(typeof pointer == 'object'))
-                   : callback({});
+    return pointer ? callback(null, new Stats(typeof pointer == 'object')) :
+                     callback({});
   });
 };
 
@@ -39,8 +39,8 @@ e.readdir = function(path, callback) {
   validatePath(path);
   process.nextTick(function() {
     var pointer = getPointer(path, data);
-    return pointer && typeof pointer === 'object'
-         ? callback(null, Object.getOwnPropertyNames(pointer)) : callback({});
+    return pointer && typeof pointer === 'object' ?
+           callback(null, Object.getOwnPropertyNames(pointer)) : callback({});
   });
 };
 
