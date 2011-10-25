@@ -1,8 +1,11 @@
 describe 'fs', ->
-  fs = callback = null
+  fs = callback = finished = null
+
+  waitForFinished = (count = 1, name = 'FS') ->
+    waitsFor (-> finished == count), name, 100
 
   beforeEach ->
-    callback = jasmine.createSpy 'callback'
+    finished = 0
     fs = require './fs'
     fs.init
       bin:
@@ -28,42 +31,38 @@ describe 'fs', ->
   describe '.stat', ->
 
     it 'should be async', ->
-      result = fs.stat '/bin', callback
+      result = fs.stat '/bin', -> null
       expect(result).toBeUndefined()
 
 
     it 'should stat directory', ->
-      callback.andCallFake (err, stat) ->
+      fs.stat '/bin', (err, stat) ->
         expect(err).toBeFalsy()
         expect(stat.isDirectory()).toBe true
-
-      fs.stat '/bin', callback
-      fs.flush()
-      expect(callback).toHaveBeenCalled()
+        finished++
+      waitForFinished()
 
 
     it 'should stat file', ->
-      callback.andCallFake (err, stat) ->
+      callback = (err, stat) ->
         expect(err).toBeFalsy()
         expect(stat.isDirectory()).toBe false
+        finished++
 
       fs.stat '/bin/grep', callback
       fs.stat '/home/vojta/some.js', callback
-      fs.flush()
-      expect(callback).toHaveBeenCalled()
-      expect(callback.callCount).toBe 2
+      waitForFinished 2
 
 
     it 'should return error when path does not exist', ->
-      callback.andCallFake (err, stat) ->
+      callback = (err, stat) ->
         expect(err).toBeTruthy()
         expect(stat).toBeFalsy()
+        finished++
 
       fs.stat '/notexist', callback
       fs.stat '/home/notexist', callback
-      fs.flush()
-      expect(callback).toHaveBeenCalled()
-      expect(callback.callCount).toBe 2
+      waitForFinished 2
 
 
   # ===========================================================================
@@ -72,28 +71,28 @@ describe 'fs', ->
   describe '.readdir', ->
 
     it 'should be async', ->
-      result = fs.readdir '/bin', callback
+      result = fs.readdir '/bin', -> null
       expect(result).toBeUndefined()
 
 
     it 'should return array of files and directories', ->
-      callback.andCallFake (err, files) ->
+      callback = (err, files) ->
         expect(err).toBeFalsy()
         expect(files).toContain 'sub'
         expect(files).toContain 'some.js'
         expect(files).toContain 'another.js'
+        finished++
 
       fs.readdir '/home/vojta', callback
-      fs.flush()
-      expect(callback).toHaveBeenCalled()
+      waitForFinished()
 
 
     it 'should return error if does not exist', ->
-      callback.andCallFake (err, files) ->
+      callback = (err, files) ->
         expect(err).toBeTruthy()
         expect(files).toBeFalsy()
+        finished++
 
       fs.readdir '/home/not', callback
-      fs.flush()
-      expect(callback).toHaveBeenCalled()
+      waitForFinished()
 

@@ -2,7 +2,6 @@
 // TODO(vojta): allow relative paths
 
 var e = exports;
-var queue = [];
 var data = {};
 
 var Stats = function(isDirectory) {
@@ -26,9 +25,10 @@ var validatePath = function(path) {
   if (path.charAt(0) !== '/') throw 'Relative path not supported !';
 };
 
+// public API
 e.stat = function(path, callback) {
   validatePath(path);
-  queue.push(function() {
+  process.nextTick(function() {
     var pointer = getPointer(path, data);
     return pointer ? callback(null, new Stats(typeof pointer == 'object'))
                    : callback({});
@@ -37,7 +37,7 @@ e.stat = function(path, callback) {
 
 e.readdir = function(path, callback) {
   validatePath(path);
-  queue.push(function() {
+  process.nextTick(function() {
     var pointer = getPointer(path, data);
     return pointer && typeof pointer === 'object'
          ? callback(null, Object.getOwnPropertyNames(pointer)) : callback({});
@@ -49,11 +49,4 @@ e.init = function(structure) {
   data = structure;
   queue = [];
 };
-
-e.flush = function() {
-  var fns = queue;
-  queue = [];
-
-  while (fns.length) fns.shift()();
-}
 
