@@ -1,4 +1,5 @@
 // files to load
-include = [
-  'test.js'
-]
+files = [
+  '*.js'
+];
+
