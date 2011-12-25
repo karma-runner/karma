@@ -12,17 +12,10 @@ It contains socket.io and all the communication logic.
   <script>
     var socket = io.connect('http://localhost');
 
-    socket.on('execute', function (files) {
-//        var files = data.split(';');
-        var head = document.getElementsByTagName('head')[0];
-
-        for (var i = 0; i < files.length; i++) {
-            var script = document.createElement('script');
-            script.src = files[i] + '?' + Math.random();
-            script.type = 'text/javascript';
-            head.appendChild(script);
-        }
+    socket.on('connect', function() {
+        socket.emit('name', window.navigator.userAgent.match(/Chrome\S*|Firefox\S*|Safari\S*/)[0]);
     });
   </script>
+  <iframe id="context" src="/context.html"></iframe>
 </body>
 </html>
