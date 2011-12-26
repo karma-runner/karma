@@ -1,3 +1,9 @@
+if (!window.console || !window.console.log) {
+  window.console = {
+    log: function() {}
+  };
+}
+
 /**
  * Very simple reporter for jasmine
  */
