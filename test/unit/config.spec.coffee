@@ -3,6 +3,7 @@
 #=============================================================================
 vm = require 'vm'
 fs = require 'fs'
+fsMock = require '../mock/fs'
 
 loadFile = (file, mocks = {}) ->
   context =
@@ -20,11 +21,10 @@ loadFile = (file, mocks = {}) ->
 #=============================================================================
 describe 'config', ->
   finished = null
-  mocks =
-    fs: require '../mock/fs'
+  mocks = {}
 
-  # init fs mock
-  mocks.fs.init
+  # create instance of fs mock
+  mocks.fs = fsMock.create
     bin:
       sub:
         'one.js'  : 1

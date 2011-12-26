@@ -1,3 +1,5 @@
+fsMock = require './fs'
+
 describe 'fs', ->
   fs = callback = finished = null
 
@@ -6,8 +8,8 @@ describe 'fs', ->
 
   beforeEach ->
     finished = 0
-    fs = require './fs'
-    fs.init
+
+    fs = fsMock.create
       bin:
         grep: 1
         chmod: 1
