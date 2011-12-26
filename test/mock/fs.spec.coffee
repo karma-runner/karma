@@ -1,6 +1,7 @@
 fsMock = require './fs'
 
 describe 'fs', ->
+  NOW = new Date()
   fs = callback = finished = null
 
   waitForFinished = (count = 1, name = 'FS') ->
@@ -23,8 +24,8 @@ describe 'fs', ->
             'first.js': 1
             'second.js': 1
             'third.log': 1
-          'some.js': 1
-          'another.js': 1
+          'some.js': fsMock.file(NOW.getTime(), 'some')
+          'another.js': fsMock.file(NOW.getTime(), 'content')
 
 
   # ===========================================================================
@@ -66,6 +67,16 @@ describe 'fs', ->
       fs.stat '/home/notexist', callback
       waitForFinished 2
 
+    it 'should have modified timestamp', ->
+      callback = (err, stat) ->
+        expect(err).toBeFalsy()
+        expect(stat.mtime instanceof Date).toBe true
+        expect(stat.mtime).toEqual NOW
+        finished++
+
+      fs.stat '/home/vojta/some.js', callback
+      waitForFinished()
+
 
   # ===========================================================================
   # fs.readdir
@@ -98,3 +109,16 @@ describe 'fs', ->
       fs.readdir '/home/not', callback
       waitForFinished()
 
+
+  # ===========================================================================
+  # fs.readFile
+  # ===========================================================================
+  describe 'readFile', ->
+    # TODO(vojta)
+
+
+  # ===========================================================================
+  # fs.readFileSync
+  # ===========================================================================
+  describe 'readFileSync', ->
+    # TODO(vojta)

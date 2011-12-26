@@ -1,13 +1,29 @@
 // mock for fs module
 // TODO(vojta): allow relative paths
+var util = require('util');
 
 /**
  * @constructor
  * @param {boolean} isDirectory
  */
-var Stats = function(isDirectory) {
+var Stats = function(isFile, mtime) {
+  this.mtime = mtime;
   this.isDirectory = function() {
-    return isDirectory;
+    return !isFile;
+  };
+  this.isFile = function() {
+    return isFile;
+  };
+};
+
+var File = function(mtime, content) {
+  this.mtime = new Date(mtime);
+  this.content = content || '';
+  this.getStats = function() {
+    return new Stats(true, this.mtime);
+  };
+  this.getBuffer = function() {
+    return new Buffer(this.content);
   };
 };
 
@@ -36,8 +52,11 @@ var Mock = function(structure) {
     validatePath(path);
     process.nextTick(function() {
       var pointer = getPointer(path, structure);
-      return pointer ? callback(null, new Stats(typeof pointer == 'object')) :
-                       callback({});
+      if (!pointer) return callback({});
+
+      var stats = pointer instanceof File ? pointer.getStats() :
+                                            new Stats(typeof pointer !== 'object')
+      return callback(null, stats);
     });
   };
 
@@ -45,12 +64,36 @@ var Mock = function(structure) {
     validatePath(path);
     process.nextTick(function() {
       var pointer = getPointer(path, structure);
-      return pointer && typeof pointer === 'object' ?
-             callback(null, Object.getOwnPropertyNames(pointer)) : callback({});
+      return pointer && typeof pointer === 'object' && !(pointer instanceof File) ?
+             callback(null, Object.getOwnPropertyNames(pointer).sort()) : callback({});
     });
+  };
+
+  this.readFile = function(path, callback) {
+    var readFileSync = this.readFileSync;
+    process.nextTick(function() {
+      try {
+        callback(null, readFileSync(path));
+      } catch(e) {
+        callback(e);
+      }
+    })
+  };
+
+  this.readFileSync = function(path) {
+    var pointer = getPointer(path, structure);
+
+    if (!pointer) throw Error(util.format('no such file or directory "%s"', path));
+    if (pointer instanceof File) return pointer.getBuffer();
+    if (typeof pointer === 'object') throw Error('illegal operation on directory');
+    return '';
   };
 };
 
 exports.create = function(structure) {
   return new Mock(structure);
+};
+
+exports.file = function(mtime, content) {
+  return new File(mtime, content);
 };
