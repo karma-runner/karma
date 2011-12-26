@@ -1,6 +1,12 @@
+#==============================================================================
+# test/mock/http.js module
+#==============================================================================
 describe 'http', ->
   httpMock = require './http'
 
+  #==============================================================================
+  # http.ServerResponse
+  #==============================================================================
   describe 'ServerResponse', ->
     response = null
 
@@ -33,11 +39,13 @@ describe 'http', ->
       expect(-> response.writeHead 200)
         .toThrow "Can't render headers after they are sent to the client."
 
+
     it 'should throw when trying to set headers after sending', ->
       response.writeHead 200
 
       expect(-> response.setHeader 'Some', 'Value')
         .toThrow "Can't set headers after they are sent."
+
 
     it 'isFinished() should assert whether headers and body has been sent', ->
       expect(response._isFinished()).toBe false

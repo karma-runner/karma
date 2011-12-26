@@ -1,28 +1,10 @@
-#=============================================================================
-# HELPER - load module with mocking dependencies + accessing private state
-#=============================================================================
-vm = require 'vm'
-fs = require 'fs'
-fsMock = require '../mock/fs'
-
-loadFile = (file, mocks = {}) ->
-  context =
-    require: (name) ->
-      mocks[name] or require name
-    console: console
-    exports: {}
-    module: {}
-
-  vm.runInNewContext (fs.readFileSync file), context
-  context
-
-#=============================================================================
+#==============================================================================
 # lib/config.js module
-# process the configuration file
-#=============================================================================
+#==============================================================================
 describe 'config', ->
-  finished = null
-  mocks = {}
+  loadFile = require('../util').loadFile
+  fsMock = require '../mock/fs'
+  finished = null; mocks = {}
 
   # create instance of fs mock
   mocks.fs = fsMock.create
@@ -63,10 +45,10 @@ describe 'config', ->
     finished = 0
 
 
-  #=============================================================================
+  #============================================================================
   # resolveSinglePattern()
-  # should parse one pattern and return array of matched files
-  #=============================================================================
+  # Should parse one pattern and return array of matched files
+  #============================================================================
   describe 'resolveSinglePattern', ->
 
     it 'should resolve basic file expression', ->
@@ -110,9 +92,10 @@ describe 'config', ->
       waitForFinished()
 
 
-  #=============================================================================
-  # resolve() match array of patterns and returns array of uniqued matched files
-  #=============================================================================
+  #============================================================================
+  # resolve()
+  # Should match array of patterns and return an array of unique matched files
+  #============================================================================
   describe 'resolve', ->
 
      it 'should match multiple patterns', ->
@@ -149,9 +132,10 @@ describe 'config', ->
        waitForFinished()
 
 
-  #=============================================================================
+  #============================================================================
   # config.parseConfig()
-  #=============================================================================
+  # Should parse configuration file and do some basic processing as well
+  #============================================================================
   describe 'parseConfig', ->
 
     it 'should resolve relative basePath to config directory', ->

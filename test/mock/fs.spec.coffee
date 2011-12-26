@@ -1,7 +1,8 @@
-fsMock = require './fs'
-
+#==============================================================================
+# test/mock/fs.js module
+#==============================================================================
 describe 'fs', ->
-  NOW = new Date()
+  fsMock = require './fs'
   fs = callback = finished = null
 
   waitForFinished = (count = 1, name = 'FS') ->
@@ -24,14 +25,14 @@ describe 'fs', ->
             'first.js': 1
             'second.js': 1
             'third.log': 1
-          'some.js': fsMock.file(NOW.getTime(), 'some')
-          'another.js': fsMock.file(NOW.getTime(), 'content')
+          'some.js': fsMock.file('2012-01-01', 'some')
+          'another.js': fsMock.file('2012-01-02', 'content')
 
 
   # ===========================================================================
-  # fs.stat
+  # fs.stat()
   # ===========================================================================
-  describe '.stat', ->
+  describe 'stat', ->
 
     it 'should be async', ->
       result = fs.stat '/bin', -> null
@@ -67,11 +68,12 @@ describe 'fs', ->
       fs.stat '/home/notexist', callback
       waitForFinished 2
 
+
     it 'should have modified timestamp', ->
       callback = (err, stat) ->
         expect(err).toBeFalsy()
         expect(stat.mtime instanceof Date).toBe true
-        expect(stat.mtime).toEqual NOW
+        expect(stat.mtime).toEqual new Date '2012-01-01'
         finished++
 
       fs.stat '/home/vojta/some.js', callback
@@ -79,9 +81,9 @@ describe 'fs', ->
 
 
   # ===========================================================================
-  # fs.readdir
+  # fs.readdir()
   # ===========================================================================
-  describe '.readdir', ->
+  describe 'readdir', ->
 
     it 'should be async', ->
       result = fs.readdir '/bin', -> null
