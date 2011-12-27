@@ -34,7 +34,7 @@ var ServerResponse = function() {
     if (bodySent) return;
 
     bodySent = true;
-    this._body = body;
+    this._body = body.toString();
   };
 };
 

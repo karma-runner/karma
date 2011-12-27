@@ -18,6 +18,11 @@ describe 'http', ->
       expect(response._body).toBe 'Some Body'
 
 
+    it 'should convert body buffer to string', ->
+      response.end new Buffer 'string'
+      expect(response._body).toBe 'string'
+
+
     it 'should set status', ->
       response.writeHead 201
       expect(response._status).toBe 201
