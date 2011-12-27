@@ -18,6 +18,11 @@ describe 'http', ->
       expect(response._body).toBe 'Some Body'
 
 
+    it 'should set status', ->
+      response.writeHead 201
+      expect(response._status).toBe 201
+
+
     it 'should ignore end() when already sent', ->
       response.end 'First Body'
       response.end 'Another Body'

@@ -27,6 +27,7 @@ var ServerResponse = function() {
     }
 
     headSent = true;
+    this._status = status;
   };
 
   this.end = function(body) {
@@ -37,4 +38,9 @@ var ServerResponse = function() {
   };
 };
 
+var ServerRequest = function(url) {
+  this.url = url;
+};
+
 exports.ServerResponse = ServerResponse;
+exports.ServerRequest = ServerRequest;
