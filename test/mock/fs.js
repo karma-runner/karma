@@ -17,10 +17,10 @@ var Stats = function(isFile, mtime) {
 };
 
 var File = function(mtime, content) {
-  this.mtime = new Date(mtime);
+  this.mtime = mtime;
   this.content = content || '';
   this.getStats = function() {
-    return new Stats(true, this.mtime);
+    return new Stats(true, new Date(this.mtime));
   };
   this.getBuffer = function() {
     return new Buffer(this.content);
@@ -32,6 +32,8 @@ var File = function(mtime, content) {
  * @param {Object} structure
  */
 var Mock = function(structure) {
+  var watchers = {};
+
   var getPointer = function(path, pointer) {
     var parts = path.split('/').slice(1);
 
@@ -104,6 +106,28 @@ var Mock = function(structure) {
 
     return new Buffer('');
   };
+
+  this.watchFile = function(path, callback) {
+    watchers[path] = watchers[path] || [];
+    watchers[path].push(callback);
+  };
+
+  // Mock API
+  this._touchFile = function(path, mtime, content) {
+    var pointer = getPointer(path, structure);
+    var previous = pointer.getStats();
+
+    // update the file
+    if (typeof mtime !== 'undefined') pointer.mtime = mtime;
+    if (typeof content !== 'undefined') pointer.content = content;
+
+    var current = pointer.getStats();
+    (watchers[path] || []).forEach(function(callback) {
+      callback(current, previous);
+    });
+  };
+
+
 };
 
 exports.create = function(structure) {

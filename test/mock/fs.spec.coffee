@@ -177,3 +177,38 @@ describe 'fs', ->
     it 'should throw when reading a directory', ->
       expect(-> fs.readFileSync '/home/vojta').
         toThrow 'Illegal operation on directory'
+
+
+    # ===========================================================================
+    # fs.watchFile
+    # ===========================================================================
+    describe 'watchFile', ->
+
+      it 'should call when when file accessed', ->
+        callback = jasmine.createSpy('watcher').andCallFake (current, previous) ->
+          expect(current.isFile()).toBe true
+          expect(previous.isFile()).toBe true
+          expect(current.mtime).toEqual previous.mtime
+
+        fs.watchFile '/home/vojta/some.js', callback
+        expect(callback).not.toHaveBeenCalled()
+
+        fs._touchFile '/home/vojta/some.js'
+        expect(callback).toHaveBeenCalled()
+
+
+      it 'should call when file modified', ->
+        original = new Date '2012-01-01'
+        modified = new Date '2012-01-02'
+
+        callback = jasmine.createSpy('watcher').andCallFake (current, previous) ->
+          expect(previous.mtime).toEqual original
+          expect(current.mtime).toEqual modified
+
+        fs.watchFile '/home/vojta/some.js', callback
+        expect(callback).not.toHaveBeenCalled()
+
+        fs._touchFile '/home/vojta/some.js', '2012-01-02', 'new content'
+        expect(callback).toHaveBeenCalled()
+
+

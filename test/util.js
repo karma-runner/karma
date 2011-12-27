@@ -31,3 +31,7 @@ exports.loadFile = function(path, mocks) {
   vm.runInNewContext(fs.readFileSync(path), context);
   return context;
 };
+
+// TODO(vojta) add jasmine matchers:
+// - toEqualDate
+// - toHaveBeenCalledOnce
