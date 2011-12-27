@@ -6,7 +6,6 @@ describe 'web-server', ->
   fsMock = require '../mock/fs'
   httpMock = require '../mock/http'
 
-  NOW = new Date()
   files = []; handler = response = null
 
   # mock fileGuardian
