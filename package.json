@@ -24,6 +24,6 @@
   'scripts'        : {
     'test'           : 'run tests...'
   },
-  'engines'        : {'node': ''},
+  'engines'        : {'node': '0.6.5'},
   'version'        : '0.0.1'
 }
