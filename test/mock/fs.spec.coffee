@@ -116,11 +116,64 @@ describe 'fs', ->
   # fs.readFile
   # ===========================================================================
   describe 'readFile', ->
-    # TODO(vojta)
+
+    it 'should read file content as Buffer', ->
+      callback = (err, data) ->
+        expect(err).toBeFalsy()
+        expect(data instanceof Buffer).toBe true
+        expect(data.toString()).toBe 'some'
+        finished++
+
+      fs.readFile '/home/vojta/some.js', callback
+      waitForFinished()
+
+
+    it 'should be async', ->
+      callback = jasmine.createSpy 'calback'
+      fs.readFile '/home/vojta/some.js', callback
+      expect(callback).not.toHaveBeenCalled()
+
+
+    it 'should call error callback when non existing file or directory', ->
+      callback = (err, data) ->
+        expect(err).toBeTruthy()
+        finished++
+
+      fs.readFile '/home/vojta', callback
+      fs.readFile '/some/non-existing', callback
+      waitForFinished 2
+
+
+    # regression
+    it 'should not silent exception from callback', ->
+      fs.readFile '/home/vojta/some.js', (err) ->
+        throw 'CALLBACK EXCEPTION' if not err
+
+      uncaughtExceptionCallback = (err) ->
+        process.removeListener 'uncaughtException', uncaughtExceptionCallback
+        expect(err).toEqual 'CALLBACK EXCEPTION'
+        finished++
+
+      process.on 'uncaughtException', uncaughtExceptionCallback
+      waitForFinished 1, 'exception', 100
 
 
   # ===========================================================================
   # fs.readFileSync
   # ===========================================================================
   describe 'readFileSync', ->
-    # TODO(vojta)
+
+    it 'should read file content and sync return buffer', ->
+      buffer = fs.readFileSync '/home/vojta/another.js'
+      expect(buffer instanceof Buffer).toBe true
+      expect(buffer.toString()).toBe 'content'
+
+
+    it 'should throw when file does not exist', ->
+      expect(-> fs.readFileSync '/non-existing').
+        toThrow 'No such file or directory "/non-existing"'
+
+
+    it 'should throw when reading a directory', ->
+      expect(-> fs.readFileSync '/home/vojta').
+        toThrow 'Illegal operation on directory'

@@ -44,7 +44,9 @@ var Mock = function(structure) {
   };
 
   var validatePath = function(path) {
-    if (path.charAt(0) !== '/') throw 'Relative path not supported !';
+    if (path.charAt(0) !== '/') {
+      throw new Error('Relative path not supported !');
+    }
   };
 
   // public API
@@ -72,21 +74,35 @@ var Mock = function(structure) {
   this.readFile = function(path, callback) {
     var readFileSync = this.readFileSync;
     process.nextTick(function() {
+      var data = null;
+      var error = null;
+
       try {
-        callback(null, readFileSync(path));
+        data = readFileSync(path);
       } catch(e) {
-        callback(e);
+        error = e;
       }
-    })
+
+      callback(error, data);
+    });
   };
 
   this.readFileSync = function(path) {
     var pointer = getPointer(path, structure);
 
-    if (!pointer) throw Error(util.format('no such file or directory "%s"', path));
-    if (pointer instanceof File) return pointer.getBuffer();
-    if (typeof pointer === 'object') throw Error('illegal operation on directory');
-    return '';
+    if (!pointer) {
+      throw new Error(util.format('No such file or directory "%s"', path));
+    }
+
+    if (pointer instanceof File) {
+      return pointer.getBuffer();
+    }
+
+    if (typeof pointer === 'object') {
+      throw new Error('Illegal operation on directory');
+    }
+
+    return new Buffer('');
   };
 };
 
