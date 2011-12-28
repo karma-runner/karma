@@ -2,7 +2,7 @@
 # lib/web-server.js module
 #==============================================================================
 describe 'web-server', ->
-  util = require('../util')
+  util = require('../test-util.js')
   fsMock = require '../mock/fs'
   httpMock = require '../mock/http'
   loadFile = util.loadFile

@@ -2,7 +2,7 @@
 # lib/config.js module
 #==============================================================================
 describe 'config', ->
-  util = require('../util')
+  util = require('../test-util.js')
   fsMock = require '../mock/fs'
   loadFile = util.loadFile
   finished = mocks = m = e = null
