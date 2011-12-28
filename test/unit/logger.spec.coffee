@@ -28,12 +28,17 @@ describe 'logger', ->
       expect(console.log).toHaveBeenCalledWith 'debug (OBJECT):', 'some', 'info'
 
 
+  it 'should allow global logger without name', ->
+    logger.create().info 'global msg'
+    expect(console.log).toHaveBeenCalledWith 'info:', 'global msg'
+
+
   it 'should allow global configuration', ->
     log = logger.create 'OBJ'
 
-    logger.setLevel 3 # DEBUG
-    log.debug 'ok'
-    expect(console.log).toHaveBeenCalledWith 'debug (OBJ):', 'ok'
+    logger.setLevel 0 # ERROR
+    log.warn 'ok'
+    expect(console.log).not.toHaveBeenCalled()
 
     console.log.reset()
     logger.setLevel 0 # ERROR

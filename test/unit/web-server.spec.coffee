@@ -2,9 +2,12 @@
 # lib/web-server.js module
 #==============================================================================
 describe 'web-server', ->
-  loadFile = require('../util').loadFile
+  util = require('../util')
   fsMock = require '../mock/fs'
   httpMock = require '../mock/http'
+  loadFile = util.loadFile
+
+  beforeEach util.disableLogger
 
   files = []; handler = response = null
 

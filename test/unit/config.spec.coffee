@@ -2,9 +2,12 @@
 # lib/config.js module
 #==============================================================================
 describe 'config', ->
-  loadFile = require('../util').loadFile
+  util = require('../util')
   fsMock = require '../mock/fs'
+  loadFile = util.loadFile
   finished = mocks = m = e = null
+
+  beforeEach util.disableLogger
 
   # helper for async testing
   waitForFinished = (count = 1, name = 'resolving') ->
