@@ -5,3 +5,5 @@ files = [
 ];
 
 autoWatch = true;
+logLevel = LOG_DEBUG;
+logColors = true;

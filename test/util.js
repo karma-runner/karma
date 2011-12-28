@@ -35,3 +35,8 @@ exports.loadFile = function(path, mocks) {
 // TODO(vojta) add jasmine matchers:
 // - toEqualDate
 // - toHaveBeenCalledOnce
+
+beforeEach(function() {
+  // disable logging during testing
+  require('../lib/logger').setLevel(-1);
+});

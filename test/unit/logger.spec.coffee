@@ -6,6 +6,7 @@ describe 'logger', ->
 
   beforeEach ->
     spyOn console, 'log'
+    logger.setLevel 3 # set to DEBUG
 
   it 'should have error method', ->
     logger.create('FAKE').error 'whatever'
@@ -20,6 +21,11 @@ describe 'logger', ->
   it 'should have info method', ->
     logger.create('OBJECT').info 'some', 'info'
     expect(console.log).toHaveBeenCalledWith 'info (OBJECT):', 'some', 'info'
+
+
+  it 'should have debug method', ->
+      logger.create('OBJECT').debug 'some', 'info'
+      expect(console.log).toHaveBeenCalledWith 'debug (OBJECT):', 'some', 'info'
 
 
   it 'should allow global configuration', ->
