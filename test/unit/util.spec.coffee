@@ -39,3 +39,9 @@ describe 'util', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.52.7 ' +
                 '(KHTML, like Gecko) Version/5.1.2 Safari/534.52.7').
            toBe 'Safari 5.1'
+
+
+    it 'should parse IE9', ->
+      expecting('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; ' +
+                '.NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center ' +
+                'PC 6.0)').toBe 'IE 9.0'
