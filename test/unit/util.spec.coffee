@@ -45,3 +45,28 @@ describe 'util', ->
       expecting('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; ' +
                 '.NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center ' +
                 'PC 6.0)').toBe 'IE 9.0'
+
+
+  #==============================================================================
+  # util.formatError()
+  #==============================================================================
+  describe 'formatError', ->
+    format = util.formatError
+
+    it 'should indent', ->
+      expect(format 'Something', '\t').toBe '\tSomething'
+
+
+    it 'should remove domain from files', ->
+      expect(format 'file http://localhost:8080/usr/a.js and https://127.0.0.1:8080/home/b.js').
+          toBe 'file /usr/a.js and /home/b.js'
+
+
+    it 'should remove timestamps', ->
+      expect(format 'file http://localhost:8080/usr/file.js?1325400290544 and ' +
+                    'https://127.0.0.1:8080/home/file.js?1332400290889').
+          toBe 'file /usr/file.js and /home/file.js'
+
+
+    it 'should indent all lines', ->
+      expect(format 'first\nsecond\nthird', '\t').toBe '\tfirst\n\tsecond\n\tthird'
