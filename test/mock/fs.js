@@ -59,7 +59,7 @@ var Mock = function(structure) {
       if (!pointer) return callback({});
 
       var stats = pointer instanceof File ? pointer.getStats() :
-                                            new Stats(typeof pointer !== 'object')
+                                            new Stats(typeof pointer !== 'object');
       return callback(null, stats);
     });
   };
