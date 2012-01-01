@@ -7,8 +7,15 @@ Realoaded before every execution run.
 <html>
 <head>
   <title></title>
+  <script type="text/javascript">
+    var __slimjim__ = window.parent.slimjim;
+    window.onerror = __slimjim__.error;
+  </script>
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
+  <script type="text/javascript">
+    __slimjim__.loaded();
+  </script>
 </head>
 <body>
   Execution context
