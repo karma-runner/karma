@@ -55,6 +55,26 @@ describe 'browser', ->
 
 
     #==========================================================================
+    # browser.Browser.onResult
+    #==========================================================================
+    describe 'onResult', ->
+
+      createSuccessResult = ->
+        {success: true, suite: [], log: []}
+
+      createFailedResult = ->
+        {success: false, suite: [], log: []}
+
+      it 'should update lastResults', ->
+        browser.onResult createSuccessResult()
+        browser.onResult createSuccessResult()
+        browser.onResult createFailedResult()
+
+        expect(browser.lastResult.success).toBe 2
+        expect(browser.lastResult.failed).toBe 1
+
+
+    #==========================================================================
     # browser.Browser.onDisconnect
     #==========================================================================
     describe 'onDisconnect', ->
@@ -220,3 +240,35 @@ describe 'browser', ->
 
         expect(collection.serialize()).toEqual [{id: '1', name: 'B 1.0', isReady: true},
                                                 {id: '2', name: 'B 2.0', isReady: true}]
+
+
+    #==========================================================================
+    # browser.Collection.getResults
+    #==========================================================================
+    describe 'getResults', ->
+
+      it 'should return sum of all browser results', ->
+        browsers = [new b.Browser, new b.Browser]
+        collection.add browsers[0]
+        collection.add browsers[1]
+        browsers[0].lastResult = {success: 2, failed: 3}
+        browsers[1].lastResult = {success: 4, failed: 5}
+
+        expect(collection.getResults()).toEqual {success: 6, failed: 8}
+
+
+    #==========================================================================
+    # browser.Collection.clearResults
+    #==========================================================================
+    describe 'clearResults', ->
+
+      it 'should clear all results', ->
+        browsers = [new b.Browser, new b.Browser]
+        collection.add browsers[0]
+        collection.add browsers[1]
+        browsers[0].lastResult = {success: 2, failed: 3}
+        browsers[1].lastResult = {success: 4, failed: 5}
+
+        collection.clearResults()
+        browsers.forEach (browser) ->
+          expect(browser.lastResult).toEqual {success: 0, failed: 0}
