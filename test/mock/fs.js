@@ -1,6 +1,7 @@
 // mock for fs module
 // TODO(vojta): allow relative paths
 var util = require('util');
+var randomNextTick = require('./util').randomNextTick;
 
 /**
  * @constructor
@@ -54,7 +55,7 @@ var Mock = function(structure) {
   // public API
   this.stat = function(path, callback) {
     validatePath(path);
-    process.nextTick(function() {
+    randomNextTick(function() {
       var pointer = getPointer(path, structure);
       if (!pointer) return callback({});
 
@@ -66,7 +67,7 @@ var Mock = function(structure) {
 
   this.readdir = function(path, callback) {
     validatePath(path);
-    process.nextTick(function() {
+    randomNextTick(function() {
       var pointer = getPointer(path, structure);
       return pointer && typeof pointer === 'object' && !(pointer instanceof File) ?
              callback(null, Object.getOwnPropertyNames(pointer).sort()) : callback({});
@@ -75,7 +76,7 @@ var Mock = function(structure) {
 
   this.readFile = function(path, callback) {
     var readFileSync = this.readFileSync;
-    process.nextTick(function() {
+    randomNextTick(function() {
       var data = null;
       var error = null;
 

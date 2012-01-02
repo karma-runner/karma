@@ -20,6 +20,14 @@ describe 'config', ->
       strings.push file.path
     strings
 
+  # helper to find file in array of files, based on path
+  findFile = (path, files) ->
+    found = null
+    files.forEach (file) ->
+      found = file if file.path is path and found is null
+    throw new Error "Files do not contain '#{path}'" if found is null
+    found
+
   # reset async counter before each spec
   beforeEach ->
     finished = 0
@@ -96,6 +104,11 @@ describe 'config', ->
       waitForFinished()
 
 
+    # depends on randomNextTick
+    it 'should sort all results by file path', ->
+      # TODO(vojta)
+
+
   #============================================================================
   # resolve()
   # Should match array of patterns and return an array of unique matched files
@@ -130,10 +143,14 @@ describe 'config', ->
      it 'should resolve modified timestamps', ->
        m.resolve ['/bin/sub/*.js'], (err, files) ->
          expect(err).toBeFalsy()
-         expect(files[0].mtime).toEqual new Date('2011-12-25')
-         expect(files[1].mtime).toEqual new Date('2011-12-26')
+         expect(findFile('/bin/sub/one.js', files).mtime).toEqual new Date('2011-12-25')
+         expect(findFile('/bin/sub/two.js', files).mtime).toEqual new Date('2011-12-26')
          finished++
        waitForFinished()
+
+     # depends on randomNextTick
+     it 'should return all files sorted within single expression', ->
+       # TODO(vojta)
 
 
   #============================================================================
@@ -176,8 +193,8 @@ describe 'config', ->
 
         runs ->
           expect(callback).toHaveBeenCalledWith 2
-          expect(fg.getFiles()[0].mtime).toEqual new Date '2012-04-05'
-          expect(fg.getFiles()[1].mtime).toEqual new Date '2012-04-06'
+          expect(findFile('/home/config1.js', fg.getFiles()).mtime).toEqual new Date '2012-04-05'
+          expect(findFile('/home/config2.js', fg.getFiles()).mtime).toEqual new Date '2012-04-06'
 
 
     describe 'autoWatch', ->
@@ -200,7 +217,7 @@ describe 'config', ->
 
         runs ->
           mocks.fs._touchFile '/home/config1.js', '2012-03-02'
-          expect(fg.getFiles()[0].mtime).toEqual new Date '2012-03-02'
+          expect(findFile('/home/config1.js', fg.getFiles()).mtime).toEqual new Date '2012-03-02'
 
 
       it 'should not fire "fileModified" event if file not modified (only accessed)', ->
