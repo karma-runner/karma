@@ -6,6 +6,10 @@
 
 * {Object=} config Optional configuration object, will be passed to start()
 
+### info
+
+* {Array} info Info about all captured browsers
+
 ## Client -> Server protocol
 
 ### info

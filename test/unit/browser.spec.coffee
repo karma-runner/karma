@@ -67,6 +67,19 @@ describe 'browser', ->
         expect(collection.length).toBe 0
 
 
+    #==========================================================================
+    # browser.Browser.serialize
+    #==========================================================================
+    describe 'serialize', ->
+
+      it 'should return plain object with only name, id, isReady properties', ->
+        browser.isReady = true
+        browser.name = 'Browser 1.0'
+        browser.id = '12345'
+
+        expect(browser.serialize()).toEqual {id: '12345', name: 'Browser 1.0', isReady: true}
+
+
   #============================================================================
   # browser.Collection
   #============================================================================
@@ -191,3 +204,19 @@ describe 'browser', ->
         nonReady = []
         collection.areAllReady nonReady
         expect(nonReady).toEqual [browsers[0], browsers[1]]
+
+
+    #==========================================================================
+    # browser.Collection.serialize
+    #==========================================================================
+    describe 'serialize', ->
+
+      it 'should return plain array with serialized browsers', ->
+        browsers = [new b.Browser('1'), new b.Browser('2')]
+        browsers[0].name = 'B 1.0'
+        browsers[1].name = 'B 2.0'
+        collection.add browsers[0]
+        collection.add browsers[1]
+
+        expect(collection.serialize()).toEqual [{id: '1', name: 'B 1.0', isReady: true},
+                                                {id: '2', name: 'B 2.0', isReady: true}]

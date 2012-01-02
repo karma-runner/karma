@@ -7,6 +7,29 @@ socket.on('connect', function() {
   socket.emit('name', window.navigator.userAgent);
 });
 
+var browsersElement = document.getElementById('browsers');
+socket.on('info', function(info) {
+  var items = [];
+  info.forEach(function(browser) {
+    items.push(browser.name + ' is ' + (browser.isReady ? 'iddle' : 'executing'));
+  });
+  browsersElement.innerHTML = '<li>' + items.join('</li><li>') + '</li>';
+});
+
+var statusElement = document.getElementById('status');
+var updateStatus = function(status) {
+  return function(param) {
+    statusElement.innerHTML = param ? status.replace('$', param) : status;
+  };
+};
+
+socket.on('connect', updateStatus('connected'));
+socket.on('disconnect', updateStatus('disconnected'));
+socket.on('reconnecting', updateStatus('reconnecting in $ ms...'));
+socket.on('reconnect', updateStatus('re-connected'));
+socket.on('reconnect_failed', updateStatus('failed to reconnect'));
+
+
 var SlimJim = function(socket, context) {
   var hasError = false;
 
