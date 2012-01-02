@@ -81,25 +81,28 @@ describe 'config', ->
 
     it 'should resolve *.ext pattern', ->
       m.resolveSinglePattern '/bin/*.js', (err, files) ->
-        expect(stringsFrom files).toContain '/bin/file.js'
-        expect(stringsFrom files).toContain '/bin/more.js'
+        listOfPaths = stringsFrom files
+        expect(listOfPaths).toContain '/bin/file.js'
+        expect(listOfPaths).toContain '/bin/more.js'
         finished++
       waitForFinished()
 
 
     it 'should resolve /*/file pattern', ->
       m.resolveSinglePattern '/bin/*/one.js', (err, files) ->
-        expect(stringsFrom files).toContain '/bin/sub/one.js'
-        expect(stringsFrom files).toContain '/bin/mod/one.js'
+        listOfPaths = stringsFrom files
+        expect(listOfPaths).toContain '/bin/sub/one.js'
+        expect(listOfPaths).toContain '/bin/mod/one.js'
         finished++
       waitForFinished()
 
 
     it 'should resolve complex pattern', ->
       m.resolveSinglePattern '/bin/*/*.js', (err, files) ->
-        expect(stringsFrom files).toContain '/bin/sub/one.js'
-        expect(stringsFrom files).toContain '/bin/sub/two.js'
-        expect(stringsFrom files).toContain '/bin/mod/one.js'
+        listOfPaths = stringsFrom files
+        expect(listOfPaths).toContain '/bin/sub/one.js'
+        expect(listOfPaths).toContain '/bin/sub/two.js'
+        expect(listOfPaths).toContain '/bin/mod/one.js'
         finished++
       waitForFinished()
 
@@ -122,9 +125,10 @@ describe 'config', ->
          '/bin/more.js'
        ], (err, files) ->
          expect(err).toBeFalsy()
-         expect(stringsFrom files).toContain '/bin/sub/log.txt'
-         expect(stringsFrom files).toContain '/bin/mod/test.xml'
-         expect(stringsFrom files).toContain '/bin/more.js'
+         listOfPaths = stringsFrom files
+         expect(listOfPaths).toContain '/bin/sub/log.txt'
+         expect(listOfPaths).toContain '/bin/mod/test.xml'
+         expect(listOfPaths).toContain '/bin/more.js'
          finished++
        waitForFinished()
 
@@ -143,8 +147,8 @@ describe 'config', ->
      it 'should resolve modified timestamps', ->
        m.resolve ['/bin/sub/*.js'], (err, files) ->
          expect(err).toBeFalsy()
-         expect(findFile('/bin/sub/one.js', files).mtime).toEqual new Date('2011-12-25')
-         expect(findFile('/bin/sub/two.js', files).mtime).toEqual new Date('2011-12-26')
+         expect(findFile('/bin/sub/one.js', files).mtime).toEqual new Date '2011-12-25'
+         expect(findFile('/bin/sub/two.js', files).mtime).toEqual new Date '2011-12-26'
          finished++
        waitForFinished()
 

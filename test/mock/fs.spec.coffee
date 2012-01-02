@@ -25,8 +25,8 @@ describe 'fs', ->
             'first.js': 1
             'second.js': 1
             'third.log': 1
-          'some.js': fsMock.file('2012-01-01', 'some')
-          'another.js': fsMock.file('2012-01-02', 'content')
+          'some.js': fsMock.file '2012-01-01', 'some'
+          'another.js': fsMock.file '2012-01-02', 'content'
 
 
   # ===========================================================================
