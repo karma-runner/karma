@@ -4,6 +4,10 @@ if (!window.console || !window.console.log) {
   };
 }
 
+window.dump = function() {
+  __slimjim__.info(Array.prototype.slice.call(arguments, 0));
+};
+
 /**
  * Very simple reporter for jasmine
  */
