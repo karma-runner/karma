@@ -29,6 +29,8 @@ var SimpleReporter = function() {
   };
 
   this.reportSpecResults = function(spec) {
+    if (spec.results_.skipped) return;
+
     var result = {
       id: spec.id,
       description: spec.description,
@@ -61,7 +63,14 @@ var SimpleReporter = function() {
 
 __slimjim__.start = function(config) {
   var jasmineEnv = jasmine.getEnv();
-//  jasmineEnv.specFilter = function(spec) {};
   jasmineEnv.addReporter(new SimpleReporter());
+
+  // executing only last failed specs
+  if (config && config.length) {
+    jasmineEnv.specFilter = function(spec) {
+      return config.indexOf(spec.id) !== -1;
+    };
+  }
+
   jasmineEnv.execute();
 };

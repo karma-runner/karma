@@ -31,6 +31,7 @@ socket.on('reconnect_failed', updateStatus('failed to reconnect'));
 
 
 var SlimJim = function(socket, context) {
+  var config;
   var hasError = false;
 
   // error during js file loading (most likely syntax error)
@@ -57,16 +58,17 @@ var SlimJim = function(socket, context) {
   // all files loaded, let's start the execution
   this.loaded = function() {
     // has error -> cancel
-    if (!hasError) this.start();
+    if (!hasError) this.start(config);
   };
 
   // supposed to be overriden by the context
   // TODO(vojta): support multiple callbacks (queue)
   this.start = this.complete;
 
-  socket.on('execute', function() {
+  socket.on('execute', function(cfg) {
     // reset hasError and reload the iframe
     hasError = false;
+    config = cfg;
     context.src = CONTEXT_URL;
   });
 };
