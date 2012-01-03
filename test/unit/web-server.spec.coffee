@@ -17,7 +17,7 @@ describe 'web-server', ->
 
   # async helper
   waitForFinishingResponse = ->
-    waitsFor (-> response._isFinished()), 'Finish response', 1000
+    waitsFor (-> response._isFinished()), 'Finish response', 100
 
   mocks = {}
   mocks.fs = fsMock.create

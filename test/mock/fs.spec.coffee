@@ -35,8 +35,9 @@ describe 'fs', ->
   describe 'stat', ->
 
     it 'should be async', ->
-      result = fs.stat '/bin', -> null
-      expect(result).toBeUndefined()
+      callback = jasmine.createSpy 'done'
+      fs.stat '/bin', callback
+      expect(callback).not.toHaveBeenCalled()
 
 
     it 'should stat directory', ->
@@ -86,8 +87,9 @@ describe 'fs', ->
   describe 'readdir', ->
 
     it 'should be async', ->
-      result = fs.readdir '/bin', -> null
-      expect(result).toBeUndefined()
+      callback = jasmine.createSpy 'done'
+      fs.readdir '/bin', callback
+      expect(callback).not.toHaveBeenCalled()
 
 
     it 'should return array of files and directories', ->
