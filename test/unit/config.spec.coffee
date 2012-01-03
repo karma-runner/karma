@@ -107,9 +107,14 @@ describe 'config', ->
       waitForFinished()
 
 
-    # depends on randomNextTick
     it 'should sort all results by file path', ->
-      # TODO(vojta)
+      # file system will call in 1, 0, 2 order
+      require('../mock/util').predictableNextTickPattern = [1, 0, 2]
+
+      m.resolveSinglePattern '/bin/*/*.js', (err, files) ->
+        expect(stringsFrom files).toEqual ['/bin/mod/one.js', '/bin/sub/one.js', '/bin/sub/two.js']
+        finished++
+      waitForFinished()
 
 
   #============================================================================
@@ -152,9 +157,13 @@ describe 'config', ->
          finished++
        waitForFinished()
 
-     # depends on randomNextTick
+
      it 'should return all files sorted within single expression', ->
-       # TODO(vojta)
+       m.resolve ['/home/*.js', '/bin/sub/one.js'], (err, files) ->
+         expect(stringsFrom files).toEqual ['/home/config1.js', '/home/config2.js',
+                                            '/home/config3.js', '/bin/sub/one.js']
+         finished++
+       waitForFinished()
 
 
   #============================================================================
