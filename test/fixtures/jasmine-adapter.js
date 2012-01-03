@@ -12,20 +12,16 @@ var SimpleReporter = function() {
   this.reportRunnerStarting = function(runner) {
     var count = runner.specs().length;
     __slimjim__.info('Running ' + count + ' specs...');
-//    console.log('start runner', count);
   };
 
   this.reportRunnerResults = function(runner) {
     __slimjim__.complete();
-//    console.log('complete');
   };
 
   this.reportSuiteResults = function(suite) {
-//    console.log('suite');
   };
 
   this.reportSpecStarting = function(spec) {
-    console.log('start spec', spec);
   };
 
   this.reportSpecResults = function(spec) {
@@ -44,20 +40,18 @@ var SimpleReporter = function() {
     }
 
     if (!result.success) {
-      // TODO(vojta): make it cross browser (.forEach, .stack)
-      spec.results_.items_.forEach(function(expectation) {
-        if (expectation.trace) {
-          result.log.push(expectation.trace.stack);
+      var items = spec.results_.items_;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].trace) {
+          result.log.push(items[i].trace.stack);
         }
-      });
+      }
     }
 
     __slimjim__.result(result);
-//    console.log('spec result', spec);
   };
 
   this.log = function() {
-    console.log('LOG', arguments);
   };
 };
 

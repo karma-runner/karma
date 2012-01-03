@@ -8,11 +8,11 @@ socket.on('connect', function() {
 });
 
 var browsersElement = document.getElementById('browsers');
-socket.on('info', function(info) {
+socket.on('info', function(browsers) {
   var items = [];
-  info.forEach(function(browser) {
-    items.push(browser.name + ' is ' + (browser.isReady ? 'iddle' : 'executing'));
-  });
+  for (var i = 0; i < browsers.length; i++) {
+    items.push(browsers[i].name + ' is ' + (browsers[i].isReady ? 'iddle' : 'executing'));
+  }
   browsersElement.innerHTML = '<li>' + items.join('</li><li>') + '</li>';
 });
 
@@ -57,9 +57,7 @@ var SlimJim = function(socket, context) {
   // all files loaded, let's start the execution
   this.loaded = function() {
     // has error -> cancel
-    if (hasError) return;
-
-    this.start();
+    if (!hasError) this.start();
   };
 
   // supposed to be overriden by the context
