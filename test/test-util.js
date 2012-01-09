@@ -29,6 +29,8 @@ exports.loadFile = function(filePath, mocks) {
     require: function(name) {
       return mocks[name] || require(resolveModule(name));
     },
+    __dirname: path.dirname(filePath),
+    __filename: filePath,
     console: console,
     exports: exports,
     module: {
