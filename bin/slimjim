@@ -3,4 +3,4 @@
 var path = require('path'),
     server = require('../lib/server');
 
-server.start(path.resolve(process.argv[2]));
+server.start(path.resolve(process.argv[2] || 'slim-jim.conf'));

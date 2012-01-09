@@ -51,6 +51,8 @@ describe 'config', ->
         'config1.js': fsMock.file 0, 'basePath = "base"'
         'config2.js': fsMock.file 0, 'basePath = "/abs/base"'
         'config3.js': fsMock.file 0, 'files = ["one.js", "sub/two.js"];'
+      conf:
+        'invalid.js': fsMock.file 0, '={function'
 
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks
@@ -171,6 +173,12 @@ describe 'config', ->
   # Should parse configuration file and do some basic processing as well
   #============================================================================
   describe 'parseConfig', ->
+    consoleSpy = null
+
+    beforeEach ->
+      require('../../lib/logger').setLevel 0 # enable errors
+      consoleSpy = spyOn(console, 'log')
+
 
     it 'should resolve relative basePath to config directory', ->
       config = e.parseConfig '/home/config1.js'
@@ -185,6 +193,22 @@ describe 'config', ->
     it 'should resolve all file patterns', ->
       config = e.parseConfig '/home/config3.js'
       expect(config.files).toEqual ['/home/one.js', '/home/sub/two.js']
+
+
+    it 'should throw and log error if file does not exist', ->
+      expect(-> e.parseConfig '/conf/not-exist.js').toThrow 'No such file or directory "/conf/not-exist.js"'
+      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Config file does not exist!'
+
+
+    it 'should throw and log error if it is a directory', ->
+      expect(-> e.parseConfig '/conf').toThrow 'Illegal operation on directory'
+      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Config file does not exist!'
+
+
+    it 'should throw and log error if invalid file', ->
+      expect(-> e.parseConfig '/conf/invalid.js').toThrow 'Unexpected token ='
+      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Syntax error in config file!'
+
 
   #============================================================================
   # config.FileGuardian
