@@ -126,65 +126,65 @@ describe 'config', ->
   #============================================================================
   describe 'resolve', ->
 
-     it 'should match multiple patterns', ->
-       m.resolve [
-         '/bin/sub/*.txt'
-         '/bin/*/*.xml'
-         '/bin/more.js'
-       ], [], (err, files) ->
-         expect(err).toBeFalsy()
-         listOfPaths = stringsFrom files
-         expect(listOfPaths).toContain '/bin/sub/log.txt'
-         expect(listOfPaths).toContain '/bin/mod/test.xml'
-         expect(listOfPaths).toContain '/bin/more.js'
-         finished++
-       waitForFinished()
+    it 'should match multiple patterns', ->
+      m.resolve [
+        '/bin/sub/*.txt'
+        '/bin/*/*.xml'
+        '/bin/more.js'
+      ], [], (err, files) ->
+        expect(err).toBeFalsy()
+        listOfPaths = stringsFrom files
+        expect(listOfPaths).toContain '/bin/sub/log.txt'
+        expect(listOfPaths).toContain '/bin/mod/test.xml'
+        expect(listOfPaths).toContain '/bin/more.js'
+        finished++
+      waitForFinished()
 
 
-     it 'should remove duplicities', ->
-       m.resolve [
-         '/bin/sub/*.js'
-         '/bin/*/one.js'
-       ], [], (err, files) ->
-         # /bin/sub/one.js, /bin/sub/two.js, /bin/mod/one.js
-         expect(files.length).toBe 3
-         finished++
-       waitForFinished()
+    it 'should remove duplicities', ->
+      m.resolve [
+        '/bin/sub/*.js'
+        '/bin/*/one.js'
+      ], [], (err, files) ->
+        # /bin/sub/one.js, /bin/sub/two.js, /bin/mod/one.js
+        expect(files.length).toBe 3
+        finished++
+      waitForFinished()
 
 
-     it 'should resolve modified timestamps', ->
-       m.resolve ['/bin/sub/*.js'], [], (err, files) ->
-         expect(err).toBeFalsy()
-         expect(findFile('/bin/sub/one.js', files).mtime).toEqual new Date '2011-12-25'
-         expect(findFile('/bin/sub/two.js', files).mtime).toEqual new Date '2011-12-26'
-         finished++
-       waitForFinished()
+    it 'should resolve modified timestamps', ->
+      m.resolve ['/bin/sub/*.js'], [], (err, files) ->
+        expect(err).toBeFalsy()
+        expect(findFile('/bin/sub/one.js', files).mtime).toEqual new Date '2011-12-25'
+        expect(findFile('/bin/sub/two.js', files).mtime).toEqual new Date '2011-12-26'
+        finished++
+      waitForFinished()
 
 
-     it 'should return all files sorted within single expression', ->
-       m.resolve ['/home/*.js', '/bin/sub/one.js'], [], (err, files) ->
-         expect(stringsFrom files).toEqual ['/home/config1.js', '/home/config2.js',
-                                            '/home/config3.js', '/bin/sub/one.js']
-         finished++
-       waitForFinished()
+    it 'should return all files sorted within single expression', ->
+      m.resolve ['/home/*.js', '/bin/sub/one.js'], [], (err, files) ->
+        expect(stringsFrom files).toEqual ['/home/config1.js', '/home/config2.js',
+                                           '/home/config3.js', '/bin/sub/one.js']
+        finished++
+      waitForFinished()
 
 
-     it 'should exclude exact file', ->
-       m.resolve ['/home/*.js', '/bin/sub/one.js'], ['/home/config1.js'], (err, files) ->
-         expect(stringsFrom files).not.toContain '/home/config1.js'
-         finished++
-       waitForFinished()
+    it 'should exclude exact file', ->
+      m.resolve ['/home/*.js', '/bin/sub/one.js'], ['/home/config1.js'], (err, files) ->
+        expect(stringsFrom files).not.toContain '/home/config1.js'
+        finished++
+      waitForFinished()
 
 
-     it 'should exclude all files matching given pattern', ->
-       m.resolve ['/home/*.js', '/bin/sub/*.js'], ['/home/config*.js', '/bin/sub/two.js'], (err, files) ->
-         listOfPaths = stringsFrom files
-         expect(listOfPaths).not.toContain '/home/config1.js'
-         expect(listOfPaths).not.toContain '/home/config2.js'
-         expect(listOfPaths).not.toContain '/home/config3.js'
-         expect(listOfPaths).not.toContain '/bin/sub/two.js'
-         finished++
-       waitForFinished()
+    it 'should exclude all files matching given pattern', ->
+      m.resolve ['/home/*.js', '/bin/sub/*.js'], ['/home/config*.js', '/bin/sub/two.js'], (err, files) ->
+        listOfPaths = stringsFrom files
+        expect(listOfPaths).not.toContain '/home/config1.js'
+        expect(listOfPaths).not.toContain '/home/config2.js'
+        expect(listOfPaths).not.toContain '/home/config3.js'
+        expect(listOfPaths).not.toContain '/bin/sub/two.js'
+        finished++
+      waitForFinished()
 
 
   #============================================================================
