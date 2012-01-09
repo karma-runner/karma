@@ -53,6 +53,7 @@ describe 'config', ->
         'config3.js': fsMock.file 0, 'files = ["one.js", "sub/two.js"];'
       conf:
         'invalid.js': fsMock.file 0, '={function'
+        'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
 
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks
@@ -130,7 +131,7 @@ describe 'config', ->
          '/bin/sub/*.txt'
          '/bin/*/*.xml'
          '/bin/more.js'
-       ], (err, files) ->
+       ], [], (err, files) ->
          expect(err).toBeFalsy()
          listOfPaths = stringsFrom files
          expect(listOfPaths).toContain '/bin/sub/log.txt'
@@ -144,7 +145,7 @@ describe 'config', ->
        m.resolve [
          '/bin/sub/*.js'
          '/bin/*/one.js'
-       ], (err, files) ->
+       ], [], (err, files) ->
          # /bin/sub/one.js, /bin/sub/two.js, /bin/mod/one.js
          expect(files.length).toBe 3
          finished++
@@ -152,7 +153,7 @@ describe 'config', ->
 
 
      it 'should resolve modified timestamps', ->
-       m.resolve ['/bin/sub/*.js'], (err, files) ->
+       m.resolve ['/bin/sub/*.js'], [], (err, files) ->
          expect(err).toBeFalsy()
          expect(findFile('/bin/sub/one.js', files).mtime).toEqual new Date '2011-12-25'
          expect(findFile('/bin/sub/two.js', files).mtime).toEqual new Date '2011-12-26'
@@ -161,9 +162,27 @@ describe 'config', ->
 
 
      it 'should return all files sorted within single expression', ->
-       m.resolve ['/home/*.js', '/bin/sub/one.js'], (err, files) ->
+       m.resolve ['/home/*.js', '/bin/sub/one.js'], [], (err, files) ->
          expect(stringsFrom files).toEqual ['/home/config1.js', '/home/config2.js',
                                             '/home/config3.js', '/bin/sub/one.js']
+         finished++
+       waitForFinished()
+
+
+     it 'should exclude exact file', ->
+       m.resolve ['/home/*.js', '/bin/sub/one.js'], ['/home/config1.js'], (err, files) ->
+         expect(stringsFrom files).not.toContain '/home/config1.js'
+         finished++
+       waitForFinished()
+
+
+     it 'should exclude all files matching given pattern', ->
+       m.resolve ['/home/*.js', '/bin/sub/*.js'], ['/home/config*.js', '/bin/sub/two.js'], (err, files) ->
+         listOfPaths = stringsFrom files
+         expect(listOfPaths).not.toContain '/home/config1.js'
+         expect(listOfPaths).not.toContain '/home/config2.js'
+         expect(listOfPaths).not.toContain '/home/config3.js'
+         expect(listOfPaths).not.toContain '/bin/sub/two.js'
          finished++
        waitForFinished()
 
@@ -195,6 +214,11 @@ describe 'config', ->
       expect(config.files).toEqual ['/home/one.js', '/home/sub/two.js']
 
 
+    it 'should resolve all exclude patterns', ->
+      config = e.parseConfig '/conf/exclude.js'
+      expect(config.exclude).toEqual ['/conf/one.js', '/conf/sub/two.js']
+
+
     it 'should throw and log error if file does not exist', ->
       expect(-> e.parseConfig '/conf/not-exist.js').toThrow 'No such file or directory "/conf/not-exist.js"'
       expect(consoleSpy).toHaveBeenCalledWith 'error (config): Config file does not exist!'
@@ -219,7 +243,7 @@ describe 'config', ->
 
       it 'should update all timestamps from fs and call done with modified count', ->
         callback = jasmine.createSpy 'done'
-        fg = new e.FileGuardian ['/home/*.js']
+        fg = new e.FileGuardian ['/home/*.js'], []
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
         runs ->
@@ -238,7 +262,7 @@ describe 'config', ->
 
       it 'should fire "fileModified" event', ->
         callback = jasmine.createSpy 'filemodified'
-        fg = new e.FileGuardian ['/home/*.js'], true
+        fg = new e.FileGuardian ['/home/*.js'], [], true
         fg.on('fileModified', callback)
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
@@ -249,7 +273,7 @@ describe 'config', ->
 
 
       it 'should update timestamp', ->
-        fg = new e.FileGuardian ['/home/*.js'], true
+        fg = new e.FileGuardian ['/home/*.js'], [], true
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
         runs ->
@@ -259,7 +283,7 @@ describe 'config', ->
 
       it 'should not fire "fileModified" event if file not modified (only accessed)', ->
         callback = jasmine.createSpy 'filemodified'
-        fg = new e.FileGuardian ['/home/*.js'], true
+        fg = new e.FileGuardian ['/home/*.js'], [], true
         fg.on('fileModified', callback)
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
@@ -270,7 +294,7 @@ describe 'config', ->
 
       it 'should never fire "fileModified" event if autoWatch disabled', ->
         callback = jasmine.createSpy 'filemodified'
-        fg = new e.FileGuardian ['/home/*.js'], false
+        fg = new e.FileGuardian ['/home/*.js'], [], false
         fg.on('fileModified', callback)
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
