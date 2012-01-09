@@ -1,1 +1,8 @@
-.git*
+node_modules/*
+.idea/*
+.git/*
+pom.xml
+TODO.md
+
+test/*
+jsl.conf
