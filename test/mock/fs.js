@@ -74,8 +74,10 @@ var Mock = function(structure) {
     });
   };
 
-  this.readFile = function(path, callback) {
+  this.readFile = function(path, encoding, callback) {
     var readFileSync = this.readFileSync;
+    callback = callback || encoding;
+
     predictableNextTick(function() {
       var data = null;
       var error = null;
@@ -108,7 +110,8 @@ var Mock = function(structure) {
     return new Buffer('');
   };
 
-  this.watchFile = function(path, callback) {
+  this.watchFile = function(path, options, callback) {
+    callback = callback || options;
     watchers[path] = watchers[path] || [];
     watchers[path].push(callback);
   };

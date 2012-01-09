@@ -160,6 +160,13 @@ describe 'fs', ->
       waitForFinished 1, 'exception', 100
 
 
+    it 'should allow optional second argument (encoding)', ->
+      fs.readFile '/home/vojta/some.js', 'utf-8', (err) ->
+        finished++
+
+      waitForFinished()
+
+
   # ===========================================================================
   # fs.readFileSync
   # ===========================================================================
@@ -214,3 +221,9 @@ describe 'fs', ->
         expect(callback).toHaveBeenCalled()
 
 
+      it 'should allow optional second argument (options)', ->
+        callback = jasmine.createSpy 'watcher'
+        fs.watchFile '/home/vojta/some.js', {some: 'options'}, callback
+        fs._touchFile '/home/vojta/some.js'
+
+        expect(callback).toHaveBeenCalled()
