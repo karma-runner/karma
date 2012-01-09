@@ -1,8 +1,10 @@
-node_modules/*
-.idea/*
-.git/*
+./.git/
+./node_modules/
+./.idea/
+./test/
+
+.gitignore
+.npmignore
 pom.xml
 TODO.md
-
-test/*
 jsl.conf
