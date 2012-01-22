@@ -195,7 +195,7 @@ describe 'config', ->
     consoleSpy = null
 
     beforeEach ->
-      require('../../lib/logger').setLevel 0 # enable errors
+      require('../../lib/logger').setLevel 1 # enable errors
       consoleSpy = spyOn(console, 'log')
 
 

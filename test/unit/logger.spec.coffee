@@ -6,7 +6,7 @@ describe 'logger', ->
 
   beforeEach ->
     spyOn console, 'log'
-    logger.setLevel 3 # set to DEBUG
+    logger.setLevel 4 # set to DEBUG
 
   it 'should have error method', ->
     logger.create('FAKE').error 'whatever'
@@ -36,19 +36,19 @@ describe 'logger', ->
   it 'should allow global configuration', ->
     log = logger.create 'OBJ'
 
-    logger.setLevel 0 # ERROR
+    logger.setLevel 1 # ERROR
     log.warn 'ok'
     expect(console.log).not.toHaveBeenCalled()
 
     console.log.reset()
-    logger.setLevel 0 # ERROR
+    logger.setLevel 1 # ERROR
     log.debug 'should be ignored'
     expect(console.log).not.toHaveBeenCalled()
 
 
   it 'per instance configuration should override global configuration', ->
-    logger.setLevel 0 # ERROR
-    instance = logger.create('OBJ', 3) # DEBUG
+    logger.setLevel 1 # ERROR
+    instance = logger.create('OBJ', 4) # DEBUG
 
     instance.debug 'message'
     expect(console.log).toHaveBeenCalledWith 'debug (OBJ): message'
@@ -60,8 +60,8 @@ describe 'logger', ->
 
 
   it 'per instance conf should override global even if its 0', ->
-    logger.setLevel 3 # DEBUG
-    instance = logger.create('OBJ', 0) # ERROR
+    logger.setLevel 4 # DEBUG
+    instance = logger.create('OBJ', 0) # RESULT
 
     instance.debug 'should be ignored'
     instance.info 'should be ignored'
@@ -73,4 +73,3 @@ describe 'logger', ->
     instance.info 'Int %d Str "%s"', 10, 'abc'
 
     expect(console.log).toHaveBeenCalledWith 'info: Int 10 Str "abc"'
-
