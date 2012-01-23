@@ -10,16 +10,17 @@ window.dump = function() {
 
 /**
  * Very simple reporter for jasmine
+ * TODO(vojta): don't pollute global ns (need build script that wraps whole file into function)
  */
-var SimpleReporter = function() {
+var SimpleReporter = function(sj) {
 
   this.reportRunnerStarting = function(runner) {
     var count = runner.specs().length;
-    __slimjim__.info('Running ' + count + ' specs...');
+    sj.info('Running ' + count + ' specs...');
   };
 
   this.reportRunnerResults = function(runner) {
-    __slimjim__.complete();
+    sj.complete();
   };
 
   this.reportSuiteResults = function(suite) {
@@ -54,7 +55,7 @@ var SimpleReporter = function() {
       }
     }
 
-    __slimjim__.result(result);
+    sj.result(result);
   };
 
   this.log = function() {
@@ -63,7 +64,7 @@ var SimpleReporter = function() {
 
 __slimjim__.start = function(config) {
   var jasmineEnv = jasmine.getEnv();
-  jasmineEnv.addReporter(new SimpleReporter());
+  jasmineEnv.addReporter(new SimpleReporter(__slimjim__));
 
   // executing only last failed specs
   if (config && config.length) {
