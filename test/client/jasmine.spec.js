@@ -5,15 +5,16 @@
 
 describe('jasmine adapter', function() {
   describe('SimpleReporter', function() {
-    var reporter, slimjim, spec;
+    var reporter, slimjim, failedIds, env, suite, spec;
 
     beforeEach(function() {
       slimjim = jasmine.createSpyObj('__slimjim__', ['result']);
-      reporter = new SimpleReporter(slimjim);
+      failedIds = [];
+      reporter = new SimpleReporter(slimjim, failedIds);
 
-      var env = new jasmine.Env();
+      env = new jasmine.Env();
       var parentSuite = new jasmine.Suite(env, 'parent');
-      var suite = new jasmine.Suite(env, 'child', function() {}, parentSuite);
+      suite = new jasmine.Suite(env, 'child', function() {}, parentSuite);
       spec = new jasmine.Spec(env, suite, 'should test');
     });
 
@@ -41,6 +42,25 @@ describe('jasmine adapter', function() {
 
       reporter.reportSpecResults(spec);
       expect(slimjim.result).toHaveBeenCalled();
+    });
+
+
+    it('should report failed ids', function() {
+      var specs = [                                  // id
+        spec,                                        // 0
+        new jasmine.Spec(env, suite, 'should test'), // 1
+        new jasmine.Spec(env, suite, 'should test'), // 2
+        new jasmine.Spec(env, suite, 'should test')  // 3
+      ];
+
+      specs[1].fail(new Error('Some error'));
+      specs[2].fail(new Error('Another error'));
+
+      while(specs.length) {
+        reporter.reportSpecResults(specs.shift());
+      }
+
+      expect(failedIds).toEqual([1, 2]);
     });
   });
 });
