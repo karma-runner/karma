@@ -25,6 +25,7 @@ var updateStatus = function(status) {
 
 socket.on('connect', updateStatus('connected'));
 socket.on('disconnect', updateStatus('disconnected'));
+socket.on('temp-disconnect', updateStatus('disconnected'));
 socket.on('reconnecting', updateStatus('reconnecting in $ ms...'));
 socket.on('reconnect', updateStatus('re-connected'));
 socket.on('reconnect_failed', updateStatus('failed to reconnect'));
