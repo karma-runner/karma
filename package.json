@@ -10,7 +10,8 @@
   },
   "devDependencies": {
     "coffee-script"  : "1.1.2",
-    "jasmine-node"   : "1.0.11"
+    "jasmine-node"   : "1.0.11",
+    "jake"           : "0.2.15"
   },
   "repository"     : {
     "type"           : "git",
