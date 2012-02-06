@@ -1,16 +1,5 @@
-if (!window.console || !window.console.log) {
-  window.console = {
-    log: function() {}
-  };
-}
-
-window.dump = function() {
-  __slimjim__.info(Array.prototype.slice.call(arguments, 0));
-};
-
 /**
  * Very simple reporter for jasmine
- * TODO(vojta): don't pollute global ns (need build script that wraps whole file into function)
  */
 var SimpleReporter = function(sj, failedIds) {
 
@@ -66,6 +55,10 @@ var SimpleReporter = function(sj, failedIds) {
 
 var createStartFn = function(sj, jasmineEnv) {
   return function(config) {
+    // we pass jasmineEnv during testing
+    // in production we ask for it lazily, so that adapter can be loaded even before jasmine
+    jasmineEnv = jasmineEnv || window.jasmine.getEnv();
+
     var currentFailedIds = [];
     var currentSpecsCount = jasmineEnv.nextSpecId_;
     var lastResults = sj.jasmineLastResults;
@@ -91,6 +84,3 @@ var createStartFn = function(sj, jasmineEnv) {
     jasmineEnv.execute();
   };
 };
-
-
-__slimjim__.start = createStartFn(__slimjim__, jasmine.getEnv());

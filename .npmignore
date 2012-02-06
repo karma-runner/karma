@@ -8,3 +8,7 @@
 pom.xml
 TODO.md
 jsl.conf
+
+adapter/prefix
+adapter/suffix
+adapter/jasmine.src.js

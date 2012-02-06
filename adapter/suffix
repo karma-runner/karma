@@ -1,0 +1,8 @@
+
+
+window.__slimjim__.start = createStartFn(window.__slimjim__);
+window.dump = function() {
+  window.__slimjim__.info(Array.prototype.slice.call(arguments, 0));
+};
+
+})(window);
