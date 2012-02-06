@@ -64,26 +64,33 @@ var SimpleReporter = function(sj, failedIds) {
   };
 };
 
-__slimjim__.start = function(config) {
+var createStartFn = function(sj, jasmineEnv) {
+  return function(config) {
+    var currentFailedIds = [];
+    var currentSpecsCount = jasmineEnv.nextSpecId_;
+    var lastResults = sj.jasmineLastResults;
 
-  var jasmineEnv = jasmine.getEnv();
-  var currentFailedIds = [];
-  var currentSpecsCount = jasmineEnv.nextSpecId_ + 1;
-  var lastResults = __slimjim__.jasmineLastResults;
 
-  // reset lastResults on parent frame
-  __slimjim__.jasmineLastResults = {
-    failedIds: currentFailedIds,
-    count: currentSpecsCount
-  };
-
-  // filter only last failed specs
-  if (lastResults && currentSpecsCount === lastResults.count && lastResults.failedIds.length > 0) {
-    jasmineEnv.specFilter = function(spec) {
-      return lastResults.failedIds.indexOf(spec.id) !== -1;
+    // reset lastResults on parent frame
+    sj.jasmineLastResults = {
+      failedIds: currentFailedIds,
+      count: currentSpecsCount
     };
-  }
 
-  jasmineEnv.addReporter(new SimpleReporter(__slimjim__, currentFailedIds));
-  jasmineEnv.execute();
+    // filter only last failed specs
+    if (lastResults && lastResults.count === currentSpecsCount && // still same number of specs
+        lastResults.failedIds.length > 0 &&                       // at least one fail last run
+        !jasmineEnv.exclusive_) {                                 // no exclusive mode (iit, ddesc)
+
+      jasmineEnv.specFilter = function(spec) {
+        return lastResults.failedIds.indexOf(spec.id) !== -1;
+      };
+    }
+
+    jasmineEnv.addReporter(new SimpleReporter(sj, currentFailedIds));
+    jasmineEnv.execute();
+  };
 };
+
+
+__slimjim__.start = createStartFn(__slimjim__, jasmine.getEnv());

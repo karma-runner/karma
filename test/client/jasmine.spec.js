@@ -63,4 +63,111 @@ describe('jasmine adapter', function() {
       expect(failedIds).toEqual([1, 2]);
     });
   });
+
+
+  describe('startFn', function() {
+    var sj, jasmineEnv, start;
+
+    beforeEach(function() {
+      sj = {
+        jasmineLastResults: {
+          failedIds: [1, 3, 5],
+          count: 10
+        },
+        info: function() {},
+        complete: function() {},
+        result: function() {}
+      };
+      jasmineEnv = new jasmine.Env();
+      start = createStartFn(sj, jasmineEnv);
+    });
+
+
+    it('should reset last results', function() {
+      start();
+      expect(sj.jasmineLastResults).toEqual({
+        failedIds: [],
+        count: 0
+      });
+    });
+
+
+    it('should store failed ids', function() {
+      jasmineEnv.describe('fake', function() {
+        jasmineEnv.it('should pass', function() {});
+        jasmineEnv.it('should fail', function() {throw new Error('FAIL');});
+      });
+
+      start();
+
+      waitsFor(function() {
+        return sj.jasmineLastResults.failedIds.length;
+      }, 'execution finish', 50);
+
+      runs(function() {
+        expect(sj.jasmineLastResults.failedIds).toEqual([1]);
+      });
+    });
+
+
+    describe('specFilter', function() {
+      var originalSpecFilter = 'ORIGINAL SPEC FILTER';
+
+      beforeEach(function() {
+        jasmineEnv.specFilter = originalSpecFilter;
+      });
+
+
+      it('should filter only last failed', function() {
+        sj.jasmineLastResults.failedIds = [1, 3, 5];
+        sj.jasmineLastResults.count = 5;
+        jasmineEnv.nextSpecId_ = 5;
+
+        start();
+        expect(jasmineEnv.specFilter({id: 1})).toBe(true);
+        expect(jasmineEnv.specFilter({id: 2})).toBe(false);
+        expect(jasmineEnv.specFilter({id: 3})).toBe(true);
+        expect(jasmineEnv.specFilter({id: 4})).toBe(false);
+        expect(jasmineEnv.specFilter({id: 5})).toBe(true);
+      });
+
+
+      it('should not filter if first run', function() {
+        sj.jasmineLastResults = undefined;
+
+        start();
+        expect(jasmineEnv.specFilter).toBe(originalSpecFilter);
+      });
+
+
+      it('should not filter if number of specs changed', function() {
+        sj.jasmineLastResults.count = 10;
+        jasmineEnv.nextSpecId_ = 5;
+
+        start();
+        expect(jasmineEnv.specFilter).toBe(originalSpecFilter);
+      });
+
+
+      it('should not filter if all specs passed last time', function() {
+        sj.jasmineLastResults.failedIds = [];
+        sj.jasmineLastResults.count = 5;
+        jasmineEnv.nextSpecId_ = 5;
+
+        start();
+        expect(jasmineEnv.specFilter).toBe(originalSpecFilter);
+      });
+
+
+      it('should not filter if exclusive mode', function() {
+        sj.jasmineLastResults.failedIds = [1, 3, 5];
+        sj.jasmineLastResults.count = 5;
+        jasmineEnv.nextSpecId_ = 5;
+        jasmineEnv.exclusive_ = 1;
+
+        start();
+        expect(jasmineEnv.specFilter).toBe(originalSpecFilter);
+      });
+    });
+  });
 });
