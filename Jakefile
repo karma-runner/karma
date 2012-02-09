@@ -27,25 +27,34 @@ namespace('build', function() {
 });
 
 
-// TODO(vojta): edit changelog
-desc('Bump minor version, create tag, push to github.');
+desc('Bump minor version, update changelog, create tag, push to github.');
 task('version', function () {
   var fs = require('fs');
 
-  var path = process.cwd() + '/package.json';
-  var pkg = JSON.parse(fs.readFileSync(path).toString());
+  var packagePath = process.cwd() + '/package.json';
+  var pkg = JSON.parse(fs.readFileSync(packagePath).toString());
   var versionArray = pkg.version.split('.');
+  var previousVersionTag = 'v' + pkg.version;
 
   // bump minor version
   versionArray.push(parseInt(versionArray.pop(), 10) + 1);
   pkg.version = versionArray.join('.');
 
   // Update package.json with the new version-info
-  fs.writeFileSync(path, JSON.stringify(pkg, true, 2));
+  fs.writeFileSync(packagePath, JSON.stringify(pkg, true, 2));
 
-  message = 'Bump version to v' + pkg.version;
+  var TEMP_FILE = '.changelog.temp';
+  var message = 'Bump version to v' + pkg.version;
   jake.exec([
-    'git commit package.json -m "' + message + '"',
+    // update changelog
+    'echo "### v' + pkg.version + '" > ' + TEMP_FILE,
+    'git log --pretty=%s ' + previousVersionTag + '..HEAD >> ' + TEMP_FILE,
+    'echo "" >> ' + TEMP_FILE,
+    'mvim CHANGELOG.md -c ":0r ' + TEMP_FILE + '"',
+    'rm ' + TEMP_FILE,
+
+    // commit + push to github
+    'git commit package.json CHANGELOG.md -m "' + message + '"',
     'git push origin master',
     'git tag -a v' + pkg.version + ' -m "Version to v' + pkg.version + '"',
     'git push --tags'
