@@ -1,29 +1,36 @@
 {
-  "name"           : "slim-jim",
-  "description"    : "Remote execution of JS on multiple browsers / node.js",
-  "homepage"       : "",
-  "keywords"       : ["SlimJim", "nodejs", "js", "testing", "remote", "execution"],
-  "author"         : "Vojta Jína <vojta.jina@gmail.com>",
-  "contributors"   : [],
-  "dependencies"   : {
-    "socket.io"      : "0.8.5"
+  "name": "slim-jim",
+  "description": "Remote execution of JS on multiple browsers / node.js",
+  "homepage": "",
+  "keywords": [
+    "SlimJim",
+    "nodejs",
+    "js",
+    "testing",
+    "remote",
+    "execution"
+  ],
+  "author": "Vojta Jína <vojta.jina@gmail.com>",
+  "contributors": [],
+  "dependencies": {
+    "socket.io": "0.8.5"
   },
   "devDependencies": {
-    "coffee-script"  : "1.1.2",
-    "jasmine-node"   : "1.0.11",
-    "jake"           : "0.2.15"
+    "coffee-script": "1.1.2",
+    "jasmine-node": "1.0.11",
+    "jake": "0.2.15"
   },
-  "repository"     : {
-    "type"           : "git",
-    "url"            : "git://github.com/vojtajina/slim-jim.git"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vojtajina/slim-jim.git"
   },
-  "main"           : "./lib/index",
-  "bin"            : {
-    "slim-jim"        : "./bin/slim-jim",
-    "slim-jim-run"    : "./bin/slim-jim-run"
+  "main": "./lib/index",
+  "bin": {
+    "slim-jim": "./bin/slim-jim",
+    "slim-jim-run": "./bin/slim-jim-run"
   },
-  "engines"        : {
-    "node"           : "0.6.5"
+  "engines": {
+    "node": "0.6.5"
   },
-  "version"        : "0.0.2"
+  "version": "0.0.3"
 }
