@@ -74,3 +74,9 @@ task('publish', ['version', 'build'], function() {
     complete();
   })
 });
+
+
+desc('Run JSLint check.');
+task('jsl', function() {
+  jake.exec(['jsl -conf jsl.conf'], complete, {stdout: true});
+});
