@@ -31,7 +31,7 @@
     "slim-jim-run": "./bin/slim-jim-run"
   },
   "engines": {
-    "node": "0.6.5"
+    "node": ">= 0.6.5"
   },
   "version": "0.0.3"
 }
