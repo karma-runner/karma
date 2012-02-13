@@ -2,9 +2,9 @@
 # lib/config.js module
 #==============================================================================
 describe 'config', ->
-  util = require('../test-util.js')
-  fsMock = require '../mock/fs'
-  loadFile = util.loadFile
+  util = require '../test-util.js'
+  fsMock = require('mocks').fs
+  loadFile = require('mocks').loadFile
   finished = mocks = m = e = null
 
   beforeEach util.disableLogger
@@ -112,7 +112,7 @@ describe 'config', ->
 
     it 'should sort all results by file path', ->
       # file system will call in 1, 0, 2 order
-      require('../mock/util').predictableNextTickPattern = [1, 0, 2]
+      require('mocks').predictableNextTick.pattern = [1, 0, 2]
 
       m.resolveSinglePattern '/bin/*/*.js', (err, files) ->
         expect(stringsFrom files).toEqual ['/bin/mod/one.js', '/bin/sub/one.js', '/bin/sub/two.js']

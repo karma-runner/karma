@@ -2,10 +2,10 @@
 # lib/web-server.js module
 #==============================================================================
 describe 'web-server', ->
-  util = require('../test-util.js')
-  fsMock = require '../mock/fs'
-  httpMock = require '../mock/http'
-  loadFile = util.loadFile
+  util = require '../test-util'
+  fsMock = require('mocks').fs
+  httpMock = require('mocks').http
+  loadFile = require('mocks').loadFile
 
   beforeEach util.disableLogger
 
