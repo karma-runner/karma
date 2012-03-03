@@ -11,7 +11,9 @@
     "execution"
   ],
   "author": "Vojta Jína <vojta.jina@gmail.com>",
-  "contributors": [],
+  "contributors": [
+    "Igor Minár <igor.minar@gmail.com>"
+  ],
   "dependencies": {
     "socket.io": "0.8.5"
   },
@@ -21,6 +23,7 @@
     "jake": "0.2.15",
     "mocks": "0.0.1"
   },
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "git://github.com/vojtajina/slim-jim.git"
