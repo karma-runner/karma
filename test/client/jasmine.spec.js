@@ -62,6 +62,28 @@ describe('jasmine adapter', function() {
 
       expect(failedIds).toEqual([1, 2]);
     });
+
+
+    it('should remove jasmine-specific frames from the exception stack traces', function() {
+      var error = new Error('my custom');
+      error.stack = "Error: Expected 'function' to be 'fxunction'.\n"+
+        "    at new <anonymous> (http://localhost:8080/lib/jasmine/jasmine.js:102:32)\n"+
+        "    at [object Object].toBe (http://localhost:8080/lib/jasmine/jasmine.js:1171:29)\n"+
+        "    at [object Object].<anonymous> (http://localhost:8080/test/resourceSpec.js:2:3)\n"+
+        "    at [object Object].execute (http://localhost:8080/lib/jasmine/jasmine.js:1001:15)";
+
+      spec.fail(error);
+
+      slimjim.result.andCallFake(function(result) {
+        expect(result.log).toEqual([
+          "Error: Expected 'function' to be 'fxunction'.\n"+
+            "    at [object Object].<anonymous> (http://localhost:8080/test/resourceSpec.js:2:3)"
+        ]);
+      });
+
+      reporter.reportSpecResults(spec);
+      expect(slimjim.result).toHaveBeenCalled();
+    });
   });
 
 
