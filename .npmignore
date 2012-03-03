@@ -8,6 +8,7 @@
 pom.xml
 TODO.md
 jsl.conf
+Jakefile
 
 adapter/prefix
 adapter/suffix
