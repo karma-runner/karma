@@ -11,7 +11,7 @@ var browsersElement = document.getElementById('browsers');
 socket.on('info', function(browsers) {
   var items = [];
   for (var i = 0; i < browsers.length; i++) {
-    items.push(browsers[i].name + ' is ' + (browsers[i].isReady ? 'iddle' : 'executing'));
+    items.push(browsers[i].name + ' is ' + (browsers[i].isReady ? 'idle' : 'executing'));
   }
   browsersElement.innerHTML = '<li>' + items.join('</li><li>') + '</li>';
 });
