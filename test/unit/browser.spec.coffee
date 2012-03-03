@@ -4,6 +4,7 @@
 describe 'browser', ->
   util = require('../test-util.js')
   b = require '../../lib/browser'
+  r = require '../../lib/reporter'
 
   beforeEach util.disableLogger
 
@@ -11,11 +12,12 @@ describe 'browser', ->
   # browser.Browser
   #============================================================================
   describe 'Browser', ->
-    browser = collection = null
+    browser = collection = reporter = null
 
     beforeEach ->
       collection = new b.Collection
-      browser = new b.Browser 'fake-id', collection
+      reporter = new r.Progress -> null
+      browser = new b.Browser 'fake-id', collection, reporter
 
 
     it 'should have toString method', ->
