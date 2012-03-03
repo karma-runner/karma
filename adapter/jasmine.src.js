@@ -39,7 +39,7 @@ var SimpleReporter = function(sj, failedIds) {
       var items = spec.results_.items_;
       for (var i = 0; i < items.length; i++) {
         if (items[i].trace) {
-          result.log.push(items[i].trace.stack);
+          result.log.push(items[i].trace.stack.replace(/\n.+jasmine\.js\:.+(?=(\n|$))/g, ''));
         }
       }
 
