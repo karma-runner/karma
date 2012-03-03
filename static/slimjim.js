@@ -1,7 +1,12 @@
 var CONTEXT_URL = '/context.html';
 
 // connect socket.io
-var socket = io.connect();
+// https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
+var socket = io.connect(location, {
+  'reconnection delay': 500,
+  'reconnection limit': 2000,
+  'max reconnection attempts': Infinity
+});
 
 socket.on('connect', function() {
   socket.emit('name', window.navigator.userAgent);
@@ -25,11 +30,14 @@ var updateStatus = function(status) {
 
 socket.on('connect', updateStatus('connected'));
 socket.on('disconnect', updateStatus('disconnected'));
-socket.on('temp-disconnect', updateStatus('disconnected'));
 socket.on('reconnecting', updateStatus('reconnecting in $ ms...'));
 socket.on('reconnect', updateStatus('re-connected'));
 socket.on('reconnect_failed', updateStatus('failed to reconnect'));
 
+socket.on('server_disconnect', function() {
+  socket.socket.disconnect();
+  socket.socket.reconnect();
+});
 
 var SlimJim = function(socket, context) {
   var config;
