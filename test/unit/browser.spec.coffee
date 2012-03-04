@@ -39,6 +39,16 @@ describe 'browser', ->
 
 
     #==========================================================================
+    # browser.Browser.onInfo
+    #==========================================================================
+    describe 'onInfo', ->
+
+      it 'should set total count of specs', ->
+        browser.onInfo {total: 20}
+        expect(browser.lastResult.total).toBe 20
+
+
+    #==========================================================================
     # browser.Browser.onComplete
     #==========================================================================
     describe 'onComplete', ->

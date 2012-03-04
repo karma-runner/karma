@@ -70,3 +70,19 @@ describe 'util', ->
 
     it 'should indent all lines', ->
       expect(format 'first\nsecond\nthird', '\t').toBe '\tfirst\n\tsecond\n\tthird'
+
+
+  #==============================================================================
+  # util.isDefined()
+  #==============================================================================
+  describe 'isDefined', ->
+    isDefined = util.isDefined
+
+    it 'should return true if defined', ->
+      expect(isDefined()).toBe false
+      expect(isDefined undefined).toBe false
+
+      expect(isDefined false).toBe true
+      expect(isDefined 0).toBe true
+      expect(isDefined null).toBe true
+      expect(isDefined '').toBe true

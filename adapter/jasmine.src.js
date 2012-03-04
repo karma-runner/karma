@@ -4,8 +4,7 @@
 var SimpleReporter = function(sj, failedIds) {
 
   this.reportRunnerStarting = function(runner) {
-    var count = runner.specs().length;
-    sj.info('Running ' + count + ' specs...');
+    sj.info({total: runner.specs().length});
   };
 
   this.reportRunnerResults = function(runner) {
@@ -52,8 +51,7 @@ var SimpleReporter = function(sj, failedIds) {
     sj.result(result);
   };
 
-  this.log = function() {
-  };
+  this.log = function() {};
 };
 
 var createStartFn = function(sj, jasmineEnv) {
@@ -85,5 +83,13 @@ var createStartFn = function(sj, jasmineEnv) {
 
     jasmineEnv.addReporter(new SimpleReporter(sj, currentFailedIds));
     jasmineEnv.execute();
+  };
+};
+
+
+var createDumpFn = function(sj) {
+  return function() {
+    // TODO(vojta): convert to string ?
+    sj.info({dump: Array.prototype.slice.call(arguments, 0)});
   };
 };
