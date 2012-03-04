@@ -36,10 +36,13 @@ var SimpleReporter = function(sj, failedIds) {
     }
 
     if (!result.success) {
-      var items = spec.results_.items_;
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].trace) {
-          result.log.push(items[i].trace.stack.replace(/\n.+jasmine\.js\:.+(?=(\n|$))/g, ''));
+      var steps = spec.results_.items_, step;
+      for (var i = 0; i < steps.length; i++) {
+        step = steps[i];
+
+        if (!step.passed_) {
+          result.log.push(step.trace.stack ?
+              step.trace.stack.replace(/\n.+jasmine\.js\:.+(?=(\n|$))/g, '') : step.message);
         }
       }
 

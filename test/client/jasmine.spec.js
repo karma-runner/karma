@@ -84,6 +84,22 @@ describe('jasmine adapter', function() {
       reporter.reportSpecResults(spec);
       expect(slimjim.result).toHaveBeenCalled();
     });
+
+
+    it('should report message if no stack trace', function() {
+      var error = new Error('Expected fail!');
+      error.stack = undefined;
+
+      spec.fail(error);
+
+      slimjim.result.andCallFake(function(result) {
+        expect(result.success).toBe(false);
+        expect(result.log).toEqual(['Error: Expected fail!']);
+      });
+
+      reporter.reportSpecResults(spec);
+      expect(slimjim.result).toHaveBeenCalled();
+    });
   });
 
 
