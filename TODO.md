@@ -1,8 +1,29 @@
+opera - angular
+
+reporter writing (pipelining) already closed socket (disconnected browser)
+
+cancel run - if server disconnects (at least do not send report afterwards)
+
+if browser disconnects during run, complete without waiting for complete
+
+readme - add development section
+readme - add example (configuration)
+
+make global event emitter
+
+server -> runner general format, so that it can use different reporter ?)
+
+util.js:24 replace of null
+
+format error stack so that webstorm can parse it
+
 http://en.wikipedia.org/wiki/Test_Anything_Protocol
 
 adapter for http://visionmedia.github.com/mocha/ + check out reporters
 
 growl notifications ?
+
+make a screencast how to test it (during development), how to debug with webstorm, etc...
 
 integration with cloud9 http://c9.io/
 
@@ -54,7 +75,6 @@ analyse deps (goog.provide, require) and execute only related tests
 
 more granularity during execution (continuous info about tests)
 
-rerun only some tests (i.e. last failed) - plugin
 allow passing configuration into client (both config, test run params)
 
 interesting modules:
@@ -70,8 +90,6 @@ static web server ?
 
 proxy
 
-build?
- - jake, ...
 
 CLI options parser ?
 
@@ -112,28 +130,5 @@ design extensible - allow server/client plugins, passing configuration to plugin
 auto start browser ?
 dynamic port assign ?
 
-DECISIONS
 
-always reload iframe
-- tested only some files loading
-- decided to go with full iframe loading and heavy http caching
-- this partial reloading is source of many problems in jstd
-- benchmarks show it's still not slower than jstd (with multiple modern browsers it's much faster, because of socket.io)
-
-- merging all source files into one, served from memory, not that good as well (need to reload all the files on server anyway)
-+ losing line numbers, when error occurs
-
-- loading all files by ajax and then eval -> again, losing line numbers, otherwise, this would perform well, and should be context safe
-
-using iframe / tab
-- we need to be able to clean the context easily, for stability
-- using tabs would require solving problem, that the tab needs to have focus to execute, otherwise it gets iddle
-
-server is configuration specific
-- allow running different configuration, basically runner can ask for execution of any files...
-- so you keep running only one server, probably as a daemon
-- it would mean lot of complications, especially caching would be much more difficult
-- watching files as well
-- so I decided for scenario, when you have one server per configuration and you can start multiple instances (on different ports)
-- we might solve dynamic port assigning... (needs to be shared with runner?)
 
