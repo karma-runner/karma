@@ -1,7 +1,8 @@
 {
   "name": "slim-jim",
   "description": "Remote execution of JS on multiple browsers / node.js",
-  "homepage": "",
+  "homepage": "https://github.com/vojtajina/slim-jim",
+  "bugs": "https://github.com/vojtajina/slim-jim/issues",
   "keywords": [
     "SlimJim",
     "nodejs",
@@ -18,10 +19,9 @@
     "socket.io": "0.8.5"
   },
   "devDependencies": {
-    "coffee-script": "1.1.2",
-    "jasmine-node": "1.0.11",
-    "jake": "0.2.15",
-    "mocks": "0.0.1"
+    "jasmine-node": ">= 1.0.11",
+    "jake": ">= 0.2.15",
+    "mocks": ">= 0.0.1"
   },
   "preferGlobal": true,
   "repository": {
