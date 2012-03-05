@@ -197,12 +197,12 @@ jasmine.any = function(clazz) {
 };
 
 /**
- * Returns a matchable subset of a hash/JSON object. For use in expectations when you don't care about all of the
+ * Returns a matchable subset of a JSON object. For use in expectations when you don't care about all of the
  * attributes on the object.
  *
  * @example
  * // don't care about any other attributes than foo.
- * expect(mySpy).toHaveBeenCalledWith(jasmine.hashContaining({foo: "bar"});
+ * expect(mySpy).toHaveBeenCalledWith(jasmine.objectContaining({foo: "bar"});
  *
  * @param sample {Object} sample
  * @returns matchable object for the sample
@@ -489,6 +489,32 @@ var it = function(desc, func) {
 if (isCommonJS) exports.it = it;
 
 /**
+ * Creates an exclusive Jasmine spec that will be added to the current suite.
+ *
+ * If at least one exclusive (iit) spec is registered, only these exclusive specs are run.
+ * Note, that this behavior works only with the default specFilter.
+ * Note, that iit has higher priority over ddescribe
+ *
+ * @example
+ * describe('suite', function() {
+ *   iit('should be true', function() {
+ *     // only this spec will be run
+ *   });
+ *
+ *   it('should be false', function() {
+ *     // this won't be run
+ *   });
+ * });
+ *
+ * @param {String} desc description of this specification
+ * @param {Function} func defines the preconditions and expectations of the spec
+ */
+var iit = function(desc, func) {
+  return jasmine.getEnv().iit(desc, func);
+};
+if (isCommonJS) exports.iit = iit;
+
+/**
  * Creates a <em>disabled</em> Jasmine spec.
  *
  * A convenience method that allows existing specs to be disabled temporarily during development.
@@ -590,6 +616,37 @@ var describe = function(description, specDefinitions) {
   return jasmine.getEnv().describe(description, specDefinitions);
 };
 if (isCommonJS) exports.describe = describe;
+
+
+/**
+ * Defines an exclusive suite of specifications.
+ *
+ * If at least one exclusive (ddescribe) suite is registered, only these exclusive suites are run.
+ * Note, that this behavior works only with the default specFilter.
+ *
+ * @example
+ * ddescribe('exclusive suite', function() {
+ *   it('should be true', function() {
+ *     // this spec will be run
+ *   });
+ *
+ *   it('should be false', function() {
+ *     // this spec will be run as well
+ *   });
+ * });
+ *
+ * describe('normal suite', function() {
+ *   // no spec from this suite will be run
+ * });
+ *
+ *
+ * @param {String} description A string, usually the class under test.
+ * @param {Function} specDefinitions function that defines several specs.
+ */
+var ddescribe = function(description, specDefinitions) {
+  return jasmine.getEnv().ddescribe(description, specDefinitions);
+};
+if (isCommonJS) exports.ddescribe = ddescribe;
 
 /**
  * Disables a suite of specifications.  Used to disable some suites in a file, or files, temporarily during development.
@@ -712,13 +769,18 @@ jasmine.Env = function() {
   this.updateInterval = jasmine.DEFAULT_UPDATE_INTERVAL;
   this.defaultTimeoutInterval = jasmine.DEFAULT_TIMEOUT_INTERVAL;
   this.lastUpdate = 0;
-  this.specFilter = function() {
-    return true;
+  this.specFilter = function(spec) {
+    return this.exclusive_ <= spec.exclusive_;
   };
 
   this.nextSpecId_ = 0;
   this.nextSuiteId_ = 0;
   this.equalityTesters_ = [];
+
+  // 0 - normal
+  // 1 - contains some ddescribe
+  // 2 - contains some iit
+  this.exclusive_ = 0;
 
   // wrap matchers
   this.matchersClass = function() {
@@ -790,8 +852,11 @@ jasmine.Env.prototype.execute = function() {
 };
 
 jasmine.Env.prototype.describe = function(description, specDefinitions) {
-  var suite = new jasmine.Suite(this, description, specDefinitions, this.currentSuite);
+  var suite = new jasmine.Suite(this, description, null, this.currentSuite);
+  return this.describe_(suite, specDefinitions);
+};
 
+jasmine.Env.prototype.describe_ = function(suite, specDefinitions) {
   var parentSuite = this.currentSuite;
   if (parentSuite) {
     parentSuite.add(suite);
@@ -817,6 +882,14 @@ jasmine.Env.prototype.describe = function(description, specDefinitions) {
   this.currentSuite = parentSuite;
 
   return suite;
+};
+
+jasmine.Env.prototype.ddescribe = function(description, specDefinitions) {
+  var suite = new jasmine.Suite(this, description, null, this.currentSuite);
+  suite.exclusive_ = 1;
+  this.exclusive_ = Math.max(this.exclusive_, 1);
+
+  return this.describe_(suite, specDefinitions);
 };
 
 jasmine.Env.prototype.beforeEach = function(beforeEachFunction) {
@@ -855,6 +928,14 @@ jasmine.Env.prototype.it = function(description, func) {
   if (func) {
     spec.runs(func);
   }
+
+  return spec;
+};
+
+jasmine.Env.prototype.iit = function(description, func) {
+  var spec = this.it(description, func);
+  spec.exclusive_ = 2;
+  this.exclusive_ = 2;
 
   return spec;
 };
@@ -929,12 +1010,12 @@ jasmine.Env.prototype.equals_ = function(a, b, mismatchKeys, mismatchValues) {
     return a.getTime() == b.getTime();
   }
 
-  if (a instanceof jasmine.Matchers.Any) {
-    return a.matches(b);
+  if (a.jasmineMatches) {
+    return a.jasmineMatches(b);
   }
 
-  if (b instanceof jasmine.Matchers.Any) {
-    return b.matches(a);
+  if (b.jasmineMatches) {
+    return b.jasmineMatches(a);
   }
 
   if (a instanceof jasmine.Matchers.ObjectContaining) {
@@ -1235,7 +1316,7 @@ jasmine.Matchers.prototype.toEqual = function(expected) {
 /**
  * toNotEqual: compares the actual to the expected using the ! of jasmine.Matchers.toEqual
  * @param expected
- * @deprecated as of 1.0. Use not.toNotEqual() instead.
+ * @deprecated as of 1.0. Use not.toEqual() instead.
  */
 jasmine.Matchers.prototype.toNotEqual = function(expected) {
   return !this.env.equals_(this.actual, expected);
@@ -1408,7 +1489,7 @@ jasmine.Matchers.prototype.toContain = function(expected) {
  * Matcher that checks that the expected item is NOT an element in the actual Array.
  *
  * @param {Object} expected
- * @deprecated as of 1.0. Use not.toNotContain() instead.
+ * @deprecated as of 1.0. Use not.toContain() instead.
  */
 jasmine.Matchers.prototype.toNotContain = function(expected) {
   return !this.env.contains_(this.actual, expected);
@@ -1476,7 +1557,7 @@ jasmine.Matchers.Any = function(expectedClass) {
   this.expectedClass = expectedClass;
 };
 
-jasmine.Matchers.Any.prototype.matches = function(other) {
+jasmine.Matchers.Any.prototype.jasmineMatches = function(other) {
   if (this.expectedClass == String) {
     return typeof other == 'string' || other instanceof String;
   }
@@ -1496,7 +1577,7 @@ jasmine.Matchers.Any.prototype.matches = function(other) {
   return other instanceof this.expectedClass;
 };
 
-jasmine.Matchers.Any.prototype.toString = function() {
+jasmine.Matchers.Any.prototype.jasmineToString = function() {
   return '<jasmine.any(' + this.expectedClass + ')>';
 };
 
@@ -1504,7 +1585,7 @@ jasmine.Matchers.ObjectContaining = function (sample) {
   this.sample = sample;
 };
 
-jasmine.Matchers.ObjectContaining.prototype.matches = function(other, mismatchKeys, mismatchValues) {
+jasmine.Matchers.ObjectContaining.prototype.jasmineMatches = function(other, mismatchKeys, mismatchValues) {
   mismatchKeys = mismatchKeys || [];
   mismatchValues = mismatchValues || [];
 
@@ -1526,8 +1607,8 @@ jasmine.Matchers.ObjectContaining.prototype.matches = function(other, mismatchKe
   return (mismatchKeys.length === 0 && mismatchValues.length === 0);
 };
 
-jasmine.Matchers.ObjectContaining.prototype.toString = function () {
-  return "<jasmine.hashContaining(" + jasmine.pp(this.sample) + ")>";
+jasmine.Matchers.ObjectContaining.prototype.jasmineToString = function () {
+  return "<jasmine.objectContaining(" + jasmine.pp(this.sample) + ")>";
 };
 /**
  * @constructor
@@ -1669,8 +1750,8 @@ jasmine.PrettyPrinter.prototype.format = function(value) {
       this.emitScalar('null');
     } else if (value === jasmine.getGlobal()) {
       this.emitScalar('<global>');
-    } else if (value instanceof jasmine.Matchers.Any) {
-      this.emitScalar(value.toString());
+    } else if (value.jasmineToString) {
+      this.emitScalar(value.jasmineToString());
     } else if (typeof value === 'string') {
       this.emitString(value);
     } else if (jasmine.isSpy(value)) {
@@ -1971,6 +2052,7 @@ jasmine.Spec = function(env, suite, description) {
   spec.results_ = new jasmine.NestedResults();
   spec.results_.description = description;
   spec.matchersClass = null;
+  spec.exclusive_ = suite.exclusive_;
 };
 
 jasmine.Spec.prototype.getFullName = function() {
@@ -2207,6 +2289,7 @@ jasmine.Suite = function(env, description, specDefinitions, parentSuite) {
   self.children_ = [];
   self.suites_ = [];
   self.specs_ = [];
+  self.exclusive_ = parentSuite && parentSuite.exclusive_ || 0;
 };
 
 jasmine.Suite.prototype.getFullName = function() {
@@ -2524,5 +2607,5 @@ jasmine.version_= {
   "major": 1,
   "minor": 1,
   "build": 0,
-  "revision": 1299963843
+  "revision": 1330930773
 };
