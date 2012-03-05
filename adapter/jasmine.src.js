@@ -1,3 +1,19 @@
+var formatFailedStep = function(step) {
+
+  var stack = step.trace.stack;
+  if (stack) {
+    if (step.trace.message && stack.indexOf(step.trace.message) === -1) {
+      stack = step.trace.message + '\n' + stack;
+    }
+
+    // remove jasmine stack entries
+    return stack.replace(/\n.+jasmine\.js\?\d*\:.+(?=(\n|$))/g, '');
+  }
+
+  return step.trace.message || step.message;
+};
+
+
 /**
  * Very simple reporter for jasmine
  */
@@ -35,13 +51,10 @@ var SimpleReporter = function(sj, failedIds) {
     }
 
     if (!result.success) {
-      var steps = spec.results_.items_, step;
+      var steps = spec.results_.items_;
       for (var i = 0; i < steps.length; i++) {
-        step = steps[i];
-
-        if (!step.passed_) {
-          result.log.push(step.trace.stack ?
-              step.trace.stack.replace(/\n.+jasmine\.js\:.+(?=(\n|$))/g, '') : step.message);
+        if (!steps[i].passed_) {
+          result.log.push(formatFailedStep(steps[i]));
         }
       }
 
@@ -53,6 +66,7 @@ var SimpleReporter = function(sj, failedIds) {
 
   this.log = function() {};
 };
+
 
 var createStartFn = function(sj, jasmineEnv) {
   return function(config) {

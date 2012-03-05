@@ -66,11 +66,11 @@ describe('jasmine adapter', function() {
 
     it('should remove jasmine-specific frames from the exception stack traces', function() {
       var error = new Error('my custom');
-      error.stack = "Error: Expected 'function' to be 'fxunction'.\n"+
-        "    at new <anonymous> (http://localhost:8080/lib/jasmine/jasmine.js:102:32)\n"+
-        "    at [object Object].toBe (http://localhost:8080/lib/jasmine/jasmine.js:1171:29)\n"+
-        "    at [object Object].<anonymous> (http://localhost:8080/test/resourceSpec.js:2:3)\n"+
-        "    at [object Object].execute (http://localhost:8080/lib/jasmine/jasmine.js:1001:15)";
+      error.stack = "Error: Expected 'function' to be 'fxunction'.\n" +
+        "    at new <anonymous> (http://localhost:8080/lib/jasmine/jasmine.js?123412234:102:32)\n" +
+        "    at [object Object].toBe (http://localhost:8080/lib/jasmine/jasmine.js?123:1171:29)\n" +
+        "    at [object Object].<anonymous> (http://localhost:8080/test/resourceSpec.js:2:3)\n" +
+        "    at [object Object].execute (http://localhost:8080/lib/jasmine/jasmine.js?123:1001:15)";
 
       spec.fail(error);
 
@@ -86,19 +86,35 @@ describe('jasmine adapter', function() {
     });
 
 
+
+  });
+
+
+  describe('formatFailedStep', function() {
+
+    it('should prepend the stack with message if browser does not', function() {
+      // FF does not have the message in the stack trace
+      expect(formatFailedStep(new jasmine.ExpectationResult({
+        passed: false,
+        message: 'Jasmine fail message',
+        trace: {
+          message: 'MESSAGE',
+          stack: '@file.js:123\n'
+        }
+      }))).toMatch(/^MESSAGE/);
+    });
+
+
     it('should report message if no stack trace', function() {
-      var error = new Error('Expected fail!');
-      error.stack = undefined;
-
-      spec.fail(error);
-
-      slimjim.result.andCallFake(function(result) {
-        expect(result.success).toBe(false);
-        expect(result.log).toEqual(['Error: Expected fail!']);
-      });
-
-      reporter.reportSpecResults(spec);
-      expect(slimjim.result).toHaveBeenCalled();
+      // Safari does not have trace
+      expect(formatFailedStep(new jasmine.ExpectationResult({
+        passed: false,
+        message: 'Jasmine fail message',
+        trace: {
+          message: 'MESSAGE',
+          stack: undefined
+        }
+      }))).toBe('MESSAGE');
     });
   });
 
