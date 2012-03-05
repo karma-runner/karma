@@ -1,3 +1,9 @@
+### v0.0.4
+* Progress bar reporting
+* Improve error formatting
+* Add Jasmine lib (with iit, ddescribe)
+* Reconnect client each 2sec, remove exponential growing
+
 ### v0.0.3
 * Jasmine adapter: ignore last failed filter in exclusive mode
 * Jasmine adapter: add build (no global space pollution)
