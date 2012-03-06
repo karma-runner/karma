@@ -23,7 +23,8 @@ describe 'web-server', ->
   mocks.fs = fsMock.create
     tpl:
       'client.html':  fsMock.file(0, 'CLIENT HTML'),
-      'context.html': fsMock.file(0, 'CONTEXT\n%SCRIPTS%')
+      'context.html': fsMock.file(0, 'CONTEXT\n%SCRIPTS%'),
+      'runner.html': fsMock.file(0, 'RUNNER\n%SCRIPTS%')
     src:
       'some.js': fsMock.file(0, 'js-source')
 
@@ -31,7 +32,7 @@ describe 'web-server', ->
   m = loadFile __dirname + '/../../lib/web-server.js', mocks
 
   beforeEach ->
-    handler = m.createHandler fileGuardian, '/tpl/'
+    handler = m.createHandler fileGuardian, '/tpl'
     response = new httpMock.ServerResponse
 
   it 'should server client.html', ->
@@ -52,6 +53,20 @@ describe 'web-server', ->
 
     runs ->
       expect(response._body).toEqual 'CONTEXT\n' +
+        '<script type="text/javascript" src="/first.js?12345"></script>\n' +
+        '<script type="text/javascript" src="/second.js?67890"></script>'
+      expect(response._status).toBe 200
+
+
+  it 'should server runner.html with replaced script tags', ->
+    files = [{path: '/first.js', mtime: new Date 12345},
+             {path: '/second.js', mtime: new Date 67890}]
+
+    handler new httpMock.ServerRequest('/runner.html'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._body).toEqual 'RUNNER\n' +
         '<script type="text/javascript" src="/first.js?12345"></script>\n' +
         '<script type="text/javascript" src="/second.js?67890"></script>'
       expect(response._status).toBe 200
