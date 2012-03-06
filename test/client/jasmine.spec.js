@@ -224,4 +224,31 @@ describe('jasmine adapter', function() {
       });
     });
   });
+
+
+  describe('createDumpFn', function() {
+    var dump, slimjim;
+
+    beforeEach(function() {
+      slimjim = jasmine.createSpyObj('__slimjim__', ['info']);
+    });
+
+
+    it('should serialize and call info', function() {
+      dump = createDumpFn(slimjim, function(value) {
+        return value + 'x';
+      });
+
+      dump(1, 'a');
+      expect(slimjim.info).toHaveBeenCalledWith({dump: ['1x', 'ax']});
+    });
+
+
+    it('should allow no serialize', function() {
+      dump = createDumpFn(slimjim);
+
+      dump(1, 'a');
+      expect(slimjim.info).toHaveBeenCalledWith({dump: [1, 'a']});
+    });
+  });
 });

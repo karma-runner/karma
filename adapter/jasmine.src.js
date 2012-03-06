@@ -101,9 +101,21 @@ var createStartFn = function(sj, jasmineEnv) {
 };
 
 
-var createDumpFn = function(sj) {
+var createDumpFn = function(sj, serialize) {
   return function() {
-    // TODO(vojta): convert to string ?
-    sj.info({dump: Array.prototype.slice.call(arguments, 0)});
+
+    var args = Array.prototype.slice.call(arguments, 0);
+
+    if (serialize) {
+      for (var i = 0; i < args.length; i++) {
+        args[i] = serialize(args[i]);
+      }
+    }
+
+    sj.info({dump: args});
+
+    if (window.console) {
+      window.console.log.apply(window.console, arguments);
+    }
   };
 };
