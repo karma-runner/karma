@@ -1,15 +1,23 @@
-opera - angular
+CREATE HOMEPAGE
 
-reporter writing (pipelining) already closed socket (disconnected browser)
+runner.html serving - delay serving + checkModifications()
 
-cancel run - if server disconnects (at least do not send report afterwards)
+make global event emitter (+ instantiate(Class) that would register listeners)
+auto start browser ?
+dynamic port assign ?
 
+cancel run - if server disconnects (at least do not send report afterwards), or ignore
 if browser disconnects during run, complete without waiting for complete
+
+FIX: start server, before capturing any browser runner (warning no browser), wont finish, kill, then next run - writing to closed socket
+
+
+opera, ff - angular
 
 readme - add development section
 readme - add example (configuration)
 
-make global event emitter
+handle - Chrome's script causes too much memory message ?
 
 server -> runner general format, so that it can use different reporter ?)
 
@@ -127,8 +135,12 @@ debugging - allow break points from IDE ?
 
 design extensible - allow server/client plugins, passing configuration to plugins (like jasmine - test only last failed)
 
-auto start browser ?
-dynamic port assign ?
 
+E2E TESTS:
+- disconnects browser during run
+- reconnect browser
+- disconnect server + reconnect
+- all tests passed / failures
+- syntax error
 
 

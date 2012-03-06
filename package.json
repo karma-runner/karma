@@ -2,7 +2,9 @@
   "name": "slim-jim",
   "description": "Remote execution of JS on multiple browsers / node.js",
   "homepage": "https://github.com/vojtajina/slim-jim",
-  "bugs": "https://github.com/vojtajina/slim-jim/issues",
+  "bugs": {
+    "url": "https://github.com/vojtajina/slim-jim/issues"
+  },
   "keywords": [
     "SlimJim",
     "nodejs",
