@@ -1,0 +1,61 @@
+Opera
+================================================================================
+Expected 'url2; url2' to equal 'url2; url2ss'.
+
+<anonymous function: jasmine.ExpectationResult>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:102
+<anonymous function: jasmine.Matchers.matcherFn_>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1171
+<anonymous function>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/test/widgetsSpec.js?1330919293000:243
+invoke([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/src/Injector.js?1330845153000:474
+workFn([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/src/angular-mocks.js?1330845153000:1582
+<anonymous function: jasmine.Block.prototype.execute>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1001
+<anonymous function: jasmine.Queue.prototype.next_>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1790
+<anonymous function: jasmine.Queue.prototype.start>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1743
+<anonymous function: jasmine.Spec.prototype.execute>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:2070
+<anonymous function: jasmine.Queue.prototype.next_>([arguments not available])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1790
+
+
+
+Safari
+================================================================================
+Expected 'url2; url2' to equal 'url2; url2ss'.
+
+undefined
+
+
+
+FF
+================================================================================
+Expected 'url2; url2' to equal 'url2; url2ss'.
+
+([object Object])@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:102 ("url2; url2ss")@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1176
+([object Object],compile,$httpBackend)@http://localhost:8080/Users/vojta/Code/angular.js/test/widgetsSpec.js?1330919293000:243
+invoke((function ($rootScope, $compile, $httpBackend) {"use strict";element = jqLite("<ng:include src='templateUrl'></ng:include>");var log = [];$rootScope.templateUrl = "myUrl1";$rootScope.logger = function (msg) {log.push(msg);};$compile(element)($rootScope);expect(log.join("; ")).toEqual("");$httpBackend.expect("GET", "myUrl1").respond("<div>{{logger(\"url1\")}}</div>");$rootScope.$digest();expect(log.join("; ")).toEqual("");$rootScope.templateUrl = "myUrl2";$httpBackend.expect("GET", "myUrl2").respond("<div>{{logger(\"url2\")}}</div>");$rootScope.$digest();$httpBackend.flush();expect(log.join("; ")).toEqual("url2; url2ss");}),[object Object])@http://localhost:8080/Users/vojta/Code/angular.js/src/Injector.js?1330845153000:474
+workFn()@http://localhost:8080/Users/vojta/Code/angular.js/src/angular-mocks.js?1330845153000:1582
+((function () {if (jasmine.Queue.LOOP_DONT_RECURSE && calledSynchronously) {completedSynchronously = true;return;}if (self.blocks[self.index].abort) {self.abort = true;}self.offset = 0;self.index++;var now = (new Date).getTime();if (self.env.updateInterval && now - self.env.lastUpdate > self.env.updateInterval) {self.env.lastUpdate = now;self.env.setTimeout(function () {self.next_();}, 0);} else {if (jasmine.Queue.LOOP_DONT_RECURSE && completedSynchronously) {goAgain = true;} else {self.next_();}}}))@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1001
+()@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1790
+((function () {spec.finish(onComplete);}))@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1743
+((function () {if (jasmine.Queue.LOOP_DONT_RECURSE && calledSynchronously) {completedSynchronously = true;return;}if (self.blocks[self.index].abort) {self.abort = true;}self.offset = 0;self.index++;var now = (new Date).getTime();if (self.env.updateInterval && now - self.env.lastUpdate > self.env.updateInterval) {self.env.lastUpdate = now;self.env.setTimeout(function () {self.next_();}, 0);} else {if (jasmine.Queue.LOOP_DONT_RECURSE && completedSynchronously) {goAgain = true;} else {self.next_();}}}))@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:2070
+()@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1790
+()@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1786
+((function () {if (jasmine.Queue.LOOP_DONT_RECURSE && calledSynchronously) {completedSynchronously = true;return;}if (self.blocks[self.index].abort) {self.abort = true;}self.offset = 0;self.index++;var now = (new Date).getTime();if (self.env.updateInterval && now - self.env.lastUpdate > self.env.updateInterval) {self.env.lastUpdate = now;self.env.setTimeout(function () {self.next_();}, 0);} else {if (jasmine.Queue.LOOP_DONT_RECURSE && completedSynchronously) {goAgain = true;} else {self.next_();}}}))@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:2044
+()@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:2071
+()@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1800
+(14)@http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1780
+
+
+
+Chrome
+================================================================================
+Expected 'url2; url2' to equal 'url2; url2ss'.
+
+Error: Expected 'url2; url2' to equal 'url2; url2ss'.
+    at new <anonymous> (http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:102:32)
+    at [object Object].toEqual (http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1171:29)
+    at [object Object].<anonymous> (http://localhost:8080/Users/vojta/Code/angular.js/test/widgetsSpec.js?1330919293000:243:30)
+    at Object.invoke (http://localhost:8080/Users/vojta/Code/angular.js/src/Injector.js?1330845153000:474:28)
+    at [object Object].workFn (http://localhost:8080/Users/vojta/Code/angular.js/src/angular-mocks.js?1330845153000:1582:20)
+    at [object Object].execute (http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1001:15)
+    at [object Object].next_ (http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1790:31)
+    at [object Object].start (http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1743:8)
+    at [object Object].execute (http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:2070:14)
+    at [object Object].next_ (http://localhost:8080/Users/vojta/Code/angular.js/lib/jasmine/jasmine.js?1330845153000:1790:31)
