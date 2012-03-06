@@ -1,14 +1,13 @@
-./.git/
-./node_modules/
-./.idea/
-./test/
-
-.gitignore
 .npmignore
-pom.xml
+test
+docs/*.graffle
+
 TODO.md
 jsl.conf
 Jakefile
+changelog.sh
+
+SlimJim.sublime-*
 
 adapter/prefix
 adapter/suffix
