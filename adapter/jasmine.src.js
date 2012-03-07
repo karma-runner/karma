@@ -17,13 +17,16 @@ var formatFailedStep = function(step) {
 /**
  * Very simple reporter for jasmine
  */
-var SimpleReporter = function(sj, failedIds) {
+var SimpleReporter = function(sj) {
+
+  var failedIds = [];
 
   this.reportRunnerStarting = function(runner) {
     sj.info({total: runner.specs().length});
   };
 
   this.reportRunnerResults = function(runner) {
+    sj.store('jasmine.lastFailedIds', failedIds);
     sj.complete();
   };
 
@@ -74,28 +77,24 @@ var createStartFn = function(sj, jasmineEnv) {
     // in production we ask for it lazily, so that adapter can be loaded even before jasmine
     jasmineEnv = jasmineEnv || window.jasmine.getEnv();
 
-    var currentFailedIds = [];
     var currentSpecsCount = jasmineEnv.nextSpecId_;
-    var lastResults = sj.jasmineLastResults;
+    var lastCount = sj.store('jasmine.lastCount');
+    var lastFailedIds = sj.store('jasmine.lastFailedIds');
 
-
-    // reset lastResults on parent frame
-    sj.jasmineLastResults = {
-      failedIds: currentFailedIds,
-      count: currentSpecsCount
-    };
+    sj.store('jasmine.lastCount', currentSpecsCount);
+    sj.store('jasmine.lastFailedIds', []);
 
     // filter only last failed specs
-    if (lastResults && lastResults.count === currentSpecsCount && // still same number of specs
-        lastResults.failedIds.length > 0 &&                       // at least one fail last run
-        !jasmineEnv.exclusive_) {                                 // no exclusive mode (iit, ddesc)
+    if (lastCount === currentSpecsCount && // still same number of specs
+        lastFailedIds.length > 0 &&        // at least one fail last run
+        !jasmineEnv.exclusive_) {          // no exclusive mode (iit, ddesc)
 
       jasmineEnv.specFilter = function(spec) {
-        return lastResults.failedIds.indexOf(spec.id) !== -1;
+        return lastFailedIds.indexOf(spec.id) !== -1;
       };
     }
 
-    jasmineEnv.addReporter(new SimpleReporter(sj, currentFailedIds));
+    jasmineEnv.addReporter(new SimpleReporter(sj));
     jasmineEnv.execute();
   };
 };

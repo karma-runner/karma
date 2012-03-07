@@ -42,13 +42,14 @@ socket.on('server_disconnect', function() {
 var SlimJim = function(socket, context) {
   var config;
   var hasError = false;
+  var store = {};
 
   // error during js file loading (most likely syntax error)
   // we are not going to execute at all
   this.error = function(msg, url, line) {
     hasError = true;
     socket.emit('error', msg + '\nat ' + url + ':' + line);
-    socket.emit('complete');
+    this.complete();
     return true;
   };
 
@@ -58,6 +59,7 @@ var SlimJim = function(socket, context) {
 
   this.complete = function() {
     socket.emit('complete');
+    context.src = 'about:blank';
   };
 
   this.info = function(info) {
@@ -68,6 +70,25 @@ var SlimJim = function(socket, context) {
   this.loaded = function() {
     // has error -> cancel
     if (!hasError) this.start(config);
+
+    // remove reference to child iframe
+    this.start = null;
+  };
+
+  this.store = function(key, value) {
+    if (typeof value === 'undefined') {
+      return store[key];
+    }
+
+    if (toString.apply(value) === '[object Array]') {
+      var s = store[key] = [];
+      for (var i = 0; i < value.length; i++) {
+        s.push(value[i]);
+      }
+    } else {
+      // TODO(vojta): clone objects + deep
+      store[key] = value;
+    }
   };
 
   // supposed to be overriden by the context
@@ -82,4 +103,5 @@ var SlimJim = function(socket, context) {
   });
 };
 
-var slimjim = new SlimJim(socket, document.getElementById('context'));
+// TODO(vojta): Wrap it into closure and add build
+window.slimjim = new SlimJim(socket, document.getElementById('context'));

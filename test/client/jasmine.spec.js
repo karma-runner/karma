@@ -8,9 +8,9 @@ describe('jasmine adapter', function() {
     var reporter, slimjim, failedIds, env, suite, spec;
 
     beforeEach(function() {
-      slimjim = jasmine.createSpyObj('__slimjim__', ['result']);
-      failedIds = [];
-      reporter = new SimpleReporter(slimjim, failedIds);
+      slimjim = new SlimJim(new MockSocket(), {});
+      reporter = new SimpleReporter(slimjim);
+      spyOn(slimjim, 'result');
 
       env = new jasmine.Env();
       var parentSuite = new jasmine.Suite(env, 'parent');
@@ -59,8 +59,9 @@ describe('jasmine adapter', function() {
       while(specs.length) {
         reporter.reportSpecResults(specs.shift());
       }
+      reporter.reportRunnerResults();
 
-      expect(failedIds).toEqual([1, 2]);
+      expect(slimjim.store('jasmine.lastFailedIds')).toEqual([1, 2]);
     });
 
 
@@ -84,9 +85,6 @@ describe('jasmine adapter', function() {
       reporter.reportSpecResults(spec);
       expect(slimjim.result).toHaveBeenCalled();
     });
-
-
-
   });
 
 
@@ -123,15 +121,14 @@ describe('jasmine adapter', function() {
     var sj, jasmineEnv, start;
 
     beforeEach(function() {
-      sj = {
-        jasmineLastResults: {
-          failedIds: [1, 3, 5],
-          count: 10
-        },
-        info: function() {},
-        complete: function() {},
-        result: function() {}
-      };
+      sj = new SlimJim(new MockSocket(), {});
+      sj.store('jasmine.lastFailedIds', [1, 3, 5]);
+      sj.store('jasmine.lastCount', 10);
+
+      spyOn(sj, 'info');
+      spyOn(sj, 'complete');
+      spyOn(sj, 'result');
+
       jasmineEnv = new jasmine.Env();
       start = createStartFn(sj, jasmineEnv);
     });
@@ -139,10 +136,8 @@ describe('jasmine adapter', function() {
 
     it('should reset last results', function() {
       start();
-      expect(sj.jasmineLastResults).toEqual({
-        failedIds: [],
-        count: 0
-      });
+      expect(sj.store('jasmine.lastCount')).toBe(0);
+      expect(sj.store('jasmine.lastFailedIds')).toEqual([]);
     });
 
 
@@ -155,11 +150,11 @@ describe('jasmine adapter', function() {
       start();
 
       waitsFor(function() {
-        return sj.jasmineLastResults.failedIds.length;
+        return sj.store('jasmine.lastFailedIds').length === 1;
       }, 'execution finish', 50);
 
       runs(function() {
-        expect(sj.jasmineLastResults.failedIds).toEqual([1]);
+        expect(sj.store('jasmine.lastFailedIds')).toEqual([1]);
       });
     });
 
@@ -173,8 +168,8 @@ describe('jasmine adapter', function() {
 
 
       it('should filter only last failed', function() {
-        sj.jasmineLastResults.failedIds = [1, 3, 5];
-        sj.jasmineLastResults.count = 5;
+        sj.store('jasmine.lastFailedIds', [1, 3, 5]);
+        sj.store('jasmine.lastCount', 5);
         jasmineEnv.nextSpecId_ = 5;
 
         start();
@@ -187,7 +182,8 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if first run', function() {
-        sj.jasmineLastResults = undefined;
+        sj.store('jasmine.lastFailedIds', null);
+        sj.store('jasmine.lastCount', null);
 
         start();
         expect(jasmineEnv.specFilter).toBe(originalSpecFilter);
@@ -195,7 +191,7 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if number of specs changed', function() {
-        sj.jasmineLastResults.count = 10;
+        sj.store('jasmine.lastCount', 10);
         jasmineEnv.nextSpecId_ = 5;
 
         start();
@@ -204,8 +200,8 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if all specs passed last time', function() {
-        sj.jasmineLastResults.failedIds = [];
-        sj.jasmineLastResults.count = 5;
+        sj.store('jasmine.lastFailedIds', []);
+        sj.store('jasmine.lastCount', 5);
         jasmineEnv.nextSpecId_ = 5;
 
         start();
@@ -214,8 +210,8 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if exclusive mode', function() {
-        sj.jasmineLastResults.failedIds = [1, 3, 5];
-        sj.jasmineLastResults.count = 5;
+        sj.store('jasmine.lastFailedIds', [1, 3, 5]);
+        sj.store('jasmine.lastCount', 5);
         jasmineEnv.nextSpecId_ = 5;
         jasmineEnv.exclusive_ = 1;
 

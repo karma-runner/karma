@@ -4,12 +4,12 @@
  */
 
 describe('slimjim', function() {
-  var socket, sj;
+  var socket, sj, spyStart;
 
   beforeEach(function() {
     socket = new MockSocket();
     sj = new SlimJim(socket, {});
-    spyOn(sj, 'start');
+    spyStart = spyOn(sj, 'start');
   });
 
 
@@ -17,10 +17,10 @@ describe('slimjim', function() {
     var config = {};
 
     socket.emit('execute', config);
-    expect(sj.start).not.toHaveBeenCalled();
+    expect(spyStart).not.toHaveBeenCalled();
 
     sj.loaded();
-    expect(sj.start).toHaveBeenCalledWith(config);
+    expect(spyStart).toHaveBeenCalledWith(config);
   });
 
 
@@ -28,6 +28,38 @@ describe('slimjim', function() {
     sj.error('syntax error', '/some/file.js', 11);
     sj.loaded();
 
-    expect(sj.start).not.toHaveBeenCalled();
+    expect(spyStart).not.toHaveBeenCalled();
+  });
+
+
+  it('should remove reference to start even after syntax error', function() {
+    sj.error('syntax error', '/some/file.js', 11);
+    sj.loaded();
+    expect(sj.start).toBeFalsy();
+
+    sj.start = function() {};
+    sj.loaded();
+    expect(sj.start).toBeFalsy();
+  });
+
+
+  describe('store', function() {
+
+    it('should be getter/setter', function() {
+      sj.store('a', 10);
+      sj.store('b', [1, 2, 3]);
+
+      expect(sj.store('a')).toBe(10);
+      expect(sj.store('b')).toEqual([1, 2, 3]);
+    });
+
+
+    it('should clone arrays to avoid memory leaks', function() {
+      var array = [1, 2, 3, 4, 5];
+
+      sj.store('one.array', array);
+      expect(sj.store('one.array')).not.toBe(array);
+      expect(sj.store('one.array')).toEqual(array);
+    });
   });
 });
