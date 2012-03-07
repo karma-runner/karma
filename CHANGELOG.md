@@ -1,3 +1,8 @@
+### v0.0.5
+* Fix memory (some :-D) leaks
+* Add dump support
+* Add runner.html
+
 ### v0.0.4
 * Progress bar reporting
 * Improve error formatting
