@@ -1,3 +1,8 @@
+### v0.0.6
+* Better debug mode (no caching, no timestamps)
+* Make dump() a bit better
+* Disconnect browsers on SIGTERM (kill, killall default)
+
 ### v0.0.5
 * Fix memory (some :-D) leaks
 * Add dump support
