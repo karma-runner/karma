@@ -94,6 +94,8 @@ var createStartFn = function(sj, jasmineEnv) {
       };
     }
 
+
+
     jasmineEnv.addReporter(new SimpleReporter(sj));
     jasmineEnv.execute();
   };
@@ -112,9 +114,5 @@ var createDumpFn = function(sj, serialize) {
     }
 
     sj.info({dump: args});
-
-    if (window.console) {
-      window.console.log.apply(window.console, arguments);
-    }
   };
 };
