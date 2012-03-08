@@ -17,17 +17,17 @@ var formatFailedStep = function(step) {
 /**
  * Very simple reporter for jasmine
  */
-var SimpleReporter = function(sj) {
+var TestacularReporter = function(tc) {
 
   var failedIds = [];
 
   this.reportRunnerStarting = function(runner) {
-    sj.info({total: runner.specs().length});
+    tc.info({total: runner.specs().length});
   };
 
   this.reportRunnerResults = function(runner) {
-    sj.store('jasmine.lastFailedIds', failedIds);
-    sj.complete();
+    tc.store('jasmine.lastFailedIds', failedIds);
+    tc.complete();
   };
 
   this.reportSuiteResults = function(suite) {
@@ -64,25 +64,25 @@ var SimpleReporter = function(sj) {
       failedIds.push(result.id);
     }
 
-    sj.result(result);
+    tc.result(result);
   };
 
   this.log = function() {};
 };
 
 
-var createStartFn = function(sj, jasmineEnv) {
+var createStartFn = function(tc, jasmineEnv) {
   return function(config) {
     // we pass jasmineEnv during testing
     // in production we ask for it lazily, so that adapter can be loaded even before jasmine
     jasmineEnv = jasmineEnv || window.jasmine.getEnv();
 
     var currentSpecsCount = jasmineEnv.nextSpecId_;
-    var lastCount = sj.store('jasmine.lastCount');
-    var lastFailedIds = sj.store('jasmine.lastFailedIds');
+    var lastCount = tc.store('jasmine.lastCount');
+    var lastFailedIds = tc.store('jasmine.lastFailedIds');
 
-    sj.store('jasmine.lastCount', currentSpecsCount);
-    sj.store('jasmine.lastFailedIds', []);
+    tc.store('jasmine.lastCount', currentSpecsCount);
+    tc.store('jasmine.lastFailedIds', []);
 
     // filter only last failed specs
     if (lastCount === currentSpecsCount && // still same number of specs
@@ -96,13 +96,13 @@ var createStartFn = function(sj, jasmineEnv) {
 
 
 
-    jasmineEnv.addReporter(new SimpleReporter(sj));
+    jasmineEnv.addReporter(new TestacularReporter(tc));
     jasmineEnv.execute();
   };
 };
 
 
-var createDumpFn = function(sj, serialize) {
+var createDumpFn = function(tc, serialize) {
   return function() {
 
     var args = Array.prototype.slice.call(arguments, 0);
@@ -113,6 +113,6 @@ var createDumpFn = function(sj, serialize) {
       }
     }
 
-    sj.info({dump: args});
+    tc.info({dump: args});
   };
 };

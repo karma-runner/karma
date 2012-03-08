@@ -1,6 +1,6 @@
 /**
- Mocks for testing static/slimjim.js
- Needs to be loaded before slimjim.js
+ Mocks for testing static/testacular.js
+ Needs to be loaded before testacular.js
  */
 
 var MockSocket = function() {

@@ -8,17 +8,17 @@ Realoaded before every execution run.
 <head>
   <title></title>
   <script type="text/javascript">
-    window.__slimjim__ = window.parent.slimjim;
+    window.__testacular__ = window.parent.testacular;
 
     // This causes memory leak in Chrome (17.0.963.66)
     window.onerror = function() {
-      return window.__slimjim__.error.apply(window.__slimjim__, arguments);
+      return window.__testacular__.error.apply(window.__testacular__, arguments);
     };
   </script>
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
   <script type="text/javascript">
-    window.__slimjim__.loaded();
+    window.__testacular__.loaded();
   </script>
 </head>
 <body>

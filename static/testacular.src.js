@@ -39,7 +39,7 @@ socket.on('server_disconnect', function() {
   socket.socket.reconnect();
 });
 
-var SlimJim = function(socket, context) {
+var Testacular = function(socket, context) {
   var config;
   var hasError = false;
   var store = {};

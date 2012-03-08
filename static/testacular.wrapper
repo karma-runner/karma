@@ -1,0 +1,8 @@
+(function(window, document, io) {
+
+  %CONTENT%
+
+
+window.testacular = new Testacular(socket, document.getElementById('context'));
+
+})(window, document, window.io);

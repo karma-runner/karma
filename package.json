@@ -1,12 +1,12 @@
 {
-  "name": "slim-jim",
+  "name": "testacular",
   "description": "Remote execution of JS on multiple browsers / node.js",
-  "homepage": "https://github.com/vojtajina/slim-jim",
+  "homepage": "https://github.com/vojtajina/testacular",
   "bugs": {
-    "url": "https://github.com/vojtajina/slim-jim/issues"
+    "url": "https://github.com/vojtajina/testacular/issues"
   },
   "keywords": [
-    "SlimJim",
+    "Testacular",
     "nodejs",
     "js",
     "testing",
@@ -28,15 +28,15 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/vojtajina/slim-jim.git"
+    "url": "git://github.com/vojtajina/testacular.git"
   },
   "main": "./lib/index",
   "bin": {
-    "slim-jim": "./bin/slim-jim",
-    "slim-jim-run": "./bin/slim-jim-run"
+    "testacular": "./bin/testacular",
+    "testacular-run": "./bin/testacular-run"
   },
   "engines": {
     "node": ">= 0.6.5"
   },
-  "version": "0.0.6"
+  "version": "0.0.7"
 }

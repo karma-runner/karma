@@ -4,13 +4,13 @@
  */
 
 describe('jasmine adapter', function() {
-  describe('SimpleReporter', function() {
-    var reporter, slimjim, failedIds, env, suite, spec;
+  describe('TestacularReporter', function() {
+    var reporter, testacular, failedIds, env, suite, spec;
 
     beforeEach(function() {
-      slimjim = new SlimJim(new MockSocket(), {});
-      reporter = new SimpleReporter(slimjim);
-      spyOn(slimjim, 'result');
+      testacular = new Testacular(new MockSocket(), {});
+      reporter = new TestacularReporter(testacular);
+      spyOn(testacular, 'result');
 
       env = new jasmine.Env();
       var parentSuite = new jasmine.Suite(env, 'parent');
@@ -20,7 +20,7 @@ describe('jasmine adapter', function() {
 
 
     it('should report success result', function() {
-      slimjim.result.andCallFake(function(result) {
+      testacular.result.andCallFake(function(result) {
         expect(result.id).toBe(spec.id);
         expect(result.description).toBe('should test');
         expect(result.suite).toEqual(['parent', 'child']);
@@ -28,20 +28,20 @@ describe('jasmine adapter', function() {
       });
 
       reporter.reportSpecResults(spec);
-      expect(slimjim.result).toHaveBeenCalled();
+      expect(testacular.result).toHaveBeenCalled();
     });
 
 
     it('should report fail result', function() {
       spec.fail(new Error('whatever'));
 
-      slimjim.result.andCallFake(function(result) {
+      testacular.result.andCallFake(function(result) {
         expect(result.success).toBe(false);
         expect(result.log.length).toBe(1);
       });
 
       reporter.reportSpecResults(spec);
-      expect(slimjim.result).toHaveBeenCalled();
+      expect(testacular.result).toHaveBeenCalled();
     });
 
 
@@ -61,7 +61,7 @@ describe('jasmine adapter', function() {
       }
       reporter.reportRunnerResults();
 
-      expect(slimjim.store('jasmine.lastFailedIds')).toEqual([1, 2]);
+      expect(testacular.store('jasmine.lastFailedIds')).toEqual([1, 2]);
     });
 
 
@@ -75,7 +75,7 @@ describe('jasmine adapter', function() {
 
       spec.fail(error);
 
-      slimjim.result.andCallFake(function(result) {
+      testacular.result.andCallFake(function(result) {
         expect(result.log).toEqual([
           "Error: Expected 'function' to be 'fxunction'.\n"+
             "    at [object Object].<anonymous> (http://localhost:8080/test/resourceSpec.js:2:3)"
@@ -83,7 +83,7 @@ describe('jasmine adapter', function() {
       });
 
       reporter.reportSpecResults(spec);
-      expect(slimjim.result).toHaveBeenCalled();
+      expect(testacular.result).toHaveBeenCalled();
     });
   });
 
@@ -118,26 +118,26 @@ describe('jasmine adapter', function() {
 
 
   describe('startFn', function() {
-    var sj, jasmineEnv, start;
+    var tc, jasmineEnv, start;
 
     beforeEach(function() {
-      sj = new SlimJim(new MockSocket(), {});
-      sj.store('jasmine.lastFailedIds', [1, 3, 5]);
-      sj.store('jasmine.lastCount', 10);
+      tc = new Testacular(new MockSocket(), {});
+      tc.store('jasmine.lastFailedIds', [1, 3, 5]);
+      tc.store('jasmine.lastCount', 10);
 
-      spyOn(sj, 'info');
-      spyOn(sj, 'complete');
-      spyOn(sj, 'result');
+      spyOn(tc, 'info');
+      spyOn(tc, 'complete');
+      spyOn(tc, 'result');
 
       jasmineEnv = new jasmine.Env();
-      start = createStartFn(sj, jasmineEnv);
+      start = createStartFn(tc, jasmineEnv);
     });
 
 
     it('should reset last results', function() {
       start();
-      expect(sj.store('jasmine.lastCount')).toBe(0);
-      expect(sj.store('jasmine.lastFailedIds')).toEqual([]);
+      expect(tc.store('jasmine.lastCount')).toBe(0);
+      expect(tc.store('jasmine.lastFailedIds')).toEqual([]);
     });
 
 
@@ -150,11 +150,11 @@ describe('jasmine adapter', function() {
       start();
 
       waitsFor(function() {
-        return sj.store('jasmine.lastFailedIds').length === 1;
+        return tc.store('jasmine.lastFailedIds').length === 1;
       }, 'execution finish', 50);
 
       runs(function() {
-        expect(sj.store('jasmine.lastFailedIds')).toEqual([1]);
+        expect(tc.store('jasmine.lastFailedIds')).toEqual([1]);
       });
     });
 
@@ -168,8 +168,8 @@ describe('jasmine adapter', function() {
 
 
       it('should filter only last failed', function() {
-        sj.store('jasmine.lastFailedIds', [1, 3, 5]);
-        sj.store('jasmine.lastCount', 5);
+        tc.store('jasmine.lastFailedIds', [1, 3, 5]);
+        tc.store('jasmine.lastCount', 5);
         jasmineEnv.nextSpecId_ = 5;
 
         start();
@@ -182,8 +182,8 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if first run', function() {
-        sj.store('jasmine.lastFailedIds', null);
-        sj.store('jasmine.lastCount', null);
+        tc.store('jasmine.lastFailedIds', null);
+        tc.store('jasmine.lastCount', null);
 
         start();
         expect(jasmineEnv.specFilter).toBe(originalSpecFilter);
@@ -191,7 +191,7 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if number of specs changed', function() {
-        sj.store('jasmine.lastCount', 10);
+        tc.store('jasmine.lastCount', 10);
         jasmineEnv.nextSpecId_ = 5;
 
         start();
@@ -200,8 +200,8 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if all specs passed last time', function() {
-        sj.store('jasmine.lastFailedIds', []);
-        sj.store('jasmine.lastCount', 5);
+        tc.store('jasmine.lastFailedIds', []);
+        tc.store('jasmine.lastCount', 5);
         jasmineEnv.nextSpecId_ = 5;
 
         start();
@@ -210,8 +210,8 @@ describe('jasmine adapter', function() {
 
 
       it('should not filter if exclusive mode', function() {
-        sj.store('jasmine.lastFailedIds', [1, 3, 5]);
-        sj.store('jasmine.lastCount', 5);
+        tc.store('jasmine.lastFailedIds', [1, 3, 5]);
+        tc.store('jasmine.lastCount', 5);
         jasmineEnv.nextSpecId_ = 5;
         jasmineEnv.exclusive_ = 1;
 
@@ -223,28 +223,28 @@ describe('jasmine adapter', function() {
 
 
   describe('createDumpFn', function() {
-    var dump, slimjim;
+    var dump, testacular;
 
     beforeEach(function() {
-      slimjim = jasmine.createSpyObj('__slimjim__', ['info']);
+      testacular = jasmine.createSpyObj('__testacular__', ['info']);
     });
 
 
     it('should serialize and call info', function() {
-      dump = createDumpFn(slimjim, function(value) {
+      dump = createDumpFn(testacular, function(value) {
         return value + 'x';
       });
 
       dump(1, 'a');
-      expect(slimjim.info).toHaveBeenCalledWith({dump: ['1x', 'ax']});
+      expect(testacular.info).toHaveBeenCalledWith({dump: ['1x', 'ax']});
     });
 
 
     it('should allow no serialize', function() {
-      dump = createDumpFn(slimjim);
+      dump = createDumpFn(testacular);
 
       dump(1, 'a');
-      expect(slimjim.info).toHaveBeenCalledWith({dump: [1, 'a']});
+      expect(testacular.info).toHaveBeenCalledWith({dump: [1, 'a']});
     });
   });
 });

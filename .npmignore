@@ -7,10 +7,10 @@ jsl.conf
 Jakefile
 changelog.sh
 
-SlimJim.sublime-*
+Testacular.sublime-*
 
 adapter/jasmine.src.js
 adapter/jasmine.wrapper
 
-static/slimjim.src.js
-static/slimjim.wrapper
+static/testacular.src.js
+static/testacular.wrapper

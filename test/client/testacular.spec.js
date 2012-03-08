@@ -1,15 +1,15 @@
 /**
- Tests for static/slimjim.js
+ Tests for static/testacular.js
  These tests are executed in browser.
  */
 
-describe('slimjim', function() {
-  var socket, sj, spyStart;
+describe('testacular', function() {
+  var socket, tc, spyStart;
 
   beforeEach(function() {
     socket = new MockSocket();
-    sj = new SlimJim(socket, {});
-    spyStart = spyOn(sj, 'start');
+    tc = new Testacular(socket, {});
+    spyStart = spyOn(tc, 'start');
   });
 
 
@@ -19,47 +19,47 @@ describe('slimjim', function() {
     socket.emit('execute', config);
     expect(spyStart).not.toHaveBeenCalled();
 
-    sj.loaded();
+    tc.loaded();
     expect(spyStart).toHaveBeenCalledWith(config);
   });
 
 
   it('should not start execution if any error during loading files', function() {
-    sj.error('syntax error', '/some/file.js', 11);
-    sj.loaded();
+    tc.error('syntax error', '/some/file.js', 11);
+    tc.loaded();
 
     expect(spyStart).not.toHaveBeenCalled();
   });
 
 
   it('should remove reference to start even after syntax error', function() {
-    sj.error('syntax error', '/some/file.js', 11);
-    sj.loaded();
-    expect(sj.start).toBeFalsy();
+    tc.error('syntax error', '/some/file.js', 11);
+    tc.loaded();
+    expect(tc.start).toBeFalsy();
 
-    sj.start = function() {};
-    sj.loaded();
-    expect(sj.start).toBeFalsy();
+    tc.start = function() {};
+    tc.loaded();
+    expect(tc.start).toBeFalsy();
   });
 
 
   describe('store', function() {
 
     it('should be getter/setter', function() {
-      sj.store('a', 10);
-      sj.store('b', [1, 2, 3]);
+      tc.store('a', 10);
+      tc.store('b', [1, 2, 3]);
 
-      expect(sj.store('a')).toBe(10);
-      expect(sj.store('b')).toEqual([1, 2, 3]);
+      expect(tc.store('a')).toBe(10);
+      expect(tc.store('b')).toEqual([1, 2, 3]);
     });
 
 
     it('should clone arrays to avoid memory leaks', function() {
       var array = [1, 2, 3, 4, 5];
 
-      sj.store('one.array', array);
-      expect(sj.store('one.array')).toEqual(array);
-      expect(sj.store('one.array')).not.toBe(array);
+      tc.store('one.array', array);
+      expect(tc.store('one.array')).toEqual(array);
+      expect(tc.store('one.array')).not.toBe(array);
     });
   });
 });

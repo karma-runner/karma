@@ -15,12 +15,12 @@ task('build', ['build:jasmine-adapter', 'build:client'], function() {});
 
 namespace('build', function() {
 
-  desc('Build slimjim client.');
+  desc('Build testacular client.');
   task('client', function() {
     jake.exec([
-      'sed -e "/%CONTENT%/r static/slimjim.src.js" -e "/%CONTENT%/d" static/slimjim.wrapper > static/slimjim.js'
+      'sed -e "/%CONTENT%/r static/testacular.src.js" -e "/%CONTENT%/d" static/testacular.wrapper > static/testacular.js'
     ], function () {
-      console.log('Build static/slimjim.js');
+      console.log('Build static/testacular.js');
       complete();
     });
   });
