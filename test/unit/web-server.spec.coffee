@@ -24,7 +24,7 @@ describe 'web-server', ->
     tpl:
       'client.html':  fsMock.file(0, 'CLIENT HTML'),
       'context.html': fsMock.file(0, 'CONTEXT\n%SCRIPTS%'),
-      'runner.html': fsMock.file(0, 'RUNNER\n%SCRIPTS%')
+      'debug.html': fsMock.file(0, 'RUNNER\n%SCRIPTS%')
     src:
       'some.js': fsMock.file(0, 'js-source')
 
@@ -58,11 +58,11 @@ describe 'web-server', ->
       expect(response._status).toBe 200
 
 
-  it 'should server runner.html with replaced script tags without timestamps', ->
+  it 'should server debug.html with replaced script tags without timestamps', ->
     files = [{path: '/first.js', mtime: new Date 12345},
              {path: '/second.js', mtime: new Date 67890}]
 
-    handler new httpMock.ServerRequest('/runner.html'), response
+    handler new httpMock.ServerRequest('/debug.html'), response
     waitForFinishingResponse()
 
     runs ->
