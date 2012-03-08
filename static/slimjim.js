@@ -80,7 +80,7 @@ var SlimJim = function(socket, context) {
       return store[key];
     }
 
-    if (toString.apply(value) === '[object Array]') {
+    if (Object.prototype.toString.apply(value) === '[object Array]') {
       var s = store[key] = [];
       for (var i = 0; i < value.length; i++) {
         s.push(value[i]);

@@ -58,8 +58,8 @@ describe('slimjim', function() {
       var array = [1, 2, 3, 4, 5];
 
       sj.store('one.array', array);
-      expect(sj.store('one.array')).not.toBe(array);
       expect(sj.store('one.array')).toEqual(array);
+      expect(sj.store('one.array')).not.toBe(array);
     });
   });
 });
