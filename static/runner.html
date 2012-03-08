@@ -13,6 +13,7 @@ just for immediate execution, without reporting to SlimJim server.
     window.__slimjim__ = {
       info: function() {},
       complete: function() {},
+      store: function() {},
       result: function(result) {
         var msg = result.success ? 'SUCCESS ' : 'FAILED ';
         window.console.log(msg + result.suite.join('.') + ' ' + result.description);
