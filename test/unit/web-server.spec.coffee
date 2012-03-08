@@ -58,7 +58,7 @@ describe 'web-server', ->
       expect(response._status).toBe 200
 
 
-  it 'should server runner.html with replaced script tags', ->
+  it 'should server runner.html with replaced script tags without timestamps', ->
     files = [{path: '/first.js', mtime: new Date 12345},
              {path: '/second.js', mtime: new Date 67890}]
 
@@ -67,8 +67,8 @@ describe 'web-server', ->
 
     runs ->
       expect(response._body).toEqual 'RUNNER\n' +
-        '<script type="text/javascript" src="/first.js?12345"></script>\n' +
-        '<script type="text/javascript" src="/second.js?67890"></script>'
+        '<script type="text/javascript" src="/first.js"></script>\n' +
+        '<script type="text/javascript" src="/second.js"></script>'
       expect(response._status).toBe 200
 
 
@@ -89,12 +89,20 @@ describe 'web-server', ->
       expect(response._status).toBe 200
 
 
-  it 'should send strict caching headers for js source files', ->
-    handler new httpMock.ServerRequest('/src/some.js'), response
+  it 'should send strict caching headers for js source files with timestamps', ->
+    handler new httpMock.ServerRequest('/src/some.js?12323'), response
     waitForFinishingResponse()
 
     runs ->
       expect(response._headers['Cache-Control']).toEqual ['public', 'max-age=31536000']
+
+
+  it 'should send no-caching headers for js source files without timestamps', ->
+    handler new httpMock.ServerRequest('/src/some.js'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._headers['Cache-Control']).toBe 'no-cache'
 
 
   it 'should serve 404 page for non-existing files', ->
