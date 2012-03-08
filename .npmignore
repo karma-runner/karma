@@ -9,6 +9,8 @@ changelog.sh
 
 SlimJim.sublime-*
 
-adapter/prefix
-adapter/suffix
 adapter/jasmine.src.js
+adapter/jasmine.wrapper
+
+static/slimjim.src.js
+static/slimjim.wrapper

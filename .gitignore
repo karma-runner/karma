@@ -1,2 +1,3 @@
 node_modules
 adapter/jasmine.js
+static/slimjim.js

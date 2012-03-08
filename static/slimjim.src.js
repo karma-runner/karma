@@ -100,8 +100,11 @@ var SlimJim = function(socket, context) {
     hasError = false;
     config = cfg;
     context.src = CONTEXT_URL;
+
+    // clear the console before run
+    // works only on FF (Safari, Chrome do not allow to clear console from js source)
+    if (window.console && window.console.clear) {
+      window.console.clear();
+    }
   });
 };
-
-// TODO(vojta): Wrap it into closure and add build
-window.slimjim = new SlimJim(socket, document.getElementById('context'));

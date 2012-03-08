@@ -1,0 +1,11 @@
+(function(window, document, io) {
+
+  %CONTENT%
+
+
+window.slimjim = new SlimJim(socket, document.getElementById('context'));
+
+})(window, document, window.io);
+
+// TODO(vojta): Wrap it into closure and add build
+

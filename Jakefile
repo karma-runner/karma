@@ -11,14 +11,25 @@ namespace('test', function() {
 
 
 desc('Build all.');
-task('build', ['build:jasmine-adapter'], function() {});
+task('build', ['build:jasmine-adapter', 'build:client'], function() {});
 
 namespace('build', function() {
+
+  desc('Build slimjim client.');
+  task('client', function() {
+    jake.exec([
+      'sed -e "/%CONTENT%/r static/slimjim.src.js" -e "/%CONTENT%/d" static/slimjim.wrapper > static/slimjim.js'
+    ], function () {
+      console.log('Build static/slimjim.js');
+      complete();
+    });
+  });
+
 
   desc('Build jasmine adapter.');
   task('jasmine-adapter', function() {
     jake.exec([
-      'cat adapter/prefix adapter/jasmine.src.js adapter/suffix > adapter/jasmine.js'
+      'sed -e "/%CONTENT%/r adapter/jasmine.src.js" -e "/%CONTENT%/d" adapter/jasmine.wrapper > adapter/jasmine.js'
     ], function () {
       console.log('Build adapter/jasmine.js');
       complete();

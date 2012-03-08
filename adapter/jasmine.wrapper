@@ -1,3 +1,6 @@
+(function(window) {
+
+  %CONTENT%
 
 
 window.__slimjim__.start = createStartFn(window.__slimjim__);
