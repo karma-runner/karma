@@ -78,12 +78,23 @@ describe 'browser', ->
         {success: false, suite: [], log: []}
 
       it 'should update lastResults', ->
+        browser.isReady = false
         browser.onResult createSuccessResult()
         browser.onResult createSuccessResult()
         browser.onResult createFailedResult()
 
         expect(browser.lastResult.success).toBe 2
         expect(browser.lastResult.failed).toBe 1
+
+
+      it 'should ignore if not running', ->
+        browser.isReady = true
+        browser.onResult createSuccessResult()
+        browser.onResult createSuccessResult()
+        browser.onResult createFailedResult()
+
+        expect(browser.lastResult.success).toBe 0
+        expect(browser.lastResult.failed).toBe 0
 
 
     #==========================================================================
