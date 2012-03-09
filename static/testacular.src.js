@@ -20,6 +20,9 @@ socket.on('info', function(browsers) {
   }
   browsersElement.innerHTML = '<li>' + items.join('</li><li>') + '</li>';
 });
+socket.on('disconnect', function() {
+  browsersElement.innerHTML = '';
+});
 
 var statusElement = document.getElementById('status');
 var updateStatus = function(status) {
@@ -44,6 +47,10 @@ var Testacular = function(socket, context) {
   var hasError = false;
   var store = {};
 
+  var clearContext = function() {
+    context.src = 'about:blank';
+  };
+
   // error during js file loading (most likely syntax error)
   // we are not going to execute at all
   this.error = function(msg, url, line) {
@@ -59,7 +66,7 @@ var Testacular = function(socket, context) {
 
   this.complete = function() {
     socket.emit('complete');
-    context.src = 'about:blank';
+    clearContext();
   };
 
   this.info = function(info) {
@@ -107,4 +114,7 @@ var Testacular = function(socket, context) {
       window.console.clear();
     }
   });
+
+  // cancel execution
+  socket.on('disconnect', clearContext);
 };
