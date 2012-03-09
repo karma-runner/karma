@@ -86,3 +86,13 @@ describe 'util', ->
       expect(isDefined 0).toBe true
       expect(isDefined null).toBe true
       expect(isDefined '').toBe true
+
+
+  #==============================================================================
+  # util.camelToUnderscore()
+  #==============================================================================
+  describe 'camelToUnderscore', ->
+    camelToUnderscore = util.camelToUnderscore
+
+    it 'should convert camel case string to underscore', ->
+      expect(camelToUnderscore 'OneMoreThing' ).toBe 'one_more_thing'
