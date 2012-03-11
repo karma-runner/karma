@@ -110,6 +110,24 @@ describe 'browser', ->
         expect(collection.length).toBe 0
 
 
+      it 'should complete if browser executing', ->
+        browser.isReady = false
+        spyOn reporter, 'browserComplete'
+        browser.onDisconnect()
+
+        expect(browser.isReady).toBe true
+        expect(browser.lastResult.disconnected).toBe true
+        expect(reporter.browserComplete).toHaveBeenCalled()
+
+
+      it 'should not complete if browser not executing', ->
+        browser.isReady = true
+        spyOn reporter, 'browserComplete'
+        browser.onDisconnect()
+
+        expect(reporter.browserComplete).not.toHaveBeenCalled()
+
+
     #==========================================================================
     # browser.Browser.serialize
     #==========================================================================
