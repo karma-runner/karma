@@ -1,4 +1,4 @@
-# Testacular
+# Testacular [![Build Status](https://secure.travis-ci.org/vojtajina/testacular.png?branch=master)](http://travis-ci.org/vojtajina/testacular)
 
 Simple tool, that allows you to execute JavaScript code in multiple browsers or just in [Node.js].
 
