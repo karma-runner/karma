@@ -4,7 +4,7 @@
 describe 'browser', ->
   util = require('../test-util.js')
   b = require '../../lib/browser'
-  e = require '../../lib/emitter'
+  e = require '../../lib/events'
 
   beforeEach util.disableLogger
 

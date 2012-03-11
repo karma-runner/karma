@@ -1,15 +1,15 @@
 #==============================================================================
-# lib/emitter.js module
+# lib/events.js module
 #==============================================================================
-describe 'emitter', ->
-  e = require '../../lib/emitter'
+describe 'events', ->
+  e = require '../../lib/events'
   emitter = null
 
   beforeEach ->
     emitter = new e.EventEmitter
 
   #============================================================================
-  # emitter.EventEmitter
+  # events.EventEmitter
   #============================================================================
   describe 'EventEmitter', ->
 
@@ -55,12 +55,16 @@ describe 'emitter', ->
         expect(object.foo).not.toHaveBeenCalled
         expect(object.bar).not.toHaveBeenCalled
 
-  describe 'bindAllEvents', ->
+
+  #============================================================================
+  # events.bindAll
+  #============================================================================
+  describe 'bindAll', ->
 
     it 'should take emitter as second argument', ->
       object = jasmine.createSpyObj 'object', ['onFoo']
 
-      e.bindAllEvents object, emitter
+      e.bindAll object, emitter
       emitter.emit 'foo'
       emitter.emit 'bar'
 
