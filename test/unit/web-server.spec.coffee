@@ -10,6 +10,7 @@ describe 'web-server', ->
   beforeEach util.disableLogger
 
   files = []; handler = response = null
+  ZERO_DATE = (new Date 0).toString()
 
   # mock fileGuardian
   fileGuardian =
@@ -78,9 +79,12 @@ describe 'web-server', ->
 
     runs ->
       expect(response._headers['Cache-Control']).toBe 'no-cache'
+      # idiotic IE8 needs more
+      expect(response._headers['Pragma']).toBe 'no-cache'
+      expect(response._headers['Expires']).toBe ZERO_DATE
 
 
-  it 'should serve js source files without timestamp', ->
+  it 'should serve js source files ignoring timestamp', ->
     handler new httpMock.ServerRequest('/src/some.js?123345'), response
     waitForFinishingResponse()
 
@@ -103,6 +107,9 @@ describe 'web-server', ->
 
     runs ->
       expect(response._headers['Cache-Control']).toBe 'no-cache'
+      # idiotic IE8 needs more
+      expect(response._headers['Pragma']).toBe 'no-cache'
+      expect(response._headers['Expires']).toBe ZERO_DATE
 
 
   it 'should serve 404 page for non-existing files', ->
