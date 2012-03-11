@@ -5,6 +5,7 @@ describe 'config', ->
   util = require '../test-util.js'
   fsMock = require('mocks').fs
   loadFile = require('mocks').loadFile
+  events = require '../../lib/events'
   finished = mocks = m = e = null
 
   beforeEach util.disableLogger
@@ -260,10 +261,16 @@ describe 'config', ->
 
     describe 'autoWatch', ->
 
+      callback = emitter = null
+
+      beforeEach ->
+        emitter = new events.EventEmitter
+        callback = jasmine.createSpy 'file modified'
+        emitter.on 'file_modified', callback
+
+
       it 'should fire "fileModified" event', ->
-        callback = jasmine.createSpy 'filemodified'
-        fg = new e.FileGuardian ['/home/*.js'], [], true
-        fg.on('fileModified', callback)
+        fg = new e.FileGuardian ['/home/*.js'], [], emitter, true
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
         runs ->
@@ -273,7 +280,7 @@ describe 'config', ->
 
 
       it 'should update timestamp', ->
-        fg = new e.FileGuardian ['/home/*.js'], [], true
+        fg = new e.FileGuardian ['/home/*.js'], [], emitter, true
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
         runs ->
@@ -281,10 +288,8 @@ describe 'config', ->
           expect(findFile('/home/config1.js', fg.getFiles()).mtime).toEqual new Date '2012-03-02'
 
 
-      it 'should not fire "fileModified" event if file not modified (only accessed)', ->
-        callback = jasmine.createSpy 'filemodified'
-        fg = new e.FileGuardian ['/home/*.js'], [], true
-        fg.on('fileModified', callback)
+      it 'should not fire "file_modified" event if file not modified (only accessed)', ->
+        fg = new e.FileGuardian ['/home/*.js'], [], emitter, true
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
         runs ->
@@ -292,10 +297,8 @@ describe 'config', ->
           expect(callback).not.toHaveBeenCalled()
 
 
-      it 'should never fire "fileModified" event if autoWatch disabled', ->
-        callback = jasmine.createSpy 'filemodified'
-        fg = new e.FileGuardian ['/home/*.js'], [], false
-        fg.on('fileModified', callback)
+      it 'should never fire "file_modified" event if autoWatch disabled', ->
+        fg = new e.FileGuardian ['/home/*.js'], [], emitter, false
         waitsFor (-> fg.getFiles().length > 0), 'files loading', 100
 
         runs ->
