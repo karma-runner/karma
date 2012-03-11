@@ -15,8 +15,8 @@ describe 'browser', ->
     browser = collection = emitter = null
 
     beforeEach ->
-      collection = new b.Collection
       emitter = new e.EventEmitter
+      collection = new b.Collection emitter
       browser = new b.Browser 'fake-id', collection, emitter
 
 
@@ -59,9 +59,9 @@ describe 'browser', ->
         expect(browser.isReady).toBe true
 
 
-      it 'should fire "change" event on parent collection', ->
+      it 'should fire "browsers_change" event', ->
         spy = jasmine.createSpy 'change'
-        collection.on 'change', spy
+        emitter.on 'browsers_change', spy
         browser.onComplete()
         expect(spy).toHaveBeenCalled()
 
@@ -149,10 +149,11 @@ describe 'browser', ->
   # browser.Collection
   #============================================================================
   describe 'Collection', ->
-    collection = null
+    collection = emitter = null
 
     beforeEach ->
-      collection = new b.Collection
+      emitter = new e.EventEmitter
+      collection = new b.Collection emitter
 
     #==========================================================================
     # browser.Collection.add
@@ -165,9 +166,9 @@ describe 'browser', ->
         expect(collection.length).toBe 1
 
 
-      it 'should fire "change" event', ->
+      it 'should fire "browsers_change" event', ->
         spy = jasmine.createSpy 'change'
-        collection.on 'change', spy
+        emitter.on 'browsers_change', spy
         collection.add {}
         expect(spy).toHaveBeenCalled()
 
@@ -186,19 +187,19 @@ describe 'browser', ->
         expect(collection.length).toBe 0
 
 
-      it 'should fire "change" event', ->
+      it 'should fire "browsers_change" event', ->
         spy = jasmine.createSpy 'change'
         browser = new b.Browser 'id'
         collection.add browser
 
-        collection.on 'change', spy
+        emitter.on 'browsers_change', spy
         collection.remove browser
         expect(spy).toHaveBeenCalled()
 
 
       it 'should return false if given browser does not exist within the collection', ->
         spy = jasmine.createSpy 'change'
-        collection.on 'change', spy
+        emitter.on 'browsers_change', spy
         expect(collection.remove {}).toBe false
         expect(spy).not.toHaveBeenCalled()
 
@@ -226,17 +227,17 @@ describe 'browser', ->
           expect(browser.isReady).toBe true
 
 
-      it 'should fire "change" event if at least one browser changed', ->
+      it 'should fire "browsers_change" event if at least one browser changed', ->
         spy = jasmine.createSpy 'change'
         browsers[0].isReady = false
-        collection.on 'change', spy
+        emitter.on 'browsers_change', spy
         collection.setAllIsReadyTo true
         expect(spy).toHaveBeenCalled()
 
 
-      it 'should not fire "change" event if no change', ->
+      it 'should not fire "browsers_change" event if no change', ->
         spy = jasmine.createSpy 'change'
-        collection.on 'change', spy
+        emitter.on 'browsers_change', spy
         collection.setAllIsReadyTo true
         expect(spy).not.toHaveBeenCalled()
 
