@@ -96,3 +96,26 @@ describe 'util', ->
 
     it 'should convert camel case string to underscore', ->
       expect(camelToUnderscore 'OneMoreThing' ).toBe 'one_more_thing'
+
+
+  #==============================================================================
+  # util.arrayRemove()
+  #==============================================================================
+  describe 'arrayRemove', ->
+    arrayRemove = util.arrayRemove
+
+    it 'should remove object from array', ->
+      a = 'one'; b = []; c = {}; d = -> null
+      collection = [a, b, c, d]
+
+      expect(arrayRemove collection, b).toBe true
+      expect(collection).toEqual [a, c, d]
+
+      expect(arrayRemove collection, {}).toBe false
+      expect(collection).toEqual [a, c, d]
+
+      expect(arrayRemove collection, d).toBe true
+      expect(collection).toEqual [a, c]
+
+      expect(arrayRemove collection, a).toBe true
+      expect(collection).toEqual [c]
