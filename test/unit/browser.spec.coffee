@@ -4,7 +4,7 @@
 describe 'browser', ->
   util = require('../test-util.js')
   b = require '../../lib/browser'
-  r = require '../../lib/reporter'
+  e = require '../../lib/emitter'
 
   beforeEach util.disableLogger
 
@@ -12,12 +12,12 @@ describe 'browser', ->
   # browser.Browser
   #============================================================================
   describe 'Browser', ->
-    browser = collection = reporter = null
+    browser = collection = emitter = null
 
     beforeEach ->
       collection = new b.Collection
-      reporter = new r.Progress -> null
-      browser = new b.Browser 'fake-id', collection, reporter
+      emitter = new e.EventEmitter
+      browser = new b.Browser 'fake-id', collection, emitter
 
 
     it 'should have toString method', ->
@@ -111,21 +111,25 @@ describe 'browser', ->
 
 
       it 'should complete if browser executing', ->
+        spy = jasmine.createSpy 'browser complete'
+        emitter.on 'browser_complete', spy
         browser.isReady = false
-        spyOn reporter, 'browserComplete'
+
         browser.onDisconnect()
 
         expect(browser.isReady).toBe true
         expect(browser.lastResult.disconnected).toBe true
-        expect(reporter.browserComplete).toHaveBeenCalled()
+        expect(spy).toHaveBeenCalled()
 
 
       it 'should not complete if browser not executing', ->
+        spy = jasmine.createSpy 'browser complete'
+        emitter.on 'browser_complete', spy
         browser.isReady = true
-        spyOn reporter, 'browserComplete'
+
         browser.onDisconnect()
 
-        expect(reporter.browserComplete).not.toHaveBeenCalled()
+        expect(spy).not.toHaveBeenCalled()
 
 
     #==========================================================================
