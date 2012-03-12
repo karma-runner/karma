@@ -4,8 +4,11 @@
 * Exit runner if no captured browser
 * Fix delayed execution (streaming to runner)
 * Complete run if browser disconnects
-* Ignore results previous run (after server reconnecting)
+* Ignore results from previous run (after server reconnecting)
 * Server disconnects - cancel execution, clear browser info
+
+### v0.0.7
+* Rename to Testacular
 
 ### v0.0.6
 * Better debug mode (no caching, no timestamps)
