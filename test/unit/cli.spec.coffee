@@ -3,6 +3,7 @@
 #==============================================================================
 describe 'cli', ->
   cli = require '../../lib/cli'
+  constant = require '../../lib/constants'
 
   describe 'server', ->
 
@@ -21,10 +22,22 @@ describe 'cli', ->
     expect(options.autoWatchInterval).toBe 10
 
 
-  it 'should parse auto-watch to boolean', ->
-    options = cli.server ['node', 'testacular', '--auto-watch', 'false']
+  it 'should parse auto-watch, log-colors to boolean', ->
+    options = cli.server ['node', 'testacular', '--auto-watch', 'false', '--log-colors', 'false']
     expect(options.autoWatch).toBe false
+    expect(options.logColors).toBe false
 
-    options = cli.server ['node', 'testacular', '--auto-watch', 'true']
+    options = cli.server ['node', 'testacular', '--auto-watch', 'true', '--log-colors', 'true']
     expect(options.autoWatch).toBe true
+    expect(options.logColors).toBe true
 
+
+  it 'should replace log-level constants', ->
+    options = cli.server ['node', 'testacular', '--log-level', 'debug']
+    expect(options.logLevel).toBe constant.LOG_DEBUG
+
+    options = cli.server ['node', 'testacular', '--log-level', 'error']
+    expect(options.logLevel).toBe constant.LOG_ERROR
+
+    options = cli.server ['node', 'testacular', '--log-level', 'warn']
+    expect(options.logLevel).toBe constant.LOG_WARN
