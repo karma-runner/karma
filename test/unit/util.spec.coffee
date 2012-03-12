@@ -89,13 +89,13 @@ describe 'util', ->
 
 
   #==============================================================================
-  # util.camelToUnderscore()
+  # util.camelToSnake()
   #==============================================================================
-  describe 'camelToUnderscore', ->
-    camelToUnderscore = util.camelToUnderscore
+  describe 'camelToSnake', ->
+    camelToSnake = util.camelToSnake
 
-    it 'should convert camel case string to underscore', ->
-      expect(camelToUnderscore 'OneMoreThing' ).toBe 'one_more_thing'
+    it 'should convert camelCase string to snake_case', ->
+      expect(camelToSnake 'OneMoreThing' ).toBe 'one_more_thing'
 
 
   #==============================================================================
