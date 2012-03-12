@@ -130,3 +130,16 @@ describe 'util', ->
 
       expect(arrayRemove collection, a).toBe true
       expect(collection).toEqual [c]
+
+
+  #==============================================================================
+  # util.merge()
+  #==============================================================================
+  describe 'merge', ->
+
+    it 'should copy properties to first argument', ->
+      destination = {a: 1, b: 2}
+      result = util.merge destination, {a: 4, c: 5}
+
+      expect(destination.a).toBe 1
+      expect(result).toEqual {a: 4, b: 2, c: 5}
