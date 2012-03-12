@@ -35,6 +35,7 @@ describe 'config', ->
 
     # create instance of fs mock
     mocks = {}
+    mocks.process = {exit: jasmine.createSpy 'exit'}
     mocks.fs = fsMock.create
       bin:
         sub:
@@ -222,14 +223,16 @@ describe 'config', ->
       expect(config.exclude).toEqual ['/conf/one.js', '/conf/sub/two.js']
 
 
-    it 'should throw and log error if file does not exist', ->
-      expect(-> e.parseConfig '/conf/not-exist.js').toThrow 'No such file or directory "/conf/not-exist.js"'
+    it 'should log error and exit if file does not exist', ->
+      e.parseConfig '/conf/not-exist.js'
       expect(consoleSpy).toHaveBeenCalledWith 'error (config): Config file does not exist!'
+      expect(mocks.process.exit).toHaveBeenCalledWith 1
 
 
-    it 'should throw and log error if it is a directory', ->
-      expect(-> e.parseConfig '/conf').toThrow 'Illegal operation on directory'
+    it 'should log error and exit if it is a directory', ->
+      e.parseConfig '/conf'
       expect(consoleSpy).toHaveBeenCalledWith 'error (config): Config file does not exist!'
+      expect(mocks.process.exit).toHaveBeenCalledWith 1
 
 
     it 'should throw and log error if invalid file', ->
