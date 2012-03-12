@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-var path = require('path'),
-    server = require('../lib/server');
+var path = require('path');
+var server = require('../lib/server');
+var cli = require('../lib/cli');
 
-server.start(path.resolve(process.argv[2] || 'testacular.conf'));
+var options = cli.server();
+server.start(path.resolve(options.configFile), options);

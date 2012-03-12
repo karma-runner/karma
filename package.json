@@ -18,7 +18,8 @@
     "Igor Minár <igor.minar@gmail.com>"
   ],
   "dependencies": {
-    "socket.io": ">= 0.8.5"
+    "socket.io": ">= 0.8.5",
+    "optimist": ">= 0.3.1"
   },
   "devDependencies": {
     "jasmine-node": ">= 1.0.11",

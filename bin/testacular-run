@@ -1,3 +1,7 @@
 #!/usr/bin/env node
 
-require('../lib/runner').run();
+// TODO(vojta): better error when noone listening on the port
+var cli = require('../lib/cli');
+var runner = require('../lib/runner');
+
+runner.run(cli.runner());

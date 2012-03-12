@@ -52,6 +52,7 @@ describe 'config', ->
         'config1.js': fsMock.file 0, 'basePath = "base"'
         'config2.js': fsMock.file 0, 'basePath = "/abs/base"'
         'config3.js': fsMock.file 0, 'files = ["one.js", "sub/two.js"];'
+        'config4.js': fsMock.file 0, 'port = 123; autoWatch = true; basePath = "/abs/base"'
       conf:
         'invalid.js': fsMock.file 0, '={function'
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
@@ -165,7 +166,8 @@ describe 'config', ->
     it 'should return all files sorted within single expression', ->
       m.resolve ['/home/*.js', '/bin/sub/one.js'], [], (err, files) ->
         expect(stringsFrom files).toEqual ['/home/config1.js', '/home/config2.js',
-                                           '/home/config3.js', '/bin/sub/one.js']
+                                           '/home/config3.js', '/home/config4.js',
+                                           '/bin/sub/one.js']
         finished++
       waitForFinished()
 
@@ -233,6 +235,14 @@ describe 'config', ->
     it 'should throw and log error if invalid file', ->
       expect(-> e.parseConfig '/conf/invalid.js').toThrow 'Unexpected token ='
       expect(consoleSpy).toHaveBeenCalledWith 'error (config): Syntax error in config file!'
+
+
+    it 'should override config with given cli options', ->
+      config = e.parseConfig '/home/config4.js', {port: 456, autoWatch: false}
+
+      expect(config.port).toBe 456
+      expect(config.autoWatch).toBe false
+      expect(config.basePath).toBe '/abs/base'
 
 
   #============================================================================
