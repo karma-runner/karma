@@ -1,3 +1,12 @@
+### v0.0.8
+* Allow overriding configuration by cli arguments (+ --version, --help)
+* Persuade IE8 to not cache context.html
+* Exit runner if no captured browser
+* Fix delayed execution (streaming to runner)
+* Complete run if browser disconnects
+* Ignore results previous run (after server reconnecting)
+* Server disconnects - cancel execution, clear browser info
+
 ### v0.0.6
 * Better debug mode (no caching, no timestamps)
 * Make dump() a bit better
