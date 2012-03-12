@@ -99,6 +99,17 @@ describe 'util', ->
 
 
   #==============================================================================
+  # util.dashToCamel()
+  #==============================================================================
+  describe 'dashToCamel', ->
+    dashToCamel = util.dashToCamel
+
+    it 'should convert dash-case to camelCase', ->
+      expect(dashToCamel 'one-more-thing' ).toBe 'oneMoreThing'
+      expect(dashToCamel 'one' ).toBe 'one'
+
+
+  #==============================================================================
   # util.arrayRemove()
   #==============================================================================
   describe 'arrayRemove', ->
