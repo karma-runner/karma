@@ -318,3 +318,24 @@ describe 'browser', ->
         collection.clearResults()
         browsers.forEach (browser) ->
           expect(browser.lastResult).toEqual {success: 0, failed: 0}
+
+
+    #==========================================================================
+    # browser.Collection.toArray
+    #==========================================================================
+    describe 'toArray', ->
+
+      it 'should create copy of array', ->
+        collection.add new b.Browser
+        collection.add new b.Browser
+        collection.add new b.Browser
+
+        a1 = collection.toArray()
+        a2 = collection.toArray()
+
+        expect(a1).not.toBe a2
+
+        a1.pop()
+        expect(a1.length).toBe 2
+        expect(a2.length).toBe 3
+
