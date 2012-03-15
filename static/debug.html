@@ -16,7 +16,7 @@ just for immediate execution, without reporting to Testacular server.
       store: function() {},
       result: function(result) {
         var msg = result.success ? 'SUCCESS ' : 'FAILED ';
-        window.console.log(msg + result.suite.join('.') + ' ' + result.description);
+        window.console.log(msg + result.suite.join(' ') + ' ' + result.description);
       }
     };
   </script>
