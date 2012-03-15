@@ -59,7 +59,7 @@ describe 'config', ->
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
 
     # load file under test
-    m = loadFile __dirname + '/../../lib/config.js', mocks
+    m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
     e = m.exports
 
 
