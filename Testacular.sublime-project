@@ -1,0 +1,29 @@
+{
+  "build_systems":
+  [
+    {
+      "name": "Unit tests",
+      "cmd": ["jasmine-node", "--coffee", "--noColor", "test/unit"],
+      "working_dir": "${project_path}",
+      "path": "/usr/local/bin"
+    }
+  ],
+  "folders":
+  [
+    {
+      "path": ".",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+
+    }
+  ],
+  "settings":
+  {
+    "tab_size": 2,
+    "open_related_patterns": [
+      ["*/lib/*.js", "*/test/unit/*.spec.coffee"],
+      ["*/adapter/jasmine.src.js", "*/test/client/jasmine.spec.js"],
+      ["*/static/*.src.js", "*/test/client/*.spec.js"]
+    ]
+  }
+}
