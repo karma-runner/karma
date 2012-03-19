@@ -247,4 +247,16 @@ describe('jasmine adapter', function() {
       expect(testacular.info).toHaveBeenCalledWith({dump: [1, 'a']});
     });
   });
+
+
+  describe('indexOf', function() {
+    it('should return index of given item', function() {
+      var collection = [{}, {}, {}];
+      collection.indexOf = null; // so that we can test it even on
+
+      expect(indexOf(collection, {})).toBe(-1);
+      expect(indexOf(collection, collection[1])).toBe(1);
+      expect(indexOf(collection, collection[2])).toBe(2);
+    });
+  });
 });

@@ -13,6 +13,16 @@ var formatFailedStep = function(step) {
   return step.trace.message || step.message;
 };
 
+var indexOf = function(collection, item) {
+  if (collection.indexOf) return collection.indexOf(item);
+
+  for (var i = 0, ii = collection.length; i < ii; i++) {
+    if (collection[i] === item) return i;
+  }
+
+  return -1;
+};
+
 
 /**
  * Very simple reporter for jasmine
@@ -90,7 +100,7 @@ var createStartFn = function(tc, jasmineEnv) {
         !jasmineEnv.exclusive_) {          // no exclusive mode (iit, ddesc)
 
       jasmineEnv.specFilter = function(spec) {
-        return lastFailedIds.indexOf(spec.id) !== -1;
+        return indexOf(lastFailedIds, spec.id) !== -1;
       };
     }
 
