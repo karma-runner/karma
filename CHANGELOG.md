@@ -1,3 +1,9 @@
+### v0.0.9
+* Proper exit code for runner
+* Dynamic port asigning (if port already in use)
+* Add log-leve, log-colors cli arguments + better --help
+* Fix some IE errors (indexOf, forEach fallbacks)
+
 ### v0.0.8
 * Allow overriding configuration by cli arguments (+ --version, --help)
 * Persuade IE8 to not cache context.html
