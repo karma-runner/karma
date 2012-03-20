@@ -28,12 +28,14 @@ describe 'web-server', ->
       'debug.html': fsMock.file(0, 'RUNNER\n%SCRIPTS%')
     src:
       'some.js': fsMock.file(0, 'js-source')
+    other:
+      'file.js': fsMock.file(0, 'js-source')
 
   # load file under test
   m = loadFile __dirname + '/../../lib/web-server.js', mocks
 
   beforeEach ->
-    handler = m.createHandler fileGuardian, '/tpl'
+    handler = m.createHandler fileGuardian, '/tpl', '/src'
     response = new httpMock.ServerResponse
 
   it 'should server client.html', ->
@@ -113,9 +115,28 @@ describe 'web-server', ->
 
 
   it 'should serve 404 page for non-existing files', ->
-    handler new httpMock.ServerRequest('/non-existing.html'), response
+    handler new httpMock.ServerRequest('/src/non-existing.html'), response
     waitForFinishingResponse()
 
     runs ->
       expect(response._body).toBe 'NOT FOUND'
       expect(response._status).toBe 404
+
+
+  it 'should not allow resources from outside of the base path (403)', ->
+    expect403 = ->
+      expect(response._status).toBe 403
+      expect(response._body).toBeFalsy()
+
+    runs ->
+      handler new httpMock.ServerRequest('/other/file.js'), response
+      waitForFinishingResponse()
+
+    runs expect403
+
+    runs ->
+      response = new httpMock.ServerResponse
+      handler new httpMock.ServerRequest('/src-some.js'), response
+      waitForFinishingResponse()
+
+    runs expect403
