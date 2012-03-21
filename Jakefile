@@ -1,12 +1,66 @@
+var child = require('child_process');
+
+var plainError = function(msg) {
+  var e = new Error(msg);
+  e.stack = '';
+  return e;
+};
+
+var ENV = {
+  env: process.env,
+  cwd: __dirname
+};
+
+var ASYNC = {
+  async: true
+};
+
+
 desc('Run all tests.');
-task('test', ['test:unit'], function() {});
+task('test', ['test:unit', 'test:client'], function() {});
 
 namespace('test', function() {
   desc('Run unit tests.');
   task('unit', function() {
-    console.log('Running unit tests...');
-    jake.exec(['jasmine-node --coffee test/unit'], complete, {stdout: true});
-  });
+    var jasmine = child.spawn('jasmine-node', ['--coffee', 'test/unit'], ENV);
+
+    jasmine.stdout.pipe(process.stdout);
+    jasmine.stderr.pipe(process.stderr);
+
+    jasmine.on('exit', function(code) {
+      if (code) fail(plainError('Unit tests failed.'), code);
+      complete();
+    });
+  }, ASYNC);
+
+
+  // TODO(vojta): make it nicer, timeouts, handle errors, etc
+  desc('Run client unit tests.');
+  task('client', function() {
+    var BROWSER_CMD = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
+    var server, browser;
+
+    server = child.spawn('node', ['bin/testacular', 'test/client/testacular.conf'], ENV);
+
+    server.stdout.pipe(process.stdout);
+    server.stderr.pipe(process.stderr);
+
+    server.stdout.on('data', function(buffer) {
+      if (buffer.toString().indexOf('Connected on socket') !== -1) {
+        child.exec('node bin/testacular-run', function(error, stdout, stderr) {
+          browser.kill();
+          server.kill();
+          if (error) fail(plainError('Client tests failed.'), 1);
+          complete();
+        });
+      }
+
+      if (!browser) {
+        browser = child.spawn(BROWSER_CMD, ['--user-data-dir=tmp', '--disable-metrics',
+            '--no-first-run', '--no-default-browser-checkck', 'http://localhost:8080']);
+      }
+    });
+  }, ASYNC);
 });
 
 
