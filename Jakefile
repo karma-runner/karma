@@ -6,6 +6,13 @@ var plainError = function(msg) {
   return e;
 };
 
+var header = function(msg) {
+  console.log('');
+  console.log('================================================================================');
+  console.log(msg);
+  console.log('================================================================================');
+};
+
 var ENV = {
   env: process.env,
   cwd: __dirname
@@ -15,6 +22,15 @@ var ASYNC = {
   async: true
 };
 
+var BROWSER_CMD, BROWSER_ARGS;
+if (process.env.TRAVIS) {
+  BROWSER_CMD = '/usr/bin/firefox';
+  BROWSER_ARGS = ['http://localhost:8080'];
+} else {
+  BROWSER_CMD = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
+  BROWSER_ARGS = ['--user-data-dir=tmp', '--disable-metrics', '--no-first-run',
+                  '--no-default-browser-checkck', 'http://localhost:8080'];
+}
 
 desc('Run all tests.');
 task('test', ['test:unit', 'test:client'], function() {});
@@ -22,6 +38,8 @@ task('test', ['test:unit', 'test:client'], function() {});
 namespace('test', function() {
   desc('Run unit tests.');
   task('unit', function() {
+    header('Running nodejs unit tests...');
+
     var jasmine = child.spawn('jasmine-node', ['--coffee', 'test/unit'], ENV);
 
     jasmine.stdout.pipe(process.stdout);
@@ -36,9 +54,10 @@ namespace('test', function() {
 
   // TODO(vojta): make it nicer, timeouts, handle errors, etc
   desc('Run client unit tests.');
-  task('client', function() {
-    var BROWSER_CMD = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
-    var server, browser;
+  task('client', ['build'], function() {
+    header('Running client tests in a browser...');
+
+    var server, browser, timeout;
 
     server = child.spawn('node', ['bin/testacular', 'test/client/testacular.conf'], ENV);
 
@@ -50,16 +69,25 @@ namespace('test', function() {
         child.exec('node bin/testacular-run', function(error, stdout, stderr) {
           browser.kill();
           server.kill();
+
+          if (timeout) clearTimeout(timeout);
           if (error) fail(plainError('Client tests failed.'), 1);
           complete();
         });
       }
 
       if (!browser) {
-        browser = child.spawn(BROWSER_CMD, ['--user-data-dir=tmp', '--disable-metrics',
-            '--no-first-run', '--no-default-browser-checkck', 'http://localhost:8080']);
+        console.log('Starting browser...');
+        browser = child.spawn(BROWSER_CMD, BROWSER_ARGS);
+        browser.on('exit', function() {
+          console.log('Browser exit.')
+        })
       }
     });
+
+    timeout = setTimeout(function() {
+      fail(plainError('Time-outed after 30s.'), 1);
+    }, 30000);
   }, ASYNC);
 });
 
@@ -71,29 +99,35 @@ namespace('build', function() {
 
   desc('Build testacular client.');
   task('client', function() {
+    header('Building static/testacular.js...');
+
     jake.exec([
       'sed -e "/%CONTENT%/r static/testacular.src.js" -e "/%CONTENT%/d" static/testacular.wrapper > static/testacular.js'
     ], function () {
-      console.log('Build static/testacular.js');
+      console.log('Successfully build.');
       complete();
     });
-  });
+  }, ASYNC);
 
 
   desc('Build jasmine adapter.');
   task('jasmine-adapter', function() {
+    header('Building adapter/jasmine.js...');
+
     jake.exec([
       'sed -e "/%CONTENT%/r adapter/jasmine.src.js" -e "/%CONTENT%/d" adapter/jasmine.wrapper > adapter/jasmine.js'
     ], function () {
-      console.log('Build adapter/jasmine.js');
+      console.log('Successfully build.');
       complete();
     });
-  });
+  }, ASYNC);
 });
 
 
 desc('Bump minor version, update changelog, create tag, push to github.');
 task('version', function () {
+  header('Bumping version...');
+
   var fs = require('fs');
 
   var packagePath = process.cwd() + '/package.json';
@@ -127,18 +161,20 @@ task('version', function () {
     console.log(message);
     complete();
   });
-});
+}, ASYNC);
 
 
 desc('Build, bump version, publish to npm.');
 task('publish', ['version', 'build'], function() {
+  header('Publishing to npmjs.org...');
+
   jake.exec([
     'npm publish'
   ], function() {
     console.log('Published to npm');
     complete();
   })
-});
+}, ASYNC);
 
 
 desc('Run JSLint check.');
