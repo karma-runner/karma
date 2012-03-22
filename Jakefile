@@ -180,4 +180,17 @@ task('publish', ['version', 'build'], function() {
 desc('Run JSLint check.');
 task('jsl', function() {
   jake.exec(['jsl -conf jsl.conf'], complete, {stdout: true});
-});
+}, ASYNC);
+
+
+desc('Show npm package content.');
+task('npm-check', function() {
+  header('Show content of npm package if published...');
+
+  child.exec('npm pack', function(err, pkgFile) {
+    child.exec('tar -tf ' + pkgFile, function(err, pkgContent) {
+      console.log(pkgContent);
+      child.exec('rm ' + pkgFile, complete);
+    });
+  });
+}, ASYNC);
