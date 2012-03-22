@@ -1,3 +1,8 @@
+### v0.0.10
+* Add DOTS reporter
+* Add no-colors option for reporters
+* Fix web server to expose only specified files
+
 ### v0.0.9
 * Proper exit code for runner
 * Dynamic port asigning (if port already in use)
