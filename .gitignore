@@ -1,3 +1,4 @@
 node_modules
 adapter/jasmine.js
 static/testacular.js
+tmp/*

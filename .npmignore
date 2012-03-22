@@ -1,4 +1,6 @@
 .npmignore
+.travis.yml
+tmp
 test
 docs/*.graffle
 
