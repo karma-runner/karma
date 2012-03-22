@@ -9,7 +9,7 @@ describe 'web-server', ->
 
   beforeEach util.disableLogger
 
-  files = []; handler = response = null
+  files = handler = response = null
   ZERO_DATE = (new Date 0).toString()
 
   # mock fileGuardian
@@ -35,8 +35,9 @@ describe 'web-server', ->
   m = loadFile __dirname + '/../../lib/web-server.js', mocks
 
   beforeEach ->
-    handler = m.createHandler fileGuardian, '/tpl', '/src'
+    handler = m.createHandler fileGuardian, '/tpl'
     response = new httpMock.ServerResponse
+    files = [{path: '/src/some.js', mtime: new Date 12345}]
 
   it 'should server client.html', ->
     handler new httpMock.ServerRequest('/'), response
@@ -123,20 +124,14 @@ describe 'web-server', ->
       expect(response._status).toBe 404
 
 
-  it 'should not allow resources from outside of the base path (403)', ->
-    expect403 = ->
-      expect(response._status).toBe 403
-      expect(response._body).toBeFalsy()
+  it 'should not allow resources that are not in the file list', ->
+    files = [{path: '/first.js', mtime: new Date 12345},
+             {path: '/second.js', mtime: new Date 67890}]
 
     runs ->
       handler new httpMock.ServerRequest('/other/file.js'), response
       waitForFinishingResponse()
 
-    runs expect403
-
     runs ->
-      response = new httpMock.ServerResponse
-      handler new httpMock.ServerRequest('/src-some.js'), response
-      waitForFinishingResponse()
-
-    runs expect403
+      expect(response._status).toBe 404
+      expect(response._body).toBe 'NOT FOUND'
