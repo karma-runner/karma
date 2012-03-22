@@ -22,14 +22,14 @@ describe 'cli', ->
     expect(options.autoWatchInterval).toBe 10
 
 
-  it 'should parse auto-watch, log-colors to boolean', ->
-    options = cli.server ['node', 'testacular', '--auto-watch', 'false', '--log-colors', 'false']
+  it 'should parse auto-watch, colors to boolean', ->
+    options = cli.server ['node', 'testacular', '--auto-watch', 'false', '--colors', 'false']
     expect(options.autoWatch).toBe false
-    expect(options.logColors).toBe false
+    expect(options.colors).toBe false
 
-    options = cli.server ['node', 'testacular', '--auto-watch', 'true', '--log-colors', 'true']
+    options = cli.server ['node', 'testacular', '--auto-watch', 'true', '--colors', 'true']
     expect(options.autoWatch).toBe true
-    expect(options.logColors).toBe true
+    expect(options.colors).toBe true
 
 
   it 'should replace log-level constants', ->
