@@ -39,13 +39,51 @@ describe 'browser', ->
 
 
     #==========================================================================
+    # browser.Browser.onError
+    #==========================================================================
+    describe 'onError', ->
+
+      it 'should set lastResult.error and fire "browser_error"', ->
+        spy = jasmine.createSpy 'error'
+        emitter.on 'browser_error', spy
+        browser.isReady = false
+
+        browser.onError()
+        expect(browser.lastResult.error).toBe true
+        expect(spy).toHaveBeenCalled()
+
+
+      it 'should ignore if browser not executing', ->
+        spy = jasmine.createSpy 'error'
+        emitter.on 'browser_error', spy
+        browser.isReady = true
+
+        browser.onError()
+        expect(browser.lastResult.error).toBe false
+        expect(spy).not.toHaveBeenCalled()
+
+
+    #==========================================================================
     # browser.Browser.onInfo
     #==========================================================================
     describe 'onInfo', ->
 
       it 'should set total count of specs', ->
+        browser.isReady = false
         browser.onInfo {total: 20}
         expect(browser.lastResult.total).toBe 20
+
+
+      it 'should ignore if browser not executing', ->
+        spy = jasmine.createSpy 'dump'
+        browser.isReady = true
+        emitter.on 'browser_dump', spy
+
+        browser.onInfo {dump: 'something'}
+        browser.onInfo {total: 20}
+
+        expect(browser.lastResult.total).toBe 0
+        expect(spy).not.toHaveBeenCalled()
 
 
     #==========================================================================
@@ -62,8 +100,21 @@ describe 'browser', ->
       it 'should fire "browsers_change" event', ->
         spy = jasmine.createSpy 'change'
         emitter.on 'browsers_change', spy
+
+        browser.isReady = false
         browser.onComplete()
         expect(spy).toHaveBeenCalled()
+
+
+      it 'should ignore if browser not executing', ->
+        spy = jasmine.createSpy 'listener'
+        emitter.on 'browsers_change', spy
+        emitter.on 'browser_complete', spy
+
+        browser.isReady = true
+        browser.onComplete()
+        expect(spy).not.toHaveBeenCalled()
+
 
 
     #==========================================================================
@@ -312,12 +363,12 @@ describe 'browser', ->
         browsers = [new b.Browser, new b.Browser]
         collection.add browsers[0]
         collection.add browsers[1]
-        browsers[0].lastResult = {success: 2, failed: 3}
-        browsers[1].lastResult = {success: 4, failed: 5}
+        browsers[0].lastResult = {success: 2, failed: 3, total: 5}
+        browsers[1].lastResult = {success: 4, failed: 5, total: 9}
 
         collection.clearResults()
         browsers.forEach (browser) ->
-          expect(browser.lastResult).toEqual {success: 0, failed: 0}
+          expect(browser.lastResult).toEqual {success: 0, failed: 0, total: 0}
 
 
     #==========================================================================
