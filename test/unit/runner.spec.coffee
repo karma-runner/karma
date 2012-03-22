@@ -33,3 +33,12 @@ describe 'runner', ->
 
       expect(buffer.toString()).toBe msg
       expect(code).toBe 10
+
+
+    it 'should not slice buffer if smaller than exit code msg', ->
+      # regression
+      fakeBuffer = {length: 1, slice: -> null}
+      spyOn fakeBuffer, 'slice'
+
+      code = m.parseExitCode fakeBuffer, 10
+      expect(fakeBuffer.slice).not.toHaveBeenCalled()
