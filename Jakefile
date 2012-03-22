@@ -147,7 +147,7 @@ task('version', function () {
   jake.exec([
     // update changelog
     'echo "### v' + pkg.version + '" > ' + TEMP_FILE,
-    'git log --pretty=%s ' + previousVersionTag + '..HEAD >> ' + TEMP_FILE,
+    'git log --grep="\\[changelog\\]" --pretty=%s ' + previousVersionTag + '..HEAD >> ' + TEMP_FILE,
     'echo "" >> ' + TEMP_FILE,
     'mvim CHANGELOG.md -c ":0r ' + TEMP_FILE + '"',
     'rm ' + TEMP_FILE,
