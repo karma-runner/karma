@@ -47,13 +47,12 @@ var TestacularReporter = function(tc) {
   };
 
   this.reportSpecResults = function(spec) {
-    if (spec.results_.skipped) return;
-
     var result = {
       id: spec.id,
       description: spec.description,
       suite: [],
       success: spec.results_.failedCount === 0,
+      skipped: spec.results_.skipped,
       log: []
     };
 

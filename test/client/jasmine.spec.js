@@ -25,6 +25,7 @@ describe('jasmine adapter', function() {
         expect(result.description).toBe('should test');
         expect(result.suite).toEqual(['parent', 'child']);
         expect(result.success).toBe(true);
+        expect(result.skipped).toBe(false);
       });
 
       reporter.reportSpecResults(spec);

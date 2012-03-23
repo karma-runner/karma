@@ -128,14 +128,19 @@ describe 'browser', ->
       createFailedResult = ->
         {success: false, suite: [], log: []}
 
+      createSkippedResult = ->
+        {success: true, skipped: true, suite: [], log: []}
+
       it 'should update lastResults', ->
         browser.isReady = false
         browser.onResult createSuccessResult()
         browser.onResult createSuccessResult()
         browser.onResult createFailedResult()
+        browser.onResult createSkippedResult()
 
         expect(browser.lastResult.success).toBe 2
         expect(browser.lastResult.failed).toBe 1
+        expect(browser.lastResult.skipped).toBe 1
 
 
       it 'should ignore if not running', ->
@@ -368,7 +373,7 @@ describe 'browser', ->
 
         collection.clearResults()
         browsers.forEach (browser) ->
-          expect(browser.lastResult).toEqual {success: 0, failed: 0, total: 0}
+          expect(browser.lastResult).toEqual {success: 0, failed: 0, total: 0, skipped: 0}
 
 
     #==========================================================================
