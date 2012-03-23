@@ -17,6 +17,8 @@ describe 'browser', ->
     beforeEach ->
       emitter = new e.EventEmitter
       collection = new b.Collection emitter
+
+      spyOn(Date, 'now').andReturn 12345
       browser = new b.Browser 'fake-id', collection, emitter
 
 
@@ -115,6 +117,14 @@ describe 'browser', ->
         browser.onComplete()
         expect(spy).not.toHaveBeenCalled()
 
+
+      it 'should set totalTime', ->
+        Date.now.andReturn 12347 # the default spy return 12345
+
+        browser.isReady = false
+        browser.onComplete()
+
+        expect(browser.lastResult.totalTime).toBe 2
 
 
     #==========================================================================
@@ -365,15 +375,23 @@ describe 'browser', ->
     describe 'clearResults', ->
 
       it 'should clear all results', ->
+        spyOn(Date, 'now').andReturn 112233
         browsers = [new b.Browser, new b.Browser]
         collection.add browsers[0]
         collection.add browsers[1]
-        browsers[0].lastResult = {success: 2, failed: 3, total: 5}
-        browsers[1].lastResult = {success: 4, failed: 5, total: 9}
+        browsers[0].lastResult.sucess++
+        browsers[0].lastResult.error = true
+        browsers[1].lastResult.failed++
+        browsers[1].lastResult.skipped++
+        browsers[1].lastResult.disconnected = true
 
         collection.clearResults()
         browsers.forEach (browser) ->
-          expect(browser.lastResult).toEqual {success: 0, failed: 0, total: 0, skipped: 0}
+          expect(browser.lastResult.success).toBe 0
+          expect(browser.lastResult.failed).toBe 0
+          expect(browser.lastResult.skipped).toBe 0
+          expect(browser.lastResult.error).toBe false
+          expect(browser.lastResult.disconnected).toBe false
 
 
     #==========================================================================
