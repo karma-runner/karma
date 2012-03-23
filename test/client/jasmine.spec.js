@@ -86,6 +86,23 @@ describe('jasmine adapter', function() {
       reporter.reportSpecResults(spec);
       expect(testacular.result).toHaveBeenCalled();
     });
+
+
+    it('should report time for every spec', function() {
+      var counter = 3;
+      spyOn(Date, 'now').andCallFake(function() {
+        return counter++;
+      });
+
+      testacular.result.andCallFake(function(result) {
+        expect(result.time).toBe(1); // 4 - 1
+      });
+
+      reporter.reportSpecStarting(spec);
+      reporter.reportSpecResults(spec);
+
+      expect(testacular.result).toHaveBeenCalled();
+    });
   });
 
 

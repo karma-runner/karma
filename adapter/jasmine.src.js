@@ -44,6 +44,7 @@ var TestacularReporter = function(tc) {
   };
 
   this.reportSpecStarting = function(spec) {
+    spec.results_.time = Date.now();
   };
 
   this.reportSpecResults = function(spec) {
@@ -53,6 +54,7 @@ var TestacularReporter = function(tc) {
       suite: [],
       success: spec.results_.failedCount === 0,
       skipped: spec.results_.skipped,
+      time: spec.results_.skipped ? 0 : Date.now() - spec.results_.time,
       log: []
     };
 

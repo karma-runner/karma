@@ -163,6 +163,15 @@ describe 'browser', ->
         expect(browser.lastResult.failed).toBe 0
 
 
+      it 'should update netTime', ->
+        browser.isReady = false
+        browser.onResult {time: 3, suite: [], log: []}
+        browser.onResult {time: 1, suite: [], log: []}
+        browser.onResult {time: 5, suite: [], log: []}
+
+        expect(browser.lastResult.netTime).toBe 9
+
+
     #==========================================================================
     # browser.Browser.onDisconnect
     #==========================================================================
