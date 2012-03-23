@@ -1,3 +1,7 @@
+### v0.0.11
+* Add timing (total / net - per specs)
+* Dots reporter - wrap at 80
+
 ### v0.0.10
 * Add DOTS reporter
 * Add no-colors option for reporters
