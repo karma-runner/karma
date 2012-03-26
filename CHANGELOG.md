@@ -1,3 +1,7 @@
+### v0.0.12
+* Allow console in config
+* Warning if pattern does not match any file
+
 ### v0.0.11
 * Add timing (total / net - per specs)
 * Dots reporter - wrap at 80
