@@ -23,7 +23,7 @@ describe 'runner', ->
       buffer = new Buffer 'some' + EXIT0
       m.parseExitCode buffer
 
-      expect(buffer.toString()).toBe 'some\000\000\000\000\000\000'
+      expect(buffer.toString()).toBe 'some\0\0\0\0\0\0'
 
 
     it 'should not touch buffer without exit code and return default', ->
