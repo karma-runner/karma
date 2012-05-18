@@ -90,12 +90,12 @@ describe('jasmine adapter', function() {
 
     it('should report time for every spec', function() {
       var counter = 3;
-      spyOn(Date, 'now').andCallFake(function() {
+      spyOn(Date.prototype, 'getTime').andCallFake(function() {
         return counter++;
       });
 
       testacular.result.andCallFake(function(result) {
-        expect(result.time).toBe(1); // 4 - 1
+        expect(result.time).toBe(1); // 4 - 3
       });
 
       reporter.reportSpecStarting(spec);
