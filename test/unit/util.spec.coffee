@@ -143,3 +143,15 @@ describe 'util', ->
 
       expect(destination.a).toBe 1
       expect(result).toEqual {a: 4, b: 2, c: 5}
+
+
+  #==============================================================================
+  # util.isUrlAbsolute()
+  #==============================================================================
+  describe 'isUrlAbsolute', ->
+
+    it 'should check http/https protocol', ->
+      expect(util.isUrlAbsolute 'some/path/http.html').toBe false
+      expect(util.isUrlAbsolute '/some/more.py').toBe false
+      expect(util.isUrlAbsolute 'http://some.com/path').toBe true
+      expect(util.isUrlAbsolute 'https://more.org/some.js').toBe true

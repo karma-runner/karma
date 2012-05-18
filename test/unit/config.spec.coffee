@@ -57,6 +57,7 @@ describe 'config', ->
       conf:
         'invalid.js': fsMock.file 0, '={function'
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
+        'absolute.js': fsMock.file 0, 'files = ["http://some.com", "https://more.org/file.js"];'
 
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
@@ -191,6 +192,17 @@ describe 'config', ->
       waitForFinished()
 
 
+    it 'should keep absolute url patterns', ->
+      m.resolve ['http://one.com', 'https://more.org/some.js', '/home/*.js'], [], (err, files) ->
+        expect(files[0].path).toBe 'http://one.com'
+        expect(files[0].isUrl).toBe true
+        expect(files[1].path).toBe 'https://more.org/some.js'
+        expect(files[1].isUrl).toBe true
+        finished++
+
+      waitForFinished()
+
+
   #============================================================================
   # config.parseConfig()
   # Should parse configuration file and do some basic processing as well
@@ -216,6 +228,11 @@ describe 'config', ->
     it 'should resolve all file patterns', ->
       config = e.parseConfig '/home/config3.js'
       expect(config.files).toEqual ['/home/one.js', '/home/sub/two.js']
+
+
+    it 'should keep absolute url file patterns', ->
+      config = e.parseConfig '/conf/absolute.js'
+      expect(config.files).toEqual ['http://some.com', 'https://more.org/file.js']
 
 
     it 'should resolve all exclude patterns', ->
