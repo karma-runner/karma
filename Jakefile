@@ -94,18 +94,26 @@ namespace('test', function() {
 
   desc('Run client unit tests using single run mode.');
   task('client', ['build'], function() {
-    header('Running client tests in a browser...');
+    header('Running client tests in a browser using single run mode...');
 
-    var server = child.spawn('node', ['bin/testacular', 'test/client/config.js', '--browsers', BROWSERS, '--single-run'], ENV);
+    var timeout, server;
 
+    server = child.spawn('node', ['bin/testacular', 'test/client/config.js', '--browsers', BROWSERS, '--single-run'], ENV);
     server.stdout.pipe(process.stdout);
     server.stderr.pipe(process.stderr);
+
     server.on('exit', function(code) {
+      if (timeout) clearTimeout(timeout);
+
       if (code) {
         fail(plainError(''), code);
       }
       complete();
     });
+
+    timeout = setTimeout(function() {
+      fail(plainError('Time-outed after 30s.'), 1);
+    }, 30000);
   }, ASYNC);
 });
 
