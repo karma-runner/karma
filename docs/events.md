@@ -1,5 +1,9 @@
 # Events
 
+## browser_register(browser)
+Browser sent name and id.
+
+
 ## browser_complete(browser)
 Browser completed an execution run. (All tests were executed/skipped or browser disconnected).
 

@@ -12,6 +12,10 @@
 
 ## Client -> Server protocol
 
+### register
+
+* {Object} info Object containing `name` and `id` (if auto-launched) of the browser.
+
 ### info
 
 * {Object} info Object with info (i.e. browser name)
