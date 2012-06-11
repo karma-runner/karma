@@ -1,3 +1,8 @@
+### v0.0.13
+* Single run mode (capture browsers, run tests, exit)
+* Start browser automatically (chrome, canary, firefox)
+* Allow loading external files (urls)
+
 ### v0.0.12
 * Allow console in config
 * Warning if pattern does not match any file
