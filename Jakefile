@@ -22,18 +22,20 @@ var ASYNC = {
   async: true
 };
 
-var BROWSER_CMD, BROWSER_ARGS;
+var BROWSER_CMD, BROWSER_ARGS, BROWSERS;
 if (process.env.TRAVIS) {
   BROWSER_CMD = '/usr/bin/firefox';
   BROWSER_ARGS = ['http://localhost:8080'];
+  BROWSERS = 'Firefox';
 } else {
   BROWSER_CMD = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
   BROWSER_ARGS = ['--user-data-dir=tmp', '--disable-metrics', '--no-first-run',
                   '--no-default-browser-checkck', 'http://localhost:8080'];
+  BROWSERS = 'Chrome,ChromeCanary,Firefox';
 }
 
 desc('Run all tests.');
-task('test', ['test:unit', 'test:client'], function() {});
+task('test', ['test:unit', 'test:client', 'test:client2'], function() {});
 
 namespace('test', function() {
   desc('Run unit tests.');
@@ -54,19 +56,19 @@ namespace('test', function() {
 
   // TODO(vojta): make it nicer, timeouts, handle errors, etc
   desc('Run client unit tests.');
-  task('client', ['build'], function() {
+  task('client2', ['build'], function() {
     header('Running client tests in a browser...');
 
-    var server, browser, timeout;
+    var server, browser, timeout, runner;
 
-    server = child.spawn('node', ['bin/testacular', 'test/client/testacular.conf'], ENV);
+    server = child.spawn('node', ['bin/testacular', 'test/client/config.js'], ENV);
 
     server.stdout.pipe(process.stdout);
     server.stderr.pipe(process.stderr);
 
     server.stdout.on('data', function(buffer) {
-      if (buffer.toString().indexOf('Connected on socket') !== -1) {
-        child.exec('node bin/testacular-run', function(error, stdout, stderr) {
+      if (!runner && buffer.toString().indexOf('Connected on socket') !== -1) {
+        runner = child.exec('node bin/testacular-run', function(error, stdout, stderr) {
           browser.kill();
           server.kill();
 
@@ -77,17 +79,33 @@ namespace('test', function() {
       }
 
       if (!browser) {
-        console.log('Starting browser...');
         browser = child.spawn(BROWSER_CMD, BROWSER_ARGS);
         browser.on('exit', function() {
-          console.log('Browser exit.')
-        })
+          child.exec('rm -rdf tmp');
+        });
       }
     });
 
     timeout = setTimeout(function() {
       fail(plainError('Time-outed after 30s.'), 1);
     }, 30000);
+  }, ASYNC);
+
+
+  desc('Run client unit tests using single run mode.');
+  task('client', ['build'], function() {
+    header('Running client tests in a browser...');
+
+    var server = child.spawn('node', ['bin/testacular', 'test/client/config.js', '--browsers', BROWSERS, '--single-run'], ENV);
+
+    server.stdout.pipe(process.stdout);
+    server.stderr.pipe(process.stderr);
+    server.on('exit', function(code) {
+      if (code) {
+        fail(plainError(''), code);
+      }
+      complete();
+    });
   }, ASYNC);
 });
 

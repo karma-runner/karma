@@ -18,7 +18,7 @@ files = [
 ];
 
 // list of files to exclude
-exclude = [];
+exclude = ['test/client/config*'];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots' || 'progress'
@@ -46,8 +46,8 @@ autoWatch = false;
 // polling interval in ms (ignored on OS that support inotify)
 autoWatchInterval: 0;
 
-// Start these browsers
-browsers = ['ChromeCanary', 'Firefox', 'Chrome'];
+// Start these browsers (Currently available: 'Chrome', 'ChromeCanary', 'Firefox')
+browsers = [];
 
 // Auto run tests on start (when browsers are captured) and exit
-singleRun = true;
+singleRun = false;
