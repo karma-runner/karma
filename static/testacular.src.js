@@ -8,10 +8,6 @@ var socket = io.connect(location, {
   'max reconnection attempts': Infinity
 });
 
-socket.on('connect', function() {
-  socket.emit('name', window.navigator.userAgent);
-});
-
 var browsersElement = document.getElementById('browsers');
 socket.on('info', function(browsers) {
   var items = [];
@@ -42,7 +38,7 @@ socket.on('server_disconnect', function() {
   socket.socket.reconnect();
 });
 
-var Testacular = function(socket, context) {
+var Testacular = function(socket, context, navigator, location) {
   var config;
   var hasError = false;
   var store = {};
@@ -117,4 +113,12 @@ var Testacular = function(socket, context) {
 
   // cancel execution
   socket.on('disconnect', clearContext);
+
+  // report browser name, id
+  socket.on('connect', function() {
+    socket.emit('register', {
+      name: navigator.userAgent,
+      id: parseInt((location.search.match(/\?id=(.*)/) || [])[1], 10) || null
+    });
+  });
 };

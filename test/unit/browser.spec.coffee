@@ -30,14 +30,29 @@ describe 'browser', ->
 
 
     #==========================================================================
-    # browser.Browser.onName
+    # browser.Browser.onRegister
     #==========================================================================
-    describe 'onName', ->
+    describe 'onRegister', ->
 
       it 'should set fullName and name', ->
-        browser.onName 'Chrome/16.0 full name'
+        browser.onRegister name: 'Chrome/16.0 full name'
         expect(browser.name).toBe 'Chrome 16.0'
         expect(browser.fullName).toBe 'Chrome/16.0 full name'
+
+
+      it 'should set launchId', ->
+        browser.onRegister id: 12345, name: 'some'
+        expect(browser.launchId).toBe 12345
+
+
+      it 'should emit "browser_register', ->
+        spyRegister = jasmine.createSpy 'browser_register'
+        spyRegister.andCallFake (b) ->
+          expect(b).toBe browser
+
+        emitter.on 'browser_register', spyRegister
+        browser.onRegister name : 'some'
+        expect(spyRegister).toHaveBeenCalled()
 
 
     #==========================================================================

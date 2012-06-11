@@ -3,6 +3,6 @@
   %CONTENT%
 
 
-window.testacular = new Testacular(socket, document.getElementById('context'));
+window.testacular = new Testacular(socket, document.getElementById('context'), window.navigator, window.location);
 
 })(window, document, window.io);

@@ -39,8 +39,18 @@ describe 'web-server', ->
     response = new httpMock.ServerResponse
     files = [{path: '/src/some.js', mtime: new Date 12345}]
 
+
   it 'should server client.html', ->
     handler new httpMock.ServerRequest('/'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._body).toEqual 'CLIENT HTML'
+      expect(response._status).toBe 200
+
+
+  it 'should allow /?id=xxx', ->
+    handler new httpMock.ServerRequest('/?id=123'), response
     waitForFinishingResponse()
 
     runs ->

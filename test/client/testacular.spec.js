@@ -4,11 +4,13 @@
  */
 
 describe('testacular', function() {
-  var socket, tc, spyStart;
+  var socket, tc, spyStart, windowNavigator, windowLocation;
 
   beforeEach(function() {
     socket = new MockSocket();
-    tc = new Testacular(socket, {});
+    windowNavigator = {};
+    windowLocation = {};
+    tc = new Testacular(socket, {}, windowNavigator, windowLocation);
     spyStart = spyOn(tc, 'start');
   });
 
@@ -40,6 +42,33 @@ describe('testacular', function() {
     tc.start = function() {};
     tc.loaded();
     expect(tc.start).toBeFalsy();
+  });
+
+
+  it('should report navigator name', function() {
+    var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
+      expect(info.name).toBe('Fake browser name');
+    });
+
+    windowNavigator.userAgent = 'Fake browser name';
+    windowLocation.search = '';
+    socket.on('register', spyInfo);
+    socket.emit('connect');
+
+    expect(spyInfo).toHaveBeenCalled();
+  });
+
+
+  it('should report browser id', function() {
+    var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
+      expect(info.id).toBe(567);
+    });
+
+    windowLocation.search = '?id=567';
+    socket.on('register', spyInfo);
+    socket.emit('connect');
+
+    expect(spyInfo).toHaveBeenCalled();
   });
 
 
