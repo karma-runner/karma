@@ -191,7 +191,7 @@ task('publish', ['version', 'build'], function() {
   ], function() {
     console.log('Published to npm');
     complete();
-  })
+  });
 }, ASYNC);
 
 
