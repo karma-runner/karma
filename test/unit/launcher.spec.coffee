@@ -29,45 +29,34 @@ describe 'launcher', ->
     m = loadFile __dirname + '/../../lib/launcher.js', mocks, globals
     e = m.exports
 
-    # mock out commands
-    # m.CMD.chrome = -> 'chrome-cmd'
-    # m.CMD.canary = -> 'canary-cmd'
-
 
   #============================================================================
   # launcher.Launcher
   #============================================================================
   describe 'Launcher', ->
+    l = null
+
+    beforeEach ->
+      l = new e.Launcher 1234
 
     describe 'launch', ->
 
       it 'should start all browsers', ->
-        l = new e.Launcher 1234
         l.launch ['Chrome', 'ChromeCanary']
 
         expect(mockExec).toHaveBeenCalled()
         expect(mockExec.callCount).toBe 2
-        expect(mockExec.argsForCall[0][0]).toBe '/usr/bin/google-chrome'
-        expect(mockExec.argsForCall[1][0]).toBe '/usr/bin/google-chrome-canary'
-
-
-      xit 'should pass url with port, id, tempDir', ->
-        spyOn m.CMD, 'chrome'
-        spyOn m.CMD, 'canary'
-
-        l = new e.Launcher 9876
-
-        l.launch ['chrome']
-        expect(m.CMD.chrome).toHaveBeenCalledWith 'http://localhost:9876', 1, '/temp1'
-
-        l.launch ['canary']
-        expect(m.CMD.canary).toHaveBeenCalledWith 'http://localhost:9876', 2, '/temp2'
+        expect(mockExec.argsForCall[0][0]).toMatch /^\/usr\/bin\/google-chrome/
+        expect(mockExec.argsForCall[1][0]).toMatch /^\/usr\/bin\/google-chrome-canary/
 
 
     describe 'kill', ->
+      exitSpy = null
+
+      beforeEach ->
+        exitSpy = jasmine.createSpy 'onExit'
 
       it 'should kill all running processe', ->
-        l = new e.Launcher 1234
         l.launch ['Chrome', 'ChromeCanary']
         l.kill()
 
@@ -77,33 +66,33 @@ describe 'launcher', ->
 
 
       it 'should call callback when all processes killed', ->
-        spy = jasmine.createSpy 'onExit'
-        l = new e.Launcher 123
         l.launch ['Chrome', 'ChromeCanary']
-        l.kill spy
+        l.kill exitSpy
 
-        expect(spy).not.toHaveBeenCalled()
+        expect(exitSpy).not.toHaveBeenCalled()
         mockExec._processes[0].emit 'exit'
-        expect(spy).not.toHaveBeenCalled()
+        expect(exitSpy).not.toHaveBeenCalled()
         mockExec._processes[1].emit 'exit'
-        expect(spy).toHaveBeenCalled()
+        expect(exitSpy).toHaveBeenCalled()
 
 
       it 'should call callback even if a process had already been killed', ->
-        spy = jasmine.createSpy 'onExit'
-        l = new e.Launcher 123
         l.launch ['Chrome', 'ChromeCanary']
         mockExec._processes[0].exitCode = 1
         mockExec._processes[1].exitCode = 0
 
-        l.kill spy
-        waitsFor (-> spy.callCount), 'onExit callback', 10
+        l.kill exitSpy
+        waitsFor (-> exitSpy.callCount), 'onExit callback', 10
+
+
+      it 'should call callback even if no browsers lanunched', ->
+        l.kill exitSpy
+        waitsFor (-> exitSpy.callCount), 'onExit callback', 10
 
 
     describe 'areAllCaptured', ->
 
       it 'should return true if only if all browsers captured', ->
-        l = new e.Launcher 1234
         l.launch ['Chrome', 'ChromeCanary']
 
         expect(l.areAllCaptured()).toBe false
@@ -113,9 +102,3 @@ describe 'launcher', ->
 
         l.markCaptured 2
         expect(l.areAllCaptured()).toBe true
-
-
-  describe 'chrome', ->
-    iit 'should start tmp profile and pass url with id', ->
-      l = new e.Launcher 1234
-      l.launch ['Firefox']
