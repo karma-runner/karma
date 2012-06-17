@@ -37,12 +37,12 @@ describe 'launcher', ->
     l = null
 
     beforeEach ->
-      l = new e.Launcher 1234
+      l = new e.Launcher
 
     describe 'launch', ->
 
       it 'should start all browsers', ->
-        l.launch ['Chrome', 'ChromeCanary']
+        l.launch ['Chrome', 'ChromeCanary'], 1234
 
         expect(mockExec).toHaveBeenCalled()
         expect(mockExec.callCount).toBe 2
@@ -57,7 +57,7 @@ describe 'launcher', ->
         exitSpy = jasmine.createSpy 'onExit'
 
       it 'should kill all running processe', ->
-        l.launch ['Chrome', 'ChromeCanary']
+        l.launch ['Chrome', 'ChromeCanary'], 1234
         l.kill()
 
         expect(mockExec._processes.length).toBe 2
@@ -66,7 +66,7 @@ describe 'launcher', ->
 
 
       it 'should call callback when all processes killed', ->
-        l.launch ['Chrome', 'ChromeCanary']
+        l.launch ['Chrome', 'ChromeCanary'], 1234
         l.kill exitSpy
 
         expect(exitSpy).not.toHaveBeenCalled()
@@ -77,7 +77,7 @@ describe 'launcher', ->
 
 
       it 'should call callback even if a process had already been killed', ->
-        l.launch ['Chrome', 'ChromeCanary']
+        l.launch ['Chrome', 'ChromeCanary'], 1234
         mockExec._processes[0].exitCode = 1
         mockExec._processes[1].exitCode = 0
 
@@ -93,7 +93,7 @@ describe 'launcher', ->
     describe 'areAllCaptured', ->
 
       it 'should return true if only if all browsers captured', ->
-        l.launch ['Chrome', 'ChromeCanary']
+        l.launch ['Chrome', 'ChromeCanary'], 1234
 
         expect(l.areAllCaptured()).toBe false
 
