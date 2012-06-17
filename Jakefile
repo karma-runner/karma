@@ -31,7 +31,7 @@ if (process.env.TRAVIS) {
   BROWSER_CMD = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
   BROWSER_ARGS = ['--user-data-dir=tmp', '--disable-metrics', '--no-first-run',
                   '--no-default-browser-checkck', 'http://localhost:8080'];
-  BROWSERS = 'Chrome,ChromeCanary,Firefox';
+  BROWSERS = 'Chrome,ChromeCanary,Firefox,Opera,Safari';
 }
 
 desc('Run all tests.');

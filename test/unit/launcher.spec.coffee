@@ -12,10 +12,12 @@ describe 'launcher', ->
   beforeEach ->
     mockExec = jasmine.createSpy 'exec'
     mockExec._processes = []
-    mockExec.andCallFake () ->
+    mockExec.andCallFake (cmd, callback) ->
       process = new events.EventEmitter
       process.kill = jasmine.createSpy 'kill'
       process.exitCode = null
+      process._cmd = cmd
+      process._callback = callback
       mockExec._processes.push process
       process
 
@@ -50,6 +52,20 @@ describe 'launcher', ->
         expect(mockExec.argsForCall[1][0]).toMatch /^\/usr\/bin\/google-chrome-canary/
 
 
+      it 'should allow custom browser launcher', ->
+        instance = null
+        customLauncher = ->
+          @start = jasmine.createSpy 'start'
+          @kill = jasmine.createSpy 'kill'
+          instance = @
+
+        l.launch [customLauncher], 1234
+        expect(instance.start).toHaveBeenCalledWith 'http://localhost:1234/?id=1'
+
+        l.kill()
+        expect(instance.kill).toHaveBeenCalled()
+
+
     describe 'kill', ->
       exitSpy = null
 
@@ -73,6 +89,10 @@ describe 'launcher', ->
         mockExec._processes[0].emit 'exit'
         expect(exitSpy).not.toHaveBeenCalled()
         mockExec._processes[1].emit 'exit'
+        expect(exitSpy).not.toHaveBeenCalled()
+
+        mockExec._processes[2]._callback()
+        mockExec._processes[3]._callback()
         expect(exitSpy).toHaveBeenCalled()
 
 
