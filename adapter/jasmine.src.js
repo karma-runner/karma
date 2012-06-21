@@ -1,16 +1,17 @@
 var formatFailedStep = function(step) {
 
   var stack = step.trace.stack;
+  var message = step.trace.message || step.message;
   if (stack) {
-    if (step.trace.message && stack.indexOf(step.trace.message) === -1) {
-      stack = step.trace.message + '\n' + stack;
+    if (message && stack.indexOf(message) === -1) {
+      stack = message + '\n' + stack;
     }
 
     // remove jasmine stack entries
     return stack.replace(/\n.+jasmine\.js\?\d*\:.+(?=(\n|$))/g, '');
   }
 
-  return step.trace.message || step.message;
+  return message;
 };
 
 var indexOf = function(collection, item) {
