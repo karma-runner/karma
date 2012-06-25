@@ -253,8 +253,10 @@ describe 'config', ->
 
 
     it 'should throw and log error if invalid file', ->
-      expect(-> e.parseConfig '/conf/invalid.js').toThrow 'Unexpected token ='
-      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Syntax error in config file!'
+      e.parseConfig '/conf/invalid.js'
+      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Syntax error in config file!\n' +
+        'Unexpected token ='
+      expect(mocks.process.exit).toHaveBeenCalledWith 1
 
 
     it 'should override config with given cli options', ->
