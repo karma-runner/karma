@@ -1,3 +1,9 @@
+### v0.0.14
+* Allow require() inside config file
+* Allow custom browser launcher
+* Add browser launcher for Opera, Safari
+* Ignore signals on windows (not supported yet)
+
 ### v0.0.13
 * Single run mode (capture browsers, run tests, exit)
 * Start browser automatically (chrome, canary, firefox)
