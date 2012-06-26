@@ -67,7 +67,7 @@ describe('jasmine adapter', function() {
 
 
     it('should remove jasmine-specific frames from the exception stack traces', function() {
-      var error = new Error('my custom');
+      var error = new Error("Expected 'function' to be 'fxunction'");
       error.stack = "Error: Expected 'function' to be 'fxunction'.\n" +
         "    at new <anonymous> (http://localhost:8080/lib/jasmine/jasmine.js?123412234:102:32)\n" +
         "    at [object Object].toBe (http://localhost:8080/lib/jasmine/jasmine.js?123:1171:29)\n" +
@@ -114,23 +114,37 @@ describe('jasmine adapter', function() {
         passed: false,
         message: 'Jasmine fail message',
         trace: {
-          message: 'MESSAGE',
           stack: '@file.js:123\n'
         }
-      }))).toMatch(/^MESSAGE/);
+      }))).toMatch(/^Jasmine fail message/);
     });
-
 
     it('should report message if no stack trace', function() {
       // Safari does not have trace
       expect(formatFailedStep(new jasmine.ExpectationResult({
         passed: false,
-        message: 'Jasmine fail message',
+        message: 'MESSAGE',
         trace: {
-          message: 'MESSAGE',
           stack: undefined
         }
       }))).toBe('MESSAGE');
+    });
+
+    it('should remove jasmine-specific frames from the exception stack traces', function() {
+      expect(formatFailedStep(new jasmine.ExpectationResult({
+        passed: false,
+        message: "Error: Expected 'function' to be 'fxunction'",
+        trace: {
+          stack: "Error: Expected 'function' to be 'fxunction'.\n" +
+                 "    at new <anonymous> (http://localhost:8080/lib/jasmine/jasmine.js?123412234:102:32)\n" +
+                 "    at [object Object].toBe (http://localhost:8080/lib/jasmine/jasmine.js?123:1171:29)\n" +
+                 "    at [object Object].<anonymous> (http://localhost:8080/test/resourceSpec.js:2:3)\n" +
+                 "    at [object Object].execute (http://localhost:8080/lib/jasmine/jasmine.js?123:1001:15)"
+        }
+      }))).toBe(
+        "Error: Expected 'function' to be 'fxunction'.\n" +
+        "    at [object Object].<anonymous> (http://localhost:8080/test/resourceSpec.js:2:3)"
+      );
     });
   });
 

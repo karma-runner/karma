@@ -1,9 +1,11 @@
 var formatFailedStep = function(step) {
 
   var stack = step.trace.stack;
-  var message = step.trace.message || step.message;
+  var message = step.message;
   if (stack) {
-    if (message && stack.indexOf(message) === -1) {
+    // remove the trailing dot
+    var firstLine = stack.substring(0, stack.indexOf('\n') - 1);
+    if (message && message.indexOf(firstLine) == -1) {
       stack = message + '\n' + stack;
     }
 
