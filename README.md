@@ -86,6 +86,8 @@ Check out `jake -T` for all available tasks.
 
 If you have any further questions, join the [mailing list](https://groups.google.com/forum/#!forum/testacular) or [submit an issue](https://github.com/vojtajina/testacular/issues/new).
 
+You can follow [@TestacularJS](http://twitter.com/TestacularJS) as well.
+
 <!--
 - anything on console will leak whole iframe window
 - it clears console before run (but works only in FF), Chrome/Safari does not allow, so do this:
