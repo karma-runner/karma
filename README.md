@@ -4,6 +4,7 @@ Simple tool, that allows you to execute JavaScript code in multiple _real_ brows
 
 **The main purpose is to make your TDD development easy, fast and fun...**
 
+### Check out [Testacular in Action](http://www.youtube.com/watch?v=MVw8N3hTfCI).
 
 ## Prerequisites
 
