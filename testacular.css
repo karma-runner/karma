@@ -42,8 +42,13 @@ hr.soften {
 
 
 .yt-video {
-  margin-left: 240px;
+  margin: 0 auto;
   padding: 20px;
+}
+
+.yt-video-container {
+  width: 100%;
+  text-align: center;
 }
 
 
