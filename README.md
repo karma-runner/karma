@@ -2,9 +2,9 @@
 
 Simple tool, that allows you to execute JavaScript code in multiple _real_ browsers, powered by [Node.js] and [Socket.io].
 
-**The main purpose is to make your TDD development easy, fast and fun...**
+[![Build Status](https://github.com/vojtajina/testacular/raw/master/screencast_858.png)](http://www.youtube.com/watch?v=MVw8N3hTfCI)
 
-### Check out [Testacular in Action](http://www.youtube.com/watch?v=MVw8N3hTfCI).
+**The main purpose is to make your TDD development easy, fast and fun...**
 
 ## Prerequisites
 
