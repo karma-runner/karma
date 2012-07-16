@@ -47,6 +47,11 @@ describe 'util', ->
                 'PC 6.0)').toBe 'IE 9.0'
 
 
+    it 'should parse PhantomJS', ->
+      expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/534.34 (KHTML, like Gecko) ' +
+                'PhantomJS/1.6.0 Safari/534.34').toBe 'PhantomJS 1.6'
+
+
   #==============================================================================
   # util.formatError()
   #==============================================================================

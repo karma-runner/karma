@@ -49,6 +49,7 @@ autoWatchInterval = 100;
 // - Firefox
 // - Opera
 // - Safari
+// - PhantomJS
 browsers = [];
 
 // Auto run tests on start (when browsers are captured) and exit
