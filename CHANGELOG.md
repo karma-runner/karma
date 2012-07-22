@@ -1,3 +1,8 @@
+### v0.0.15
+* Remove absolute paths from urls (fixes Windows issue with C:\)
+* Add browser launcher for PhantomJS
+* Fix some more windows issues
+
 ### v0.0.14
 * Allow require() inside config file
 * Allow custom browser launcher
