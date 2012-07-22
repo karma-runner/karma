@@ -22,10 +22,17 @@ describe 'web-server', ->
 
   mocks = {}
   mocks.fs = fsMock.create
-    tpl:
-      'client.html':  fsMock.file(0, 'CLIENT HTML'),
-      'context.html': fsMock.file(0, 'CONTEXT\n%SCRIPTS%'),
-      'debug.html': fsMock.file(0, 'RUNNER\n%SCRIPTS%')
+    tcular:
+      adapter:
+        'jasmine.js': fsMock.file(0, 'js-src-jasmine')
+      static:
+        'client.html':  fsMock.file(0, 'CLIENT HTML'),
+        'context.html': fsMock.file(0, 'CONTEXT\n%SCRIPTS%'),
+        'debug.html': fsMock.file(0, 'RUNNER\n%SCRIPTS%')
+    base:
+      path:
+        'a.js': fsMock.file(0, 'js-src-a')
+        'other.js': fsMock.file(0, 'js-src-other')
     src:
       'some.js': fsMock.file(0, 'js-source')
     other:
@@ -35,9 +42,9 @@ describe 'web-server', ->
   m = loadFile __dirname + '/../../lib/web-server.js', mocks
 
   beforeEach ->
-    handler = m.createHandler fileGuardian, '/tpl'
+    handler = m.createHandler fileGuardian, '/tcular/static', '/tcular/adapter', '/base/path'
     response = new httpMock.ServerResponse
-    files = [{path: '/src/some.js', mtime: new Date 12345}]
+    files = []
 
 
   it 'should server client.html', ->
@@ -67,8 +74,8 @@ describe 'web-server', ->
 
     runs ->
       expect(response._body).toEqual 'CONTEXT\n' +
-        '<script type="text/javascript" src="/first.js?12345"></script>\n' +
-        '<script type="text/javascript" src="/second.js?67890"></script>'
+        '<script type="text/javascript" src="/absolute/first.js?12345"></script>\n' +
+        '<script type="text/javascript" src="/absolute/second.js?67890"></script>'
       expect(response._status).toBe 200
 
 
@@ -81,8 +88,24 @@ describe 'web-server', ->
 
     runs ->
       expect(response._body).toEqual 'RUNNER\n' +
-        '<script type="text/javascript" src="/first.js"></script>\n' +
-        '<script type="text/javascript" src="/second.js"></script>'
+        '<script type="text/javascript" src="/absolute/first.js"></script>\n' +
+        '<script type="text/javascript" src="/absolute/second.js"></script>'
+      expect(response._status).toBe 200
+
+
+  it 'should serve context.html with /basepath/*, /adapter/*, /absolute/* ', ->
+    files = [{path: '/some/abs/a.js', mtime: new Date 12345},
+             {path: '/base/path/b.js', mtime: new Date 67890},
+             {path: '/tcular/adapter/c.js', mtime: new Date 321}]
+
+    handler new httpMock.ServerRequest('/context.html'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._body).toEqual 'CONTEXT\n' +
+        '<script type="text/javascript" src="/absolute/some/abs/a.js?12345"></script>\n' +
+        '<script type="text/javascript" src="/base/b.js?67890"></script>\n' +
+        '<script type="text/javascript" src="/adapter/c.js?321"></script>'
       expect(response._status).toBe 200
 
 
@@ -97,8 +120,10 @@ describe 'web-server', ->
       expect(response._headers['Expires']).toBe ZERO_DATE
 
 
-  it 'should serve js source files ignoring timestamp', ->
-    handler new httpMock.ServerRequest('/src/some.js?123345'), response
+  it 'should serve absolute js source files ignoring timestamp', ->
+    files = [{path: '/src/some.js', mtime: new Date 12345}]
+
+    handler new httpMock.ServerRequest('/absolute/src/some.js?123345'), response
     waitForFinishingResponse()
 
     runs ->
@@ -106,8 +131,32 @@ describe 'web-server', ->
       expect(response._status).toBe 200
 
 
+  it 'should serve js source files from base folder ignoring timestamp', ->
+    files = [{path: '/base/path/a.js', mtime: new Date 12345}]
+
+    handler new httpMock.ServerRequest('/base/a.js?123345'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._body).toBe 'js-src-a'
+      expect(response._status).toBe 200
+
+
+  it 'should serve js source files from adapter folder ignoring timestamp', ->
+    files = [{path: '/tcular/adapter/jasmine.js', mtime: new Date 12345}]
+
+    handler new httpMock.ServerRequest('/adapter/jasmine.js?123345'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._body).toBe 'js-src-jasmine'
+      expect(response._status).toBe 200
+
+
   it 'should send strict caching headers for js source files with timestamps', ->
-    handler new httpMock.ServerRequest('/src/some.js?12323'), response
+    files = [{path: '/src/some.js', mtime: new Date 12345}]
+
+    handler new httpMock.ServerRequest('/absolute/src/some.js?12323'), response
     waitForFinishingResponse()
 
     runs ->
@@ -115,7 +164,9 @@ describe 'web-server', ->
 
 
   it 'should send no-caching headers for js source files without timestamps', ->
-    handler new httpMock.ServerRequest('/src/some.js'), response
+    files = [{path: '/src/some.js', mtime: new Date 12345}]
+
+    handler new httpMock.ServerRequest('/absolute/src/some.js'), response
     waitForFinishingResponse()
 
     runs ->
@@ -126,7 +177,7 @@ describe 'web-server', ->
 
 
   it 'should serve 404 page for non-existing files', ->
-    handler new httpMock.ServerRequest('/src/non-existing.html'), response
+    handler new httpMock.ServerRequest('/base/non-existing.html'), response
     waitForFinishingResponse()
 
     runs ->
@@ -139,7 +190,7 @@ describe 'web-server', ->
              {path: '/second.js', mtime: new Date 67890}]
 
     runs ->
-      handler new httpMock.ServerRequest('/other/file.js'), response
+      handler new httpMock.ServerRequest('/base/other.js'), response
       waitForFinishingResponse()
 
     runs ->
