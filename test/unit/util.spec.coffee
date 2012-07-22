@@ -53,31 +53,6 @@ describe 'util', ->
 
 
   #==============================================================================
-  # util.formatError()
-  #==============================================================================
-  describe 'formatError', ->
-    format = util.formatError
-
-    it 'should indent', ->
-      expect(format 'Something', '\t').toBe '\tSomething\n'
-
-
-    it 'should remove domain from files', ->
-      expect(format 'file http://localhost:8080/usr/a.js and https://127.0.0.1:8080/home/b.js').
-          toBe 'file /usr/a.js and /home/b.js\n'
-
-
-    it 'should remove timestamps', ->
-      expect(format 'file http://localhost:8080/usr/file.js?1325400290544 and ' +
-                    'https://127.0.0.1:8080/home/file.js?1332400290889').
-          toBe 'file /usr/file.js and /home/file.js\n'
-
-
-    it 'should indent all lines', ->
-      expect(format 'first\nsecond\nthird', '\t').toBe '\tfirst\n\tsecond\n\tthird\n'
-
-
-  #==============================================================================
   # util.isDefined()
   #==============================================================================
   describe 'isDefined', ->
