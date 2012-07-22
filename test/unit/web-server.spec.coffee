@@ -38,13 +38,16 @@ describe 'web-server', ->
     other:
       'file.js': fsMock.file(0, 'js-source')
 
+  globals = process: {}
+
   # load file under test
-  m = loadFile __dirname + '/../../lib/web-server.js', mocks
+  m = loadFile __dirname + '/../../lib/web-server.js', mocks, globals
 
   beforeEach ->
     handler = m.createHandler fileGuardian, '/tcular/static', '/tcular/adapter', '/base/path'
     response = new httpMock.ServerResponse
     files = []
+    globals.process.platform = 'darwin'
 
 
   it 'should server client.html', ->
@@ -76,6 +79,20 @@ describe 'web-server', ->
       expect(response._body).toEqual 'CONTEXT\n' +
         '<script type="text/javascript" src="/absolute/first.js?12345"></script>\n' +
         '<script type="text/javascript" src="/absolute/second.js?67890"></script>'
+      expect(response._status).toBe 200
+
+
+  it 'should use slash even on fucking windows', ->
+    globals.process.platform = 'win32'
+    handler = m.createHandler fileGuardian, '/tcular/static', '', 'C:\\some'
+    files = [{path: 'C:\\some\\fucking\\file.js', mtime: new Date 12345}]
+
+    handler new httpMock.ServerRequest('/context.html'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._body).toEqual 'CONTEXT\n' +
+        '<script type="text/javascript" src="/base/fucking/file.js?12345"></script>'
       expect(response._status).toBe 200
 
 
@@ -151,6 +168,22 @@ describe 'web-server', ->
     runs ->
       expect(response._body).toBe 'js-src-jasmine'
       expect(response._status).toBe 200
+
+
+  it 'should serve js files on fucking windows (rewrite slash to backslash)', ->
+    globals.process.platform = 'win32'
+    files = [{path: 'C:\\fucking\\path\\file.js', mtime: new Date 12345}]
+    handler = m.createHandler fileGuardian, '', '', 'C:\\fucking'
+
+    spyOn(mocks.fs, 'readFile').andCallFake (filename, done) ->
+      expect(filename).toBe 'C:\\fucking\\path\\file.js'
+      done null, ''
+
+    handler new httpMock.ServerRequest('/base/path/file.js?123345'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(mocks.fs.readFile).toHaveBeenCalled()
 
 
   it 'should send strict caching headers for js source files with timestamps', ->
