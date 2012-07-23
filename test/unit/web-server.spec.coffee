@@ -12,8 +12,8 @@ describe 'web-server', ->
   files = handler = response = null
   ZERO_DATE = (new Date 0).toString()
 
-  # mock fileGuardian
-  fileGuardian =
+  # mock fileList
+  fileList =
     getFiles: -> files
 
   # async helper
@@ -44,7 +44,7 @@ describe 'web-server', ->
   m = loadFile __dirname + '/../../lib/web-server.js', mocks, globals
 
   beforeEach ->
-    handler = m.createHandler fileGuardian, '/tcular/static', '/tcular/adapter', '/base/path'
+    handler = m.createHandler fileList, '/tcular/static', '/tcular/adapter', '/base/path'
     response = new httpMock.ServerResponse
     files = []
     globals.process.platform = 'darwin'
