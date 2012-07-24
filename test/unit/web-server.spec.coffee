@@ -112,6 +112,18 @@ describe 'web-server', ->
       expect(response._status).toBe 200
 
 
+  it 'should not change urls', ->
+    files = [{path: 'http://some.url.com/whatever', isUrl: true}]
+
+    handler new httpMock.ServerRequest('/context.html'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(response._body).toEqual 'CONTEXT\n' +
+        '<script type="text/javascript" src="http://some.url.com/whatever"></script>'
+      expect(response._status).toBe 200
+
+
   it 'should send non-caching headers for context.html', ->
     handler new httpMock.ServerRequest('/context.html'), response
     waitForFinishingResponse()
