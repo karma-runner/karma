@@ -240,6 +240,20 @@ describe 'file-list', ->
           expect(onFileListModifiedSpy).not.toHaveBeenCalled()
 
 
+    # WIN
+    it 'should remove file if ENOENT stat', ->
+      # chokidar fires "change" instead of remove, on windows
+      # MATCH: /a.txt
+      list = new m.List ['/a.*'], [], emitter
+
+      waitForRefreshAnd ->
+        list.getFiles()[0].path = '/non-existing-file'
+        waitForChangingFile '/non-existing-file', ->
+          expect(list.getFiles()).toEqual []
+          expect(onFileListModifiedSpy).toHaveBeenCalled()
+
+
+
   #============================================================================
   # List.removeFile()
   #============================================================================
