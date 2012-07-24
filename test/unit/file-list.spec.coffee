@@ -270,3 +270,16 @@ describe 'file-list', ->
         waitForRemovingFile '/a.js', ->
           expect(pathsFrom list.getFiles()).toEqual ['/some/a.js', '/some/b.js', '/a.txt']
           expect(onFileListModifiedSpy).not.toHaveBeenCalled();
+
+
+  describe 'createWinGlob', ->
+
+    it 'should remove drive prefix and add it back to all results', ->
+      mockGlob = (pattern, opts, done) ->
+        expect(pattern).toBe 'Users/vojta/*.js'
+        done null, ['Users/vojta/file.js', 'Users/vojta/more.js']
+
+      winGlob = m.createWinGlob mockGlob
+
+      winGlob 'x:/Users/vojta/*.js', null, (err, results) ->
+        expect(results).toEqual ['x:/Users/vojta/file.js', 'x:/Users/vojta/more.js']
