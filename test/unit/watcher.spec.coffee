@@ -42,10 +42,20 @@ describe 'watcher', ->
       chokidarWatcher = new mocks.chokidar.FSWatcher
 
     it 'should watch all the patterns', ->
-      m.watchPatterns ['/some/*.js', '/a.*'], chokidarWatcher
-      expect(chokidarWatcher.watchedPaths_).toEqual ['/some', '/']
+      m.watchPatterns ['/some/*.js', '/a/*'], chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).toEqual ['/some', '/a']
 
 
     it 'should not watch urls', ->
       m.watchPatterns ['http://some.com', '/a.*'], chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).toEqual ['/']
+
+
+    it 'should not watch the same path twice', ->
+      m.watchPatterns ['/some/a*.js', '/some/*.txt'], chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).toEqual ['/some']
+
+
+    it 'should not watch subpaths that are already watched', ->
+      m.watchPatterns ['/some/sub/*.js', '/some/a*.*'], chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).toEqual ['/some']
