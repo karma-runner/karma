@@ -35,6 +35,7 @@ describe 'config', ->
         'invalid.js': fsMock.file 0, '={function'
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
         'absolute.js': fsMock.file 0, 'files = ["http://some.com", "https://more.org/file.js"];'
+        'both.js': fsMock.file 0, 'files = ["one.js", "two.js"]; exclude = ["third.js"]'
 
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
@@ -103,3 +104,32 @@ describe 'config', ->
       expect(config.port).toBe 456
       expect(config.autoWatch).toBe false
       expect(config.basePath).toBe '/abs/base'
+
+
+    it 'should resolve files and excludes to overriden basePath from cli', ->
+      config = e.parseConfig '/conf/both.js', {port: 456, autoWatch: false, basePath: '/xxx'}
+
+      expect(config.basePath).toBe '/xxx'
+      expect(config.files).toEqual ['/xxx/one.js', '/xxx/two.js']
+      expect(config.exclude).toEqual ['/xxx/third.js']
+
+
+    it 'should return only config, no globals', ->
+      config = e.parseConfig '/home/config1.js', {port: 456}
+
+      expect(config.port).toBe 456
+      expect(config.basePath).toBe '/home/base'
+
+      # defaults
+      expect(config.files).toEqual []
+      expect(config.exclude).toEqual []
+      expect(config.logLevel).toBeDefined()
+      expect(config.autoWatch).toBe false
+      expect(config.reporter).toBe 'progress'
+      expect(config.singleRun).toBe false
+      expect(config.browsers).toEqual []
+
+      expect(config.LOG_DISABLE).toBeUndefined()
+      expect(config.JASMINE).toBeUndefined()
+      expect(config.console).toBeUndefined()
+      expect(config.require).toBeUndefined()
