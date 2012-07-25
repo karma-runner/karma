@@ -40,9 +40,6 @@ logLevel = LOG_INFO;
 // enable / disable watching file and executing tests whenever any file changes
 autoWatch = true;
 
-// polling interval in ms (ignored on OS that support inotify)
-autoWatchInterval = 100;
-
 // Start these browsers, currently available:
 // - Chrome
 // - ChromeCanary
