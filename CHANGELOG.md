@@ -1,3 +1,10 @@
+### v0.1.0
+* Fix watching/resolving on Windows
+* Allow glob patterns
+* Watch new files
+* Watch removed files
+* Remove unused config (autoWatchInterval)
+
 ### v0.0.15
 * Remove absolute paths from urls (fixes Windows issue with C:\)
 * Add browser launcher for PhantomJS
