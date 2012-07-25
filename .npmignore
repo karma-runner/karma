@@ -10,9 +10,13 @@ Jakefile
 changelog.sh
 
 Testacular.sublime-*
+screencast*
 
 adapter/jasmine.src.js
 adapter/jasmine.wrapper
+
+adapter/mocha.src.js
+adapter/mocha.wrapper
 
 static/testacular.src.js
 static/testacular.wrapper

@@ -1,0 +1,8 @@
+(function(window) {
+
+  %CONTENT%
+
+
+window.__testacular__.start = createMochaStartFn(window.mocha);
+window.mocha.setup({reporter: createMochaReporterConstructor(window.__testacular__), ui: 'bdd'});
+})(window);

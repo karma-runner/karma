@@ -13,7 +13,7 @@ files = [
   JASMINE_ADAPTER,
   'test/client/mocks.js',
   'static/testacular.src.js',
-  'adapter/jasmine.src.js',
+  'adapter/*.src.js',
   'test/client/*.spec.js'
 ];
 

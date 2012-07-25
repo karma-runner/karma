@@ -1,4 +1,5 @@
 node_modules
 adapter/jasmine.js
+adapter/mocha.js
 static/testacular.js
 tmp/*

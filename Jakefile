@@ -119,7 +119,7 @@ namespace('test', function() {
 
 
 desc('Build all.');
-task('build', ['build:jasmine-adapter', 'build:client'], function() {});
+task('build', ['build:jasmine-adapter', 'build:mocha-adapter', 'build:client'], function() {});
 
 namespace('build', function() {
 
@@ -142,6 +142,19 @@ namespace('build', function() {
 
     jake.exec([
       'sed -e "/%CONTENT%/r adapter/jasmine.src.js" -e "/%CONTENT%/d" adapter/jasmine.wrapper > adapter/jasmine.js'
+    ], function () {
+      console.log('Successfully build.');
+      complete();
+    });
+  }, ASYNC);
+
+
+  desc('Build mocha adapter.');
+  task('mocha-adapter', function() {
+    header('Building adapter/mocha.js...');
+
+    jake.exec([
+      'sed -e "/%CONTENT%/r adapter/mocha.src.js" -e "/%CONTENT%/d" adapter/mocha.wrapper > adapter/mocha.js'
     ], function () {
       console.log('Successfully build.');
       complete();
