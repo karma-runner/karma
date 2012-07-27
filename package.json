@@ -15,7 +15,10 @@
   ],
   "author": "Vojta Jína <vojta.jina@gmail.com>",
   "contributors": [
-    "Igor Minár <igor.minar@gmail.com>"
+    "Igor Minár <igor.minar@gmail.com>",
+    "Peter Bacon Darwin <pete@bacondarwin.com>",
+    "Andy Joslin <andytjoslin@gmail.com>",
+    "Marcello Nuccio <marcello.nuccio@gmail.com>"
   ],
   "dependencies": {
     "socket.io": ">= 0.8.5",
