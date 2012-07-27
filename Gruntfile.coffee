@@ -19,6 +19,7 @@ module.exports = (grunt) ->
       jasmine: ['adapter/jasmine.src.js']
       mocha: ['adapter/mocha.src.js']
       ngScenario: ['adapter/angular-scenario.src.js']
+      require: ['adapter/require.src.js']
       grunt: ['grunt.js', 'tasks/*.js']
 
     lint:
@@ -27,6 +28,7 @@ module.exports = (grunt) ->
       jasmine: '<%= files.jasmine %>'
       mocha: '<%= files.mocha %>'
       ngScenario: '<%= files.ngScenario %>'
+      require: '<%= files.require %>'
       grunt: '<%= files.grunt %>'
 
     build:
@@ -34,12 +36,13 @@ module.exports = (grunt) ->
       jasmine: '<%= files.jasmine %>'
       mocha: '<%= files.mocha %>'
       ngScenario: '<%= files.ngScenario %>'
+      require: '<%= files.require %>'
 
     test:
       unit: ''
       client: 'test/client/testacular.conf.js'
       e2e: 'test/e2e/*/testacular.conf.js'
-    
+
     jasmine_node:
       projectRoot: 'test/unit'
       matchall: true

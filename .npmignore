@@ -24,5 +24,8 @@ adapter/mocha.wrapper
 adapter/angular-scenario.src.js
 adapter/angular-scenario.wrapper
 
+adapter/require.src.js
+adapter/require.wrapper
+
 static/testacular.src.js
 static/testacular.wrapper

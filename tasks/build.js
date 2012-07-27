@@ -7,6 +7,8 @@ module.exports = function(grunt) {
    * grunt build:client
    * grunt build:jasmine
    * grunt build:mocha
+   * grunt build:ngScenario
+   * grunt build:require
    */
   grunt.registerMultiTask('build', 'Wrap given file into a function call.', function() {
 
