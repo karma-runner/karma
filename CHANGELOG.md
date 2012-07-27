@@ -1,4 +1,5 @@
-### v0.1.0
+### v0.0.16
+* Mocha adapter
 * Fix watching/resolving on Windows
 * Allow glob patterns
 * Watch new files
@@ -6,7 +7,7 @@
 * Remove unused config (autoWatchInterval)
 
 ### v0.0.15
-* Remove absolute paths from urls (fixes Windows issue with C:\)
+* Remove absolute paths from urls (fixes Windows issue with C:\\)
 * Add browser launcher for PhantomJS
 * Fix some more windows issues
 
