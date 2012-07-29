@@ -2,6 +2,7 @@
 # lib/file-list.js module
 #==============================================================================
 describe 'file-list', ->
+  util = require '../test-util'
   mocks = require 'mocks'
   events = require 'events'
 
@@ -44,6 +45,8 @@ describe 'file-list', ->
     waitsFor (-> done.callCount), 'refresh done callback', 100
     runs resume
 
+
+  beforeEach util.disableLogger
 
   beforeEach ->
     mocks_ = glob: mockGlob, fs: mockFs, minimatch: require('minimatch')
