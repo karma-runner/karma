@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  var exec = require('child_process').exec;
+
   /**
    * Bump version
    *  - increase version
@@ -36,12 +38,13 @@ module.exports = function(grunt) {
 
 
     // increment the version
-    var package = grunt.file.readJSON('package.json');
-    var previousVersion = package.version;
-    var newVersion = package.version = grunt.helper('bump_version', previousVersion, type);
+    var PKG_FILE = 'package.json';
+    var pkg = grunt.file.readJSON(PKG_FILE);
+    var previousVersion = pkg.version;
+    var newVersion = pkg.version = grunt.helper('bump_version', previousVersion, type);
 
     // write updated package.json
-    grunt.file.write('package.json', JSON.stringify(package, null, '  '));
+    grunt.file.write(PKG_FILE, JSON.stringify(pkg, null, '  '));
     grunt.log.ok('Version bumped to ' + newVersion);
 
     // generate changelog

@@ -1,4 +1,6 @@
 module.exports = function(grunt) {
+  var TRAVIS = process.env.TRAVIS;
+  var BROWSERS = TRAVIS ? 'Firefox' : 'Chrome,ChromeCanary,Firefox,Opera,Safari,PhantomJS';
 
   /**
    * Run tests

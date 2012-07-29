@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  var exec = require('child_process').exec;
+
   /**
    * Show content of the package to double check before publishing
    */
