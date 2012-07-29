@@ -129,6 +129,8 @@ describe 'config', ->
       expect(config.singleRun).toBe false
       expect(config.browsers).toEqual []
 
+      expect(config.proxies).toEqual {}
+
       expect(config.LOG_DISABLE).toBeUndefined()
       expect(config.JASMINE).toBeUndefined()
       expect(config.console).toBeUndefined()

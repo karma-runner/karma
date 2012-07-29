@@ -21,6 +21,7 @@
     "socket.io": ">= 0.8.5",
     "chokidar": ">=0.3.0",
     "glob": ">=3.1.10",
+    "http-proxy": ">=0.8.2",
     "minimatch": ">=0.2.5",
     "optimist": ">= 0.3.1"
   },
