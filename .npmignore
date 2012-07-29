@@ -6,7 +6,6 @@ docs/*.graffle
 
 TODO.md
 jsl.conf
-Jakefile
 grunt.js
 changelog.sh
 
