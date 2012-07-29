@@ -26,7 +26,8 @@ var BROWSERS = process.env.TRAVIS ? 'Firefox' : 'Chrome,ChromeCanary,Firefox,Ope
 
     test: {
       unit: 'test/unit',
-      client: 'test/client/config.js'
+      client: 'test/client/config.js',
+      e2e: 'test/e2e/*/testacular.conf.js'
     },
 
     jshint: {
@@ -70,6 +71,32 @@ var BROWSERS = process.env.TRAVIS ? 'Firefox' : 'Chrome,ChromeCanary,Firefox,Ope
 
   grunt.registerMultiTask('test', 'Run tests.', function() {
     var specDone = this.async();
+
+    // E2E tests
+    if (this.target === 'e2e') {
+      var tests = grunt.file.expand(this.data);
+      var cmd = './bin/testacular';
+      var args = [null, '--single-run', '--no-auto-watch', '--browsers=' + BROWSERS];
+
+      var next = function(err, result, code) {
+        if (code) {
+          grunt.fail.fatal('E2E test "' + args[0] + '" failed.', code);
+        } else {
+          args[0] = tests.shift();
+          if (args[0]) {
+            grunt.log.writeln('Running ' + cmd + args.join(' '));
+            grunt.utils.spawn({cmd: cmd, args: args}, next).stdout.pipe(process.stdout);
+          } else {
+            specDone();
+          }
+        }
+      };
+
+      return next();
+    }
+
+
+    // other: unit, client
     var exec = function(cmd, args, failMsg) {
       grunt.utils.spawn({cmd: cmd, args: args}, function(err, result, code) {
         if (code) {

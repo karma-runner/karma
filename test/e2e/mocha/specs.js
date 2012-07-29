@@ -20,7 +20,6 @@ describe('Array', function() {
       var some = 'x';
 
       while (i--) {
-        console.log(i);
         some = some + 'xxx';
       }
 
