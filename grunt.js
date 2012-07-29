@@ -123,5 +123,17 @@ var BROWSERS = process.env.TRAVIS ? 'Firefox' : 'Chrome,ChromeCanary,Firefox,Ope
 
     exec.apply(null, TASK[this.target]);
   });
-};
 
+
+  grunt.registerTask('npm-check', 'Show list of files that would be published to npm', function() {
+    var exec = require('child_process').exec;
+    var done = this.async();
+
+    exec('npm pack', function(err, pkgFile) {
+      exec('tar -tf ' + pkgFile, function(err, pkgContent) {
+        console.log(pkgContent);
+        exec('rm ' + pkgFile, done);
+      });
+    });
+  });
+};
