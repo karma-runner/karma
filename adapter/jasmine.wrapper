@@ -1,6 +1,6 @@
 (function(window) {
 
-  %CONTENT%
+%CONTENT%
 
 
 window.__testacular__.start = createStartFn(window.__testacular__);
