@@ -17,16 +17,22 @@ module.exports = function(grunt) {
     if (this.target === 'e2e') {
       var tests = grunt.file.expand(this.data);
       var cmd = './bin/testacular';
-      var args = [null, '--single-run', '--no-auto-watch', '--browsers=' + BROWSERS];
+      var args = [
+        null, '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS
+      ];
 
       var next = function(err, result, code) {
         if (code) {
+          console.error(err);
           grunt.fail.fatal('E2E test "' + args[0] + '" failed.', code);
         } else {
           args[0] = tests.shift();
           if (args[0]) {
             grunt.log.writeln('Running ' + cmd + args.join(' '));
-            grunt.utils.spawn({cmd: cmd, args: args}, next).stdout.pipe(process.stdout);
+            var child = grunt.utils.spawn({cmd: cmd, args: args}, next);
+
+            child.stdout.pipe(process.stdout);
+            child.stderr.pipe(process.stderr);
           } else {
             specDone();
           }
@@ -39,13 +45,17 @@ module.exports = function(grunt) {
 
     // other: unit, client
     var exec = function(cmd, args, failMsg) {
-      grunt.utils.spawn({cmd: cmd, args: args}, function(err, result, code) {
+      var child = grunt.utils.spawn({cmd: cmd, args: args}, function(err, result, code) {
         if (code) {
+          console.error(err);
           grunt.fail.fatal(failMsg, code);
         } else {
           specDone();
         }
-      }).stdout.pipe(process.stdout);
+      });
+
+      child.stdout.pipe(process.stdout);
+      child.stderr.pipe(process.stderr);
     };
 
     var TASK = {
@@ -57,7 +67,7 @@ module.exports = function(grunt) {
 
       client: [
         'testacular',
-        [this.data, '--single-run', '--no-auto-watch', '--browsers=' + BROWSERS],
+        [this.data, '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS],
         'Client unit tests failed.'
       ]
     };
