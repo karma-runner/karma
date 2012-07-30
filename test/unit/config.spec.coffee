@@ -2,12 +2,9 @@
 # lib/config.js module
 #==============================================================================
 describe 'config', ->
-  util = require '../test-util.js'
   fsMock = require('mocks').fs
   loadFile = require('mocks').loadFile
   mocks = m = e = null
-
-  beforeEach util.disableLogger
 
   beforeEach ->
     # create instance of fs mock
@@ -50,8 +47,11 @@ describe 'config', ->
     consoleSpy = null
 
     beforeEach ->
-      require('../../lib/logger').setLevel 1 # enable errors
-      consoleSpy = spyOn(console, 'log')
+      logger = require '../../lib/logger'
+      logger.setLevel 1 # enable errors
+      logger.useColors false
+
+      consoleSpy = spyOn console, 'log'
 
 
     it 'should resolve relative basePath to config directory', ->

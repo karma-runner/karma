@@ -7,6 +7,7 @@ describe 'logger', ->
   beforeEach ->
     spyOn console, 'log'
     logger.setLevel 4 # set to DEBUG
+    logger.useColors false
 
   it 'should have error method', ->
     logger.create('FAKE').error 'whatever'
