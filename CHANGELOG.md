@@ -1,3 +1,7 @@
+### v0.0.17
+* Fix race condition in testacular run
+* Fix only watch files if autoWatch true
+
 ### v0.0.16
 * Mocha adapter
 * Fix watching/resolving on Windows
