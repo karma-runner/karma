@@ -3,55 +3,57 @@
 #==============================================================================
 describe 'cli', ->
   cli = require '../../lib/cli'
+  optimist = require 'optimist'
   constant = require '../../lib/constants'
 
-  describe 'server', ->
+  processArgs = (args) ->
+    argv = optimist.parse(args)
+    cli.processArgs argv, {}
 
-  it 'should return camelCased options', ->
-    options = cli.server ['node', 'testacular', 'some.conf', '--port', '12', '--runner-port', '45',
-      '--single-run']
+  describe 'processArgs', ->
 
-    expect(options.configFile).toBe 'some.conf'
-    expect(options.port).toBe 12
-    expect(options.runnerPort).toBe 45
-    expect(options.singleRun).toBe true
+    it 'should return camelCased options', ->
+      options = processArgs ['some.conf', '--port', '12', '--runner-port', '45', '--single-run']
 
-
-  it 'should parse options without configFile and set default', ->
-    options = cli.server ['node', 'testacular', '--auto-watch', '--auto-watch-interval', '10']
-
-    expect(options.configFile).toBe 'testacular.conf'
-    expect(options.autoWatch).toBe true
-    expect(options.autoWatchInterval).toBe 10
+      expect(options.configFile).toBe 'some.conf'
+      expect(options.port).toBe 12
+      expect(options.runnerPort).toBe 45
+      expect(options.singleRun).toBe true
 
 
-  it 'should parse auto-watch, colors, singleRun to boolean', ->
-    options = cli.server ['node', 'testacular', '--auto-watch', 'false', '--colors', 'false',
-      '--single-run', 'false']
+    it 'should parse options without configFile and set default', ->
+      options = processArgs ['--auto-watch', '--auto-watch-interval', '10']
 
-    expect(options.autoWatch).toBe false
-    expect(options.colors).toBe false
-    expect(options.singleRun).toBe false
-
-    options = cli.server ['node', 'testacular', '--auto-watch', 'true', '--colors', 'true',
-      '--single-run', 'true']
-
-    expect(options.autoWatch).toBe true
-    expect(options.colors).toBe true
-    expect(options.singleRun).toBe true
+      expect(options.configFile).toBe 'testacular.conf.js'
+      expect(options.autoWatch).toBe true
+      expect(options.autoWatchInterval).toBe 10
 
 
-  it 'should replace log-level constants', ->
-    options = cli.server ['node', 'testacular', '--log-level', 'debug']
-    expect(options.logLevel).toBe constant.LOG_DEBUG
+    it 'should parse auto-watch, colors, singleRun to boolean', ->
+      options = processArgs ['--auto-watch', 'false', '--colors', 'false', '--single-run', 'false']
 
-    options = cli.server ['node', 'testacular', '--log-level', 'error']
-    expect(options.logLevel).toBe constant.LOG_ERROR
+      expect(options.autoWatch).toBe false
+      expect(options.colors).toBe false
+      expect(options.singleRun).toBe false
 
-    options = cli.server ['node', 'testacular', '--log-level', 'warn']
-    expect(options.logLevel).toBe constant.LOG_WARN
+      options = processArgs ['--auto-watch', 'true', '--colors', 'true', '--single-run', 'true']
+
+      expect(options.autoWatch).toBe true
+      expect(options.colors).toBe true
+      expect(options.singleRun).toBe true
 
 
-  it 'should parse browsers into an array', ->
-    options = cli.server ['node', 'testacular', '--browsers', 'Chrome,ChromeCanary,Firefox']
-    expect(options.browsers).toEqual ['Chrome', 'ChromeCanary', 'Firefox']
+    it 'should replace log-level constants', ->
+      options = processArgs ['--log-level', 'debug']
+      expect(options.logLevel).toBe constant.LOG_DEBUG
+
+      options = processArgs ['--log-level', 'error']
+      expect(options.logLevel).toBe constant.LOG_ERROR
+
+      options = processArgs ['--log-level', 'warn']
+      expect(options.logLevel).toBe constant.LOG_WARN
+
+
+    it 'should parse browsers into an array', ->
+      options = processArgs ['--browsers', 'Chrome,ChromeCanary,Firefox']
+      expect(options.browsers).toEqual ['Chrome', 'ChromeCanary', 'Firefox']

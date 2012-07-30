@@ -18,16 +18,16 @@ module.exports = function(grunt) {
       var tests = grunt.file.expand(this.data);
       var cmd = './bin/testacular';
       var args = [
-        null, '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS
+        'start', null, '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS
       ];
 
       var next = function(err, result, code) {
         if (code) {
           console.error(err);
-          grunt.fail.fatal('E2E test "' + args[0] + '" failed.', code);
+          grunt.fail.fatal('E2E test "' + args[1] + '" failed.', code);
         } else {
-          args[0] = tests.shift();
-          if (args[0]) {
+          args[1] = tests.shift();
+          if (args[1]) {
             grunt.log.writeln('Running ' + cmd + args.join(' '));
             var child = grunt.utils.spawn({cmd: cmd, args: args}, next);
 
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
 
       client: [
         'testacular',
-        [this.data, '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS],
+        ['start', this.data, '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS],
         'Client unit tests failed.'
       ]
     };

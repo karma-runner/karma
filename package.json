@@ -41,8 +41,7 @@
   },
   "main": "./lib/index",
   "bin": {
-    "testacular": "./bin/testacular",
-    "testacular-run": "./bin/testacular-run"
+    "testacular": "./bin/testacular"
   },
   "engines": {
     "node": ">= 0.8.4"

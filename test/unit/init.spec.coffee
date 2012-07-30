@@ -6,7 +6,7 @@ describe 'init', ->
   m = null
 
   beforeEach ->
-    m = loadFile __dirname + '/../../lib/init.js'
+    m = loadFile __dirname + '/../../lib/init.js', {glob: require 'glob'}
 
   describe 'getBasePath', ->
 

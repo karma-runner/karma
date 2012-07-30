@@ -1,8 +1,17 @@
 #!/usr/bin/env node
 
-var path = require('path');
-var server = require('../lib/server');
 var cli = require('../lib/cli');
 
-var options = cli.server();
-server.start(path.resolve(options.configFile), options);
+var config = cli.process();
+
+switch (config.cmd) {
+  case 'start':
+    require('../lib/server').start(config);
+    break;
+  case 'run':
+    require('../lib/runner').run(config);
+    break;
+  case 'init':
+    require('../lib/init').init(config);
+    break;
+}
