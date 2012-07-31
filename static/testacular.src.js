@@ -1,10 +1,12 @@
-var CONTEXT_URL = '/context.html';
+var CONTEXT_URL = 'context.html';
 
 // connect socket.io
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-var socket = io.connect(location, {
+var testacularSrcPrefix = '%TESTACULAR_SRC_PREFIX%';
+var socket = io.connect(location.href.substring(0, location.href.length - testacularSrcPrefix.length), {
   'reconnection delay': 500,
   'reconnection limit': 2000,
+  'resource': testacularSrcPrefix + 'socket.io',
   'max reconnection attempts': Infinity
 });
 
