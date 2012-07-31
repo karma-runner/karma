@@ -20,7 +20,8 @@
     "Igor Minár <igor.minar@gmail.com>",
     "Peter Bacon Darwin <pete@bacondarwin.com>",
     "Andy Joslin <andytjoslin@gmail.com>",
-    "Marcello Nuccio <marcello.nuccio@gmail.com>"
+    "Marcello Nuccio <marcello.nuccio@gmail.com>",
+    "Shyam Seshadri <shyamseshadri@gmail.com>"
   ],
   "dependencies": {
     "socket.io": ">= 0.9.0",
