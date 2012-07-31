@@ -30,7 +30,6 @@ curl http://registry.npmjs.org/testacular/-/testacular-x.y.z.tgz | tar -xv && mv
 # create symlinks (optional)
 cd testacular
 sudo ln -s $PWD/bin/testacular /usr/local/bin/testacular
-sudo ln -s $PWD/bin/testacular-run /usr/local/bin/testacular
 ````
 
 ## What is it good for ?
@@ -48,14 +47,17 @@ Go into your project and create a testacular configuration. Basically you need t
 For an example configuration, see [test/client/config.js](https://github.com/vojtajina/testacular/blob/master/test/client/config.js) which contains most of the options.
 
 ````bash
-# start server
-testacular your-project.conf
+# create config file (testacular.conf.js by default)
+testacular init
 
-# open browsers you want to test
+# start server
+testacular start
+
+# open browsers you want to test (if testacular is not configured to do it for you)
 open http://localhost:8080
 
 # if you want to run tests manually (without auto watching file changes), you can:
-testacular-run
+testacular run
 ````
 
 ## Testing frameworks support
@@ -79,10 +81,8 @@ If you are thinking about making Testacular better, or you just want to hack on 
 git clone git://github.com/vojtajina/testacular.git # or clone your fork
 
 cd testacular
-sudo npm install . --dev # install all dev dependencies (such as jake, jasmine-node, etc...)
+sudo npm install . --dev # install all dev dependencies (such as grunt, jasmine-node, etc...)
 ````
-
-Check out `jake -T` for all available tasks.
 
 If you have any further questions, join the [mailing list](https://groups.google.com/forum/#!forum/testacular) or [submit an issue](https://github.com/vojtajina/testacular/issues/new).
 
@@ -99,6 +99,6 @@ console.clear = clear;
 [Socket.io]: http://socket.io/
 [Node.js]: http://nodejs.org/
 [NPM]: http://npmjs.org/
-[Jake]: https://github.com/mde/jake
+[Grunt]: http://gruntjs.com/
 [Jasmine]: http://pivotal.github.com/jasmine/
 [fork the repo]: https://github.com/vojtajina/testacular/fork_select
