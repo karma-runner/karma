@@ -38,6 +38,8 @@ describe 'web-server', ->
     other:
       'file.js': fsMock.file(0, 'js-source')
 
+  mocks['http-proxy'] = {}
+
   globals = process: {}
 
   # load file under test
