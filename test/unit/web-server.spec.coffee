@@ -44,13 +44,13 @@ describe 'web-server', ->
   m = loadFile __dirname + '/../../lib/web-server.js', mocks, globals
 
   beforeEach ->
-    handler = m.createHandler fileList, '/tcular/static', '/tcular/adapter', '/base/path'
+    handler = m.createHandler fileList, '/tcular/static', '/tcular/adapter', '/base/path', {}, {}
     response = new httpMock.ServerResponse
     files = []
     globals.process.platform = 'darwin'
 
 
-  it 'should server client.html', ->
+  it 'should serve client.html', ->
     handler new httpMock.ServerRequest('/'), response
     waitForFinishingResponse()
 
@@ -67,6 +67,53 @@ describe 'web-server', ->
       expect(response._body).toEqual 'CLIENT HTML'
       expect(response._status).toBe 200
 
+  it 'should proxy requests', ->
+    actualOptions = {}
+    mocks.proxy = {}
+    mocks.proxy.proxyRequest = (req, res, opt) ->
+      actualOptions = opt
+      res.writeHead 200
+      res.end 'DONE'
+
+    handler = m.createHandler fileList, '/tcular/static', '/tcular/adapter', '/base/path',
+        mocks.proxy, {'/proxy': 'http://localhost:9000'}
+    handler new httpMock.ServerRequest('/proxy/test.html'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(actualOptions).toEqual {host: 'localhost', port: '9000'}
+
+  it 'should support multiple proxies', ->
+    actualOptions = {}
+    mocks.proxy = {}
+    mocks.proxy.proxyRequest = (req, res, opt) ->
+      actualOptions = opt
+      res.writeHead 200
+      res.end 'DONE'
+
+    handler = m.createHandler fileList, '/tcular/static', '/tcular/adapter', '/base/path',
+      mocks.proxy, {'/proxy': 'http://localhost:9000', '/static': 'http://gstatic.com'}
+    handler new httpMock.ServerRequest('/static/test.html'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(actualOptions).toEqual {host: 'gstatic.com', port: '80'}
+
+  it 'should handle nested proxies', ->
+    actualOptions = {}
+    mocks.proxy = {}
+    mocks.proxy.proxyRequest = (req, res, opt) ->
+      actualOptions = opt
+      res.writeHead 200
+      res.end 'DONE'
+
+    handler = m.createHandler fileList, '/tcular/static', '/tcular/adapter', '/base/path',
+      mocks.proxy, {'/sub': 'http://localhost:9000', '/sub/some': 'http://gstatic.com'}
+    handler new httpMock.ServerRequest('/sub/some/Test.html'), response
+    waitForFinishingResponse()
+
+    runs ->
+      expect(actualOptions).toEqual {host: 'gstatic.com', port: '80'}
 
   it 'should server context.html with replaced script tags', ->
     files = [{path: '/first.js', mtime: new Date 12345},

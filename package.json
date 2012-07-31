@@ -27,6 +27,7 @@
     "chokidar": ">=0.4.0",
     "glob": ">=3.1.11",
     "minimatch": ">=0.2.5",
+    "http-proxy": ">=0.8.2",
     "optimist": ">= 0.3.4"
   },
   "devDependencies": {
