@@ -1,6 +1,7 @@
 node_modules
 adapter/jasmine.js
 adapter/mocha.js
+adapter/angular-scenario.js
 static/testacular.js
 .idea/*
 tmp/*

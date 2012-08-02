@@ -18,5 +18,8 @@ adapter/jasmine.wrapper
 adapter/mocha.src.js
 adapter/mocha.wrapper
 
+adapter/angular-scenario.src.js
+adapter/angular-scenario.wrapper
+
 static/testacular.src.js
 static/testacular.wrapper

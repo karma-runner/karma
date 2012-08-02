@@ -10,12 +10,15 @@ describe 'proxy unit tests', ->
     waitsFor (-> response._isFinished()), 'Finish response', 100
   mocks = {}
 
+  beforeEach util.disableLogger
+
   mocks['http-proxy'] = {}
   globals = process: {}
 
   m = loadFile __dirname + '/../../lib/proxy.js', mocks, globals
 
   mockProxy = {}
+  mockProxy.on = ->
   mockProxy.proxyRequest = (req, res, opt) ->
     actualOptions = opt
     requestedUrl = req.url
