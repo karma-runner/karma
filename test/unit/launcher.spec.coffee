@@ -59,8 +59,8 @@ describe 'launcher', ->
           @kill = jasmine.createSpy 'kill'
           instance = @
 
-        l.launch [customLauncher], 1234
-        expect(instance.start).toHaveBeenCalledWith 'http://localhost:1234/?id=1'
+        l.launch [customLauncher], 1234, '/_testacular_/'
+        expect(instance.start).toHaveBeenCalledWith 'http://localhost:1234/_testacular_/?id=1'
 
         l.kill()
         expect(instance.kill).toHaveBeenCalled()
