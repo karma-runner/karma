@@ -22,8 +22,6 @@ describe 'proxy unit tests', ->
     res.writeHead 200
     res.end 'DONE'
   response = null
-  getProxy = (mockProxy, proxy) ->
-    m.createProxyHandler mockProxy, m.parseProxyConfig(proxy)
 
   beforeEach ->
     actualOptions = {}
@@ -31,7 +29,7 @@ describe 'proxy unit tests', ->
     response = new httpMock.ServerResponse
 
   it 'should proxy requests', ->
-    proxy = getProxy mockProxy, {'/proxy': 'http://localhost:9000'}
+    proxy = m.createProxyHandler mockProxy, {'/proxy': 'http://localhost:9000'}
 
     expect(proxy new httpMock.ServerRequest('/proxy/test.html'), response).toBeTruthy()
     waitForFinishingResponse()
@@ -41,7 +39,7 @@ describe 'proxy unit tests', ->
       expect(actualOptions).toEqual {host: 'localhost', port: '9000'}
 
   it 'should support multiple proxies', ->
-    proxy = getProxy mockProxy, {'/proxy': 'http://localhost:9000', '/static': 'http://gstatic.com'}
+    proxy = m.createProxyHandler mockProxy, {'/proxy': 'http://localhost:9000', '/static': 'http://gstatic.com'}
     expect(proxy new httpMock.ServerRequest('/static/test.html'), response).toBeTruthy()
     waitForFinishingResponse()
 
@@ -50,7 +48,7 @@ describe 'proxy unit tests', ->
       expect(actualOptions).toEqual {host: 'gstatic.com', port: '80'}
 
   it 'should handle nested proxies', ->
-    proxy = getProxy mockProxy, {'/sub': 'http://localhost:9000', '/sub/some': 'http://gstatic.com/something'}
+    proxy = m.createProxyHandler mockProxy, {'/sub': 'http://localhost:9000', '/sub/some': 'http://gstatic.com/something'}
     expect(proxy new httpMock.ServerRequest('/sub/some/Test.html'), response).toBeTruthy()
     waitForFinishingResponse()
 
