@@ -5,7 +5,7 @@
 
 
 // base path, that will be used to resolve files and exclude
-basePath = '../..'
+basePath = '../..';
 
 // list of files / patterns to load in the browser
 files = [
@@ -13,6 +13,7 @@ files = [
   JASMINE_ADAPTER,
   'test/client/mocks.js',
   'static/testacular.src.js',
+  'test/client/mocks/ObjectModel.js',
   'adapter/*.src.js',
   'test/client/*.spec.js'
 ];

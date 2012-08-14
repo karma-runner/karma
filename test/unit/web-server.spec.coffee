@@ -51,9 +51,10 @@ describe 'web-server', ->
 
   describe 'integration tests', ->
     handler = null
-    mockProxy = {};
+    mockProxy = {}
     actualOptions = null
 
+    mockProxy.on = ->
     mockProxy.proxyRequest = (req, res, opt) ->
       actualOptions = opt
       res.writeHead 200
@@ -64,7 +65,8 @@ describe 'web-server', ->
         {path: '/second.js', mtime: new Date 67890},
         {path: '/base/path/a.js', mtime: new Date 12345}]
 
-      handler = m.createHandler fileList, staticFolderPath, adapterFolderPath, baseFolder, mockProxy, {'/_testacular_/': 'http://localhost:9000'}, '/_testacular_/'
+      handler = m.createHandler fileList, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
+          {'/_testacular_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'}, '/_testacular_/'
       actualOptions = {}
       response = new httpMock.ServerResponse()
 
@@ -77,14 +79,10 @@ describe 'web-server', ->
         expect(response._status).toBe 200
         expect(actualOptions).toEqual {}
 
-    it 'should delegate to proxy after testacular files', ->
-      handler new httpMock.ServerRequest('/_testacular_/not_client.html'), response
-      waitForFinishingResponse()
-
-      runs ->
-        expect(actualOptions).toEqual {host: 'localhost', port: '9000'}
 
     it 'should check for forbidden files before serving', ->
+      handler = m.createHandler fileList, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
+          {'/_testacular_/': 'http://localhost:9000'}, '/_testacular_/'
       handler new httpMock.ServerRequest('/base/other.js'), response
       waitForFinishingResponse()
 
@@ -92,7 +90,7 @@ describe 'web-server', ->
         expect(response._status).toBe 404
         expect(response._body).toBe 'NOT FOUND'
 
-    it 'should serve static files last', ->
+    it 'should serve static files after proxy', ->
       handler new httpMock.ServerRequest('/base/a.js'), response
       waitForFinishingResponse()
 
@@ -100,8 +98,23 @@ describe 'web-server', ->
         expect(response._body).toBe 'js-src-a'
         expect(response._status).toBe 200
 
+    it 'should delegate to proxy after checking for testacular files', ->
+      handler new httpMock.ServerRequest('/_testacular_/not_client.html'), response
+      waitForFinishingResponse()
+
+      runs ->
+        expect(actualOptions).toEqual {host: 'localhost', port: '9000'}
+
+    it 'should delegate to proxy after checking for source files', ->
+      handler new httpMock.ServerRequest('/base/not_client.html'), response
+      waitForFinishingResponse()
+
+      runs ->
+        expect(actualOptions).toEqual {host: 'localhost', port: '1000'}
+
+
     it 'should give 404 for missing files', ->
-      handler new httpMock.ServerRequest('/base/non-existent.html'), response
+      handler new httpMock.ServerRequest('/file/non-existent.html'), response
       waitForFinishingResponse()
 
       runs ->
@@ -272,13 +285,8 @@ describe 'web-server', ->
         expect(response._headers['Expires']).toBe ZERO_DATE
 
 
-    it 'should serve 404 page for non-existing files', ->
-      srcFileHandler new httpMock.ServerRequest('/base/non-existing.html'), response
-      waitForFinishingResponse()
-
-      runs ->
-        expect(response._body).toBe 'NOT FOUND'
-        expect(response._status).toBe 404
+    it 'should return false for non-existing files', ->
+      expect(srcFileHandler new httpMock.ServerRequest('/base/non-existing.html'), response).toBeFalsy()
 
 
     it 'should not allow resources that are not in the file list', ->
@@ -288,9 +296,4 @@ describe 'web-server', ->
 
       runs ->
         expect(srcFileHandler new httpMock.ServerRequest('/base/other.js'), response).toBeFalsy()
-        waitForFinishingResponse()
-
-      runs ->
-        expect(response._status).toBe 404
-        expect(response._body).toBe 'NOT FOUND'
 
