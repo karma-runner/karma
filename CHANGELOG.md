@@ -1,3 +1,15 @@
+### v0.1.0
+* Adapter for AngularJS scenario runner
+* Allow serving Testacular from a subpath
+* Fix race condition in testacular run
+* Make testacular one binary (remove `testacular-run`, use `testacular run`)
+* Add support for proxies
+* Init script for generating config files (`testacular init`)
+* Start Firefox without custom profile if it fails
+* Preserve order of watched paths for easier debugging
+* Change default port to 9876
+* Require node v0.8.4+
+
 ### v0.0.16
 * Mocha adapter
 * Fix watching/resolving on Windows
