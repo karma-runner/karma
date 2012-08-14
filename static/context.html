@@ -8,6 +8,13 @@ Realoaded before every execution run.
 <head>
   <title></title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  Execution context
+  <!-- The scripts need to be at the end of body, so that some test running frameworks
+       (Angular Scenario, for example) need the body to be loaded so that it can insert its magic
+       into it. If it is before body, then it fails to find the body and crashes and burns in an epic
+       manner. -->
   <script type="text/javascript">
     window.__testacular__ = window.parent.testacular;
 
@@ -21,8 +28,5 @@ Realoaded before every execution run.
   <script type="text/javascript">
     window.__testacular__.loaded();
   </script>
-</head>
-<body>
-  Execution context
 </body>
 </html>
