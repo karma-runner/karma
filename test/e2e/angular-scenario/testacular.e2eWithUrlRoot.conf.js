@@ -11,5 +11,5 @@ files = [
 autoWatch = true;
 
 proxies = {
-  '/': 'http://localhost:8000/test/e2e/angular-scenario/'
+  '/prefixPath/': 'http://localhost:8000/test/e2e/angular-scenario/'
 };
