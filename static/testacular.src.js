@@ -3,7 +3,7 @@ var CONTEXT_URL = 'context.html';
 // connect socket.io
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
 var testacularSrcPrefix = '%TESTACULAR_SRC_PREFIX%';
-var socket = io.connect(location.href.substring(0, location.href.length - testacularSrcPrefix.length), {
+var socket = io.connect(location.href.replace(testacularSrcPrefix, ''), {
   'reconnection delay': 500,
   'reconnection limit': 2000,
   'resource': testacularSrcPrefix + 'socket.io',
