@@ -21,7 +21,8 @@
     "Peter Bacon Darwin <pete@bacondarwin.com>",
     "Andy Joslin <andytjoslin@gmail.com>",
     "Marcello Nuccio <marcello.nuccio@gmail.com>",
-    "Shyam Seshadri <shyamseshadri@gmail.com>"
+    "Shyam Seshadri <shyamseshadri@gmail.com>",
+    "Peter Swan <pete@indabamusic.com>"
   ],
   "dependencies": {
     "socket.io": ">= 0.9.0",
