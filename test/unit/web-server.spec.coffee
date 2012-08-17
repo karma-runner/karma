@@ -221,6 +221,17 @@ describe 'web-server', ->
         expect(response._headers['Expires']).toBe ZERO_DATE
 
 
+    it 'should redirect urlRoot without trailing slash', ->
+      retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_'), response
+      expect(retVal).toBe true
+      waitForFinishingResponse()
+
+      runs ->
+        expect(response._status).toBe 301
+        expect(response._headers['Location']).toBe '/_testacular_/'
+
+
+
 
   describe 'source files handler', ->
     srcFileHandler = null
