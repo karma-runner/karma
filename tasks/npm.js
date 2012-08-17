@@ -24,9 +24,9 @@ module.exports = function(grunt) {
     this.requires('build');
 
     var done = this.async();
-    exec('npm publish', function(err, output, error) {
+    exec('npm publish --tag canary', function(err, output, error) {
       if (err) return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
-      grunt.log.ok('Published to NPM');
+      grunt.log.ok('Published to NPM @canary');
       done();
     });
   });
