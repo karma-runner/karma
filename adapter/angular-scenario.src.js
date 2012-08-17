@@ -19,6 +19,26 @@ var createNgScenarioStartFn = function(tc, scenarioSetupAndRun) {
 
 var registerResultListeners = function(model, tc) {
   var totalTests = 0;
+
+  var createFailedSpecLog = function(spec) {
+    var failedStep = findFailedStep(spec.steps);
+    return [
+      failedStep.name,
+      spec.line ? spec.line + ': ' + spec.error : spec.error
+    ];
+  };
+
+  var findFailedStep = function(steps) {
+    var stepCount = steps.length;
+    for(var i=0; i<stepCount; i++) {
+      var step = steps[i];
+      if (step.status === 'failure') {
+        return step;
+      }
+    }
+    return null;
+  };
+
   model.on('SpecBegin', function(spec) {
     totalTests++;
     tc.info({total: totalTests});
@@ -34,8 +54,7 @@ var registerResultListeners = function(model, tc) {
       time: spec.duration
     };
     if (spec.error) {
-      var errorMsg = spec.line ? spec.line + ': ' + spec.error : spec.error;
-      result.log = [errorMsg];
+      result.log = createFailedSpecLog(spec);
     }
     tc.result(result);
   });
