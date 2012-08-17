@@ -1,10 +1,10 @@
-basePath = '../../../';
-
 files = [
   ANGULAR_SCENARIO,
   ANGULAR_SCENARIO_ADAPTER,
-  'test/e2e/angular-scenario/e2eSpec.js'
+  'e2eSpec.js'
 ];
+
+urlRoot = '/__testacular/';
 
 autoWatch = true;
 

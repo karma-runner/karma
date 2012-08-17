@@ -135,3 +135,17 @@ describe 'config', ->
       expect(config.JASMINE).toBeUndefined()
       expect(config.console).toBeUndefined()
       expect(config.require).toBeUndefined()
+
+
+    it 'should normalize urlRoot config', ->
+      config = m.normalizeConfig {urlRoot: '', files: [], exclude: []}
+      expect(config.urlRoot).toBe '/'
+
+      config = m.normalizeConfig {urlRoot: '/a/b', files: [], exclude: []}
+      expect(config.urlRoot).toBe '/a/b/'
+
+      config = m.normalizeConfig {urlRoot: 'a/', files: [], exclude: []}
+      expect(config.urlRoot).toBe '/a/'
+
+      config = m.normalizeConfig {urlRoot: 'some/thing', files: [], exclude: []}
+      expect(config.urlRoot).toBe '/some/thing/'
