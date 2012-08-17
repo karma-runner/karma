@@ -18,6 +18,9 @@ describe('adapter angular-scenario', function() {
       failingSpec.duration = 13;
       failingSpec.line = '12';
       failingSpec.error = 'Boooooo!!!';
+      failedStep = new angular.scenario.ObjectModel.Step('failing step');
+      failedStep.status = 'failure';
+      failingSpec.steps.push(failedStep);
       tc = new Testacular(new MockSocket(), {});
 
       registerResultListeners(model, tc);
@@ -54,7 +57,7 @@ describe('adapter angular-scenario', function() {
         expect(result.suite).toEqual([]);
         expect(result.success).toBe(false);
         expect(result.skipped).toBe(false);
-        expect(result.log).toEqual([failingSpec.line + ': ' + failingSpec.error]);
+        expect(result.log).toEqual([failedStep.name, failingSpec.line + ': ' + failingSpec.error]);
         expect(result.time).toBe(failingSpec.duration);
       });
 
