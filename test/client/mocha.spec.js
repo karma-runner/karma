@@ -103,5 +103,26 @@ describe('adapter mocha', function() {
         expect(tc.result).toHaveBeenCalled();
       });
     });
+
+    describe('fail', function() {
+      it('should end test on hook failure', function() {
+        spyOn(tc, 'result').andCallFake(function(result) {
+          expect(result.success).toBe(false);
+          expect(result.skipped).toBe(false);
+          expect(result.log).toEqual(['hook failed']);
+        });
+
+        var mockMochaHook = {
+          type: 'hook',
+          title: 'scenario "before each" hook',
+          parent: {title: 'desc1', root: true}
+        };
+
+        runner.emit('hook', mockMochaHook);
+        runner.emit('fail', mockMochaHook, {message: 'hook failed'});
+
+        expect(tc.result).toHaveBeenCalled();
+      })
+    })
   });
 });
