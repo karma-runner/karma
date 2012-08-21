@@ -88,6 +88,19 @@ If you have any further questions, join the [mailing list](https://groups.google
 
 You can follow [@TestacularJS](http://twitter.com/TestacularJS) as well.
 
+
+## Versions
+
+Testacular uses [Semantic Versioning]. All even versions (eg. `0.2.x`, `0.4.x`) are stable.
+
+### Stable channel
+
+    npm install -g testacular
+
+### Canary channel
+
+    npm install -g testacular@canary
+
 <!--
 - anything on console will leak whole iframe window
 - it clears console before run (but works only in FF), Chrome/Safari does not allow, so do this:
@@ -102,3 +115,4 @@ console.clear = clear;
 [Grunt]: http://gruntjs.com/
 [Jasmine]: http://pivotal.github.com/jasmine/
 [fork the repo]: https://github.com/vojtajina/testacular/fork_select
+[Semantic Versioning]: http://semver.org/
