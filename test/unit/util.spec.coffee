@@ -135,3 +135,24 @@ describe 'util', ->
       expect(util.isUrlAbsolute '/some/more.py').toBe false
       expect(util.isUrlAbsolute 'http://some.com/path').toBe true
       expect(util.isUrlAbsolute 'https://more.org/some.js').toBe true
+
+
+  #==============================================================================
+  # util.formatTimeInterval()
+  #==============================================================================
+  describe 'formatTimeInterval', ->
+
+    it 'should format into seconds', ->
+      expect(util.formatTimeInterval 23000).toBe '23 secs'
+
+
+    it 'should format into minutes', ->
+      expect(util.formatTimeInterval 142000).toBe '2 mins 22 secs'
+
+
+    it 'should handle singular minute or second', ->
+      expect(util.formatTimeInterval 61000).toBe '1 min 1 sec'
+
+
+    it 'should round to miliseconds', ->
+      expect(util.formatTimeInterval 163017).toBe '2 mins 43.017 secs'
