@@ -22,7 +22,9 @@
     "Andy Joslin <andytjoslin@gmail.com>",
     "Marcello Nuccio <marcello.nuccio@gmail.com>",
     "Shyam Seshadri <shyamseshadri@gmail.com>",
-    "Peter Swan <pete@indabamusic.com>"
+    "Peter Swan <pete@indabamusic.com>",
+    "Bulat Shakirzyanov <mallluhuct@gmail.com>",
+    "David Jensen <david.lgj@gmail.com>"
   ],
   "dependencies": {
     "socket.io": ">= 0.9.0",
