@@ -74,3 +74,18 @@ var createMochaStartFn = function(mocha) {
     mocha.run();
   };
 };
+
+var createDumpFn = function(tc, serialize) {
+  return function() {
+
+    var args = Array.prototype.slice.call(arguments, 0);
+
+    if (serialize) {
+      for (var i = 0; i < args.length; i++) {
+        args[i] = serialize(args[i]);
+      }
+    }
+
+    tc.info({dump: args});
+  };
+};
