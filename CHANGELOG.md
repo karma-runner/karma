@@ -1,3 +1,12 @@
+### v0.1.1
+* Report slow tests (add `reportSlowerThan` config option)
+* Report time in minutes if it's over 60 seconds
+* Mocha adapter: add ability to fail during beforeEach/afterEach hooks
+* Mocha adapter: add dump()
+* NG scenario adapter: failure includes step name
+* Redirect /urlRoot to /urlRoot/
+* Fix serving with urlRoot
+
 ### v0.1.0
 * Adapter for AngularJS scenario runner
 * Allow serving Testacular from a subpath
