@@ -52,3 +52,6 @@ browsers = [];
 
 // Auto run tests on start (when browsers are captured) and exit
 singleRun = false;
+
+// report which specs are slower than 500ms
+reportSlowerThan = 500;

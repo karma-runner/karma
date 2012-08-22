@@ -16,7 +16,7 @@ describe 'reporter', ->
 
     beforeEach ->
       adapter = jasmine.createSpy 'STDOUT'
-      reporter = new m.BaseReporter null, adapter
+      reporter = new m.BaseReporter null, null, adapter
 
 
     it 'should write to all registered adapters', ->

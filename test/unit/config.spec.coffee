@@ -128,6 +128,7 @@ describe 'config', ->
       expect(config.reporter).toBe 'progress'
       expect(config.singleRun).toBe false
       expect(config.browsers).toEqual []
+      expect(config.reportSlowerThan).toBe 0
 
       expect(config.proxies).toEqual {}
 
