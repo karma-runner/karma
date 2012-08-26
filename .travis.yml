@@ -9,4 +9,7 @@ before_script:
   - grunt build
 
 script:
-  - grunt test
+  - grunt test:unit
+  - grunt test:client
+  - grunt test:e2e:basic
+  - grunt test:e2e:mocha
