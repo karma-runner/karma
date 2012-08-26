@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     if (this.target === 'e2e') {
       var tests = grunt.file.expand(this.data);
       var processToKill;
-      var cmd = './bin/testacular';
+      var cmd = 'testacular';
       var args = [
         'start', null, '--log-level=debug', '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS
       ];
