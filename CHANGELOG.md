@@ -1,3 +1,7 @@
+### v0.1.2
+* Fix jasmine memory leaks
+* support __filename and __dirname in config files
+
 ### v0.1.1
 * Report slow tests (add `reportSlowerThan` config option)
 * Report time in minutes if it's over 60 seconds
