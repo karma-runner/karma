@@ -32,9 +32,9 @@ module.exports = function(grunt) {
     if (this.target === 'e2e') {
       var tests = grunt.file.expand(this.data);
       var processToKill;
-      var cmd = './bin/testacular';
+      var cmd = 'testacular';
       var args = [
-        'start', null, '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS
+        'start', null, '--log-level=debug', '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS
       ];
 
       var next = function(err, result, code) {
@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 
     // CLIENT unit tests
     else if (this.target === 'client') {
-      exec('testacular', ['start', this.data, '--single-run', '--no-auto-watch', '--reporter=dots',
+      exec('testacular', ['start', this.data, '--single-run', '--log-level=debug', '--no-auto-watch', '--reporter=dots',
           '--browsers=' + BROWSERS], 'Client unit tests failed.');
     }
   });
