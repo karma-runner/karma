@@ -24,7 +24,8 @@
     "Shyam Seshadri <shyamseshadri@gmail.com>",
     "Peter Swan <pete@indabamusic.com>",
     "Bulat Shakirzyanov <mallluhuct@gmail.com>",
-    "David Jensen <david.lgj@gmail.com>"
+    "David Jensen <david.lgj@gmail.com>",
+    "Ruben Orduz <rubenoz+github@gmail.com>"
   ],
   "dependencies": {
     "socket.io": ">= 0.9.0",
