@@ -12,20 +12,22 @@ var socket = io.connect('http://' + location.host, {
 
 var browsersElement = document.getElementById('browsers');
 socket.on('info', function(browsers) {
-  var items = [];
+  var items = [], status;
   for (var i = 0; i < browsers.length; i++) {
-    items.push(browsers[i].name + ' is ' + (browsers[i].isReady ? 'idle' : 'executing'));
+    status = browsers[i].isReady ? 'idle' : 'executing';
+    items.push('<li class="' + status + '">' + browsers[i].name + ' is ' + status + '</li>');
   }
-  browsersElement.innerHTML = '<li>' + items.join('</li><li>') + '</li>';
+  browsersElement.innerHTML = items.join('\n');
 });
 socket.on('disconnect', function() {
   browsersElement.innerHTML = '';
 });
 
-var statusElement = document.getElementById('status');
+var titleElement = document.getElementById('title');
 var updateStatus = function(status) {
   return function(param) {
-    statusElement.innerHTML = param ? status.replace('$', param) : status;
+    titleElement.innerHTML = 'Testacular - ' + (param ? status.replace('$', param) : status);
+    titleElement.className = status === 'connected' ? 'online' : 'offline';
   };
 };
 
