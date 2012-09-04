@@ -1,10 +1,10 @@
 # Testacular [![Build Status](https://secure.travis-ci.org/vojtajina/testacular.png?branch=master)](http://travis-ci.org/vojtajina/testacular)
 
-Simple tool, that allows you to execute JavaScript code in multiple _real_ browsers, powered by [Node.js] and [Socket.io].
+A simple tool that allows you to execute JavaScript code in multiple _real_ browsers, powered by [Node.js] and [Socket.io].
 
 [![Build Status](https://github.com/vojtajina/testacular/raw/master/screencast_858.png)](http://www.youtube.com/watch?v=MVw8N3hTfCI)
 
-**The main purpose is to make your TDD development easy, fast and fun...**
+**The main purpose of Testacular is to make your TDD development easy, fast, and fun.**
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@ Simple tool, that allows you to execute JavaScript code in multiple _real_ brows
 ````bash
 sudo npm install -g testacular
 
-# or install in local folder (you have to create symlinks to binaries on your own)
+# or install in a local folder (you have to create symlinks to binaries on your own)
 npm install testacular
 ````
 
@@ -32,15 +32,15 @@ cd testacular
 sudo ln -s $PWD/bin/testacular /usr/local/bin/testacular
 ````
 
-## What is it good for ?
+## What is it good for?
 
-Mostly for testing you code in multiple browsers (desktop, mobile, tablets):
+Mostly for testing code in multiple browsers (desktop, mobile, tablets):
 
-- executing tests during development
-- executing tests on continuous integration server
+- executing tests locally during development
+- executing tests on a continuous integration server
 
 
-## Let's do it
+## Let's do it!
 
 Go into your project and create a testacular configuration. Basically you need to specify the source files that you want to execute.
 
@@ -62,15 +62,15 @@ testacular run
 
 ## Testing frameworks support
 
-Testacular is not a testing framework, so that you can use pretty much anything you like.
+Testacular is not an assertion framework, so for that you can use pretty much anything you like.
 
 However, we provide an adapter for [Jasmine].
 If you wanna write an adapter for your favourite testing framework, that's great - check out [adapter/jasmine.src.js](https://github.com/vojtajina/testacular/blob/master/adapter/jasmine.src.js) and write your own.
 
 
-## Why am I doing this ?
+## Why am I doing this?
 
-During development of [AngularJS], we've been using [JSTD] for testing. I really think, it's a great idea. Unfortunately, we had many problems with JSTD, so we decided to write our own tool, without testing frameworks or anything you actually don't need. Just a simple tool for execution JavaScript, that is stable and fast. That's why we use awesome [Socket.io] library. More than that, with [Node.js], we can execute JavaScript even without any browser, which is much faster, so it's very helpful during development, when we need to get the feedback as quick as possible.
+Throughout the development of [AngularJS], we've been using [JSTD] for testing. I really think that JSTD is a good idea. Unfortunately, we had many problems with JSTD, so we decided to write our own test runner based on the same idea. We wanted a simple tool just for executing JavaScript tests that is both stable and fast. That's why we use the awesome [Socket.io] library. More than that, with [Node.js], we can execute JavaScript without the overhead of a browser, which is much faster. This speed is very helpful during development when we need to get feedback as quick as possible.
 
 
 ## Development
