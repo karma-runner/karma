@@ -1,3 +1,7 @@
+### v0.1.3
+* Launch Canary with crankshaft disabled
+* Make the captured page nicer
+
 ### v0.1.2
 * Fix jasmine memory leaks
 * support __filename and __dirname in config files
