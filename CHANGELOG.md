@@ -1,12 +1,14 @@
-### v0.1.3
+### v0.2.0 (stable)
+
+### v0.1.3 (unstable)
 * Launch Canary with crankshaft disabled
 * Make the captured page nicer
 
-### v0.1.2
+### v0.1.2 (unstable)
 * Fix jasmine memory leaks
 * support __filename and __dirname in config files
 
-### v0.1.1
+### v0.1.1 (unstable)
 * Report slow tests (add `reportSlowerThan` config option)
 * Report time in minutes if it's over 60 seconds
 * Mocha adapter: add ability to fail during beforeEach/afterEach hooks
@@ -15,7 +17,7 @@
 * Redirect /urlRoot to /urlRoot/
 * Fix serving with urlRoot
 
-### v0.1.0
+### v0.1.0 (unstable)
 * Adapter for AngularJS scenario runner
 * Allow serving Testacular from a subpath
 * Fix race condition in testacular run
@@ -26,6 +28,10 @@
 * Preserve order of watched paths for easier debugging
 * Change default port to 9876
 * Require node v0.8.4+
+
+### v0.0.17
+* Fix race condition in manually triggered run
+* Fix autoWatch config
 
 ### v0.0.16
 * Mocha adapter
