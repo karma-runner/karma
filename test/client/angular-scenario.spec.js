@@ -26,14 +26,12 @@ describe('adapter angular-scenario', function() {
       registerResultListeners(model, tc);
     });
 
-    it('should update number of tests as it sees them', function() {
+    it('should update number of tests in the beginning', function() {
       spyOn(tc, 'info');
+      angular.scenario.Describe = {specId: 13};
 
-      model.emit('SpecBegin');
-      expect(tc.info).toHaveBeenCalledWith({total: 1});
-
-      model.emit('SpecBegin');
-      expect(tc.info).toHaveBeenCalledWith({total: 2});
+      model.emit('RunnerBegin');
+      expect(tc.info).toHaveBeenCalledWith({total: 13});
     });
 
     it('should handle passing tests', function() {
