@@ -39,8 +39,8 @@ var registerResultListeners = function(model, tc) {
     return null;
   };
 
-  model.on('SpecBegin', function(spec) {
-    totalTests++;
+  model.on('RunnerBegin', function() {
+    totalTests = angular.scenario.Describe.specId;
     tc.info({total: totalTests});
   });
 
