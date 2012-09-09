@@ -1,4 +1,4 @@
-# Testacular [![Build Status](https://secure.travis-ci.org/vojtajina/testacular.png?branch=master)](http://travis-ci.org/vojtajina/testacular)
+# Testacular [![Build Status](https://secure.travis-ci.org/vojtajina/testacular.png?branch=stable)](http://travis-ci.org/vojtajina/testacular) [![Build Status](https://secure.travis-ci.org/vojtajina/testacular.png?branch=master)](http://travis-ci.org/vojtajina/testacular)
 
 A simple tool that allows you to execute JavaScript code in multiple _real_ browsers, powered by [Node.js] and [Socket.io].
 
