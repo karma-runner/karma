@@ -63,3 +63,11 @@ describe 'cli', ->
     it 'should resolve configFile to absolute path', ->
       options = processArgs ['some/config.js']
       expect(options.configFile).toBe CWD + '/some/config.js'
+
+
+    it 'should parse report-slower-than to a number', ->
+      options = processArgs ['--report-slower-than', '2000']
+      expect(options.reportSlowerThan).toBe 2000
+
+      options = processArgs ['--no-report-slower-than']
+      expect(options.reportSlowerThan).toBe 0
