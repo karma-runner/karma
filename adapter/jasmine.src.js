@@ -45,7 +45,7 @@ var TestacularReporter = function(tc) {
 
   this.reportSuiteResults = function(suite) {
     // memory clean up
-    suite.after_ = null
+    suite.after_ = null;
     suite.before_ = null;
     suite.queue = null;
   };
