@@ -48,8 +48,8 @@ describe 'launcher', ->
 
         expect(mockExec).toHaveBeenCalled()
         expect(mockExec.callCount).toBe 2
-        expect(mockExec.argsForCall[0][0]).toMatch /^"\/usr\/bin\/google-chrome"/
-        expect(mockExec.argsForCall[1][0]).toMatch /^"\/usr\/bin\/google-chrome-canary"/
+        expect(mockExec.argsForCall[0][0]).toMatch /^"google-chrome"/
+        expect(mockExec.argsForCall[1][0]).toMatch /^"google-chrome-canary"/
 
 
       it 'should allow custom browser launcher', ->
