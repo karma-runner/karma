@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    pkg: '<json:package.json>',
     files: {
       server: ['lib/*.js'],
       client: ['static/testacular.src.js'],
