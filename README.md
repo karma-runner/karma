@@ -62,20 +62,20 @@ testacular run
 
 ## Testing frameworks support
 
-Testacular is not an assertion framework, so for that you can use pretty much anything you like.
+Testacular is not a testing framework, neither an assertion library, so for that you can use pretty much anything you like.
 
-However, we provide an adapter for [Jasmine].
+However, we provide an adapter for [Jasmine] and [Mocha].
 If you wanna write an adapter for your favourite testing framework, that's great - check out [adapter/jasmine.src.js](https://github.com/vojtajina/testacular/blob/master/adapter/jasmine.src.js) and write your own.
 
 
 ## Why am I doing this?
 
-Throughout the development of [AngularJS], we've been using [JSTD] for testing. I really think that JSTD is a good idea. Unfortunately, we had many problems with JSTD, so we decided to write our own test runner based on the same idea. We wanted a simple tool just for executing JavaScript tests that is both stable and fast. That's why we use the awesome [Socket.io] library. More than that, with [Node.js], we can execute JavaScript without the overhead of a browser, which is much faster. This speed is very helpful during development when we need to get feedback as quick as possible.
+Throughout the development of [AngularJS], we've been using [JSTD] for testing. I really think that JSTD is a great idea. Unfortunately, we had many problems with JSTD, so we decided to write our own test runner based on the same idea. We wanted a simple tool just for executing JavaScript tests that is both stable and fast. That's why we use the awesome [Socket.io] library and [Node.js].
 
 
 ## Development
 
-If you are thinking about making Testacular better, or you just want to hack on it, that's great - go and [fork the repo].
+If you are thinking about making Testacular better, or you just want to hack on it, that's great - [fork the repo] and become [a contributor]!
 
 ````bash
 git clone git://github.com/vojtajina/testacular.git # or clone your fork
@@ -93,11 +93,11 @@ You can follow [@TestacularJS](http://twitter.com/TestacularJS) as well.
 
 Testacular uses [Semantic Versioning]. All even versions (eg. `0.2.x`, `0.4.x`) are stable.
 
-### Stable channel
+### Stable channel (branch "stable")
 
     npm install -g testacular
 
-### Canary channel
+### Canary channel (branch "master")
 
     npm install -g testacular@canary
 
@@ -114,5 +114,7 @@ console.clear = clear;
 [NPM]: http://npmjs.org/
 [Grunt]: http://gruntjs.com/
 [Jasmine]: http://pivotal.github.com/jasmine/
+[Mocha]: http://visionmedia.github.com/mocha/
 [fork the repo]: https://github.com/vojtajina/testacular/fork_select
+[a contributor]: https://github.com/vojtajina/testacular/graphs/contributors
 [Semantic Versioning]: http://semver.org/
