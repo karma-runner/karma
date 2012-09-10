@@ -73,6 +73,8 @@ describe 'web-server', ->
 
     it 'should first look for testacular files', ->
       handler new httpMock.ServerRequest('/_testacular_/'), response
+
+      # TODO(vojta): refactor to waitForFinishingResponseAnd ->
       waitForFinishingResponse()
 
       runs ->
