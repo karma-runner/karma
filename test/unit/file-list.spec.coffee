@@ -10,15 +10,15 @@ describe 'file-list', ->
 
   mockGlob = mocks.glob.create
     '/some/*.js': ['/some/a.js', '/some/b.js']
-    '*.txt': ['/c.txt', '/a.txt', '/b.txt']
-    '*.js': ['/folder', '/folder/x.js']
-    '/a.*': ['/a.txt']
+    '*.txt':      ['/c.txt', '/a.txt', '/b.txt']
+    '*.js':       ['/folder', '/folder/x.js']
+    '/a.*':       ['/a.txt']
 
   mockFs = mocks.fs.create
     some:
       '0.js': mocks.fs.file '2012-04-04'
-      'a.js':   mocks.fs.file '2012-04-04'
-      'b.js':   mocks.fs.file '2012-05-05'
+      'a.js': mocks.fs.file '2012-04-04'
+      'b.js': mocks.fs.file '2012-05-05'
     folder:
       'x.js': mocks.fs.file 0
     'a.txt': mocks.fs.file 0
