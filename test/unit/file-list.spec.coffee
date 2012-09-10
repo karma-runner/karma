@@ -108,6 +108,16 @@ describe 'file-list', ->
         expect(findFile('http://some.com', list.buckets[0]).isUrl).toBe true
 
 
+    it 'should preprocess all files', ->
+      # MATCH /some/a.js, /some/b.js
+      list = new m.List ['/some/*.js'], [], null, preprocessMock
+
+      waitForRefreshAnd ->
+        expect(preprocessMock).toHaveBeenCalled()
+        expect(preprocessMock.callCount).toBe 2
+
+
+
   #============================================================================
   # List.getFiles()
   #============================================================================
@@ -202,6 +212,18 @@ describe 'file-list', ->
           expect(findFile('/a.js', list.getFiles()).mtime).toEqual new Date '2012-01-01'
 
 
+    it 'should preprocess added file', ->
+      # MATCH: /a.txt
+      list = new m.List ['/a.*'], [], emitter, preprocessMock
+
+      waitForRefreshAnd ->
+        preprocessMock.reset()
+        waitForAddingFile '/a.js', ->
+          expect(preprocessMock).toHaveBeenCalled()
+          expect(preprocessMock.argsForCall[0][0].originalPath).toBe '/a.js'
+
+
+
   #============================================================================
   # List.changeFile()
   #============================================================================
@@ -258,6 +280,17 @@ describe 'file-list', ->
           expect(list.getFiles()).toEqual []
           expect(onFileListModifiedSpy).toHaveBeenCalled()
 
+
+    it 'should preprocess changed file', ->
+      # MATCH: /some/a.js, /some/b.js
+      list = new m.List ['/some/*.js', '/a.*'], [], emitter, preprocessMock
+
+      waitForRefreshAnd ->
+        preprocessMock.reset()
+        mockFs._touchFile '/some/a.js', '2020-01-01'
+        waitForChangingFile '/some/a.js', ->
+          expect(preprocessMock).toHaveBeenCalled()
+          expect(preprocessMock.argsForCall[0][0].path).toBe '/some/a.js'
 
 
   #============================================================================
