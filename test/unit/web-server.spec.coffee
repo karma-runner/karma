@@ -61,9 +61,10 @@ describe 'web-server', ->
       res.end 'DONE'
 
     beforeEach ->
-      files = [{path: '/first.js', mtime: new Date 12345},
-        {path: '/second.js', mtime: new Date 67890},
-        {path: '/base/path/a.js', mtime: new Date 12345}]
+      # TODO(vojta): use real File (file-list.File)
+      files = [{path: '/first.js', contentPath: '/first.js', mtime: new Date 12345},
+        {path: '/second.js', contentPath: '/second.js', mtime: new Date 67890},
+        {path: '/base/path/a.js', contentPath: '/base/path/a.js', mtime: new Date 12345}]
 
       handler = m.createHandler fileList, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
           {'/_testacular_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'}, '/_testacular_/'
@@ -240,7 +241,7 @@ describe 'web-server', ->
       srcFileHandler = m.createSourceFileHandler fileList, '/tcular/adapter', '/base/path'
 
     it 'should serve absolute js source files ignoring timestamp', ->
-      files = [{path: '/src/some.js', mtime: new Date 12345}]
+      files = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js?123345'), response
       waitForFinishingResponse()
@@ -251,7 +252,7 @@ describe 'web-server', ->
 
 
     it 'should serve js source files from base folder ignoring timestamp', ->
-      files = [{path: '/base/path/a.js', mtime: new Date 12345}]
+      files = [{path: '/base/path/a.js', contentPath: '/base/path/a.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/base/a.js?123345'), response
 
@@ -263,7 +264,7 @@ describe 'web-server', ->
 
 
     it 'should serve js source files from adapter folder ignoring timestamp', ->
-      files = [{path: '/tcular/adapter/jasmine.js', mtime: new Date 12345}]
+      files = [{path: '/tcular/adapter/jasmine.js', contentPath: '/tcular/adapter/jasmine.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/adapter/jasmine.js?123345'), response
       waitForFinishingResponse()
@@ -274,7 +275,7 @@ describe 'web-server', ->
 
 
     it 'should send strict caching headers for js source files with timestamps', ->
-      files = [{path: '/src/some.js', mtime: new Date 12345}]
+      files = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js?12323'), response
       waitForFinishingResponse()
@@ -284,7 +285,7 @@ describe 'web-server', ->
 
 
     it 'should send no-caching headers for js source files without timestamps', ->
-      files = [{path: '/src/some.js', mtime: new Date 12345}]
+      files = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js'), response
       waitForFinishingResponse()
