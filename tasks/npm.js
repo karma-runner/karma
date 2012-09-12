@@ -26,7 +26,7 @@ module.exports = function(grunt) {
     var done = this.async();
     var pkg = grunt.config('pkg');
     var minor = parseInt(pkg.version.split('.')[1], 10);
-    var tag = minor % 2 ? 'latest' : 'canary';
+    var tag = minor % 2 ? 'canary' : 'latest';
 
     exec('npm publish --tag ' + tag, function(err, output, error) {
       if (err) return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
