@@ -1,3 +1,7 @@
+### v0.3.1
+* Run tests on start (if watching enabled)
+* Add launcher for IE8, IE9
+
 ### v0.3.0
 * Change browser binaries on linux to relative
 * Add report-slower-than to CLI options
