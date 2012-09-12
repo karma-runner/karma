@@ -37,11 +37,6 @@ socket.on('reconnecting', updateStatus('reconnecting in $ ms...'));
 socket.on('reconnect', updateStatus('re-connected'));
 socket.on('reconnect_failed', updateStatus('failed to reconnect'));
 
-socket.on('server_disconnect', function() {
-  socket.socket.disconnect();
-  socket.socket.reconnect();
-});
-
 var Testacular = function(socket, context, navigator, location) {
   var config;
   var hasError = false;
