@@ -1,3 +1,8 @@
+### v0.3.0
+* Change browser binaries on linux to relative
+* Add report-slower-than to CLI options
+* Fix PhantomJS binary on Travis CI
+
 ### v0.2.0 (stable)
 
 ### v0.1.3 (unstable)
