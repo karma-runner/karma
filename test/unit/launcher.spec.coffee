@@ -66,6 +66,12 @@ describe 'launcher', ->
         expect(instance.kill).toHaveBeenCalled()
 
 
+      it 'should allow launching a script', ->
+        l.launch ['/usr/local/bin/special-browser'], 1234, '/'
+        expect(mockExec).toHaveBeenCalled()
+        expect(mockExec.argsForCall[0][0]).toBe '"/usr/local/bin/special-browser" http://localhost:1234/?id=1'
+
+
     describe 'kill', ->
       exitSpy = null
 
