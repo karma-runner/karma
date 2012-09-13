@@ -1,3 +1,8 @@
+### v0.3.2
+* Disable autoWatch if singleRun
+* Add custom script browser launcher
+* Fix cleaning temp folders
+
 ### v0.3.1
 * Run tests on start (if watching enabled)
 * Add launcher for IE8, IE9
