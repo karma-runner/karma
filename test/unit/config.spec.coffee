@@ -157,3 +157,9 @@ describe 'config', ->
 
       config = m.normalizeConfig {urlRoot: 'some/thing', files: [], exclude: []}
       expect(config.urlRoot).toBe '/some/thing/'
+
+
+    it 'should change autoWatch to false if singleRun', ->
+      # config4.js has autoWatch = true
+      config = m.parseConfig '/home/config4.js', {singleRun: true}
+      expect(config.autoWatch).toBe false
