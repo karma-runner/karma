@@ -60,19 +60,14 @@ describe 'proxy unit tests', ->
       expect(actualOptions).toEqual {host: 'gstatic.com', port: '80'}
 
   it 'should parse a simple proxy config', ->
-    proxy = {'/base/': 'http://localhost:8000'}
+    proxy = {'/base/': 'http://localhost:8000/'}
     parsedProxyConfig = m.parseProxyConfig proxy
     expect(parsedProxyConfig).toEqual({'/base/': {host: 'localhost', port: '8000', baseProxyUrl: '/'}})
-
-  it 'should handle proxy configs without trailing slash', ->
-    proxy = {'/base': 'http://internationalhost:8000'}
-    parsedProxyConfig = m.parseProxyConfig proxy
-    expect(parsedProxyConfig).toEqual({'/base/': {host: 'internationalhost', port: '8000', baseProxyUrl: '/'}})
 
   it 'should handle proxy configs with paths', ->
     proxy = {'/base': 'http://localhost:8000/proxy'}
     parsedProxyConfig = m.parseProxyConfig proxy
-    expect(parsedProxyConfig).toEqual({'/base/': {host: 'localhost', port: '8000', baseProxyUrl: '/proxy/'}})
+    expect(parsedProxyConfig).toEqual({'/base': {host: 'localhost', port: '8000', baseProxyUrl: '/proxy'}})
 
   it 'should handle empty proxy config', ->
     expect(m.parseProxyConfig {}).toEqual({})
