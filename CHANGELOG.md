@@ -1,3 +1,6 @@
+### v0.3.3
+* Allow proxying files, not only directories
+
 ### v0.3.2
 * Disable autoWatch if singleRun
 * Add custom script browser launcher
