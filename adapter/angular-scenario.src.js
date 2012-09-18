@@ -18,7 +18,7 @@ var createNgScenarioStartFn = function(tc, scenarioSetupAndRun) {
 };
 
 var registerResultListeners = function(model, tc) {
-  var totalTests = 0;
+  var totalTests = 0, testsCompleted = 0;
 
   var createFailedSpecLog = function(spec) {
     var failedStep = findFailedStep(spec.steps);
@@ -39,8 +39,8 @@ var registerResultListeners = function(model, tc) {
     return null;
   };
 
-  model.on('SpecBegin', function(spec) {
-    totalTests++;
+  model.on('RunnerBegin', function() {
+    totalTests = angular.scenario.Describe.specId;
     tc.info({total: totalTests});
   });
 
@@ -56,10 +56,21 @@ var registerResultListeners = function(model, tc) {
     if (spec.error) {
       result.log = createFailedSpecLog(spec);
     }
+    testsCompleted++;
     tc.result(result);
   });
 
   model.on('RunnerEnd', function() {
+    var skippedTests = totalTests - testsCompleted;
+
+    // Inform Testacular about number of skipped tests
+    for (var i = 0; i < skippedTests; i++) {
+      tc.result({
+        id: 'Skipped' + (i + 1),
+        skipped: true,
+        time: 0
+      });
+    }
     tc.complete();
   });
 };
