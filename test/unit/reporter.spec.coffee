@@ -6,7 +6,7 @@ describe 'reporter', ->
   m = null
 
   beforeEach ->
-    m = loadFile __dirname + '/../../lib/reporter.js'
+    m = loadFile __dirname + '/../../lib/reporter.js', {xmlbuilder: require 'xmlbuilder'}
 
   #============================================================================
   # Base [PRIVATE]
