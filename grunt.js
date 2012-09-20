@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 
     test: {
       unit: 'test/unit',
-      client: 'test/client/config.js',
+      client: 'test/client/testacular.conf.js',
       e2e: 'test/e2e/*/testacular.conf.js'
     },
 
