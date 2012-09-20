@@ -298,5 +298,5 @@ describe 'file-list', ->
 
       winGlob = m.createWinGlob mockGlob
 
-      winGlob 'x:/Users/vojta/*.js', null, (err, results) ->
+      winGlob 'x:/Users/vojta/*.js', {}, (err, results) ->
         expect(results).toEqual ['x:/Users/vojta/file.js', 'x:/Users/vojta/more.js']
