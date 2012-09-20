@@ -1,3 +1,11 @@
+### v0.3.4
+* Change "reporter" config to "reporters"
+* Allow multiple reporters
+* Fix angular-scenario adapter to report proper description
+* Add JUnit xml reporter
+* Fix loading files from multiple drives on Windows
+* Fix angular-scenario adapter to report total number of tests
+
 ### v0.3.3
 * Allow proxying files, not only directories
 
