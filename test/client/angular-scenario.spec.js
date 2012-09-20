@@ -37,8 +37,8 @@ describe('adapter angular-scenario', function() {
     it('should handle passing tests', function() {
       spyOn(tc, 'result').andCallFake(function(result) {
         expect(result.id).toEqual(passingSpec.id);
-        expect(result.description).toEqual(passingSpec.fullDefinitionName);
-        expect(result.suite).toEqual([]);
+        expect(result.description).toEqual(passingSpec.name);
+        expect(result.suite).toEqual([passingSpec.fullDefinitionName]);
         expect(result.success).toBe(true);
         expect(result.skipped).toBe(false);
         expect(result.log).toBeUndefined();
@@ -51,8 +51,8 @@ describe('adapter angular-scenario', function() {
     it('should handle failing tests', function() {
       spyOn(tc, 'result').andCallFake(function(result) {
         expect(result.id).toEqual(failingSpec.id);
-        expect(result.description).toEqual(failingSpec.fullDefinitionName);
-        expect(result.suite).toEqual([]);
+        expect(result.description).toEqual(failingSpec.name);
+        expect(result.suite).toEqual([failingSpec.fullDefinitionName]);
         expect(result.success).toBe(false);
         expect(result.skipped).toBe(false);
         expect(result.log).toEqual([failedStep.name, failingSpec.line + ': ' + failingSpec.error]);

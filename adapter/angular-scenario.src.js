@@ -47,8 +47,8 @@ var registerResultListeners = function(model, tc) {
   model.on('SpecEnd', function(spec) {
     var result = {
       id: spec.id,
-      description: spec.fullDefinitionName,
-      suite: [],
+      description: spec.name,
+      suite: [spec.fullDefinitionName],
       success: spec.status === 'success',
       skipped: false,
       time: spec.duration
