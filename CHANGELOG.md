@@ -1,3 +1,6 @@
+### v0.3.5
+* Fix opera launcher to create new prefs with disabling all pop-ups
+
 ### v0.3.4
 * Change "reporter" config to "reporters"
 * Allow multiple reporters
