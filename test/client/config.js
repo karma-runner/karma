@@ -1,7 +1,9 @@
 // Sample Testacular configuration file, that contain pretty much all the available options
 // It's used for running client tests on Travis (http://travis-ci.org/#!/vojtajina/testacular)
 // Most of the options can be overriden by cli arguments (see testacular --help)
-
+//
+// For all available config options and default values, see:
+// https://github.com/vojtajina/testacular/blob/stable/lib/config.js#L54
 
 
 // base path, that will be used to resolve files and exclude
@@ -55,3 +57,8 @@ singleRun = false;
 
 // report which specs are slower than 500ms
 reportSlowerThan = 500;
+
+// compile coffee scripts
+preprocessors = {
+  '**/*.coffee': 'coffee'
+};
