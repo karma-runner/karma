@@ -71,3 +71,11 @@ describe 'cli', ->
 
       options = processArgs ['--no-report-slower-than']
       expect(options.reportSlowerThan).toBe 0
+
+
+    it 'should cast reporters to array', ->
+      options = processArgs ['--reporters', 'dots,junit']
+      expect(options.reporters).toEqual ['dots', 'junit']
+
+      options = processArgs ['--reporters', 'dots']
+      expect(options.reporters).toEqual ['dots']

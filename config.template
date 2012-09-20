@@ -19,8 +19,8 @@ exclude = [
 
 
 // test results reporter to use
-// possible values: dots || progress
-reporter = 'progress';
+// possible values: 'dots', 'progress', 'junit'
+reporters = ['progress'];
 
 
 // web server port

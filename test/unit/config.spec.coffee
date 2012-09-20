@@ -24,11 +24,12 @@ describe 'config', ->
         'more.js' : 1
       home:
         '.vojta'   : 1
-        'config1.js': fsMock.file 0, 'basePath = "base"'
+        'config1.js': fsMock.file 0, 'basePath = "base";reporter="dots"'
         'config2.js': fsMock.file 0, 'basePath = "/abs/base"'
         'config3.js': fsMock.file 0, 'files = ["one.js", "sub/two.js"];'
         'config4.js': fsMock.file 0, 'port = 123; autoWatch = true; basePath = "/abs/base"'
         'config5.js': fsMock.file 0, 'port = {f: __filename, d: __dirname}' # piggyback on port prop
+        'config6.js': fsMock.file 0, 'reporters = "junit";'
       conf:
         'invalid.js': fsMock.file 0, '={function'
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
@@ -126,7 +127,7 @@ describe 'config', ->
       expect(config.exclude).toEqual []
       expect(config.logLevel).toBeDefined()
       expect(config.autoWatch).toBe false
-      expect(config.reporter).toBe 'progress'
+      expect(config.reporters).toEqual ['progress']
       expect(config.singleRun).toBe false
       expect(config.browsers).toEqual []
       expect(config.reportSlowerThan).toBe 0
@@ -163,3 +164,8 @@ describe 'config', ->
       # config4.js has autoWatch = true
       config = m.parseConfig '/home/config4.js', {singleRun: true}
       expect(config.autoWatch).toBe false
+
+
+    it 'should normalize reporters to an array', ->
+      config = m.parseConfig '/home/config6.js', {}
+      expect(config.reporters).toEqual ['junit']

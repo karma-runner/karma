@@ -22,8 +22,8 @@ files = [
 exclude = [];
 
 // use dots reporter, as travis terminal does not support escaping sequences
-// possible values: 'dots' || 'progress'
-reporter = 'progress';
+// possible values: 'dots', 'progress', 'junit'
+reporters = ['progress'];
 
 // web server port
 port = 9876;
