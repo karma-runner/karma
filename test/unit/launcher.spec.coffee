@@ -10,7 +10,7 @@ describe 'launcher', ->
   beforeEach util.disableLogger
 
   beforeEach ->
-    mockSpawn = jasmine.createSpy 'exec'
+    mockSpawn = jasmine.createSpy 'spawn'
     mockSpawn._processes = []
     mockSpawn.andCallFake (cmd, args) ->
       process = new events.EventEmitter
@@ -23,16 +23,18 @@ describe 'launcher', ->
     mocks =
       child_process:
         spawn: mockSpawn
+      './logger': require '../../lib/logger'
+
     globals =
       global: global
       process: nextTick: process.nextTick, platform: 'linux', env: TMPDIR: '/temp'
 
-    m = loadFile __dirname + '/../../lib/launcher.js', mocks, globals
+    m = loadFile __dirname + '/../../lib/launcher.js', mocks, globals, true
     e = m.exports
 
     # mock out id generator
     lastGeneratedId = 0
-    m.generate.id = ->
+    e.Launcher.generateId = ->
       ++lastGeneratedId
 
 

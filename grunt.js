@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: '<json:package.json>',
     files: {
-      server: ['lib/*.js'],
+      server: ['lib/**/*.js'],
       client: ['static/testacular.src.js'],
       jasmine: ['adapter/jasmine.src.js'],
       mocha: ['adapter/mocha.src.js'],
