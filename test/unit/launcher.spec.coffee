@@ -30,6 +30,11 @@ describe 'launcher', ->
     m = loadFile __dirname + '/../../lib/launcher.js', mocks, globals
     e = m.exports
 
+    # mock out id generator
+    lastGeneratedId = 0
+    m.generate.id = ->
+      ++lastGeneratedId
+
 
   #============================================================================
   # launcher.Launcher
