@@ -56,20 +56,6 @@ describe 'launcher', ->
         expect(mockSpawn.argsForCall[1][0]).toBe 'google-chrome-canary'
 
 
-      it 'should allow custom browser launcher', ->
-        instance = null
-        customLauncher = ->
-          @start = jasmine.createSpy 'start'
-          @kill = jasmine.createSpy 'kill'
-          instance = @
-
-        l.launch [customLauncher], 1234, '/_testacular_/'
-        expect(instance.start).toHaveBeenCalledWith 'http://localhost:1234/_testacular_/?id=1'
-
-        l.kill()
-        expect(instance.kill).toHaveBeenCalled()
-
-
       it 'should allow launching a script', ->
         l.launch ['/usr/local/bin/special-browser'], 1234, '/'
         expect(mockSpawn).toHaveBeenCalled()
