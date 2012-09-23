@@ -48,8 +48,9 @@ autoWatch = true;
 // - ChromeCanary
 // - Firefox
 // - Opera
-// - Safari
+// - Safari (only Mac)
 // - PhantomJS
+// - IE (only Windows)
 browsers = [];
 
 // Auto run tests on start (when browsers are captured) and exit

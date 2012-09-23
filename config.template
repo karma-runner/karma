@@ -49,8 +49,9 @@ autoWatch = %AUTO_WATCH%;
 // - ChromeCanary
 // - Firefox
 // - Opera
-// - Safari
+// - Safari (only Mac)
 // - PhantomJS
+// - IE (only Windows)
 browsers = [%BROWSERS%];
 
 
