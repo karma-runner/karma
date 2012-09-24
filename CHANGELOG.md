@@ -1,3 +1,9 @@
+### v0.3.6
+* Remove custom launcher (constructor)
+* Launcher - use random id to allow multiple instances of the same browser
+* Fix Firefox launcher (creating profile)
+* Fix killing browsers on Linux and Windows
+
 ### v0.3.5
 * Fix opera launcher to create new prefs with disabling all pop-ups
 
