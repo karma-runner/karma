@@ -1,3 +1,7 @@
+### v0.3.7
+* Remove Travis hack
+* Fix Safari launcher
+
 ### v0.3.6
 * Remove custom launcher (constructor)
 * Launcher - use random id to allow multiple instances of the same browser
