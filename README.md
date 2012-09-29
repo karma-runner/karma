@@ -6,13 +6,11 @@ A simple tool that allows you to execute JavaScript code in multiple _real_ brow
 
 **The main purpose of Testacular is to make your TDD development easy, fast, and fun.**
 
-## Prerequisites
-
-- [Node.js]
-- [NPM] (shipped with Node since 0.6.3)
-
 
 ## Installation
+
+First, you need to install [NodeJS]. [There are installers](http://nodejs.org/download/) for both
+Macintosh and Windows. On Linux, we recommend using [NVM].
 
 ````bash
 sudo npm install -g testacular
@@ -88,7 +86,7 @@ sudo npm install . --dev # install all dev dependencies (such as grunt, jasmine-
 
 - create a branch per feature/fix
 - follow http://nodeguide.com/style.html (with exception of 100 characters per line)
-- send pull request requesting a merge to `master` branch (not stable)
+- send pull request requesting a merge to `master` branch (not to default `stable`)
 
 
 If you have any further questions, join the [mailing list](https://groups.google.com/forum/#!forum/testacular) or [submit an issue](https://github.com/vojtajina/testacular/issues/new).
@@ -98,7 +96,8 @@ You can follow [@TestacularJS](http://twitter.com/TestacularJS) as well.
 
 ## Versions
 
-Testacular uses [Semantic Versioning]. All even versions (eg. `0.2.x`, `0.4.x`) are stable.
+Testacular uses [Semantic Versioning]. All even versions (eg. `0.2.x`, `0.4.x`) are considered to
+be stable - no breaking changes, only bug fixes.
 
 ### Stable channel (branch "stable")
 
@@ -117,8 +116,8 @@ console.clear = clear;
 [AngularJS]: http://angularjs.org/
 [JSTD]: http://code.google.com/p/js-test-driver/
 [Socket.io]: http://socket.io/
-[Node.js]: http://nodejs.org/
-[NPM]: http://npmjs.org/
+[NodeJS]: http://nodejs.org/
+[NVM]: https://github.com/creationix/nvm
 [Grunt]: http://gruntjs.com/
 [Jasmine]: http://pivotal.github.com/jasmine/
 [Mocha]: http://visionmedia.github.com/mocha/
