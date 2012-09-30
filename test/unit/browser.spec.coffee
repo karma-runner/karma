@@ -8,6 +8,24 @@ describe 'browser', ->
 
   beforeEach util.disableLogger
 
+
+  #============================================================================
+  # browser.Result
+  #============================================================================
+  describe 'Result', ->
+    result = null
+
+    beforeEach ->
+      spyOn(Date, 'now').andReturn 123
+      result = new b.Result
+
+
+    it 'should compute totalTime', ->
+      Date.now.andReturn 223
+      result.totalTimeEnd()
+      expect(result.totalTime).toBe 223 - 123
+
+
   #============================================================================
   # browser.Browser
   #============================================================================
@@ -91,6 +109,15 @@ describe 'browser', ->
         expect(browser.lastResult.total).toBe 20
 
 
+      it 'should emit "browser_dump"', ->
+        spy = jasmine.createSpy 'dump'
+        emitter.on 'browser_dump', spy
+
+        browser.isReady = false
+        browser.onInfo {dump: 'something'}
+        expect(spy).toHaveBeenCalledWith browser, 'something'
+
+
       it 'should ignore if browser not executing', ->
         spy = jasmine.createSpy 'dump'
         browser.isReady = true
@@ -143,6 +170,41 @@ describe 'browser', ->
 
 
     #==========================================================================
+    # browser.Browser.onDisconnect
+    #==========================================================================
+    describe 'onDisconnect', ->
+
+      it 'should remove from parent collection', ->
+        collection.add browser
+
+        expect(collection.length).toBe 1
+        browser.onDisconnect()
+        expect(collection.length).toBe 0
+
+
+      it 'should complete if browser executing', ->
+        spy = jasmine.createSpy 'browser complete'
+        emitter.on 'browser_complete', spy
+        browser.isReady = false
+
+        browser.onDisconnect()
+
+        expect(browser.isReady).toBe true
+        expect(browser.lastResult.disconnected).toBe true
+        expect(spy).toHaveBeenCalled()
+
+
+      it 'should not complete if browser not executing', ->
+        spy = jasmine.createSpy 'browser complete'
+        emitter.on 'browser_complete', spy
+        browser.isReady = true
+
+        browser.onDisconnect()
+
+        expect(spy).not.toHaveBeenCalled()
+
+
+    #==========================================================================
     # browser.Browser.onResult
     #==========================================================================
     describe 'onResult', ->
@@ -185,41 +247,6 @@ describe 'browser', ->
         browser.onResult {time: 5, suite: [], log: []}
 
         expect(browser.lastResult.netTime).toBe 9
-
-
-    #==========================================================================
-    # browser.Browser.onDisconnect
-    #==========================================================================
-    describe 'onDisconnect', ->
-
-      it 'should remove from parent collection', ->
-        collection.add browser
-
-        expect(collection.length).toBe 1
-        browser.onDisconnect()
-        expect(collection.length).toBe 0
-
-
-      it 'should complete if browser executing', ->
-        spy = jasmine.createSpy 'browser complete'
-        emitter.on 'browser_complete', spy
-        browser.isReady = false
-
-        browser.onDisconnect()
-
-        expect(browser.isReady).toBe true
-        expect(browser.lastResult.disconnected).toBe true
-        expect(spy).toHaveBeenCalled()
-
-
-      it 'should not complete if browser not executing', ->
-        spy = jasmine.createSpy 'browser complete'
-        emitter.on 'browser_complete', spy
-        browser.isReady = true
-
-        browser.onDisconnect()
-
-        expect(spy).not.toHaveBeenCalled()
 
 
     #==========================================================================
