@@ -1,3 +1,10 @@
+### v0.2.1
+* Fix loading files from multiple drives on Windows
+* Fix cleaning temp folders
+* Fix phantoms launcher on Travis
+* Add report-slower-than to CLI options
+* Fix PhantomJS binary on Travis CI
+
 ### v0.2.0 (stable)
 
 ### v0.1.3 (unstable)
