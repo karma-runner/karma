@@ -53,6 +53,9 @@ autoWatch = true;
 // - IE (only Windows)
 browsers = [];
 
+// If browser does not capture in given timeout [ms], kill it
+captureTimeout = 5000;
+
 // Auto run tests on start (when browsers are captured) and exit
 singleRun = false;
 

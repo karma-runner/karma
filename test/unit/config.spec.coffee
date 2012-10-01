@@ -131,7 +131,7 @@ describe 'config', ->
       expect(config.singleRun).toBe false
       expect(config.browsers).toEqual []
       expect(config.reportSlowerThan).toBe 0
-
+      expect(config.captureTimeout).toBe 0
       expect(config.proxies).toEqual {}
 
       expect(config.LOG_DISABLE).toBeUndefined()
