@@ -1,3 +1,8 @@
+### v0.3.8
+* Kill browsers that don't capture in captureTimeout ms
+* Abort build if any browser fails to capture
+* Allow multiple profiles of Firefox
+
 ### v0.3.7
 * Remove Travis hack
 * Fix Safari launcher
