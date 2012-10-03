@@ -8,6 +8,24 @@ describe 'browser', ->
 
   beforeEach util.disableLogger
 
+
+  #============================================================================
+  # browser.Result
+  #============================================================================
+  describe 'Result', ->
+    result = null
+
+    beforeEach ->
+      spyOn(Date, 'now').andReturn 123
+      result = new b.Result
+
+
+    it 'should compute totalTime', ->
+      Date.now.andReturn 223
+      result.totalTimeEnd()
+      expect(result.totalTime).toBe 223 - 123
+
+
   #============================================================================
   # browser.Browser
   #============================================================================
@@ -91,6 +109,15 @@ describe 'browser', ->
         expect(browser.lastResult.total).toBe 20
 
 
+      it 'should emit "browser_dump"', ->
+        spy = jasmine.createSpy 'dump'
+        emitter.on 'browser_dump', spy
+
+        browser.isReady = false
+        browser.onInfo {dump: 'something'}
+        expect(spy).toHaveBeenCalledWith browser, 'something'
+
+
       it 'should ignore if browser not executing', ->
         spy = jasmine.createSpy 'dump'
         browser.isReady = true
@@ -143,6 +170,41 @@ describe 'browser', ->
 
 
     #==========================================================================
+    # browser.Browser.onDisconnect
+    #==========================================================================
+    describe 'onDisconnect', ->
+
+      it 'should remove from parent collection', ->
+        collection.add browser
+
+        expect(collection.length).toBe 1
+        browser.onDisconnect()
+        expect(collection.length).toBe 0
+
+
+      it 'should complete if browser executing', ->
+        spy = jasmine.createSpy 'browser complete'
+        emitter.on 'browser_complete', spy
+        browser.isReady = false
+
+        browser.onDisconnect()
+
+        expect(browser.isReady).toBe true
+        expect(browser.lastResult.disconnected).toBe true
+        expect(spy).toHaveBeenCalled()
+
+
+      it 'should not complete if browser not executing', ->
+        spy = jasmine.createSpy 'browser complete'
+        emitter.on 'browser_complete', spy
+        browser.isReady = true
+
+        browser.onDisconnect()
+
+        expect(spy).not.toHaveBeenCalled()
+
+
+    #==========================================================================
     # browser.Browser.onResult
     #==========================================================================
     describe 'onResult', ->
@@ -185,41 +247,6 @@ describe 'browser', ->
         browser.onResult {time: 5, suite: [], log: []}
 
         expect(browser.lastResult.netTime).toBe 9
-
-
-    #==========================================================================
-    # browser.Browser.onDisconnect
-    #==========================================================================
-    describe 'onDisconnect', ->
-
-      it 'should remove from parent collection', ->
-        collection.add browser
-
-        expect(collection.length).toBe 1
-        browser.onDisconnect()
-        expect(collection.length).toBe 0
-
-
-      it 'should complete if browser executing', ->
-        spy = jasmine.createSpy 'browser complete'
-        emitter.on 'browser_complete', spy
-        browser.isReady = false
-
-        browser.onDisconnect()
-
-        expect(browser.isReady).toBe true
-        expect(browser.lastResult.disconnected).toBe true
-        expect(spy).toHaveBeenCalled()
-
-
-      it 'should not complete if browser not executing', ->
-        spy = jasmine.createSpy 'browser complete'
-        emitter.on 'browser_complete', spy
-        browser.isReady = true
-
-        browser.onDisconnect()
-
-        expect(spy).not.toHaveBeenCalled()
 
 
     #==========================================================================
@@ -387,10 +414,83 @@ describe 'browser', ->
         browsers = [new b.Browser, new b.Browser]
         collection.add browsers[0]
         collection.add browsers[1]
-        browsers[0].lastResult = {success: 2, failed: 3}
-        browsers[1].lastResult = {success: 4, failed: 5}
+        browsers[0].lastResult.success = 2
+        browsers[0].lastResult.failed = 3
+        browsers[1].lastResult.success = 4
+        browsers[1].lastResult.failed = 5
 
-        expect(collection.getResults()).toEqual {success: 6, failed: 8}
+        results = collection.getResults()
+        expect(results.success).toBe 6
+        expect(results.failed).toBe 8
+
+
+      it 'should compute disconnected true if any browser got disconnected', ->
+        browsers = [new b.Browser, new b.Browser]
+        collection.add browsers[0]
+        collection.add browsers[1]
+
+        results = collection.getResults()
+        expect(results.disconnected).toBe false
+
+        browsers[0].lastResult.disconnected = true
+        results = collection.getResults()
+        expect(results.disconnected).toBe true
+
+        browsers[1].lastResult.disconnected = true
+        results = collection.getResults()
+        expect(results.disconnected).toBe true
+
+        browsers[0].lastResult.disconnected = false
+        results = collection.getResults()
+        expect(results.disconnected).toBe true
+
+
+      it 'should compute error true if any browser had error', ->
+        browsers = [new b.Browser, new b.Browser]
+        collection.add browsers[0]
+        collection.add browsers[1]
+
+        results = collection.getResults()
+        expect(results.error).toBe false
+
+        browsers[0].lastResult.error = true
+        results = collection.getResults()
+        expect(results.error).toBe true
+
+        browsers[1].lastResult.error = true
+        results = collection.getResults()
+        expect(results.error).toBe true
+
+        browsers[0].lastResult.error = false
+        results = collection.getResults()
+        expect(results.error).toBe true
+
+
+      it 'should compute exitCode', ->
+        browsers = [new b.Browser, new b.Browser]
+        collection.add browser for browser in browsers
+
+        browsers[0].lastResult.success = 2
+        results = collection.getResults()
+        expect(results.exitCode).toBe 0
+
+        browsers[0].lastResult.failed = 2
+        results = collection.getResults()
+        expect(results.exitCode).toBe 1
+
+        browsers[0].lastResult.failed = 0
+        browsers[1].lastResult.error = true
+        results = collection.getResults()
+        expect(results.exitCode).toBe 1
+
+        browsers[0].lastResult.disconnected = true
+        browsers[1].lastResult.error = false
+        results = collection.getResults()
+        expect(results.exitCode).toBe 1
+
+        browsers[0].lastResult.disconnected = false
+        results = collection.getResults()
+        expect(results.exitCode).toBe 0
 
 
     #==========================================================================
@@ -419,21 +519,46 @@ describe 'browser', ->
 
 
     #==========================================================================
-    # browser.Collection.toArray
+    # browser.Collection.clone
     #==========================================================================
-    describe 'toArray', ->
+    describe 'clone', ->
 
-      it 'should create copy of array', ->
-        collection.add new b.Browser
-        collection.add new b.Browser
-        collection.add new b.Browser
+      it 'should create a shallow copy of the collection', ->
+        browsers = [new b.Browser, new b.Browser, new b.Browser]
+        collection.add browser for browser in browsers
 
-        a1 = collection.toArray()
-        a2 = collection.toArray()
+        clone = collection.clone()
+        expect(clone.length).toBe 3
 
-        expect(a1).not.toBe a2
+        clone.remove browsers[0]
+        expect(clone.length).toBe 2
+        expect(collection.length).toBe 3
 
-        a1.pop()
-        expect(a1.length).toBe 2
-        expect(a2.length).toBe 3
+
+    #==========================================================================
+    # browser.Collection.map
+    #==========================================================================
+    describe 'map', ->
+
+      it 'should have map()', ->
+        browsers = [new b.Browser(1), new b.Browser(2), new b.Browser(3)]
+        collection.add browser for browser in browsers
+
+        mappedIds = collection.map (browser) ->
+          browser.id
+
+        expect(mappedIds).toEqual [1, 2, 3]
+
+
+    #==========================================================================
+    # browser.Collection.forEach
+    #==========================================================================
+    describe 'forEach', ->
+
+      it 'should have forEach()', ->
+        browsers = [new b.Browser(0), new b.Browser(1), new b.Browser(2)]
+        collection.add browser for browser in browsers
+
+        collection.forEach (browser, index) ->
+          expect(browser.id).toBe index
 

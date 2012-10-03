@@ -44,6 +44,10 @@ var TestacularReporter = function(tc) {
   };
 
   this.reportSuiteResults = function(suite) {
+    // memory clean up
+    suite.after_ = null;
+    suite.before_ = null;
+    suite.queue = null;
   };
 
   this.reportSpecStarting = function(spec) {
@@ -79,18 +83,22 @@ var TestacularReporter = function(tc) {
     }
 
     tc.result(result);
+
+    // memory clean up
+    spec.results_ = null;
+    spec.spies_ = null;
+    spec.queue = null;
   };
 
   this.log = function() {};
 };
 
 
-var createStartFn = function(tc, jasmineEnv) {
+var createStartFn = function(tc, jasmineEnvPassedIn) {
   return function(config) {
     // we pass jasmineEnv during testing
     // in production we ask for it lazily, so that adapter can be loaded even before jasmine
-    jasmineEnv = jasmineEnv || window.jasmine.getEnv();
-
+    var jasmineEnv = jasmineEnvPassedIn || window.jasmine.getEnv();
     var currentSpecsCount = jasmineEnv.nextSpecId_;
     var lastCount = tc.store('jasmine.lastCount');
     var lastFailedIds = tc.store('jasmine.lastFailedIds');

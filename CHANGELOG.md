@@ -1,4 +1,57 @@
-### v0.1.1
+### v0.3.8
+* Kill browsers that don't capture in captureTimeout ms
+* Abort build if any browser fails to capture
+* Allow multiple profiles of Firefox
+
+### v0.3.7
+* Remove Travis hack
+* Fix Safari launcher
+
+### v0.3.6
+* Remove custom launcher (constructor)
+* Launcher - use random id to allow multiple instances of the same browser
+* Fix Firefox launcher (creating profile)
+* Fix killing browsers on Linux and Windows
+
+### v0.3.5
+* Fix opera launcher to create new prefs with disabling all pop-ups
+
+### v0.3.4
+* Change "reporter" config to "reporters"
+* Allow multiple reporters
+* Fix angular-scenario adapter to report proper description
+* Add JUnit xml reporter
+* Fix loading files from multiple drives on Windows
+* Fix angular-scenario adapter to report total number of tests
+
+### v0.3.3
+* Allow proxying files, not only directories
+
+### v0.3.2
+* Disable autoWatch if singleRun
+* Add custom script browser launcher
+* Fix cleaning temp folders
+
+### v0.3.1
+* Run tests on start (if watching enabled)
+* Add launcher for IE8, IE9
+
+### v0.3.0
+* Change browser binaries on linux to relative
+* Add report-slower-than to CLI options
+* Fix PhantomJS binary on Travis CI
+
+### v0.2.0 (stable)
+
+### v0.1.3 (unstable)
+* Launch Canary with crankshaft disabled
+* Make the captured page nicer
+
+### v0.1.2 (unstable)
+* Fix jasmine memory leaks
+* support __filename and __dirname in config files
+
+### v0.1.1 (unstable)
 * Report slow tests (add `reportSlowerThan` config option)
 * Report time in minutes if it's over 60 seconds
 * Mocha adapter: add ability to fail during beforeEach/afterEach hooks
@@ -7,7 +60,7 @@
 * Redirect /urlRoot to /urlRoot/
 * Fix serving with urlRoot
 
-### v0.1.0
+### v0.1.0 (unstable)
 * Adapter for AngularJS scenario runner
 * Allow serving Testacular from a subpath
 * Fix race condition in testacular run
@@ -18,6 +71,10 @@
 * Preserve order of watched paths for easier debugging
 * Change default port to 9876
 * Require node v0.8.4+
+
+### v0.0.17
+* Fix race condition in manually triggered run
+* Fix autoWatch config
 
 ### v0.0.16
 * Mocha adapter

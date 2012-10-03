@@ -48,7 +48,7 @@ module.exports = function(grunt) {
     grunt.log.ok('Version bumped to ' + newVersion);
 
     // generate changelog
-    run('git log --grep=\\[changelog\\] --pretty="* %s" v' + previousVersion + '..HEAD', null, function(log) {
+    run('git log --grep="\\[changelog\\]" --pretty="* %s" v' + previousVersion + '..HEAD', null, function(log) {
       var title = '### v' + newVersion + '\n';
       var changelog = grunt.file.read('CHANGELOG.md');
       grunt.file.write('CHANGELOG.md', title + log + '\n' + changelog);

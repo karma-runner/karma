@@ -4,66 +4,93 @@
 describe 'launcher', ->
   events = require 'events'
   util = require '../test-util.js'
+  logger = require '../../lib/logger'
   loadFile = require('mocks').loadFile
-  m = e = mockExec = null
 
-  beforeEach util.disableLogger
+  mockSpawn = jasmine.createSpy 'spawn'
+  mockSpawn.andCallFake (cmd, args) ->
+    process = new events.EventEmitter
+    process.stderr = new events.EventEmitter
+    process.kill = jasmine.createSpy 'kill'
+    process.exitCode = null
+    mockSpawn._processes.push process
+    process
+
+  mocks =
+    child_process:
+      spawn: mockSpawn
+    './logger': logger
+    '../logger': logger
+
+  timeouts = [];
+
+  globals =
+    global: global
+    process: nextTick: process.nextTick, platform: 'linux', env: TMPDIR: '/temp'
+    setTimeout: (fn, timeout) ->
+      timeouts[timeout] = fn
+
+  m = loadFile __dirname + '/../../lib/launcher.js', mocks, globals, true
+  e = m.exports
 
   beforeEach ->
-    mockExec = jasmine.createSpy 'exec'
-    mockExec._processes = []
-    mockExec.andCallFake (cmd, callback) ->
-      process = new events.EventEmitter
-      process.kill = jasmine.createSpy 'kill'
-      process.exitCode = null
-      process._cmd = cmd
-      process._callback = callback
-      mockExec._processes.push process
-      process
+    mockSpawn.reset()
+    mockSpawn._processes = []
+    timeouts = []
 
-    mocks =
-      child_process:
-        exec: mockExec
-    globals =
-      global: global
-      process: nextTick: process.nextTick, platform: 'linux', env: TMPDIR: '/temp'
+    # mock out id generator
+    lastGeneratedId = 0
+    e.Launcher.generateId = ->
+      ++lastGeneratedId
 
-    m = loadFile __dirname + '/../../lib/launcher.js', mocks, globals
-    e = m.exports
+    # disable logger
+    logger.setLevel -1
 
 
   #============================================================================
   # launcher.Launcher
   #============================================================================
   describe 'Launcher', ->
-    l = null
+    l = emitter = null
 
     beforeEach ->
-      l = new e.Launcher
+      emitter = new events.EventEmitter()
+      l = new e.Launcher emitter
 
     describe 'launch', ->
 
       it 'should start all browsers', ->
         l.launch ['Chrome', 'ChromeCanary'], 1234
 
-        expect(mockExec).toHaveBeenCalled()
-        expect(mockExec.callCount).toBe 2
-        expect(mockExec.argsForCall[0][0]).toMatch /^"\/usr\/bin\/google-chrome"/
-        expect(mockExec.argsForCall[1][0]).toMatch /^"\/usr\/bin\/google-chrome-canary"/
+        expect(mockSpawn).toHaveBeenCalled()
+        expect(mockSpawn.callCount).toBe 2
+        expect(mockSpawn.argsForCall[0][0]).toBe 'google-chrome'
+        expect(mockSpawn.argsForCall[1][0]).toBe 'google-chrome-canary'
 
 
-      it 'should allow custom browser launcher', ->
-        instance = null
-        customLauncher = ->
-          @start = jasmine.createSpy 'start'
-          @kill = jasmine.createSpy 'kill'
-          instance = @
+      it 'should allow launching a script', ->
+        l.launch ['/usr/local/bin/special-browser'], 1234, '/'
+        expect(mockSpawn).toHaveBeenCalled()
+        expect(mockSpawn.argsForCall[0][0]).toBe '/usr/local/bin/special-browser'
+        expect(mockSpawn.argsForCall[0][1]).toEqual ['http://localhost:1234/?id=1']
 
-        l.launch [customLauncher], 1234, '/_testacular_/'
-        expect(instance.start).toHaveBeenCalledWith 'http://localhost:1234/_testacular_/?id=1'
 
-        l.kill()
-        expect(instance.kill).toHaveBeenCalled()
+      it 'should kill browsers that does not capture within timeout', ->
+        failureSpy = jasmine.createSpy 'browser_process_failure'
+        emitter.on 'browser_process_failure', failureSpy
+
+        l.launch ['Chrome'], 123, '/', 1000
+        timeouts[1000]()
+        expect(mockSpawn._processes[0].kill).toHaveBeenCalled()
+
+        mockSpawn._processes[0].emit 'exit', 0
+        expect(failureSpy).toHaveBeenCalled()
+
+
+      it 'should not use timeout, if captureTimeout is 0', ->
+        l.launch ['Chrome'], 123, '/', 0
+        expect(timeouts[0]).toBeUndefined()
+
 
 
     describe 'kill', ->
@@ -76,9 +103,9 @@ describe 'launcher', ->
         l.launch ['Chrome', 'ChromeCanary'], 1234
         l.kill()
 
-        expect(mockExec._processes.length).toBe 2
-        expect(mockExec._processes[0].kill).toHaveBeenCalled()
-        expect(mockExec._processes[1].kill).toHaveBeenCalled()
+        expect(mockSpawn._processes.length).toBe 2
+        expect(mockSpawn._processes[0].kill).toHaveBeenCalled()
+        expect(mockSpawn._processes[1].kill).toHaveBeenCalled()
 
 
       it 'should call callback when all processes killed', ->
@@ -86,20 +113,21 @@ describe 'launcher', ->
         l.kill exitSpy
 
         expect(exitSpy).not.toHaveBeenCalled()
-        mockExec._processes[0].emit 'exit'
+        mockSpawn._processes[0].emit 'exit'
         expect(exitSpy).not.toHaveBeenCalled()
-        mockExec._processes[1].emit 'exit'
+        mockSpawn._processes[1].emit 'exit'
         expect(exitSpy).not.toHaveBeenCalled()
 
-        mockExec._processes[2]._callback()
-        mockExec._processes[3]._callback()
+        # rm temp dirs
+        mockSpawn._processes[2].emit 'exit'
+        mockSpawn._processes[3].emit 'exit'
         expect(exitSpy).toHaveBeenCalled()
 
 
       it 'should call callback even if a process had already been killed', ->
         l.launch ['Chrome', 'ChromeCanary'], 1234
-        mockExec._processes[0].exitCode = 1
-        mockExec._processes[1].exitCode = 0
+        mockSpawn._processes[0].emit 'exit', 1
+        mockSpawn._processes[1].emit 'exit', 1
 
         l.kill exitSpy
         waitsFor (-> exitSpy.callCount), 'onExit callback', 10

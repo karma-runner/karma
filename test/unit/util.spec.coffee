@@ -156,3 +156,51 @@ describe 'util', ->
 
     it 'should round to miliseconds', ->
       expect(util.formatTimeInterval 163017).toBe '2 mins 43.017 secs'
+
+
+  #==============================================================================
+  # util.mkdirIfNotExists()
+  #==============================================================================
+  describe 'mkdirIfNotExists', ->
+
+    fsMock = require('mocks').fs
+    loadFile = require('mocks').loadFile
+
+    done = null
+
+    # async helper
+    waitForDoneAnd = (resume) ->
+      waitsFor (-> done.callCount), 'done callback', 50
+      runs resume if resume
+
+    fs = fsMock.create
+      home:
+        'some.js': fsMock.file()
+
+    # load file under test
+    m = loadFile __dirname + '/../../lib/util.js', {fs: fs}
+    mkdirIfNotExists = m.exports.mkdirIfNotExists
+
+
+    beforeEach ->
+      done = jasmine.createSpy 'done'
+
+    it 'should not do anything, if dir already exists', ->
+      mkdirIfNotExists '/home', done
+      waitForDoneAnd()
+
+
+    it 'should create directory if it does not exist', ->
+      mkdirIfNotExists '/home/new', done
+      waitForDoneAnd ->
+        stat = fs.statSync '/home/new'
+        expect(stat).toBeDefined()
+        expect(stat.isDirectory()).toBe true
+
+
+    it 'should create even parent directories if it does not exist', ->
+      mkdirIfNotExists '/home/new/parent/child', done
+      waitForDoneAnd ->
+        stat = fs.statSync '/home/new/parent/child'
+        expect(stat).toBeDefined()
+        expect(stat.isDirectory()).toBe true

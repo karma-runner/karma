@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
   var TRAVIS = process.env.TRAVIS;
-  var BROWSERS = TRAVIS ? 'Firefox' : 'Chrome,ChromeCanary,Firefox,Opera,Safari,PhantomJS';
+  var BROWSERS = TRAVIS ? 'Firefox' : 'Chrome';
 
   /**
    * Run tests
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
       var processToKill;
       var cmd = 'testacular';
       var args = [
-        'start', null, '--log-level=debug', '--single-run', '--no-auto-watch', '--reporter=dots', '--browsers=' + BROWSERS
+        'start', null, '--single-run', '--no-auto-watch', '--reporters=dots', '--browsers=' + BROWSERS
       ];
 
       var next = function(err, result, code) {
@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 
     // CLIENT unit tests
     else if (this.target === 'client') {
-      exec('testacular', ['start', this.data, '--single-run', '--log-level=debug', '--no-auto-watch', '--reporter=dots',
+      exec('testacular', ['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
           '--browsers=' + BROWSERS], 'Client unit tests failed.');
     }
   });

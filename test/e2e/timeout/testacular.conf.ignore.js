@@ -1,21 +1,21 @@
 // Testacular configuration
-// Generated on %DATE%
+// Generated on Sun Sep 30 2012 22:44:01 GMT-0700 (PDT)
 
 
 // base path, that will be used to resolve files and exclude
-basePath = '%BASE_PATH%';
+basePath = '';
 
 
 // list of files / patterns to load in the browser
 files = [
-  %FILES%
+  JASMINE,
+  JASMINE_ADAPTER,
+  '*.js'
 ];
 
 
 // list of files to exclude
-exclude = [
-  %EXCLUDE%
-];
+exclude = [];
 
 
 // test results reporter to use
@@ -41,7 +41,7 @@ logLevel = LOG_INFO;
 
 
 // enable / disable watching file and executing tests whenever any file changes
-autoWatch = %AUTO_WATCH%;
+autoWatch = true;
 
 
 // Start these browsers, currently available:
@@ -52,11 +52,9 @@ autoWatch = %AUTO_WATCH%;
 // - Safari (only Mac)
 // - PhantomJS
 // - IE (only Windows)
-browsers = [%BROWSERS%];
+browsers = [__dirname + '/fake-browser.sh'];
 
-
-// If browser does not capture in given timeout [ms], kill it
-captureTimeout = 5000;
+captureTimeout = 1000;
 
 
 // Continuous Integration mode
