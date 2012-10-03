@@ -62,3 +62,6 @@ captureTimeout = 5000;
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
+
+// Optional Windows PhantomJS path (there currently is no standard path)
+winPhantomJSPath = "";
