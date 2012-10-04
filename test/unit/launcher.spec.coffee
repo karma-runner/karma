@@ -75,24 +75,6 @@ describe 'launcher', ->
         expect(mockSpawn.argsForCall[0][1]).toEqual ['http://localhost:1234/?id=1']
 
 
-      it 'should kill browsers that does not capture within timeout', ->
-        failureSpy = jasmine.createSpy 'browser_process_failure'
-        emitter.on 'browser_process_failure', failureSpy
-
-        l.launch ['Chrome'], 123, '/', 1000
-        timeouts[1000]()
-        expect(mockSpawn._processes[0].kill).toHaveBeenCalled()
-
-        mockSpawn._processes[0].emit 'exit', 0
-        expect(failureSpy).toHaveBeenCalled()
-
-
-      it 'should not use timeout, if captureTimeout is 0', ->
-        l.launch ['Chrome'], 123, '/', 0
-        expect(timeouts[0]).toBeUndefined()
-
-
-
     describe 'kill', ->
       exitSpy = null
 
@@ -113,9 +95,9 @@ describe 'launcher', ->
         l.kill exitSpy
 
         expect(exitSpy).not.toHaveBeenCalled()
-        mockSpawn._processes[0].emit 'exit'
+        mockSpawn._processes[0].emit 'close'
         expect(exitSpy).not.toHaveBeenCalled()
-        mockSpawn._processes[1].emit 'exit'
+        mockSpawn._processes[1].emit 'close'
         expect(exitSpy).not.toHaveBeenCalled()
 
         # rm temp dirs
@@ -125,9 +107,9 @@ describe 'launcher', ->
 
 
       it 'should call callback even if a process had already been killed', ->
-        l.launch ['Chrome', 'ChromeCanary'], 1234
-        mockSpawn._processes[0].emit 'exit', 1
-        mockSpawn._processes[1].emit 'exit', 1
+        l.launch ['Chrome', 'ChromeCanary'], 1234, '/', 0, 1 # disable retry
+        mockSpawn._processes[0].emit 'close', 1
+        mockSpawn._processes[1].emit 'close', 1
 
         l.kill exitSpy
         waitsFor (-> exitSpy.callCount), 'onExit callback', 10
