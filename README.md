@@ -65,6 +65,10 @@ Testacular is not a testing framework, neither an assertion library, so for that
 However, we provide an adapter for [Jasmine] and [Mocha].
 If you wanna write an adapter for your favourite testing framework, that's great - check out [adapter/jasmine.src.js](https://github.com/vojtajina/testacular/blob/master/adapter/jasmine.src.js) and write your own.
 
+## Browsers Supported
+
+Please see the [wiki](https://github.com/vojtajina/testacular/wiki/Starting-browsers) for details on supported Browsers
+and how to configure non-default paths.
 
 ## Why am I doing this?
 
