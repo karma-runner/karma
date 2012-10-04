@@ -1,3 +1,8 @@
+### v0.3.9
+* Retry starting a browser if it does not capture
+* Update mocha to 1.5.0
+* Handle mocha's xit
+
 ### v0.3.8
 * Kill browsers that don't capture in captureTimeout ms
 * Abort build if any browser fails to capture
