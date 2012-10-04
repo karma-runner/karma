@@ -53,6 +53,8 @@ autoWatch = %AUTO_WATCH%;
 // - PhantomJS
 browsers = [%BROWSERS%];
 
+winPhantomJSPath = "";
+
 
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
