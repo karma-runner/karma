@@ -40,15 +40,26 @@ hr.soften {
   border: 0;
 }
 
-
-.yt-video {
-  margin: 0 auto;
-  padding: 20px;
-}
+/* responsive youtube embed by
+ * http://avexdesigns.com/responsive-youtube-embed/
+ */
 
 .yt-video-container {
-  width: 100%;
-  text-align: center;
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+
+.yt-video-container iframe,
+.yt-video-container object,
+.yt-video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -79,6 +90,7 @@ hr.soften {
 .jumbotron .npm-install {
   font-family: 'Bitstream Vera Sans Mono','Courier',monospace;
   font-weight: bold;
+  padding: 15px 24px;
 }
 
 .fake-btn {
@@ -130,6 +142,9 @@ hr.soften {
   line-height: 36px;
 }
 
+.download-info {
+
+}
 
 /* Quick links
 -------------------------------------------------- */
@@ -251,6 +266,9 @@ hr.soften {
     font-size: 18px;
     padding: 10px 14px;
     margin: 0 auto 10px;
+  },
+  .jumbotron .btn-fake {
+    display: block;
   }
   /* Masthead (home page jumbotron) */
   .masthead {
@@ -286,7 +304,7 @@ hr.soften {
   }
 
   /* Jumbotron buttons */
-  .jumbotron .btn {
+  .jumbotron .btn-large {
     margin-bottom: 10px;
   }
 
