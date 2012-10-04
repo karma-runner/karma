@@ -57,9 +57,9 @@ var createMochaReporterConstructor = function(tc) {
         description: test.title,
         suite: [],
         success: test.state === 'passed',
-        skipped: false,
+        skipped: test.pending === true,
         time: test.duration,
-        log: test.$errors
+        log: test.$errors || []
       };
 
       var pointer = test.parent;
