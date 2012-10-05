@@ -26,7 +26,8 @@
     "Bulat Shakirzyanov <mallluhuct@gmail.com>",
     "David Jensen <david.lgj@gmail.com>",
     "Ruben Orduz <rubenoz+github@gmail.com>",
-    "Nish Patel <nishantpatel611@gmail.com>"
+    "Nish Patel <nishantpatel611@gmail.com>",
+    "Friedel Ziegelmayer <dignifiedquire@gmail.com>"
   ],
   "dependencies": {
     "socket.io": ">= 0.9.0",
