@@ -45,13 +45,15 @@ var registerResultListeners = function(model, tc) {
   });
 
   model.on('SpecEnd', function(spec) {
+    // TODO(vojta): create Result type
     var result = {
       id: spec.id,
       description: spec.name,
       suite: [spec.fullDefinitionName],
       success: spec.status === 'success',
       skipped: false,
-      time: spec.duration
+      time: spec.duration,
+      log: []
     };
     if (spec.error) {
       result.log = createFailedSpecLog(spec);
@@ -64,11 +66,15 @@ var registerResultListeners = function(model, tc) {
     var skippedTests = totalTests - testsCompleted;
 
     // Inform Testacular about number of skipped tests
+    // TODO(vojta): report proper suite/description (need to fix the scenario runner first)
     for (var i = 0; i < skippedTests; i++) {
       tc.result({
         id: 'Skipped' + (i + 1),
+        description: 'Skipped' + (i + 1),
+        suite: [],
         skipped: true,
-        time: 0
+        time: 0,
+        log: []
       });
     }
     tc.complete();
