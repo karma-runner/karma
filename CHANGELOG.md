@@ -1,3 +1,7 @@
+### v0.3.10
+* Fix angular-scenario adapter + junit reporter
+* Use flash socket if web socket not available
+
 ### v0.3.9
 * Retry starting a browser if it does not capture
 * Update mocha to 1.5.0
