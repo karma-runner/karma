@@ -41,7 +41,7 @@ describe('adapter angular-scenario', function() {
         expect(result.suite).toEqual([passingSpec.fullDefinitionName]);
         expect(result.success).toBe(true);
         expect(result.skipped).toBe(false);
-        expect(result.log).toBeUndefined();
+        expect(result.log).toEqual([]);
         expect(result.time).toBe(passingSpec.duration);
       });
 
