@@ -1,3 +1,7 @@
+### v0.3.11
+* Fix runner to wait for stdout, stderr
+* Make routing proxy always changeOrigin
+
 ### v0.3.10
 * Fix angular-scenario adapter + junit reporter
 * Use flash socket if web socket not available
