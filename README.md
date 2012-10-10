@@ -9,7 +9,7 @@ A simple tool that allows you to execute JavaScript code in multiple _real_ brow
 
 ## Installation
 
-First, you need to install [NodeJS]. [There are installers](http://nodejs.org/download/) for both
+First, you need to install [Node.js]. [There are installers](http://nodejs.org/download/) for both
 Macintosh and Windows. On Linux, we recommend using [NVM].
 
 ````bash
@@ -120,7 +120,7 @@ console.clear = clear;
 [AngularJS]: http://angularjs.org/
 [JSTD]: http://code.google.com/p/js-test-driver/
 [Socket.io]: http://socket.io/
-[NodeJS]: http://nodejs.org/
+[Node.js]: http://nodejs.org/
 [NVM]: https://github.com/creationix/nvm
 [Grunt]: http://gruntjs.com/
 [Jasmine]: http://pivotal.github.com/jasmine/
