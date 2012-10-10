@@ -28,7 +28,8 @@
     "Ruben Orduz <rubenoz+github@gmail.com>",
     "Nish Patel <nishantpatel611@gmail.com>",
     "Friedel Ziegelmayer <dignifiedquire@gmail.com>",
-    "David Souther <davidsouther@gmail.com>"
+    "David Souther <davidsouther@gmail.com>",
+    "Daniel Aleksandersen"
   ],
   "dependencies": {
     "socket.io": ">= 0.9.0",
