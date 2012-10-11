@@ -9,7 +9,7 @@ switch (config.cmd) {
     require('../lib/server').start(config);
     break;
   case 'run':
-    require('../lib/runner').run(config);
+    require('../lib/runner').run(config, process.exit);
     break;
   case 'init':
     require('../lib/init').init(config);
