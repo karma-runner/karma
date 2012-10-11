@@ -1,3 +1,6 @@
+### v0.3.12
+* Allow calling run() pragmatically from JS
+
 ### v0.3.11
 * Fix runner to wait for stdout, stderr
 * Make routing proxy always changeOrigin

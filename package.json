@@ -58,5 +58,5 @@
   "engines": {
     "node": ">= 0.8.4"
   },
-  "version": "0.3.11"
+  "version": "0.3.12"
 }
