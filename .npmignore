@@ -2,7 +2,10 @@
 .travis.yml
 tmp
 test
+tasks
 docs/*.graffle
+
+junit-schema.xsd
 
 TODO.md
 jsl.conf
