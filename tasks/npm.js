@@ -22,6 +22,7 @@ module.exports = function(grunt) {
    */
   grunt.registerTask('npm-publish', 'Publish to NPM.', function() {
     this.requires('build');
+    // TODO(vojta): cancel if not clean work space (to avoid pushing uncommitted changes to npm)
 
     var done = this.async();
     var pkg = grunt.config('pkg');
