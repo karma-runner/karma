@@ -1,0 +1,71 @@
+/*
+* bootstrap-sphinx.css
+* ~~~~~~~~~~~~~~~~~~~~
+*
+* Sphinx stylesheet -- Twitter Bootstrap theme.
+*/
+
+body {
+  padding-top: 52px;
+}
+
+.navbar .brand {
+  /* color: #FFF; */
+  /* text-shadow: #777 2px 2px 3px; */
+}
+
+{%- block sidebarlogo %}
+  {%- if logo %}
+.navbar h3 a, .navbar .brand {
+  background: transparent url("{{ logo }}") no-repeat 22px 3px;
+  padding-left: 62px;
+}
+  {%- endif %}
+{%- endblock %}
+
+
+
+code,
+pre,
+.pre {
+  padding: 0 3px 2px;
+  font-family: source-code-pro, monospace;
+  font-size: 14px;
+  color: #333333;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+code,
+.pre {
+  padding: 2px 4px;
+  color: #d14;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+}
+pre {
+  display: block;
+  padding: 0.19999999999999996em;
+  margin: 0 0 0.7em;
+  font-size: 14px;
+  line-height: 1.4em;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre;
+  white-space: pre-wrap;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+pre.prettyprint {
+  margin-bottom: 1.4em;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+}

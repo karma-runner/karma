@@ -5,3 +5,4 @@ adapter/angular-scenario.js
 static/testacular.js
 .idea/*
 tmp/*
+docs/_build
