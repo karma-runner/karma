@@ -1,13 +1,9 @@
 module.exports = function(grunt) {
 
-  var exec = require('child_process').exec;
-
   /**
    * Bump version
-   *  - increase version
-   *  - generate changelog
-   *  - create tag
-   *  - push to github
+   *  - increase version in package.json
+   *  - increase version in docs/conf.py
    *
    *
    * grunt bump
@@ -18,25 +14,6 @@ module.exports = function(grunt) {
   grunt.registerTask('bump', 'Increment version, generate changelog, create tag and push to github.', function(type) {
 
     var finish = this.async();
-    var queue = [];
-    var next = function() {
-      var cmd = queue.shift();
-
-      if (!cmd) return finish();
-
-      exec(cmd[0], function(err, output) {
-        if (err) return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
-        if (cmd[1]) grunt.log.ok(cmd[1]);
-        if (cmd[2]) cmd[2](output);
-        next();
-      });
-    };
-
-    var run = function(cmd, msg, fn) {
-      queue.push([cmd, msg, fn]);
-    };
-
-
     // increment the version
     var PKG_FILE = 'package.json';
     var pkg = grunt.file.readJSON(PKG_FILE);
@@ -47,18 +24,29 @@ module.exports = function(grunt) {
     grunt.file.write(PKG_FILE, JSON.stringify(pkg, null, '  '));
     grunt.log.ok('Version bumped to ' + newVersion);
 
-    // generate changelog
-    run('git log --grep="\\[changelog\\]" --pretty="* %s" v' + previousVersion + '..HEAD', null, function(log) {
-      var title = '### v' + newVersion + '\n';
-      var changelog = grunt.file.read('CHANGELOG.md');
-      grunt.file.write('CHANGELOG.md', title + log + '\n' + changelog);
-    });
+    // bump version in docs
+    var version = newVersion.split('.').slice(0,2).join('.');
+    var release = newVersion;
+    var DOCS_FILE = 'docs/conf.py';
+    var docs = grunt.file.read(DOCS_FILE);
+    
+    var replaceVersion = function(version){
+      return function(match, oldVersion){
+        return match.replace(oldVersion, version);
+      };
+    };
+    
+    docs = docs.replace(/version = '([0-9\.]*)'/, replaceVersion(version));
+    docs = docs.replace(/release = '([0-9\.]*)'/, replaceVersion(release));
+    
+    // write updated conf.py 
+    grunt.file.write(DOCS_FILE, docs);
+    
+    grunt.log.ok('Version updated to ' + docs.match(/version = '([0-9\.]*)'/)[1]);
+    grunt.log.ok('Release updated to ' + docs.match(/release = '([0-9\.]*)'/)[1]);
 
-    run('sublime -w CHANGELOG.md', 'CHANGELOG.md updated');
-    run('git commit package.json CHANGELOG.md -m "Version ' + newVersion + '"', 'Changes committed');
-    run('git tag -a v' + newVersion + ' -m "Version ' + newVersion + '"', 'New tag "v' + newVersion + '" created');
-    run('git push origin master --tags', 'Pushed to github');
-    next();
+
+
   });
 
   // TODO(vojta): update grunt.config('pkg') as well,
