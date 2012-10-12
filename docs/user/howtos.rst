@@ -21,6 +21,7 @@ How to ...
 
 
 
-... integrate with Jenkins
+:doc:`jenkins` _ ... integrate with Jenkins
 ###################
+
 
