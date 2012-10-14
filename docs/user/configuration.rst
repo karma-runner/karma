@@ -1,47 +1,86 @@
 Configuration
 =========
 
-These are the possible configuration values for ``testacular.conf.js``.
+To configure Testacular you use a configuration file and supply this
+file when starting Testacular.
+Here is a list of all possible configuration values that can be used,
+including their default values.
 
 .. object:: basePath (String)
   
   Base path, that will be used to resolve files and exclude.
 
+  *Default.*  ``''``
+
 .. object:: files (Array)
 
   List of files/patterns to load in the browser.
 
+  *Default.*  ``[]``
+
 .. object:: exclude (Array)
 
   List of files to exclude.
-.. object:: reporter (String)
 
-  Test results reporter to use. Possible values: ``dots`` or  ``progress``
+  *Default.*  ``[]``
+
+.. object:: reporters (Array)
+
+  A list of reporters to use.
+
+  *Default.*  ``['progress']``
+
+  *Possible Values.* 
+
+  * ``dots``
+  * ``progress``
 
 .. object:: port (Number)
 
   Web server port
 
+  *Default.*  ``8080``
+
 .. object:: runnerPort (Number)
   
   Cli runner port
+
+  *Default.*  ``9100``
 
 .. object:: colors (Boolean)
 
   Enable / disable colors in the output (reporters and logs).
 
+  *Default.*  ``true``
+
 .. object:: logLevel (Constant)
 
   Level of logging.
-  Possible values: ``LOG_DISABLE``, ``LOG_ERROR``, ``LOG_WARN``, ``LOG_INFO``, ``LOG_DEBUG``
+
+  *Default.*  ``LOG_INFO``
+
+  *Possible values.* 
+
+  * ``LOG_DISABLE``
+  * ``LOG_ERROR``
+  * ``LOG_WARN``
+  * ``LOG_INFO``
+  * ``LOG_DEBUG`` 
 
 .. object:: autoWatch (Boolean)
 
-  Enable / disable watching file and executing tests whenever any file changes.
+  Enable / disable watching file and executing tests whenever any file
+  changes.
+
+  *Default.* ``false``
 
 .. object:: browsers (Array)
 
-  Start these browsers. Possible values
+  A list of browsers to test in.
+
+  *Default.* ``[]``
+
+  *Possible Values.*
 
   * ``Chrome``
   * ``ChromeCanary``
@@ -52,5 +91,8 @@ These are the possible configuration values for ``testacular.conf.js``.
 
 .. object:: singleRun (Boolean)
   
-  Continuous Integration mode if ``true``, it captures browsers, run tests and exit
+  Continuous Integration mode if ``true``, it captures browsers, runs
+  tests and exits.
+
+  *Default.*  ``false``
   
