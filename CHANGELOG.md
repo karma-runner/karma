@@ -1,44 +1,4 @@
-### v0.5.7
-* Support code coverage for qunit.
-* Rename port-runner option in cli to runner-port
-* Fix proxy handler (when no proxy defined)
-* Fix #65
-
-### v0.5.6
-* Growl reporter !
-* Batch changes (eg. `git checkout` causes only single run now)
-* Handle uncaught errors and disconnect all browsers
-* Global binary prefers local versions
-
-### v0.5.5
-* Add QUnit adapter
-* Report console.log()
-
-### v0.5.4
-* Fix PhantomJS launcher
-* Fix html2js preprocessor
-* NG scenario adapter: show html output
-
-### v0.5.3
-* Add code coverage !
-
-### v0.5.2
-* Init: ask about using Require.js
-
-### v0.5.1
-* Support for Require.js
-* Fix testacular init basePath
-
-### v0.5.0
-* Add preprocessor for LiveScript
-* Fix JUnit reporter
-* Enable process global in config file
-* Add OS name in the browser name
-* NG scenario adapter: hide other outputs to make it faster
-* Allow config to be written in CoffeeScript
-* Allow espaced characters in served urls
-
-### v0.4.0 (stable)
+### v0.4.0
 
 ### v0.3.12
 * Allow calling run() pragmatically from JS
@@ -101,15 +61,15 @@
 
 ### v0.2.0 (stable)
 
-### v0.1.3
+### v0.1.3 (unstable)
 * Launch Canary with crankshaft disabled
 * Make the captured page nicer
 
-### v0.1.2
+### v0.1.2 (unstable)
 * Fix jasmine memory leaks
 * support __filename and __dirname in config files
 
-### v0.1.1
+### v0.1.1 (unstable)
 * Report slow tests (add `reportSlowerThan` config option)
 * Report time in minutes if it's over 60 seconds
 * Mocha adapter: add ability to fail during beforeEach/afterEach hooks
@@ -118,7 +78,7 @@
 * Redirect /urlRoot to /urlRoot/
 * Fix serving with urlRoot
 
-### v0.1.0
+### v0.1.0 (unstable)
 * Adapter for AngularJS scenario runner
 * Allow serving Testacular from a subpath
 * Fix race condition in testacular run
