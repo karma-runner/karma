@@ -1,3 +1,5 @@
+### v0.4.0
+
 ### v0.3.12
 * Allow calling run() pragmatically from JS
 
