@@ -12,6 +12,7 @@ module.exports = function(grunt) {
    */
   grunt.registerMultiTask('test', 'Run tests.', function() {
     var specDone = this.async();
+    var which = require('which').sync;
 
     var exec = function(cmd, args, failMsg) {
       var child = grunt.utils.spawn({cmd: cmd, args: args}, function(err, result, code) {
@@ -33,6 +34,7 @@ module.exports = function(grunt) {
       var tests = grunt.file.expand(this.data);
       var processToKill;
       var cmd = './bin/testacular';
+      var node = which('node');
       var args = [
         'start', null, '--single-run', '--no-auto-watch', '--reporters=dots', '--browsers=' + BROWSERS
       ];
@@ -50,12 +52,17 @@ module.exports = function(grunt) {
           if (args[1]) {
             if (args[1] === 'test/e2e/angular-scenario/testacular.conf.js') {
               processToKill = grunt.utils.spawn({
-                cmd: 'node', args: ['test/e2e/angular-scenario/server.js']
+                cmd: node, args: ['test/e2e/angular-scenario/server.js']
               }, function() {});
             }
-
+            
             grunt.log.writeln('Running ' + cmd + args.join(' '));
-            var child = grunt.utils.spawn({cmd: cmd, args: args}, next);
+            var child;
+            if (process.platform === 'win32') {
+              child = grunt.utils.spawn({cmd: node, args: [cmd].concat(args)}, next);
+            } else {
+              child = grunt.utils.spawn({cmd: cmd, args: args}, next);
+            }
 
             child.stdout.pipe(process.stdout);
             child.stderr.pipe(process.stderr);
@@ -83,13 +90,13 @@ module.exports = function(grunt) {
 
     // UNIT tests
     else if (this.target === 'unit') {
-      exec('jasmine-node', ['--coffee', this.data], 'Unit tests failed.');
+      exec(which('jasmine-node'), ['--coffee', this.data], 'Unit tests failed.');
     }
 
 
     // CLIENT unit tests
     else if (this.target === 'client') {
-      exec('testacular', ['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
+      exec(which('testacular'), ['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
           '--browsers=' + BROWSERS], 'Client unit tests failed.');
     }
   });
