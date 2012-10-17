@@ -5,6 +5,7 @@ describe 'file-list', ->
   util = require '../test-util'
   mocks = require 'mocks'
   events = require 'events'
+  path = require 'path'
 
   m = list = emitter = onFileListModifiedSpy = preprocessMock = null
 
@@ -327,10 +328,15 @@ describe 'file-list', ->
 
   describe 'createWinGlob', ->
 
-    it 'should remove drive prefix and add it back to all results', ->
+    it 'should path separator is slash', ->
       mockGlob = (pattern, opts, done) ->
-        expect(pattern).toBe 'Users/vojta/*.js'
-        done null, ['Users/vojta/file.js', 'Users/vojta/more.js']
+        expect(pattern).toBe 'x:/Users/vojta/*.js'
+        # for Travis test
+        results = [
+          path.join('x:', 'Users', 'vojta', 'file.js'),
+          path.join('x:', 'Users', 'vojta', 'more.js')
+        ]
+        done null, results
 
       winGlob = m.createWinGlob mockGlob
 

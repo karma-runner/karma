@@ -3,34 +3,41 @@
 #==============================================================================
 describe 'init', ->
   loadFile = require('mocks').loadFile
+  path = require 'path'
   m = null
 
   beforeEach ->
     m = loadFile __dirname + '/../../lib/init.js', {glob: require 'glob'}
 
   describe 'getBasePath', ->
+  
+    # just for windows.
+    replace = (p) -> p.replace(/\//g, path.sep)
 
     it 'should be empty if config file in cwd', ->
-      expect(m.getBasePath 'some.conf', '/usr/local/whatever').toBe ''
+      expect(m.getBasePath 'some.conf', replace('/usr/local/whatever')).toBe ''
 
 
     it 'should handle leading "./', ->
-      expect(m.getBasePath './some.conf', '/usr/local/whatever').toBe ''
+      expect(m.getBasePath replace('./some.conf'), replace('/usr/local/whatever')).toBe ''
 
 
     it 'should handle config file in subfolder', ->
       # config /usr/local/sub/folder/file.conf
-      expect(m.getBasePath 'sub/folder/file.conf', '/usr/local').toBe '../..'
+      file = replace('sub/folder/file.conf')
+      expect(m.getBasePath file, replace('/usr/local')).toBe replace('../..')
 
 
     it 'should handle config in a parent path', ->
       # config /home/file.js
-      expect(m.getBasePath '../../../file.js', '/home/vojta/tc/project').toBe 'vojta/tc/project'
+      file = replace('../../../file.js')
+      expect(m.getBasePath file, replace('/home/vojta/tc/project')).toBe replace('vojta/tc/project')
 
 
     it 'should handle config in parent subfolder', ->
       # config /home/vojta/other/f.js
-      expect(m.getBasePath '../../other/f.js', '/home/vojta/tc/prj').toBe '../tc/prj'
+      f = replace('../../other/f.js')
+      expect(m.getBasePath f, replace('/home/vojta/tc/prj')).toBe replace('../tc/prj')
 
 
   describe 'getReplacementsFromAnswers', ->
