@@ -38,7 +38,7 @@ describe 'config', ->
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
         'absolute.js': fsMock.file 0, 'files = ["http://some.com", "https://more.org/file.js"];'
         'both.js': fsMock.file 0, 'files = ["one.js", "two.js"]; exclude = ["third.js"]'
-
+        'coffee.coffee': fsMock.file 0, 'files = [ "one.js"\n  "two.js"]'
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
     e = m.exports
@@ -175,3 +175,12 @@ describe 'config', ->
     it 'should normalize reporters to an array', ->
       config = m.parseConfig '/home/config6.js', {}
       expect(config.reporters).toEqual ['junit']
+
+    it 'should compile coffeescript config', ->
+      config = e.parseConfig '/conf/coffee.coffee', {}
+      expect(config.files).toEqual ['/conf/one.js', '/conf/two.js']
+
+    it 'should set defaults with coffeescript', ->
+      config = e.parseConfig '/conf/coffee.coffee', {}
+      expect(config.autoWatch).toBe false
+
