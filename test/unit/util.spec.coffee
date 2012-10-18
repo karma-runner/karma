@@ -13,6 +13,23 @@ describe 'util', ->
     expecting = (name) ->
       expect util.browserFullNameToShort name
 
+    it 'should parse iOS', ->
+      expecting('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 ' +
+                '(KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25').
+           toBe 'iOS Safari 6.0'
+
+
+    it 'should parse Linux', ->
+      expecting('Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.19) Gecko/20081216 ' +
+                'Ubuntu/8.04 (hardy) Firefox/2.0.0.19'.
+           toBe 'Linux Firefox 2.0'
+
+
+    it 'should degrade gracefully when OS not recognized', ->
+      expecting('Mozilla/5.0 (X11; U; FreeBSD; i386; en-US; rv:1.7) Gecko/20081216 Firefox/2.0.0.19'.
+           toBe 'Firefox 2.0'
+
+
     it 'should parse Chrome', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' +
                 '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7').
@@ -39,12 +56,6 @@ describe 'util', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.52.7 ' +
                 '(KHTML, like Gecko) Version/5.1.2 Safari/534.52.7').
            toBe 'Mac Safari 5.1'
-
-
-    it 'should parse iOS', ->
-      expecting('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 ' +
-                '(KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25').
-           toBe 'iOS Safari 6.0'
 
 
     it 'should parse IE9', ->
