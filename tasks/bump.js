@@ -61,7 +61,8 @@ module.exports = function(grunt) {
     next();
   });
 
-
+  // TODO(vojta): update grunt.config('pkg') as well,
+  // currently running grunt bump xxx (xxx still see old version)
   grunt.registerHelper('bump_version', function(version, versionType) {
     var type = {
       patch: 2,

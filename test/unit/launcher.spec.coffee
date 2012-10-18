@@ -16,11 +16,16 @@ describe 'launcher', ->
     mockSpawn._processes.push process
     process
 
+  mockRimraf = jasmine.createSpy 'rimraf'
+  mockRimraf.andCallFake (p, fn) ->
+    mockRimraf._callbacks.push fn
+
   mocks =
     child_process:
       spawn: mockSpawn
     './logger': logger
     '../logger': logger
+    rimraf: mockRimraf
 
   timeouts = [];
 
@@ -36,6 +41,8 @@ describe 'launcher', ->
   beforeEach ->
     mockSpawn.reset()
     mockSpawn._processes = []
+    mockRimraf.reset()
+    mockRimraf._callbacks = []
     timeouts = []
 
     # mock out id generator
@@ -101,8 +108,9 @@ describe 'launcher', ->
         expect(exitSpy).not.toHaveBeenCalled()
 
         # rm temp dirs
-        mockSpawn._processes[2].emit 'exit'
-        mockSpawn._processes[3].emit 'exit'
+        expect(mockRimraf.calls.length).toEqual(2)
+        mockRimraf._callbacks[0]()
+        mockRimraf._callbacks[1]()
         expect(exitSpy).toHaveBeenCalled()
 
 

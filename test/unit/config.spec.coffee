@@ -5,6 +5,9 @@ describe 'config', ->
   fsMock = require('mocks').fs
   loadFile = require('mocks').loadFile
   mocks = m = e = null
+  path = require('path')
+  util = require('../../lib/util')
+  resolveWinPath = (p) -> util.normalizeWinPath(path.resolve(p))
 
   beforeEach ->
     # create instance of fs mock
@@ -35,7 +38,7 @@ describe 'config', ->
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
         'absolute.js': fsMock.file 0, 'files = ["http://some.com", "https://more.org/file.js"];'
         'both.js': fsMock.file 0, 'files = ["one.js", "two.js"]; exclude = ["third.js"]'
-
+        'coffee.coffee': fsMock.file 0, 'files = [ "one.js"\n  "two.js"]'
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
     e = m.exports
@@ -58,17 +61,18 @@ describe 'config', ->
 
     it 'should resolve relative basePath to config directory', ->
       config = e.parseConfig '/home/config1.js'
-      expect(config.basePath).toBe '/home/base'
+      expect(config.basePath).toBe resolveWinPath('/home/base')
 
 
     it 'should keep absolute basePath', ->
       config = e.parseConfig '/home/config2.js'
-      expect(config.basePath).toBe '/abs/base'
+      expect(config.basePath).toBe resolveWinPath('/abs/base')
 
 
     it 'should resolve all file patterns', ->
       config = e.parseConfig '/home/config3.js'
-      expect(config.files).toEqual ['/home/one.js', '/home/sub/two.js']
+      actual = [resolveWinPath('/home/one.js'), resolveWinPath('/home/sub/two.js')]
+      expect(config.files).toEqual actual
 
 
     it 'should keep absolute url file patterns', ->
@@ -78,7 +82,8 @@ describe 'config', ->
 
     it 'should resolve all exclude patterns', ->
       config = e.parseConfig '/conf/exclude.js'
-      expect(config.exclude).toEqual ['/conf/one.js', '/conf/sub/two.js']
+      actual = [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/sub/two.js')]
+      expect(config.exclude).toEqual actual
 
 
     it 'should log error and exit if file does not exist', ->
@@ -105,22 +110,23 @@ describe 'config', ->
 
       expect(config.port).toBe 456
       expect(config.autoWatch).toBe false
-      expect(config.basePath).toBe '/abs/base'
+      expect(config.basePath).toBe resolveWinPath('/abs/base')
 
 
     it 'should resolve files and excludes to overriden basePath from cli', ->
       config = e.parseConfig '/conf/both.js', {port: 456, autoWatch: false, basePath: '/xxx'}
 
-      expect(config.basePath).toBe '/xxx'
-      expect(config.files).toEqual ['/xxx/one.js', '/xxx/two.js']
-      expect(config.exclude).toEqual ['/xxx/third.js']
+      expect(config.basePath).toBe resolveWinPath('/xxx')
+      actual = [resolveWinPath('/xxx/one.js'), resolveWinPath('/xxx/two.js')]
+      expect(config.files).toEqual actual
+      expect(config.exclude).toEqual [resolveWinPath('/xxx/third.js')]
 
 
     it 'should return only config, no globals', ->
       config = e.parseConfig '/home/config1.js', {port: 456}
 
       expect(config.port).toBe 456
-      expect(config.basePath).toBe '/home/base'
+      expect(config.basePath).toBe resolveWinPath('/home/base')
 
       # defaults
       expect(config.files).toEqual []
@@ -169,3 +175,12 @@ describe 'config', ->
     it 'should normalize reporters to an array', ->
       config = m.parseConfig '/home/config6.js', {}
       expect(config.reporters).toEqual ['junit']
+
+    it 'should compile coffeescript config', ->
+      config = e.parseConfig '/conf/coffee.coffee', {}
+      expect(config.files).toEqual ['/conf/one.js', '/conf/two.js']
+
+    it 'should set defaults with coffeescript', ->
+      config = e.parseConfig '/conf/coffee.coffee', {}
+      expect(config.autoWatch).toBe false
+
