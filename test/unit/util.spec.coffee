@@ -16,40 +16,48 @@ describe 'util', ->
     it 'should parse Chrome', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' +
                 '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7').
-           toBe 'Chrome 16.0'
+           toBe 'Mac Chrome 16.0'
 
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.15 ' +
                 '(KHTML, like Gecko) Chrome/18.0.985.0 Safari/535.15').
-           toBe 'Chrome 18.0'
+           toBe 'Mac Chrome 18.0'
 
 
     it 'should parse Firefox', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:7.0.1) Gecko/20100101 ' +
                 'Firefox/7.0.1').
-           toBe 'Firefox 7.0'
+           toBe 'Mac Firefox 7.0'
 
 
     it 'should parse Opera', ->
       expecting('Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.9.168 ' +
                 'Version/11.52').
-           toBe 'Opera 11.52'
+           toBe 'Mac Opera 11.52'
 
 
     it 'should parse Safari', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.52.7 ' +
                 '(KHTML, like Gecko) Version/5.1.2 Safari/534.52.7').
-           toBe 'Safari 5.1'
+           toBe 'Mac Safari 5.1'
+
+
+    it 'should parse iOS', ->
+      expecting('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 ' +
+                '(KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25').
+           toBe 'iOS Safari 6.0'
 
 
     it 'should parse IE9', ->
       expecting('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; ' +
                 '.NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center ' +
-                'PC 6.0)').toBe 'IE 9.0'
+                'PC 6.0)').
+           toBe 'Windows IE 9.0'
 
 
     it 'should parse PhantomJS', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/534.34 (KHTML, like Gecko) ' +
-                'PhantomJS/1.6.0 Safari/534.34').toBe 'PhantomJS 1.6'
+                'PhantomJS/1.6.0 Safari/534.34').
+           toBe 'Mac PhantomJS 1.6'
 
 
   #==============================================================================
