@@ -21,12 +21,12 @@ describe 'util', ->
 
     it 'should parse Linux', ->
       expecting('Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.19) Gecko/20081216 ' +
-                'Ubuntu/8.04 (hardy) Firefox/2.0.0.19'.
+                'Ubuntu/8.04 (hardy) Firefox/2.0.0.19').
            toBe 'Linux Firefox 2.0'
 
 
     it 'should degrade gracefully when OS not recognized', ->
-      expecting('Mozilla/5.0 (X11; U; FreeBSD; i386; en-US; rv:1.7) Gecko/20081216 Firefox/2.0.0.19'.
+      expecting('Mozilla/5.0 (X11; U; FreeBSD; i386; en-US; rv:1.7) Gecko/20081216 Firefox/2.0.0.19').
            toBe 'Firefox 2.0'
 
 
@@ -223,3 +223,4 @@ describe 'util', ->
         stat = fs.statSync '/home/new/parent/child'
         expect(stat).toBeDefined()
         expect(stat.isDirectory()).toBe true
+
