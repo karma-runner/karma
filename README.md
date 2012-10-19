@@ -88,14 +88,9 @@ sudo npm install . --dev # install all dev dependencies (such as grunt, jasmine-
 
 ### Tips for contributing
 
-- create a branch per feature/fix
-- follow http://nodeguide.com/style.html (with exception of 100 characters per line)
-- send pull request requesting a merge to `master` branch (not to default `stable`)
-
-
-If you have any further questions, join the [mailing list](https://groups.google.com/forum/#!forum/testacular) or [submit an issue](https://github.com/vojtajina/testacular/issues/new).
-
-You can follow [@TestacularJS](http://twitter.com/TestacularJS) as well.
+See
+[Contributing.md](https://github.com/vojtajina/testacular/blob/master/CONTRIBUTING.md)
+for more information.
 
 
 ## Versions
