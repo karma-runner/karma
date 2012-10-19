@@ -178,7 +178,7 @@ describe 'config', ->
 
     it 'should compile coffeescript config', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
-      expect(config.files).toEqual ['/conf/one.js', '/conf/two.js']
+      expect(config.files).toEqual [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/two.js')]
 
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
