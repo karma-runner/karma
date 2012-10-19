@@ -91,6 +91,15 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
   grunt.registerTask('default', 'build lint test');
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function(type) {
-    grunt.task.run('build bump:' + (type || 'patch') + ' npm-publish');
+    type = type || 'patch';
+    var tasks = [
+      'build',
+      'bump:' + type,
+      'publish:' + type,
+      'docs',
+      'npm-publish'
+    ];
+
+    grunt.task.run(tasks.join(' '));
   });
 };
