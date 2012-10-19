@@ -5,7 +5,10 @@
       "name": "Unit tests",
       "cmd": ["jasmine-node", "--coffee", "--noColor", "test/unit"],
       "working_dir": "${project_path}",
-      "path": "/usr/local/nvm/v0.8.4/bin"
+      "path": "/usr/local/nvm/v0.8.4/bin",
+      "env": {
+        "NODE_PATH": "/usr/local/nvm/v0.8.4/lib/node_modules"
+      }
     }
   ],
   "folders":
