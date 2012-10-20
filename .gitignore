@@ -5,3 +5,5 @@ adapter/angular-scenario.js
 static/testacular.js
 .idea/*
 tmp/*
+*.swp
+*.swo
