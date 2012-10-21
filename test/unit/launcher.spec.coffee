@@ -2,7 +2,7 @@
 # lib/launcher.js module
 #==============================================================================
 describe 'launcher', ->
-  events = require 'events'
+  events = require '../../lib/events'
   util = require '../test-util.js'
   logger = require '../../lib/logger'
   loadFile = require('mocks').loadFile
@@ -140,3 +140,24 @@ describe 'launcher', ->
 
         l.markCaptured 2
         expect(l.areAllCaptured()).toBe true
+
+
+    describe 'onExit', ->
+
+      it 'should kill all browsers', ->
+        l.launch ['Chrome', 'ChromeCanary'], 1234, '/', 0, 1
+
+        done = jasmine.createSpy 'exit done'
+        emitter.emitAsync('exit').then done
+
+        expect(mockSpawn._processes[0].kill).toHaveBeenCalled()
+        expect(mockSpawn._processes[1].kill).toHaveBeenCalled()
+
+        mockSpawn._processes[0].emit 'close', 0
+        mockSpawn._processes[1].emit 'close', 0
+
+        # rm temp dir
+        mockRimraf._callbacks[0]()
+        mockRimraf._callbacks[1]()
+
+        waitsFor (-> done.callCount), 'exit done callback', 10
