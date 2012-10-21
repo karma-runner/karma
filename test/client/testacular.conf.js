@@ -26,7 +26,12 @@ exclude = [];
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
 // CLI --reporters progress
-reporters = ['progress'];
+reporters = ['progress', 'junit'];
+
+junitReporter = {
+  // will be resolved to basePath (in the same way as files/exclude patterns)
+  outputFile: 'test-results.xml'
+};
 
 // web server port
 // CLI --port 9876
