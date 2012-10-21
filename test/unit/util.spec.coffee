@@ -13,43 +13,62 @@ describe 'util', ->
     expecting = (name) ->
       expect util.browserFullNameToShort name
 
+    it 'should parse iOS', ->
+      expecting('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 ' +
+                '(KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25').
+           toBe 'Safari 6.0 (iOS)'
+
+
+    it 'should parse Linux', ->
+      expecting('Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.19) Gecko/20081216 ' +
+                'Ubuntu/8.04 (hardy) Firefox/2.0.0.19').
+           toBe 'Firefox 2.0 (Linux)'
+
+
+    it 'should degrade gracefully when OS not recognized', ->
+      expecting('Mozilla/5.0 (X11; U; FreeBSD; i386; en-US; rv:1.7) Gecko/20081216 Firefox/2.0.0.19').
+           toBe 'Firefox 2.0'
+
+
     it 'should parse Chrome', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' +
                 '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7').
-           toBe 'Chrome 16.0'
+           toBe 'Chrome 16.0 (Mac)'
 
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.15 ' +
                 '(KHTML, like Gecko) Chrome/18.0.985.0 Safari/535.15').
-           toBe 'Chrome 18.0'
+           toBe 'Chrome 18.0 (Mac)'
 
 
     it 'should parse Firefox', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:7.0.1) Gecko/20100101 ' +
                 'Firefox/7.0.1').
-           toBe 'Firefox 7.0'
+           toBe 'Firefox 7.0 (Mac)'
 
 
     it 'should parse Opera', ->
       expecting('Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.9.168 ' +
                 'Version/11.52').
-           toBe 'Opera 11.52'
+           toBe 'Opera 11.52 (Mac)'
 
 
     it 'should parse Safari', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.52.7 ' +
                 '(KHTML, like Gecko) Version/5.1.2 Safari/534.52.7').
-           toBe 'Safari 5.1'
+           toBe 'Safari 5.1 (Mac)'
 
 
     it 'should parse IE9', ->
       expecting('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; ' +
                 '.NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center ' +
-                'PC 6.0)').toBe 'IE 9.0'
+                'PC 6.0)').
+           toBe 'IE 9.0 (Windows)'
 
 
     it 'should parse PhantomJS', ->
       expecting('Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/534.34 (KHTML, like Gecko) ' +
-                'PhantomJS/1.6.0 Safari/534.34').toBe 'PhantomJS 1.6'
+                'PhantomJS/1.6.0 Safari/534.34').
+           toBe 'PhantomJS 1.6 (Mac)'
 
 
   #==============================================================================
@@ -204,3 +223,4 @@ describe 'util', ->
         stat = fs.statSync '/home/new/parent/child'
         expect(stat).toBeDefined()
         expect(stat.isDirectory()).toBe true
+
