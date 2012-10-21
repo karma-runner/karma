@@ -32,13 +32,13 @@ describe 'events', ->
 
       it 'should register all "on" methods to events', ->
         emitter.emit 'foo'
-        expect(object.onFoo).toHaveBeenCalled
+        expect(object.onFoo).toHaveBeenCalled()
 
         emitter.emit 'foo_bar'
-        expect(object.onFooBar).toHaveBeenCalled
+        expect(object.onFooBar).toHaveBeenCalled()
 
-        expect(object.foo).not.toHaveBeenCalled
-        expect(object.bar).not.toHaveBeenCalled
+        expect(object.foo).not.toHaveBeenCalled()
+        expect(object.bar).not.toHaveBeenCalled()
 
 
       it 'should bind methods to the owner object', ->
@@ -50,10 +50,10 @@ describe 'events', ->
 
         emitter.emit 'foo'
         emitter.emit 'foo_bar'
-        expect(object.onFoo).toHaveBeenCalled
-        expect(object.onFooBar).toHaveBeenCalled
-        expect(object.foo).not.toHaveBeenCalled
-        expect(object.bar).not.toHaveBeenCalled
+        expect(object.onFoo).toHaveBeenCalled()
+        expect(object.onFooBar).toHaveBeenCalled()
+        expect(object.foo).not.toHaveBeenCalled()
+        expect(object.bar).not.toHaveBeenCalled()
 
 
   #============================================================================
@@ -68,4 +68,4 @@ describe 'events', ->
       emitter.emit 'foo'
       emitter.emit 'bar'
 
-      expect(object.onFoo).toHaveBeenCalled
+      expect(object.onFoo).toHaveBeenCalled()
