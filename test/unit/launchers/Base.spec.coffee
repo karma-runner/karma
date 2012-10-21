@@ -34,8 +34,6 @@ describe 'launchers Base', ->
     process:
       env:
         TMP: '/tmp'
-        TEMP: '/tmp'
-        TMPDIR: '/tmp'
       platform: 'darwin'
       nextTick: process.nextTick
     setTimeout: (fn, timeout) -> fakeTimer.setTimeout fn, timeout
