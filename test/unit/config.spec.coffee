@@ -7,6 +7,7 @@ describe 'config', ->
   mocks = m = e = null
   path = require('path')
   util = require('../../lib/util')
+
   resolveWinPath = (p) -> util.normalizeWinPath(path.resolve(p))
 
   normalizeConfigWithDefaults = (cfg) ->
@@ -183,9 +184,11 @@ describe 'config', ->
       config = m.parseConfig '/home/config6.js', {}
       expect(config.reporters).toEqual ['junit']
 
+
     it 'should compile coffeescript config', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
       expect(config.files).toEqual ['/conf/one.js', '/conf/two.js']
+
 
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
