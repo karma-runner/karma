@@ -22,6 +22,9 @@ describe 'events', ->
       expect(spy).toHaveBeenCalled()
 
 
+    #==========================================================================
+    # events.EventEmitter.bind()
+    #==========================================================================
     describe 'bind', ->
       object = null
 
