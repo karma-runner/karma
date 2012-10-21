@@ -9,6 +9,13 @@ describe 'config', ->
   util = require('../../lib/util')
   resolveWinPath = (p) -> util.normalizeWinPath(path.resolve(p))
 
+  normalizeConfigWithDefaults = (cfg) ->
+    cfg.urlRoot = '' if not cfg.urlRoot
+    cfg.files = [] if not cfg.files
+    cfg.exclude = [] if not cfg.exclude
+    cfg.junitReporter = {} if not cfg.junitReporter
+    m.normalizeConfig cfg
+
   beforeEach ->
     # create instance of fs mock
     mocks = {}
@@ -153,16 +160,16 @@ describe 'config', ->
 
 
     it 'should normalize urlRoot config', ->
-      config = m.normalizeConfig {urlRoot: '', files: [], exclude: []}
+      config = normalizeConfigWithDefaults {urlRoot: ''}
       expect(config.urlRoot).toBe '/'
 
-      config = m.normalizeConfig {urlRoot: '/a/b', files: [], exclude: []}
+      config = normalizeConfigWithDefaults {urlRoot: '/a/b'}
       expect(config.urlRoot).toBe '/a/b/'
 
-      config = m.normalizeConfig {urlRoot: 'a/', files: [], exclude: []}
+      config = normalizeConfigWithDefaults {urlRoot: 'a/'}
       expect(config.urlRoot).toBe '/a/'
 
-      config = m.normalizeConfig {urlRoot: 'some/thing', files: [], exclude: []}
+      config = normalizeConfigWithDefaults {urlRoot: 'some/thing'}
       expect(config.urlRoot).toBe '/some/thing/'
 
 
@@ -183,4 +190,12 @@ describe 'config', ->
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
       expect(config.autoWatch).toBe false
+
+
+  describe 'normalizeConfig', ->
+    it 'should resolve junitReporter.outputFile to basePath and CWD', ->
+      config = normalizeConfigWithDefaults
+        basePath: '/some/base'
+        junitReporter: {outputFile: 'file.xml'}
+      expect(config.junitReporter.outputFile).toBe '/some/base/file.xml'
 
