@@ -56,6 +56,38 @@ describe 'events', ->
         expect(object.bar).not.toHaveBeenCalled()
 
 
+    #==========================================================================
+    # events.EventEmitter.emitAsync()
+    #==========================================================================
+    describe 'emitAsync', ->
+      object = null
+
+      beforeEach ->
+        object = jasmine.createSpyObj 'object', ['onFoo', 'onFooBar', 'foo', 'bar']
+        emitter.bind object
+
+
+      it 'should resolve the promise once all listeners are done', ->
+        callbacks = []
+        eventDone = jasmine.createSpy 'done'
+
+        emitter.on 'a', (done) ->
+          done()
+        emitter.on 'a', (done) ->
+          callbacks.push done
+        emitter.on 'a', (done) ->
+          callbacks.push done
+
+        emitter.emitAsync('a').then eventDone
+
+        expect(eventDone).not.toHaveBeenCalled()
+        callbacks.pop()()
+        expect(eventDone).not.toHaveBeenCalled()
+        callbacks.pop()()
+
+        waitsFor (-> eventDone.callCount), 'done to be called', 10
+
+
   #============================================================================
   # events.bindAll
   #============================================================================
