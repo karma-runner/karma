@@ -80,3 +80,9 @@ describe 'cli', ->
 
       options = processArgs ['--reporters', 'dots']
       expect(options.reporters).toEqual ['dots']
+
+    it 'should cast files to array', ->
+      options = processArgs ['--files', 'file1,file2']
+      expect(options.files).toEqual ['file1', 'file2']
+
+      
