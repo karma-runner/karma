@@ -42,9 +42,14 @@ module.exports = function(grunt) {
     },
 
     test: {
-      unit: 'test/unit',
+      unit: '',
       client: 'test/client/testacular.conf.js',
       e2e: 'test/e2e/*/testacular.conf.js'
+    },
+    jasmine_node: {
+      projectRoot: 'test/unit',
+      isVerbose: true,
+      extensions: 'js|coffee'
     },
 
     // JSHint options
@@ -89,6 +94,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadTasks('tasks');
+  grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.registerTask('default', 'build lint test');
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function(type) {
     grunt.task.run('build bump:' + (type || 'patch') + ' npm-publish');
