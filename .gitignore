@@ -6,3 +6,5 @@ static/testacular.js
 .idea/*
 tmp/*
 docs/_build
+*.swp
+*.swo
