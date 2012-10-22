@@ -86,13 +86,10 @@ module.exports = function(grunt) {
 
       return next();
     }
-
-
-    // UNIT tests
     else if (this.target === 'unit') {
-      exec(which('jasmine-node'), ['--coffee', this.data], 'Unit tests failed.');
+      grunt.task.run(['jasmine_node']);
+      specDone();
     }
-
 
     // CLIENT unit tests
     else if (this.target === 'client') {
