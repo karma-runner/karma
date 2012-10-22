@@ -1,3 +1,14 @@
+### v0.5.0
+* Add preprocessor for LiveScript
+* Fix JUnit reporter
+* Enable process global in config file
+* Add OS name in the browser name
+* NG scenario adapter: hide other outputs to make it faster
+* Allow config to be written in CoffeeScript
+* Allow espaced characters in served urls
+
+### v0.4.0 (stable)
+
 ### v0.3.12
 * Allow calling run() pragmatically from JS
 
@@ -59,15 +70,15 @@
 
 ### v0.2.0 (stable)
 
-### v0.1.3 (unstable)
+### v0.1.3
 * Launch Canary with crankshaft disabled
 * Make the captured page nicer
 
-### v0.1.2 (unstable)
+### v0.1.2
 * Fix jasmine memory leaks
 * support __filename and __dirname in config files
 
-### v0.1.1 (unstable)
+### v0.1.1
 * Report slow tests (add `reportSlowerThan` config option)
 * Report time in minutes if it's over 60 seconds
 * Mocha adapter: add ability to fail during beforeEach/afterEach hooks
@@ -76,7 +87,7 @@
 * Redirect /urlRoot to /urlRoot/
 * Fix serving with urlRoot
 
-### v0.1.0 (unstable)
+### v0.1.0
 * Adapter for AngularJS scenario runner
 * Allow serving Testacular from a subpath
 * Fix race condition in testacular run
