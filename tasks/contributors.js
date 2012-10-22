@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 
     exec('git log --pretty=short | git shortlog -nse', function(err, stdout, stderr) {
       var PKG_FILE = 'package.json';
-      var pkg = grunt.config('pkg');
+      var pkg = grunt.package;
 
       pkg.contributors = stdout.toString().split('\n').slice(1, -1).map(function(line) {
         return line.replace(/^[\W\d]+/, '');
