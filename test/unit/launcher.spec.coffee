@@ -76,10 +76,16 @@ describe 'launcher', ->
 
 
       it 'should allow launching a script', ->
-        l.launch ['/usr/local/bin/special-browser'], 1234, '/'
+        l.launch ['/usr/local/bin/special-browser'], 'localhost', 1234, '/'
         expect(mockSpawn).toHaveBeenCalled()
         expect(mockSpawn.argsForCall[0][0]).toBe '/usr/local/bin/special-browser'
         expect(mockSpawn.argsForCall[0][1]).toEqual ['http://localhost:1234/?id=1']
+
+
+      it 'should allow launching to a specified host', ->
+        l.launch ['/usr/local/bin/special-browser'], 'custom-host.com', 1234, '/'
+        expect(mockSpawn).toHaveBeenCalled()
+        expect(mockSpawn.argsForCall[0][1]).toEqual ['http://custom-host.com:1234/?id=1']
 
 
     describe 'kill', ->
@@ -89,7 +95,7 @@ describe 'launcher', ->
         exitSpy = jasmine.createSpy 'onExit'
 
       it 'should kill all running processe', ->
-        l.launch ['Chrome', 'ChromeCanary'], 1234
+        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234
         l.kill()
 
         expect(mockSpawn._processes.length).toBe 2
@@ -98,7 +104,7 @@ describe 'launcher', ->
 
 
       it 'should call callback when all processes killed', ->
-        l.launch ['Chrome', 'ChromeCanary'], 1234
+        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234
         l.kill exitSpy
 
         expect(exitSpy).not.toHaveBeenCalled()
@@ -115,7 +121,7 @@ describe 'launcher', ->
 
 
       it 'should call callback even if a process had already been killed', ->
-        l.launch ['Chrome', 'ChromeCanary'], 1234, '/', 0, 1 # disable retry
+        l.launch ['Chrome', 'ChromeCanary'], 'locahost', 1234, '/', 0, 1 # disable retry
         mockSpawn._processes[0].emit 'close', 1
         mockSpawn._processes[1].emit 'close', 1
 
@@ -131,7 +137,7 @@ describe 'launcher', ->
     describe 'areAllCaptured', ->
 
       it 'should return true if only if all browsers captured', ->
-        l.launch ['Chrome', 'ChromeCanary'], 1234
+        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234
 
         expect(l.areAllCaptured()).toBe false
 
