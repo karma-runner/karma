@@ -13,6 +13,7 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('test', 'Run tests.', function() {
     var specDone = this.async();
     var which = require('which').sync;
+    var path = require('path');
 
     var exec = function(cmd, args, failMsg) {
       var child = grunt.util.spawn({cmd: cmd, args: args}, function(err, result, code) {
@@ -33,7 +34,7 @@ module.exports = function(grunt) {
     if (this.target === 'e2e') {
       var tests = grunt.file.expand(this.data);
       var processToKill;
-      var cmd = '../bin/testacular';
+      var cmd = path.join(__dirname, '..', 'bin', 'testacular');
       var node = which('node');
       var args = [
         'start', null, '--single-run', '--no-auto-watch', '--reporters=dots', '--browsers=' + BROWSERS
