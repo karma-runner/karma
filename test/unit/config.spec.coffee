@@ -199,8 +199,8 @@ describe 'config', ->
 
     it 'should resolve adapters', ->
       config = m.parseConfig '/home/config7.js', {files: ['a.js','b.js','#MOCHA']}
-      adapterPath = path.resolve "#{__dirname}/../../adapter/lib/mocha.js"
-      expect(config.files).toEqual ['/home/a.js', '/home/b.js', adapterPath]
+      adapterPath = util.normalizeWinPath path.resolve("#{__dirname}/../../adapter/lib/mocha.js")
+      expect(config.files).toEqual [resolveWinPath('/home/a.js'), resolveWinPath('/home/b.js'), adapterPath]
 
 
   describe 'normalizeConfig', ->
@@ -208,7 +208,7 @@ describe 'config', ->
       config = normalizeConfigWithDefaults
         basePath: '/some/base'
         junitReporter: {outputFile: 'file.xml'}
-      expect(config.junitReporter.outputFile).toBe '/some/base/file.xml'
+      expect(config.junitReporter.outputFile).toBe resolveWinPath('/some/base/file.xml')
 
 
 
