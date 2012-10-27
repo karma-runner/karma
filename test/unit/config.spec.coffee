@@ -2,7 +2,6 @@
 # lib/config.js module
 #==============================================================================
 describe 'config', ->
-  path = require 'path'
   fsMock = require('mocks').fs
   loadFile = require('mocks').loadFile
   mocks = m = e = null
@@ -42,7 +41,6 @@ describe 'config', ->
         'config4.js': fsMock.file 0, 'port = 123; autoWatch = true; basePath = "/abs/base"'
         'config5.js': fsMock.file 0, 'port = {f: __filename, d: __dirname}' # piggyback on port prop
         'config6.js': fsMock.file 0, 'reporters = "junit";'
-        'config7.js': fsMock.file 0, 'files = ["a.js", "b.js", "#MOCHA"];'        
       conf:
         'invalid.js': fsMock.file 0, '={function'
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
@@ -52,7 +50,6 @@ describe 'config', ->
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
     e = m.exports
-
 
 
   #============================================================================
@@ -197,11 +194,6 @@ describe 'config', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
       expect(config.autoWatch).toBe false
 
-    it 'should resolve adapters', ->
-      config = m.parseConfig '/home/config7.js', {files: ['a.js','b.js','#MOCHA']}
-      adapterPath = util.normalizeWinPath path.resolve("#{__dirname}/../../adapter/lib/mocha.js")
-      expect(config.files).toEqual [resolveWinPath('/home/a.js'), resolveWinPath('/home/b.js'), adapterPath]
-
 
   describe 'normalizeConfig', ->
     it 'should resolve junitReporter.outputFile to basePath and CWD', ->
@@ -209,7 +201,4 @@ describe 'config', ->
         basePath: '/some/base'
         junitReporter: {outputFile: 'file.xml'}
       expect(config.junitReporter.outputFile).toBe resolveWinPath('/some/base/file.xml')
-
-
-
 
