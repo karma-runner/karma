@@ -254,3 +254,19 @@ describe 'config', ->
       expect(pattern.watched).toBe false
       expect(pattern.included).toBe false
       expect(pattern.served).toBe true
+
+
+    it 'should make urls not served neither watched', ->
+      pattern = m.createPatternObject 'http://some.url.com'
+
+      expect(pattern.pattern).toBe 'http://some.url.com'
+      expect(pattern.included).toBe true
+      expect(pattern.watched).toBe false
+      expect(pattern.served).toBe false
+
+      pattern = m.createPatternObject {pattern: 'https://some.other.com'}
+
+      expect(pattern.pattern).toBe 'https://some.other.com'
+      expect(pattern.included).toBe true
+      expect(pattern.watched).toBe false
+      expect(pattern.served).toBe false

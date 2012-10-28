@@ -9,7 +9,7 @@ describe 'watcher', ->
 
   # create an array of pattern objects from given strings
   patterns = (strings...) ->
-    new config.Pattern(str) for str in strings
+    new config.createPatternObject(str) for str in strings
 
   beforeEach util.disableLogger
 
@@ -65,4 +65,11 @@ describe 'watcher', ->
       m.watchPatterns patterns('/some/sub/*.js', '/some/a*.*'), chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).toEqual ['/some']
 
-    # it 'should not watch watched false'
+
+    it 'should not watch if watched false', ->
+      m.watchPatterns [
+        new config.Pattern('/some/*.js', true, true, false)
+        new config.Pattern('/some/sub/*.js')
+      ], chokidarWatcher
+
+      expect(chokidarWatcher.watchedPaths_).toEqual ['/some/sub']
