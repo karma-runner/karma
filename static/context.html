@@ -21,6 +21,9 @@ Realoaded before every execution run.
     window.onerror = function() {
       return window.__testacular__.error.apply(window.__testacular__, arguments);
     };
+
+    // All served files with the latest timestamps
+    %MAPPINGS%
   </script>
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%

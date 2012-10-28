@@ -224,6 +224,26 @@ describe 'web-server', ->
         expect(response._headers['Pragma']).toBe 'no-cache'
         expect(response._headers['Expires']).toBe ZERO_DATE
 
+    it 'should inline mappings with all served files', ->
+      mocks.fs._touchFile '/tcular/static/context.html', 0, '%MAPPINGS%'
+
+      includedFiles = []
+      servedFiles = [{path: '/some/abs/a.js', mtime: new Date 12345},
+        {path: '/base/path/b.js', mtime: new Date 67890},
+        {path: '/tcular/adapter/c.js', mtime: new Date 321}]
+
+      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
+      waitForFinishingResponse()
+
+      runs ->
+        expect(response._body).toEqual 'window.__testacular__.files = {\n' +
+        "  '/absolute/some/abs/a.js': '12345',\n" +
+        "  '/base/b.js': '67890',\n" +
+        "  '/adapter/c.js': '321'\n" +
+        "};\n"
+
+        expect(response._status).toBe 200
+
 
     it 'should redirect urlRoot without trailing slash', ->
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_'), response
