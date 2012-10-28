@@ -3,13 +3,14 @@
 tmp
 test
 tasks
-docs/*.graffle
+docs
 
 junit-schema.xsd
 
 TODO.md
+CONTRIBUTING.md
 jsl.conf
-grunt.js
+Gruntfile.coffee
 changelog.sh
 
 Testacular.sublime-*
