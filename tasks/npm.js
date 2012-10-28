@@ -22,17 +22,22 @@ module.exports = function(grunt) {
    */
   grunt.registerTask('npm-publish', 'Publish to NPM.', function() {
     this.requires('build');
-    // TODO(vojta): cancel if not clean work space (to avoid pushing uncommitted changes to npm)
 
     var done = this.async();
     var pkg = grunt.config('pkg');
     var minor = parseInt(pkg.version.split('.')[1], 10);
     var tag = (minor % 2) ? 'canary' : 'latest';
 
-    exec('npm publish --tag ' + tag, function(err, output, error) {
-      if (err) return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
-      grunt.log.ok('Published to NPM @' + tag);
-      done();
+    exec('git status -s', function(err, stdout, stderr) {
+      if (stdout) {
+        return grunt.fail.warn('Dirty workspace, cannot push to NPM.\n' + stdout + '\n');
+      }
+
+      exec('npm publish --tag ' + tag, function(err, output, error) {
+        if (err) return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
+        grunt.log.ok('Published to NPM @' + tag);
+        done();
+      });
     });
   });
 };
