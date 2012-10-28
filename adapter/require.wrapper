@@ -1,5 +1,5 @@
-(function(window) {
+(function(__testacular__, requirejs, require) {
 
 %CONTENT%
 
-})(window);
+})(window.__testacular__, window.requirejs, window.require);

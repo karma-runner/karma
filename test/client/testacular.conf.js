@@ -21,7 +21,9 @@ files = [
 ];
 
 // list of files to exclude
-exclude = [];
+exclude = [
+  'adapter/require.src.js'
+];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
