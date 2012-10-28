@@ -25,8 +25,9 @@ describe 'web-server', ->
     getIncludedFiles: -> includedFiles
 
   # async helper
-  waitForFinishingResponse = ->
+  waitForFinishingResponseAnd = (next) ->
     waitsFor (-> response._isFinished()), 'Finish response', 100
+    runs next
 
   mocks.fs = fsMock.create
     tcular:
@@ -76,10 +77,7 @@ describe 'web-server', ->
     it 'should first look for testacular files', ->
       handler new httpMock.ServerRequest('/_testacular_/'), response
 
-      # TODO(vojta): refactor to waitForFinishingResponseAnd ->
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'CLIENT HTML'
         expect(response._status).toBe 200
         expect(actualOptions).toEqual {}
@@ -89,43 +87,33 @@ describe 'web-server', ->
       handler = m.createHandler fileList, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
           {'/_testacular_/': 'http://localhost:9000'}, '/_testacular_/'
       handler new httpMock.ServerRequest('/base/other.js'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._status).toBe 404
         expect(response._body).toBe 'NOT FOUND'
 
 
     it 'should serve static files after proxy', ->
       handler new httpMock.ServerRequest('/base/a.js'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toBe 'js-src-a'
         expect(response._status).toBe 200
 
 
     it 'should delegate to proxy after checking for testacular files', ->
       handler new httpMock.ServerRequest('/_testacular_/not_client.html'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(actualOptions).toEqual {host: 'localhost', port: '9000'}
 
 
     it 'should delegate to proxy after checking for source files', ->
       handler new httpMock.ServerRequest('/base/not_client.html'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(actualOptions).toEqual {host: 'localhost', port: '1000'}
 
 
     it 'should give 404 for missing files', ->
       handler new httpMock.ServerRequest('/file/non-existent.html'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._status).toBe 404
         expect(response._body).toBe 'NOT FOUND'
 
@@ -143,9 +131,7 @@ describe 'web-server', ->
     it 'should serve client.html', ->
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/'), response
       expect(retVal).toBeTruthy()
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'CLIENT HTML'
         expect(response._status).toBe 200
 
@@ -153,9 +139,7 @@ describe 'web-server', ->
     it 'should allow /?id=xxx', ->
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/?id=123'), response
       expect(retVal).toBeTruthy()
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'CLIENT HTML'
         expect(response._status).toBe 200
 
@@ -166,9 +150,7 @@ describe 'web-server', ->
 
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
       expect(retVal).toBeTruthy()
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'CONTEXT\n' +
         '<script type="text/javascript" src="/absolute/first.js?12345"></script>\n' +
         '<script type="text/javascript" src="/absolute/second.js?67890"></script>'
@@ -181,9 +163,7 @@ describe 'web-server', ->
 
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/debug.html'), response
       expect(retVal).toBeTruthy()
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'RUNNER\n' +
         '<script type="text/javascript" src="/absolute/first.js"></script>\n' +
         '<script type="text/javascript" src="/absolute/second.js"></script>'
@@ -197,9 +177,7 @@ describe 'web-server', ->
 
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
       expect(retVal).toBeTruthy()
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'CONTEXT\n' +
         '<script type="text/javascript" src="/absolute/some/abs/a.js?12345"></script>\n' +
         '<script type="text/javascript" src="/base/b.js?67890"></script>\n' +
@@ -212,9 +190,7 @@ describe 'web-server', ->
 
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
       expect(retVal).toBeTruthy()
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'CONTEXT\n' +
         '<script type="text/javascript" src="http://some.url.com/whatever"></script>'
         expect(response._status).toBe 200
@@ -223,9 +199,7 @@ describe 'web-server', ->
     it 'should send non-caching headers for context.html', ->
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
       expect(retVal).toBeTruthy()
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._headers['Cache-Control']).toBe 'no-cache'
         # idiotic IE8 needs more
         expect(response._headers['Pragma']).toBe 'no-cache'
@@ -241,9 +215,7 @@ describe 'web-server', ->
         {path: '/tcular/adapter/c.js', mtime: new Date 321}]
 
       tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toEqual 'window.__testacular__.files = {\n' +
         "  '/absolute/some/abs/a.js': '12345',\n" +
         "  '/base/b.js': '67890',\n" +
@@ -256,9 +228,7 @@ describe 'web-server', ->
     it 'should redirect urlRoot without trailing slash', ->
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_'), response
       expect(retVal).toBe true
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._status).toBe 301
         expect(response._headers['Location']).toBe '/_testacular_/'
 
@@ -275,9 +245,7 @@ describe 'web-server', ->
       servedFiles = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js?123345'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toBe 'js-source'
         expect(response._status).toBe 200
 
@@ -287,9 +255,7 @@ describe 'web-server', ->
 
       srcFileHandler new httpMock.ServerRequest('/base/a.js?123345'), response
 
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toBe 'js-src-a'
         expect(response._status).toBe 200
 
@@ -298,9 +264,7 @@ describe 'web-server', ->
       servedFiles = [{path: '/tcular/adapter/jasmine.js', contentPath: '/tcular/adapter/jasmine.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/adapter/jasmine.js?123345'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._body).toBe 'js-src-jasmine'
         expect(response._status).toBe 200
 
@@ -309,9 +273,7 @@ describe 'web-server', ->
       servedFiles = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js?12323'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._headers['Cache-Control']).toEqual ['public', 'max-age=31536000']
 
 
@@ -319,9 +281,7 @@ describe 'web-server', ->
       servedFiles = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js'), response
-      waitForFinishingResponse()
-
-      runs ->
+      waitForFinishingResponseAnd ->
         expect(response._headers['Cache-Control']).toBe 'no-cache'
         # idiotic IE8 needs more
         expect(response._headers['Pragma']).toBe 'no-cache'
@@ -337,6 +297,4 @@ describe 'web-server', ->
       servedFiles = [{path: '/first.js', mtime: new Date 12345},
         {path: '/second.js', mtime: new Date 67890}]
 
-      runs ->
-        expect(srcFileHandler new httpMock.ServerRequest('/base/other.js'), response).toBeFalsy()
-
+      expect(srcFileHandler new httpMock.ServerRequest('/base/other.js'), response).toBeFalsy()
