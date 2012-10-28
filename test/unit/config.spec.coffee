@@ -17,6 +17,10 @@ describe 'config', ->
     cfg.junitReporter = {} if not cfg.junitReporter
     m.normalizeConfig cfg
 
+  # extract only pattern properties from list of pattern objects
+  patternsFrom = (list) ->
+    list.map (pattern) -> pattern.pattern
+
   beforeEach ->
     # create instance of fs mock
     mocks = {}
@@ -47,6 +51,7 @@ describe 'config', ->
         'absolute.js': fsMock.file 0, 'files = ["http://some.com", "https://more.org/file.js"];'
         'both.js': fsMock.file 0, 'files = ["one.js", "two.js"]; exclude = ["third.js"]'
         'coffee.coffee': fsMock.file 0, 'files = [ "one.js"\n  "two.js"]'
+
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
     e = m.exports
@@ -80,12 +85,12 @@ describe 'config', ->
     it 'should resolve all file patterns', ->
       config = e.parseConfig '/home/config3.js'
       actual = [resolveWinPath('/home/one.js'), resolveWinPath('/home/sub/two.js')]
-      expect(config.files).toEqual actual
+      expect(patternsFrom config.files).toEqual actual
 
 
     it 'should keep absolute url file patterns', ->
       config = e.parseConfig '/conf/absolute.js'
-      expect(config.files).toEqual ['http://some.com', 'https://more.org/file.js']
+      expect(patternsFrom config.files).toEqual ['http://some.com', 'https://more.org/file.js']
 
 
     it 'should resolve all exclude patterns', ->
@@ -126,7 +131,7 @@ describe 'config', ->
 
       expect(config.basePath).toBe resolveWinPath('/xxx')
       actual = [resolveWinPath('/xxx/one.js'), resolveWinPath('/xxx/two.js')]
-      expect(config.files).toEqual actual
+      expect(patternsFrom config.files).toEqual actual
       expect(config.exclude).toEqual [resolveWinPath('/xxx/third.js')]
 
 
@@ -187,7 +192,7 @@ describe 'config', ->
 
     it 'should compile coffeescript config', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
-      expect(config.files).toEqual [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/two.js')]
+      expect(patternsFrom config.files).toEqual [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/two.js')]
 
 
     it 'should set defaults with coffeescript', ->
@@ -196,9 +201,56 @@ describe 'config', ->
 
 
   describe 'normalizeConfig', ->
+
     it 'should resolve junitReporter.outputFile to basePath and CWD', ->
       config = normalizeConfigWithDefaults
         basePath: '/some/base'
         junitReporter: {outputFile: 'file.xml'}
       expect(config.junitReporter.outputFile).toBe resolveWinPath('/some/base/file.xml')
 
+
+    it 'should convert patterns to objects and set defaults', ->
+      config = normalizeConfigWithDefaults
+        basePath: '/base'
+        files: ['a/*.js', {pattern: 'b.js', watched: false, included: false}, {pattern: 'c.js'}]
+
+      expect(config.files.length).toBe 3
+
+      file = config.files.shift()
+      expect(file.pattern).toBe '/base/a/*.js'
+      expect(file.included).toBe true
+      expect(file.served).toBe true
+      expect(file.watched).toBe true
+
+      file = config.files.shift()
+      expect(file.pattern).toBe '/base/b.js'
+      expect(file.included).toBe false
+      expect(file.served).toBe true
+      expect(file.watched).toBe false
+
+      file = config.files.shift()
+      expect(file.pattern).toBe '/base/c.js'
+      expect(file.included).toBe true
+      expect(file.served).toBe true
+      expect(file.watched).toBe true
+
+
+  describe 'createPatternObject', ->
+
+    it 'should parse string and set defaults', ->
+      pattern = m.createPatternObject 'some/**/*.js'
+
+      expect(typeof pattern).toBe 'object'
+      expect(pattern.pattern).toBe 'some/**/*.js'
+      expect(pattern.watched).toBe true
+      expect(pattern.included).toBe true
+      expect(pattern.served).toBe true
+
+    it 'should merge pattern object and set defaults', ->
+      pattern = m.createPatternObject {pattern: 'a.js', included: false, watched: false}
+
+      expect(typeof pattern).toBe 'object'
+      expect(pattern.pattern).toBe 'a.js'
+      expect(pattern.watched).toBe false
+      expect(pattern.included).toBe false
+      expect(pattern.served).toBe true
