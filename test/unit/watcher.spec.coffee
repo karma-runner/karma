@@ -4,7 +4,12 @@
 describe 'watcher', ->
   util = require '../test-util'
   mocks = require 'mocks'
+  config = require '../../lib/config'
   m = null
+
+  # create an array of pattern objects from given strings
+  patterns = (strings...) ->
+    new config.Pattern(str) for str in strings
 
   beforeEach util.disableLogger
 
@@ -42,20 +47,22 @@ describe 'watcher', ->
       chokidarWatcher = new mocks.chokidar.FSWatcher
 
     it 'should watch all the patterns', ->
-      m.watchPatterns ['/some/*.js', '/a/*'], chokidarWatcher
+      m.watchPatterns patterns('/some/*.js', '/a/*'), chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).toEqual ['/some', '/a']
 
 
     it 'should not watch urls', ->
-      m.watchPatterns ['http://some.com', '/a.*'], chokidarWatcher
+      m.watchPatterns patterns('http://some.com', '/a.*'), chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).toEqual ['/']
 
 
     it 'should not watch the same path twice', ->
-      m.watchPatterns ['/some/a*.js', '/some/*.txt'], chokidarWatcher
+      m.watchPatterns patterns('/some/a*.js', '/some/*.txt'), chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).toEqual ['/some']
 
 
     it 'should not watch subpaths that are already watched', ->
-      m.watchPatterns ['/some/sub/*.js', '/some/a*.*'], chokidarWatcher
+      m.watchPatterns patterns('/some/sub/*.js', '/some/a*.*'), chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).toEqual ['/some']
+
+    # it 'should not watch watched false'
