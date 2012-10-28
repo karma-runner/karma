@@ -72,6 +72,7 @@ describe 'web-server', ->
       actualOptions = {}
       response = new httpMock.ServerResponse()
 
+
     it 'should first look for testacular files', ->
       handler new httpMock.ServerRequest('/_testacular_/'), response
 
@@ -94,6 +95,7 @@ describe 'web-server', ->
         expect(response._status).toBe 404
         expect(response._body).toBe 'NOT FOUND'
 
+
     it 'should serve static files after proxy', ->
       handler new httpMock.ServerRequest('/base/a.js'), response
       waitForFinishingResponse()
@@ -102,12 +104,14 @@ describe 'web-server', ->
         expect(response._body).toBe 'js-src-a'
         expect(response._status).toBe 200
 
+
     it 'should delegate to proxy after checking for testacular files', ->
       handler new httpMock.ServerRequest('/_testacular_/not_client.html'), response
       waitForFinishingResponse()
 
       runs ->
         expect(actualOptions).toEqual {host: 'localhost', port: '9000'}
+
 
     it 'should delegate to proxy after checking for source files', ->
       handler new httpMock.ServerRequest('/base/not_client.html'), response
@@ -125,6 +129,7 @@ describe 'web-server', ->
         expect(response._status).toBe 404
         expect(response._body).toBe 'NOT FOUND'
 
+
   describe 'testacular source handler', ->
 
     tcularSrcHandler = null
@@ -133,6 +138,7 @@ describe 'web-server', ->
       servedFiles = []
       globals.process.platform = 'darwin'
       tcularSrcHandler = m.createTestacularSourceHandler fileList, staticFolderPath, adapterFolderPath, baseFolder, '/_testacular_/'
+
 
     it 'should serve client.html', ->
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/'), response
@@ -152,6 +158,7 @@ describe 'web-server', ->
       runs ->
         expect(response._body).toEqual 'CLIENT HTML'
         expect(response._status).toBe 200
+
 
     it 'should serve context.html with replaced script tags', ->
       includedFiles = [{path: '/first.js', mtime: new Date 12345},
@@ -224,6 +231,7 @@ describe 'web-server', ->
         expect(response._headers['Pragma']).toBe 'no-cache'
         expect(response._headers['Expires']).toBe ZERO_DATE
 
+
     it 'should inline mappings with all served files', ->
       mocks.fs._touchFile '/tcular/static/context.html', 0, '%MAPPINGS%'
 
@@ -255,13 +263,13 @@ describe 'web-server', ->
         expect(response._headers['Location']).toBe '/_testacular_/'
 
 
-
-
   describe 'source files handler', ->
     srcFileHandler = null
+
     beforeEach ->
       response = new httpMock.ServerResponse
       srcFileHandler = m.createSourceFileHandler fileList, '/tcular/adapter', '/base/path'
+
 
     it 'should serve absolute js source files ignoring timestamp', ->
       servedFiles = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]

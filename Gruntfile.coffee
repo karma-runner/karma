@@ -49,7 +49,7 @@ module.exports = (grunt) ->
       verbose: false
       extensions: 'js|coffee'
 
-    #JSHint options
+    # JSHint options
     # http://www.jshint.com/options/
     jshint:
       server:
@@ -83,11 +83,11 @@ module.exports = (grunt) ->
 
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-jasmine-node'
+
   grunt.registerTask 'default', ['build', 'jshint', 'test']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
-    tasks = [
+    grunt.task.run [
       'build',
       "bump:#{type||'patch'}",
       'npm-publish'
     ]
-    grunt.task.run tasks
