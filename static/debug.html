@@ -26,7 +26,10 @@ just for immediate execution, without reporting to Testacular server.
         if (result.skipped) return;
         var msg = result.success ? 'SUCCESS ' : 'FAILED ';
         window.console.log(msg + result.suite.join(' ') + ' ' + result.description);
-      } : function() {}
+      } : function() {},
+      loaded: function() {
+        this.start();
+      }
     };
 
     // All served files with the latest timestamps
@@ -35,7 +38,7 @@ just for immediate execution, without reporting to Testacular server.
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
   <script type="text/javascript">
-    window.__testacular__.start();
+    window.__testacular__.loaded();
   </script>
 </body>
 </html>
