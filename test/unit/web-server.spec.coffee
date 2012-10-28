@@ -16,12 +16,13 @@ describe 'web-server', ->
   mocks = {}
 
   mocks['http-proxy'] = {}
-  files = handler = response = null
+  servedFiles = includedFiles = handler = response = null
   ZERO_DATE = (new Date 0).toString()
 
   # mock fileList
   fileList =
-    getFiles: -> files
+    getServedFiles: -> servedFiles
+    getIncludedFiles: -> includedFiles
 
   # async helper
   waitForFinishingResponse = ->
@@ -62,7 +63,7 @@ describe 'web-server', ->
 
     beforeEach ->
       # TODO(vojta): use real File (file-list.File)
-      files = [{path: '/first.js', contentPath: '/first.js', mtime: new Date 12345},
+      servedFiles = includedFiles = [{path: '/first.js', contentPath: '/first.js', mtime: new Date 12345},
         {path: '/second.js', contentPath: '/second.js', mtime: new Date 67890},
         {path: '/base/path/a.js', contentPath: '/base/path/a.js', mtime: new Date 12345}]
 
@@ -129,7 +130,7 @@ describe 'web-server', ->
     tcularSrcHandler = null
     beforeEach ->
       response = new httpMock.ServerResponse
-      files = []
+      servedFiles = []
       globals.process.platform = 'darwin'
       tcularSrcHandler = m.createTestacularSourceHandler fileList, staticFolderPath, adapterFolderPath, baseFolder, '/_testacular_/'
 
@@ -153,7 +154,7 @@ describe 'web-server', ->
         expect(response._status).toBe 200
 
     it 'should serve context.html with replaced script tags', ->
-      files = [{path: '/first.js', mtime: new Date 12345},
+      includedFiles = [{path: '/first.js', mtime: new Date 12345},
         {path: '/second.js', mtime: new Date 67890}]
 
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
@@ -168,7 +169,7 @@ describe 'web-server', ->
 
 
     it 'should serve debug.html with replaced script tags without timestamps', ->
-      files = [{path: '/first.js', mtime: new Date 12345},
+      includedFiles = [{path: '/first.js', mtime: new Date 12345},
         {path: '/second.js', mtime: new Date 67890}]
 
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/debug.html'), response
@@ -183,7 +184,7 @@ describe 'web-server', ->
 
 
     it 'should serve context.html with /basepath/*, /adapter/*, /absolute/* ', ->
-      files = [{path: '/some/abs/a.js', mtime: new Date 12345},
+      includedFiles = [{path: '/some/abs/a.js', mtime: new Date 12345},
         {path: '/base/path/b.js', mtime: new Date 67890},
         {path: '/tcular/adapter/c.js', mtime: new Date 321}]
 
@@ -200,7 +201,7 @@ describe 'web-server', ->
 
 
     it 'should not change urls', ->
-      files = [{path: 'http://some.url.com/whatever', isUrl: true}]
+      includedFiles = [{path: 'http://some.url.com/whatever', isUrl: true}]
 
       retVal = tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response
       expect(retVal).toBeTruthy()
@@ -243,7 +244,7 @@ describe 'web-server', ->
       srcFileHandler = m.createSourceFileHandler fileList, '/tcular/adapter', '/base/path'
 
     it 'should serve absolute js source files ignoring timestamp', ->
-      files = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
+      servedFiles = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js?123345'), response
       waitForFinishingResponse()
@@ -254,7 +255,7 @@ describe 'web-server', ->
 
 
     it 'should serve js source files from base folder ignoring timestamp', ->
-      files = [{path: '/base/path/a.js', contentPath: '/base/path/a.js', mtime: new Date 12345}]
+      servedFiles = [{path: '/base/path/a.js', contentPath: '/base/path/a.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/base/a.js?123345'), response
 
@@ -266,7 +267,7 @@ describe 'web-server', ->
 
 
     it 'should serve js source files from adapter folder ignoring timestamp', ->
-      files = [{path: '/tcular/adapter/jasmine.js', contentPath: '/tcular/adapter/jasmine.js', mtime: new Date 12345}]
+      servedFiles = [{path: '/tcular/adapter/jasmine.js', contentPath: '/tcular/adapter/jasmine.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/adapter/jasmine.js?123345'), response
       waitForFinishingResponse()
@@ -277,7 +278,7 @@ describe 'web-server', ->
 
 
     it 'should send strict caching headers for js source files with timestamps', ->
-      files = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
+      servedFiles = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js?12323'), response
       waitForFinishingResponse()
@@ -287,7 +288,7 @@ describe 'web-server', ->
 
 
     it 'should send no-caching headers for js source files without timestamps', ->
-      files = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
+      servedFiles = [{path: '/src/some.js', contentPath: '/src/some.js', mtime: new Date 12345}]
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js'), response
       waitForFinishingResponse()
@@ -299,13 +300,13 @@ describe 'web-server', ->
         expect(response._headers['Expires']).toBe ZERO_DATE
 
 
-    it 'should return false for non-existing files', ->
+    it 'should return false for non-existing servedFiles', ->
       expect(srcFileHandler new httpMock.ServerRequest('/base/non-existing.html'), response).toBeFalsy()
 
 
     it 'should not allow resources that are not in the file list', ->
       response = new httpMock.ServerResponse
-      files = [{path: '/first.js', mtime: new Date 12345},
+      servedFiles = [{path: '/first.js', mtime: new Date 12345},
         {path: '/second.js', mtime: new Date 67890}]
 
       runs ->
