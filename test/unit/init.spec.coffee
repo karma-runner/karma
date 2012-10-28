@@ -40,6 +40,10 @@ describe 'init', ->
       expect(m.getBasePath f, replace('/home/vojta/tc/prj')).toBe replace('../tc/prj')
 
 
+    it 'should handle absolute paths', ->
+      expect(m.getBasePath replace('/Users/vojta/testacular/conf.js'), replace('/Users/vojta')).toBe replace('..')
+
+
   describe 'getReplacementsFromAnswers', ->
 
     answers = (obj = {}) ->
