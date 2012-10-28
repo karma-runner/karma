@@ -20,8 +20,9 @@ describe 'preprocessor', ->
 
     mocks_ =
       fs: mockFs
-      minimatch: require('minimatch')
-      'coffee-script': require('coffee-script')
+      minimatch: require 'minimatch'
+      LiveScript: require 'LiveScript'
+      'coffee-script': require 'coffee-script'
 
     m = mocks.loadFile __dirname + '/../../lib/preprocessor.js', mocks_
     doneSpy = jasmine.createSpy 'done'
