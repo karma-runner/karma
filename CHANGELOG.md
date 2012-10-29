@@ -1,3 +1,7 @@
+### v0.5.1
+* Support for Require.js
+* Fix testacular init basePath
+
 ### v0.5.0
 * Add preprocessor for LiveScript
 * Fix JUnit reporter
