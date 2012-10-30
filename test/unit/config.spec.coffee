@@ -217,19 +217,19 @@ describe 'config', ->
       expect(config.files.length).toBe 3
 
       file = config.files.shift()
-      expect(file.pattern).toBe '/base/a/*.js'
+      expect(file.pattern).toBe resolveWinPath '/base/a/*.js'
       expect(file.included).toBe true
       expect(file.served).toBe true
       expect(file.watched).toBe true
 
       file = config.files.shift()
-      expect(file.pattern).toBe '/base/b.js'
+      expect(file.pattern).toBe resolveWinPath '/base/b.js'
       expect(file.included).toBe false
       expect(file.served).toBe true
       expect(file.watched).toBe false
 
       file = config.files.shift()
-      expect(file.pattern).toBe '/base/c.js'
+      expect(file.pattern).toBe resolveWinPath '/base/c.js'
       expect(file.included).toBe true
       expect(file.served).toBe true
       expect(file.watched).toBe true
