@@ -85,6 +85,7 @@ module.exports = (grunt) ->
 
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-jasmine-node'
+  grunt.loadNpmTasks 'grunt-contrib-jshint'
 
   grunt.registerTask 'default', ['build', 'jshint', 'test']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
