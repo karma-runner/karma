@@ -38,13 +38,12 @@ module.exports = function(grunt) {
 
 
     // increment the version
-    var PKG_FILE = 'package.json';
     var pkg = grunt.config('pkg');
     var previousVersion = pkg.version;
     var newVersion = pkg.version = bumpVersion(previousVersion, type);
 
     // write updated package.json
-    grunt.file.write(PKG_FILE, JSON.stringify(pkg, null, '  '));
+    grunt.file.write(grunt.config('pkgFile'), JSON.stringify(pkg, null, '  '));
     grunt.log.ok('Version bumped to ' + newVersion);
 
     // generate changelog
