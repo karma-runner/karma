@@ -58,7 +58,7 @@
     "grunt-jasmine-node": "https://github.com/Dignifiedquire/grunt-jasmine-node/tarball/grunt-0.4",
     "jasmine-node": "~1.0.26",
     "mocks": ">= 0.0.5",
-    "grunt": "~0.4.0a",
+    "grunt-cli": ">= 0.1.0",
     "which": ">= 1.0.5"
   },
   "preferGlobal": true,
