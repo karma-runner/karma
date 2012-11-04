@@ -105,6 +105,24 @@ describe 'init', ->
       expect(done).toHaveBeenCalled()
 
 
+    it 'should parse booleans', ->
+      done.andCallFake (answers) ->
+        expect(answers.yes).toBe true
+        expect(answers.no).toBe false
+
+      questions = [
+        {id: 'yes', options: ['yes', 'no'], boolean: true}
+        {id: 'no', options: ['yes', 'no'], boolean: true}
+      ]
+
+      machine.process questions, done
+      machine.onLine 'yes'
+      machine.onLine 'no'
+
+      expect(done).toHaveBeenCalled()
+
+
+
   describe 'getBasePath', ->
 
     # just for windows.
@@ -165,7 +183,7 @@ describe 'init', ->
 
     it 'should add REQUIRE and set files non-included if requirejs used', ->
       replacements = m.getReplacementsFromAnswers answers {
-        requirejs: 'yes',
+        requirejs: true,
         includedFiles: [],
         files: ['*.js', 'other/file.js']
       }
@@ -178,7 +196,7 @@ describe 'init', ->
 
     it 'should prepend includedFiles into FILES', ->
       replacements = m.getReplacementsFromAnswers answers {
-        requirejs: 'yes',
+        requirejs: true,
         includedFiles: ['main.js']
         files: ['*.js']
       }
