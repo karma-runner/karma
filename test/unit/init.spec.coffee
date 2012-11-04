@@ -68,6 +68,30 @@ describe 'init', ->
       expect(validator).toHaveBeenCalledWith 'something'
 
 
+    it 'should allow conditional answers', ->
+      ifTrue = jasmine.createSpy('condition if true').andCallFake (answers) ->
+        answers.first is 'true'
+      ifFalse = jasmine.createSpy('condition if false').andCallFake (answers) ->
+        answers.first is 'false'
+
+      done.andCallFake (answers) ->
+        expect(answers.first).toBe 'true'
+        expect(answers.onlyIfTrue).toBe 'something'
+        expect(answers.onlyIfFalse).toBeUndefined()
+
+      questions = [
+        {id: 'first'}
+        {id: 'onlyIfTrue', condition: ifTrue}
+        {id: 'onlyIfFalse', condition: ifFalse}
+      ]
+
+      machine.process questions, done
+      machine.onLine 'true'
+      machine.onLine 'something'
+
+      expect(done).toHaveBeenCalled()
+
+
   describe 'getBasePath', ->
 
     # just for windows.
