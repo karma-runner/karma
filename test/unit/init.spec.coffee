@@ -55,6 +55,19 @@ describe 'init', ->
       expect(done).toHaveBeenCalled()
 
 
+    it 'should always return array for multiple', ->
+      questions = [
+        {id: 'empty', multiple: true}
+      ]
+
+      done.andCallFake (answers) ->
+        expect(answers.empty).toEqual []
+
+      machine.process questions, done
+      machine.onLine ''
+      expect(done).toHaveBeenCalled()
+
+
     it 'should validate answers', ->
       validator = jasmine.createSpy 'validate'
       questions = [
@@ -148,6 +161,32 @@ describe 'init', ->
       expect(replacements.FILES).toBe "JASMINE,\n  JASMINE_ADAPTER,\n  '*.js'"
       replacements = m.getReplacementsFromAnswers answers {files: ['*.js'], framework: 'mocha'}
       expect(replacements.FILES).toBe "MOCHA,\n  MOCHA_ADAPTER,\n  '*.js'"
+
+
+    it 'should add REQUIRE and set files non-included if requirejs used', ->
+      replacements = m.getReplacementsFromAnswers answers {
+        requirejs: 'yes',
+        includedFiles: [],
+        files: ['*.js', 'other/file.js']
+      }
+
+      expect(replacements.FILES).toBe "REQUIRE,\n" +
+        "  REQUIRE_ADAPTER,\n" +
+        "  {pattern: '*.js', included: false},\n" +
+        "  {pattern: 'other/file.js', included: false}"
+
+
+    it 'should prepend includedFiles into FILES', ->
+      replacements = m.getReplacementsFromAnswers answers {
+        requirejs: 'yes',
+        includedFiles: ['main.js']
+        files: ['*.js']
+      }
+
+      expect(replacements.FILES).toBe "REQUIRE,\n" +
+        "  REQUIRE_ADAPTER,\n" +
+        "  'main.js',\n" +
+        "  {pattern: '*.js', included: false}"
 
 
     it 'should set EXCLUDE', ->
