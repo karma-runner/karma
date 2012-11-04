@@ -9,8 +9,67 @@ describe 'init', ->
   beforeEach ->
     m = loadFile __dirname + '/../../lib/init.js', {glob: require 'glob'}
 
+
+  describe 'StateMachine', ->
+    machine = done = null
+
+    mockRli =
+      write: -> null
+      prompt: -> null
+      _deleteLineLeft: -> null
+      _deleteLineRight: -> null
+
+    beforeEach ->
+      machine = new m.StateMachine mockRli
+      done = jasmine.createSpy 'done'
+
+
+    it 'should go through all the questions', ->
+      questions = [
+        {id: 'framework', options: ['jasmine', 'mocha']}
+        {id: 'other'}
+      ]
+
+      done.andCallFake (answers) ->
+        expect(answers.framework).toBe 'jasmine'
+        expect(answers.other).toBe 'abc'
+
+      machine.process questions, done
+      machine.onLine 'jasmine'
+      machine.onLine 'abc'
+      expect(done).toHaveBeenCalled()
+
+
+    it 'should allow multiple answers', ->
+      questions = [
+        {id: 'browsers', multiple: true}
+      ]
+
+      done.andCallFake (answers) ->
+        expect(answers.browsers).toEqual ['Chrome', 'Safari']
+
+      machine.process questions, done
+      machine.onLine 'Chrome'
+      machine.onLine 'Safari'
+      machine.onLine ''
+      expect(done).toHaveBeenCalled()
+
+
+    it 'should validate answers', ->
+      validator = jasmine.createSpy 'validate'
+      questions = [
+        {id: 'validated', validate: validator}
+      ]
+
+      machine.process questions, done
+      machine.onLine 'something'
+
+      expect(done).toHaveBeenCalled()
+      expect(validator).toHaveBeenCalledWith 'something'
+
+
   describe 'getBasePath', ->
-  
+
     # just for windows.
     replace = (p) -> p.replace(/\//g, path.sep)
 
