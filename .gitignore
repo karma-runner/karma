@@ -2,6 +2,7 @@ node_modules
 adapter/jasmine.js
 adapter/mocha.js
 adapter/angular-scenario.js
+adapter/qunit.js
 static/testacular.js
 .idea/*
 tmp/*

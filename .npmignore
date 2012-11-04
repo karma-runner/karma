@@ -24,5 +24,8 @@ adapter/mocha.wrapper
 adapter/angular-scenario.src.js
 adapter/angular-scenario.wrapper
 
+adapter/qunit.src.js
+adapter/qunit.wrapper
+
 static/testacular.src.js
 static/testacular.wrapper

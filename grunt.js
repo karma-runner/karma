@@ -21,6 +21,7 @@ module.exports = function(grunt) {
       client: ['static/testacular.src.js'],
       jasmine: ['adapter/jasmine.src.js'],
       mocha: ['adapter/mocha.src.js'],
+      qunit: ['adapter/qunit.src.js'],
       ngScenario: ['adapter/angular-scenario.src.js'],
       grunt: ['grunt.js', 'tasks/*.js']
     },
@@ -30,6 +31,7 @@ module.exports = function(grunt) {
       client: '<config:files.client>',
       jasmine: '<config:files.jasmine>',
       mocha: '<config:files.mocha>',
+      qunit: '<config:files.qunit>',
       ngScenario: '<config:files.ngScenario>',
       grunt: '<config:files.grunt>'
     },
@@ -38,6 +40,7 @@ module.exports = function(grunt) {
       client: '<config:files.client>',
       jasmine: '<config:files.jasmine>',
       mocha: '<config:files.mocha>',
+      qunit: '<config:files.qunit>',
       ngScenario: '<config:files.ngScenario>'
     },
 
@@ -63,6 +66,9 @@ module.exports = function(grunt) {
         options: JSHINT_BROWSER
       },
       mocha: {
+        options: JSHINT_BROWSER
+      },
+      qunit: {
         options: JSHINT_BROWSER
       },
       ngScenario: {
