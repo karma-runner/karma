@@ -13,11 +13,12 @@ files = [
   REQUIRE,
   REQUIRE_ADAPTER,
 
-  // all the sources, tests
-  {pattern: 'dependency.js', included: false},
-  {pattern: 'test.js', included: false},
+  'main.js',
 
-  'main.js'
+  // all the sources, tests
+  {pattern: '*.js', included: false}
+
+
 ];
 
 
