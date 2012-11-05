@@ -1,3 +1,6 @@
+### v0.5.2
+* Init: ask about using Require.js
+
 ### v0.5.1
 * Support for Require.js
 * Fix testacular init basePath
