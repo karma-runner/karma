@@ -222,10 +222,9 @@ describe 'init', ->
       replacements = m.getReplacementsFromAnswers answers {browsers: ['Chrome', 'Firefox']}
       expect(replacements.BROWSERS).toBe "'Chrome', 'Firefox'"
 
-
     it 'should set AUTO_WATCH', ->
-      replacements = m.getReplacementsFromAnswers answers {autoWatch: 'yes'}
+      replacements = m.getReplacementsFromAnswers answers {autoWatch: true}
       expect(replacements.AUTO_WATCH).toBe 'true'
 
-      replacements = m.getReplacementsFromAnswers answers {autoWatch: 'no'}
+      replacements = m.getReplacementsFromAnswers answers {autoWatch: false}
       expect(replacements.AUTO_WATCH).toBe 'false'
