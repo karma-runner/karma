@@ -18,18 +18,16 @@ describe 'preprocessor', ->
       some:
         'a.js': mocks.fs.file 0, 'originalContent'
 
+    fakePreprocessor = jasmine.createSpy 'fake preprocessor'
     mocks_ =
       fs: mockFs
       minimatch: require 'minimatch'
-      LiveScript: require 'LiveScript'
-      'coffee-script': require 'coffee-script'
-
+      './preprocessors/Coffee': fakePreprocessor
+      
     m = mocks.loadFile __dirname + '/../../lib/preprocessor.js', mocks_
     doneSpy = jasmine.createSpy 'done'
-    fakePreprocessor = m.processors.fake = jasmine.createSpy 'fake preprocessor'
 
-    pp = m.createPreprocessor {'**/*.js': 'fake'}, null
-
+    pp = m.createPreprocessor {'**/*.js': 'coffee'}, null
 
   it 'should preprocess matching file', ->
     fakePreprocessor.andCallFake (content, file, basePath, done) ->
@@ -45,7 +43,6 @@ describe 'preprocessor', ->
       expect(file.path).toBe 'path-preprocessed'
       expect(mockFs.readFileSync('/some/new.js').toString()).toBe 'new-content'
 
-
   it 'should ignore not matching file', ->
     fakePreprocessor.andCallFake (content, file, basePath, done) ->
       done ''
@@ -55,4 +52,4 @@ describe 'preprocessor', ->
     pp file, doneSpy
 
     waitsForDoneAnd ->
-      expect(m.processors.fake).not.toHaveBeenCalled()
+      expect(fakePreprocessor).not.toHaveBeenCalled()
