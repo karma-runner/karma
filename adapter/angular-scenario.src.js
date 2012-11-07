@@ -77,6 +77,8 @@ var registerResultListeners = function(model, tc) {
         log: []
       });
     }
-    tc.complete();
+    tc.complete({
+      coverage: window.__coverage__
+    });
   });
 };

@@ -59,8 +59,8 @@ var Testacular = function(socket, context, navigator, location) {
     socket.emit('result', result);
   };
 
-  this.complete = function() {
-    socket.emit('complete');
+  this.complete = function(result) {
+    socket.emit('complete', result);
     clearContext();
   };
 
