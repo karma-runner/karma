@@ -86,5 +86,21 @@ describe('adapter angular-scenario', function() {
       expect(tc.result).toHaveBeenCalled();
       expect(tc.complete).toHaveBeenCalled();
     });
+
+
+    // regression, issue #160
+    it('should handle error spec without failed spec', function() {
+      spyOn(tc, 'result').andCallFake(function(result) {
+        expect(result.id).toEqual(failingSpec.id);
+        expect(result.success).toBe(false);
+        expect(result.skipped).toBe(false);
+        expect(result.log).toEqual([failingSpec.line + ': ' + failingSpec.error]);
+      });
+
+      // remove failing step
+      failingSpec.steps.length = 0;
+      model.emit('SpecEnd', failingSpec);
+      expect(tc.result).toHaveBeenCalled();
+    });
   });
 });

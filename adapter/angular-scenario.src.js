@@ -22,10 +22,9 @@ var registerResultListeners = function(model, tc) {
 
   var createFailedSpecLog = function(spec) {
     var failedStep = findFailedStep(spec.steps);
-    return [
-      failedStep.name,
-      spec.line ? spec.line + ': ' + spec.error : spec.error
-    ];
+    var specError = spec.line ? spec.line + ': ' + spec.error : spec.error;
+
+    return failedStep ? [failedStep.name, specError] : [specError];
   };
 
   var findFailedStep = function(steps) {
