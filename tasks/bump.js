@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 
 
     // increment the version
-    var pkg = grunt.config('pkg');
+    var pkg = grunt.file.readJSON(grunt.config('pkgFile'));
     var previousVersion = pkg.version;
     var newVersion = pkg.version = bumpVersion(previousVersion, type);
 

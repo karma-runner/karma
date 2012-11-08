@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     this.requires('build');
 
     var done = this.async();
-    var pkg = grunt.config('pkg');
+    var pkg = grunt.file.readJSON(grunt.config('pkgFile'));
     var minor = parseInt(pkg.version.split('.')[1], 10);
     var tag = (minor % 2) ? 'canary' : 'latest';
 
