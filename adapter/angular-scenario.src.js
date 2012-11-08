@@ -29,12 +29,14 @@ var registerResultListeners = function(model, tc) {
 
   var findFailedStep = function(steps) {
     var stepCount = steps.length;
-    for(var i=0; i<stepCount; i++) {
+    for(var i = 0; i < stepCount; i++) {
       var step = steps[i];
+
       if (step.status === 'failure') {
         return step;
       }
     }
+
     return null;
   };
 
@@ -54,9 +56,11 @@ var registerResultListeners = function(model, tc) {
       time: spec.duration,
       log: []
     };
+
     if (spec.error) {
       result.log = createFailedSpecLog(spec);
     }
+
     testsCompleted++;
     tc.result(result);
   });
@@ -76,6 +80,7 @@ var registerResultListeners = function(model, tc) {
         log: []
       });
     }
+
     tc.complete();
   });
 };

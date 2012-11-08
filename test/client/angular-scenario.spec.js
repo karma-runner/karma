@@ -6,6 +6,7 @@
 describe('adapter angular-scenario', function() {
   describe('Test Results Reporter', function() {
     var tc, model, passingSpec, failingSpec;
+
     beforeEach(function () {
       var stubRunner = {};
       stubRunner.on = function(){};
@@ -26,6 +27,7 @@ describe('adapter angular-scenario', function() {
       registerResultListeners(model, tc);
     });
 
+
     it('should update number of tests in the beginning', function() {
       spyOn(tc, 'info');
       angular.scenario.Describe = {specId: 13};
@@ -33,6 +35,7 @@ describe('adapter angular-scenario', function() {
       model.emit('RunnerBegin');
       expect(tc.info).toHaveBeenCalledWith({total: 13});
     });
+
 
     it('should handle passing tests', function() {
       spyOn(tc, 'result').andCallFake(function(result) {
@@ -48,6 +51,8 @@ describe('adapter angular-scenario', function() {
       model.emit('SpecEnd', passingSpec);
       expect(tc.result).toHaveBeenCalled();
     });
+
+
     it('should handle failing tests', function() {
       spyOn(tc, 'result').andCallFake(function(result) {
         expect(result.id).toEqual(failingSpec.id);
@@ -62,12 +67,15 @@ describe('adapter angular-scenario', function() {
       model.emit('SpecEnd', failingSpec);
       expect(tc.result).toHaveBeenCalled();
     });
+
+
     it('should listen for finish', function() {
       spyOn(tc, 'complete');
 
       model.emit('RunnerEnd');
       expect(tc.complete).toHaveBeenCalled();
     });
+
 
     it('should inform TC about skipped tests', function() {
       spyOn(tc, 'info');
@@ -81,7 +89,7 @@ describe('adapter angular-scenario', function() {
         expect(result.id).toEqual('Skipped1');
         expect(result.skipped).toBe(true);
         expect(result.time).toBe(0);
-      });;
+      });
       model.emit('RunnerEnd');
       expect(tc.result).toHaveBeenCalled();
       expect(tc.complete).toHaveBeenCalled();
