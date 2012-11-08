@@ -10,3 +10,4 @@ docs/_build
 *.swp
 *.swo
 test/e2e/coverage/coverage
+test/e2e/preprocess/coverage

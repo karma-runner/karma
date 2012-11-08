@@ -4,6 +4,7 @@
 describe 'file-list', ->
   util = require '../test-util'
   mocks = require 'mocks'
+  q = require 'q'
   events = require 'events'
   path = require 'path'
   config = require '../../lib/config'
@@ -63,8 +64,10 @@ describe 'file-list', ->
     emitter = new events.EventEmitter
     emitter.on 'file_list_modified', onFileListModifiedSpy
 
-    preprocessMock = jasmine.createSpy('preprocess').andCallFake (file, done) ->
-      process.nextTick done
+    preprocessMock = jasmine.createSpy('preprocess').andCallFake (file) ->
+      d = q.defer()
+      d.resolve()
+      d.promise
 
 
   #============================================================================
