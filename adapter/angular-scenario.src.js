@@ -81,6 +81,8 @@ var registerResultListeners = function(model, tc) {
       });
     }
 
-    tc.complete();
+    tc.complete({
+      coverage: window.__coverage__
+    });
   });
 };

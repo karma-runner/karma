@@ -15,6 +15,7 @@ describe 'config', ->
     cfg.files = [] if not cfg.files
     cfg.exclude = [] if not cfg.exclude
     cfg.junitReporter = {} if not cfg.junitReporter
+    cfg.coverageReporter = {} if not cfg.coverageReporter
     m.normalizeConfig cfg
 
   # extract only pattern properties from list of pattern objects
@@ -207,6 +208,13 @@ describe 'config', ->
         basePath: '/some/base'
         junitReporter: {outputFile: 'file.xml'}
       expect(config.junitReporter.outputFile).toBe resolveWinPath('/some/base/file.xml')
+
+
+    it 'should resolve coverageReporter.dir to basePath and CWD', ->
+      config = normalizeConfigWithDefaults
+        basePath: '/some/base'
+        coverageReporter: {dir: 'path/to/coverage'}
+      expect(config.coverageReporter.dir).toBe resolveWinPath('/some/base/path/to/coverage')
 
 
     it 'should convert patterns to objects and set defaults', ->

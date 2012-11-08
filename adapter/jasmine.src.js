@@ -40,7 +40,9 @@ var TestacularReporter = function(tc) {
 
   this.reportRunnerResults = function(runner) {
     tc.store('jasmine.lastFailedIds', failedIds);
-    tc.complete();
+    tc.complete({
+      coverage: window.__coverage__
+    });
   };
 
   this.reportSuiteResults = function(suite) {

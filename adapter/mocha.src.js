@@ -35,7 +35,9 @@ var createMochaReporterConstructor = function(tc) {
     });
 
     runner.on('end', function() {
-      tc.complete();
+      tc.complete({
+        coverage: window.__coverage__
+      });
     });
 
     runner.on('test', function(test) {
