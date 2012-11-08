@@ -1,3 +1,6 @@
+### v0.5.3
+* Add code coverage !
+
 ### v0.5.2
 * Init: ask about using Require.js
 
