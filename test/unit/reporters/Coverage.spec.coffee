@@ -5,7 +5,7 @@ describe 'reporter', ->
   events = require 'events'
   path = require 'path'
   istanbul = require 'istanbul'
-  util = require '../../../lib/util'
+  helper = require '../../../lib/helper'
   browser = require '../../../lib/browser'
   Browser = browser.Browser
   Collection = browser.Collection
@@ -30,10 +30,10 @@ describe 'reporter', ->
   mockReportCreate = jasmine.createSpy 'istanbul.Report.create'
   mockWriteReport = jasmine.createSpy 'istanbul.Report.writeReport'
   mockReportCreate.andReturn writeReport: mockWriteReport
-  mockMkdir = jasmine.createSpy 'util.mkdirIfNotExists'
-  mockUtil =
-    isDefined: (v) -> util.isDefined v
-    merge: (v...) -> util.merge v...
+  mockMkdir = jasmine.createSpy 'helper.mkdirIfNotExists'
+  mockHelper =
+    isDefined: (v) -> helper.isDefined v
+    merge: (v...) -> helper.merge v...
     mkdirIfNotExists: mockMkdir
 
   mocks =
@@ -44,7 +44,7 @@ describe 'reporter', ->
       Report: create: mockReportCreate
     dateformat: require 'dateformat'
     '../logger': require '../../../lib/logger'
-    '../util' : mockUtil
+    '../helper' : mockHelper
 
 
   beforeEach ->
@@ -106,7 +106,7 @@ describe 'reporter', ->
       reporter = new m.CoverageReporter rootConfig, emitter
       browsers = new Collection emitter
       # fake user agent only for testing
-      # cf. util.browserFullNameToShort
+      # cf. helper.browserFullNameToShort
       fakeChrome = makeBrowser 'aaa', 'Windows NT 6.1 Chrome/16.0.912.75', browsers, emitter
       fakeOpera = makeBrowser 'bbb', 'Opera/9.80 Mac OS X Version/12.00', browsers, emitter
       browsers.add fakeChrome

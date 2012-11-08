@@ -6,9 +6,9 @@ describe 'config', ->
   loadFile = require('mocks').loadFile
   mocks = m = e = null
   path = require('path')
-  util = require('../../lib/util')
+  helper = require('../../lib/helper')
 
-  resolveWinPath = (p) -> util.normalizeWinPath(path.resolve(p))
+  resolveWinPath = (p) -> helper.normalizeWinPath(path.resolve(p))
 
   normalizeConfigWithDefaults = (cfg) ->
     cfg.urlRoot = '' if not cfg.urlRoot

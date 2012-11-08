@@ -1,17 +1,17 @@
 #==============================================================================
-# lib/util.js module
+# lib/helper.js module
 #==============================================================================
-describe 'util', ->
-  util = require '../../lib/util'
+describe 'helper', ->
+  helper = require '../../lib/helper'
 
   #==============================================================================
-  # util.browserFullNameToShort()
+  # helper.browserFullNameToShort()
   #==============================================================================
   describe 'browserFullNameToShort', ->
 
     # helper function
     expecting = (name) ->
-      expect util.browserFullNameToShort name
+      expect helper.browserFullNameToShort name
 
     it 'should parse iOS', ->
       expecting('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 ' +
@@ -72,10 +72,10 @@ describe 'util', ->
 
 
   #==============================================================================
-  # util.isDefined()
+  # helper.isDefined()
   #==============================================================================
   describe 'isDefined', ->
-    isDefined = util.isDefined
+    isDefined = helper.isDefined
 
     it 'should return true if defined', ->
       expect(isDefined()).toBe false
@@ -88,20 +88,20 @@ describe 'util', ->
 
 
   #==============================================================================
-  # util.camelToSnake()
+  # helper.camelToSnake()
   #==============================================================================
   describe 'camelToSnake', ->
-    camelToSnake = util.camelToSnake
+    camelToSnake = helper.camelToSnake
 
     it 'should convert camelCase string to snake_case', ->
       expect(camelToSnake 'OneMoreThing' ).toBe 'one_more_thing'
 
 
   #==============================================================================
-  # util.dashToCamel()
+  # helper.dashToCamel()
   #==============================================================================
   describe 'dashToCamel', ->
-    dashToCamel = util.dashToCamel
+    dashToCamel = helper.dashToCamel
 
     it 'should convert dash-case to camelCase', ->
       expect(dashToCamel 'one-more-thing' ).toBe 'oneMoreThing'
@@ -109,10 +109,10 @@ describe 'util', ->
 
 
   #==============================================================================
-  # util.arrayRemove()
+  # helper.arrayRemove()
   #==============================================================================
   describe 'arrayRemove', ->
-    arrayRemove = util.arrayRemove
+    arrayRemove = helper.arrayRemove
 
     it 'should remove object from array', ->
       a = 'one'; b = []; c = {}; d = -> null
@@ -132,53 +132,53 @@ describe 'util', ->
 
 
   #==============================================================================
-  # util.merge()
+  # helper.merge()
   #==============================================================================
   describe 'merge', ->
 
     it 'should copy properties to first argument', ->
       destination = {a: 1, b: 2}
-      result = util.merge destination, {a: 4, c: 5}
+      result = helper.merge destination, {a: 4, c: 5}
 
       expect(destination.a).toBe 1
       expect(result).toEqual {a: 4, b: 2, c: 5}
 
 
   #==============================================================================
-  # util.isUrlAbsolute()
+  # helper.isUrlAbsolute()
   #==============================================================================
   describe 'isUrlAbsolute', ->
 
     it 'should check http/https protocol', ->
-      expect(util.isUrlAbsolute 'some/path/http.html').toBe false
-      expect(util.isUrlAbsolute '/some/more.py').toBe false
-      expect(util.isUrlAbsolute 'http://some.com/path').toBe true
-      expect(util.isUrlAbsolute 'https://more.org/some.js').toBe true
+      expect(helper.isUrlAbsolute 'some/path/http.html').toBe false
+      expect(helper.isUrlAbsolute '/some/more.py').toBe false
+      expect(helper.isUrlAbsolute 'http://some.com/path').toBe true
+      expect(helper.isUrlAbsolute 'https://more.org/some.js').toBe true
 
 
   #==============================================================================
-  # util.formatTimeInterval()
+  # helper.formatTimeInterval()
   #==============================================================================
   describe 'formatTimeInterval', ->
 
     it 'should format into seconds', ->
-      expect(util.formatTimeInterval 23000).toBe '23 secs'
+      expect(helper.formatTimeInterval 23000).toBe '23 secs'
 
 
     it 'should format into minutes', ->
-      expect(util.formatTimeInterval 142000).toBe '2 mins 22 secs'
+      expect(helper.formatTimeInterval 142000).toBe '2 mins 22 secs'
 
 
     it 'should handle singular minute or second', ->
-      expect(util.formatTimeInterval 61000).toBe '1 min 1 sec'
+      expect(helper.formatTimeInterval 61000).toBe '1 min 1 sec'
 
 
     it 'should round to miliseconds', ->
-      expect(util.formatTimeInterval 163017).toBe '2 mins 43.017 secs'
+      expect(helper.formatTimeInterval 163017).toBe '2 mins 43.017 secs'
 
 
   #==============================================================================
-  # util.mkdirIfNotExists()
+  # helper.mkdirIfNotExists()
   #==============================================================================
   describe 'mkdirIfNotExists', ->
 
@@ -197,7 +197,7 @@ describe 'util', ->
         'some.js': fsMock.file()
 
     # load file under test
-    m = loadFile __dirname + '/../../lib/util.js', {fs: fs}
+    m = loadFile __dirname + '/../../lib/helper.js', {fs: fs}
     mkdirIfNotExists = m.exports.mkdirIfNotExists
 
 
