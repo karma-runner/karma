@@ -1,42 +1,40 @@
 Code Coverage
 ========================
 
-Testacular settings for code coverage, which is constituted by 3 parts.
+If you want to use the code coverage feature of testacular you need to 
+configure three parts.
 
-* Reporter (required)
-* Preprocessor (required)
-* Reporter Options (not required)
+1. Reporter (required)
+2. Preprocessor (required)
+3. Reporter Options (not required)
 
 Reporter
 ########################
-Coverage report comes to be outputted by this configuration.
+To activate the coverage reporter add this to your configuration file.
 
 .. code-block:: javascript
 
   reporters = ['coverage'];
 
-Coverage report is output for each browser.
-
-In addition, JSON file that is used to generate a report is output as intermediate data.
+This will create a coverage report for every browser that the tests are run in.
+In addition, it will create a JSON file that outputs the intermediate data.
 
 Preprocessor
 ########################
-instrument code for coverage by this configuration.
-this means that JS parsing and code generation.
+The preprocessor configures which files should be tested for coverage. 
+For example if all your code lives in ``lib/`` you need to add this to your
+configuration file.
 
 .. code-block:: javascript
 
   preprocessors = {
-    '**/coverage/lib/*.js': 'coverage'
+    '**/lib/*.js': 'coverage'
   };
 
-Please set focused enough JavaScript to be.
+You should not however include the files that aren't directly related to your
+program, e.g. libraries, mocks.
 
-
-You should not include the JavaScript that does not exist in the following basePath.
-
-
-I will show a **bad** example below.
+This is a **BAD** example
 
 .. code-block:: javascript
 
@@ -50,23 +48,19 @@ I will show a **bad** example below.
     '**/*.js': 'coverage'
   };
 
-In this example, it is include to JASMINE and JASMINE_ADAPTER.
+In this example also JASMINE and JASMINE_ADAPTER get included but they shouldn't as
+these file are only for the test setup used and not for your program.
 
-There should not to be include to the instrument, because there javascripts are embedded in the testacular.
+If you include these files there can occur side effects like the following,
 
-This effect occurs when two bad.
+* a part of the code coverage report will be output in the installation directory of testacular.
+* the code coverage rate is reduced unfairly.
 
-* a part of code coverage report will be output in the installation directory of testacular.
-* code coverage rate is reduced unfairly.
-
-Even for processing does not contain all the JavaScript basePath below,
-
-Because they want to have code coverage situation assumed to exist and is now in this specification.
 
 Reporter Options
 ########################
 
-Default value is below.
+The reporter defaults to the following values.
 
 .. code-block:: javascript
 
@@ -75,19 +69,19 @@ Default value is below.
     dir : 'coverage/'
   }
 
+If you want to configure it yourself, these are the options you have.
+
 .. object:: type (String)
 
   Available types:
   
-  - html (default)
-  - lcov (lcov and html)
-  - lcovonly
-  - text
-  - text-summary
+  * ``html`` (default)
+  * ``lcov`` (lcov and html)
+  * ``lcovonly``
+  * ``text``
+  * ``text-summary``
 
-  if you set 'text' or 'text-summary' to type, you may use 'file' option.
-  
-  like the below.
+  If you set ``type`` to ``text`` or ``text-summary``, you may set the ``file`` option, like this.
   
   .. code-block:: javascript
   
@@ -97,10 +91,10 @@ Default value is below.
       file : 'coverage.txt'
     }
   
-  the filename for the report. When omitted, the report is written to console.
+    If no filename is given, it will write the output to the console.
 
 
 .. object:: dir (String)
 
-  dir will be used to output coverage reports.
-  when you set relative path, that directory is made under basePath.
+  ``dir`` will be used to output coverage reports.
+  When you set a relative path, the directory is resolved against the `basePath`.
