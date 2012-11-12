@@ -197,7 +197,7 @@ describe 'helper', ->
         'some.js': fsMock.file()
 
     # load file under test
-    m = loadFile __dirname + '/../../lib/helper.js', {fs: fs}
+    m = loadFile __dirname + '/../../lib/helper.js', {fs: fs, lodash: require 'lodash'}
     mkdirIfNotExists = m.exports.mkdirIfNotExists
 
 
