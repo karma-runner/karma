@@ -13,7 +13,7 @@ var createNgScenarioStartFn = function(tc, scenarioSetupAndRun) {
   });
 
   return function(config) {
-    scenarioSetupAndRun({scenario_output: 'testacular'});
+    scenarioSetupAndRun({scenario_output: 'testacular,html'});
   };
 };
 
