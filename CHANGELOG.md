@@ -1,3 +1,8 @@
+### v0.5.4
+* Fix PhantomJS launcher
+* Fix html2js preprocessor
+* NG scenario adapter: show html output
+
 ### v0.5.3
 * Add code coverage !
 
