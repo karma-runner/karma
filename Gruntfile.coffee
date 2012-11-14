@@ -22,6 +22,7 @@ module.exports = (grunt) ->
       mocha: ['adapter/mocha.src.js']
       ngScenario: ['adapter/angular-scenario.src.js']
       require: ['adapter/require.src.js']
+      qunit: ['adapter/qunit.src.js']
       grunt: ['grunt.js', 'tasks/*.js']
 
     lint:
@@ -31,6 +32,7 @@ module.exports = (grunt) ->
       mocha: '<%= files.mocha %>'
       ngScenario: '<%= files.ngScenario %>'
       require: '<%= files.require %>'
+      qunit: '<%= files.qunit %>'
       grunt: '<%= files.grunt %>'
 
     build:
@@ -39,6 +41,7 @@ module.exports = (grunt) ->
       mocha: '<%= files.mocha %>'
       ngScenario: '<%= files.ngScenario %>'
       require: '<%= files.require %>'
+      qunit: '<%= files.qunit %>'
 
     test:
       unit: ''
@@ -63,6 +66,8 @@ module.exports = (grunt) ->
       jasmine:
         options: JSHINT_BROWSER
       mocha:
+        options: JSHINT_BROWSER
+      qunit:
         options: JSHINT_BROWSER
       ngScenario:
         options: JSHINT_BROWSER
