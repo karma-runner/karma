@@ -6,26 +6,26 @@ body {
   background-color: #fff;
   background-image: url(img/grid-18px-masked.png);
   background-repeat: repeat-x;
-  background-position: 0 40px;
+  background-position: 0 3px;
+  font-size: 14px;
 }
 
 
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
-.navbar-fixed-top .brand {
-  padding-right: 0;
-  padding-left: 0;
-  margin-left: 20px;
-  float: right;
-  font-weight: bold;
-  color: #000;
-  text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
-  -webkit-transition: all .2s linear;
-     -moz-transition: all .2s linear;
-          transition: all .2s linear;
+#navbar {
+  
+}
+.navbar-fixed-top {
+  border-top: 3px solid #9C0001;
+  height: 3px;
 }
 .navbar-fixed-top .brand:hover {
   text-decoration: none;
+}
+.navbar-inner {
+  height: 0px;
+  min-height: 0px;
 }
 
 
@@ -125,7 +125,6 @@ hr.soften {
 
 /* Masthead (docs home) */
 .masthead {
-  padding-top: 36px;
   margin-bottom: 72px;
 }
 .masthead h1,
@@ -140,10 +139,6 @@ hr.soften {
   margin-right: 5%;
   font-size: 30px;
   line-height: 36px;
-}
-
-.download-info {
-
 }
 
 /* Quick links
@@ -183,6 +178,7 @@ hr.soften {
 .marketing h2,
 .marketing h3 {
   font-weight: 300;
+  line-height: 1em;
 }
 .marketing h2 {
   font-size: 22px;
@@ -192,7 +188,7 @@ hr.soften {
 }
 .marketing .bs-icon {
   float: left;
-  margin: 7px 10px 0 0;
+  margin: 12px 10px 0 0;
   opacity: .8;
 }
 .marketing .small-bs-icon {
@@ -315,6 +311,13 @@ hr.soften {
   .footer p {
     margin-bottom: 9px;
   }
+  
+  .marketing .bs-icon {
+    float: left;
+    margin: -2px 10px 0 0;
+    opacity: .8;
+  }
+  
 
 }
 
@@ -375,4 +378,11 @@ hr.soften {
     width: 1168px; /* 2px less to account for left/right borders being removed when in fixed mode */
   }
 
+}
+
+/* Correct sleek top bar */
+@media (max-width: 979px) {
+  .navbar-fixed-top .navbar-inner {
+    padding: 0px;
+  }
 }
