@@ -1,40 +1,98 @@
-Contributing
-========
+=================
+How to contribute
+=================
 
+If you are thinking about making Testacular better, or you just want to hack on it, that’s great here 
+are some tips to get you started.
 
-Getting the code
-##############
+Getting Started
+###############
 
-If you are thinking about making Testacular better, or you just want
-to hack on it, that's great - `fork the repo`_ and become `a contributor`_!
+* Make sure you have a `GitHub account`_
+* `Submit`_ a ticket for your issue, assuming one does not
+  already exist.
+  
+  * Clearly describe the issue including steps to reproduce when it is a bug.
+  * Make sure you fill in the earliest version that you know has the issue.
+* Fork the repository on GitHub
+
+Making Changes
+##################
+
+* Clone your fork
+* Install dependencies via 
+
+  .. code-block:: bash
+  
+    $ npm install
+
+* Install global dependencies via 
+
+  .. code-block:: bash
+
+    $ npm install testacular jasmine-node -g
+
+* Checkout a new branch (usually based on ``master``) and name it accordingly to what 
+  you intend to do
+  * Features get the prefix ``feature-``
+  * Bug fixes get the prefix ``fix-``
+  * Improvements to the documentation get the prefix ``docs-``
+
+Testing and Building
+####################
+
+Run the tests via
 
 .. code-block:: bash
-  
-  $ git clone git://github.com/vojtajina/testacular.git # or clone your fork
-  $ cd testacular
 
-  # Install development dependencies
-  $ npm install
+  # All tests
+  $ grunt test
 
-  # Run the tests with grunt 
-  $ node_modules/.bin/grunt 
+  $ grunt test:unit
+  $ grunt test:e2e
+  $ grunt test:client
 
-Now go and code awesome stuff. I'll wait until you're finished.
+Lint the files via
 
-Finished? Great. Here are some guidelines before you push it to the repo.
+.. code-block:: bash
 
-Guidelines
-##########
+  $ grunt lint
 
-* Create one branch per feature/fix and name it ``fix-`` or ``feature-`` followed by a short name of what you are implementing
-* Follow http://nodeguide.com/style.html (with exception of 100 characters per line)
+Build the project via
 
-* Send a pull request requesting a merge to ``master`` branch
+.. code-block:: bash
+
+  $ grunt build
+
+The default task, just calling ``grunt`` will run ``build lint test``.
+
+Submitting Changes
+###################
+
+* One branch per feature/fix 
+* Follow  http://nodeguide.com/style.html (with exception of 100 characters per line)
+* Send a pull request to the ``master`` branch
 
 .. warning:: 
   
   Don't send the pull request to the default branch ``stable``.
 
 
-.. _fork the repo: https://github.com/vojtajina/testacular/fork_select
-.. _a contributor: https://github.com/vojtajina/testacular/graphs/contributors
+Additional Resources
+####################
+
+* `Issue tracker`_
+* `Mailing List`_
+* `General GitHub documentation`_
+* `GitHub pull request documentation`_
+* `@TestacularJS`_
+
+
+
+.. _GitHub account: (https://github.com/signup/free)
+.. _Submit: (https://github.com/vojtajina/testacular/issues/new)
+.. _@TestacularJS: http://twitter.com/TestacularJS
+.. _Mailing list: https://groups.google.com/forum/#!forum/testacular
+.. _Issue tracker: https://github.com/vojtajina/testacular/issues
+.. _GitHub pull request documentation: http://help.github.com/send-pull-requests
+.. _General GitHub documentation: http://help.github.com

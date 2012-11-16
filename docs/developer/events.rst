@@ -1,5 +1,6 @@
+======
 Events
-=====
+======
 
 
 .. function:: browser_register(browser)

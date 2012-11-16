@@ -1,8 +1,12 @@
-Client - Server protocol (socket.io events)
-==========================
+========================
+Client - Server protocol
+========================
+
+These are the `SocketIO`_ events that are transmitted between the browser
+and the testacular server.
 
 Server -> Client protocol
-####################
+##########################
 
 
 .. function:: execute([config])
@@ -16,7 +20,7 @@ Server -> Client protocol
   :rtype: Array
 
 Client -> Server protocol
-####################
+#########################
 
 .. function register(info)
 
@@ -36,3 +40,5 @@ Client -> Server protocol
 .. function:: error
 
 .. function:: complete
+
+.. _SocketIO: http://socket.io/

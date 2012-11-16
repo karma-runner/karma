@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 
-
+========================
 Testacular Documentation
 ========================
 
@@ -21,11 +21,11 @@ Content
   self
   user
   developer
-
+  api
 
 
 What is it good for?
-###############
+#####################
 
 Mostly for testing code in multiple browsers (desktop, mobile, tablets):
 
@@ -33,7 +33,7 @@ Mostly for testing code in multiple browsers (desktop, mobile, tablets):
 * executing tests on a continuous integration server
 
 Let's do it!
-########
+#############
 
 Go into your project and create a testacular configuration. Basically you need to specify the source files that you want to execute.
 
@@ -55,7 +55,7 @@ contains most of the options.
   testacular run
 
 Testing frameworks support
-######################
+###########################
 
 Testacular is not a testing framework, neither an assertion library, so for that you can use pretty much anything you like.
 
@@ -64,35 +64,35 @@ If you wanna write an adapter for your favourite testing framework,
 that's great - check out `adapter/jasmine.src.js`_ and write your own. 
 
 Browsers Supported
-###############
+###################
 
 Please see :doc:`user/browsers` for details on supported Browsers and how to configure non-default paths.
 
 Why am I doing this?
-################
+#####################
 
-Throughout the development of `AngularJS`_, we've been using `JSTD`_ for testing. I really think that JSTD is a great idea. Unfortunately, we had many problems with JSTD, so we decided to write our own test runner based on the same idea. We wanted a simple tool just for executing JavaScript tests that is both stable and fast. That's why we use the awesome `Socket.io`_ library and `Node.js`_.
+Throughout the development of `AngularJS`_, we've been using `JSTD`_ for testing. I really think that JSTD is a great idea. Unfortunately, we had many problems with JSTD, so we decided to write our own test runner based on the same idea. We wanted a simple tool just for executing JavaScript tests that is both stable and fast. That's why we use the awesome `SocketIO`_ library and `Node.js`_.
 
 
 
 Contact
-#################
+#######
 There is a `mailing list`_ and an `issuetracker`_.  Also you can follow `@TestacularJS`_ as well.
 
 
 Versions
-#######
+########
 
 Testacular uses `Semantic Versioning`_. All even versions (eg. ``0.2.x``, ``0.4.x``) are considered to
 be stable - no breaking changes, only bug fixes.
 
-Stable channel (branch "stable")
+Stable channel (branch ``stable``)
 
 .. code-block:: bash
 
   npm install -g testacular
 
-Canary channel (branch "master")
+Canary channel (branch ``master``)
 
 .. code-block:: bash
 
@@ -101,7 +101,7 @@ Canary channel (branch "master")
 .. _Node.js: http://nodejs.org/
 .. _AngularJS: http://angularjs.org/
 .. _JSTD: http://code.google.com/p/js-test-driver/
-.. _Socket.io: http://socket.io/
+.. _SocketIO: http://socket.io/
 .. _NVM: https://github.com/creationix/nvm
 .. _Grunt: http://gruntjs.com/
 .. _Jasmine: http://pivotal.github.com/jasmine/
