@@ -28,5 +28,8 @@ adapter/angular-scenario.wrapper
 adapter/require.src.js
 adapter/require.wrapper
 
+adapter/qunit.src.js
+adapter/qunit.wrapper
+
 static/testacular.src.js
 static/testacular.wrapper
