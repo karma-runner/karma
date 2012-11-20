@@ -18,7 +18,7 @@ describe('adapter angular-scenario', function() {
       failingSpec.status = 'error';
       failingSpec.duration = 13;
       failingSpec.line = '12';
-      failingSpec.error = 'Boooooo!!!';
+      failingSpec.error = new Error('Boooooo!!!');
       failedStep = new angular.scenario.ObjectModel.Step('failing step');
       failedStep.status = 'failure';
       failingSpec.steps.push(failedStep);
@@ -62,6 +62,20 @@ describe('adapter angular-scenario', function() {
         expect(result.skipped).toBe(false);
         expect(result.log).toEqual([failedStep.name, failingSpec.line + ': ' + failingSpec.error]);
         expect(result.time).toBe(failingSpec.duration);
+      });
+
+      model.emit('SpecEnd', failingSpec);
+      expect(tc.result).toHaveBeenCalled();
+    });
+
+
+    it('should handle failure without line', function() {
+      failingSpec.line = undefined;
+
+      spyOn(tc, 'result').andCallFake(function(result) {
+        console.log(failingSpec);
+        expect(result.id).toEqual(failingSpec.id);
+        expect(result.log).toEqual([failedStep.name, 'Error: Boooooo!!!']);
       });
 
       model.emit('SpecEnd', failingSpec);
