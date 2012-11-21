@@ -1,3 +1,7 @@
+### v0.5.5
+* Add QUnit adapter
+* Report console.log()
+
 ### v0.5.4
 * Fix PhantomJS launcher
 * Fix html2js preprocessor
