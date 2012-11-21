@@ -1,6 +1,6 @@
-=======
+============
 Installation
-=======
+============
 
 First, you need to install `Node.js`_. There are installers for both
 Macintosh and Windows. On Linux, we recommend using `NVM`_.
