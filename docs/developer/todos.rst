@@ -1,3 +1,4 @@
+=====
 ToDos
 =====
 
@@ -8,21 +9,20 @@ Features
 
 
 Reporters
---------
+---------
 
-* Growl
 * TAP (`Test Anything Protocol <http://en.wikipedia.org/wiki/Test_Anything_Protocol>`_)
 
 
 Preprocessors
-------------
+-------------
 
 * Browserify
 * JSHint
 
 
 Console Dashboard
-----------------
+------------------
   
 * captured client status
 * captured browsers
@@ -30,16 +30,15 @@ Console Dashboard
 * control the configuration from dashboard (change log level for example)
 
 Make design more extensible
------------------------
+---------------------------
 
 * allow server/client plugins, passing configuration to plugins (like jasmine - test only last failed)
 * hookable events
 * allow server side module to handle results (allow hookable modules on both server, client sides)
 
 Misc
------
+----
 
-* Code coverage see `Issue #89 <https://github.com/vojtajina/testacular/issues/89>`_
 * disable console - option to completely disable console (to disable leaking)
 * make global event emitter (+ instantiate(Class) that would register listeners)
 * opera, ff - angular
@@ -73,7 +72,7 @@ Misc
   - syntax error
 
 Issues
-#####
+######
 
 * WebStorm issues:
 
