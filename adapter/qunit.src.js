@@ -1,19 +1,9 @@
-var formatErrorQUnit = function () {
-	var errorMessages = [];
-	var messages = QUnit.config.current.assertions;
-	for (var i = 0, l = messages.length; i < l; i++) {
-		if (messages[i].message.indexOf("<pre>") > 0) {
-			errorMessages.push(messages[i].message.replace(/^(.*?)<pre>/, '').replace(/<\/pre>(.*?)$/, ''));
-		}
-	}
-	return errorMessages;
-};
-
 var createQUnitStartFn = function (tc) {
 	return function (runner) {
 		(function (tc, runner) {
 			var totalNumberOfTest = 0;
 			var timer = null;
+      var testResult = {};
 
 			runner.done(function () {
 				tc.info({ total: totalNumberOfTest });
@@ -23,14 +13,22 @@ var createQUnitStartFn = function (tc) {
 			runner.testStart(function (test) {
 				totalNumberOfTest += 1;
 				timer = new Date().getTime();
+        testResult = { success: true, errors: [] };
 			});
+      
+      runner.log(function (details) {
+        if (!details.result) {
+          testResult.success = false;
+          testResult.errors.push(details.message + (details.source ? ('\n' + details.source) : ''));
+        }
+      });
 
 			runner.testDone(function (test) {
 				var result = {
 					description: test.name,
 					suite: [test.module] || [],
-					success: test.failed === 0,
-					log: formatErrorQUnit() || [],
+					success: testResult.success,
+					log: testResult.errors || [],
 					time: new Date().getTime() - timer
 				};
 

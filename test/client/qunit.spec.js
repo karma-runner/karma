@@ -10,8 +10,6 @@ describe('adapter qunit', function() {
     beforeEach(function() {
       tc = new Testacular(new MockSocket(), {});
       runner = new Emitter();
-      //hack to mock QUnit config singleton
-      runner.config = {current: {assertions: []}}
       window.QUnit = runner;
       reporter = new (createQUnitStartFn(tc))();
     });
@@ -38,14 +36,14 @@ describe('adapter qunit', function() {
           expect(result.log instanceof Array).toBe(true);
         });
 
-        var mockMochaResult = {
+        var mockQUnitResult = {
           name: 'should do something',
           module: 'desc1',
           failed: 0
         };
 
-        runner.emit('testStart', mockMochaResult);
-        runner.emit('testDone', mockMochaResult);
+        runner.emit('testStart', mockQUnitResult);
+        runner.emit('testDone', mockQUnitResult);
 
         expect(tc.result).toHaveBeenCalled();
       });
@@ -56,18 +54,22 @@ describe('adapter qunit', function() {
           expect(result.log).toEqual(['Big trouble.']);
         });
 
-        window.QUnit.config.current.assertions = [{ message : '<span><pre>Big trouble.</pre></span>'}];
-        var mockMochaResult = {
+        var mockQUnitResult = {
           module: 'desc1',
           failed: 1,
           name: 'should do something'
         };
+        
+        var mockQUnitLog = {
+          result: false,
+          message: 'Big trouble.',
+        };
 
-        runner.emit('testStart', mockMochaResult);
-        runner.emit('testDone', mockMochaResult);
+        runner.emit('testStart', mockQUnitResult);
+        runner.emit('log', mockQUnitLog);
+        runner.emit('testDone', mockQUnitResult);
 
         expect(tc.result).toHaveBeenCalled();
-        window.QUnit.config.current.assertions = [];
       });
     });
   });

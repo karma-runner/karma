@@ -25,6 +25,10 @@ var Emitter = function() {
   this.testDone = function(fn) {
     this.on("testDone", fn);
   };
+  
+  this.log = function(fn) {
+    this.on("log", fn);
+  };
 
   this.emit = function(event) {
     var eventListeners = listeners[event];
