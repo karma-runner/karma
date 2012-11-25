@@ -73,7 +73,6 @@ describe('adapter angular-scenario', function() {
       failingSpec.line = undefined;
 
       spyOn(tc, 'result').andCallFake(function(result) {
-        console.log(failingSpec);
         expect(result.id).toEqual(failingSpec.id);
         expect(result.log).toEqual([failedStep.name, 'Error: Boooooo!!!']);
       });
