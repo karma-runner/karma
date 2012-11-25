@@ -62,7 +62,8 @@
     "grunt-jasmine-node": ">= 0.0.4",
     "mocks": ">= 0.0.5",
     "grunt-cli": ">= 0.1.0",
-    "which": ">= 1.0.5"
+    "which": ">= 1.0.5",
+    "grunt-benchmark": "https://github.com/shama/grunt-benchmark/tarball/master"
   },
   "preferGlobal": true,
   "repository": {
