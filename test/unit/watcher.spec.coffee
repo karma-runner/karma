@@ -17,7 +17,6 @@ describe 'watcher', ->
     mocks_ = chokidar: mocks.chokidar
     m = mocks.loadFile __dirname + '/../../lib/watcher.js', mocks_
 
-
   #============================================================================
   # baseDirFromPattern() [PRIVATE]
   #============================================================================
@@ -73,3 +72,21 @@ describe 'watcher', ->
       ], chokidarWatcher
 
       expect(chokidarWatcher.watchedPaths_).toEqual ['/some/sub']
+
+  #============================================================================
+  # ignore() [PRIVATE]
+  #============================================================================
+  describe 'ignore', ->
+    it 'should ignore all files', ->
+      ignore = m.createIgnore ['**/*']
+      expect(ignore '/some/files/deep/nested.js').toBeTruthy()
+      expect(ignore '/some/files').toBeTruthy()
+
+    it 'should ignore .# files', ->
+      ignore = m.createIgnore ['**/.#*']
+      expect(ignore '/some/files/deep/nested.js').toBeFalsy()
+      expect(ignore '/some/files').toBeFalsy()
+      expect(ignore '/some/files/deep/.npm').toBeFalsy()
+      expect(ignore '.#files.js').toBeTruthy()
+      expect(ignore '/some/files/deeper/nested/.#files.js').toBeTruthy()
+    
