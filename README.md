@@ -67,7 +67,7 @@ If you wanna write an adapter for your favourite testing framework, that's great
 
 ## Browsers Supported
 
-Please see the [wiki](https://github.com/vojtajina/testacular/wiki/Starting-browsers) for details on supported Browsers
+Please see the [wiki](https://github.com/vojtajina/testacular/wiki/Browsers) for details on supported Browsers
 and how to configure non-default paths.
 
 ## Why am I doing this?
