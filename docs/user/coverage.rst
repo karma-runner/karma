@@ -66,7 +66,7 @@ The reporter defaults to the following values.
 .. code-block:: javascript
 
   coverageReporter = {
-    type : 'html',
+    type : ['html'],
     dir : 'coverage/'
   }
 
@@ -83,18 +83,33 @@ If you want to configure it yourself, these are the options you have.
   * ``text-summary``
   * ``cobertura`` (xml format supported by Jenkins)
 
-  If you set ``type`` to ``text`` or ``text-summary``, you may set the ``file`` option, like this.
+  If you include ``text`` or ``text-summary`` in ``type``, you may set the ``file`` option, like this.
 
   .. code-block:: javascript
 
     coverageReporter = {
-      type : 'text',
+      type : ['text'],
       dir : 'coverage/',
       file : 'coverage.txt'
     }
 
     If no filename is given, it will write the output to the console.
 
+  Multiple output formats may be given, for instance
+
+  .. code-block:: javascript
+
+    coverageReporter = {
+      type : ['html', 'cobertura', 'text'],
+      dir : 'coverage/',
+      file : 'coverage.txt'
+    }
+
+  Note that only the text reporter will write to the file ``coverage.txt``,
+  while ``html`` and ``cobertura`` will write to their default filenames.
+
+  At this time, specifying ``text`` and ``text-summary`` will only write
+  one file if the ``file`` option is specified.
 
 .. object:: dir (String)
 

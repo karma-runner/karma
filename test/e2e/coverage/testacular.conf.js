@@ -28,6 +28,6 @@ preprocessors = {
 //- cobertura (xml format supported by Jenkins)
 coverageReporter = {
     // cf. http://gotwarlost.github.com/istanbul/public/apidocs/
-    type : 'html',
+    type : ['html'],
     dir : 'coverage/'
 };
