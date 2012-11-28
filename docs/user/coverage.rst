@@ -2,7 +2,7 @@
 Code Coverage
 =============
 
-If you want to use the code coverage feature of testacular you need to 
+If you want to use the code coverage feature of testacular you need to
 configure three parts.
 
 1. Reporter (required)
@@ -22,7 +22,7 @@ In addition, it will create a JSON file that outputs the intermediate data.
 
 Preprocessor
 ########################
-The preprocessor configures which files should be tested for coverage. 
+The preprocessor configures which files should be tested for coverage.
 For example if all your code lives in ``lib/`` you need to add this to your
 configuration file.
 
@@ -75,23 +75,24 @@ If you want to configure it yourself, these are the options you have.
 .. object:: type (String)
 
   Available types:
-  
+
   * ``html`` (default)
   * ``lcov`` (lcov and html)
   * ``lcovonly``
   * ``text``
   * ``text-summary``
+  * ``cobertura`` (xml format supported by Jenkins)
 
   If you set ``type`` to ``text`` or ``text-summary``, you may set the ``file`` option, like this.
-  
+
   .. code-block:: javascript
-  
+
     coverageReporter = {
       type : 'text',
       dir : 'coverage/',
       file : 'coverage.txt'
     }
-  
+
     If no filename is given, it will write the output to the console.
 
 
