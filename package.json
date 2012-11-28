@@ -54,7 +54,7 @@
     "LiveScript": ">= 1.0.1",
     "colors": "~0.6.0-1",
     "dateformat": ">= 1.0.2-1.2.3",
-    "istanbul": "0.1.11",
+    "istanbul": "0.1.22",
     "lodash": "~0.9.1"
   },
   "devDependencies": {
