@@ -23,7 +23,7 @@ You can install Testacular even without NPM, just get the latest package and cre
 
 ````bash
 # replace x.y.z with latest version
-curl http://registry.npmjs.org/testacular/-/testacular-x.y.z.tgz | tar -xv && mv package testacular
+curl http://registry.npmjs.org/testacular/-/testacular-x.y.z.tgz | tar -xvz && mv package testacular
 
 # create symlinks (optional)
 cd testacular
