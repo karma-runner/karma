@@ -13,9 +13,6 @@ First, you need to install [Node.js]. [There are installers](http://nodejs.org/d
 Macintosh and Windows. On Linux, we recommend using [NVM].
 
 ````bash
-sudo npm install -g testacular
-
-# or install in a local folder (you have to create symlinks to binaries on your own)
 npm install testacular
 ````
 
