@@ -17,7 +17,7 @@ var config = cli.process();
 
 switch (config.cmd) {
   case 'start':
-    require(path.join(dir, 'server')).start(config);
+    require(path.join(dir, 'server')).start(config, process.exit);
     break;
   case 'run':
     require(path.join(dir, 'runner')).run(config, process.exit);
