@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         return line.replace(/^[\W\d]+/, '');
       });
 
-      grunt.file.write(grunt.config('pkgFile'), JSON.stringify(pkg, null, '  '));
+      grunt.file.write(grunt.config('pkgFile'), JSON.stringify(pkg, null, '  ') + '\n');
 
       exec('git commit package.json -m "Update contributors"', done);
     });
