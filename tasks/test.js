@@ -56,7 +56,7 @@ module.exports = function(grunt) {
                 cmd: node, args: ['test/e2e/angular-scenario/server.js']
               }, function() {});
             }
-            
+
             grunt.log.writeln('Running ' + cmd + args.join(' '));
             var child;
             if (process.platform === 'win32') {
@@ -94,7 +94,8 @@ module.exports = function(grunt) {
 
     // CLIENT unit tests
     else if (this.target === 'client') {
-      exec(which('testacular'), ['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
+      var cmd = path.join(__dirname, '..', 'bin', 'testacular');
+      exec(cmd, ['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
           '--browsers=' + BROWSERS], 'Client unit tests failed.');
     }
   });
