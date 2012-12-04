@@ -88,9 +88,20 @@ module.exports = (grunt) ->
         boss: true
       globals: {}
 
+    benchmark:
+      options:
+        times: 1
+      unit:
+        src: ['benchmarks/unit.js']
+      client:
+        src: ['benchmarks/client.js']
+      e2e:
+        src: ['benchmarks/e2e.js']
+
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-jasmine-node'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
+  grunt.loadNpmTasks 'grunt-benchmark'
 
   grunt.registerTask 'default', ['build', 'jshint', 'test']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
