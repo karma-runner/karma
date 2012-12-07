@@ -58,10 +58,10 @@
     "lodash": "~0.9.1"
   },
   "devDependencies": {
+    "grunt": ">= 0.4.0rc1",
     "grunt-contrib-jshint": ">= 0.1.0",
     "grunt-jasmine-node": ">= 0.0.4",
     "mocks": ">= 0.0.5",
-    "grunt-cli": ">= 0.1.0",
     "which": ">= 1.0.5"
   },
   "preferGlobal": true,
