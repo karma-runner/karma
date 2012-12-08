@@ -21,23 +21,22 @@ describe 'init', ->
 
     beforeEach ->
       machine = new m.StateMachine mockRli
-      done = jasmine.createSpy 'done'
-
-
+      done = sinon.spy()
+      
     it 'should go through all the questions', ->
       questions = [
         {id: 'framework', options: ['jasmine', 'mocha']}
         {id: 'other'}
       ]
 
-      done.andCallFake (answers) ->
-        expect(answers.framework).toBe 'jasmine'
-        expect(answers.other).toBe 'abc'
+      done = sinon.spy (answers) ->
+        expect(answers.framework).to.equal 'jasmine'
+        expect(answers.other).to.equal 'abc'
 
       machine.process questions, done
       machine.onLine 'jasmine'
       machine.onLine 'abc'
-      expect(done).toHaveBeenCalled()
+      expect(done).to.have.been.called
 
 
     it 'should allow multiple answers', ->
@@ -45,14 +44,14 @@ describe 'init', ->
         {id: 'browsers', multiple: true}
       ]
 
-      done.andCallFake (answers) ->
-        expect(answers.browsers).toEqual ['Chrome', 'Safari']
+      done = sinon.spy (answers) ->
+        expect(answers.browsers).to.deep.equal ['Chrome', 'Safari']
 
       machine.process questions, done
       machine.onLine 'Chrome'
       machine.onLine 'Safari'
       machine.onLine ''
-      expect(done).toHaveBeenCalled()
+      expect(done).to.have.been.called
 
 
     it 'should always return array for multiple', ->
@@ -60,16 +59,16 @@ describe 'init', ->
         {id: 'empty', multiple: true}
       ]
 
-      done.andCallFake (answers) ->
-        expect(answers.empty).toEqual []
+      done = sinon.spy (answers) ->
+        expect(answers.empty).to.deep.equal []
 
       machine.process questions, done
       machine.onLine ''
-      expect(done).toHaveBeenCalled()
+      expect(done).to.have.been.called
 
 
     it 'should validate answers', ->
-      validator = jasmine.createSpy 'validate'
+      validator = sinon.spy()
       questions = [
         {id: 'validated', validate: validator}
       ]
@@ -77,20 +76,20 @@ describe 'init', ->
       machine.process questions, done
       machine.onLine 'something'
 
-      expect(done).toHaveBeenCalled()
-      expect(validator).toHaveBeenCalledWith 'something'
+      expect(done).to.have.been.called
+      expect(validator).to.have.been.calledWith 'something'
 
 
     it 'should allow conditional answers', ->
-      ifTrue = jasmine.createSpy('condition if true').andCallFake (answers) ->
+      ifTrue = sinon.spy (answers) ->
         answers.first is 'true'
-      ifFalse = jasmine.createSpy('condition if false').andCallFake (answers) ->
+      ifFalse = sinon.spy (answers) ->
         answers.first is 'false'
 
-      done.andCallFake (answers) ->
-        expect(answers.first).toBe 'true'
-        expect(answers.onlyIfTrue).toBe 'something'
-        expect(answers.onlyIfFalse).toBeUndefined()
+      done = sinon.spy (answers) ->
+        expect(answers.first).to.equal 'true'
+        expect(answers.onlyIfTrue).to.equal 'something'
+        expect(answers.onlyIfFalse).to.not.exist
 
       questions = [
         {id: 'first'}
@@ -102,13 +101,13 @@ describe 'init', ->
       machine.onLine 'true'
       machine.onLine 'something'
 
-      expect(done).toHaveBeenCalled()
+      expect(done).to.have.been.called
 
 
     it 'should parse booleans', ->
-      done.andCallFake (answers) ->
-        expect(answers.yes).toBe true
-        expect(answers.no).toBe false
+      done = sinon.spy (answers) ->
+        expect(answers.yes).to.equal true
+        expect(answers.no).to.equal false
 
       questions = [
         {id: 'yes', options: ['yes', 'no'], boolean: true}
@@ -119,7 +118,7 @@ describe 'init', ->
       machine.onLine 'yes'
       machine.onLine 'no'
 
-      expect(done).toHaveBeenCalled()
+      expect(done).to.have.been.called
 
 
 
@@ -129,33 +128,33 @@ describe 'init', ->
     replace = (p) -> p.replace(/\//g, path.sep)
 
     it 'should be empty if config file in cwd', ->
-      expect(m.getBasePath 'some.conf', replace('/usr/local/whatever')).toBe ''
+      expect(m.getBasePath 'some.conf', replace('/usr/local/whatever')).to.equal ''
 
 
     it 'should handle leading "./', ->
-      expect(m.getBasePath replace('./some.conf'), replace('/usr/local/whatever')).toBe ''
+      expect(m.getBasePath replace('./some.conf'), replace('/usr/local/whatever')).to.equal ''
 
 
     it 'should handle config file in subfolder', ->
       # config /usr/local/sub/folder/file.conf
       file = replace('sub/folder/file.conf')
-      expect(m.getBasePath file, replace('/usr/local')).toBe replace('../..')
+      expect(m.getBasePath file, replace('/usr/local')).to.equal replace('../..')
 
 
     it 'should handle config in a parent path', ->
       # config /home/file.js
       file = replace('../../../file.js')
-      expect(m.getBasePath file, replace('/home/vojta/tc/project')).toBe replace('vojta/tc/project')
+      expect(m.getBasePath file, replace('/home/vojta/tc/project')).to.equal replace('vojta/tc/project')
 
 
     it 'should handle config in parent subfolder', ->
       # config /home/vojta/other/f.js
       f = replace('../../other/f.js')
-      expect(m.getBasePath f, replace('/home/vojta/tc/prj')).toBe replace('../tc/prj')
+      expect(m.getBasePath f, replace('/home/vojta/tc/prj')).to.equal replace('../tc/prj')
 
 
     it 'should handle absolute paths', ->
-      expect(m.getBasePath replace('/Users/vojta/testacular/conf.js'), replace('/Users/vojta')).toBe replace('..')
+      expect(m.getBasePath replace('/Users/vojta/testacular/conf.js'), replace('/Users/vojta')).to.equal replace('..')
 
 
   describe 'getReplacementsFromAnswers', ->
@@ -169,16 +168,16 @@ describe 'init', ->
     it 'should set FILES', ->
       # empty
       replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.FILES).toBe ''
+      expect(replacements.FILES).to.equal ''
 
       replacements = m.getReplacementsFromAnswers answers {files: ['*.js', 'other/file.js']}
-      expect(replacements.FILES).toBe "'*.js',\n  'other/file.js'"
+      expect(replacements.FILES).to.equal "'*.js',\n  'other/file.js'"
 
       # prepend testing framework files
       replacements = m.getReplacementsFromAnswers answers {files: ['*.js'], framework: 'jasmine'}
-      expect(replacements.FILES).toBe "JASMINE,\n  JASMINE_ADAPTER,\n  '*.js'"
+      expect(replacements.FILES).to.equal "JASMINE,\n  JASMINE_ADAPTER,\n  '*.js'"
       replacements = m.getReplacementsFromAnswers answers {files: ['*.js'], framework: 'mocha'}
-      expect(replacements.FILES).toBe "MOCHA,\n  MOCHA_ADAPTER,\n  '*.js'"
+      expect(replacements.FILES).to.equal "MOCHA,\n  MOCHA_ADAPTER,\n  '*.js'"
 
 
     it 'should add REQUIRE and set files non-included if requirejs used', ->
@@ -188,7 +187,7 @@ describe 'init', ->
         files: ['*.js', 'other/file.js']
       }
 
-      expect(replacements.FILES).toBe "REQUIRE,\n" +
+      expect(replacements.FILES).to.equal "REQUIRE,\n" +
         "  REQUIRE_ADAPTER,\n" +
         "  {pattern: '*.js', included: false},\n" +
         "  {pattern: 'other/file.js', included: false}"
@@ -201,7 +200,7 @@ describe 'init', ->
         files: ['*.js']
       }
 
-      expect(replacements.FILES).toBe "REQUIRE,\n" +
+      expect(replacements.FILES).to.equal "REQUIRE,\n" +
         "  REQUIRE_ADAPTER,\n" +
         "  'main.js',\n" +
         "  {pattern: '*.js', included: false}"
@@ -209,22 +208,22 @@ describe 'init', ->
 
     it 'should set EXCLUDE', ->
       replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.EXCLUDE).toBe ''
+      expect(replacements.EXCLUDE).to.equal ''
 
       replacements = m.getReplacementsFromAnswers answers {exclude: ['*.js', 'other/file.js']}
-      expect(replacements.EXCLUDE).toBe "'*.js',\n  'other/file.js'"
+      expect(replacements.EXCLUDE).to.equal "'*.js',\n  'other/file.js'"
 
 
     it 'should set BROWSERS', ->
       replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.BROWSERS).toBe ''
+      expect(replacements.BROWSERS).to.equal ''
 
       replacements = m.getReplacementsFromAnswers answers {browsers: ['Chrome', 'Firefox']}
-      expect(replacements.BROWSERS).toBe "'Chrome', 'Firefox'"
+      expect(replacements.BROWSERS).to.equal "'Chrome', 'Firefox'"
 
     it 'should set AUTO_WATCH', ->
       replacements = m.getReplacementsFromAnswers answers {autoWatch: true}
-      expect(replacements.AUTO_WATCH).toBe 'true'
+      expect(replacements.AUTO_WATCH).to.equal 'true'
 
       replacements = m.getReplacementsFromAnswers answers {autoWatch: false}
-      expect(replacements.AUTO_WATCH).toBe 'false'
+      expect(replacements.AUTO_WATCH).to.equal 'false'

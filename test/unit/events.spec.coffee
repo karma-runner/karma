@@ -14,12 +14,11 @@ describe 'events', ->
   describe 'EventEmitter', ->
 
     it 'should emit events', ->
-      spy = jasmine.createSpy 'listener'
-
+      spy = sinon.spy()
 
       emitter.on 'abc', spy
       emitter.emit 'abc'
-      expect(spy).toHaveBeenCalled()
+      expect(spy).to.have.been.called
 
 
     #==========================================================================
@@ -29,35 +28,33 @@ describe 'events', ->
       object = null
 
       beforeEach ->
-        object = jasmine.createSpyObj 'object', ['onFoo', 'onFooBar', 'foo', 'bar']
+        object = sinon.stub
+          onFoo: ->
+          onFooBar: ->
+          foo: ->
+          bar: ->
         emitter.bind object
 
 
       it 'should register all "on" methods to events', ->
         emitter.emit 'foo'
-        expect(object.onFoo).toHaveBeenCalled()
+        expect(object.onFoo).to.have.been.called
 
         emitter.emit 'foo_bar'
-        expect(object.onFooBar).toHaveBeenCalled()
+        expect(object.onFooBar).to.have.been.called
 
-        expect(object.foo).not.toHaveBeenCalled()
-        expect(object.bar).not.toHaveBeenCalled()
-
+        expect(object.foo).not.to.have.been.called
+        expect(object.bar).not.to.have.been.called        
 
       it 'should bind methods to the owner object', ->
-        object.onFoo.andCallFake ->
-          expect(this).toBe object
-
-        object.onFooBar.andCallFake ->
-          expect(this).toBe object
-
         emitter.emit 'foo'
         emitter.emit 'foo_bar'
-        expect(object.onFoo).toHaveBeenCalled()
-        expect(object.onFooBar).toHaveBeenCalled()
-        expect(object.foo).not.toHaveBeenCalled()
-        expect(object.bar).not.toHaveBeenCalled()
-
+        
+        expect(object.onFoo).to.have.always.been.calledOn object
+        expect(object.onFooBar).to.have.always.been.calledOn object
+        expect(object.foo).not.to.have.been.called
+        expect(object.bar).not.to.have.been.called
+        
 
     #==========================================================================
     # events.EventEmitter.emitAsync()
@@ -66,30 +63,34 @@ describe 'events', ->
       object = null
 
       beforeEach ->
-        object = jasmine.createSpyObj 'object', ['onFoo', 'onFooBar', 'foo', 'bar']
+        object = sinon.stub
+          onFoo: ->
+          onFooBar: ->
+          foo: ->
+          bar: ->
         emitter.bind object
 
 
-      it 'should resolve the promise once all listeners are done', ->
+      it 'should resolve the promise once all listeners are done', (done) ->
         callbacks = []
-        eventDone = jasmine.createSpy 'done'
+        eventDone = sinon.spy()
+  
+        emitter.on 'a', (d) -> d()
+        emitter.on 'a', (d) -> callbacks.push d
+        emitter.on 'a', (d) -> callbacks.push d
 
-        emitter.on 'a', (done) ->
+        promise = emitter.emitAsync('a')
+        
+        expect(eventDone).not.to.have.been.called
+        callbacks.pop()()
+        expect(eventDone).not.to.have.been.called
+        callbacks.pop()()
+        
+        promise.then ->
+          eventDone()
+          expect(eventDone).to.have.been.called
           done()
-        emitter.on 'a', (done) ->
-          callbacks.push done
-        emitter.on 'a', (done) ->
-          callbacks.push done
-
-        emitter.emitAsync('a').then eventDone
-
-        expect(eventDone).not.toHaveBeenCalled()
-        callbacks.pop()()
-        expect(eventDone).not.toHaveBeenCalled()
-        callbacks.pop()()
-
-        waitsFor (-> eventDone.callCount), 'done to be called', 10
-
+        
 
   #============================================================================
   # events.bindAll
@@ -97,10 +98,10 @@ describe 'events', ->
   describe 'bindAll', ->
 
     it 'should take emitter as second argument', ->
-      object = jasmine.createSpyObj 'object', ['onFoo']
+      object = sinon.stub onFoo: ->
 
       e.bindAll object, emitter
       emitter.emit 'foo'
       emitter.emit 'bar'
 
-      expect(object.onFoo).toHaveBeenCalled()
+      expect(object.onFoo).to.have.been.called

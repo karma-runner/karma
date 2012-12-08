@@ -16,14 +16,14 @@ describe 'runner', ->
     EXIT0 = constant.EXIT_CODE_0
 
     it 'should return 0 exit code if present in the buffer', ->
-      expect(m.parseExitCode new Buffer 'something\nfake' + EXIT0).toBe 0
+      expect(m.parseExitCode new Buffer 'something\nfake' + EXIT0).to.equal 0
 
 
     it 'should null the exit code part of the buffer', ->
       buffer = new Buffer 'some' + EXIT0
       m.parseExitCode buffer
 
-      expect(buffer.toString()).toBe 'some\0\0\0\0\0\0'
+      expect(buffer.toString()).to.equal 'some\0\0\0\0\0\0'
 
 
     it 'should not touch buffer without exit code and return default', ->
@@ -31,14 +31,14 @@ describe 'runner', ->
       buffer = new Buffer msg
       code = m.parseExitCode buffer, 10
 
-      expect(buffer.toString()).toBe msg
-      expect(code).toBe 10
+      expect(buffer.toString()).to.equal msg
+      expect(code).to.equal 10
 
 
     it 'should not slice buffer if smaller than exit code msg', ->
       # regression
       fakeBuffer = {length: 1, slice: -> null}
-      spyOn fakeBuffer, 'slice'
+      sinon.stub fakeBuffer, 'slice'
 
       code = m.parseExitCode fakeBuffer, 10
-      expect(fakeBuffer.slice).not.toHaveBeenCalled()
+      expect(fakeBuffer.slice).not.to.have.been.called
