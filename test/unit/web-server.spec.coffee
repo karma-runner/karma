@@ -14,9 +14,7 @@ describe 'web-server', ->
 
   beforeEach util.disableLogger
 
-  mocks = {}
-
-  mocks['http-proxy'] = {}
+  mocks = 'http-proxy': {}, pause: require('pause')
   nextSpy = handler = response = null
   ZERO_DATE = (new Date 0).toString()
 

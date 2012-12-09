@@ -56,13 +56,14 @@
     "dateformat": ">= 1.0.2-1.2.3",
     "istanbul": "0.1.22",
     "lodash": "~0.9.1",
-    "growly": "~1.0.0"
+    "growly": "~1.0.0",
+    "pause": ">= 0.0.1"
   },
   "devDependencies": {
     "grunt": ">= 0.4.0rc1",
     "grunt-contrib-jshint": ">= 0.1.0",
     "grunt-jasmine-node": "https://github.com/Dignifiedquire/grunt-jasmine-node/tarball/upgrade-jasmine",
-    "mocks": ">= 0.0.5",
+    "mocks": ">= 0.0.10",
     "which": ">= 1.0.5"
   },
   "preferGlobal": true,
