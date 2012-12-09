@@ -25,16 +25,6 @@ module.exports = (grunt) ->
       qunit: ['adapter/qunit.src.js']
       grunt: ['grunt.js', 'tasks/*.js']
 
-    lint:
-      server: '<%= files.server %>'
-      client: '<%= files.client %>'
-      jasmine: '<%= files.jasmine %>'
-      mocha: '<%= files.mocha %>'
-      ngScenario: '<%= files.ngScenario %>'
-      require: '<%= files.require %>'
-      qunit: '<%= files.qunit %>'
-      grunt: '<%= files.grunt %>'
-
     build:
       client: '<%= files.client %>'
       jasmine: '<%= files.jasmine %>'
@@ -58,20 +48,38 @@ module.exports = (grunt) ->
     # http://www.jshint.com/options/
     jshint:
       server:
+        files:
+          src: '<%= files.server %>'
         options: JSHINT_NODE
       grunt:
+        files:
+          src: '<%= files.grunt %>'
         options: JSHINT_NODE
       client:
+        files:
+          src: '<%= files.client %>'
         options: JSHINT_BROWSER
       jasmine:
+        files:
+          src: '<%= files.jasmine %>'
         options: JSHINT_BROWSER
       mocha:
+        files:
+          src: '<%= files.mocha %>'
         options: JSHINT_BROWSER
       qunit:
+        files:
+          src: '<%= files.qunit %>'
         options: JSHINT_BROWSER
       ngScenario:
+        files:
+          src: '<%= files.ngScenario %>'
         options: JSHINT_BROWSER
-
+      require:
+        files:
+          src: '<%= files.require %>'
+        options: JSHINT_BROWSER
+        
       options:
         quotmark: 'single'
         camelcase: true
