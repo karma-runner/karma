@@ -3,6 +3,8 @@ JSHINT_BROWSER =
   browser: true,
   es5: true,
   strict: false
+  undef: false
+  camelcase: false
 
 JSHINT_NODE =
   node: true,
@@ -94,7 +96,7 @@ module.exports = (grunt) ->
         sub: true
         undef: true
         boss: true
-      globals: {}
+        globals: {}
 
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-jasmine-node'

@@ -1,22 +1,3 @@
-/**
- *
- * @param {Object} tc Testacular!!
- * @param {Function} scenarioSetupAndRun angular.scenario.setUpAndRun
- * @return {Function}
- */
-var createNgScenarioStartFn = function(tc, scenarioSetupAndRun) {
-  /**
-   * Generates Testacular Output
-   */
-  angular.scenario.output('testacular', function(context, runner, model) {
-    registerResultListeners(model, tc);
-  });
-
-  return function(config) {
-    scenarioSetupAndRun({scenario_output: 'testacular,html'});
-  };
-};
-
 var registerResultListeners = function(model, tc) {
   var totalTests = 0, testsCompleted = 0;
 
@@ -85,4 +66,23 @@ var registerResultListeners = function(model, tc) {
       coverage: window.__coverage__
     });
   });
+};
+
+/**
+ *
+ * @param {Object} tc Testacular!!
+ * @param {Function} scenarioSetupAndRun angular.scenario.setUpAndRun
+ * @return {Function}
+ */
+var createNgScenarioStartFn = function(tc, scenarioSetupAndRun) {
+  /**
+   * Generates Testacular Output
+   */
+  angular.scenario.output('testacular', function(context, runner, model) {
+    registerResultListeners(model, tc);
+  });
+
+  return function(config) {
+    scenarioSetupAndRun({scenario_output: 'testacular,html'});
+  };
 };
