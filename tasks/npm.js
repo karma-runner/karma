@@ -34,7 +34,9 @@ module.exports = function(grunt) {
       }
 
       exec('npm publish --tag ' + tag, function(err, output, error) {
-        if (err) return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
+        if (err) {
+          return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
+        }
         grunt.log.ok('Published to NPM @' + tag);
         done();
       });

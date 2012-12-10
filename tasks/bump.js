@@ -22,12 +22,20 @@ module.exports = function(grunt) {
     var next = function() {
       var cmd = queue.shift();
 
-      if (!cmd) return finish();
+      if (!cmd) {
+        return finish();
+      }
 
       exec(cmd[0], function(err, output) {
-        if (err) return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
-        if (cmd[1]) grunt.log.ok(cmd[1]);
-        if (cmd[2]) cmd[2](output);
+        if (err) {
+          return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
+        }
+        if (cmd[1]) {
+          grunt.log.ok(cmd[1]);
+        }
+        if (cmd[2]) {
+          cmd[2](output);
+        }
         next();
       });
     };
