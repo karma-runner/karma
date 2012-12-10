@@ -45,7 +45,7 @@ var createMochaReporterConstructor = function(tc) {
     });
 
     runner.on('fail', function(test, error) {
-      if ('hook' == test.type || error.uncaught) {
+      if ('hook' === test.type || error.uncaught) {
         test.$errors = [formatError(error)];
         runner.emit('test end', test);
       } else {

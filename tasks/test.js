@@ -14,6 +14,7 @@ module.exports = function(grunt) {
     var specDone = this.async();
     var which = require('which').sync;
     var path = require('path');
+    var cmd = path.join(__dirname, '..', 'bin', 'testacular');
 
     var exec = function(cmd, args, failMsg) {
       var child = grunt.util.spawn({cmd: cmd, args: args}, function(err, result, code) {
@@ -34,7 +35,6 @@ module.exports = function(grunt) {
     if (this.target === 'e2e') {
       var tests = grunt.file.expand(this.data);
       var processToKill;
-      var cmd = path.join(__dirname, '..', 'bin', 'testacular');
       var node = which('node');
       var args = [
         'start', null, '--single-run', '--no-auto-watch', '--reporters=dots', '--browsers=' + BROWSERS
@@ -94,7 +94,6 @@ module.exports = function(grunt) {
 
     // CLIENT unit tests
     else if (this.target === 'client') {
-      var cmd = path.join(__dirname, '..', 'bin', 'testacular');
       exec(cmd, ['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
           '--browsers=' + BROWSERS], 'Client unit tests failed.');
     }

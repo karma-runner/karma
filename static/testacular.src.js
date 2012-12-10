@@ -71,7 +71,9 @@ var Testacular = function(socket, context, navigator, location) {
   // all files loaded, let's start the execution
   this.loaded = function() {
     // has error -> cancel
-    if (!hasError) this.start(config);
+    if (!hasError) {
+      this.start(config);
+    }
 
     // remove reference to child iframe
     this.start = null;
