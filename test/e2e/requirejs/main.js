@@ -7,8 +7,3 @@ require.config({
   }
 });
 
-// bootstrap - require, once loaded, kick off test run
-require(['test', '/base/shim.js'], function(test, shim) {
-  window.__testacular__.start();
-  console.log('shim.js:', shim);
-});

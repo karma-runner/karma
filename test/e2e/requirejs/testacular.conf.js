@@ -15,6 +15,9 @@ files = [
 
   'main.js',
 
+  {pattern: 'test.js', included: 'requirejs'},
+  {pattern: 'shim.js', included: 'requirejs'},
+
   // all the sources, tests
   {pattern: '*.js', included: false}
 
