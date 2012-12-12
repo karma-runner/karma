@@ -12,12 +12,24 @@ module.exports = function(grunt) {
    */
   grunt.registerMultiTask('test', 'Run tests.', function() {
     var specDone = this.async();
-    var which = require('which').sync;
+    var node = require('which').sync('node');
     var path = require('path');
     var cmd = path.join(__dirname, '..', 'bin', 'testacular');
 
-    var exec = function(cmd, args, failMsg) {
-      var child = grunt.util.spawn({cmd: cmd, args: args}, function(err, result, code) {
+    var spawnTestacular = function(args, callback) {
+      grunt.log.writeln(['Running', cmd].concat(args).join(' '));
+      var child;
+      if (process.platform === 'win32') {
+        child = grunt.util.spawn({cmd: node, args: [cmd].concat(args)}, callback);
+      } else {
+        child = grunt.util.spawn({cmd: cmd, args: args}, callback);
+      }
+      child.stdout.pipe(process.stdout);
+      child.stderr.pipe(process.stderr);
+    };
+
+    var exec = function(args, failMsg) {
+      spawnTestacular(args, function(err, result, code) {
         if (code) {
           console.error(err);
           grunt.fail.fatal(failMsg, code);
@@ -25,9 +37,6 @@ module.exports = function(grunt) {
           specDone();
         }
       });
-
-      child.stdout.pipe(process.stdout);
-      child.stderr.pipe(process.stderr);
     };
 
 
@@ -35,7 +44,6 @@ module.exports = function(grunt) {
     if (this.target === 'e2e') {
       var tests = grunt.file.expand(this.data);
       var processToKill;
-      var node = which('node');
       var args = [
         'start', null, '--single-run', '--no-auto-watch', '--reporters=dots', '--browsers=' + BROWSERS
       ];
@@ -57,16 +65,7 @@ module.exports = function(grunt) {
               }, function() {});
             }
 
-            grunt.log.writeln('Running ' + cmd + args.join(' '));
-            var child;
-            if (process.platform === 'win32') {
-              child = grunt.util.spawn({cmd: node, args: [cmd].concat(args)}, next);
-            } else {
-              child = grunt.util.spawn({cmd: cmd, args: args}, next);
-            }
-
-            child.stdout.pipe(process.stdout);
-            child.stderr.pipe(process.stderr);
+            spawnTestacular(args, next);
           } else {
             specDone();
           }
@@ -94,7 +93,7 @@ module.exports = function(grunt) {
 
     // CLIENT unit tests
     else if (this.target === 'client') {
-      exec(cmd, ['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
+      exec(['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
           '--browsers=' + BROWSERS], 'Client unit tests failed.');
     }
   });
