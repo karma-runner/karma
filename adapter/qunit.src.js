@@ -7,7 +7,9 @@ var createQUnitStartFn = function (tc) {
 
 			runner.done(function () {
 				tc.info({ total: totalNumberOfTest });
-				tc.complete();
+				tc.complete({
+         coverage: window.__coverage__
+        });
 			});
 
 			runner.testStart(function (test) {
