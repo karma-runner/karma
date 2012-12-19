@@ -59,7 +59,7 @@ testacular run
 
 Testacular is not a testing framework, neither an assertion library, so for that you can use pretty much anything you like.
 
-However, we provide an adapter for [Jasmine] and [Mocha].
+However, we provide an adapter for [Jasmine], [Mocha] and [QUnit].
 If you wanna write an adapter for your favourite testing framework, that's great - check out [adapter/jasmine.src.js](https://github.com/vojtajina/testacular/blob/master/adapter/jasmine.src.js) and write your own.
 
 ## Browsers Supported
@@ -117,6 +117,7 @@ console.clear = clear;
 [Grunt]: http://gruntjs.com/
 [Jasmine]: http://pivotal.github.com/jasmine/
 [Mocha]: http://visionmedia.github.com/mocha/
+[QUnit]: http://qunitjs.com/
 [fork the repo]: https://github.com/vojtajina/testacular/fork_select
 [a contributor]: https://github.com/vojtajina/testacular/graphs/contributors
 [Semantic Versioning]: http://semver.org/
