@@ -17,10 +17,10 @@ var config = cli.process();
 
 switch (config.cmd) {
   case 'start':
-    require(path.join(dir, 'server')).start(config, process.exit);
+    require(path.join(dir, 'server')).start(config);
     break;
   case 'run':
-    require(path.join(dir, 'runner')).run(config, process.exit);
+    require(path.join(dir, 'runner')).run(config);
     break;
   case 'init':
     require(path.join(dir, 'init')).init(config);
