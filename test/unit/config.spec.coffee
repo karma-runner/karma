@@ -64,11 +64,13 @@ describe 'config', ->
   # Should parse configuration file and do some basic processing as well
   #============================================================================
   describe 'parseConfig', ->
-
+    logSpy = sinon.spy()
+      
     beforeEach ->
-      logger = require '../../lib/logger'
-      logger.setLevel 1 # enable errors
-      logger.useColors false
+      logger = require '../../lib/logger.js'
+      logger.setup 'ERROR', false
+
+      logger.create('config').on 'log', logSpy
 
 
 
@@ -101,22 +103,34 @@ describe 'config', ->
 
     it 'should log error and exit if file does not exist', ->
       e.parseConfig '/conf/not-exist.js', {}
-      expect(console.log).to.have.been.calledWith 'error (config): Config file does not exist!'
+
+      expect(logSpy).to.have.been.called
+      event = logSpy.lastCall.args[0]
+      expect(event.level.toString()).to.be.equal 'ERROR'
+      expect(event.data).to.be.deep.equal ['Config file does not exist!']
       expect(mocks.process.exit).to.have.been.calledWith 1
+
 
 
     it 'should log error and exit if it is a directory', ->
       e.parseConfig '/conf', {}
-      expect(console.log).to.have.been.calledWith 'error (config): Config file does not exist!'
+
+      expect(logSpy).to.have.been.called
+      event = logSpy.lastCall.args[0]
+      expect(event.level.toString()).to.be.equal 'ERROR'
+      expect(event.data).to.be.deep.equal ['Config file does not exist!']
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
     it 'should throw and log error if invalid file', ->
       e.parseConfig '/conf/invalid.js', {}
-      expect(console.log).to.have.been.calledWith 'error (config): Syntax error in config file!\n' +
-        'Unexpected token ='
-      expect(mocks.process.exit).to.have.been.calledWith 1
 
+      expect(logSpy).to.have.been.called
+      event = logSpy.lastCall.args[0]
+      expect(event.level.toString()).to.be.equal 'ERROR'
+      expect(event.data).to.be.deep.equal ['Syntax error in config file!\nUnexpected token =']
+      expect(mocks.process.exit).to.have.been.calledWith 1
+      
 
     it 'should override config with given cli options', ->
       config = e.parseConfig '/home/config4.js', {port: 456, autoWatch: false}

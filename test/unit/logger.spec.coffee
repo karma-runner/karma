@@ -1,76 +1,71 @@
 #==============================================================================
 # lib/logger.js module
 #==============================================================================
+
 describe 'logger', ->
-  logger = require '../../lib/logger'
+  loadFile = require('mocks').loadFile
+  logSpy = m = null
   
   beforeEach ->
     console.log.reset()
-    logger.setLevel 4 # set to DEBUG
-    logger.useColors false
+    logSpy = sinon.spy()
+    m = loadFile __dirname + '/../../lib/logger.js'
 
-  it 'should have error method', ->
-    logger.create('FAKE').error 'whatever'
-    expect(console.log).to.have.been.calledWith 'error (FAKE): whatever'
+  #============================================================================
+  # setup()
+  #============================================================================
+  describe 'setup', ->
+    it 'should allow for configuration via setup() using an array', ->
+      m.setup 'INFO', true, [
+        type: 'file'
+        filename: 'test/unit/test.log'
+      ]
+      
+      expect(m.log4js.appenders).to.have.keys ['console', 'file']
 
-
-  it 'should have warn method', ->
-    logger.create('OBJECT').warn 'whatever', 'more'
-    expect(console.log).to.have.been.calledWith 'warn (OBJECT): whatever more'
-
-
-  it 'should have info method', ->
-    logger.create('OBJECT').info 'some', 'info'
-    expect(console.log).to.have.been.calledWith 'info (OBJECT): some info'
-
-
-  it 'should have debug method', ->
-      logger.create('OBJECT').debug 'some', 'info'
-      expect(console.log).to.have.been.calledWith 'debug (OBJECT): some info'
-
-
-  it 'should allow global logger without name', ->
-    logger.create().info 'global msg'
-    expect(console.log).to.have.been.calledWith 'info: global msg'
-
-
-  it 'should allow global configuration', ->
-    log = logger.create 'OBJ'
-
-    logger.setLevel 1 # ERROR
-    log.warn 'ok'
-    expect(console.log).not.to.have.been.called
-
-    console.log.reset()
-    logger.setLevel 1 # ERROR
-    log.debug 'should be ignored'
-    expect(console.log).not.to.have.been.called
+    it 'should deactivate the global color', ->
+      m.setup 'INFO', false, [
+        type: 'console'
+        layout:
+          type: 'pattern'
+      ]
+      
+      log = m.create('testacular')
+      log.on 'log', logSpy
+      log.info 'info'
+      
+      expect(logSpy).to.have.been.calledOnce
+      expect(console.log).to.have.been.calledWith 'INFO [testacular]: info'
 
 
-  it 'per instance configuration should override global configuration', ->
-    logger.setLevel 1 # ERROR
-    instance = logger.create('OBJ', 4) # DEBUG
+  #============================================================================
+  # create()
+  #============================================================================
 
-    instance.debug 'message'
-    expect(console.log).to.have.been.calledWith 'debug (OBJ): message'
+  describe 'create', ->
+    it 'should allow global logger with default category testacular', ->
+      m.setup 'DEBUG', false
+      log = m.create()
+      log.on 'log', logSpy
+      log.info 'global msg'
+      
+      expect(logSpy).to.have.been.calledOnce
+      event = logSpy.lastCall.args[0]
+      expect(event.categoryName).to.equal 'testacular'
+      expect(event.data).to.deep.equal ['global msg']
 
-    console.log.reset()
-    another = logger.create('ANOTHER') # use global
-    another.debug 'should be ignored'
-    expect(console.log).not.to.have.been.called
+    it 'should use local level without a global configuration', ->
+      m.setup()
+      log = m.create 'OBJ', 'OFF'
+      log.on 'log', logSpy
 
+      log.error 'should be ignored'
+      expect(logSpy).to.not.have.been.called
 
-  it 'per instance conf should override global even if its 0', ->
-    logger.setLevel 4 # DEBUG
-    instance = logger.create('OBJ', 0) # RESULT
+      logSpy.reset()
+      log2 = m.create 'OBJ2', 'INFO'
+      log2.on 'log', logSpy
+      log2.info 'should be here'
+      expect(logSpy).to.have.been.calledOnce
 
-    instance.debug 'should be ignored'
-    instance.info 'should be ignored'
-    instance.warn 'should be ignored'
-    expect(console.log).not.to.have.been.called
-
-  it 'should do formatting', ->
-    instance = logger.create ''
-    instance.info 'Int %d Str "%s"', 10, 'abc'
-
-    expect(console.log).to.have.been.calledWith 'info: Int 10 Str "abc"'
+      
