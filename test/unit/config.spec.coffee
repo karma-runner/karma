@@ -25,7 +25,7 @@ describe 'config', ->
   beforeEach ->
     # create instance of fs mock
     mocks = {}
-    mocks.process = exit: jasmine.createSpy 'exit'
+    mocks.process = exit: sinon.spy()
     mocks.fs = fsMock.create
       bin:
         sub:
@@ -63,142 +63,140 @@ describe 'config', ->
   # Should parse configuration file and do some basic processing as well
   #============================================================================
   describe 'parseConfig', ->
-    consoleSpy = null
 
     beforeEach ->
       logger = require '../../lib/logger'
       logger.setLevel 1 # enable errors
       logger.useColors false
 
-      consoleSpy = spyOn console, 'log'
 
 
     it 'should resolve relative basePath to config directory', ->
       config = e.parseConfig '/home/config1.js'
-      expect(config.basePath).toBe resolveWinPath('/home/base')
+      expect(config.basePath).to.equal resolveWinPath('/home/base')
 
 
     it 'should keep absolute basePath', ->
       config = e.parseConfig '/home/config2.js'
-      expect(config.basePath).toBe resolveWinPath('/abs/base')
+      expect(config.basePath).to.equal resolveWinPath('/abs/base')
 
 
     it 'should resolve all file patterns', ->
       config = e.parseConfig '/home/config3.js'
       actual = [resolveWinPath('/home/one.js'), resolveWinPath('/home/sub/two.js')]
-      expect(patternsFrom config.files).toEqual actual
+      expect(patternsFrom config.files).to.deep.equal actual
 
 
     it 'should keep absolute url file patterns', ->
       config = e.parseConfig '/conf/absolute.js'
-      expect(patternsFrom config.files).toEqual ['http://some.com', 'https://more.org/file.js']
+      expect(patternsFrom config.files).to.deep.equal ['http://some.com', 'https://more.org/file.js']
 
 
     it 'should resolve all exclude patterns', ->
       config = e.parseConfig '/conf/exclude.js'
       actual = [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/sub/two.js')]
-      expect(config.exclude).toEqual actual
+      expect(config.exclude).to.deep.equal actual
 
 
     it 'should log error and exit if file does not exist', ->
       e.parseConfig '/conf/not-exist.js'
-      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Config file does not exist!'
-      expect(mocks.process.exit).toHaveBeenCalledWith 1
+      expect(console.log).to.have.been.calledWith 'error (config): Config file does not exist!'
+      expect(mocks.process.exit).to.have.been.calledWith 1
 
 
     it 'should log error and exit if it is a directory', ->
       e.parseConfig '/conf'
-      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Config file does not exist!'
-      expect(mocks.process.exit).toHaveBeenCalledWith 1
+      expect(console.log).to.have.been.calledWith 'error (config): Config file does not exist!'
+      expect(mocks.process.exit).to.have.been.calledWith 1
 
 
     it 'should throw and log error if invalid file', ->
       e.parseConfig '/conf/invalid.js'
-      expect(consoleSpy).toHaveBeenCalledWith 'error (config): Syntax error in config file!\n' +
+      expect(console.log).to.have.been.calledWith 'error (config): Syntax error in config file!\n' +
         'Unexpected token ='
-      expect(mocks.process.exit).toHaveBeenCalledWith 1
+      expect(mocks.process.exit).to.have.been.calledWith 1
 
 
     it 'should override config with given cli options', ->
       config = e.parseConfig '/home/config4.js', {port: 456, autoWatch: false}
 
-      expect(config.port).toBe 456
-      expect(config.autoWatch).toBe false
-      expect(config.basePath).toBe resolveWinPath('/abs/base')
+      expect(config.port).to.equal 456
+      expect(config.autoWatch).to.equal false
+      expect(config.basePath).to.equal resolveWinPath('/abs/base')
 
 
     it 'should resolve files and excludes to overriden basePath from cli', ->
       config = e.parseConfig '/conf/both.js', {port: 456, autoWatch: false, basePath: '/xxx'}
 
-      expect(config.basePath).toBe resolveWinPath('/xxx')
+      expect(config.basePath).to.equal resolveWinPath('/xxx')
       actual = [resolveWinPath('/xxx/one.js'), resolveWinPath('/xxx/two.js')]
-      expect(patternsFrom config.files).toEqual actual
-      expect(config.exclude).toEqual [resolveWinPath('/xxx/third.js')]
+      expect(patternsFrom config.files).to.deep.equal actual
+      expect(config.exclude).to.deep.equal [resolveWinPath('/xxx/third.js')]
 
 
     it 'should return only config, no globals', ->
       config = e.parseConfig '/home/config1.js', {port: 456}
 
-      expect(config.port).toBe 456
-      expect(config.basePath).toBe resolveWinPath('/home/base')
+      expect(config.port).to.equal 456
+      expect(config.basePath).to.equal resolveWinPath('/home/base')
 
       # defaults
-      expect(config.files).toEqual []
-      expect(config.exclude).toEqual []
-      expect(config.logLevel).toBeDefined()
-      expect(config.autoWatch).toBe false
-      expect(config.reporters).toEqual ['progress']
-      expect(config.singleRun).toBe false
-      expect(config.browsers).toEqual []
-      expect(config.reportSlowerThan).toBe 0
-      expect(config.captureTimeout).toBe 60000
-      expect(config.proxies).toEqual {}
+      expect(config.files).to.deep.equal []
+      expect(config.exclude).to.deep.equal []
+      expect(config.logLevel).to.exist
+      expect(config.autoWatch).to.equal false
+      expect(config.reporters).to.deep.equal ['progress']
+      expect(config.singleRun).to.equal false
+      expect(config.browsers).to.deep.equal []
+      expect(config.reportSlowerThan).to.equal 0
+      expect(config.captureTimeout).to.equal 60000
+      expect(config.proxies).to.deep.equal {}
 
-      expect(config.LOG_DISABLE).toBeUndefined()
-      expect(config.JASMINE).toBeUndefined()
-      expect(config.console).toBeUndefined()
-      expect(config.require).toBeUndefined()
+      expect(config.LOG_DISABLE).to.not.exist
+      expect(config.JASMINE).to.not.exist
+      expect(config.console).to.not.exist
+      expect(config.require).to.not.exist
 
 
     it 'should export __filename and __dirname of the config file in the config context', ->
       config = e.parseConfig '/home/config5.js'
-      expect(config.port.f).toBe '/home/config5.js'
-      expect(config.port.d).toBe '/home'
+      expect(config.port.f).to.equal '/home/config5.js'
+      expect(config.port.d).to.equal '/home'
 
 
     it 'should normalize urlRoot config', ->
       config = normalizeConfigWithDefaults {urlRoot: ''}
-      expect(config.urlRoot).toBe '/'
+      expect(config.urlRoot).to.equal '/'
 
       config = normalizeConfigWithDefaults {urlRoot: '/a/b'}
-      expect(config.urlRoot).toBe '/a/b/'
+      expect(config.urlRoot).to.equal '/a/b/'
 
       config = normalizeConfigWithDefaults {urlRoot: 'a/'}
-      expect(config.urlRoot).toBe '/a/'
+      expect(config.urlRoot).to.equal '/a/'
 
       config = normalizeConfigWithDefaults {urlRoot: 'some/thing'}
-      expect(config.urlRoot).toBe '/some/thing/'
+      expect(config.urlRoot).to.equal '/some/thing/'
 
 
     it 'should change autoWatch to false if singleRun', ->
       # config4.js has autoWatch = true
       config = m.parseConfig '/home/config4.js', {singleRun: true}
-      expect(config.autoWatch).toBe false
+      expect(config.autoWatch).to.equal false
 
 
     it 'should normalize reporters to an array', ->
       config = m.parseConfig '/home/config6.js', {}
-      expect(config.reporters).toEqual ['junit']
+      expect(config.reporters).to.deep.equal ['junit']
 
 
     it 'should compile coffeescript config', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
-      expect(patternsFrom config.files).toEqual [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/two.js')]
+      expect(patternsFrom config.files).to.deep.equal [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/two.js')]
 
 
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
-      expect(config.autoWatch).toBe false
+      expect(config.autoWatch).to.equal false
 
 
   describe 'normalizeConfig', ->
@@ -207,14 +205,14 @@ describe 'config', ->
       config = normalizeConfigWithDefaults
         basePath: '/some/base'
         junitReporter: {outputFile: 'file.xml'}
-      expect(config.junitReporter.outputFile).toBe resolveWinPath('/some/base/file.xml')
+      expect(config.junitReporter.outputFile).to.equal resolveWinPath('/some/base/file.xml')
 
 
     it 'should resolve coverageReporter.dir to basePath and CWD', ->
       config = normalizeConfigWithDefaults
         basePath: '/some/base'
         coverageReporter: {dir: 'path/to/coverage'}
-      expect(config.coverageReporter.dir).toBe resolveWinPath('/some/base/path/to/coverage')
+      expect(config.coverageReporter.dir).to.equal resolveWinPath('/some/base/path/to/coverage')
 
 
     it 'should convert patterns to objects and set defaults', ->
@@ -222,25 +220,25 @@ describe 'config', ->
         basePath: '/base'
         files: ['a/*.js', {pattern: 'b.js', watched: false, included: false}, {pattern: 'c.js'}]
 
-      expect(config.files.length).toBe 3
+      expect(config.files.length).to.equal 3
 
       file = config.files.shift()
-      expect(file.pattern).toBe resolveWinPath '/base/a/*.js'
-      expect(file.included).toBe true
-      expect(file.served).toBe true
-      expect(file.watched).toBe true
+      expect(file.pattern).to.equal resolveWinPath '/base/a/*.js'
+      expect(file.included).to.equal true
+      expect(file.served).to.equal true
+      expect(file.watched).to.equal true
 
       file = config.files.shift()
-      expect(file.pattern).toBe resolveWinPath '/base/b.js'
-      expect(file.included).toBe false
-      expect(file.served).toBe true
-      expect(file.watched).toBe false
+      expect(file.pattern).to.equal resolveWinPath '/base/b.js'
+      expect(file.included).to.equal false
+      expect(file.served).to.equal true
+      expect(file.watched).to.equal false
 
       file = config.files.shift()
-      expect(file.pattern).toBe resolveWinPath '/base/c.js'
-      expect(file.included).toBe true
-      expect(file.served).toBe true
-      expect(file.watched).toBe true
+      expect(file.pattern).to.equal resolveWinPath '/base/c.js'
+      expect(file.included).to.equal true
+      expect(file.served).to.equal true
+      expect(file.watched).to.equal true
 
 
   describe 'createPatternObject', ->
@@ -248,33 +246,33 @@ describe 'config', ->
     it 'should parse string and set defaults', ->
       pattern = m.createPatternObject 'some/**/*.js'
 
-      expect(typeof pattern).toBe 'object'
-      expect(pattern.pattern).toBe 'some/**/*.js'
-      expect(pattern.watched).toBe true
-      expect(pattern.included).toBe true
-      expect(pattern.served).toBe true
+      expect(typeof pattern).to.equal 'object'
+      expect(pattern.pattern).to.equal 'some/**/*.js'
+      expect(pattern.watched).to.equal true
+      expect(pattern.included).to.equal true
+      expect(pattern.served).to.equal true
 
     it 'should merge pattern object and set defaults', ->
       pattern = m.createPatternObject {pattern: 'a.js', included: false, watched: false}
 
-      expect(typeof pattern).toBe 'object'
-      expect(pattern.pattern).toBe 'a.js'
-      expect(pattern.watched).toBe false
-      expect(pattern.included).toBe false
-      expect(pattern.served).toBe true
+      expect(typeof pattern).to.equal 'object'
+      expect(pattern.pattern).to.equal 'a.js'
+      expect(pattern.watched).to.equal false
+      expect(pattern.included).to.equal false
+      expect(pattern.served).to.equal true
 
 
     it 'should make urls not served neither watched', ->
       pattern = m.createPatternObject 'http://some.url.com'
 
-      expect(pattern.pattern).toBe 'http://some.url.com'
-      expect(pattern.included).toBe true
-      expect(pattern.watched).toBe false
-      expect(pattern.served).toBe false
+      expect(pattern.pattern).to.equal 'http://some.url.com'
+      expect(pattern.included).to.equal true
+      expect(pattern.watched).to.equal false
+      expect(pattern.served).to.equal false
 
       pattern = m.createPatternObject {pattern: 'https://some.other.com'}
 
-      expect(pattern.pattern).toBe 'https://some.other.com'
-      expect(pattern.included).toBe true
-      expect(pattern.watched).toBe false
-      expect(pattern.served).toBe false
+      expect(pattern.pattern).to.equal 'https://some.other.com'
+      expect(pattern.included).to.equal true
+      expect(pattern.watched).to.equal false
+      expect(pattern.served).to.equal false

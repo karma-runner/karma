@@ -13,22 +13,22 @@ describe 'reporter', ->
 
     beforeEach ->
       
-      adapter = jasmine.createSpy 'STDOUT'
+      adapter = sinon.spy()
       reporter = new m.BaseReporter null, null, adapter
 
 
     it 'should write to all registered adapters', ->
-      anotherAdapter = jasmine.createSpy 'ADAPTER2'
+      anotherAdapter = sinon.spy()
       reporter.adapters.push anotherAdapter
 
       reporter.write 'some'
-      expect(adapter).toHaveBeenCalledWith 'some'
-      expect(anotherAdapter).toHaveBeenCalledWith 'some'
+      expect(adapter).to.have.been.calledWith 'some'
+      expect(anotherAdapter).to.have.been.calledWith 'some'
 
 
     it 'should format', ->
       reporter.write 'Success: %d Failure: %d', 10, 20
 
-      expect(adapter).toHaveBeenCalledWith 'Success: 10 Failure: 20'
+      expect(adapter).to.have.been.calledWith 'Success: 10 Failure: 20'
 
     

@@ -87,7 +87,7 @@ module.exports = function(grunt) {
       return next();
     }
     else if (this.target === 'unit') {
-      grunt.task.run(['jasmine_node']);
+      grunt.task.run(['simplemocha']);
       specDone();
     }
 

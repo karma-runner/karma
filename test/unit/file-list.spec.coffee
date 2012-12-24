@@ -2,13 +2,13 @@
 # lib/file-list.js module
 #==============================================================================
 describe 'file-list', ->
-  util = require '../test-util'
   mocks = require 'mocks'
   events = require 'events'
   path = require 'path'
   config = require '../../lib/config'
-
-  m = list = emitter = onFileListModifiedSpy = fileListModifiedPromise = preprocessMock = null
+  
+  onFileListModifiedSpy = mocks_ = null
+  m = list = emitter = fileListModifiedPromise = preprocessMock = null
 
   mockGlob = mocks.glob.create
     '/some/*.js': ['/some/a.js', '/some/b.js']
@@ -46,117 +46,103 @@ describe 'file-list', ->
     new config.Pattern(str) for str in strings
 
 
-  waitForRefreshAnd = (resume) ->
-    done = false
-    list.refresh().then (files) ->
-      done = true
-      resume files
-    waitsFor (-> done), 'refresh promise resolved', 100
-
-
-  beforeEach util.disableLogger
-
   beforeEach ->
-    mocks_ = glob: mockGlob, fs: mockFs, minimatch: require('minimatch')
-    globals_ =
-      setTimeout: (fn, tm) -> jasmine.Clock.installed.setTimeout fn, tm
-      clearTimeout: (id) -> jasmine.Clock.installed.clearTimeout id
 
-    m = mocks.loadFile __dirname + '/../../lib/file-list.js', mocks_, globals_
+    mocks_ =
+      glob: mockGlob
+      fs: mockFs
+      minimatch: require('minimatch')
 
-    onFileListModifiedSpy = jasmine.createSpy 'onFileListModified'
+    m = mocks.loadFile __dirname + '/../../lib/file-list.js', mocks_
+
+    onFileListModifiedSpy = sinon.spy()
     emitter = new events.EventEmitter
     emitter.on 'file_list_modified', onFileListModifiedSpy
 
-    preprocessMock = jasmine.createSpy('preprocess').andCallFake (file, done) ->
-      process.nextTick done
-
+    preprocessMock = sinon.spy((file, done) -> process.nextTick done)
 
   #============================================================================
   # List.refresh()
   #============================================================================
   describe 'refresh', ->
 
-    it 'should resolve patterns, keeping the order', ->
+    it 'should resolve patterns, keeping the order', (done) ->
       mocks.predictableNextTick.pattern = [1, 0]
       list = new m.List patterns('/some/*.js', '*.txt'), [], null, preprocessMock
 
-      waitForRefreshAnd ->
-        expect(list.buckets.length).toBe 2
+      list.refresh().then (files) ->
+        expect(list.buckets.length).to.equal 2
         # first bucket == first pattern (even though callbacks were reversed)
-        expect(pathsFrom list.buckets[0]).toContain '/some/a.js', '/some/b.js'
-        expect(pathsFrom list.buckets[1]).toContain '/a.txt', '/b.txt', '/c.txt'
+        expect(pathsFrom list.buckets[0]).to.contain '/some/a.js', '/some/b.js'
+        expect(pathsFrom list.buckets[1]).to.contain '/a.txt', '/b.txt', '/c.txt'
+        done()
 
-
-    it 'should ignore directories', ->
+    it 'should ignore directories', (done) ->
       list = new m.List patterns('*.js'), [], null, preprocessMock
 
-      waitForRefreshAnd ->
-        expect(pathsFrom list.buckets[0]).toContain '/folder/x.js'
-        expect(pathsFrom list.buckets[0]).not.toContain '/folder/'
+      list.refresh().then (files) ->
+        expect(pathsFrom list.buckets[0]).to.contain '/folder/x.js'
+        expect(pathsFrom list.buckets[0]).not.to.contain '/folder/'
+        done()
 
-
-    it 'should set mtime for every file', ->
+    it 'should set mtime for every file', (done) ->
       list = new m.List patterns('/some/*.js'), [], null, preprocessMock
 
-      waitForRefreshAnd ->
-        expect(findFile('/some/a.js', list.buckets[0]).mtime).toEqual new Date '2012-04-04'
-        expect(findFile('/some/b.js', list.buckets[0]).mtime).toEqual new Date '2012-05-05'
+      list.refresh().then (files) ->
+        expect(findFile('/some/a.js', list.buckets[0]).mtime).to.deep.equal new Date '2012-04-04'
+        expect(findFile('/some/b.js', list.buckets[0]).mtime).to.deep.equal new Date '2012-05-05'
+        done()
 
-
-    it 'should ignore files matching excludes', ->
+    it 'should ignore files matching excludes', (done) ->
       list = new m.List patterns('*.txt'), ['/a.*', '**/b.txt'], null, preprocessMock
 
-      waitForRefreshAnd ->
-        expect(pathsFrom list.buckets[0]).toContain '/c.txt'
-        expect(pathsFrom list.buckets[0]).not.toContain '/a.txt'
-        expect(pathsFrom list.buckets[0]).not.toContain '/b.txt'
+      list.refresh().then (files) ->
+        expect(pathsFrom list.buckets[0]).to.contain '/c.txt'
+        expect(pathsFrom list.buckets[0]).not.to.contain '/a.txt'
+        expect(pathsFrom list.buckets[0]).not.to.contain '/b.txt'
+        done()
 
-
-    it 'should not glob urls and set isUrl flag', ->
+    it 'should not glob urls and set isUrl flag', (done) ->
       list = new m.List patterns('http://some.com'), []
 
-      waitForRefreshAnd ->
-        expect(findFile('http://some.com', list.buckets[0]).isUrl).toBe true
+      list.refresh().then (files) ->
+        expect(findFile('http://some.com', list.buckets[0]).isUrl).to.equal  true
+        done()
 
 
-    it 'should preprocess all files', ->
+    it 'should preprocess all files', (done) ->
       # MATCH /some/a.js, /some/b.js
       list = new m.List patterns('/some/*.js'), [], null, preprocessMock
 
-      waitForRefreshAnd ->
-        expect(preprocessMock).toHaveBeenCalled()
-        expect(preprocessMock.callCount).toBe 2
+      list.refresh().then (files) ->
+        expect(preprocessMock).to.have.been.called
+        expect(preprocessMock.callCount).to.equal 2
+        done()
 
-
-    it 'should return a promise with list of files', ->
+    it 'should return a promise with list of files', (done) ->
       # MATCH /some/a.js, /some/b.js
       list = new m.List patterns('/some/*.js'), [], null, preprocessMock
-
-      waitForRefreshAnd ->
-        expect(files.included).toBeDefined()
-        expect(files.served).toBeDefined()
-
+      
+      list.refresh().then (files) ->
+        expect(files.included).to.exist
+        expect(files.served).to.exist
+        done()
 
   #============================================================================
   # List.reload()
   #============================================================================
   describe 'reload', ->
 
-    it 'should reload the patterns and return promise', ->
+    it 'should reload the patterns and return promise', (done) ->
       # MATCH /some/a.js, /some/b.js
       list = new m.List patterns('/some/*.js'), [], null, preprocessMock
-      done = false
 
-      waitForRefreshAnd ->
-        # MATCH /c.txt, /a.txt, /b.txt
-        list.reload(patterns('*.txt'), []).then (files) ->
-          expect(files.included).toBeDefined()
-          expect(files.served).toBeDefined()
-          expect(pathsFrom files.served).toEqual ['/a.txt', '/b.txt', '/c.txt']
-          done = true
-
-      waitsFor (-> done), 'reload promise resolving', 100
+      # MATCH /c.txt, /a.txt, /b.txt
+      list.reload(patterns('*.txt'), []).then (files) ->
+        expect(files.included).to.exist
+        expect(files.served).to.exist
+        expect(pathsFrom files.served).to.deep.equal ['/a.txt', '/b.txt', '/c.txt']
+        done()
 
 
   #============================================================================
@@ -165,56 +151,59 @@ describe 'file-list', ->
   describe 'getServedFiles', ->
     # this method does not exist anymore, results are returned as a promise
 
-    it 'should return flat array of resolved files', ->
+    it 'should return flat array of resolved files', (done) ->
       list = new m.List patterns('*.txt'), [], null, preprocessMock
+      
+      list.refresh().then (files) ->
+        expect(files.served.length).to.equal 3
+        expect(pathsFrom files.served).to.contain '/a.txt', '/b.txt', '/c.txt'
+        done()
 
-      waitForRefreshAnd (files) ->
-        expect(files.served.length).toBe 3
-        expect(pathsFrom files.served).toContain '/a.txt', '/b.txt', '/c.txt'
-
-
-    it 'should return unique set', ->
+    it 'should return unique set', (done) ->
       list = new m.List patterns('/a.*', '*.txt'), [], null, preprocessMock
 
-      waitForRefreshAnd (files) ->
-        expect(files.served.length).toBe 3
-        expect(pathsFrom files.served).toContain '/a.txt', '/b.txt', '/c.txt'
+      list.refresh().then (files) ->
+        expect(files.served.length).to.equal 3
+        expect(pathsFrom files.served).to.contain '/a.txt', '/b.txt', '/c.txt'
+        done()
 
-
-    it 'should sort files within buckets and keep order of patterns (buckets)', ->
+    it 'should sort files within buckets and keep order of patterns (buckets)', (done) ->
       # /a.*       => /a.txt                   [MATCH in *.txt as well]
       # /some/*.js => /some/a.js, /some/b.js   [/some/b.js EXCLUDED]
       # *.txt      => /c.txt, a.txt, b.txt     [UNSORTED]
       list = new m.List patterns('/a.*', '/some/*.js', '*.txt'), ['**/b.js'], null, preprocessMock
 
-      waitForRefreshAnd (files) ->
-        expect(pathsFrom files.served).toEqual ['/a.txt', '/some/a.js', '/b.txt', '/c.txt']
+      list.refresh().then (files) ->
+        expect(pathsFrom files.served).to.deep.equal ['/a.txt', '/some/a.js', '/b.txt', '/c.txt']
+        done()
 
-
-    it 'should return only served files', ->
+    it 'should return only served files', (done) ->
       # /a.*       => /a.txt                   [served TRUE]
       # /some/*.js => /some/a.js, /some/b.js   [served FALSE]
       files = [new config.Pattern('/a.*', true), new config.Pattern('/some/*.js', false)]
       list = new m.List files, [], null, preprocessMock
 
-      waitForRefreshAnd (files) ->
-        expect(pathsFrom files.served).toEqual ['/a.txt']
+      list.refresh().then (files) ->
+        expect(pathsFrom files.served).to.deep.equal ['/a.txt']
+        done()
 
+        
   #============================================================================
   # List.getIncludedFiles()
   #============================================================================
   describe 'getIncludedFiles', ->
     # this method does not exist anymore, results are returned as a promise
 
-    it 'should return flat array of included files', ->
+    it 'should return flat array of included files', (done) ->
       # /a.*       => /a.txt                   [included FALSE]
       # /some/*.js => /some/a.js, /some/b.js   [included TRUE]
       files = [new config.Pattern('/a.*', true, false), new config.Pattern('/some/*.js')]
       list = new m.List files, [], null, preprocessMock
 
-      waitForRefreshAnd (files) ->
-        expect(pathsFrom files.included).not.toContain '/a.txt'
-        expect(pathsFrom files.included).toEqual ['/some/a.js', '/some/b.js']
+      list.refresh().then (files) ->
+        expect(pathsFrom files.included).not.to.contain '/a.txt'
+        expect(pathsFrom files.included).to.deep.equal ['/some/a.js', '/some/b.js']
+        done()
 
 
   #============================================================================
@@ -222,84 +211,66 @@ describe 'file-list', ->
   #============================================================================
   describe 'addFile', ->
 
-    waitForAddingFile = (path, resume) ->
-      done = 0
-      listModPromise = null
+    waitForAddingFile = (done, path, resume) ->
       emitter.once 'file_list_modified', (promise) ->
-        listModPromise = promise
-
-      list.addFile path, ->
-        if listModPromise
-          done = 1
-          listModPromise.then (files) ->
-            resume files
-            done = 2
-        else
-          resume null
-          done = 2
-
-      waitsFor (-> done >= 1), 'addFile done callback', 100
-      waitsFor (-> done is 2), 'addFile promise resolving', 100
-
-
-    it 'should add the file to correct position (bucket)', ->
+        expect(promise).to.be.fulfilled.then(resume).should.notify(done)
+      list.addFile path
+      
+    it 'should add the file to correct position (bucket)', (done) ->
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd (files) ->
-        expect(pathsFrom files.served).toEqual ['/some/a.js', '/some/b.js', '/a.txt']
+      list.refresh().then (files) ->
 
-        waitForAddingFile '/a.js', (files) ->
-          expect(pathsFrom files.served).toEqual ['/some/a.js', '/some/b.js', '/a.js', '/a.txt']
+        expect(pathsFrom files.served).to.deep.equal ['/some/a.js', '/some/b.js', '/a.txt']
+        waitForAddingFile done, '/a.js', (files) ->
+          expect(pathsFrom files.served).to.deep.equal ['/some/a.js', '/some/b.js', '/a.js', '/a.txt']
 
-          waitForAddingFile '/some/0.js', (files) ->
-            expect(pathsFrom files.served).toEqual ['/some/0.js', '/some/a.js', '/some/b.js', '/a.js', '/a.txt']
-
-
-    it 'should fire "file_list_modified" and pass a promise', ->
+    it 'should fire "file_list_modified" and pass a promise', (done) ->
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock
+      
+      list.refresh().then (files) ->
+        waitForAddingFile done, '/a.js', (files) ->
+          expect(onFileListModifiedSpy).to.have.been.called
+          expect(files).to.exist
 
-      waitForRefreshAnd ->
-        waitForAddingFile '/a.js', (files) ->
-          expect(onFileListModifiedSpy).toHaveBeenCalled()
-          expect(files).toBeDefined()
 
-
-    it 'should not add excluded file (and not fire event)', ->
+    it 'should not add excluded file (and not fire event)', (done) ->
       list = new m.List patterns('/some/*.js', '/a.*'), ['/*.js'], emitter, preprocessMock
+      
+      list.refresh().then (files) ->
+        list.addFile '/a.js', ->
+          expect(onFileListModifiedSpy).not.to.have.been.called
+          done()
 
-      waitForRefreshAnd ->
-        waitForAddingFile '/a.js', ->
-          expect(onFileListModifiedSpy).not.toHaveBeenCalled()
 
-
-    it 'should not add file (neither fire event) if file already in the list', ->
+    it 'should not add file (neither fire event) if file already in the list', (done) ->
       # chokidar on fucking windows might fire the event multiple times
       # and we want to ignore initial adding as well
       # MATCH: /some/a.js, /some/b.js
       list = new m.List patterns('/some/*.js'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
-        waitForAddingFile '/some/a.js', ->
-          expect(onFileListModifiedSpy).not.toHaveBeenCalled()
+      list.refresh().then (files) ->
+        list.addFile '/some/a.js', ->
+          expect(onFileListModifiedSpy).not.to.have.been.called
+          done()
 
-
-    it 'should set proper mtime of new file', ->
+    it 'should set proper mtime of new file', (done) ->
       list = new m.List patterns('/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
-        waitForAddingFile '/a.js', (files) ->
-          expect(findFile('/a.js', files.served).mtime).toEqual new Date '2012-01-01'
+      list.refresh().then (files) ->
+        waitForAddingFile done, '/a.js', (files) ->
+          expect(findFile('/a.js', files.served).mtime).to.deep.equal new Date '2012-01-01'
 
 
     it 'should preprocess added file', ->
       # MATCH: /a.txt
       list = new m.List patterns('/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
+      list.refresh().then (files) ->
         preprocessMock.reset()
-        waitForAddingFile '/a.js', ->
-          expect(preprocessMock).toHaveBeenCalled()
-          expect(preprocessMock.argsForCall[0][0].originalPath).toBe '/a.js'
+        waitForAddingFile done, '/a.js', ->
+          expect(preprocessMock).to.have.been.called
+          expect(preprocessMock.argsForCall[0][0].originalPath).to.equal '/a.js'
 
 
   #============================================================================
@@ -307,81 +278,69 @@ describe 'file-list', ->
   #============================================================================
   describe 'changeFile', ->
 
-    waitForChangingFile = (path, resume) ->
-      done = 0
-      listModPromise = null
+    waitForChangingFile = (done, path, resume) ->
       emitter.once 'file_list_modified', (promise) ->
-        listModPromise = promise
+        expect(promise).to.be.fulfilled.then(resume).should.notify(done)
+      list.changeFile path
 
-      list.changeFile path, ->
-        if listModPromise
-          done = 1
-          listModPromise.then (files) ->
-            resume files
-            done = 2
-        else
-          resume null
-          done = 2
-
-      waitsFor (-> done >= 1), 'changeFile done callback', 100
-      waitsFor (-> done is 2), 'changeFile promise resolving', 100
-
-
-    it 'should update mtime and fire "file_list_modified"', ->
+    it 'should update mtime and fire "file_list_modified"', (done) ->
       # MATCH: /some/a.js, /some/b.js
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
+      list.refresh().then (files) ->
         mockFs._touchFile '/some/b.js', '2020-01-01'
-        waitForChangingFile '/some/b.js', (files) ->
-          expect(onFileListModifiedSpy).toHaveBeenCalled()
-          expect(findFile('/some/b.js', files.served).mtime).toEqual new Date '2020-01-01'
+        waitForChangingFile done, '/some/b.js', (files) ->
+          expect(onFileListModifiedSpy).to.have.been.called
+          expect(findFile('/some/b.js', files.served).mtime).to.deep.equal new Date '2020-01-01'
 
 
-    it 'should not fire "file_list_modified" if no matching file', ->
+    it 'should not fire "file_list_modified" if no matching file', (done) ->
       # MATCH: /some/a.js
       list = new m.List patterns('/some/*.js', '/a.*'), ['/some/b.js'], emitter, preprocessMock
 
-      waitForRefreshAnd ->
+      list.refresh().then (files) ->
         mockFs._touchFile '/some/b.js', '2020-01-01'
-        waitForChangingFile '/some/b.js', ->
-          expect(onFileListModifiedSpy).not.toHaveBeenCalled()
+        list.changeFile '/some/b.js', ->
+          expect(onFileListModifiedSpy).not.to.have.been.called
+          done()
 
 
-    it 'should not fire "file_list_modified" if mtime has not changed', ->
+    it 'should not fire "file_list_modified" if mtime has not changed', (done) ->
       # chokidar on fucking windows sometimes fires event multiple times
       # MATCH: /some/a.js, /some/b.js, /a.txt
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
+      list.refresh().then (files) ->
         # not touching the file, stat will return still the same
-        waitForChangingFile '/some/b.js', ->
-          expect(onFileListModifiedSpy).not.toHaveBeenCalled()
+        list.changeFile '/some/b.js', ->
+          expect(onFileListModifiedSpy).not.to.have.been.called
+          done()
 
 
     # WIN
-    it 'should remove file if ENOENT stat', ->
-      # chokidar fires "change" instead of remove, on windows
-      # MATCH: /a.txt
-      list = new m.List patterns('/a.*'), [], emitter, preprocessMock
+    # it 'should remove file if ENOENT stat', (done) ->
+    #   # chokidar fires "change" instead of remove, on windows
+    #   # MATCH: /a.txt
+    #   list = new m.List patterns('/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
-        list.getServedFiles()[0].originalPath = '/non-existing-file'
-        waitForChangingFile '/non-existing-file', (files) ->
-          expect(files.served).toEqual []
-          expect(onFileListModifiedSpy).toHaveBeenCalled()
+    #   list.refresh().then (files) ->
+    #     list.getServedFiles()[0].originalPath = '/non-existing-file'
+    #     waitForChangingFile done, '/non-existing-file', (files) ->
+    #       expect(files.served).to.deep.equal []
+    #       expect(onFileListModifiedSpy).to.have.been.called
 
 
-    it 'should preprocess changed file', ->
+    it 'should preprocess changed file', (done) ->
       # MATCH: /some/a.js, /some/b.js
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
+      list.refresh().then (files) ->
         preprocessMock.reset()
         mockFs._touchFile '/some/a.js', '2020-01-01'
-        waitForChangingFile '/some/a.js', ->
-          expect(preprocessMock).toHaveBeenCalled()
-          expect(preprocessMock.argsForCall[0][0].path).toBe '/some/a.js'
+        list.changeFile '/some/a.js', ->
+          expect(preprocessMock).to.have.been.called
+          expect(preprocessMock.lastCall.args[0]).to.have.property 'path', '/some/a.js'
+          done()
 
 
   #============================================================================
@@ -389,95 +348,85 @@ describe 'file-list', ->
   #============================================================================
   describe 'removeFile', ->
 
-    waitForRemovingFile = (path, resume) ->
-      done = 0
-      waitsFor (-> done >= 1), 'removeFile done callback', 100
-      waitsFor (-> done is 2), 'removeFile promise resolving', 100
-
-      listModPromise = null
+    waitForRemovingFile = (done, path, resume) ->
       emitter.once 'file_list_modified', (promise) ->
-        listModPromise = promise
-
-      list.removeFile path, ->
-        if listModPromise
-          done = 1
-          listModPromise.then (files) ->
-            resume files
-            done = 2
-        else
-          resume null
-          done = 2
-
+        expect(promise).to.be.fulfilled.then(resume).should.notify(done)
+      list.removeFile path
 
     it 'should remove file from list and fire "file_list_modified"', ->
       # MATCH: /some/a.js, /some/b.js, /a.txt
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
+      list.refresh().then (files) ->
         waitForRemovingFile '/some/a.js', (files) ->
-          expect(pathsFrom files.served).toEqual ['/some/b.js', '/a.txt']
-          expect(onFileListModifiedSpy).toHaveBeenCalled();
+          expect(pathsFrom files.served).to.deep.equal ['/some/b.js', '/a.txt']
+          expect(onFileListModifiedSpy).to.have.been.called;
+
 
 
     it 'should not fire "file_list_modified" if file is not in the list', ->
       # MATCH: /some/a.js, /some/b.js, /a.txt
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock
 
-      waitForRefreshAnd ->
+      list.refresh().then (files) ->
         waitForRemovingFile '/a.js', ->
-          expect(onFileListModifiedSpy).not.toHaveBeenCalled();
+          expect(onFileListModifiedSpy).not.to.have.been.called;
 
+  #============================================================================
+  # Batch Interval processing
+  #============================================================================
+  describe 'batch interval', ->
+    it 'should batch multiple changes within an interval', (done) ->
+      timeoutSpy = sinon.stub().returns true
+      globals_ = setTimeout: timeoutSpy
 
-  it 'should batch multiple changes within an interval', ->
-    jasmine.Clock.useMock()
+      m = mocks.loadFile __dirname + '/../../lib/file-list.js', mocks_, globals_
+      
+      # MATCH: /some/a.js, /some/b.js, /a.txt
+      list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock, 1000
+      list.refresh().then (files) ->
+        timeoutSpy.reset()
+        emitter.once 'file_list_modified', (promise) ->
+          expect(promise).to.be.fulfilled.then (files) ->
+            expect(pathsFrom files.served).to.deep.equal ['/some/0.js', '/some/b.js', '/a.txt']
+            expect(onFileListModifiedSpy).to.have.been.calledOnce
+            
+            # another batch, should fire new "file_list_modified" event
+            onFileListModifiedSpy.reset()
+            timeoutSpy.reset()
+            emitter.once 'file_list_modified', (promise) ->
+              expect(promise).to.be.fulfilled.then((files) ->
+                expect(pathsFrom files.served).to.deep.equal ['/some/b.js', '/a.txt']
+                expect(onFileListModifiedSpy).to.have.been.calledOnce
+              ).should.notify(done)
+              
 
-    # MATCH: /some/a.js, /some/b.js, /a.txt
-    list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock, 1000
-    done = 0
+            list.removeFile '/some/0.js' # /some/b.js, /a.txt
+            process.nextTick -> process.nextTick ->
+              expect(timeoutSpy).to.have.been.called
+              timeoutSpy.lastCall.args[0]()
+            
 
-    waitForRefreshAnd ->
-      onFileListModifiedSpy.andCallFake (promise) ->
-        promise.then (files) ->
-          expect(pathsFrom files.served).toEqual ['/some/0.js', '/some/b.js', '/a.txt']
-          done = 1
+        mockFs._touchFile '/some/b.js', '2020-01-01'
+        list.changeFile '/some/b.js'
+        list.removeFile '/some/a.js' # /some/b.js, /a.txt
+        list.removeFile '/a.txt' # /some/b.js
+        list.addFile '/a.txt' # /some/b.js, /a.txt
+        list.addFile '/some/0.js' # /some/0.js, /some/b.js, /a.txt
 
-      mockFs._touchFile '/some/b.js', '2020-01-01'
-      list.changeFile '/some/b.js'
-      list.removeFile '/some/a.js' # /some/b.js, /a.txt
-      list.removeFile '/a.txt' # /some/b.js
-      list.addFile '/a.txt' # /some/b.js, /a.txt
-      list.addFile '/some/0.js' # /some/0.js, /some/b.js, /a.txt
-
-      expect(onFileListModifiedSpy).toHaveBeenCalled()
-      process.nextTick -> process.nextTick ->
-        jasmine.Clock.tick 1001
-
-    waitsFor (-> done >= 1), 'resolving the 1st promise', 200
-    runs ->
-      expect(onFileListModifiedSpy).toHaveBeenCalled()
-      expect(onFileListModifiedSpy.callCount).toBe 1
-
-      # another batch, should fire new "file_list_modified" event
-      onFileListModifiedSpy.reset()
-      onFileListModifiedSpy.andCallFake (promise) ->
-        promise.then (files) ->
-          expect(pathsFrom files.served).toEqual ['/some/b.js', '/a.txt']
-          done = 2
-
-      list.removeFile '/some/0.js' # /some/b.js, /a.txt
-      process.nextTick -> process.nextTick ->
-        jasmine.Clock.tick 1001
-
-    waitsFor (-> done is 2), 'resolving the 2nd promise', 200
-    runs ->
-      expect(onFileListModifiedSpy).toHaveBeenCalled()
-
-
+        expect(onFileListModifiedSpy).to.have.been.called
+        process.nextTick -> process.nextTick ->
+          expect(timeoutSpy).to.have.been.called
+          timeoutSpy.lastCall.args[0]()
+  
+  #============================================================================
+  # Win Globbing
+  #============================================================================
   describe 'createWinGlob', ->
 
     it 'should path separator is slash', ->
       mockGlob = (pattern, opts, done) ->
-        expect(pattern).toBe 'x:/Users/vojta/*.js'
+        expect(pattern).to.equal 'x:/Users/vojta/*.js'
         # for Travis test
         results = [
           path.join('x:', 'Users', 'vojta', 'file.js'),
@@ -488,4 +437,4 @@ describe 'file-list', ->
       winGlob = m.createWinGlob mockGlob
 
       winGlob 'x:/Users/vojta/*.js', {}, (err, results) ->
-        expect(results).toEqual ['x:/Users/vojta/file.js', 'x:/Users/vojta/more.js']
+        expect(results).to.deep.equal ['x:/Users/vojta/file.js', 'x:/Users/vojta/more.js']
