@@ -70,6 +70,13 @@ describe 'proxy', ->
     expect(nextSpy).toHaveBeenCalled()
 
 
+  it 'should call next handler if no proxy defined', ->
+    proxy = m.createProxyHandler mockProxy, {}
+    proxy new httpMock.ServerRequest('/non/proxy/test.html'), response, nextSpy
+
+    expect(nextSpy).toHaveBeenCalled()
+
+
   it 'should parse a simple proxy config', ->
     proxy = {'/base/': 'http://localhost:8000/'}
     parsedProxyConfig = m.parseProxyConfig proxy
