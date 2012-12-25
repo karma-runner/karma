@@ -14,23 +14,26 @@ describe 'reporter', ->
   m = null
 
   mockFs =
-    writeFile: jasmine.createSpy 'fs.writeFile'
+    writeFile: sinon.spy()
 
-  mockStore = jasmine.createSpy 'istanbul.Store'
+  mockStore = sinon.spy()
   mockStore.mix = (fn, obj) ->
     istanbul.Store.mix fn, obj
-  mockStore.create = jasmine.createSpy 'istanbul.Store.create'
-  mockFslookup = jasmine.createSpyObj 'istanbul.Store', ['keys', 'get', 'hasKey', 'set']
-  mockStore.create.andReturn mockFslookup
-  mockAdd = jasmine.createSpy 'istanbul.Collector.add'
-  mockDispose = jasmine.createSpy 'istanbul.Collector.dispose'
+  mockFslookup = sinon.stub
+    keys: ->
+    get: ->
+    hasKey: ->
+    set: ->
+  mockStore.create = sinon.stub().returns mockFslookup
+  
+  mockAdd = sinon.spy()
+  mockDispose = sinon.spy()
   mockCollector = class Collector
     add: mockAdd
     dispose: mockDispose
-  mockReportCreate = jasmine.createSpy 'istanbul.Report.create'
-  mockWriteReport = jasmine.createSpy 'istanbul.Report.writeReport'
-  mockReportCreate.andReturn writeReport: mockWriteReport
-  mockMkdir = jasmine.createSpy 'helper.mkdirIfNotExists'
+  mockWriteReport = sinon.spy()
+  mockReportCreate = sinon.stub().returns writeReport: mockWriteReport
+  mockMkdir = sinon.spy()
   mockHelper =
     isDefined: (v) -> helper.isDefined v
     merge: (v...) -> helper.merge v...
@@ -59,34 +62,34 @@ describe 'reporter', ->
       store = new m.BasePathStore options
 
     it 'should call create', ->
-      expect(mockStore.create).toHaveBeenCalledWith 'fslookup'
+      expect(mockStore.create).to.have.been.calledWith 'fslookup'
 
     describe 'toKey', ->
       it 'should concat relative path and basePath', ->
-        expect(store.toKey './foo').toEqual path.join(options.basePath, 'foo')
+        expect(store.toKey './foo').to.deep.equal path.join(options.basePath, 'foo')
 
       it 'should does not concat absolute path and basePath', ->
-        expect(store.toKey '/foo').toEqual '/foo'
+        expect(store.toKey '/foo').to.deep.equal '/foo'
 
     it 'should call keys and delegate to inline store', ->
       store.keys()
-      expect(mockFslookup.keys).toHaveBeenCalled()
+      expect(mockFslookup.keys).to.have.been.called
 
     it 'should call get and delegate to inline store', ->
       key = './path/to/js'
       store.get(key)
-      expect(mockFslookup.get).toHaveBeenCalledWith path.join(options.basePath, key)
+      expect(mockFslookup.get).to.have.been.calledWith path.join(options.basePath, key)
 
     it 'should call hasKey and delegate to inline store', ->
       key = './path/to/js'
       store.hasKey(key)
-      expect(mockFslookup.hasKey).toHaveBeenCalledWith path.join(options.basePath, key)
+      expect(mockFslookup.hasKey).to.have.been.calledWith path.join(options.basePath, key)
 
     it 'should call set and delegate to inline store', ->
       key = './path/to/js'
       content = 'any content'
       store.set key, content
-      expect(mockFslookup.set).toHaveBeenCalledWith path.join(options.basePath, key), content
+      expect(mockFslookup.set).to.have.been.calledWith path.join(options.basePath, key), content
 
   describe 'CoverageReporter', ->
     rootConfig = emitter = reporter = null
@@ -116,15 +119,15 @@ describe 'reporter', ->
       mockMkdir.reset()
 
     it 'has no pending file writings', ->
-      done = jasmine.createSpy 'done'
+      done = sinon.spy()
       emitter.emit 'exit', done
-      expect(done).toHaveBeenCalled()
+      expect(done).to.have.been.called
 
     it 'has no coverage', ->
       result =
         coverage: null
       reporter.onBrowserComplete fakeChrome, result
-      expect(mockAdd).not.toHaveBeenCalled()
+      expect(mockAdd).not.to.have.been.called
 
     it 'should store coverage json', ->
       result =
@@ -132,22 +135,22 @@ describe 'reporter', ->
           aaa: 1
           bbb: 2
       reporter.onBrowserComplete fakeChrome, result
-      expect(mockAdd).toHaveBeenCalledWith result.coverage
-      expect(mockMkdir).toHaveBeenCalled()
-      args = mockMkdir.mostRecentCall.args
-      expect(args[0]).toEqual path.resolve(rootConfig.coverageReporter.dir)
+      expect(mockAdd).to.have.been.calledWith result.coverage
+      expect(mockMkdir).to.have.been.called
+      args = mockMkdir.lastCall.args
+      expect(args[0]).to.deep.equal path.resolve(rootConfig.coverageReporter.dir)
       args[1]()
-      expect(mockFs.writeFile).toHaveBeenCalled()
-      args2 = mockFs.writeFile.mostRecentCall.args
-      expect(args2[1]).toEqual JSON.stringify(result.coverage)
+      expect(mockFs.writeFile).to.have.been.calledWith 
+      args2 = mockFs.writeFile.lastCall.args
+      expect(args2[1]).to.deep.equal JSON.stringify(result.coverage)
 
     it 'should make reports', ->
       reporter.onRunComplete browsers
-      expect(mockMkdir.calls.length).toEqual 2
+      expect(mockMkdir).to.have.been.calledTwice
       dir = rootConfig.coverageReporter.dir
-      expect(mockMkdir.calls[0].args[0]).toEqual path.resolve(dir, fakeChrome.name)
-      expect(mockMkdir.calls[1].args[0]).toEqual path.resolve(dir, fakeOpera.name)
-      mockMkdir.calls[0].args[1]()
-      expect(mockReportCreate).toHaveBeenCalled()
-      expect(mockWriteReport).toHaveBeenCalled()
-      expect(mockDispose).toHaveBeenCalled()
+      expect(mockMkdir.getCall(0).args[0]).to.deep.equal path.resolve(dir, fakeChrome.name)
+      expect(mockMkdir.getCall(1).args[0]).to.deep.equal path.resolve(dir, fakeOpera.name)
+      mockMkdir.getCall(0).args[1]()
+      expect(mockReportCreate).to.have.been.called
+      expect(mockWriteReport).to.have.been.called
+      expect(mockDispose).to.have.been.called

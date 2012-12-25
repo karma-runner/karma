@@ -40,11 +40,16 @@ module.exports = (grunt) ->
       client: 'test/client/testacular.conf.js'
       e2e: 'test/e2e/*/testacular.conf.js'
 
-    jasmine_node:
-      projectRoot: 'test/unit'
-      matchall: true
-      verbose: false
-      extensions: 'js|coffee'
+
+    simplemocha:
+      options:
+        ui: 'bdd'
+        reporter: 'dot'
+      all:
+        src: [
+          'test/unit/common.js'
+          'test/unit/**/*.coffee'
+        ]
 
     # JSHint options
     # http://www.jshint.com/options/
@@ -99,7 +104,7 @@ module.exports = (grunt) ->
         globals: {}
 
   grunt.loadTasks 'tasks'
-  grunt.loadNpmTasks 'grunt-jasmine-node'
+  grunt.loadNpmTasks 'grunt-simple-mocha'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
 
   grunt.registerTask 'default', ['build', 'jshint', 'test']

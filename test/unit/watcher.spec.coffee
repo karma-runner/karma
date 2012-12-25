@@ -2,7 +2,6 @@
 # lib/watcher.js module
 #==============================================================================
 describe 'watcher', ->
-  util = require '../test-util'
   mocks = require 'mocks'
   config = require '../../lib/config'
   m = null
@@ -10,8 +9,6 @@ describe 'watcher', ->
   # create an array of pattern objects from given strings
   patterns = (strings...) ->
     new config.createPatternObject(str) for str in strings
-
-  beforeEach util.disableLogger
 
   beforeEach ->
     mocks_ = chokidar: mocks.chokidar
@@ -23,17 +20,17 @@ describe 'watcher', ->
   describe 'baseDirFromPattern', ->
 
     it 'should return parent directory without start', ->
-      expect(m.baseDirFromPattern '/some/path/**/more.js').toBe '/some/path'
-      expect(m.baseDirFromPattern '/some/p*/file.js').toBe '/some'
+      expect(m.baseDirFromPattern '/some/path/**/more.js').to.equal '/some/path'
+      expect(m.baseDirFromPattern '/some/p*/file.js').to.equal '/some'
 
 
     it 'should remove part with parenthesis', ->
-      expect(m.baseDirFromPattern '/some/p/(a|b).js').toBe '/some/p'
-      expect(m.baseDirFromPattern '/some/p(c|b)*.js').toBe '/some'
+      expect(m.baseDirFromPattern '/some/p/(a|b).js').to.equal '/some/p'
+      expect(m.baseDirFromPattern '/some/p(c|b)*.js').to.equal '/some'
 
 
     it 'should ignore exact files', ->
-      expect(m.baseDirFromPattern '/usr/local/bin.js').toBe '/usr/local/bin.js'
+      expect(m.baseDirFromPattern '/usr/local/bin.js').to.equal '/usr/local/bin.js'
 
 
   #==============================================================================
@@ -47,22 +44,22 @@ describe 'watcher', ->
 
     it 'should watch all the patterns', ->
       m.watchPatterns patterns('/some/*.js', '/a/*'), chokidarWatcher
-      expect(chokidarWatcher.watchedPaths_).toEqual ['/some', '/a']
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some', '/a']
 
 
     it 'should not watch urls', ->
       m.watchPatterns patterns('http://some.com', '/a.*'), chokidarWatcher
-      expect(chokidarWatcher.watchedPaths_).toEqual ['/']
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/']
 
 
     it 'should not watch the same path twice', ->
       m.watchPatterns patterns('/some/a*.js', '/some/*.txt'), chokidarWatcher
-      expect(chokidarWatcher.watchedPaths_).toEqual ['/some']
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
 
 
     it 'should not watch subpaths that are already watched', ->
       m.watchPatterns patterns('/some/sub/*.js', '/some/a*.*'), chokidarWatcher
-      expect(chokidarWatcher.watchedPaths_).toEqual ['/some']
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
 
 
     it 'should not watch if watched false', ->
@@ -70,9 +67,8 @@ describe 'watcher', ->
         new config.Pattern('/some/*.js', true, true, false)
         new config.Pattern('/some/sub/*.js')
       ], chokidarWatcher
-
-      expect(chokidarWatcher.watchedPaths_).toEqual ['/some/sub']
-
+      
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/sub']      
 
   #============================================================================
   # ignore() [PRIVATE]
@@ -81,14 +77,16 @@ describe 'watcher', ->
 
     it 'should ignore all files', ->
       ignore = m.createIgnore ['**/*']
-      expect(ignore '/some/files/deep/nested.js').toBe true
-      expect(ignore '/some/files').toBe true
+      expect(ignore '/some/files/deep/nested.js').to.equal true
+      expect(ignore '/some/files').to.equal true
 
 
     it 'should ignore .# files', ->
       ignore = m.createIgnore ['**/.#*']
-      expect(ignore '/some/files/deep/nested.js').toBe false
-      expect(ignore '/some/files').toBe false
-      expect(ignore '/some/files/deep/.npm').toBe false
-      expect(ignore '.#files.js').toBe true
-      expect(ignore '/some/files/deeper/nested/.#files.js').toBe true
+      expect(ignore '/some/files/deep/nested.js').to.equal false
+      expect(ignore '/some/files').to.equal false
+      expect(ignore '/some/files/deep/.npm').to.equal false
+      expect(ignore '.#files.js').to.equal true
+      expect(ignore '/some/files/deeper/nested/.#files.js').to.equal true
+
+
