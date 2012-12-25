@@ -1,3 +1,9 @@
+### v0.5.7
+* Support code coverage for qunit.
+* Rename port-runner option in cli to runner-port
+* Fix proxy handler (when no proxy defined)
+* Fix #65
+
 ### v0.5.6
 * Growl reporter !
 * Batch changes (eg. `git checkout` causes only single run now)
