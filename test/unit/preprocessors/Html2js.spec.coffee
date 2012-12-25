@@ -24,3 +24,11 @@ describe 'preprocessors html2js', ->
     process '', file, '/base', (processedContent) ->
       expect(file.path).to.equal '/base/path/file.html.js'
       done()
+
+
+  it 'should preserve new lines', (done) ->
+    file = new File '/base/path/file.html'
+
+    process 'first\nsecond', file, '/base', (processedContent) ->
+      expect(removeSpacesFrom processedContent).to.contain "'first\\n'+'second'"
+      done()
