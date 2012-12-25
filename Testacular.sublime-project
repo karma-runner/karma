@@ -3,7 +3,7 @@
   [
     {
       "name": "Unit tests",
-      "cmd": ["jasmine-node", "--coffee", "--noColor", "test/unit"],
+      "cmd": ["grunt", "simplemocha:all", "--no-color"],
       "working_dir": "${project_path}",
       "path": "/usr/local/nvm/v0.8.4/bin",
       "env": {
