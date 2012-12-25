@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     var wrapper = src.replace('src.js', 'wrapper');
 
     grunt.file.copy(wrapper, dest, {process: function(content) {
-      var wrappers = content.split('%CONTENT%\n');
+      var wrappers = content.split(/%CONTENT%\r?\n/);
       return wrappers[0] + grunt.file.read(src) + wrappers[1];
     }});
 
