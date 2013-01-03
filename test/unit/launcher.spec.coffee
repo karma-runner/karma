@@ -69,7 +69,7 @@ describe 'launcher', ->
 
 
       it 'should allow launching a script', ->
-        l.launch ['/usr/local/bin/special-browser'], 1234, '/'
+        l.launch ['/usr/local/bin/special-browser'], 'localhost', 1234, '/'
         expect(mockSpawn).toHaveBeenCalled()
         expect(mockSpawn.argsForCall[0][0]).toBe '/usr/local/bin/special-browser'
         expect(mockSpawn.argsForCall[0][1]).toEqual ['http://localhost:1234/?id=1']
