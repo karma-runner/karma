@@ -52,9 +52,9 @@ If grunt fails, make sure grunt-0.4x is installed: https://github.com/gruntjs/gr
 
 ## Submitting Changes
 
-* One branch per feature/fix 
+* One branch per feature/fix
 * Follow  http://nodeguide.com/style.html (with exception of 100 characters per line)
-* Send a pull request to the `master` branch (not the default branch `stable`!)
+* Send a pull request to the `master` branch.
 
 
 # Additional Resources
