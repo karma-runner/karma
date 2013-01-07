@@ -132,7 +132,7 @@ or the [wiki] for more information.
 
 ### The MIT License
 
-> Copyright (C) 2011-2012 Vojta Jína.
+> Copyright (C) 2011-2013 Vojta Jína.
 >
 > Permission is hereby granted, free of charge, to any person
 > obtaining a copy of this software and associated documentation files
