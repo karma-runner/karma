@@ -61,7 +61,8 @@
     "istanbul": "0.1.22",
     "lodash": "~0.9.1",
     "growly": "~1.1.0",
-    "pause": ">= 0.0.1"
+    "pause": ">= 0.0.1",
+    "mime": ">= 1.2.7"
   },
   "devDependencies": {
     "grunt": ">= 0.4.0rc1",
