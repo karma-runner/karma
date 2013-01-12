@@ -42,7 +42,8 @@
     "Ethan J. Brown <ethan_j_brown@hotmail.com>",
     "David Souther <davidsouther@gmail.com>",
     "Fred Sauer <fredsa@google.com>",
-    "Chad Smith <chad@configit.com>"
+    "Chad Smith <chad@configit.com>",
+    "Merrick Christensen <merrick.christensen@gmail.com>"
   ],
   "dependencies": {
     "socket.io": ">= 0.9.0",
