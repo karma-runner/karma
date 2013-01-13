@@ -12,4 +12,11 @@ require.config({
 });
 
 // make it async
-__testacular__.loaded = function() {};
+__testacular__.loaded = function() {
+  var toBeLoaded = __testacular__.jsIncludes.requirejs;
+  if (toBeLoaded) {
+    require(toBeLoaded, function() {
+      __testacular__.start();
+    });
+  }
+};
