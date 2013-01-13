@@ -12,4 +12,5 @@ docs/_build
 *.swo
 test/e2e/coverage/coverage
 test/e2e/coverageQunit/coverage
+test/e2e/coverageRequirejs/coverage
 test-results.xml
