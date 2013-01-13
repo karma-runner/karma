@@ -77,7 +77,8 @@
     "sinon": ">= 1.5.2",
     "timer-shim": ">= 0.1.1",
     "chai-as-promised": ">= 3.2.3",
-    "mock-http-response": "~0.1.1"
+    "mock-http-response": "~0.1.1",
+    "qq": ">= 0.3.5"
   },
   "preferGlobal": true,
   "repository": {

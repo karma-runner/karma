@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
   var exec = require('child_process').exec;
+  var changelog = require('./lib/changelog');
 
   /**
    * Bump version
@@ -55,17 +56,15 @@ module.exports = function(grunt) {
     grunt.log.ok('Version bumped to ' + newVersion);
 
     // generate changelog
-    run('git log --grep="\\[changelog\\]" --pretty="* %s" v' + previousVersion + '..HEAD', null, function(log) {
-      var title = '### v' + newVersion + '\n';
-      var changelog = grunt.file.read('CHANGELOG.md');
-      grunt.file.write('CHANGELOG.md', title + log + '\n' + changelog);
+    changelog.generate('v' + newVersion).then(function(data) {
+      grunt.file.write('CHANGELOG.md', data + grunt.file.read('CHANGELOG.md'));
+      next();
     });
 
     run('sublime -w CHANGELOG.md', 'CHANGELOG.md updated');
     run('git commit package.json CHANGELOG.md -m "Version ' + newVersion + '"', 'Changes committed');
     run('git tag -a v' + newVersion + ' -m "Version ' + newVersion + '"', 'New tag "v' + newVersion + '" created');
     run('git push origin master --tags', 'Pushed to github');
-    next();
   });
 
 
