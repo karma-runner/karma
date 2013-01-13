@@ -12,7 +12,7 @@ module.exports = function(grunt) {
    */
   grunt.registerMultiTask('build', 'Wrap given file into a function call.', function() {
 
-    var src = grunt.file.expandFiles(this.data).pop();
+    var src = grunt.file.expand(this.data).pop();
     var dest = src.replace('src.js', 'js');
     var wrapper = src.replace('src.js', 'wrapper');
 
