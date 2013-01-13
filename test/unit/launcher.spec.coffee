@@ -50,7 +50,7 @@ describe 'launcher', ->
       ++lastGeneratedId
 
     # disable logger
-    logger.setLevel -1
+    logger.setup 'OFF'
 
 
   #============================================================================
