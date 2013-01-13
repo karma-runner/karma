@@ -86,15 +86,15 @@ module.exports = function(grunt) {
 
       return next();
     }
-    else if (this.target === 'unit') {
-      grunt.task.run(['simplemocha']);
-      specDone();
-    }
 
     // CLIENT unit tests
-    else if (this.target === 'client') {
-      exec(['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
+    if (this.target === 'client') {
+      return exec(['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
           '--browsers=' + BROWSERS], 'Client unit tests failed.');
     }
+
+    // UNIT tests or TASK tests
+    grunt.task.run([this.data]);
+    specDone();
   });
 };

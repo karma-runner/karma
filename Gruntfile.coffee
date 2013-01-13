@@ -25,7 +25,7 @@ module.exports = (grunt) ->
       ngScenario: ['adapter/angular-scenario.src.js']
       require: ['adapter/require.src.js']
       qunit: ['adapter/qunit.src.js']
-      grunt: ['grunt.js', 'tasks/*.js']
+      grunt: ['grunt.js', 'tasks/**/*.js']
 
     build:
       client: '<%= files.client %>'
@@ -36,7 +36,8 @@ module.exports = (grunt) ->
       qunit: '<%= files.qunit %>'
 
     test:
-      unit: ''
+      unit: 'simplemocha:unit'
+      tasks: 'simplemocha:tasks'
       client: 'test/client/testacular.conf.js'
       e2e: 'test/e2e/*/testacular.conf.js'
 
@@ -45,10 +46,15 @@ module.exports = (grunt) ->
       options:
         ui: 'bdd'
         reporter: 'dot'
-      all:
+      unit:
         src: [
-          'test/unit/common.js'
+          'test/mocha-common.js'
           'test/unit/**/*.coffee'
+        ]
+      tasks:
+        src: [
+          'test/mocha-common.js'
+          'test/tasks/**/*.coffee'
         ]
 
     # JSHint options
