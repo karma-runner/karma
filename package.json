@@ -62,7 +62,8 @@
     "lodash": "~0.9.1",
     "growly": "~1.1.0",
     "pause": ">= 0.0.1",
-    "mime": ">= 1.2.7"
+    "mime": ">= 1.2.7",
+    "log4js": "~0.5.6"
   },
   "devDependencies": {
     "grunt": "0.4.0rc4",
