@@ -15,6 +15,9 @@ describe 'file-list', ->
     '*.txt':      ['/c.txt', '/a.txt', '/b.txt']
     '*.js':       ['/folder', '/folder/x.js']
     '/a.*':       ['/a.txt']
+    # we need at least 11 elements to trigger V8's quick sort
+    '**':         ['/a.txt', '/b.txt', '/c.txt', '/a.txt', '/c.txt', '/b.txt', '/a.txt', '/c.txt',
+                   '/a.txt', '/a.txt', '/c.txt']
 
   mockFs = mocks.fs.create
     some:
@@ -175,6 +178,14 @@ describe 'file-list', ->
 
       list.refresh().then (files) ->
         expect(pathsFrom files.served).to.deep.equal ['/a.txt', '/some/a.js', '/b.txt', '/c.txt']
+        done()
+
+    it 'should sort files within buckets (if more than 11 elements)', (done) ->
+      # regression for sorting many items
+      list = new m.List patterns('**'), [], null, preprocessMock
+
+      list.refresh().then (files) ->
+        expect(pathsFrom files.served).to.deep.equal ['/a.txt', '/b.txt', '/c.txt']
         done()
 
     it 'should return only served files', (done) ->
