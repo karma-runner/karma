@@ -46,6 +46,7 @@ describe 'config', ->
         'config4.js': fsMock.file 0, 'port = 123; autoWatch = true; basePath = "/abs/base"'
         'config5.js': fsMock.file 0, 'port = {f: __filename, d: __dirname}' # piggyback on port prop
         'config6.js': fsMock.file 0, 'reporters = "junit";'
+        'config7.js': fsMock.file 0, 'browsers = ["Chrome", "Firefox"];'
       conf:
         'invalid.js': fsMock.file 0, '={function'
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
@@ -72,46 +73,46 @@ describe 'config', ->
 
 
     it 'should resolve relative basePath to config directory', ->
-      config = e.parseConfig '/home/config1.js'
+      config = e.parseConfig '/home/config1.js', {}
       expect(config.basePath).to.equal resolveWinPath('/home/base')
 
 
     it 'should keep absolute basePath', ->
-      config = e.parseConfig '/home/config2.js'
+      config = e.parseConfig '/home/config2.js', {}
       expect(config.basePath).to.equal resolveWinPath('/abs/base')
 
 
     it 'should resolve all file patterns', ->
-      config = e.parseConfig '/home/config3.js'
+      config = e.parseConfig '/home/config3.js', {}
       actual = [resolveWinPath('/home/one.js'), resolveWinPath('/home/sub/two.js')]
       expect(patternsFrom config.files).to.deep.equal actual
 
 
     it 'should keep absolute url file patterns', ->
-      config = e.parseConfig '/conf/absolute.js'
+      config = e.parseConfig '/conf/absolute.js', {}
       expect(patternsFrom config.files).to.deep.equal ['http://some.com', 'https://more.org/file.js']
 
 
     it 'should resolve all exclude patterns', ->
-      config = e.parseConfig '/conf/exclude.js'
+      config = e.parseConfig '/conf/exclude.js', {}
       actual = [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/sub/two.js')]
       expect(config.exclude).to.deep.equal actual
 
 
     it 'should log error and exit if file does not exist', ->
-      e.parseConfig '/conf/not-exist.js'
+      e.parseConfig '/conf/not-exist.js', {}
       expect(console.log).to.have.been.calledWith 'error (config): Config file does not exist!'
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
     it 'should log error and exit if it is a directory', ->
-      e.parseConfig '/conf'
+      e.parseConfig '/conf', {}
       expect(console.log).to.have.been.calledWith 'error (config): Config file does not exist!'
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
     it 'should throw and log error if invalid file', ->
-      e.parseConfig '/conf/invalid.js'
+      e.parseConfig '/conf/invalid.js', {}
       expect(console.log).to.have.been.calledWith 'error (config): Syntax error in config file!\n' +
         'Unexpected token ='
       expect(mocks.process.exit).to.have.been.calledWith 1
@@ -123,6 +124,13 @@ describe 'config', ->
       expect(config.port).to.equal 456
       expect(config.autoWatch).to.equal false
       expect(config.basePath).to.equal resolveWinPath('/abs/base')
+
+
+    it 'should override config with cli options, but not deep merge', ->
+      # regression https://github.com/vojtajina/testacular/issues/283
+      config = e.parseConfig '/home/config7.js', {browsers: ['Safari']}
+
+      expect(config.browsers).to.deep.equal ['Safari']
 
 
     it 'should resolve files and excludes to overriden basePath from cli', ->
@@ -159,7 +167,7 @@ describe 'config', ->
 
 
     it 'should export __filename and __dirname of the config file in the config context', ->
-      config = e.parseConfig '/home/config5.js'
+      config = e.parseConfig '/home/config5.js', {}
       expect(config.port.f).to.equal '/home/config5.js'
       expect(config.port.d).to.equal '/home'
 
