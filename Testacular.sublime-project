@@ -3,12 +3,21 @@
   [
     {
       "name": "Unit tests",
-      "cmd": ["grunt", "simplemocha:all", "--no-color"],
+      "cmd": ["grunt", "simplemocha:unit", "--no-color"],
       "working_dir": "${project_path}",
-      "path": "/usr/local/nvm/v0.8.4/bin",
-      "env": {
-        "NODE_PATH": "/usr/local/nvm/v0.8.4/lib/node_modules"
-      }
+      "path": "/usr/local/nvm/v0.8.4/bin"
+    },
+    {
+      "name": "Task tests",
+      "cmd": ["grunt", "simplemocha:tasks", "--no-color"],
+      "working_dir": "${project_path}",
+      "path": "/usr/local/nvm/v0.8.4/bin"
+    },
+    {
+      "name": "Client tests",
+      "cmd": ["grunt", "test:client", "--no-color"],
+      "working_dir": "${project_path}",
+      "path": "/usr/local/nvm/v0.8.4/bin"
     }
   ],
   "folders":
@@ -27,6 +36,7 @@
       ["*/lib/*.js", "*/test/unit/*.spec.coffee"],
       ["*/adapter/*.src.js", "*/test/client/*.spec.js"],
       ["*/static/*.src.js", "*/test/client/*.spec.js"]
-    ]
+    ],
+    "build_switcher_systems": ["Unit tests", "Task tests", "Client tests"]
   }
 }
