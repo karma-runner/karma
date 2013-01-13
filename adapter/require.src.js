@@ -7,9 +7,13 @@ requirejs.load = function (context, moduleName, url) {
   return load_original.call(this, context, moduleName, url + '?' + __testacular__.files[url]);
 };
 
-require.config({
-  baseUrl: '/base'
-});
+var contexts = requirejs.s.contexts;
+
+for (var context in contexts) {
+  if (contexts.hasOwnProperty(context)) {
+    contexts[context].config.baseUrl = '/base/' + contexts[context].config.baseUrl;
+  }
+}
 
 // make it async
 __testacular__.loaded = function() {};
