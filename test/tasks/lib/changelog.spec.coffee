@@ -37,3 +37,13 @@ describe 'changelog', ->
           'BREAKING CHANGE: some breaking change\n')
 
       expect(msg.breaks).to.deep.equal ['some breaking change\n']
+
+
+    it 'should parse a msg without scope', ->
+      msg = ch.parseRawCommit(
+          '13f31602f396bc269076ab4d389cfd8ca94b20ba\n' +
+          'chore: some chore bullshit\n' +
+          'bla bla bla\n\n' +
+          'BREAKING CHANGE: some breaking change\n')
+
+      expect(msg.type).to.equal 'chore'

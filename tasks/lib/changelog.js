@@ -18,6 +18,7 @@ var LINK_COMMIT = '[%s](https://github.com/vojtajina/testacular/commit/%s)';
 var EMPTY_COMPONENT = '$$';
 var MAX_SUBJECT_LENGTH = 80;
 
+var PATTERN = /^(\w*)(\(([\w\$\.\-\*]*)\))?\: (.*)$/;
 
 var warn = function() {
   console.log('WARNING:', util.format.apply(null, arguments));
@@ -47,23 +48,21 @@ var parseRawCommit = function(raw) {
 
 
   msg.body = lines.join('\n');
-  match = msg.subject.match(/^(.*)\((.*)\)\:\s(.*)$/);
+  match = msg.subject.match(PATTERN);
 
-  // TODO(vojta): allow empty <scope>
-  // var PATTERN = /^(\w*)(\(([\w\$\.\-\*]*)\))?\: (.*)$/;
-  if (!match || !match[1] || !match[3]) {
+  if (!match || !match[1] || !match[4]) {
     warn('Incorrect message: %s %s', msg.hash, msg.subject);
     return null;
   }
 
-  if (match[3].length > MAX_SUBJECT_LENGTH) {
+  if (match[4].length > MAX_SUBJECT_LENGTH) {
     warn('Too long subject: %s %s', msg.hash, msg.subject);
-    match[3] = match[3].substr(0, MAX_SUBJECT_LENGTH);
+    match[4] = match[4].substr(0, MAX_SUBJECT_LENGTH);
   }
 
   msg.type = match[1];
-  msg.component = match[2];
-  msg.subject = match[3];
+  msg.component = match[3];
+  msg.subject = match[4];
 
   return msg;
 };
