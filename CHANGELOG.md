@@ -1,3 +1,14 @@
+### v0.5.8
+* Fix #283
+* Suppress global leak for istanbul
+* Fix growl reporter to work with `testacular run`
+* Upgrade jasmine to 1.3.1
+* Fix file sorting
+* Fix #265
+* Support for more mime-types on served static files
+* Fix opening Chrome on Windows
+* Upgrade growly to 1.1.0
+
 ### v0.5.7
 * Support code coverage for qunit.
 * Rename port-runner option in cli to runner-port
