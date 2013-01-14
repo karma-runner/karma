@@ -66,15 +66,15 @@
     "log4js": "~0.5.6"
   },
   "devDependencies": {
-    "grunt": "0.4.0rc4",
-    "grunt-contrib-jshint": ">= 0.1.0",
+    "grunt": "~0.4.0rc5",
+    "grunt-simple-mocha": "~0.3.2",
+    "grunt-contrib-jshint": "~0.1.1rc5",
     "mocks": ">= 0.0.10",
     "which": ">= 1.0.5",
     "sinon-chai": ">= 2.2.0",
     "chai": ">= 1.4.0",
     "mocha": ">= 1.7.4",
     "sinon": ">= 1.5.2",
-    "grunt-simple-mocha": ">= 0.3.1",
     "timer-shim": ">= 0.1.1",
     "chai-as-promised": ">= 3.2.3",
     "mock-http-response": "~0.1.1"
