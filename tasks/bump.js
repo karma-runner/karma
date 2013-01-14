@@ -62,7 +62,7 @@ module.exports = function(grunt) {
     });
 
     run('sublime -w CHANGELOG.md', 'CHANGELOG.md updated');
-    run('git commit package.json CHANGELOG.md -m "Version ' + newVersion + '"', 'Changes committed');
+    run('git commit package.json CHANGELOG.md -m "chore: release v' + newVersion + '"', 'Changes committed');
     run('git tag -a v' + newVersion + ' -m "Version ' + newVersion + '"', 'New tag "v' + newVersion + '" created');
     run('git push origin master --tags', 'Pushed to github');
   });

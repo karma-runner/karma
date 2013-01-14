@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 
       grunt.file.write(grunt.config('pkgFile'), JSON.stringify(pkg, null, '  ') + '\n');
 
-      exec('git commit package.json -m "Update contributors"', done);
+      exec('git commit package.json -m "chore: update contributors"', done);
     });
   });
 };
