@@ -26,7 +26,9 @@ var warn = function() {
 
 
 var parseRawCommit = function(raw) {
-  if (!raw) return null;
+  if (!raw) {
+    return null;
+  }
 
   var lines = raw.split('\n');
   var msg = {}, match;
@@ -38,7 +40,9 @@ var parseRawCommit = function(raw) {
 
   lines.forEach(function(line) {
     match = line.match(/Closes\s#(\d+)/);
-    if (match) msg.closes.push(parseInt(match[1]));
+    if (match) {
+      msg.closes.push(parseInt(match[1], 10));
+    }
   });
 
   match = raw.match(/BREAKING CHANGE:\s([\s\S]*)/);
@@ -91,7 +95,9 @@ var currentDate = function() {
 var printSection = function(stream, title, section) {
   var components = Object.getOwnPropertyNames(section).sort();
 
-  if (!components.length) return;
+  if (!components.length) {
+    return;
+  }
 
   stream.write(util.format('\n### %s\n\n', title));
 
@@ -130,7 +136,9 @@ var readGitLog = function(grep, from) {
 
     stdout.split('\n==END==\n').forEach(function(rawCommit) {
       var commit = parseRawCommit(rawCommit);
-      if (commit) commits.push(commit);
+      if (commit) {
+        commits.push(commit);
+      }
     });
 
     deffered.resolve(commits);
@@ -171,14 +179,18 @@ var writeChangelog = function(stream, commits, version) {
   printSection(stream, 'Bug Fixes', sections.fix);
   printSection(stream, 'Features', sections.feat);
   printSection(stream, 'Breaking Changes', sections.breaks);
-}
+};
 
 
 var getPreviousTag = function() {
   var deffered = q.defer();
   child.exec(GIT_TAG_CMD, function(code, stdout, stderr) {
-    if (code) deffered.reject('Cannot get the previous tag.');
-    else deffered.resolve(stdout.replace('\n', ''));
+    if (code) {
+      deffered.reject('Cannot get the previous tag.');
+    }
+    else {
+      deffered.resolve(stdout.replace('\n', ''));
+    }
   });
   return deffered.promise;
 };
