@@ -87,7 +87,7 @@ exports.validateMessage = validateMessage;
 
 // hacky start if run by git
 var commitMsgFile = process.argv[2];
-if (commitMsgFile.indexOf('COMMIT_EDITMSG') !== -1) {
+if (commitMsgFile && commitMsgFile.indexOf('COMMIT_EDITMSG') !== -1) {
   var incorrectLogFile = commitMsgFile.replace('COMMIT_EDITMSG', 'logs/incorrect-commit-msgs');
 
   fs.readFile(commitMsgFile, function(err, buffer) {
