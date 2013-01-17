@@ -1,4 +1,4 @@
-# Testacular [![Build Status](https://secure.travis-ci.org/vojtajina/testacular.png?branch=stable)](http://travis-ci.org/vojtajina/testacular) [![Build Status](https://secure.travis-ci.org/vojtajina/testacular.png?branch=master)](http://travis-ci.org/vojtajina/testacular)
+# Testacular [![Build Status](https://secure.travis-ci.org/testacular/testacular.png?branch=stable)](http://travis-ci.org/testacular/testacular) [![Build Status](https://secure.travis-ci.org/testacular/testacular.png?branch=master)](http://travis-ci.org/testacular/testacular)
 
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers, powered by [Node.js] and [Socket.io].
@@ -76,7 +76,7 @@ just a simple JavaScript or CoffeeScript file that tells Testacular
 where all the awesomeness of your project are.
 
 You can find a simple example in
-[test/client/testacular.conf.js](https://github.com/vojtajina/testacular/blob/master/test/client/testacular.conf.js)
+[test/client/testacular.conf.js](https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js)
 which contains most of the options. 
 
 To create your own from scratch there is the `init` command, which
@@ -166,14 +166,14 @@ or the [wiki] for more information.
 [Semantic Versioning]: http://semver.org/
 [here]: http://www.youtube.com/watch?v=MVw8N3hTfCI
 [installers]: http://nodejs.org/download/
-[wiki]: https://github.com/vojtajina/testacular/wiki
-[Wiki]: https://github.com/vojtajina/testacular/wiki
-[Getting Started]: https://github.com/vojtajina/testacular/wiki/Getting-Started
-[Versioning]: https://github.com/vojtajina/testacular/wiki/Versioning
-[Configuration File Overview]: https://github.com/vojtajina/testacular/wiki/Configuration-File-Overview
+[wiki]: https://github.com/testacular/testacular/wiki
+[Wiki]: https://github.com/testacular/testacular/wiki
+[Getting Started]: https://github.com/testacular/testacular/wiki/Getting-Started
+[Versioning]: https://github.com/testacular/testacular/wiki/Versioning
+[Configuration File Overview]: https://github.com/testacular/testacular/wiki/Configuration-File-Overview
 [Mailing List]: https://groups.google.com/forum/#!forum/testacular
-[Issuetracker]: https://github.com/vojtajina/testacular/issues
+[Issuetracker]: https://github.com/testacular/testacular/issues
 [@TestacularJS]: http://twitter.com/TestacularJS
-[Browsers]: https://github.com/vojtajina/testacular/wiki/Browsers
+[Browsers]: https://github.com/testacular/testacular/wiki/Browsers
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
