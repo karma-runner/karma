@@ -39,6 +39,11 @@ are some tips to get you started.
   * Review the open issues - perhaps this is a known problem that someone else has dealt with before.
   * File an issue (see above)
 
+* Run 'grunt init-dev-env'. This will install a git commit trigger that will ensure your commit messages 
+    follows the [Testacular - Git Commit Msg Format Conventions]
+    (https://docs.google.com/document/d/1JCFlkQ59Bx4qN1WKS1dtKXKl5G_lED6Lxey3iPNpQOs/pub).  
+
+
 ## Making and Submitting Changes
 
 * Checkout a new branch (usually based on `master`) and name it accordingly to what
@@ -54,7 +59,7 @@ are some tips to get you started.
     We use coffee script for our tests.
 * Commit your changes
   * Follow the [Testacular - Git Commit Msg Format Conventions]
-  (https://docs.google.com/document/d/1JCFlkQ59Bx4qN1WKS1dtKXKl5G_lED6Lxey3iPNpQOs/pub).
+    (https://docs.google.com/document/d/1JCFlkQ59Bx4qN1WKS1dtKXKl5G_lED6Lxey3iPNpQOs/pub).
   * Push your changes to your forked repository
 * Send a pull request to the `master` branch.
   * Before submitting, make sure the default 'grunt' command succeeds locally.
