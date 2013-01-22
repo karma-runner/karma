@@ -74,6 +74,66 @@ describe 'launchers Base', ->
       expect(browser._start).to.have.been.calledWith '/capture/url?id=123'
 
 
+    it 'should use the cmd specified in the config rather than the DEFAULT_CMD', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', cmd: '/usr/local/bin/chrome' }
+      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/local/bin/chrome', ['/here?id=123']
+
+
+    it 'should default to appending the command-line arguments specified in the config to the default arguments', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', args: ['--country=CA'] }
+      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/bin/browser', ['/here?id=123', '--country=CA']
+
+
+    it 'should append the command-line arguments specified in the config to the default arguments', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', args: ['--country=CA'], overrideArgs: false }
+      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/bin/browser', ['/here?id=123', '--country=CA']
+
+
+    it 'should replace the default arguments with the command-line arguments specified in the config', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', args: ['--country=CA'], overrideArgs: true }
+      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/bin/browser', ['--country=CA']
+
+
+    it 'should use the cmd from the config and append the command-line arguments specified in the config to the default arguments', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', args: ['--country=CA'], cmd: '/usr/local/bin/chrome' }
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/local/bin/chrome', ['/here?id=123', '--country=CA']
+
+
+    it 'should use the cmd from the config and replace the default arguments with the command-line arguments specified in the config', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', args: ['--country=CA'], overrideArgs: true, cmd: '/usr/local/bin/chrome' }
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/local/bin/chrome', ['--country=CA']
+
+
+    it 'should use the cmd from the config and append the command-line arguments specified in the config to the default arguments, substituting for $TEMPDIR', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', args: ['--user-data-dir=$TEMPDIR', '--country=CA'], cmd: '/usr/local/bin/chrome' }
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/local/bin/chrome', ['/here?id=123', '--user-data-dir='+path.normalize('/tmp/testacular-123'), '--country=CA']
+
+
+    it 'should use the cmd from the config and replace the default arguments with the command-line arguments specified in the config, substituting $TEMPDIR and $URL', ->
+      browser = new m.BaseBrowser 123, null, 0, 1, { name: 'Chrome', args: ['--user-data-dir=$TEMPDIR', '--country=CA', '$URL'], overrideArgs: true, cmd: '/usr/local/bin/chrome' }
+
+      browser.start '/here'
+      expect(mockSpawn).to.have.been.calledWith '/usr/local/bin/chrome', ['--user-data-dir='+path.normalize('/tmp/testacular-123'), '--country=CA', '/here?id=123']
+
+
   describe 'kill', ->
     it 'should just fire done if already killed', (done) ->
       browser = new m.BaseBrowser 123, new events.EventEmitter, 0, 1 # disable retry
