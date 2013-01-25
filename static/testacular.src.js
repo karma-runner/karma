@@ -42,6 +42,34 @@ var Testacular = function(socket, context, navigator, location) {
   var hasError = false;
   var store = {};
 
+  this.setupContext = function(contextWindow) {
+
+    var getConsole = function(currentWindow) {
+      return currentWindow.console || {
+          log: function() {},
+          warn: function() {},
+          error: function() {},
+          debug: function() {}
+        };
+    };
+
+    contextWindow.__testacular__ = this;
+
+    // This causes memory leak in Chrome (17.0.963.66)
+    contextWindow.onerror = function() {
+      return contextWindow.__testacular__.error.apply(contextWindow.__testacular__, arguments);
+    };
+
+    // patch the console
+    var localConsole = contextWindow.console = getConsole(contextWindow);
+    var browserConsoleLog = localConsole.log;
+
+    localConsole.log = function() {
+      contextWindow.__testacular__.info({dump: Array.prototype.slice.call(arguments, 0)});
+      return browserConsoleLog.apply(localConsole, arguments);
+    };
+  };
+
   var clearContext = function() {
     context.src = 'about:blank';
   };
