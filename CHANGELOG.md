@@ -40,7 +40,7 @@
 * Support for Require.js
 * Fix testacular init basePath
 
-### v0.5.0
+## v0.5.0
 * Add preprocessor for LiveScript
 * Fix JUnit reporter
 * Enable process global in config file
@@ -49,7 +49,7 @@
 * Allow config to be written in CoffeeScript
 * Allow espaced characters in served urls
 
-### v0.4.0 (stable)
+## v0.4.0 (stable)
 
 ### v0.3.12
 * Allow calling run() pragmatically from JS
@@ -105,12 +105,12 @@
 * Run tests on start (if watching enabled)
 * Add launcher for IE8, IE9
 
-### v0.3.0
+## v0.3.0
 * Change browser binaries on linux to relative
 * Add report-slower-than to CLI options
 * Fix PhantomJS binary on Travis CI
 
-### v0.2.0 (stable)
+## v0.2.0 (stable)
 
 ### v0.1.3
 * Launch Canary with crankshaft disabled
@@ -129,7 +129,7 @@
 * Redirect /urlRoot to /urlRoot/
 * Fix serving with urlRoot
 
-### v0.1.0
+## v0.1.0
 * Adapter for AngularJS scenario runner
 * Allow serving Testacular from a subpath
 * Fix race condition in testacular run
