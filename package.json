@@ -50,6 +50,7 @@
     "Kevin Ortman <kevin_ortman@msn.com>"
   ],
   "dependencies": {
+    "di": "0.0.1",
     "socket.io": ">= 0.9.0",
     "chokidar": ">=0.5.1",
     "glob": ">=3.1.14",
