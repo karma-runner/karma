@@ -31,3 +31,5 @@ coverageReporter = {
     type : 'html',
     dir : 'coverage/'
 };
+
+plugins = ['testacular-coverage'];

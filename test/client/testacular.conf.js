@@ -83,3 +83,7 @@ reportSlowerThan = 500;
 preprocessors = {
   '**/*.coffee': 'coffee'
 };
+
+plugins = [
+  'testacular-junit-reporter'
+]

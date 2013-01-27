@@ -13,3 +13,5 @@ browsers = ['Chrome'];
 preprocessors = {
   '**/*.coffee': 'coffee'
 };
+
+plugins = ['testacular-coffee-preprocessor'];
