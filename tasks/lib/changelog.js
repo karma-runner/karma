@@ -11,7 +11,8 @@ var q = require('qq');
 var GIT_LOG_CMD = 'git log --grep="%s" -E --format=%s %s..HEAD';
 var GIT_TAG_CMD = 'git describe --tags --abbrev=0';
 
-var HEADER_TPL = '<a name="%s"></a>\n## %s (%s)\n\n';
+var PATCH_HEADER_TPL = '<a name="%s"></a>\n### %s (%s)\n\n';
+var MINOR_HEADER_TPL = '<a name="%s"></a>\n## %s (%s)\n\n';
 var LINK_ISSUE = '[#%s](https://github.com/vojtajina/testacular/issues/%s)';
 var LINK_COMMIT = '[%s](https://github.com/vojtajina/testacular/commit/%s)';
 
@@ -91,6 +92,12 @@ var currentDate = function() {
   return util.format('%d-%s-%s', now.getFullYear(), pad(now.getMonth() + 1), pad(now.getDate()));
 };
 
+// Print ## 0.2.0 if it's a minor version bump
+// and ### 0.2.1 if it's just a a patch bump
+var printHeader = function(stream, version) {
+  var header = version.split('.')[2] === '0' ? MINOR_HEADER_TPL : PATCH_HEADER_TPL;
+  stream.write(util.format(header, version, version, currentDate()));
+};
 
 var printSection = function(stream, title, section) {
   var components = Object.getOwnPropertyNames(section).sort();
@@ -99,7 +106,7 @@ var printSection = function(stream, title, section) {
     return;
   }
 
-  stream.write(util.format('\n### %s\n\n', title));
+  stream.write(util.format('\n#### %s\n\n', title));
 
   components.forEach(function(name) {
     var prefix = '*';
@@ -175,7 +182,7 @@ var writeChangelog = function(stream, commits, version) {
     });
   });
 
-  stream.write(util.format(HEADER_TPL, version, version, currentDate()));
+  printHeader(stream, version);
   printSection(stream, 'Bug Fixes', sections.fix);
   printSection(stream, 'Features', sections.feat);
   printSection(stream, 'Breaking Changes', sections.breaks);
