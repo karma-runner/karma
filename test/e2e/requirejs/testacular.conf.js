@@ -59,9 +59,14 @@ autoWatch = true;
 // - Opera
 // - Safari
 // - PhantomJS
-browsers = [];
+browsers = ['Chrome'];
 
 
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
+
+plugins = [
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];

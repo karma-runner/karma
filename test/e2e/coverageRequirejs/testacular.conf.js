@@ -27,4 +27,8 @@ coverageReporter = {
     dir : 'coverage/'
 };
 
-plugins = ['testacular-coverage'];
+plugins = [
+  'testacular-coverage',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];

@@ -85,5 +85,7 @@ preprocessors = {
 };
 
 plugins = [
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher',
   'testacular-junit-reporter'
 ]

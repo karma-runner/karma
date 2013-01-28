@@ -14,4 +14,8 @@ preprocessors = {
   '**/*.coffee': 'coffee'
 };
 
-plugins = ['testacular-coffee-preprocessor'];
+plugins = [
+  'testacular-coffee-preprocessor',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];

@@ -11,3 +11,10 @@ exclude = [
 autoWatch = true;
 browsers = ['Chrome'];
 singleRun = false;
+
+browsers = ['Chrome'];
+
+plugins = [
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];
