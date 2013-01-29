@@ -21,9 +21,7 @@ module.exports = function(grunt) {
 
   // Map a folder of versions to an array of versions
   var getVersions = function(folder) {
-    grunt.log.ok(folder);
     var guard = function(path, stat) {
-      grunt.log.ok(path);
       if (stat.isDirectory()) {
         return true;
       }
@@ -102,7 +100,7 @@ module.exports = function(grunt) {
     buildOptions.output = outPath;
     buildOptions.highlight = true;
     buildOptions.currentVersion = version;
-    grunt.log.ok(require('util').inspect(buildOptions));
+
     var srcArray = [
       srcPath
     ];
@@ -154,7 +152,6 @@ module.exports = function(grunt) {
     });
 
     var sourceFolders = this.filesSrc;
-    grunt.log.ok(require('util').inspect(options));
     q.all(this.files.map(function(mapping) {
       var folder = mapping.src[0];
 
@@ -165,9 +162,8 @@ module.exports = function(grunt) {
         options.versions = versions;
         options.output = mapping.dest;
         options.outputAssets = path.join(mapping.dest, 'assets');
-        grunt.log.ok(require('util').inspect(options));
         return q.all(versions.map(function(version) {
-          grunt.log.ok(require('util').inspect(options));
+
           return docsForVersion(version, options);
         }));
       });

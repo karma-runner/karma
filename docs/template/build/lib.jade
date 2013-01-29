@@ -1,11 +1,14 @@
-mixin navigation(fileList, version)
+mixin navigation(fileList, version, filename)
   - var sections = ['intro', 'config', 'plus', 'dev', 'about'];
   for section in sections
+    // Find the active section
+    - var active = '';
+    for heading in fileList[section]
+      if heading.srcName.indexOf(filename) > -1
+        - active = 'active';
     li
-      a(href='javascript:void')= section
+      a(href='javascript:void', class='#{active}')= section
       ul
-        - console.log(section)
-        - console.log(JSON.stringify(Object.keys(fileList)));
         for heading in fileList[section]
           li
             a(href='/public/#{version}/#{heading.link}')
