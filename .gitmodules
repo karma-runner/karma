@@ -1,0 +1,3 @@
+[submodule "docs/build"]
+	path = docs/build
+	url = https://github.com/testacular/testacular.github.com.git
