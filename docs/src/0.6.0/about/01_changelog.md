@@ -1,6 +1,3 @@
-
-# Changelog
-
 ### v0.5.8
 * Fix #283
 * Suppress global leak for istanbul
@@ -115,7 +112,7 @@
 
 ## v0.2.0 (stable)
 
-## v0.1.3
+### v0.1.3
 * Launch Canary with crankshaft disabled
 * Make the captured page nicer
 

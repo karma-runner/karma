@@ -1,0 +1,56 @@
+
+// Fix markdown
+#markdown {
+
+    p {
+        font-size: @baseFontSize;
+    }
+
+    h2 {
+        padding: 5px 0 10px 0;
+        border-bottom: 1px solid @hrBorderColor;
+        margin-bottom: 20px !important;
+        margin-top: 10px !important;
+        &:after{
+            content: '';
+            background: #00AEC8;
+            display:block;
+            width:50px;
+            height:4px;
+            margin: 7px 0 -11px 0;
+            padding: 0;
+            border: 0;
+            vertical-align: baseline;
+        }
+    }
+
+
+    ul {
+        list-style: square;
+        padding: 0 0 0 30px;
+    }
+    ol {
+        list-style: decimal;
+        padding: 0 0 0 18px;
+    }
+    ol li, ul li {
+        padding: 5px 0 0 0;
+        line-height:20px;
+    }
+
+    .alert-block {
+        background-image: url('../img/icons/notice.png');
+        background-position: 5% 50%;
+        background-repeat: no-repeat;
+        background-color: #fdf7d5;
+        color: #c49a51;
+    }
+    .alert {
+        h4 {
+            color: inherit;
+            display: inline;
+            margin-left: 25px;
+        }
+    }
+}
+

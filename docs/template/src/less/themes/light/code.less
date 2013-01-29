@@ -1,0 +1,93 @@
+//
+// Code (inline and blocK)
+// --------------------------------------------------
+//
+// Based on:
+// http://jmblog.github.com/color-themes-for-google-code-highlightjs
+
+
+// Inline and block code styles
+code,
+pre {
+  padding: 0 3px 2px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 13px;
+  background-color: #eee;
+  background-color: rgb(250,250,250); 
+  color: #4d4d4c;
+}
+
+// Inline code
+code {
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+
+// Blocks of code
+pre {
+  display: block;
+  padding: 0.6em;
+  margin: 0.6em 0 0.6em;
+  font-size: 13px;
+  line-height: 1.2em;
+  overflow: auto;
+  width: auto;
+
+  // Make prettyprint styles more spaced out for readability
+  &.prettyprint {
+    margin-bottom: 1.2em;
+  }
+
+  // Account for some code outputs that place code tags in pre tags
+  code {
+    padding: 0;
+    color: inherit;
+    background-color: transparent;
+    border: 0;
+    white-space: inherit;
+  }
+}
+
+.tomorrow-comment, pre .comment, pre .title {
+  color: #8e908c;
+  float: inherit;
+}
+
+.tomorrow-red, pre .variable, pre .attribute, pre .tag, pre .regexp, pre .ruby .constant, pre .xml .tag .title, pre .xml .pi, pre .xml .doctype, pre .html .doctype, pre .css .id, pre .css .class, pre .css .pseudo {
+  color: #c82829;
+}
+
+.tomorrow-orange, pre .number, pre .preprocessor, pre .built_in, pre .literal, pre .params, pre .constant {
+  color: #f5871f;
+}
+
+.tomorrow-yellow, pre .ruby .class .title, pre .css .rules .attribute {
+  color: #eab700;
+}
+
+.tomorrow-green, pre .string, pre .value, pre .inheritance, pre .header, pre .ruby .symbol, pre .xml .cdata {
+  color: #718c00;
+}
+
+.tomorrow-aqua, pre .css .hexcolor {
+  color: #3e999f;
+}
+
+.tomorrow-blue, pre .function, pre .python .decorator, pre .python .title, pre .ruby .function .title, pre .ruby .title .keyword, pre .perl .sub, pre .javascript .title, pre .coffeescript .title {
+  color: #4271ae;
+}
+
+.tomorrow-purple, pre .keyword, pre .javascript .function {
+  color: #8959a8;
+}
+
+
+pre .coffeescript .javascript,
+pre .javascript .xml,
+pre .tex .formula,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .xml .css,
+pre .xml .cdata {
+  opacity: 0.5;
+}

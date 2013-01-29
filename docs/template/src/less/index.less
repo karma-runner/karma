@@ -1,0 +1,93 @@
+// Styles for the index pages
+
+
+#welcome {
+  a {
+      transition: none;
+      -webkit-transition: none;
+      -moz-transition: none;
+      -o-transition: none;
+  }
+
+  a.code {
+      font-family: @monoFontFamily;
+  }
+
+  a.link {
+      &:hover {
+          background: #00AEC8;
+      }
+  }
+  // Welcome Stuff
+  blockquote {
+      font-size: 21px;
+      margin-left: -20px;
+      padding-bottom: 0;
+  }
+  a.btn-github, a.btn-npm {
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+  a.btn-github {
+      margin-top: 9px;
+      margin-bottom: 4px;
+      &:hover {
+          background: #00AEC8;
+      }
+  }
+
+  a.btn-npm {
+      background: #8d8d8d;
+      &:hover {
+          background: #8d8d8d;
+      }
+  }
+}
+
+#slider {
+  height: 388px;
+  margin: 0px;
+}
+
+.ten-and-half {
+  width: 620px;
+}
+
+.four-and-half {
+  width: 240px;
+}
+
+a.link {
+  margin: 0;
+  text-align: left;
+}
+
+// Make responsive
+
+@media only screen and (max-width: 959px) and (min-width: 768px) {
+    .four-and-half.columns, .ten-and-half.columns {
+        margin-left: 50px;
+    }
+    .four-and-half {
+        width: 620px;
+        padding-top: 10px;
+        a.link {
+            font-size: 17px;
+        }
+    }
+}
+@media only screen and (max-width: 767px)  and (min-width: 480px) {
+    .four-and-half.columns, .ten-and-half.columns {
+        margin-left: 45px;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .four-and-half.columns, .ten-and-half.columns {
+        width: 300px;
+    }
+    .four-and-half {
+        padding-top: 10px;
+    }
+}
+

@@ -1,0 +1,20 @@
+mixin navigation(fileList, version)
+  - var sections = ['intro', 'config', 'plus', 'dev', 'about'];
+  for section in sections
+    li
+      a(href='javascript:void')= section
+      ul
+        - console.log(section)
+        - console.log(JSON.stringify(Object.keys(fileList)));
+        for heading in fileList[section]
+          li
+            a(href='/public/#{version}/#{heading.link}')
+              = heading.name.replace(/_/g, ' ')
+
+mixin versionDropdown(versions, current)
+  li
+    a(href='javascript:void')= 'v' + current
+    ul
+      each version in versions
+        li
+          a(href='/public/#{version}/index.html')= 'v' + version

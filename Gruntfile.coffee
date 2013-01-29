@@ -109,9 +109,52 @@ module.exports = (grunt) ->
         boss: true
         globals: {}
 
+    # Docs
+    'docs-build':
+      options:
+        copy:
+          'dev/01_contributing': 'CONTRIBUTING'
+          'about/01_changelog': 'CHANGELOG'
+      main:  
+        files:
+          'docs/build/public': 'docs/src'
+
+    mincss:
+      docs:
+        files:
+          'docs/template/build/assets/css/app.css': 'docs/template/build/assets/css/app.css'
+    uglify:
+      docs:
+        files:
+          'docs/template/build/assets/js/app.js': [
+            'docs/template/src/js/jquery.js'
+            'docs/template/src/js/jquery.easing.js'
+            'docs/template/src/js/ddsmoothmenu.js'
+            'docs/template/src/js/jquery.flexslider.js'
+            'docs/template/src/js/colortip.js'
+            'docs/template/src/js/selectnav.js'
+            'docs/template/src/js/custom.js'
+          ]
+    less:
+      docs:
+        files:
+          'docs/template/build/assets/css/app.css': 'docs/template/src/less/app.less'
+
+    connect:
+      docs:
+        options:
+          port: 9000
+          keepalive: true
+          base: 'docs/build'
+
+    
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-simple-mocha'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
+  grunt.loadNpmTasks 'grunt-contrib-mincss'
+  grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-contrib-less'
+  grunt.loadNpmTasks 'grunt-contrib-connect'
 
   grunt.registerTask 'default', ['build', 'jshint', 'test']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
@@ -120,3 +163,10 @@ module.exports = (grunt) ->
       "bump:#{type||'patch'}",
       'npm-publish'
     ]
+
+  grunt.registerTask 'docs', [
+    'less:docs'
+    'mincss:docs'
+    'uglify:docs'
+    'docs-build:main'
+  ]

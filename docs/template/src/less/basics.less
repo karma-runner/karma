@@ -1,0 +1,60 @@
+// Basics
+// --------------------------------------------------
+
+html {
+    -webkit-text-size-adjust: none;
+}
+
+body {
+    -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+    -webkit-text-size-adjust: 100%;
+    background: @bodyBackground;
+}
+
+body.under-construction {
+    border-top:0;
+}
+
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+::-moz-selection {
+    color: @selectionColor;
+    ext-shadow:none;
+}
+
+::selection {
+    color: @selectionColor;
+    text-shadow:none;
+}
+
+span.line {
+    display:block;
+    width:50px;
+    height:4px;
+    margin: 7px 0 -11px 0;
+}
+
+.google-map iframe {
+    width:100%;
+    min-height:400px;
+}
+
+/* Aligns
+================================================== */
+.welcome, .recent-work .item, .day, .month, .sti-menu li a, .description, .lightbox .item, .portfolio .item {
+    text-align:center;
+}
+
+/* Images
+================================================== */
+img {
+    max-width: 100%;
+    height: auto; 
+}

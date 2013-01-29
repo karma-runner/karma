@@ -1,0 +1,38 @@
+include lib
+
+!!! 5
+include html
+  head
+    include head
+  body
+    #wrap.boxed
+      header
+        .container.clearfix
+          .one-third.column
+            .logo
+              a(href='/public/#{currentVersion}/index.html')
+                img(src='/public/assets/img/logo_light.png', alt='Testacular')
+          .two-thirds.column
+            nav#menu.navigation
+              ul#nav
+                mixin navigation(fileList, currentVersion)
+                mixin versionDropdown(versions, currentVersion)
+          .sixteen.columns
+            hr
+
+      block content
+        .container.clearfix
+          .sixteen.columns
+            h1.page-title
+              = pageTitle
+              span.line
+          .page-columns
+            #markdown.sixteen.columns.bottom
+              != content
+      .push
+    footer
+      .container
+        include footer
+
+  // Placed at the end of the document so the pages load faster 
+  include scripts
