@@ -13,3 +13,5 @@ browsers = ['Chrome'];
 preprocessors = {
   '**/*.coffee': 'coffee'
 };
+
+reporters = ['dots'];

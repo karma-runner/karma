@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       var tests = grunt.file.expand(this.data);
       var processToKill;
       var args = [
-        'start', null, '--single-run', '--no-auto-watch', '--reporters=dots', '--browsers=' + BROWSERS
+        'start', null, '--single-run', '--no-auto-watch', '--browsers=' + BROWSERS
       ];
 
       var next = function(err, result, code) {
