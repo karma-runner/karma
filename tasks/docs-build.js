@@ -41,8 +41,12 @@ module.exports = function(grunt) {
   var getFileList = function(srcPath, outPath, version) {
     // Only add directories and markdown files
     var guard = function(p, stat) {
-      if(stat.isDirectory()) return true;
-      if(p.split('.').pop() === 'md') return true;
+      if(stat.isDirectory()) {
+        return true;
+      }
+      if(p.split('.').pop() === 'md') {
+        return true;
+      }
       return false;
     };
     return fs.listTree(srcPath, guard).then(function(dirs) {
@@ -52,14 +56,18 @@ module.exports = function(grunt) {
         // version folder
         dir = dir.slice(dir.indexOf(version) + version.length + 1);
         
-        if (dir.length === 0) return;
+        if (dir.length === 0) {
+          return;
+        }
         dir = dir.split(sep);
 
         // Add to object
         // dir looks now like this: ['category'] or ['category', 'article.md']
         var key = dir.shift();
         if (dir.length === 0) {
-          if (key.indexOf('.md') > -1) return;
+          if (key.indexOf('.md') > -1) {
+            return;
+          }
           list[key] = [];
         } else {
           var srcName = dir.shift().replace(/\.md$/, '');
@@ -110,8 +118,8 @@ module.exports = function(grunt) {
     // Copy the shared data to the folder of this version
     return q.all(_.map(options.copy, function(src, dest){
       grunt.log.ok('Copying shared files...');
-      var src = path.join(basePath, src + '.md' );
-      var dest = path.join(srcPath, dest + '.md');
+      src = path.join(basePath, src + '.md' );
+      dest = path.join(srcPath, dest + '.md');
       return fs.copy(src, dest);
     })).then(function() {
       return getFileList(srcPath, outPath, version);
