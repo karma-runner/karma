@@ -11,3 +11,5 @@ autoWatch = true;
 proxies = {
   '/': 'http://localhost:8000/test/e2e/angular-scenario/'
 };
+
+reporters = ['dots'];

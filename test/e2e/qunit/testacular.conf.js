@@ -11,3 +11,5 @@ exclude = [
 autoWatch = true;
 
 browsers = ['Chrome']
+
+reporters = ['dots'];
