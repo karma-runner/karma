@@ -16,24 +16,14 @@ module.exports = (grunt) ->
   # Project configuration.
   grunt.initConfig
     pkgFile: 'package.json'
-    
+
     files:
       server: ['lib/**/*.js']
       client: ['static/testacular.src.js']
-      jasmine: ['adapter/jasmine.src.js']
-      mocha: ['adapter/mocha.src.js']
-      ngScenario: ['adapter/angular-scenario.src.js']
-      require: ['adapter/require.src.js']
-      qunit: ['adapter/qunit.src.js']
       grunt: ['grunt.js', 'tasks/**/*.js']
 
     build:
       client: '<%= files.client %>'
-      jasmine: '<%= files.jasmine %>'
-      mocha: '<%= files.mocha %>'
-      ngScenario: '<%= files.ngScenario %>'
-      require: '<%= files.require %>'
-      qunit: '<%= files.qunit %>'
 
     test:
       unit: 'simplemocha:unit'
@@ -72,27 +62,7 @@ module.exports = (grunt) ->
         files:
           src: '<%= files.client %>'
         options: JSHINT_BROWSER
-      jasmine:
-        files:
-          src: '<%= files.jasmine %>'
-        options: JSHINT_BROWSER
-      mocha:
-        files:
-          src: '<%= files.mocha %>'
-        options: JSHINT_BROWSER
-      qunit:
-        files:
-          src: '<%= files.qunit %>'
-        options: JSHINT_BROWSER
-      ngScenario:
-        files:
-          src: '<%= files.ngScenario %>'
-        options: JSHINT_BROWSER
-      require:
-        files:
-          src: '<%= files.require %>'
-        options: JSHINT_BROWSER
-        
+
       options:
         quotmark: 'single'
         camelcase: true
