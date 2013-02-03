@@ -1,6 +1,6 @@
+frameworks = ['qunit'];
+
 files = [
-  QUNIT,
-  QUNIT_ADAPTER,
   '*.js'
 ];
 
@@ -13,6 +13,7 @@ autoWatch = true;
 browsers = ['Chrome']
 
 plugins = [
+  'testacular-qunit',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'
 ];
