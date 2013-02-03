@@ -5,13 +5,10 @@
 // base path, that will be used to resolve files and exclude
 basePath = '';
 
-frameworks = ['jasmine'];
+frameworks = ['jasmine', 'requirejs'];
 
 // list of files / patterns to load in the browser
 files = [
-  REQUIRE,
-  REQUIRE_ADAPTER,
-
   'main.js',
 
   // all the sources, tests
@@ -64,6 +61,7 @@ browsers = ['Chrome'];
 singleRun = false;
 
 plugins = [
+  'testacular-requirejs',
   'testacular-jasmine',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'

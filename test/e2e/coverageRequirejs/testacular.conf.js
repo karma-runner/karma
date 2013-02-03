@@ -1,9 +1,6 @@
-frameworks = ['mocha'];
+frameworks = ['mocha', 'requirejs'];
 
 files = [
-  'chai.js',
-  REQUIRE,
-  REQUIRE_ADAPTER,
   'main.js',
   {pattern: '*.js', included: false},
 ];
@@ -29,6 +26,7 @@ coverageReporter = {
 
 plugins = [
   'testacular-mocha',
+  'testacular-requirejs',
   'testacular-coverage',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'
