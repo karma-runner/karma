@@ -24,10 +24,11 @@ socket.on('disconnect', function() {
 });
 
 var titleElement = document.getElementById('title');
+var bannerElement = document.getElementById('banner');
 var updateStatus = function(status) {
   return function(param) {
     titleElement.innerHTML = 'Testacular - ' + (param ? status.replace('$', param) : status);
-    titleElement.className = status === 'connected' ? 'online' : 'offline';
+    bannerElement.className = status === 'connected' ? 'online' : 'offline';
   };
 };
 
