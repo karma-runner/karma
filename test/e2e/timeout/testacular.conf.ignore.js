@@ -5,11 +5,10 @@
 // base path, that will be used to resolve files and exclude
 basePath = '';
 
+frameworks = ['jasmine'];
 
 // list of files / patterns to load in the browser
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
   '*.js'
 ];
 
@@ -62,6 +61,7 @@ captureTimeout = 1000;
 singleRun = false;
 
 plugins = [
+  'testacular-jasmine',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'
 ];

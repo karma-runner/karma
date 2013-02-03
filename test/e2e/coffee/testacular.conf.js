@@ -1,6 +1,6 @@
+frameworks = ['jasmine'];
+
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
   '*.coffee'
 ];
 
@@ -15,6 +15,7 @@ preprocessors = {
 };
 
 plugins = [
+  'testacular-jasmine',
   'testacular-coffee-preprocessor',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'

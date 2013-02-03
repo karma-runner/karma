@@ -1,6 +1,6 @@
+frameworks = ['jasmine'];
+
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
   '*.js'
 ];
 
@@ -13,6 +13,7 @@ autoWatch = true;
 browsers = ['Chrome'];
 
 plugins = [
+  'testacular-jasmine',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'
 ];
