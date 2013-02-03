@@ -1,6 +1,6 @@
+frameworks = ['mocha'];
+
 files = [
-  MOCHA,
-  MOCHA_ADAPTER,
   '*.js'
 ];
 
@@ -15,6 +15,7 @@ singleRun = false;
 browsers = ['Chrome'];
 
 plugins = [
+  'testacular-mocha',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'
 ];
