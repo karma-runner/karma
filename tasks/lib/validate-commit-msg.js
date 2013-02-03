@@ -10,6 +10,7 @@
  */
 var fs = require('fs');
 var util = require('util');
+var path = require('path');
 
 
 var MAX_LENGTH = 70;
@@ -84,11 +85,10 @@ var firstLineFromBuffer = function(buffer) {
 // publish for testing
 exports.validateMessage = validateMessage;
 
-
-// hacky start if run by git
-var commitMsgFile = process.argv[2];
-if (commitMsgFile && commitMsgFile.indexOf('COMMIT_EDITMSG') !== -1) {
-  var incorrectLogFile = commitMsgFile.replace('COMMIT_EDITMSG', 'logs/incorrect-commit-msgs');
+// lame test if run by git (so that it does not trigger during testing)
+if (process.env.GIT_DIR) {
+  var commitMsgFile = process.argv[2];
+  var incorrectLogFile = path.dirname(commitMsgFile) + '/logs/incorrect-commit-msgs';
 
   fs.readFile(commitMsgFile, function(err, buffer) {
     var msg = firstLineFromBuffer(buffer);
