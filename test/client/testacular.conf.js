@@ -15,8 +15,6 @@ frameworks = ['jasmine'];
 files = [
   'test/client/mocks.js',
   'static/testacular.src.js',
-  'test/client/mocks/ObjectModel.js',
-  'adapter/*.src.js',
   'test/client/*.spec.js'
 ];
 

@@ -1,6 +1,6 @@
+frameworks = ['ng-scenario'];
+
 files = [
-  ANGULAR_SCENARIO,
-  ANGULAR_SCENARIO_ADAPTER,
   'e2eSpec.js'
 ];
 
@@ -15,6 +15,7 @@ proxies = {
 browsers = ['Chrome'];
 
 plugins = [
+  'testacular-ng-scenario',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'
 ];
