@@ -13,8 +13,8 @@ var GIT_TAG_CMD = 'git describe --tags --abbrev=0';
 
 var PATCH_HEADER_TPL = '<a name="%s"></a>\n### %s (%s)\n\n';
 var MINOR_HEADER_TPL = '<a name="%s"></a>\n## %s (%s)\n\n';
-var LINK_ISSUE = '[#%s](https://github.com/vojtajina/testacular/issues/%s)';
-var LINK_COMMIT = '[%s](https://github.com/vojtajina/testacular/commit/%s)';
+var LINK_ISSUE = '[#%s](https://github.com/testacular/testacular/issues/%s)';
+var LINK_COMMIT = '[%s](https://github.com/testacular/testacular/commit/%s)';
 
 var EMPTY_COMPONENT = '$$';
 var MAX_SUBJECT_LENGTH = 80;
