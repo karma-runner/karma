@@ -62,3 +62,6 @@ describe 'validate-commit-msg', ->
 
     it 'should ignore msg prefixed with "WIP: "', ->
       expect(m.validateMessage 'WIP: bullshit').to.equal VALID
+
+    it 'should ignore "Merging PR" messages', ->
+      expect(m.validateMessage 'Merge pull request #333 from ahaurw01/feature').to.equal VALID
