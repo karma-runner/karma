@@ -1,4 +1,31 @@
 describe('adapter requirejs', function() {
+  var load, originalLoadSpy;
+
+  beforeEach(function() {
+    var files = {
+      '/base/some/file.js': '12345'
+    };
+
+    originalLoadSpy = jasmine.createSpy('requirejs.load');
+    load = createPatchedLoad(files, originalLoadSpy);
+  });
+
+
+  it('should add timestamp', function() {
+    load('context', 'module', '/base/some/file.js');
+
+    expect(originalLoadSpy).toHaveBeenCalled();
+    expect(originalLoadSpy.argsForCall[0][2]).toBe('/base/some/file.js?12345');
+  });
+
+
+  it('should not append timestamp if not found', function() {
+    load('context', 'module', '/base/other/file.js');
+
+    expect(originalLoadSpy).toHaveBeenCalled();
+    expect(originalLoadSpy.argsForCall[0][2]).toBe('/base/other/file.js');
+  });
+
 
   describe('normalizePath', function() {
 

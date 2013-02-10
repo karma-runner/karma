@@ -22,22 +22,16 @@ var normalizePath = function(path) {
   return normalized.join('/');
 };
 
-var load_original = requirejs.load;
-requirejs.load = function (context, moduleName, url) {
-  url = normalizePath(url);
+var createPatchedLoad = function(files, originalLoadFn) {
+  return function (context, moduleName, url) {
+    url = normalizePath(url);
 
-  if (__testacular__.files.hasOwnProperty(url)) {
-    url = url + '?' + __testacular__.files[url];
-  } else {
-    console.error('There is no timestamp for ' + url + '!');
-  }
+    if (files.hasOwnProperty(url)) {
+      url = url + '?' + files[url];
+    } else {
+      console.error('There is no timestamp for ' + url + '!');
+    }
 
-  return load_original.call(this, context, moduleName, url);
+    return originalLoadFn.call(this, context, moduleName, url);
+  };
 };
-
-require.config({
-  baseUrl: '/base'
-});
-
-// make it async
-__testacular__.loaded = function() {};
