@@ -51,7 +51,7 @@
     "Igor Minar <igor@angularjs.org>"
   ],
   "dependencies": {
-    "socket.io": "0.9.0",
+    "socket.io": "0.9.13",
     "chokidar": "0.5.3",
     "glob": "3.1.14",
     "minimatch": "0.2.5",
