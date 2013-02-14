@@ -1,3 +1,20 @@
+<a name="v0.5.10"></a>
+### v0.5.10 (2013-02-14)
+
+
+#### Bug Fixes
+
+* **init:** fix the logger configuration ([481dc3fd](https://github.com/testacular/testacular/commit/481dc3fd75f45a0efa8aabdb1c71e8234b9e8a06), closes [#340](https://github.com/testacular/testacular/issues/340))
+* **proxy:** fix crashing proxy when browser hangs connection ([1c78a01a](https://github.com/testacular/testacular/commit/1c78a01a19411accb86f0bde9e040e5088752575))
+
+
+#### Features
+
+* set urlRoot to /__testacular__/ when proxying the root ([8b4fd64d](https://github.com/testacular/testacular/commit/8b4fd64df6b7d07b5479e43dcd8cd2aa5e1efc9c))
+* **adapter.requirejs:** normalize paths before appending timestamp ([94889e7d](https://github.com/testacular/testacular/commit/94889e7d2de701c67a2612e3fc6a51bfae891d36))
+* update dependencies to the latest ([93f96278](https://github.com/testacular/testacular/commit/93f9627817f2d5d9446de9935930ca85cfa7df7f), [e34d8834](https://github.com/testacular/testacular/commit/e34d8834d69ec4e022fcd6e1be4055add96d693c))
+
+
 <a name="v0.5.9"></a>
 ### v0.5.9 (2013-02-06)
 
