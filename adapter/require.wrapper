@@ -2,11 +2,6 @@
 
 %CONTENT%
 
-// config base path
-require.config({
-  baseUrl: '/base'
-});
-
 // make it async
 testacular.loaded = function() {};
 
