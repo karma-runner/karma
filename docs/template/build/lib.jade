@@ -1,0 +1,23 @@
+mixin navigation(fileList, version, filename)
+  - var sections = ['intro', 'config', 'plus', 'dev', 'about'];
+  for section in sections
+    // Find the active section
+    - var active = '';
+    for heading in fileList[section]
+      if heading.srcName.indexOf(filename) > -1
+        - active = 'active';
+    li
+      a(href='javascript:void', class='#{active}')= section
+      ul
+        for heading in fileList[section]
+          li
+            a(href='/public/#{version}/#{heading.link}')
+              = heading.name.replace(/_/g, ' ')
+
+mixin versionDropdown(versions, current)
+  li
+    a(href='javascript:void')= 'v' + current
+    ul
+      each version in versions
+        li
+          a(href='/public/#{version}/index.html')= 'v' + version

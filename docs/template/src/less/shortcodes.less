@@ -1,0 +1,650 @@
+/*
+* Theme Name: Crevision
+* Theme URI: http://www.jozoor.com
+* Description: Crevision Theme for corporate and creative sites, responsive and clean layout, more than color skins
+* Author: Jozoor team
+* Author URI: http://www.jozoor.com
+* Version: 1
+*/
+
+@import 'uniform.less';    /* Css Styles for forms */
+
+
+/* Accordion
+=========================================================*/
+.ui-accordion .ui-accordion-header {
+	display: block; 
+	cursor: pointer; 
+	position: relative; 
+	zoom: 1; 
+}
+
+#accordion h3 {
+	padding:6px 15px;
+	margin-bottom:7px;
+}
+
+#accordion p {
+	padding:5px 15px 17px 15px;
+}
+
+#accordion .plus {
+	background:url(../img/icons/accordion-icons.png) no-repeat 0 0;
+	width: 11px;
+	height: 12px;
+	float: right;
+    margin-top: 11px;
+}
+
+#accordion .minus {
+	background:url(../img/icons/accordion-icons.png) no-repeat -14px -4px;
+	width: 9px;
+	height: 4px;
+	float: right;
+    margin-top: 16px;
+}
+
+.ui-accordion .ui-accordion-header .ui-accordion-header-icon {
+	position: absolute;
+	left: .5em;
+	top: 50%;
+	margin-top: -8px; 
+}
+
+.ui-accordion .ui-accordion-content {
+	overflow: hidden;
+	zoom: 1; 
+}
+
+
+/* Progress Bar
+=========================================================*/
+.progress-bar h5 {
+	margin-bottom:6px;
+}
+
+.progress-bar li {
+	margin-bottom:12px;
+}
+
+.meter { 
+	height: 23px; 
+	position: relative;
+}
+
+.meter > span {
+	display: block;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.meter > span:after, .animate > span > span {
+	content: "";
+	position: absolute;
+	top: 0; 
+	left: 0; 
+	bottom: 0; 
+	right: 0;
+	overflow: hidden;
+}
+
+.animate > span:after {
+	display: none;
+}
+
+/* Alert Boxes
+=========================================================*/
+.alert {
+	padding:12px 20px 12px 55px;
+	position:relative;
+	margin-bottom:19px;
+}
+
+.error {
+	background-image: url(../img/icons/error.png);
+	background-position: 5% 50%;
+	background-repeat: no-repeat;
+	background-color: #fff1f2;
+	color: #c98f92;
+}
+
+.success {
+	background-image: url(../img/icons/success.png);
+	background-position: 5% 50%;
+	background-repeat: no-repeat;
+	background-color: #f4ffdf;
+	color: #94b654;
+}
+
+.info {
+	background-image: url(../img/icons/info.png);
+	background-position: 5% 50%;
+	background-repeat: no-repeat;
+	background-color: #e4f7ff;
+	color: #699fb6;
+}
+
+.notice {
+	background-image: url(../img/icons/notice.png);
+	background-position: 5% 50%;
+	background-repeat: no-repeat;
+	background-color: #fdf7d5;
+	color: #c49a51;
+}
+
+.close { width:18px; height:18px; position:absolute; right: 15px; top: 15px; cursor:pointer; }
+
+.error .close   { background:url(../img/icons/error-close.png) no-repeat; }
+.success .close { background:url(../img/icons/success-close.png) no-repeat; }
+.info .close    { background:url(../img/icons/info-close.png) no-repeat; }
+.notice .close  { background:url(../img/icons/notice-close.png) no-repeat; }
+
+/* Buttons
+=========================================================*/
+.button {
+	display:inline-block;
+	margin:8px 10px 8px 0;
+	border:none;
+	cursor:pointer;
+	text-shadow:none !important;
+}
+
+.button.small {
+	padding: 10px 10px;
+}
+
+.button.medium {
+	padding: 12px 13px;
+}
+
+.button.large {
+	padding: 13px 20px;
+}
+
+/* Blockquote
+=========================================================*/
+blockquote {
+	background-image:url(../img/icons/blockqoute.png) ;
+	background-repeat:no-repeat;
+	background-position:16px 20px;
+	padding:15px 15px 15px 51px;
+}
+
+/* Info Box
+=========================================================*/
+.info-box {
+	padding:20px;
+	overflow:hidden;
+}
+
+/* Highlight & Tooltips
+=========================================================*/
+.box {
+	padding:15px;
+}
+
+.colorTip{
+	/* This class is assigned to the color tip span by jQuery */
+	display:none;
+	position:absolute;	
+	left:50%;
+	top:-30px;
+	padding:6px;
+	
+	background-color:white;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:11px;
+	font-style:normal;
+	line-height:1;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:0 0 1px white;
+	white-space:nowrap;
+	
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+}
+
+.pointyTip,.pointyTipShadow{
+	/* Setting a thick transparent border on a 0x0 div to create a triangle */
+	border:6px solid transparent;
+	bottom:-12px;
+	height:0;
+	left:50%;
+	margin-left:-6px;
+	position:absolute;
+	width:0;
+}
+
+.pointyTipShadow{
+	/* The shadow tip is 1px larger, so it acts as a border to the tip */
+	border-width:7px;
+	bottom:-14px;
+	margin-left:-7px;
+}
+
+.colorTipContainer{
+	position:relative;
+	text-decoration:none !important;
+	display:inline-block;
+}
+
+.white .pointyTip{ border-top-color:white;}
+.white .pointyTipShadow{ border-top-color:#ddd;}
+.white .colorTip{
+	background-color:white;
+	border:1px solid #DDDDDD;
+	color:#555555;
+}
+
+.yellow .pointyTip{ border-top-color:#f9f2ba;}
+.yellow .pointyTipShadow{ border-top-color:#e9d315;}
+.yellow .colorTip{
+	background-color:#f9f2ba;
+	border:1px solid #e9d315;
+	color:#5b5316;
+}
+
+.black .pointyTip{ border-top-color:#333;}
+.black .pointyTipShadow{ border-top-color:#111;}
+.black .colorTip{
+	background-color:#333;
+	border:1px solid #111;
+	color:#fcfcfc;
+	text-shadow:none;
+}
+
+/* Tabs
+=========================================================*/
+
+/* horizontal tabs */
+#horizontal-tabs {
+	margin-bottom:15px;
+}
+
+#horizontal-tabs ul.tabs {
+	overflow:hidden;
+}
+
+#horizontal-tabs ul.tabs li {
+	display:inline-block;
+	padding:12px 20px;
+	margin-right:2px;
+	cursor:pointer;
+}
+
+#horizontal-tabs .tabscontent {
+	padding:15px;
+	display:none;
+    overflow: hidden;
+}
+
+#horizontal-tabs .tabscontent.no-padding {
+	padding-left:0; padding-right:0;
+}
+
+/* vertical tabs */
+#vertical-tabs {
+	margin-bottom:15px;
+}
+
+#vertical-tabs .contents {
+	float:right;
+	width:66%;
+}
+
+#vertical-tabs ul.tabs {
+	overflow:hidden;
+	width:34%;
+	float:left;
+}
+
+#vertical-tabs ul.tabs li {
+	display:inline-block;
+	padding:12px 20px;
+	margin-bottom:4px;
+	cursor:pointer;
+	width:100%;
+}
+
+#vertical-tabs .tabscontent {
+	padding:15px;
+	display:none;
+}
+
+
+/* Toggle
+=========================================================*/
+#toggle-view li {
+	position:relative;
+	cursor:pointer;
+	margin-bottom:15px;
+}
+
+#toggle-view li h3{
+    padding:2px 10px;
+}
+
+#toggle-view span.link {
+	position:absolute;
+	right:10px; 
+	top:6px;
+}
+
+#toggle-view .panel {
+	padding:10px;
+	display:none;
+}	
+
+/* Dropcaps
+=========================================================*/
+.dropcap {
+	padding:5px 10px;
+	float: left;
+    margin: 5px 5px 0 0;
+}
+
+/* List Styles
+=========================================================*/
+.square-list li, .check-list li, .plus-list li, .arrow-list li, .cross-list li, .star-list li, .minus-list li, .arrow2-list li, .circle-list li {
+	padding:5px 5px 5px 15px;
+	line-height:20px;
+}
+
+.square-list li:hover, .check-list li:hover, .plus-list li:hover, .arrow-list li:hover, .cross-list li:hover, .star-list li:hover, .minus-list li:hover, .arrow2-list li:hover, .circle-list li:hover{
+	//padding-left:18px;
+	//background-position:1% 50%;
+}
+
+.square-list li { 
+  background:url(../img/icons/list-icons/square.png) no-repeat; background-position:0 50%; 
+} 
+.check-list li { background:url(../img/icons/list-icons/check.png) no-repeat; background-position:0 50%; }
+.plus-list li { background:url(../img/icons/list-icons/plus.png) no-repeat; background-position:0 50%; }
+.arrow-list li { background:url(../img/icons/list-icons/arrow.png) no-repeat; background-position:0 50%; }
+.cross-list li { background:url(../img/icons/list-icons/cross.png) no-repeat; background-position:0 50%; }
+.star-list li { background:url(../img/icons/list-icons/star.png) no-repeat; background-position:0 50%; }
+.minus-list li { background:url(../img/icons/list-icons/minus.png) no-repeat; background-position:0 50%; }
+.arrow2-list li { background:url(../img/icons/list-icons/arrow2.png) no-repeat; background-position:0 50%; }
+.circle-list li { background:url(../img/icons/list-icons/circle.png) no-repeat; background-position:0 50%; }
+
+/* Pagination
+=========================================================*/
+.pagination {
+	margin:25px 0 5px 0;
+	overflow:hidden;
+}
+
+.pagination li {
+	margin:5px 5px 15px 0;
+}
+
+.pagination li a{ padding:6px 12px; }
+
+/* Small & Social Icons
+=========================================================*/
+/* small icons */
+.icons li {
+	padding:5px 0;
+	height:20px;
+}
+
+.tabscontent.color .icons li {
+    padding: 5px;
+}
+
+* .icon {
+	display:inline-block;
+	background:url(../img/icons/icons/icons.png) no-repeat;
+	vertical-align:middle;
+	margin: -2px 4px 0 0;
+}
+
+* .icon.gray {
+	background:url(../img/icons/icons/icons-gray.png) no-repeat;
+}
+
+* .icon.white {
+	background:url(../img/icons/icons/icons-white.png) no-repeat;
+}
+
+/* social */
+* .social-icon {
+	display:inline-block;
+	background:url(../img/icons/icons/social-icons.png) no-repeat;
+	vertical-align:middle;
+	margin:0 1px 5px 0;
+}
+
+.social-icon.transparent {
+	margin:3px 8px 8px 9px;
+}
+
+/* icons in icons.css file */
+
+
+/* Breadcrumbs
+=========================================================*/
+.breadcrumbs {
+	padding:10px;
+	border:1px solid #e5e5e5;
+	margin-bottom: 10px;
+}
+
+.breadcrumbs li {
+	display:inline;
+	padding:0 ;
+}
+
+.breadcrumbs li b { margin:0 10px; }
+
+/* Tables
+=========================================================*/
+table {
+	width:100%;
+	margin-bottom: 10px;
+	text-align:left;
+}
+
+table th, table td {
+	padding:11px;
+	border:1px solid #e5e5e5;
+}
+
+/* Pricing Tables
+=========================================================*/
+.pricing-tables-1, .pricing-tables-2 {
+	margin-top:40px;
+}
+
+.pricing-tables-1 .tables-column {
+	width:234px;
+	text-align:center;
+	float: left; 
+	display: inline;
+	margin:10px 0;
+	border-right:1px solid #fff;
+	position:relative;
+}
+
+.pricing-tables-2 .tables-column {
+	width:187px;
+	text-align:center;
+	float: left; 
+	display: inline;
+	margin:10px 0;
+	border-right:1px solid #fff;
+	position:relative;
+}
+
+.tables-column .header {
+	min-height:125px;
+}
+
+
+.tables-column .header h3 {
+	padding:10px 0 15px 0;
+	line-height:15px;
+}
+
+.tables-column.featured{
+	-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .20);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, .20);
+	box-shadow: 0 0 20px rgba(0, 0, 0, .20);
+	z-index:1;
+}
+
+.tables-column.featured .header h1 {
+	margin-top:-16px;
+	padding:8px 0;
+}
+
+.tables-column.featured .footer h3 span {
+	padding-bottom:15px;
+}
+	
+
+.tables-column .header h3 span {
+	display:block;
+	padding:10px 0;
+}
+
+.tables-column .footer h3 span {
+	display:block;
+	padding:7px 0;
+}
+
+.tables-column .list li {
+	padding:16px 0;
+	display:block;
+}
+
+.pricing-tables-2 .tables-column .list li:before {
+	content:'';
+}
+
+.list li span.ok.gray {
+	background: url(../img/icons/pricing-tabe-icons.png) no-repeat 0 0;
+	width: 13px;
+	height: 12px;
+	display: inline-block;
+}
+
+.list li span.minus.gray {
+	background: url(../img/icons/pricing-tabe-icons.png) no-repeat -33px -7px;
+	width: 9px;
+	height: 4px;
+	display: inline-block;
+}
+
+.list li span.ok.black {
+	background: url(../img/icons/pricing-tabe-icons.png) no-repeat -16px 0;
+	width: 13px;
+	height: 12px;
+	display: inline-block;
+}
+
+.list li span.minus.black {
+	background: url(../img/icons/pricing-tabe-icons.png) no-repeat -47px -7px;
+	width: 9px;
+	height: 4px;
+	display: inline-block;
+}
+
+
+/* Videos
+=========================================================*/
+.video-wrap {
+	height: 0;
+	padding-top: 25px;
+	padding-bottom: 67.5%;
+	margin-bottom: 10px;
+	position: relative;
+	overflow: hidden;
+}
+
+.video-wrap.vimeo {
+	padding-top: 0;
+}
+
+.video-wrap.widescreen {
+	padding-bottom: 57.25%;
+}
+
+.video-wrap embed, .video-wrap iframe, .video-wrap object, .video-wrap video {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+	.video-wrap {
+		padding-top: 0;
+	}
+}
+
+/* Form Elements
+=========================================================*/
+.form-elements input[type="text"], .form-elements select, .form-elements textarea, .form-elements2 input[type="text"], .form-elements2 select, .form-elements2 textarea {
+	padding:6px;
+	border:1px solid #e4e4e3;
+    color:#8c8d8b;
+	border-radius:2px;
+}
+
+.form-elements input[type="text"] {
+	min-width:145px;
+}
+
+.form-elements select {
+	min-width:165px;
+	margin-bottom:10px;
+}
+
+.form-elements textarea {
+	margin-top:15px;
+	min-height:221px;
+}
+
+.form-elements fieldset {
+	margin-bottom:10px;
+	min-height:30px;
+}
+
+.form-elements label {
+	min-width:90px;
+	display:inline-block;
+	color:#666;
+}
+
+/* form2 */
+.form-elements2 fieldset {
+	margin-bottom:10px;
+	min-height:30px;
+}
+
+.form-elements2 label {
+	display:inline-block;
+	color:#666;
+	margin-bottom:10px;
+	width:100%;
+}
+
+.form-elements2 input[type="text"] {
+	width:95%;
+}
+
+.form-elements2 select {
+	width:98%;
+	margin-bottom:10px;
+}
+
+.form-elements2 textarea {
+	margin-top:10px;
+}
+

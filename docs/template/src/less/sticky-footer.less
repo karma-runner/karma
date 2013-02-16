@@ -1,0 +1,49 @@
+// Sticky Footer
+// 
+// based on 
+// Sticky Footer by Ryan Fait
+// http://ryanfait.com/
+
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    // the bottom margin is the negative value of the footer's height
+    margin: 0 auto -@footerHeight; 
+}
+
+footer, .push {
+    // .push must be the same height as .footer
+    height: @footerHeight;
+    clear: both;
+}
+
+footer {
+    padding: 0px;
+    margin: 0px;
+    & >  .container {
+        padding: 15px 0 22px 0;
+    }
+    & .social {
+        padding-top: 5px;
+    }
+}
+
+// Make responsive
+@media only screen and (max-width: 767px) {
+    #wrap {
+        margin: 0 auto -@footerResponsiveHeight;
+    }
+    footer, .push {
+        height: @footerResponsiveHeight;
+    }
+}
+

@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  .container.clearfix
+    #welcome.sixteen.columns
+      .qoute
+        .ten-and-half.columns.omega
+          h2 Spectacular Test Runner for JavaScript
+          blockquote
+            | On the&nbsp;
+            a(href='http://www.angularjs.org/') AngularJS
+            | &nbsp;team, we rely on testing and we always
+            | seek for better tools that would make our life easier.
+            | That's why we created Testacular - a test runner that fits
+            | all our needs.
+        .four-and-half.columns.alpha
+          a.btn-github.link(href='https://github.com/testacular/testacular')
+            i.icon-github-alt
+            | &nbsp; View project on GitHub
+          a.btn-npm.link(href='https://npmjs.org/package/testacular')
+            i.icon-hdd
+            | &nbsp; npm install -g testacular
+
+  #slider
+    .container.clearfix
+      .sixteen.columns
+        .flex-container
+          .flexslider
+            ul.slides
+              li
+                a(href='http://www.youtube.com/watch?v=MVw8N3hTfCI')
+                  img(src='../assets/img/img/screencast.png', alt='Screencast')
+                p.flex-caption
+                  span Introductory Screencast 
+                  | The spectacular quick start to Testacular.
+              li
+                a(href='http://www.youtube.com/watch?v=5mHjJ4xf_K0')
+                  img(src='../assets/img/img/jseverywhere.png', alt='JS.everywhere 2012')
+                p.flex-caption
+                  span JS Everywhere 2012 Europe
+                  | Watch Vojta Jína presenting Testacular at JS.everywhere.
+
