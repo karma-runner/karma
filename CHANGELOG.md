@@ -1,3 +1,20 @@
+<a name="v0.5.11"></a>
+### v0.5.11 (2013-02-21)
+
+
+#### Bug Fixes
+
+* **adapter.requirejs:** do not configure baseUrl automatically ([63f3f409](https://github.com/testacular/testacular/commit/63f3f409ae85a5137396a7ed6537bedfe4437cb3), closes [#291](https://github.com/testacular/testacular/issues/291))
+* **init:** add missing browsers (Opera, IE) ([f39e5645](https://github.com/testacular/testacular/commit/f39e5645ec561c2681d907f7c1611f01911ee8fd))
+* **reporter.junit:** Add browser log output to JUnit.xml ([f108799a](https://github.com/testacular/testacular/commit/f108799a4d8fd95b8c0250ee83c23ada25d026b9), closes [#302](https://github.com/testacular/testacular/issues/302))
+
+
+#### Features
+
+* add Teamcity reporter ([03e700ae](https://github.com/testacular/testacular/commit/03e700ae2234ca7ddb8f9235343e3b0c80868bbd))
+* **adapter.jasmine:** remove only last failed specs anti-feature ([435bf72c](https://github.com/testacular/testacular/commit/435bf72cb12112462940c8114fbaa19f9de38531), closes [#148](https://github.com/testacular/testacular/issues/148))
+* **config:** allow empty config file when called programmatically ([f3d77424](https://github.com/testacular/testacular/commit/f3d77424009f621e1fb9d60eeec7f052ebb3c585), closes [#358](https://github.com/testacular/testacular/issues/358))
+
 <a name="v0.5.10"></a>
 ### v0.5.10 (2013-02-14)
 
