@@ -162,8 +162,6 @@ var writeChangelog = function(stream, commits, version) {
     breaks: {}
   };
 
-  sections.breaks[EMPTY_COMPONENT] = [];
-
   commits.forEach(function(commit) {
     var section = sections[commit.type];
     var component = commit.component || EMPTY_COMPONENT;
@@ -174,6 +172,8 @@ var writeChangelog = function(stream, commits, version) {
     }
 
     commit.breaks.forEach(function(breakMsg) {
+      sections.breaks[EMPTY_COMPONENT] = sections.breaks[EMPTY_COMPONENT] || [];
+
       sections.breaks[EMPTY_COMPONENT].push({
         subject: breakMsg,
         hash: commit.hash,
