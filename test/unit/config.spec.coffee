@@ -75,7 +75,6 @@ describe 'config', ->
       logger.create('config').on 'log', logSpy
 
 
-
     it 'should resolve relative basePath to config directory', ->
       config = e.parseConfig '/home/config1.js', {}
       expect(config.basePath).to.equal resolveWinPath('/home/base')
@@ -113,7 +112,6 @@ describe 'config', ->
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
-
     it 'should log error and exit if it is a directory', ->
       e.parseConfig '/conf', {}
 
@@ -132,7 +130,7 @@ describe 'config', ->
       expect(event.level.toString()).to.be.equal 'ERROR'
       expect(event.data).to.be.deep.equal ['Syntax error in config file!\nUnexpected token =']
       expect(mocks.process.exit).to.have.been.calledWith 1
-      
+
 
     it 'should override config with given cli options', ->
       config = e.parseConfig '/home/config4.js', {port: 456, autoWatch: false}
