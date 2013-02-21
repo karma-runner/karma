@@ -36,14 +36,11 @@ var indexOf = function(collection, item) {
  */
 var TestacularReporter = function(tc) {
 
-  var failedIds = [];
-
   this.reportRunnerStarting = function(runner) {
     tc.info({total: runner.specs().length});
   };
 
   this.reportRunnerResults = function(runner) {
-    tc.store('jasmine.lastFailedIds', failedIds);
     tc.complete({
       coverage: window.__coverage__
     });
@@ -84,8 +81,6 @@ var TestacularReporter = function(tc) {
           result.log.push(formatFailedStep(steps[i]));
         }
       }
-
-      failedIds.push(result.id);
     }
 
     tc.result(result);
@@ -105,24 +100,6 @@ var createStartFn = function(tc, jasmineEnvPassedIn) {
     // we pass jasmineEnv during testing
     // in production we ask for it lazily, so that adapter can be loaded even before jasmine
     var jasmineEnv = jasmineEnvPassedIn || window.jasmine.getEnv();
-    var currentSpecsCount = jasmineEnv.nextSpecId_;
-    var lastCount = tc.store('jasmine.lastCount');
-    var lastFailedIds = tc.store('jasmine.lastFailedIds');
-
-    tc.store('jasmine.lastCount', currentSpecsCount);
-    tc.store('jasmine.lastFailedIds', []);
-
-    // filter only last failed specs
-    if (lastCount === currentSpecsCount && // still same number of specs
-        lastFailedIds.length > 0 &&        // at least one fail last run
-        !jasmineEnv.exclusive_) {          // no exclusive mode (iit, ddesc)
-
-      jasmineEnv.specFilter = function(spec) {
-        return indexOf(lastFailedIds, spec.id) !== -1;
-      };
-    }
-
-
 
     jasmineEnv.addReporter(new TestacularReporter(tc));
     jasmineEnv.execute();
