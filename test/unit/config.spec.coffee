@@ -64,9 +64,11 @@ describe 'config', ->
   # Should parse configuration file and do some basic processing as well
   #============================================================================
   describe 'parseConfig', ->
-    logSpy = sinon.spy()
-      
+    logSpy = null
+
     beforeEach ->
+      logSpy = sinon.spy()
+
       logger = require '../../lib/logger.js'
       logger.setup 'ERROR', false
 
@@ -219,6 +221,14 @@ describe 'config', ->
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
       expect(config.autoWatch).to.equal false
+
+
+    it 'should not read config file, when null', ->
+      config = e.parseConfig null, {basePath: '/some'}
+
+      expect(logSpy).not.to.have.been.called
+      expect(config.basePath).to.equal '/some' # overriden by CLI
+      expect(config.urlRoot).to.equal '/' # default value
 
 
   describe 'normalizeConfig', ->
