@@ -4,8 +4,7 @@ A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers, powered by [Node.js] and [Socket.io].
 
 > The main purpose of Testacular is to make your TDD development easy,
->  fast, and fun. 
-
+>  fast, and fun.
 
 ## When should I use Testacular?
 
@@ -18,7 +17,7 @@ _real_ browsers, powered by [Node.js] and [Socket.io].
 * You love your terminal.
 * You don't want your (testing) life to suck.
 * You want to use [Istanbul] to automagically generate coverage
-  reports. 
+  reports.
 * You want to use [RequireJS] for your source files.
 
 
@@ -26,15 +25,15 @@ _real_ browsers, powered by [Node.js] and [Socket.io].
 
 Testacular is not a testing framework, neither an assertion library,
 so for that you can use pretty much anything you like. Right now out
-of the box there is support for 
+of the box there is support for
 
 * [Mocha]
 * [Jasmine]
 * [QUnit]
 * \_anything else\_ Write your own adapter. It's not that hard. And we
   are here to help.
-  
-  
+
+
 ## Which Browsers can I use?
 
 All the major browsers are supported, if you want to know more see the
@@ -44,7 +43,8 @@ All the major browsers are supported, if you want to know more see the
 ## I want to use it. Where do I sign?
 
 You don't need to sign anything but here are some resources to help
-you to get started.
+you to get started. And if you need even more infos have a look at our
+great [website].
 
 ### Obligatory Screencast.
 
@@ -66,7 +66,7 @@ want to live life on the edge you can do so by
 $ npm install -g testacular@canary
 ```
 
-The curious can have a look at the [wiki] articles for
+The curious can have a look at the documentation articles for
 [Getting Started] and [Versioning].
 
 ### Using it.
@@ -77,7 +77,7 @@ where all the awesomeness of your project are.
 
 You can find a simple example in
 [test/client/testacular.conf.js](https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js)
-which contains most of the options. 
+which contains most of the options.
 
 To create your own from scratch there is the `init` command, which
 will be named `testacular.conf.js` by default:
@@ -111,12 +111,12 @@ testing. I really think that JSTD is a great idea. Unfortunately, we
 had many problems with JSTD, so we decided to write our own test
 runner based on the same idea. We wanted a simple tool just for
 executing JavaScript tests that is both stable and fast. That's why we
-use the awesome [Socket.io] library and [Node.js]. 
+use the awesome [Socket.io] library and [Node.js].
 
 
 ## I still don't get it. Where can I get help?
 
-* [Wiki]
+* [Docs]
 * [Mailing List]
 * [Issuetracker]
 * [@TestacularJS] on Twitter
@@ -125,7 +125,7 @@ use the awesome [Socket.io] library and [Node.js].
 
 See
 [Contributing.md](https://github.com/vojtajina/testacular/blob/master/CONTRIBUTING.md)
-or the [wiki] for more information.
+or the [docs] for more information.
 
 
 ## My boss wants a license. So where is it?
@@ -140,11 +140,11 @@ or the [wiki] for more information.
 > including without limitation the rights to use, copy, modify, merge,
 > publish, distribute, sublicense, and/or sell copies of the Software,
 > and to permit persons to whom the Software is furnished to do so,
-> subject to the following conditions: 
+> subject to the following conditions:
 >
 > The above copyright notice and this permission notice shall be
-> included in all copies or substantial portions of the Software. 
-> 
+> included in all copies or substantial portions of the Software.
+>
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 > EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 > MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -152,7 +152,7 @@ or the [wiki] for more information.
 > BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 > ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 > CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-> SOFTWARE. 
+> SOFTWARE.
 
 
 
@@ -166,14 +166,15 @@ or the [wiki] for more information.
 [Semantic Versioning]: http://semver.org/
 [here]: http://www.youtube.com/watch?v=MVw8N3hTfCI
 [installers]: http://nodejs.org/download/
-[wiki]: https://github.com/testacular/testacular/wiki
-[Wiki]: https://github.com/testacular/testacular/wiki
-[Getting Started]: https://github.com/testacular/testacular/wiki/Getting-Started
-[Versioning]: https://github.com/testacular/testacular/wiki/Versioning
-[Configuration File Overview]: https://github.com/testacular/testacular/wiki/Configuration-File-Overview
 [Mailing List]: https://groups.google.com/forum/#!forum/testacular
 [Issuetracker]: https://github.com/testacular/testacular/issues
 [@TestacularJS]: http://twitter.com/TestacularJS
-[Browsers]: https://github.com/testacular/testacular/wiki/Browsers
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
+
+[Browsers]: http://testacular.github.com/0.6.0/config/browsers.html
+[Versioning]: http://testacular.github.com/0.6.0/about/versioning.html
+[Configuration File Overview]: http://testacular.github.com/0.6.0/config/configuration-file.html
+[docs]: http://testacular.github.com
+[Docs]: http://testacular.github.com
+[website]: http://testacular.github.com

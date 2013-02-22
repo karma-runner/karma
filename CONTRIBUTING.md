@@ -34,14 +34,14 @@ are some tips to get you started.
   ```
   On an unmodified 'master' branch, this command should always complete and report success.
 
-  If 'grunt' fails:
-  * Make sure grunt-0.4x is installed: https://github.com/gruntjs/grunt/wiki/Getting-started.
+  If `grunt fails:
+  * Make sure grunt-0.4 is installed: http://gruntjs.com/getting-started
   * Review the open issues - perhaps this is a known problem that someone else has dealt with before.
   * File an issue (see above)
 
-* Run 'grunt init-dev-env'. This will install a git commit trigger that will ensure your commit messages 
+* Run 'grunt init-dev-env'. This will install a git commit trigger that will ensure your commit messages
     follows the [Testacular - Git Commit Msg Format Conventions]
-    (https://docs.google.com/document/d/1JCFlkQ59Bx4qN1WKS1dtKXKl5G_lED6Lxey3iPNpQOs/pub).  
+
 
 
 ## Making and Submitting Changes
@@ -59,11 +59,10 @@ are some tips to get you started.
     We use coffee script for our tests.
 * Commit your changes
   * Follow the [Testacular - Git Commit Msg Format Conventions]
-    (https://docs.google.com/document/d/1JCFlkQ59Bx4qN1WKS1dtKXKl5G_lED6Lxey3iPNpQOs/pub).
   * Push your changes to your forked repository
 * Send a pull request to the `master` branch.
   * Before submitting, make sure the default 'grunt' command succeeds locally.
-  * After submitting, Travis.ci will pick up your changes and report results.
+  * After submitting, TravisCI will pick up your changes and report results.
   * Make fixes and incorporate feedback, as needed.
 
 ## Build and Test Commands
@@ -92,9 +91,15 @@ $ grunt test:client
 
 # Additional Resources
 
-* [Issue tracker](https://github.com/vojtajina/testacular/issues)
-* [Mailing List](https://groups.google.com/forum/#!forum/testacular)
-* [General GitHub documentation](http://help.github.com/)
-* [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
-* [@TestacularJS](http://twitter.com/TestacularJS)
+* [Issue tracker]
+* [Mailing List]
+* [General GitHub documentation]
+* [GitHub pull request documentation]
+* [@TestacularJS]
 
+[Testacular - Git Commit Msg Format Conventions]: http://testacular.github.com/0.6.0/dev/git-commit-msg.html
+[Issue tracker]: https://github.com/vojtajina/testacular/issues
+[Mailing List]: https://groups.google.com/forum/#!forum/testacular
+[General GitHub documentation]: http://help.github.com/
+[GitHub pull request documentation]: http://help.github.com/send-pull-requests/
+[@TestacularJS]: http://twitter.com/TestacularJS
