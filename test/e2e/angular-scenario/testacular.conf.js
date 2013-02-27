@@ -14,8 +14,11 @@ proxies = {
 
 browsers = ['Chrome'];
 
+reporters = ['dots'];
+
 plugins = [
   'testacular-ng-scenario',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'
 ];
+

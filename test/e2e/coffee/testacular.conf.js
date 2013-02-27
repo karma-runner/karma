@@ -14,6 +14,8 @@ preprocessors = {
   '**/*.coffee': 'coffee'
 };
 
+reporters = ['dots'];
+
 plugins = [
   'testacular-jasmine',
   'testacular-coffee-preprocessor',

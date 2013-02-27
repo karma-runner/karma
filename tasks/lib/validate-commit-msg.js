@@ -15,7 +15,7 @@ var path = require('path');
 
 var MAX_LENGTH = 70;
 var PATTERN = /^(\w*)(\(([\w\$\.\-\*]*)\))?\: (.*)$/;
-var IGNORED = /^WIP\:/;
+var IGNORED = /^(WIP\:|Merge pull request)/;
 var TYPES = {
   feat: true,
   fix: true,

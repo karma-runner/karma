@@ -14,6 +14,8 @@ singleRun = false;
 
 browsers = ['Chrome'];
 
+reporters = ['dots'];
+
 plugins = [
   'testacular-mocha',
   'testacular-chrome-launcher',

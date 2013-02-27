@@ -10,7 +10,9 @@ exclude = [
 
 autoWatch = true;
 
-browsers = ['Chrome']
+browsers = ['Chrome'];
+
+reporters = ['dots'];
 
 plugins = [
   'testacular-qunit',

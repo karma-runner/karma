@@ -86,7 +86,8 @@ module.exports = (grunt) ->
   grunt.registerTask 'default', ['build', 'jshint', 'test']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
     grunt.task.run [
-      'build',
-      "bump:#{type||'patch'}",
+      'contributors'
+      'build'
+      "bump:#{type||'patch'}"
       'npm-publish'
     ]

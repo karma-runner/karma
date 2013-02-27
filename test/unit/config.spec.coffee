@@ -64,14 +64,15 @@ describe 'config', ->
   # Should parse configuration file and do some basic processing as well
   #============================================================================
   describe 'parseConfig', ->
-    logSpy = sinon.spy()
-      
+    logSpy = null
+
     beforeEach ->
+      logSpy = sinon.spy()
+
       logger = require '../../lib/logger.js'
       logger.setup 'ERROR', false
 
       logger.create('config').on 'log', logSpy
-
 
 
     it 'should resolve relative basePath to config directory', ->
@@ -111,7 +112,6 @@ describe 'config', ->
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
-
     it 'should log error and exit if it is a directory', ->
       e.parseConfig '/conf', {}
 
@@ -130,7 +130,7 @@ describe 'config', ->
       expect(event.level.toString()).to.be.equal 'ERROR'
       expect(event.data).to.be.deep.equal ['Syntax error in config file!\nUnexpected token =']
       expect(mocks.process.exit).to.have.been.calledWith 1
-      
+
 
     it 'should override config with given cli options', ->
       config = e.parseConfig '/home/config4.js', {port: 456, autoWatch: false}
@@ -219,6 +219,14 @@ describe 'config', ->
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
       expect(config.autoWatch).to.equal false
+
+
+    it 'should not read config file, when null', ->
+      config = e.parseConfig null, {basePath: '/some'}
+
+      expect(logSpy).not.to.have.been.called
+      expect(config.basePath).to.equal '/some' # overriden by CLI
+      expect(config.urlRoot).to.equal '/' # default value
 
 
   describe 'normalizeConfig', ->

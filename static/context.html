@@ -15,24 +15,8 @@ Realoaded before every execution run.
        into it. If it is before body, then it fails to find the body and crashes and burns in an epic
        manner. -->
   <script type="text/javascript">
-    // TODO(vojta): extract this into context.js
-    window.__testacular__ = window.parent.testacular;
-
-    // This causes memory leak in Chrome (17.0.963.66)
-    window.onerror = function() {
-      return window.__testacular__.error.apply(window.__testacular__, arguments);
-    };
-
-    // patch the console
-    (function(window, tc) {
-      var console = window.console = window.console || {log: function() {}};
-      var browserConsoleLog = console.log;
-
-      console.log = function() {
-        tc.info({dump: Array.prototype.slice.call(arguments, 0)});
-        return browserConsoleLog.apply(console, arguments);
-      };
-    })(window, window.__testacular__);
+    // sets window.__testacular__ and overrides console and error handling
+    window.parent.testacular.setupContext(window);
 
     // All served files with the latest timestamps
     %MAPPINGS%
