@@ -3,28 +3,29 @@
 #==============================================================================
 describe 'preprocessor', ->
   mocks = require 'mocks'
+  di = require 'di'
 
-  m = pp = mockFs = doneSpy = fakePreprocessor = null
+  m = pp = mockFs = fakePreprocessor = null
 
   beforeEach ->
     mockFs = mocks.fs.create
       some:
         'a.js': mocks.fs.file 0, 'originalContent'
-
-
-  it 'should preprocess matching file', (done) ->
-    fakePreprocessor = sinon.spy (content, file, basePath, done) ->
-      file.path = file.path + '-preprocessed'
-      file.contentPath = '/some/new.js'
-      done 'new-content'
+    injector = new di.Injector [{'preprocessor:fake': ['factory', -> fakePreprocessor]}]
 
     mocks_ =
       fs: mockFs
       minimatch: require 'minimatch'
-      './preprocessors/Coffee': fakePreprocessor
-      
+
     m = mocks.loadFile __dirname + '/../../lib/preprocessor.js', mocks_
-    pp = m.createPreprocessor {'**/*.js': 'coffee'}, null
+    pp = m.createPreprocessor {'**/*.js': 'fake'}, null, injector
+
+
+  it 'should preprocess matching file', (done) ->
+    fakePreprocessor = sinon.spy (content, file, done) ->
+      file.path = file.path + '-preprocessed'
+      file.contentPath = '/some/new.js'
+      done 'new-content'
 
     file = {originalPath: '/some/a.js', path: 'path'}
 
@@ -34,17 +35,10 @@ describe 'preprocessor', ->
       expect(mockFs.readFileSync('/some/new.js').toString()).to.equal 'new-content'
       done()
 
-  it 'should ignore not matching file', (done) ->
-    fakePreprocessor = sinon.spy (content, file, basePath, done) ->
-      done ''
 
-    mocks_ =
-      fs: mockFs
-      minimatch: require 'minimatch'
-      './preprocessors/Coffee': fakePreprocessor
-      
-    m = mocks.loadFile __dirname + '/../../lib/preprocessor.js', mocks_
-    pp = m.createPreprocessor {'**/*.js': 'coffee'}, null
+  it 'should ignore not matching file', (done) ->
+    fakePreprocessor = sinon.spy (content, file, done) ->
+      done ''
 
     file = {originalPath: '/some/a.txt', path: 'path'}
 
