@@ -2,52 +2,35 @@
 # lib/launcher.js module
 #==============================================================================
 describe 'launcher', ->
+  di = require 'di'
   events = require '../../lib/events'
   logger = require '../../lib/logger'
-  loadFile = require('mocks').loadFile
+  launcher = require '../../lib/launcher'
 
-  mockSpawn = sinon.spy (cmd, args) ->
-    process = new events.EventEmitter
-    process.stderr = new events.EventEmitter
-    process.kill = sinon.spy()
-    process.exitCode = null
-    mockSpawn._processes.push process
-    process
+  # mock out id generator
+  lastGeneratedId = null
+  launcher.Launcher.generateId = ->
+    ++lastGeneratedId
 
-  mockRimraf = sinon.spy (p, fn) ->
-    mockRimraf._callbacks.push fn
+  class FakeBrowser
+    constructor: (@id, @name, baseBrowserDecorator) ->
+      baseBrowserDecorator @
+      FakeBrowser._instances.push @
+      sinon.stub @, 'start'
+      sinon.stub @, 'kill'
 
-  mocks =
-    child_process:
-      spawn: mockSpawn
-    './logger': logger
-    '../logger': logger
-    rimraf: mockRimraf
+  class ScriptBrowser
+    constructor: (@id, @name, baseBrowserDecorator) ->
+      baseBrowserDecorator @
+      ScriptBrowser._instances.push @
+      sinon.stub @, 'start'
+      sinon.stub @, 'kill'
 
-  timeouts = [];
-
-  globals =
-    global: global
-    process:
-      nextTick: process.nextTick
-      platform: 'linux'
-      env: TMPDIR: '/temp'
-    setTimeout: timer.setTimeout
-
-  m = loadFile __dirname + '/../../lib/launcher.js', mocks, globals, true
-  e = m.exports
 
   beforeEach ->
-    mockSpawn.reset()
-    mockSpawn._processes = []
-    mockRimraf.reset()
-    mockRimraf._callbacks = []
-    timeouts = []
-
-    # mock out id generator
     lastGeneratedId = 0
-    e.Launcher.generateId = ->
-      ++lastGeneratedId
+    FakeBrowser._instances = []
+    ScriptBrowser._instances = []
 
     # disable logger
     logger.setup 'OFF'
@@ -61,26 +44,38 @@ describe 'launcher', ->
 
     beforeEach ->
       emitter = new events.EventEmitter()
-      l = new e.Launcher emitter
+      injector = new di.Injector [{
+        'launcher:Fake': ['type', FakeBrowser]
+        'launcher:Script': ['type', ScriptBrowser]
+        'emitter': ['value', emitter]
+        'config': ['value', {captureTimeout: 0}]
+      }]
+      l = new launcher.Launcher emitter, injector
 
     describe 'launch', ->
 
-      it 'should start all browsers', ->
-        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234
+      it 'should inject and start all browsers', ->
+        l.launch ['Fake'], 'localhost', 1234, '/root/'
 
-        expect(mockSpawn).to.have.been.calledTwice
-        expect(mockSpawn.getCall(0).args[0]).to.equal 'google-chrome'
-        expect(mockSpawn.getCall(1).args[0]).to.equal 'google-chrome-canary'
+        browser = FakeBrowser._instances.pop()
+        expect(browser.start).to.have.been.calledWith 'http://localhost:1234/root/'
+        expect(browser.id).to.equal lastGeneratedId
+        expect(browser.name).to.equal 'Fake'
 
 
       it 'should allow launching a script', ->
         l.launch ['/usr/local/bin/special-browser'], 'localhost', 1234, '/'
-        expect(mockSpawn).to.have.been.calledWith '/usr/local/bin/special-browser', ['http://localhost:1234/?id=1']
+
+        script = ScriptBrowser._instances.pop()
+        expect(script.start).to.have.been.calledWith 'http://localhost:1234/'
+        expect(script.name).to.equal '/usr/local/bin/special-browser'
 
 
       it 'should use the non default host', ->
-        l.launch ['/usr/local/bin/special-browser'], '127.0.0.1', 1234, '/'
-        expect(mockSpawn).to.have.been.calledWith '/usr/local/bin/special-browser', ['http://127.0.0.1:1234/?id=1']
+        l.launch ['Fake'], 'whatever', 1234, '/root/'
+
+        browser = FakeBrowser._instances.pop()
+        expect(browser.start).to.have.been.calledWith 'http://whatever:1234/root/'
 
 
     describe 'kill', ->
@@ -90,37 +85,32 @@ describe 'launcher', ->
         exitSpy = sinon.spy()
 
       it 'should kill all running processe', ->
-        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234
+        l.launch ['Fake', 'Fake'], 'localhost', 1234
         l.kill()
 
-        expect(mockSpawn._processes.length).to.equal 2
-        expect(mockSpawn._processes[0].kill).to.have.been.called
-        expect(mockSpawn._processes[1].kill).to.have.been.called
+        browser = FakeBrowser._instances.pop()
+        expect(browser.kill).to.have.been.called
+
+        browser = FakeBrowser._instances.pop()
+        expect(browser.kill).to.have.been.called
 
 
       it 'should call callback when all processes killed', ->
-        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234
+        l.launch ['Fake', 'Fake'], 'localhost', 1234
         l.kill exitSpy
 
         expect(exitSpy).not.to.have.been.called
-        mockSpawn._processes[0].emit 'close'
-        expect(exitSpy).not.to.have.been.called
-        mockSpawn._processes[1].emit 'close'
+
+        # finish the first browser
+        browser = FakeBrowser._instances.pop()
+        browser.kill.invokeCallback()
         expect(exitSpy).not.to.have.been.called
 
-        # rm temp dirs
-        expect(mockRimraf).to.have.been.calledTwice
-        mockRimraf._callbacks[0]()
-        mockRimraf._callbacks[1]()
+        # finish the second browser
+        browser = FakeBrowser._instances.pop()
+        browser.kill.invokeCallback()
         expect(exitSpy).to.have.been.called
-
-
-      it 'should call callback even if a process had already been killed', (done) ->
-        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234, '/', 0, 1 # disable retry
-        mockSpawn._processes[0].emit 'close', 1
-        mockSpawn._processes[1].emit 'close', 1
-
-        l.kill done
+        # expect(browser.lastCall)
 
 
       it 'should call callback even if no browsers lanunched', (done) ->
@@ -130,7 +120,7 @@ describe 'launcher', ->
     describe 'areAllCaptured', ->
 
       it 'should return true if only if all browsers captured', ->
-        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234
+        l.launch ['Fake', 'Fake'], 'localhost', 1234
 
         expect(l.areAllCaptured()).to.equal  false
 
@@ -144,17 +134,12 @@ describe 'launcher', ->
     describe 'onExit', ->
 
       it 'should kill all browsers', (done) ->
-        l.launch ['Chrome', 'ChromeCanary'], 'localhost', 1234, '/', 0, 1
+        l.launch ['Fake', 'Fake'], 'localhost', 1234, '/', 0, 1
 
         emitter.emitAsync('exit').then done
 
-        expect(mockSpawn._processes[0].kill).to.have.been.called
-        expect(mockSpawn._processes[1].kill).to.have.been.called
+        browser = FakeBrowser._instances.pop()
+        browser.kill.invokeCallback()
 
-        mockSpawn._processes[0].emit 'close', 0
-        mockSpawn._processes[1].emit 'close', 0
-
-        # rm temp dir
-        mockRimraf._callbacks[0]()
-        mockRimraf._callbacks[1]()
-
+        browser = FakeBrowser._instances.pop()
+        browser.kill.invokeCallback()
