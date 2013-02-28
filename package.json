@@ -82,7 +82,21 @@
     "timer-shim": ">= 0.1.1",
     "chai-as-promised": ">= 3.2.3",
     "mock-http-response": "~0.1.1",
-    "qq": ">= 0.3.5"
+    "qq": ">= 0.3.5",
+
+    "testacular-jasmine": "*",
+    "testacular-mocha": "*",
+    "testacular-qunit": "*",
+
+    "testacular-coverage": "*",
+    "testacular-requirejs": "*",
+    "testacular-growl-reporter": "*",
+    "testacular-junit-reporter": "*",
+    "testacular-chrome-launcher": "*",
+    "testacular-firefox-launcher": "*",
+    "testacular-phantomjs-launcher": "*",
+    "testacular-ng-scenario": "*",
+    "testacular-coffee-preprocessor": "*"
   },
   "preferGlobal": true,
   "repository": {
