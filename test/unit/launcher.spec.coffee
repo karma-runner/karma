@@ -32,9 +32,6 @@ describe 'launcher', ->
     FakeBrowser._instances = []
     ScriptBrowser._instances = []
 
-    # disable logger
-    logger.setup 'OFF'
-
 
   #============================================================================
   # launcher.Launcher

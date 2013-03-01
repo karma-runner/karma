@@ -1,7 +1,6 @@
 describe 'validate-commit-msg', ->
   m = require '../../../tasks/lib/validate-commit-msg'
   errors = []
-  sandbox = null
 
   VALID = true;
   INVALID = false;
@@ -9,12 +8,9 @@ describe 'validate-commit-msg', ->
 
   beforeEach ->
     errors.length = 0
-    sandbox = sinon.sandbox.create()
-    sandbox.stub console, 'error', (msg) ->
+    sinon.stub console, 'error', (msg) ->
       errors.push(msg.replace /\x1B\[\d+m/g, '') # uncolor
-
-  afterEach ->
-    sandbox.restore()
+    sinon.stub console, 'log'
 
 
   describe 'validateMessage', ->
