@@ -65,6 +65,8 @@ module.exports = (grunt) ->
 
       options:
         quotmark: 'single'
+        bitwise: true
+        indent: 2
         camelcase: true
         strict: true
         trailing: true
@@ -73,10 +75,13 @@ module.exports = (grunt) ->
         immed: true
         latedef: true
         newcap: true
+        noempty: true
+        unused: true
         noarg: true
         sub: true
         undef: true
-        boss: true
+        maxdepth: 4
+        maxlen: 100
         globals: {}
 
   grunt.loadTasks 'tasks'
