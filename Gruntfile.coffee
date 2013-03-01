@@ -38,12 +38,12 @@ module.exports = (grunt) ->
         reporter: 'dot'
       unit:
         src: [
-          'test/mocha-common.js'
+          'test/unit/mocha-globals.coffee'
           'test/unit/**/*.coffee'
         ]
       tasks:
         src: [
-          'test/mocha-common.js'
+          'test/tasks/mocha-globals.coffee'
           'test/tasks/**/*.coffee'
         ]
 
