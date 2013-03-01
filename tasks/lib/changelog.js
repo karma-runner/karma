@@ -4,7 +4,6 @@
 // TODO(vojta): use grunt logger
 
 var child = require('child_process');
-var fs = require('fs');
 var util = require('util');
 var q = require('qq');
 
@@ -138,7 +137,7 @@ var readGitLog = function(grep, from) {
   var deffered = q.defer();
 
   // TODO(vojta): if it's slow, use spawn and stream it instead
-  child.exec(util.format(GIT_LOG_CMD, grep, '%H%n%s%n%b%n==END==', from), function(code, stdout, stderr) {
+  child.exec(util.format(GIT_LOG_CMD, grep, '%H%n%s%n%b%n==END==', from), function(code, stdout) {
     var commits = [];
 
     stdout.split('\n==END==\n').forEach(function(rawCommit) {
@@ -191,7 +190,7 @@ var writeChangelog = function(stream, commits, version) {
 
 var getPreviousTag = function() {
   var deffered = q.defer();
-  child.exec(GIT_TAG_CMD, function(code, stdout, stderr) {
+  child.exec(GIT_TAG_CMD, function(code, stdout) {
     if (code) {
       deffered.reject('Cannot get the previous tag.');
     }

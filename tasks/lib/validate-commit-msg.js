@@ -29,7 +29,6 @@ var TYPES = {
 
 var error = function() {
   // gitx does not display it
-  // http://gitx.lighthouseapp.com/projects/17830/tickets/294-feature-display-hook-error-message-when-hook-fails
   // https://groups.google.com/group/gitx/browse_thread/thread/a03bcab60844b812
   console.error('INVALID COMMIT MSG: ' + util.format.apply(null, arguments));
 };
@@ -56,8 +55,6 @@ var validateMessage = function(message) {
   }
 
   var type = match[1];
-  var scope = match[3];
-  var subject = match[4];
 
   if (!TYPES.hasOwnProperty(type)) {
     error('"%s" is not allowed type !', type);
