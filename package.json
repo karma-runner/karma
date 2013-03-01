@@ -72,7 +72,7 @@
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-simple-mocha": "~0.3.2",
-    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-jshint": "~0.2",
     "mocks": ">= 0.0.10",
     "which": ">= 1.0.5",
     "sinon-chai": ">= 2.2.0",
