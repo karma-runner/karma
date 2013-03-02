@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   grunt.registerTask('contributors', 'Update contributors in package.json', function() {
     var done = this.async();
 
-    exec('git log --pretty=short | git shortlog -nse', function(err, stdout, stderr) {
+    exec('git log --pretty=short | git shortlog -nse', function(err, stdout) {
       var pkgFile = grunt.config('pkgFile');
       var pkg = grunt.file.readJSON(pkgFile);
 

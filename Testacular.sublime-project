@@ -35,7 +35,8 @@
     "open_related_patterns": [
       ["*/lib/*.js", "*/test/unit/*.spec.coffee"],
       ["*/adapter/*.src.js", "*/test/client/*.spec.js"],
-      ["*/static/*.src.js", "*/test/client/*.spec.js"]
+      ["*/static/*.src.js", "*/test/client/*.spec.js"],
+      ["*/tasks/*.js", "*/test/tasks/*.spec.coffee"]
     ],
     "build_switcher_systems": ["Unit tests", "Task tests", "Client tests"]
   }

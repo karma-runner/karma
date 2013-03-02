@@ -28,12 +28,12 @@ module.exports = function(grunt) {
     var minor = parseInt(pkg.version.split('.')[1], 10);
     var tag = (minor % 2) ? 'canary' : 'latest';
 
-    exec('git status -s', function(err, stdout, stderr) {
+    exec('git status -s', function(err, stdout) {
       if (stdout) {
         return grunt.fail.warn('Dirty workspace, cannot push to NPM.\n' + stdout + '\n');
       }
 
-      exec('npm publish --tag ' + tag, function(err, output, error) {
+      exec('npm publish --tag ' + tag, function(err) {
         if (err) {
           return grunt.fail.fatal(err.message.replace(/\n$/, '.'));
         }

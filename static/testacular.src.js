@@ -38,6 +38,7 @@ socket.on('reconnecting', updateStatus('reconnecting in $ ms...'));
 socket.on('reconnect', updateStatus('re-connected'));
 socket.on('reconnect_failed', updateStatus('failed to reconnect'));
 
+/* jshint unused: false */
 var Testacular = function(socket, context, navigator, location) {
   var config;
   var hasError = false;

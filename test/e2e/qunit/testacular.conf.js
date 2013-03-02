@@ -1,6 +1,6 @@
+frameworks = ['qunit'];
+
 files = [
-  QUNIT,
-  QUNIT_ADAPTER,
   '*.js'
 ];
 
@@ -10,6 +10,12 @@ exclude = [
 
 autoWatch = true;
 
-browsers = ['Chrome']
+browsers = ['Chrome'];
 
 reporters = ['dots'];
+
+plugins = [
+  'testacular-qunit',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];

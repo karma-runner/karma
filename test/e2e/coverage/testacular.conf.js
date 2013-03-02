@@ -1,6 +1,6 @@
+frameworks = ['jasmine'];
+
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
   'lib/*.js',
   'test/*.js'
 ];
@@ -31,3 +31,10 @@ coverageReporter = {
     type : 'html',
     dir : 'coverage/'
 };
+
+plugins = [
+  'testacular-jasmine',
+  'testacular-coverage',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];

@@ -5,14 +5,10 @@
 // base path, that will be used to resolve files and exclude
 basePath = '';
 
+frameworks = ['jasmine', 'requirejs'];
 
 // list of files / patterns to load in the browser
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
-  REQUIRE,
-  REQUIRE_ADAPTER,
-
   'main.js',
 
   // all the sources, tests
@@ -59,9 +55,16 @@ autoWatch = true;
 // - Opera
 // - Safari
 // - PhantomJS
-browsers = [];
+browsers = ['Chrome'];
 
 
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
+
+plugins = [
+  'testacular-requirejs',
+  'testacular-jasmine',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];

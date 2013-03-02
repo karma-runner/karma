@@ -16,24 +16,14 @@ module.exports = (grunt) ->
   # Project configuration.
   grunt.initConfig
     pkgFile: 'package.json'
-    
+
     files:
       server: ['lib/**/*.js']
       client: ['static/testacular.src.js']
-      jasmine: ['adapter/jasmine.src.js']
-      mocha: ['adapter/mocha.src.js']
-      ngScenario: ['adapter/angular-scenario.src.js']
-      require: ['adapter/require.src.js']
-      qunit: ['adapter/qunit.src.js']
       grunt: ['grunt.js', 'tasks/**/*.js']
 
     build:
       client: '<%= files.client %>'
-      jasmine: '<%= files.jasmine %>'
-      mocha: '<%= files.mocha %>'
-      ngScenario: '<%= files.ngScenario %>'
-      require: '<%= files.require %>'
-      qunit: '<%= files.qunit %>'
 
     test:
       unit: 'simplemocha:unit'
@@ -48,12 +38,12 @@ module.exports = (grunt) ->
         reporter: 'dot'
       unit:
         src: [
-          'test/mocha-common.js'
+          'test/unit/mocha-globals.coffee'
           'test/unit/**/*.coffee'
         ]
       tasks:
         src: [
-          'test/mocha-common.js'
+          'test/tasks/mocha-globals.coffee'
           'test/tasks/**/*.coffee'
         ]
 
@@ -72,29 +62,11 @@ module.exports = (grunt) ->
         files:
           src: '<%= files.client %>'
         options: JSHINT_BROWSER
-      jasmine:
-        files:
-          src: '<%= files.jasmine %>'
-        options: JSHINT_BROWSER
-      mocha:
-        files:
-          src: '<%= files.mocha %>'
-        options: JSHINT_BROWSER
-      qunit:
-        files:
-          src: '<%= files.qunit %>'
-        options: JSHINT_BROWSER
-      ngScenario:
-        files:
-          src: '<%= files.ngScenario %>'
-        options: JSHINT_BROWSER
-      require:
-        files:
-          src: '<%= files.require %>'
-        options: JSHINT_BROWSER
-        
+
       options:
         quotmark: 'single'
+        bitwise: true
+        indent: 2
         camelcase: true
         strict: true
         trailing: true
@@ -103,10 +75,13 @@ module.exports = (grunt) ->
         immed: true
         latedef: true
         newcap: true
+        noempty: true
+        unused: true
         noarg: true
         sub: true
         undef: true
-        boss: true
+        maxdepth: 4
+        maxlen: 100
         globals: {}
 
   grunt.loadTasks 'tasks'

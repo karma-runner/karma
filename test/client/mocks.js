@@ -13,22 +13,6 @@ var Emitter = function() {
 
     listeners[event].push(fn);
   };
-  
-  this.done = function(fn) {
-    this.on("done", fn);
-  };
-  
-  this.testStart = function(fn) {
-    this.on("testStart", fn);
-  };
-  
-  this.testDone = function(fn) {
-    this.on("testDone", fn);
-  };
-  
-  this.log = function(fn) {
-    this.on("log", fn);
-  };
 
   this.emit = function(event) {
     var eventListeners = listeners[event];

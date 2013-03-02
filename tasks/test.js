@@ -61,7 +61,8 @@ module.exports = function(grunt) {
           if (args[1]) {
             if (args[1] === 'test/e2e/angular-scenario/testacular.conf.js') {
               processToKill = grunt.util.spawn({
-                cmd: node, args: ['test/e2e/angular-scenario/server.js']
+                cmd: node,
+                args: ['test/e2e/angular-scenario/server.js']
               }, function() {});
             }
 

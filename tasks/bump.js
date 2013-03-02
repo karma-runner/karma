@@ -16,7 +16,8 @@ module.exports = function(grunt) {
    * grunt bump:minor
    * grunt bump:major
    */
-  grunt.registerTask('bump', 'Increment version, generate changelog, create tag and push to github.', function(type) {
+  var DESC = 'Increment version, generate changelog, create tag and push to github.';
+  grunt.registerTask('bump', DESC, function(type) {
 
     var finish = this.async();
     var queue = [];
@@ -62,8 +63,10 @@ module.exports = function(grunt) {
     });
 
     run('sublime -w CHANGELOG.md', 'CHANGELOG.md updated');
-    run('git commit package.json CHANGELOG.md -m "chore: release v' + newVersion + '"', 'Changes committed');
-    run('git tag -a v' + newVersion + ' -m "Version ' + newVersion + '"', 'New tag "v' + newVersion + '" created');
+    run('git commit package.json CHANGELOG.md -m "chore: release v' + newVersion + '"',
+        'Changes committed');
+    run('git tag -a v' + newVersion + ' -m "Version ' + newVersion + '"', 'New tag "v' +
+        newVersion + '" created');
     run('git push upstream master --tags', 'Pushed to github');
   });
 
