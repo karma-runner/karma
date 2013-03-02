@@ -53,6 +53,7 @@
     "Fred Sauer <fredsa@google.com>"
   ],
   "dependencies": {
+    "di": "git://github.com/vojtajina/node-di.git",
     "socket.io": "0.9.13",
     "chokidar": "0.5.3",
     "glob": "3.1.20",
@@ -60,23 +61,22 @@
     "http-proxy": "0.8.7",
     "optimist": "0.3.5",
     "coffee-script": "1.4.0",
-    "xmlbuilder": "0.4.2",
     "rimraf": "2.1.4",
     "q": "0.8.12",
-    "LiveScript": "1.0.1",
     "colors": "0.6.0-1",
-    "dateformat": "1.0.2-1.2.3",
-    "istanbul": "0.1.22",
     "lodash": "1.0.0-rc.3",
-    "growly": "1.1.1",
     "pause": "0.0.1",
     "mime": "1.2.7",
-    "log4js": "0.5.6"
+    "log4js": "0.5.6",
+    "testacular-jasmine": "*",
+    "testacular-chrome-launcher": "*",
+    "testacular-firefox-launcher": "*",
+    "testacular-phantomjs-launcher": "*"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-simple-mocha": "~0.3.2",
-    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-jshint": "~0.2",
     "mocks": ">= 0.0.10",
     "which": ">= 1.0.5",
     "sinon-chai": ">= 2.2.0",
@@ -86,7 +86,21 @@
     "timer-shim": ">= 0.1.1",
     "chai-as-promised": ">= 3.2.3",
     "mock-http-response": "~0.1.1",
-    "qq": ">= 0.3.5"
+    "qq": ">= 0.3.5",
+
+    "testacular-jasmine": "*",
+    "testacular-mocha": "*",
+    "testacular-qunit": "*",
+
+    "testacular-coverage": "*",
+    "testacular-requirejs": "*",
+    "testacular-growl-reporter": "*",
+    "testacular-junit-reporter": "*",
+    "testacular-chrome-launcher": "*",
+    "testacular-firefox-launcher": "*",
+    "testacular-phantomjs-launcher": "*",
+    "testacular-ng-scenario": "*",
+    "testacular-coffee-preprocessor": "*"
   },
   "preferGlobal": true,
   "repository": {
@@ -100,5 +114,5 @@
   "engines": {
     "node": ">= 0.8.4"
   },
-  "version": "0.6.0"
+  "version": "0.7.0"
 }

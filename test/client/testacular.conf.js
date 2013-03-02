@@ -9,20 +9,17 @@
 // base path, that will be used to resolve files and exclude
 basePath = '../..';
 
+frameworks = ['jasmine'];
+
 // list of files / patterns to load in the browser
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
   'test/client/mocks.js',
   'static/testacular.src.js',
-  'test/client/mocks/ObjectModel.js',
-  'adapter/*.src.js',
   'test/client/*.spec.js'
 ];
 
 // list of files to exclude
-exclude = [
-];
+exclude = [];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit', 'teamcity'
@@ -82,3 +79,10 @@ reportSlowerThan = 500;
 preprocessors = {
   '**/*.coffee': 'coffee'
 };
+
+plugins = [
+  'testacular-jasmine',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher',
+  'testacular-junit-reporter'
+]

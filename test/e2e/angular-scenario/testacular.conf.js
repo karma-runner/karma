@@ -1,6 +1,6 @@
+frameworks = ['ng-scenario'];
+
 files = [
-  ANGULAR_SCENARIO,
-  ANGULAR_SCENARIO_ADAPTER,
   'e2eSpec.js'
 ];
 
@@ -12,4 +12,13 @@ proxies = {
   '/': 'http://localhost:8000/test/e2e/angular-scenario/'
 };
 
+browsers = ['Chrome'];
+
 reporters = ['dots'];
+
+plugins = [
+  'testacular-ng-scenario',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher'
+];
+

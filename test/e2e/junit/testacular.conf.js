@@ -1,6 +1,6 @@
+frameworks = ['jasmine'];
+
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
   '*.js'
 ];
 
@@ -20,3 +20,9 @@ junitReporter = {
   outputFile: 'test-results.xml'
 };
 
+plugins = [
+  'testacular-jasmine',
+  'testacular-chrome-launcher',
+  'testacular-firefox-launcher',
+  'testacular-junit-reporter'
+];

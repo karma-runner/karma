@@ -70,7 +70,6 @@ describe 'config', ->
       logSpy = sinon.spy()
 
       logger = require '../../lib/logger.js'
-      logger.setup 'ERROR', false
 
       logger.create('config').on 'log', logSpy
 

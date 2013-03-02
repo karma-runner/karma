@@ -1,5 +1,6 @@
-define(function() {
+define(['chai'], function(chai) {
   var expect = chai.expect;
+
   describe('something', function() {
     it('should pass', function() {
       expect(true).to.equal(true);
