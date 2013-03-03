@@ -90,7 +90,7 @@ var Testacular = function(socket, context, navigator, location) {
   };
 
   this.complete = function(result) {
-    socket.emit('complete', result);
+    socket.emit('complete', result || {});
     clearContext();
   };
 
