@@ -26,7 +26,72 @@
       "path": ".",
       "folder_exclude_patterns": ["node_modules"],
       "file_exclude_patterns": []
-
+    },
+    {
+      "name": "jasmine",
+      "path": "../testacular-jasmine",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "mocha",
+      "path": "../testacular-mocha",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "qunit",
+      "path": "../testacular-qunit",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "chrome-launcher",
+      "path": "../testacular-chrome-launcher",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "firefox-launcher",
+      "path": "../testacular-firefox-launcher",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "phantomjs-launcher",
+      "path": "../testacular-phantomjs-launcher",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "coverage",
+      "path": "../testacular-coverage",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "growl-reporter",
+      "path": "../testacular-growl-reporter",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "junit-reporter",
+      "path": "../testacular-junit-reporter",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "ng-html2js-preprocessor",
+      "path": "../testacular-ng-html2js-preprocessor",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
+    },
+    {
+      "name": "requirejs",
+      "path": "../testacular-requirejs",
+      "folder_exclude_patterns": ["node_modules"],
+      "file_exclude_patterns": []
     }
   ],
   "settings":
