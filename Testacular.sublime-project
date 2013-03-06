@@ -2,6 +2,12 @@
   "build_systems":
   [
     {
+      "name": "Mocha Unit tests",
+      "cmd": ["mocha", "--compilers", "coffee:coffee-script", "test/unit"],
+      "working_dir": "${project_path}",
+      "path": "/usr/local/nvm/v0.8.4/bin"
+    },
+    {
       "name": "Unit tests",
       "cmd": ["grunt", "simplemocha:unit", "--no-color"],
       "working_dir": "${project_path}",
@@ -103,6 +109,6 @@
       ["*/static/*.src.js", "*/test/client/*.spec.js"],
       ["*/tasks/*.js", "*/test/tasks/*.spec.coffee"]
     ],
-    "build_switcher_systems": ["Unit tests", "Task tests", "Client tests"]
+    "build_switcher_systems": ["Unit tests", "Task tests", "Client tests", "Mocha Unit tests"]
   }
 }
