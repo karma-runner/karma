@@ -53,7 +53,7 @@
     "Fred Sauer <fredsa@google.com>"
   ],
   "dependencies": {
-    "di": "git://github.com/vojtajina/node-di.git",
+    "di": "git://github.com/vojtajina/node-di.git#db32a5f1",
     "socket.io": "0.9.13",
     "chokidar": "0.5.3",
     "glob": "3.1.20",
