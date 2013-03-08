@@ -92,6 +92,15 @@ it again. After three attempts to capture it, Testacular will give up.
 See [config/files] for more information.
 
 
+## autoStart
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description** If false, the tests will not start automatically. A file in the files array config
+needs to call `__testacular__.start()`.
+
+
 ## hostname
 **Type:** String
 
