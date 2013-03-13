@@ -74,7 +74,7 @@
     "testacular-phantomjs-launcher": "*"
   },
   "devDependencies": {
-    "grunt": "~0.4.0",
+    "grunt": "~0.4.1",
     "grunt-simple-mocha": "~0.3.2",
     "grunt-contrib-jshint": "~0.2",
     "mocks": ">= 0.0.10",
@@ -87,11 +87,9 @@
     "chai-as-promised": ">= 3.2.3",
     "mock-http-response": "~0.1.1",
     "qq": ">= 0.3.5",
-
     "testacular-jasmine": "*",
     "testacular-mocha": "*",
     "testacular-qunit": "*",
-
     "testacular-coverage": "*",
     "testacular-requirejs": "*",
     "testacular-growl-reporter": "*",
