@@ -1,4 +1,5 @@
 var CONTEXT_URL = 'context.html';
+var VERSION = '%TESTACULAR_VERSION%';
 
 // connect socket.io
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
@@ -27,7 +28,8 @@ var titleElement = document.getElementById('title');
 var bannerElement = document.getElementById('banner');
 var updateStatus = function(status) {
   return function(param) {
-    titleElement.innerHTML = 'Testacular - ' + (param ? status.replace('$', param) : status);
+    var paramStatus = param ? status.replace('$', param) : status;
+    titleElement.innerHTML = 'Testacular v' + VERSION + ' - ' + paramStatus;
     bannerElement.className = status === 'connected' ? 'online' : 'offline';
   };
 };
@@ -43,6 +45,8 @@ var Testacular = function(socket, context, navigator, location) {
   var config;
   var hasError = false;
   var store = {};
+
+  this.VERSION = VERSION;
 
   this.setupContext = function(contextWindow) {
 
