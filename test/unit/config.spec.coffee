@@ -271,6 +271,18 @@ describe 'config', ->
       expect(file.watched).to.equal true
 
 
+    it 'should resolve relative preprocessor patterns', ->
+      config = normalizeConfigWithDefaults
+        basePath: '/some/base'
+        preprocessors:
+          '*.coffee': 'coffee'
+          '/**/*.html': 'html2js'
+
+      expect(config.preprocessors).to.have.property '/some/base/*.coffee'
+      expect(config.preprocessors).not.to.have.property '*.coffee'
+      expect(config.preprocessors).to.have.property '/**/*.html'
+
+
   describe 'createPatternObject', ->
 
     it 'should parse string and set defaults', ->
