@@ -44,6 +44,7 @@ their command line equivalents.
   * `Opera`
   * `Safari`
   * `PhantomJS`
+  * `IE`
 
 **Description:**
   A list of browsers to launch and capture. Once testacular is shut down, it will shut down these
