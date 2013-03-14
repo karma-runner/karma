@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-simple-mocha": "~0.3.2",
+    "grunt-simple-mocha": "https://github.com/Dignifiedquire/grunt-simple-mocha/tarball/0.10",
     "grunt-contrib-jshint": "~0.2",
     "mocks": ">= 0.0.10",
     "which": ">= 1.0.5",
