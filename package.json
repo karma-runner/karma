@@ -85,7 +85,7 @@
     "which": ">= 1.0.5",
     "sinon-chai": ">= 2.2.0",
     "chai": ">= 1.4.0",
-    "mocha": ">= 1.7.4",
+    "mocha": "~1.8.2",
     "sinon": ">= 1.5.2",
     "timer-shim": ">= 0.1.1",
     "chai-as-promised": ">= 3.2.3",
