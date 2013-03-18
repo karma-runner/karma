@@ -5,7 +5,7 @@ are some tips to get you started.
 ## Getting Started
 
 * Make sure you have a [GitHub account](https://github.com/signup/free)
-* Consider [submiting a ticket](https://github.com/vojtajina/testacular/issues/new) for your issue,
+* Consider [submiting a ticket](https://github.com/karma-runner/karma/issues/new) for your issue,
   assuming one does not already exist.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure you fill in the earliest version that you know has the issue.
@@ -97,8 +97,8 @@ $ grunt test:client
 * [GitHub pull request documentation]
 * [@TestacularJS]
 
-[Testacular - Git Commit Msg Format Conventions]: http://testacular.github.com/0.6.0/dev/git-commit-msg.html
-[Issue tracker]: https://github.com/vojtajina/testacular/issues
+[Testacular - Git Commit Msg Format Conventions]: http://karma-runner.github.com/0.6.0/dev/git-commit-msg.html
+[Issue tracker]: https://github.com/karma-runner/karma/issues
 [Mailing List]: https://groups.google.com/forum/#!forum/testacular
 [General GitHub documentation]: http://help.github.com/
 [GitHub pull request documentation]: http://help.github.com/send-pull-requests/

@@ -124,7 +124,7 @@ use the awesome [Socket.io] library and [Node.js].
 ## This is so great. I want to help.
 
 See
-[Contributing.md](https://github.com/vojtajina/testacular/blob/master/CONTRIBUTING.md)
+[Contributing.md](https://github.com/karma-runner/karma/blob/master/CONTRIBUTING.md)
 or the [docs] for more information.
 
 
@@ -172,9 +172,9 @@ or the [docs] for more information.
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
-[Browsers]: http://testacular.github.com/0.6.0/config/browsers.html
-[Versioning]: http://testacular.github.com/0.6.0/about/versioning.html
-[Configuration File Overview]: http://testacular.github.com/0.6.0/config/configuration-file.html
-[docs]: http://testacular.github.com
-[Docs]: http://testacular.github.com
-[website]: http://testacular.github.com
+[Browsers]: http://karma-runner.github.com/0.6.0/config/browsers.html
+[Versioning]: http://karma-runner.github.com/0.6.0/about/versioning.html
+[Configuration File Overview]: http://karma-runner.github.com/0.6.0/config/configuration-file.html
+[docs]: http://karma-runner.github.com
+[Docs]: http://karma-runner.github.com
+[website]: http://karma-runner.github.com
