@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 
 // Try to find a local install
-var dir = path.resolve(process.cwd(), 'node_modules', 'testacular', 'lib');
+var dir = path.resolve(process.cwd(), 'node_modules', 'karma', 'lib');
 
 // Check if the local install exists else we use the install we are in
 if (!fs.existsSync(dir)) {

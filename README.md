@@ -1,12 +1,12 @@
-# Testacular [![Build Status](https://secure.travis-ci.org/testacular/testacular.png?branch=stable)](http://travis-ci.org/testacular/testacular) [![Build Status](https://secure.travis-ci.org/testacular/testacular.png?branch=master)](http://travis-ci.org/testacular/testacular)
+# Karma [![Build Status](https://secure.travis-ci.org/karma-runner/karma.png?branch=stable)](http://travis-ci.org/karma-runner/karma) [![Build Status](https://secure.travis-ci.org/karma-runner/karma.png?branch=master)](http://travis-ci.org/karma-runner/karma)
 
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers, powered by [Node.js] and [Socket.io].
 
-> The main purpose of Testacular is to make your TDD development easy,
+> The main purpose of Karma is to make your TDD development easy,
 >  fast, and fun.
 
-## When should I use Testacular?
+## When should I use Karma?
 
 * You want to test code in *real* browsers.
 * You want to test code in multiple browsers (desktop, mobile,
@@ -23,7 +23,7 @@ _real_ browsers, powered by [Node.js] and [Socket.io].
 
 ## But I still want to use \_insert testing library\_
 
-Testacular is not a testing framework, neither an assertion library,
+Karma is not a testing framework, neither an assertion library,
 so for that you can use pretty much anything you like. Right now out
 of the box there is support for
 
@@ -56,14 +56,14 @@ Every serious project has a screencast, so here is ours.  Just click
 If you have [Node.js] installed, it's as simple as
 
 ```bash
-$ npm install -g testacular
+$ npm install -g karma
 ```
 
 This will give you the latest stable version available on npm. If you
 want to live life on the edge you can do so by
 
 ```bash
-$ npm install -g testacular@canary
+$ npm install -g karma@canary
 ```
 
 The curious can have a look at the documentation articles for
@@ -71,37 +71,37 @@ The curious can have a look at the documentation articles for
 
 ### Using it.
 
-Go into your project and create a testacular configuration. That is
-just a simple JavaScript or CoffeeScript file that tells Testacular
+Go into your project and create a Karma configuration. That is
+just a simple JavaScript or CoffeeScript file that tells Karma
 where all the awesomeness of your project are.
 
 You can find a simple example in
-[test/client/testacular.conf.js](https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js)
+[test/client/karma.conf.js](https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js)
 which contains most of the options.
 
 To create your own from scratch there is the `init` command, which
-will be named `testacular.conf.js` by default:
+will be named `karma.conf.js` by default:
 
 ```bash
-$ testacular init
+$ karma init
 ```
 This will ask you many questions and if you answered them all correct
-you will be allowed to use Testacular.
+you will be allowed to use Karma.
 
 For more information on the configuration options see
 [Configuration File Overview].
 
 Now that you have your configuration all that is left to do is to
-start Testacular:
+start Karma:
 ```bash
-$ testacular start
+$ karma start
 ```
 
 If you want to run tests manually (without auto watching file changes), you can:
 ```bash
-$ testacular run
+$ karma run
 ```
-But only if you have started the Testacular server before.
+But only if you have started the Karma server before.
 
 
 ## Why did you create this?
@@ -119,12 +119,12 @@ use the awesome [Socket.io] library and [Node.js].
 * [Docs]
 * [Mailing List]
 * [Issuetracker]
-* [@TestacularJS] on Twitter
+* [@JsKarma] on Twitter
 
 ## This is so great. I want to help.
 
 See
-[Contributing.md](https://github.com/vojtajina/testacular/blob/master/CONTRIBUTING.md)
+[Contributing.md](https://github.com/karma-runner/karma/blob/master/CONTRIBUTING.md)
 or the [docs] for more information.
 
 
@@ -163,18 +163,16 @@ or the [docs] for more information.
 [Jasmine]: http://pivotal.github.com/jasmine/
 [Mocha]: http://visionmedia.github.com/mocha/
 [QUnit]: http://qunitjs.com/
-[Semantic Versioning]: http://semver.org/
 [here]: http://www.youtube.com/watch?v=MVw8N3hTfCI
-[installers]: http://nodejs.org/download/
-[Mailing List]: https://groups.google.com/forum/#!forum/testacular
-[Issuetracker]: https://github.com/testacular/testacular/issues
-[@TestacularJS]: http://twitter.com/TestacularJS
+[Mailing List]: https://groups.google.com/forum/#!forum/karma-users
+[Issuetracker]: https://github.com/karma-runner/karma/issues
+[@JsKarma]: http://twitter.com/JsKarma
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
-[Browsers]: http://testacular.github.com/0.6.0/config/browsers.html
-[Versioning]: http://testacular.github.com/0.6.0/about/versioning.html
-[Configuration File Overview]: http://testacular.github.com/0.6.0/config/configuration-file.html
-[docs]: http://testacular.github.com
-[Docs]: http://testacular.github.com
-[website]: http://testacular.github.com
+[Browsers]: http://karma-runner.github.com/0.8/config/browsers.html
+[Versioning]: http://karma-runner.github.com/0.8/about/versioning.html
+[Configuration File Overview]: http://karma-runner.github.com/0.8/config/configuration-file.html
+[docs]: http://karma-runner.github.com
+[Docs]: http://karma-runner.github.com
+[website]: http://karma-runner.github.com

@@ -29,7 +29,7 @@ var bannerElement = document.getElementById('banner');
 var updateStatus = function(status) {
   return function(param) {
     var paramStatus = param ? status.replace('$', param) : status;
-    titleElement.innerHTML = 'Testacular v' + VERSION + ' - ' + paramStatus;
+    titleElement.innerHTML = 'Karma v' + VERSION + ' - ' + paramStatus;
     bannerElement.className = status === 'connected' ? 'online' : 'offline';
   };
 };
@@ -59,11 +59,11 @@ var Testacular = function(socket, context, navigator, location) {
         };
     };
 
-    contextWindow.__testacular__ = this;
+    contextWindow.__karma__ = this;
 
     // This causes memory leak in Chrome (17.0.963.66)
     contextWindow.onerror = function() {
-      return contextWindow.__testacular__.error.apply(contextWindow.__testacular__, arguments);
+      return contextWindow.__karma__.error.apply(contextWindow.__karma__, arguments);
     };
 
     // patch the console
@@ -71,7 +71,7 @@ var Testacular = function(socket, context, navigator, location) {
     var browserConsoleLog = localConsole.log;
 
     localConsole.log = function() {
-      contextWindow.__testacular__.info({dump: Array.prototype.slice.call(arguments, 0)});
+      contextWindow.__karma__.info({dump: Array.prototype.slice.call(arguments, 0)});
       return browserConsoleLog.apply(localConsole, arguments);
     };
   };

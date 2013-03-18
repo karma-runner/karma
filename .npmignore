@@ -13,7 +13,7 @@ jsl.conf
 Gruntfile.coffee
 changelog.sh
 
-Testacular.sublime-*
+Karma.sublime-*
 screencast*
 
 adapter/jasmine.src.js

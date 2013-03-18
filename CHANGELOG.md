@@ -1,3 +1,13 @@
+<a name="v0.6.1"></a>
+### v0.6.1 (2013-03-18)
+
+
+#### Bug Fixes
+
+* **config:** do not change urlRoot even if proxied ([1be1ae1d](https://github.com/karma-runner/karma/commit/1be1ae1dc7ff7314f4ac2854815cb39d31362f14))
+* **coverage:** always send a result object ([2d210aa6](https://github.com/karma-runner/karma/commit/2d210aa6697991f2eba05de58a696c5210485c88), closes [#365](https://github.com/karma-runner/karma/issues/365))
+* **reporter.teamcity:** report spec names and proper browser name ([c8f6f5ea](https://github.com/karma-runner/karma/commit/c8f6f5ea0c5c40d37b511d51b49bd22c9da5ea86))
+
 <a name="v0.6.0"></a>
 ## v0.6.0 (2013-02-22)
 
@@ -7,16 +17,16 @@
 
 #### Bug Fixes
 
-* **adapter.requirejs:** do not configure baseUrl automatically ([63f3f409](https://github.com/testacular/testacular/commit/63f3f409ae85a5137396a7ed6537bedfe4437cb3), closes [#291](https://github.com/testacular/testacular/issues/291))
-* **init:** add missing browsers (Opera, IE) ([f39e5645](https://github.com/testacular/testacular/commit/f39e5645ec561c2681d907f7c1611f01911ee8fd))
-* **reporter.junit:** Add browser log output to JUnit.xml ([f108799a](https://github.com/testacular/testacular/commit/f108799a4d8fd95b8c0250ee83c23ada25d026b9), closes [#302](https://github.com/testacular/testacular/issues/302))
+* **adapter.requirejs:** do not configure baseUrl automatically ([63f3f409](https://github.com/karma-runner/karma/commit/63f3f409ae85a5137396a7ed6537bedfe4437cb3), closes [#291](https://github.com/karma-runner/karma/issues/291))
+* **init:** add missing browsers (Opera, IE) ([f39e5645](https://github.com/karma-runner/karma/commit/f39e5645ec561c2681d907f7c1611f01911ee8fd))
+* **reporter.junit:** Add browser log output to JUnit.xml ([f108799a](https://github.com/karma-runner/karma/commit/f108799a4d8fd95b8c0250ee83c23ada25d026b9), closes [#302](https://github.com/karma-runner/karma/issues/302))
 
 
 #### Features
 
-* add Teamcity reporter ([03e700ae](https://github.com/testacular/testacular/commit/03e700ae2234ca7ddb8f9235343e3b0c80868bbd))
-* **adapter.jasmine:** remove only last failed specs anti-feature ([435bf72c](https://github.com/testacular/testacular/commit/435bf72cb12112462940c8114fbaa19f9de38531), closes [#148](https://github.com/testacular/testacular/issues/148))
-* **config:** allow empty config file when called programmatically ([f3d77424](https://github.com/testacular/testacular/commit/f3d77424009f621e1fb9d60eeec7f052ebb3c585), closes [#358](https://github.com/testacular/testacular/issues/358))
+* add Teamcity reporter ([03e700ae](https://github.com/karma-runner/karma/commit/03e700ae2234ca7ddb8f9235343e3b0c80868bbd))
+* **adapter.jasmine:** remove only last failed specs anti-feature ([435bf72c](https://github.com/karma-runner/karma/commit/435bf72cb12112462940c8114fbaa19f9de38531), closes [#148](https://github.com/karma-runner/karma/issues/148))
+* **config:** allow empty config file when called programmatically ([f3d77424](https://github.com/karma-runner/karma/commit/f3d77424009f621e1fb9d60eeec7f052ebb3c585), closes [#358](https://github.com/karma-runner/karma/issues/358))
 
 <a name="v0.5.10"></a>
 ### v0.5.10 (2013-02-14)
@@ -24,15 +34,15 @@
 
 #### Bug Fixes
 
-* **init:** fix the logger configuration ([481dc3fd](https://github.com/testacular/testacular/commit/481dc3fd75f45a0efa8aabdb1c71e8234b9e8a06), closes [#340](https://github.com/testacular/testacular/issues/340))
-* **proxy:** fix crashing proxy when browser hangs connection ([1c78a01a](https://github.com/testacular/testacular/commit/1c78a01a19411accb86f0bde9e040e5088752575))
+* **init:** fix the logger configuration ([481dc3fd](https://github.com/karma-runner/karma/commit/481dc3fd75f45a0efa8aabdb1c71e8234b9e8a06), closes [#340](https://github.com/karma-runner/karma/issues/340))
+* **proxy:** fix crashing proxy when browser hangs connection ([1c78a01a](https://github.com/karma-runner/karma/commit/1c78a01a19411accb86f0bde9e040e5088752575))
 
 
 #### Features
 
-* set urlRoot to /__testacular__/ when proxying the root ([8b4fd64d](https://github.com/testacular/testacular/commit/8b4fd64df6b7d07b5479e43dcd8cd2aa5e1efc9c))
-* **adapter.requirejs:** normalize paths before appending timestamp ([94889e7d](https://github.com/testacular/testacular/commit/94889e7d2de701c67a2612e3fc6a51bfae891d36))
-* update dependencies to the latest ([93f96278](https://github.com/testacular/testacular/commit/93f9627817f2d5d9446de9935930ca85cfa7df7f), [e34d8834](https://github.com/testacular/testacular/commit/e34d8834d69ec4e022fcd6e1be4055add96d693c))
+* set urlRoot to /__karma__/ when proxying the root ([8b4fd64d](https://github.com/karma-runner/karma/commit/8b4fd64df6b7d07b5479e43dcd8cd2aa5e1efc9c))
+* **adapter.requirejs:** normalize paths before appending timestamp ([94889e7d](https://github.com/karma-runner/karma/commit/94889e7d2de701c67a2612e3fc6a51bfae891d36))
+* update dependencies to the latest ([93f96278](https://github.com/karma-runner/karma/commit/93f9627817f2d5d9446de9935930ca85cfa7df7f), [e34d8834](https://github.com/karma-runner/karma/commit/e34d8834d69ec4e022fcd6e1be4055add96d693c))
 
 
 <a name="v0.5.9"></a>
@@ -41,16 +51,16 @@
 
 #### Bug Fixes
 
-* **adapter.requirejs:** show error if no timestamp defined for a file ([59dbdbd1](https://github.com/testacular/testacular/commit/59dbdbd136baa87467b9b9a4cb6ce226ae87bbef))
-* **init:** fix logger configuration ([557922d7](https://github.com/testacular/testacular/commit/557922d71941e0929f9cdc0d3794424a1f27b311))
-* **reporter:** remove newline from base reporter browser dump ([dfae18b6](https://github.com/testacular/testacular/commit/dfae18b63b413a1e6240d00b9dc0521ac0386ec5), closes [#297](https://github.com/testacular/testacular/issues/297))
-* **reporter.dots:** only add newline to message when needed ([dbe1155c](https://github.com/testacular/testacular/commit/dbe1155cb57fc4caa792f83f45288238db0fc7e0)
+* **adapter.requirejs:** show error if no timestamp defined for a file ([59dbdbd1](https://github.com/karma-runner/karma/commit/59dbdbd136baa87467b9b9a4cb6ce226ae87bbef))
+* **init:** fix logger configuration ([557922d7](https://github.com/karma-runner/karma/commit/557922d71941e0929f9cdc0d3794424a1f27b311))
+* **reporter:** remove newline from base reporter browser dump ([dfae18b6](https://github.com/karma-runner/karma/commit/dfae18b63b413a1e6240d00b9dc0521ac0386ec5), closes [#297](https://github.com/karma-runner/karma/issues/297))
+* **reporter.dots:** only add newline to message when needed ([dbe1155c](https://github.com/karma-runner/karma/commit/dbe1155cb57fc4caa792f83f45288238db0fc7e0)
 
 #### Features
 
-* add "debug" button to easily open debugging window ([da85aab9](https://github.com/testacular/testacular/commit/da85aab927edd1614e4e05b136dee834344aa3cb))
-* **config:** support running on a custom hostname ([b8c5fe85](https://github.com/testacular/testacular/commit/b8c5fe8533b13fd59cbf48972d2021069a84ae5b))
-* **reporter.junit:** add a 'skipped' tag for skipped testcases ([6286406e](https://github.com/testacular/testacular/commit/6286406e0a36a61125ea16d6f49be07030164cb0), closes [#321](https://github.com/testacular/testacular/issues/321))
+* add "debug" button to easily open debugging window ([da85aab9](https://github.com/karma-runner/karma/commit/da85aab927edd1614e4e05b136dee834344aa3cb))
+* **config:** support running on a custom hostname ([b8c5fe85](https://github.com/karma-runner/karma/commit/b8c5fe8533b13fd59cbf48972d2021069a84ae5b))
+* **reporter.junit:** add a 'skipped' tag for skipped testcases ([6286406e](https://github.com/karma-runner/karma/commit/6286406e0a36a61125ea16d6f49be07030164cb0), closes [#321](https://github.com/karma-runner/karma/issues/321))
 
 
 ### v0.5.8

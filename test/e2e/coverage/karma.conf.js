@@ -1,4 +1,4 @@
-frameworks = ['qunit'];
+frameworks = ['jasmine'];
 
 files = [
   'lib/*.js',
@@ -6,12 +6,12 @@ files = [
 ];
 
 exclude = [
-  'testacular.conf.js'
+  'karma.conf.js'
 ];
 
 autoWatch = true;
 
-browsers = ['Chrome'];
+browsers = ['Chrome']
 
 reporters = ['progress', 'coverage'];
 
@@ -33,7 +33,7 @@ coverageReporter = {
 };
 
 plugins = [
-  'testacular-qunit',
+  'testacular-jasmine',
   'testacular-coverage',
   'testacular-chrome-launcher',
   'testacular-firefox-launcher'

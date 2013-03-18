@@ -5,7 +5,6 @@
 describe 'logger', ->
   loadFile = require('mocks').loadFile
   logSpy = m = null
-  
   beforeEach ->
     logSpy = sinon.spy()
     m = loadFile __dirname + '/../../lib/logger.js'

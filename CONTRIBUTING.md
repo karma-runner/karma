@@ -1,11 +1,11 @@
 # How to contribute
-If you are thinking about making Testacular better, or you just want to hack on it, that’s great! Here
+If you are thinking about making Karma better, or you just want to hack on it, that’s great! Here
 are some tips to get you started.
 
 ## Getting Started
 
 * Make sure you have a [GitHub account](https://github.com/signup/free)
-* Consider [submiting a ticket](https://github.com/vojtajina/testacular/issues/new) for your issue,
+* Consider [submiting a ticket](https://github.com/karma-runner/karma/issues/new) for your issue,
   assuming one does not already exist.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure you fill in the earliest version that you know has the issue.
@@ -14,11 +14,11 @@ are some tips to get you started.
 * Fork the repository on GitHub
 
 ## Initial setup
-* Clone your fork.  For these instructions, we assume you cloned into '~/github/testacular'.
+* Clone your fork.  For these instructions, we assume you cloned into '~/github/karma'.
 * Install dependencies:
 
   ```bash
-  $ cd ~/github/testacular
+  $ cd ~/github/karma
   # install local dependencies
   $ npm install
 
@@ -29,7 +29,7 @@ are some tips to get you started.
 * Ensure you have a stable working baseline for development.
   ```bash
   # This will run a full build and test pass.
-  $ cd ~/github/testacular
+  $ cd ~/github/karma
   $ grunt
   ```
   On an unmodified 'master' branch, this command should always complete and report success.
@@ -40,7 +40,7 @@ are some tips to get you started.
   * File an issue (see above)
 
 * Run 'grunt init-dev-env'. This will install a git commit trigger that will ensure your commit messages
-    follows the [Testacular - Git Commit Msg Format Conventions]
+    follows the [Karma - Git Commit Msg Format Conventions]
 
 
 
@@ -58,7 +58,7 @@ are some tips to get you started.
   * Add tests for your changes as (or before) you make them, if at all possible.
     We use coffee script for our tests.
 * Commit your changes
-  * Follow the [Testacular - Git Commit Msg Format Conventions]
+  * Follow the [Karma - Git Commit Msg Format Conventions]
   * Push your changes to your forked repository
 * Send a pull request to the `master` branch.
   * Before submitting, make sure the default 'grunt' command succeeds locally.
@@ -95,11 +95,11 @@ $ grunt test:client
 * [Mailing List]
 * [General GitHub documentation]
 * [GitHub pull request documentation]
-* [@TestacularJS]
+* [@JsKarma]
 
-[Testacular - Git Commit Msg Format Conventions]: http://testacular.github.com/0.6.0/dev/git-commit-msg.html
-[Issue tracker]: https://github.com/vojtajina/testacular/issues
-[Mailing List]: https://groups.google.com/forum/#!forum/testacular
+[Karma - Git Commit Msg Format Conventions]: http://karma-runner.github.com/0.8/dev/git-commit-msg.html
+[Issue tracker]: https://github.com/karma-runner/karma/issues
+[Mailing List]: https://groups.google.com/forum/#!forum/karma-users
 [General GitHub documentation]: http://help.github.com/
 [GitHub pull request documentation]: http://help.github.com/send-pull-requests/
-[@TestacularJS]: http://twitter.com/TestacularJS
+[@JsKarma]: http://twitter.com/JsKarma

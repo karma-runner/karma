@@ -1,7 +1,7 @@
 var allTestFiles = [];
 var TEST_REGEXP = /test\.js$/;
 
-Object.keys(window.__testacular__.files).forEach(function(file) {
+Object.keys(window.__karma__.files).forEach(function(file) {
   if (TEST_REGEXP.test(file)) {
     allTestFiles.push(file);
   }
@@ -22,5 +22,5 @@ require.config({
   deps: allTestFiles,
 
   // we have to kick of jasmine, as it is asynchronous
-  callback: window.__testacular__.start
+  callback: window.__karma__.start
 });
