@@ -3,7 +3,7 @@
   "description": "Spectacular Test Runner for JavaScript.",
   "homepage": "http://vojtajina.github.com/testacular/",
   "bugs": {
-    "url": "https://github.com/vojtajina/testacular/issues"
+    "url": "https://github.com/karma-runner/karma/issues"
   },
   "keywords": [
     "Testacular",
@@ -103,7 +103,7 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/vojtajina/testacular.git"
+    "url": "git://github.com/karma-runner/karma.git"
   },
   "main": "./lib/index",
   "bin": {

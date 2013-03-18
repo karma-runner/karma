@@ -3,7 +3,7 @@
 // Most of the options can be overriden by cli arguments (see testacular --help)
 //
 // For all available config options and default values, see:
-// https://github.com/vojtajina/testacular/blob/stable/lib/config.js#L54
+// https://github.com/karma-runner/karma/blob/stable/lib/config.js
 
 
 // base path, that will be used to resolve files and exclude

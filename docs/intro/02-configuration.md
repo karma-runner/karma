@@ -31,5 +31,5 @@ overrides the configuration from the config file.
 Try `testacular start --help` if you want to see all available options.
 
 
-[test/client/testacular.conf.js]: https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js
+[test/client/testacular.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/testacular.conf.js
 [configuration file docs]: configuration_file.html
