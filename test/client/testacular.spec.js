@@ -33,6 +33,13 @@ describe('testacular', function() {
     expect(spyStart).not.toHaveBeenCalled();
   });
 
+  it('should not start execution if autoStart is false', function() {
+    tc.autoStart = false;
+    tc.loaded();
+
+    expect(spyStart).not.toHaveBeenCalled();
+  });
+
 
   it('should remove reference to start even after syntax error', function() {
     tc.error('syntax error', '/some/file.js', 11);

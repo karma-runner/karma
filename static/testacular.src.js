@@ -104,6 +104,11 @@ var Testacular = function(socket, context, navigator, location) {
 
   // all files loaded, let's start the execution
   this.loaded = function() {
+
+    // let a userfile call start manually
+    if (this.autoStart === false) {
+      return;
+    }
     // has error -> cancel
     if (!hasError) {
       this.start(config);
