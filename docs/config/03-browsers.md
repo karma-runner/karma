@@ -63,4 +63,4 @@ parameter to be used to connect to the server. The supplied id is used
 by the server to determine when the specific browser is captured.
 
 
-[launchers]: https://github.com/testacular/testacular/blob/master/lib/launchers
+[launchers]: https://github.com/karma-runner/karma/blob/master/lib/launchers

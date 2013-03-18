@@ -97,7 +97,7 @@ tests to run every time I add a test. There is no config option for
 this, but there's an easy way to get around it by filtering the tests
 from the `window.__testacular__.files` object.
 The code is included in the example below and the original suggestion
-came from <https://github.com/testacular/testacular/pull/236>.
+came from <https://github.com/karma-runner/karma/pull/236>.
 
 ### Asynchronously Run Testacular
 Because the RequireJs require statements are asynchronous, Testacular

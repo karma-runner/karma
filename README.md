@@ -76,7 +76,7 @@ just a simple JavaScript or CoffeeScript file that tells Testacular
 where all the awesomeness of your project are.
 
 You can find a simple example in
-[test/client/testacular.conf.js](https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js)
+[test/client/testacular.conf.js](https://github.com/karma-runner/karma/blob/master/test/client/testacular.conf.js)
 which contains most of the options.
 
 To create your own from scratch there is the `init` command, which
@@ -167,7 +167,7 @@ or the [docs] for more information.
 [here]: http://www.youtube.com/watch?v=MVw8N3hTfCI
 [installers]: http://nodejs.org/download/
 [Mailing List]: https://groups.google.com/forum/#!forum/testacular
-[Issuetracker]: https://github.com/testacular/testacular/issues
+[Issuetracker]: https://github.com/karma-runner/karma/issues
 [@TestacularJS]: http://twitter.com/TestacularJS
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
