@@ -1,3 +1,13 @@
+<a name="v0.6.1"></a>
+### v0.6.1 (2013-03-18)
+
+
+#### Bug Fixes
+
+* **config:** do not change urlRoot even if proxied ([1be1ae1d](https://github.com/testacular/testacular/commit/1be1ae1dc7ff7314f4ac2854815cb39d31362f14))
+* **coverage:** always send a result object ([2d210aa6](https://github.com/testacular/testacular/commit/2d210aa6697991f2eba05de58a696c5210485c88), closes [#365](https://github.com/testacular/testacular/issues/365))
+* **reporter.teamcity:** report spec names and proper browser name ([c8f6f5ea](https://github.com/testacular/testacular/commit/c8f6f5ea0c5c40d37b511d51b49bd22c9da5ea86))
+
 <a name="v0.6.0"></a>
 ## v0.6.0 (2013-02-22)
 
