@@ -1,9 +1,9 @@
 // Sample Testacular configuration file, that contain pretty much all the available options
-// It's used for running client tests on Travis (http://travis-ci.org/#!/vojtajina/testacular)
-// Most of the options can be overriden by cli arguments (see testacular --help)
+// It's used for running client tests on Travis (http://travis-ci.org/#!/karma-runner/karma)
+// Most of the options can be overriden by cli arguments (see karma --help)
 //
 // For all available config options and default values, see:
-// https://github.com/vojtajina/testacular/blob/stable/lib/config.js#L54
+// https://github.com/karma-runner/karma/blob/stable/lib/config.js#L54
 
 
 // base path, that will be used to resolve files and exclude

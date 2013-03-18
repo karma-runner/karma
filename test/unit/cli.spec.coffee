@@ -26,7 +26,7 @@ describe 'cli', ->
     it 'should parse options without configFile and set default', ->
       options = processArgs ['--auto-watch', '--auto-watch-interval', '10']
 
-      expect(options.configFile).to.equal path.join(CWD, 'testacular.conf.js')
+      expect(options.configFile).to.equal path.join(CWD, 'karma.conf.js')
       expect(options.autoWatch).to.equal  true
       expect(options.autoWatchInterval).to.equal 10
 

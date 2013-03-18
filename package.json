@@ -1,13 +1,15 @@
 {
-  "name": "testacular",
+  "name": "karma",
   "description": "Spectacular Test Runner for JavaScript.",
-  "homepage": "http://vojtajina.github.com/testacular/",
+  "homepage": "http://karma-runner.github.com/",
   "bugs": {
-    "url": "https://github.com/vojtajina/testacular/issues"
+    "url": "https://github.com/karma-runner/karma/issues"
   },
   "keywords": [
-    "Testacular",
-    "nodejs",
+    "karma",
+    "spectacular",
+    "runner",
+    "testacular",
     "js",
     "javascript",
     "testing",
@@ -91,11 +93,11 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/vojtajina/testacular.git"
+    "url": "git://github.com/karma-runner/karma.git"
   },
   "main": "./lib/index",
   "bin": {
-    "testacular": "./bin/testacular"
+    "karma": "./bin/karma"
   },
   "engines": {
     "node": ">= 0.8.4"

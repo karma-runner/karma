@@ -5,7 +5,7 @@ files = [
 ];
 
 exclude = [
-  'testacular.conf.js'
+  'karma.conf.js'
 ];
 
 autoWatch = true;

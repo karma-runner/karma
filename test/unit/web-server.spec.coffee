@@ -243,7 +243,7 @@ describe 'web-server', ->
         {path: '/tcular/adapter/c.js', mtime: new Date 321}]
 
       response.once 'end', ->
-        expect(response._content.toString()).to.equal 'window.__testacular__.files = {\n' +
+        expect(response._content.toString()).to.equal 'window.__karma__.files = {\n' +
         "  '/absolute/some/abs/a.js': '12345',\n" +
         "  '/base/b.js': '67890',\n" +
         "  '/adapter/c.js': '321'\n" +

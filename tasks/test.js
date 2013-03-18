@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     var specDone = this.async();
     var node = require('which').sync('node');
     var path = require('path');
-    var cmd = path.join(__dirname, '..', 'bin', 'testacular');
+    var cmd = path.join(__dirname, '..', 'bin', 'karma');
 
     var spawnTestacular = function(args, callback) {
       grunt.log.writeln(['Running', cmd].concat(args).join(' '));
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         } else {
           args[1] = tests.shift();
           if (args[1]) {
-            if (args[1] === 'test/e2e/angular-scenario/testacular.conf.js') {
+            if (args[1] === 'test/e2e/angular-scenario/karma.conf.js') {
               processToKill = grunt.util.spawn({
                 cmd: node, args: ['test/e2e/angular-scenario/server.js']
               }, function() {});

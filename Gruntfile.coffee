@@ -38,8 +38,8 @@ module.exports = (grunt) ->
     test:
       unit: 'simplemocha:unit'
       tasks: 'simplemocha:tasks'
-      client: 'test/client/testacular.conf.js'
-      e2e: 'test/e2e/*/testacular.conf.js'
+      client: 'test/client/karma.conf.js'
+      e2e: 'test/e2e/*/karma.conf.js'
 
 
     simplemocha:

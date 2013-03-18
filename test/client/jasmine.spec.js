@@ -149,7 +149,7 @@ describe('jasmine adapter', function() {
     var dump, testacular;
 
     beforeEach(function() {
-      testacular = jasmine.createSpyObj('__testacular__', ['info']);
+      testacular = jasmine.createSpyObj('__karma__', ['info']);
     });
 
 

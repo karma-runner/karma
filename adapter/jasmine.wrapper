@@ -3,8 +3,8 @@
 %CONTENT%
 
 
-window.__testacular__.start = createStartFn(window.__testacular__);
-window.dump = createDumpFn(window.__testacular__, function(value) {
+window.__karma__.start = createStartFn(window.__karma__);
+window.dump = createDumpFn(window.__karma__, function(value) {
   return window.angular && window.angular.mock && window.angular.mock.dump(value) || value;
 });
 

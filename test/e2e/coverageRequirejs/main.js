@@ -6,5 +6,5 @@ require.config({
   deps: ['test'],
 
   // we have to kick of jasmine, as it is asynchronous
-  callback: window.__testacular__.start
+  callback: window.__karma__.start
 });

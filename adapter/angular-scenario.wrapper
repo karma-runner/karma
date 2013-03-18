@@ -2,6 +2,6 @@
 
 %CONTENT%
 
-window.__testacular__.start = createNgScenarioStartFn(window.__testacular__, angular.scenario.setUpAndRun);
+window.__karma__.start = createNgScenarioStartFn(window.__karma__, angular.scenario.setUpAndRun);
 
 })(window);
