@@ -34,7 +34,7 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 
 [files]: files.html
 [minimatch]: https://github.com/isaacs/minimatch
-[coffee]: https://github.com/testacular/testacular/blob/v0.5.8/lib/preprocessors/Coffee.js
-[live]: https://github.com/testacular/testacular/blob/v0.5.8/lib/preprocessors/Live.js
-[html2js]: https://github.com/testacular/testacular/blob/v0.5.8/lib/preprocessors/Html2js.js
-[coverage]: https://github.com/testacular/testacular/blob/v0.5.8/lib/preprocessors/Coverage.js
+[coffee]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Coffee.js
+[live]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Live.js
+[html2js]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Html2js.js
+[coverage]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Coverage.js

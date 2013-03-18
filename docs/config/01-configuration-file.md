@@ -223,7 +223,7 @@ sometimes you might want to proxy a url that is already taken by Testacular.
 
 
 
-[test/client/testacular.conf.js]: https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js
+[test/client/testacular.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/testacular.conf.js
 [config/files]: files.html
 [config/browsers]: browsers.html
 [config/preprocessors]: preprocessors.html
