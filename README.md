@@ -76,7 +76,7 @@ just a simple JavaScript or CoffeeScript file that tells Testacular
 where all the awesomeness of your project are.
 
 You can find a simple example in
-[test/client/testacular.conf.js](https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js)
+[test/client/testacular.conf.js](https://github.com/karma-runner/karma/blob/master/test/client/testacular.conf.js)
 which contains most of the options.
 
 To create your own from scratch there is the `init` command, which
@@ -124,7 +124,7 @@ use the awesome [Socket.io] library and [Node.js].
 ## This is so great. I want to help.
 
 See
-[Contributing.md](https://github.com/vojtajina/testacular/blob/master/CONTRIBUTING.md)
+[Contributing.md](https://github.com/karma-runner/karma/blob/master/CONTRIBUTING.md)
 or the [docs] for more information.
 
 
@@ -167,14 +167,14 @@ or the [docs] for more information.
 [here]: http://www.youtube.com/watch?v=MVw8N3hTfCI
 [installers]: http://nodejs.org/download/
 [Mailing List]: https://groups.google.com/forum/#!forum/testacular
-[Issuetracker]: https://github.com/testacular/testacular/issues
+[Issuetracker]: https://github.com/karma-runner/karma/issues
 [@TestacularJS]: http://twitter.com/TestacularJS
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
-[Browsers]: http://testacular.github.com/0.6.0/config/browsers.html
-[Versioning]: http://testacular.github.com/0.6.0/about/versioning.html
-[Configuration File Overview]: http://testacular.github.com/0.6.0/config/configuration-file.html
-[docs]: http://testacular.github.com
-[Docs]: http://testacular.github.com
-[website]: http://testacular.github.com
+[Browsers]: http://karma-runner.github.com/0.6.0/config/browsers.html
+[Versioning]: http://karma-runner.github.com/0.6.0/about/versioning.html
+[Configuration File Overview]: http://karma-runner.github.com/0.6.0/config/configuration-file.html
+[docs]: http://karma-runner.github.com
+[Docs]: http://karma-runner.github.com
+[website]: http://karma-runner.github.com

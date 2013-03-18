@@ -32,7 +32,7 @@ In the event that your tests fail or freeze, this may be the result of
 a browser having a display message show up, a browser update prompt or
 extension-related conflict that needs to be taken care of.
 
-[#202]: https://github.com/testacular/testacular/issues/202
-[#74]: https://github.com/testacular/testacular/issues/74
+[#202]: https://github.com/karma-runner/karma/issues/202
+[#74]: https://github.com/karma-runner/karma/issues/74
 [chocolatey]: (http://chocolatey.org/)
 [mailing list]: https://groups.google.com/forum/#!forum/testacular
