@@ -96,5 +96,5 @@ $ grunt test:client
 * [Mailing List](https://groups.google.com/forum/#!forum/karma-users)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
-* [@TestacularJS](http://twitter.com/TestacularJS)
+* [@JsKarma](http://twitter.com/JsKarma)
 

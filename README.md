@@ -119,7 +119,7 @@ use the awesome [Socket.io] library and [Node.js].
 * [Wiki]
 * [Mailing List]
 * [Issuetracker]
-* [@TestacularJS] on Twitter
+* [@JsKarma] on Twitter
 
 ## This is so great. I want to help.
 
@@ -173,7 +173,7 @@ or the [wiki] for more information.
 [Configuration File Overview]: https://github.com/karma-runner/karma/wiki/Configuration-File-Overview
 [Mailing List]: https://groups.google.com/forum/#!forum/karma-users
 [Issuetracker]: https://github.com/karma-runner/karma/issues
-[@TestacularJS]: http://twitter.com/TestacularJS
+[@JsKarma]: http://twitter.com/JsKarma
 [Browsers]: https://github.com/karma-runner/karma/wiki/Browsers
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
