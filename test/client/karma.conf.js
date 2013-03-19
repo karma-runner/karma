@@ -1,4 +1,4 @@
-// Sample Testacular configuration file, that contain pretty much all the available options
+// Sample Karma configuration file, that contain pretty much all the available options
 // It's used for running client tests on Travis (http://travis-ci.org/#!/karma-runner/karma)
 // Most of the options can be overriden by cli arguments (see karma --help)
 //
@@ -14,7 +14,7 @@ frameworks = ['jasmine'];
 // list of files / patterns to load in the browser
 files = [
   'test/client/mocks.js',
-  'static/testacular.src.js',
+  'static/karma.src.js',
   'test/client/*.spec.js'
 ];
 
@@ -81,8 +81,8 @@ preprocessors = {
 };
 
 plugins = [
-  'testacular-jasmine',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher',
-  'testacular-junit-reporter'
+  'karma-jasmine',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher',
+  'karma-junit-reporter'
 ]

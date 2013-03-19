@@ -1,5 +1,5 @@
 require.config({
-  // Testacular serves files under /base, which is the basePath from your config file
+  // Karma serves files under /base, which is the basePath from your config file
   baseUrl: '/base',
 
   // load test.js

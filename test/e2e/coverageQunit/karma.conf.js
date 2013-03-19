@@ -33,8 +33,8 @@ coverageReporter = {
 };
 
 plugins = [
-  'testacular-qunit',
-  'testacular-coverage',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher'
+  'karma-qunit',
+  'karma-coverage',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher'
 ];

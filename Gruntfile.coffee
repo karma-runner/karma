@@ -19,7 +19,7 @@ module.exports = (grunt) ->
 
     files:
       server: ['lib/**/*.js']
-      client: ['static/testacular.src.js']
+      client: ['static/karma.src.js']
       grunt: ['grunt.js', 'tasks/**/*.js']
 
     build:

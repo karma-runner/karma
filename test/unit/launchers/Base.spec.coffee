@@ -53,7 +53,7 @@ describe 'launchers Base', ->
       sinon.stub browser, '_start'
 
       browser.start '/some'
-      expect(mockFs.readdirSync '/tmp/testacular-12345').to.exist
+      expect(mockFs.readdirSync '/tmp/karma-12345').to.exist
 
 
     it 'should not timeout if timeout = 0', ->
@@ -113,7 +113,7 @@ describe 'launchers Base', ->
       expect(killSpy).not.to.have.been.called
 
       mockSpawn._processes[0].emit 'close', 0
-      expect(mockRimraf).to.have.been.calledWith path.normalize('/tmp/testacular-12345'), killSpy
+      expect(mockRimraf).to.have.been.calledWith path.normalize('/tmp/karma-12345'), killSpy
 
       mockRimraf._callbacks[0]() # rm tempdir
       expect(killSpy).to.have.been.called

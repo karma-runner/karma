@@ -28,10 +28,10 @@ describe 'reporter', ->
                          'http://127.0.0.1:8080/base/home/b.js').
           to.be.equal 'file /usr/a.js and /home/b.js\n'
 
-    it 'should handle non default testacular service folders', ->
-      formatError = m.createErrorFormatter '', '/_testacular_/'
-      expect(formatError 'file http://localhost:8080/_testacular_/base/usr/a.js and ' +
-                         'http://127.0.0.1:8080/_testacular_/base/home/b.js').
+    it 'should handle non default karma service folders', ->
+      formatError = m.createErrorFormatter '', '/_karma_/'
+      expect(formatError 'file http://localhost:8080/_karma_/base/usr/a.js and ' +
+                         'http://127.0.0.1:8080/_karma_/base/home/b.js').
           to.be.equal 'file /usr/a.js and /home/b.js\n'
 
     it 'should remove timestamps', ->

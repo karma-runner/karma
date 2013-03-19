@@ -1,0 +1,8 @@
+(function(window, document, io) {
+
+%CONTENT%
+
+
+window.karma = new Karma(socket, document.getElementById('context'), window.navigator, window.location);
+
+})(window, document, window.io);

@@ -4,7 +4,7 @@ files = [
   'e2eSpec.js'
 ];
 
-urlRoot = '/__testacular/';
+urlRoot = '/__karma/';
 
 autoWatch = true;
 
@@ -17,8 +17,8 @@ browsers = ['Chrome'];
 reporters = ['dots'];
 
 plugins = [
-  'testacular-ng-scenario',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher'
+  'karma-ng-scenario',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher'
 ];
 

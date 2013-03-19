@@ -1,4 +1,4 @@
-// Testacular configuration
+// Karma configuration
 // Generated on Thu Jul 26 2012 14:35:23 GMT-0700 (PDT)
 
 
@@ -63,8 +63,8 @@ browsers = ['Chrome'];
 singleRun = false;
 
 plugins = [
-  'testacular-requirejs',
-  'testacular-jasmine',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher'
+  'karma-requirejs',
+  'karma-jasmine',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher'
 ];

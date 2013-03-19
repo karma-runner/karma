@@ -17,8 +17,8 @@ preprocessors = {
 reporters = ['dots'];
 
 plugins = [
-  'testacular-jasmine',
-  'testacular-coffee-preprocessor',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher'
+  'karma-jasmine',
+  'karma-coffee-preprocessor',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher'
 ];

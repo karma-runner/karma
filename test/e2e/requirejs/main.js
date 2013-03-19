@@ -8,7 +8,7 @@ Object.keys(window.__karma__.files).forEach(function(file) {
 });
 
 require.config({
-  // Testacular serves files under /base, which is the basePath from your config file
+  // Karma serves files under /base, which is the basePath from your config file
   baseUrl: '/base',
 
   // example of using shim, to load non AMD libraries (such as Backbone, jquery)

@@ -1,6 +1,6 @@
 /**
- Mocks for testing static/testacular.js
- Needs to be loaded before testacular.js
+ Mocks for testing static/karma.js
+ Needs to be loaded before karma.js
  */
 
 var Emitter = function() {

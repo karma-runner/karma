@@ -140,7 +140,7 @@ describe 'config', ->
 
 
     it 'should override config with cli options, but not deep merge', ->
-      # regression https://github.com/vojtajina/testacular/issues/283
+      # regression https://github.com/karma-runner/karma/issues/283
       config = e.parseConfig '/home/config7.js', {browsers: ['Safari']}
 
       expect(config.browsers).to.deep.equal ['Safari']

@@ -33,8 +33,8 @@ coverageReporter = {
 };
 
 plugins = [
-  'testacular-jasmine',
-  'testacular-coverage',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher'
+  'karma-jasmine',
+  'karma-coverage',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher'
 ];

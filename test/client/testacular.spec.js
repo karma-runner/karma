@@ -1,16 +1,16 @@
 /**
- Tests for static/testacular.js
+ Tests for static/karma.js
  These tests are executed in browser.
  */
 
-describe('testacular', function() {
+describe('karma', function() {
   var socket, tc, spyStart, windowNavigator, windowLocation;
 
   beforeEach(function() {
     socket = new MockSocket();
     windowNavigator = {};
     windowLocation = {};
-    tc = new Testacular(socket, {}, windowNavigator, windowLocation);
+    tc = new Karma(socket, {}, windowNavigator, windowLocation);
     spyStart = spyOn(tc, 'start');
   });
 

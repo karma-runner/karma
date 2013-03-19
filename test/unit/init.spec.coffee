@@ -154,7 +154,7 @@ describe 'init', ->
 
 
     it 'should handle absolute paths', ->
-      expect(m.getBasePath replace('/Users/vojta/testacular/conf.js'), replace('/Users/vojta')).to.equal replace('..')
+      expect(m.getBasePath replace('/Users/vojta/karma/conf.js'), replace('/Users/vojta')).to.equal replace('..')
 
 
   describe 'getReplacementsFromAnswers', ->

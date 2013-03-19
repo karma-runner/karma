@@ -21,8 +21,8 @@ junitReporter = {
 };
 
 plugins = [
-  'testacular-jasmine',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher',
-  'testacular-junit-reporter'
+  'karma-jasmine',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher',
+  'karma-junit-reporter'
 ];

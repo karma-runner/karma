@@ -15,7 +15,7 @@ browsers = ['Chrome'];
 reporters = ['dots'];
 
 plugins = [
-  'testacular-qunit',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher'
+  'karma-qunit',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher'
 ];

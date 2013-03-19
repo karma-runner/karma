@@ -16,7 +16,7 @@ module.exports = function(grunt) {
     var path = require('path');
     var cmd = path.join(__dirname, '..', 'bin', 'karma');
 
-    var spawnTestacular = function(args, callback) {
+    var spawnKarma = function(args, callback) {
       grunt.log.writeln(['Running', cmd].concat(args).join(' '));
       var child;
       if (process.platform === 'win32') {
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     };
 
     var exec = function(args, failMsg) {
-      spawnTestacular(args, function(err, result, code) {
+      spawnKarma(args, function(err, result, code) {
         if (code) {
           console.error(err);
           grunt.fail.fatal(failMsg, code);
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
               }, function() {});
             }
 
-            spawnTestacular(args, next);
+            spawnKarma(args, next);
           } else {
             specDone();
           }

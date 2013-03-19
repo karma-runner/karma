@@ -71,25 +71,25 @@ describe 'web-server', ->
     beforeEach ->
       servedFiles defaultFiles
       handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
-          {'/_testacular_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'}, '/_testacular_/'
+          {'/_karma_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'}, '/_karma_/'
       actualOptions = {}
       response = new responseMock()
       nextSpy = sinon.spy()
 
 
-    it 'should first look for testacular files', ->
+    it 'should first look for karma files', ->
       response.once 'end', ->
         expect(response._content.toString()).to.equal  'CLIENT HTML'
         expect(response.statusCode).to.equal  200
         expect(actualOptions).to.deep.equal {}
 
-      handler new httpMock.ServerRequest('/_testacular_/'), response
+      handler new httpMock.ServerRequest('/_karma_/'), response
 
 
     it 'should check for forbidden files before serving', (done) ->
       handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
-          {'/_testacular_/': 'http://localhost:9000'}, '/_testacular_/'
-      
+          {'/_karma_/': 'http://localhost:9000'}, '/_karma_/'
+
       response.once 'end', ->
         expect(response.statusCode).to.equal 404
         expect(response._content.toString()).to.equal 'NOT FOUND'
@@ -106,12 +106,12 @@ describe 'web-server', ->
       handler new httpMock.ServerRequest('/base/a.js'), response
 
 
-    it 'should delegate to proxy after checking for testacular files', (done) ->
+    it 'should delegate to proxy after checking for karma files', (done) ->
       response.once 'end', ->
         expect(actualOptions).to.deep.equal  {host: 'localhost', port: '9000'}
         done()
-        
-      handler new httpMock.ServerRequest('/_testacular_/not_client.html'), response
+
+      handler new httpMock.ServerRequest('/_karma_/not_client.html'), response
 
 
     it 'should delegate to proxy after checking for source files', (done) ->
@@ -132,9 +132,9 @@ describe 'web-server', ->
 
         
   #============================================================================
-  # Testacular Source Handler
+  # Karma Source Handler
   #============================================================================
-  describe 'testacular source handler', ->
+  describe 'karma source handler', ->
 
     tcularSrcHandler = null
 
@@ -142,7 +142,7 @@ describe 'web-server', ->
       includedFiles defaultFiles
       response = new responseMock
       globals.process.platform = 'darwin'
-      tcularSrcHandler = m.createTestacularSourceHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, '/_testacular_/'
+      tcularSrcHandler = m.createKarmaSourceHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, '/_karma_/'
 
 
     it 'should serve client.html', (done) ->
@@ -151,8 +151,8 @@ describe 'web-server', ->
         expect(response._content.toString()).to.equal  'CLIENT HTML'
         expect(response.statusCode).to.equal 200
         done()
-        
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/'), response, nextSpy
+
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/'), response, nextSpy
 
 
     it 'should allow /?id=xxx', (done) ->
@@ -161,8 +161,8 @@ describe 'web-server', ->
         expect(response._content.toString()).to.equal  'CLIENT HTML'
         expect(response.statusCode).to.equal 200
         done()
-        
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/?id=123'), response, nextSpy
+
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/?id=123'), response, nextSpy
 
 
     it 'should serve context.html with replaced script tags', ->
@@ -176,7 +176,7 @@ describe 'web-server', ->
         '<script type="text/javascript" src="/absolute/second.js?67890"></script>'
         expect(response.statusCode).to.equal 200
 
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response, nextSpy
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
 
 
     it 'should serve debug.html with replaced script tags without timestamps', (done) ->
@@ -190,8 +190,8 @@ describe 'web-server', ->
         '<script type="text/javascript" src="/absolute/second.js"></script>'
         expect(response.statusCode).to.equal 200
         done()
-        
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/debug.html'), response, nextSpy
+
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/debug.html'), response, nextSpy
 
 
     it 'should serve context.html with /basepath/*, /adapter/*, /absolute/* ', (done) ->
@@ -207,20 +207,20 @@ describe 'web-server', ->
         '<script type="text/javascript" src="/adapter/c.js?321"></script>'
         expect(response.statusCode).to.equal 200
         done()
-        
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response, nextSpy
+
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
 
 
     it 'should not change urls', (done) ->
       includedFiles [{path: 'http://some.url.com/whatever', isUrl: true}]
-      
+
       response.once 'end', ->
         expect(response._content.toString()).to.equal  'CONTEXT\n' +
         '<script type="text/javascript" src="http://some.url.com/whatever"></script>'
         expect(response.statusCode).to.equal 200
         done()
 
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response, nextSpy
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
 
 
     it 'should send non-caching headers for context.html', (done) ->
@@ -232,7 +232,7 @@ describe 'web-server', ->
         expect(response.getHeader('Expires')).to.equal ZERO_DATE
         done()
 
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response, nextSpy
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
 
 
     it 'should inline mappings with all served files', (done) ->
@@ -252,19 +252,19 @@ describe 'web-server', ->
         expect(response.statusCode).to.equal 200
         done()
 
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response, nextSpy
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
 
 
     it 'should redirect urlRoot without trailing slash', (done) ->
       response.once 'end', ->
         expect(nextSpy).not.to.have.been.called
         expect(response.statusCode).to.equal 301
-        expect(response.getHeader('Location')).to.equal '/_testacular_/'
+        expect(response.getHeader('Location')).to.equal '/_karma_/'
         done()
-        
-      tcularSrcHandler new httpMock.ServerRequest('/_testacular_'), response, nextSpy
-      
-        
+
+      tcularSrcHandler new httpMock.ServerRequest('/_karma_'), response, nextSpy
+
+
   #============================================================================
   # Source Files Handler
   #============================================================================

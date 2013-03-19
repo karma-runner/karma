@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
   /**
-   * Initialize development environment for Testacular
+   * Initialize development environment for Karma
    *
    * - register git hooks (commit-msg)
    */

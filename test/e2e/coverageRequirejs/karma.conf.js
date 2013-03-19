@@ -25,9 +25,9 @@ coverageReporter = {
 };
 
 plugins = [
-  'testacular-mocha',
-  'testacular-requirejs',
-  'testacular-coverage',
-  'testacular-chrome-launcher',
-  'testacular-firefox-launcher'
+  'karma-mocha',
+  'karma-requirejs',
+  'karma-coverage',
+  'karma-chrome-launcher',
+  'karma-firefox-launcher'
 ];

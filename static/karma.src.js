@@ -1,13 +1,13 @@
 var CONTEXT_URL = 'context.html';
-var VERSION = '%TESTACULAR_VERSION%';
+var VERSION = '%KARMA_VERSION%';
 
 // connect socket.io
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-var testacularSrcPrefix = '%TESTACULAR_SRC_PREFIX%';
+var karmaSrcPrefix = '%KARMA_SRC_PREFIX%';
 var socket = io.connect('http://' + location.host, {
   'reconnection delay': 500,
   'reconnection limit': 2000,
-  'resource': testacularSrcPrefix + 'socket.io',
+  'resource': karmaSrcPrefix + 'socket.io',
   'max reconnection attempts': Infinity
 });
 
@@ -41,7 +41,7 @@ socket.on('reconnect', updateStatus('re-connected'));
 socket.on('reconnect_failed', updateStatus('failed to reconnect'));
 
 /* jshint unused: false */
-var Testacular = function(socket, context, navigator, location) {
+var Karma = function(socket, context, navigator, location) {
   var config;
   var hasError = false;
   var store = {};
