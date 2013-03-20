@@ -69,7 +69,9 @@
     "lodash": "1.0.0-rc.3",
     "pause": "0.0.1",
     "mime": "1.2.7",
-    "log4js": "0.5.6",
+    "log4js": "0.5.6"
+  },
+  "peerDependencies": {
     "karma-jasmine": "*",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
