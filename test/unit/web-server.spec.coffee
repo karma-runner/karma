@@ -71,7 +71,7 @@ describe 'web-server', ->
     beforeEach ->
       servedFiles defaultFiles
       handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
-          {'/_testacular_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'}, '/_testacular_/'
+          {'/_testacular_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'}, '/_testacular_/', [], []
       actualOptions = {}
       response = new responseMock()
       nextSpy = sinon.spy()
@@ -142,7 +142,7 @@ describe 'web-server', ->
       includedFiles defaultFiles
       response = new responseMock
       globals.process.platform = 'darwin'
-      tcularSrcHandler = m.createTestacularSourceHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, '/_testacular_/'
+      tcularSrcHandler = m.createTestacularSourceHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, '/_testacular_/', [], []
 
 
     it 'should serve client.html', (done) ->
@@ -261,10 +261,50 @@ describe 'web-server', ->
         expect(response.statusCode).to.equal 301
         expect(response.getHeader('Location')).to.equal '/_testacular_/'
         done()
-        
+
       tcularSrcHandler new httpMock.ServerRequest('/_testacular_'), response, nextSpy
-      
-        
+
+
+    it 'should invoke custom handler', (done) ->
+      response.once 'end', ->
+        expect(nextSpy).not.to.have.been.called
+        expect(response.statusCode).to.equal 200
+        expect(response._content.toString()).to.equal 'Hello World'
+        done()
+
+      customHandlers = [
+        {
+          urlRegex: /\/test/,
+          handler: (request, response, staticFolder, adapterFolder, baseFolder, urlRoot) ->
+            return response.end 'Hello World'
+        }
+      ]
+      tcularSrcHandler = m.createTestacularSourceHandler promiseContainer, staticFolderPath,
+          adapterFolderPath, baseFolder, '/_testacular_/', customHandlers, []
+      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/test'), response, nextSpy
+
+
+    it 'should set custom script type', (done) ->
+      mocks.fs._touchFile '/tcular/static/context.html', 0, 'CONTEXT\n%SCRIPTS%'
+      includedFiles [{path: 'http://some.url.com/whatever.blah', isUrl: true}]
+
+      response.once 'end', ->
+        expect(response._content.toString()).to.equal  'CONTEXT\n' +
+        '<script type="application/blah" src="http://some.url.com/whatever.blah"></script>'
+        expect(response.statusCode).to.equal 200
+        done()
+
+      customScriptTypes = [
+        {
+          extension: 'blah',
+          contentType: 'application/blah'
+        }
+      ]
+      tcularSrcHandler = m.createTestacularSourceHandler promiseContainer, staticFolderPath,
+          adapterFolderPath, baseFolder, '/_testacular_/', [], customScriptTypes
+
+      tcularSrcHandler new httpMock.ServerRequest('/_testacular_/context.html'), response, nextSpy
+
   #============================================================================
   # Source Files Handler
   #============================================================================
