@@ -1,4 +1,4 @@
-Testacular can generate code coverage using awesome [Istanbul].
+Karma can generate code coverage using awesome [Istanbul].
 If you want to generate the coverage, you need to configure up to three parts:
 
 * preprocessor `coverage` (required)
@@ -37,7 +37,7 @@ these file are only for the test setup used and not for your program.
 
 If you include these files there can occur side effects like the following,
 
-* a part of the code coverage report will be output in the installation directory of testacular.
+* a part of the code coverage report will be output in the installation directory of Karma.
 * the code coverage rate is reduced unfairly.
 
 ## Reporter

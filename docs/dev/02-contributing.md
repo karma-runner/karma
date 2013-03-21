@@ -1,10 +1,10 @@
-If you are thinking about making Testacular better, or you just want to hack on it, that’s great here
+If you are thinking about making Karma better, or you just want to hack on it, that’s great here
 are some tips to get you started.
 
 ## Getting Started
 
 * Make sure you have a [GitHub account](https://github.com/signup/free)
-* [Submit](https://github.com/testacular/testacular/issues/new) a ticket for your issue, assuming one does not
+* [Submit](https://github.com/karma-runner/karma/issues/new) a ticket for your issue, assuming one does not
   already exist.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure you fill in the earliest version that you know has the issue.
@@ -58,8 +58,8 @@ If grunt fails, make sure grunt-0.4x is installed: https://github.com/gruntjs/gr
 
 ## Additional Resources
 
-* [Issue tracker](https://github.com/testacular/testacular/issues)
-* [Mailing List](https://groups.google.com/forum/#!forum/testacular)
+* [Issue tracker](https://github.com/karma-runner/karma/issues)
+* [Mailing List](https://groups.google.com/forum/#!forum/karma-users)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
-* [@TestacularJS](http://twitter.com/TestacularJS)
+* [@JsKarma](http://twitter.com/JsKarma)

@@ -1,11 +1,11 @@
 ## Starting browsers
-Capturing browsers is kinda boring, so Testacular can do that for you.
+Capturing browsers is kinda boring, so Karma can do that for you.
 Just simply add into the configuration file:
 
 ```javascript
 browsers = ['Chrome'];
 ```
-Then, Testacular will take care of autocapturing these browsers, as
+Then, Karma will take care of autocapturing these browsers, as
 well as killing them.
 
 Currently available browsers:
@@ -20,7 +20,7 @@ Currently available browsers:
 
 
 ## Correct path to browser binary
-Testacular has some default paths, where to find these browsers.
+Karma has some default paths, where to find these browsers.
 Check out
 [launchers]
 to see them.
@@ -56,11 +56,11 @@ $Env:FIREFOX_BIN = 'c:\Program Files (x86)\Mozilla Firefox 4.0 Beta 6\firefox.ex
 browsers = ['/usr/local/bin/custom-browser.sh'];
 
 // from cli
-testacular start --browsers /usr/local/bin/custom-browser.sh
+karma start --browsers /usr/local/bin/custom-browser.sh
 ```
 The browser scripts need to take one argument, the url with id
 parameter to be used to connect to the server. The supplied id is used
 by the server to determine when the specific browser is captured.
 
 
-[launchers]: https://github.com/testacular/testacular/blob/master/lib/launchers
+[launchers]: https://github.com/karma-runner/karma/blob/master/lib/launchers

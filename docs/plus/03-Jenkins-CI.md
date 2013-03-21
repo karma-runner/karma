@@ -2,7 +2,7 @@
 in the market today. At some point while developing your [AngularJS]
 project (hopefully early on), you might want to have automated tests run
 off your code versioning system. Jenkins will help you with this task.
-You can integrate Testacular to your Jenkins setup fairly easy and as of
+You can integrate Karma to your Jenkins setup fairly easy and as of
 version 0.3.12, test results can be "pretty printed" into a format
 Jenkins understands (i.e. no need to hunt down failures in the console
 log). This tutorial assumes you have Jenkins already setup and running
@@ -12,14 +12,14 @@ on your CI environment.
 You need the following tools installed on your Jenkins CI server:
 
 * Node
-* Testacular
+* Karma
 
 Optional we highly suggest to install the following Jenkins plug-in:
 [EnvInject] as it makes things easier under certain linux
 distributions and user permissions.
 
-## Configure Testacular
- Make the following additions and changes to your testacular config
+## Configure Karma
+ Make the following additions and changes to your testacular.conf.js
  file as needed:
 
 ```javascript
@@ -34,7 +34,7 @@ Please note the `test-result.xml` file will be output to the present
 working directory (and you will need to tell Jenkins where to find it).
 
 ## Create a new Jenkins Job
-In Jenkins, start a new job for Angular/Testacular with the basic
+In Jenkins, start a new job for Angular/Karma with the basic
 settings (Name, description, parameters, source code repo to pull
 from, etc.)
 
