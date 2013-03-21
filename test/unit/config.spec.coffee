@@ -97,7 +97,12 @@ describe 'config', ->
 
     it 'should resolve all exclude patterns', ->
       config = e.parseConfig '/conf/exclude.js', {}
-      actual = [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/sub/two.js')]
+      actual = [
+        resolveWinPath('/conf/one.js')
+        resolveWinPath('/conf/sub/two.js')
+        resolveWinPath('/conf/exclude.js')
+      ]
+
       expect(config.exclude).to.deep.equal actual
 
 
@@ -152,7 +157,10 @@ describe 'config', ->
       expect(config.basePath).to.equal resolveWinPath('/xxx')
       actual = [resolveWinPath('/xxx/one.js'), resolveWinPath('/xxx/two.js')]
       expect(patternsFrom config.files).to.deep.equal actual
-      expect(config.exclude).to.deep.equal [resolveWinPath('/xxx/third.js')]
+      expect(config.exclude).to.deep.equal [
+        resolveWinPath('/xxx/third.js')
+        resolveWinPath('/conf/both.js')
+      ]
 
 
     it 'should return only config, no globals', ->
@@ -163,7 +171,7 @@ describe 'config', ->
 
       # defaults
       expect(config.files).to.deep.equal []
-      expect(config.exclude).to.deep.equal []
+      expect(config.exclude).to.deep.equal ['/home/config1.js']
       expect(config.logLevel).to.exist
       expect(config.autoWatch).to.equal false
       expect(config.reporters).to.deep.equal ['progress']
