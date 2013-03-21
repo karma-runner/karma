@@ -13,10 +13,6 @@ files = [
 ];
 
 
-// list of files to exclude
-exclude = [];
-
-
 // test results reporter to use
 // possible values: 'dots', 'progress', 'junit'
 reporters = ['progress'];

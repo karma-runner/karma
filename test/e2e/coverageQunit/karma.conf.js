@@ -5,10 +5,6 @@ files = [
   'test/*.js'
 ];
 
-exclude = [
-  'karma.conf.js'
-];
-
 autoWatch = true;
 
 browsers = ['Chrome'];

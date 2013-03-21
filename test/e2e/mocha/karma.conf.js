@@ -4,10 +4,6 @@ files = [
   '*.js'
 ];
 
-exclude = [
-  'karma.conf.js'
-];
-
 autoWatch = true;
 browsers = ['Chrome'];
 singleRun = false;

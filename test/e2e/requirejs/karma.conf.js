@@ -16,12 +16,6 @@ files = [
 ];
 
 
-// list of files to exclude
-exclude = [
-  'karma.conf.js'
-];
-
-
 // test results reporter to use
 // possible values: dots || progress
 reporter = 'dots';

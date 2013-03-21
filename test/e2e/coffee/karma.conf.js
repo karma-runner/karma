@@ -4,8 +4,6 @@ files = [
   '*.coffee'
 ];
 
-exclude = [];
-
 autoWatch = true;
 
 browsers = ['Chrome'];
