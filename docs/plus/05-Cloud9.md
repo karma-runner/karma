@@ -13,7 +13,7 @@ Open `http://<projectName>.<cloud9User>.c9.io/` in your browser.
 PhantomJS must be installed with `npm install phantomjs`.
 
 ### Configure Karma
-The `testacular.conf.js` file (tried it out for the [AngularJS foodme app]) must include the following entries:
+The `karma.conf.js` file (tried it out for the [AngularJS foodme app]) must include the following entries:
 
 ```javascript
 browsers = ['PhantomJS'];
