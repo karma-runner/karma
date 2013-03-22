@@ -1,7 +1,7 @@
 In order to serve you well, Karma needs to know about your
 project. That's done through a configuration file.
 
-For an example configuration, see [test/client/testacular.conf.js]
+For an example configuration, see [test/client/karma.conf.js]
 which contains most of the options.
 
 This document contains a list of all available options, as well as
@@ -223,7 +223,7 @@ sometimes you might want to proxy a url that is already taken by Karma.
 
 
 
-[test/client/testacular.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/testacular.conf.js
+[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
 [config/files]: files.html
 [config/browsers]: browsers.html
 [config/preprocessors]: preprocessors.html

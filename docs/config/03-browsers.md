@@ -52,7 +52,7 @@ $Env:FIREFOX_BIN = 'c:\Program Files (x86)\Mozilla Firefox 4.0 Beta 6\firefox.ex
 
 ## Custom browsers
 ```javascript
-// in the testacular.conf.js
+// in the karma.conf.js
 browsers = ['/usr/local/bin/custom-browser.sh'];
 
 // from cli

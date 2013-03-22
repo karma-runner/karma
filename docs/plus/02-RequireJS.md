@@ -17,13 +17,13 @@ project/
   test/
     MyModule.test.js
     test-main.js
-testacular.conf.js
+karma.conf.js
 ```
 
 ### Initialize Karma
 
 Karma comes with a nice utility for generating a config file
-(default name: `testacular.conf.js`) that it needs in order to run.
+(default name: `karma.conf.js`) that it needs in order to run.
 
 In your terminal, type:
 ```bash
@@ -40,13 +40,13 @@ not defined` messages even though it was specified in the ‘shim’
 config and required in the test. I could have been doing something
 wrong. My solution thus far has been to list each of the non-RequireJs
 modules and their dependencies in the `files` attribute of
-`testacular.conf.js`.
+`karma.conf.js`.
 
-### `testacular.conf.js`
+### `karma.conf.js`
 The final point is that the RequireJs main module for your test runner
 should be the last file listed.
 
-So, finally, here is the ‘file’ excerpt of `testacular.conf.js`:
+So, finally, here is the ‘file’ excerpt of `karma.conf.js`:
 ```javascript
 files = [
   MOCHA,
