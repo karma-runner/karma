@@ -86,7 +86,7 @@ var Karma = function(socket, context, navigator, location) {
     hasError = true;
     socket.emit('error', msg + '\nat ' + url + ':' + line);
     this.complete();
-    return true;
+    return false;
   };
 
   this.result = function(result) {
