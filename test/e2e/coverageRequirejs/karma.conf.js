@@ -12,7 +12,7 @@ singleRun = false;
 reporters = ['progress', 'coverage'];
 
 preprocessors = {
-  '**/coverageRequirejs/dependency.js': 'coverage'
+  'dependency.js': 'coverage'
 };
 
 coverageReporter = {
