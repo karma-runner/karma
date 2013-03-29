@@ -1,3 +1,13 @@
+<a name="v0.8.1"></a>
+### v0.8.1 (2013-03-29)
+
+
+#### Bug Fixes
+
+* **init:** fix enter in "karma init" on Windows ([2516d773](https://github.com/karma-runner/karma/commit/2516d773c579e9209fc1e942bd8d8a5e4f3339b1))
+* **preprocessor:** resolve relative patterns to basePath ([a4c7d193](https://github.com/karma-runner/karma/commit/a4c7d1935fe8fdeea3bdccf8272c79480ff0929e), closes [#382](https://github.com/karma-runner/karma/issues/382))
+* **runner:** send exit code as string ([e53ab79e](https://github.com/karma-runner/karma/commit/e53ab79ecc78271d0e1ea0f08c7338f4586a89fa), closes [#403](https://github.com/karma-runner/karma/issues/403))
+
 <a name="v0.8.0"></a>
 ## v0.8.0 (2013-03-18)
 
