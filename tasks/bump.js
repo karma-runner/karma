@@ -50,6 +50,8 @@ module.exports = function(grunt) {
     // increment the version
     var pkg = grunt.file.readJSON(grunt.config('pkgFile'));
     var previousVersion = pkg.version;
+    var minor = parseInt(previousVersion.split('.')[1], 10);
+    var branch = (minor % 2) ? 'master' : 'stable';
     var newVersion = pkg.version = bumpVersion(previousVersion, type);
 
     // write updated package.json
@@ -67,7 +69,7 @@ module.exports = function(grunt) {
         'Changes committed');
     run('git tag -a v' + newVersion + ' -m "Version ' + newVersion + '"', 'New tag "v' +
         newVersion + '" created');
-    run('git push upstream master --tags', 'Pushed to github');
+    run('git push upstream ' + branch + ' --tags', 'Pushed to github');
   });
 
 
