@@ -171,7 +171,7 @@ describe 'config', ->
 
       # defaults
       expect(config.files).to.deep.equal []
-      expect(config.exclude).to.deep.equal ['/home/config1.js']
+      expect(config.exclude).to.deep.equal [resolveWinPath('/home/config1.js')]
       expect(config.logLevel).to.exist
       expect(config.autoWatch).to.equal false
       expect(config.reporters).to.deep.equal ['progress']
@@ -232,7 +232,7 @@ describe 'config', ->
       config = e.parseConfig null, {basePath: '/some'}
 
       expect(logSpy).not.to.have.been.called
-      expect(config.basePath).to.equal '/some' # overriden by CLI
+      expect(config.basePath).to.equal resolveWinPath('/some') # overriden by CLI
       expect(config.urlRoot).to.equal '/' # default value
 
 
@@ -285,8 +285,8 @@ describe 'config', ->
           '/*.coffee': 'coffee'
           '/*.html': 'html2js'
 
-      expect(config.preprocessors['/*.coffee']).to.deep.equal ['coffee']
-      expect(config.preprocessors['/*.html']).to.deep.equal ['html2js']
+      expect(config.preprocessors[resolveWinPath('/*.coffee')]).to.deep.equal ['coffee']
+      expect(config.preprocessors[resolveWinPath('/*.html')]).to.deep.equal ['html2js']
 
 
     it 'should resolve relative preprocessor patterns', ->
@@ -296,9 +296,9 @@ describe 'config', ->
           '*.coffee': 'coffee'
           '/**/*.html': 'html2js'
 
-      expect(config.preprocessors).to.have.property '/some/base/*.coffee'
-      expect(config.preprocessors).not.to.have.property '*.coffee'
-      expect(config.preprocessors).to.have.property '/**/*.html'
+      expect(config.preprocessors).to.have.property resolveWinPath('/some/base/*.coffee')
+      expect(config.preprocessors).not.to.have.property resolveWinPath('*.coffee')
+      expect(config.preprocessors).to.have.property resolveWinPath('/**/*.html')
 
 
   describe 'createPatternObject', ->
