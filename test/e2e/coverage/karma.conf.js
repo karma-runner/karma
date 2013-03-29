@@ -16,7 +16,7 @@ browsers = ['Chrome']
 reporters = ['progress', 'coverage'];
 
 preprocessors = {
-  '**/coverage/lib/*.js': 'coverage'
+  'lib/*.js': 'coverage'
 };
 
 //Code Coverage options. report type available:
