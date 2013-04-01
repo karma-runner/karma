@@ -273,7 +273,7 @@ describe 'file-list', ->
           expect(findFile('/a.js', files.served).mtime).to.deep.equal new Date '2012-01-01'
 
 
-    it 'should preprocess added file', ->
+    it 'should preprocess added file', (done) ->
       # MATCH: /a.txt
       list = new m.List patterns('/a.*'), [], emitter, preprocessMock
 
@@ -281,7 +281,7 @@ describe 'file-list', ->
         preprocessMock.reset()
         waitForAddingFile done, '/a.js', ->
           expect(preprocessMock).to.have.been.called
-          expect(preprocessMock.argsForCall[0][0].originalPath).to.equal '/a.js'
+          expect(preprocessMock.lastCall.args[0].originalPath).to.equal '/a.js'
 
 
   #============================================================================
