@@ -17,7 +17,7 @@ var createQUnitStartFn = function (tc) {
 				timer = new Date().getTime();
         testResult = { success: true, errors: [] };
 			});
-      
+
       runner.log(function (details) {
         if (!details.result) {
           testResult.success = false;
