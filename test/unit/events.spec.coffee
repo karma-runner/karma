@@ -44,17 +44,18 @@ describe 'events', ->
         expect(object.onFooBar).to.have.been.called
 
         expect(object.foo).not.to.have.been.called
-        expect(object.bar).not.to.have.been.called        
+        expect(object.bar).not.to.have.been.called
+
 
       it 'should bind methods to the owner object', ->
         emitter.emit 'foo'
         emitter.emit 'foo_bar'
-        
+
         expect(object.onFoo).to.have.always.been.calledOn object
         expect(object.onFooBar).to.have.always.been.calledOn object
         expect(object.foo).not.to.have.been.called
         expect(object.bar).not.to.have.been.called
-        
+
 
     #==========================================================================
     # events.EventEmitter.emitAsync()
@@ -74,23 +75,23 @@ describe 'events', ->
       it 'should resolve the promise once all listeners are done', (done) ->
         callbacks = []
         eventDone = sinon.spy()
-  
+
         emitter.on 'a', (d) -> d()
         emitter.on 'a', (d) -> callbacks.push d
         emitter.on 'a', (d) -> callbacks.push d
 
         promise = emitter.emitAsync('a')
-        
+
         expect(eventDone).not.to.have.been.called
         callbacks.pop()()
         expect(eventDone).not.to.have.been.called
         callbacks.pop()()
-        
+
         promise.then ->
           eventDone()
           expect(eventDone).to.have.been.called
           done()
-        
+
 
   #============================================================================
   # events.bindAll

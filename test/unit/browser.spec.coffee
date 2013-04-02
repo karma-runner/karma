@@ -7,7 +7,7 @@ describe 'browser', ->
 
   beforeEach -> sinon.stub(Date, 'now')
   afterEach -> Date.now.restore()
-  
+
   #============================================================================
   # browser.Result
   #============================================================================
@@ -69,6 +69,7 @@ describe 'browser', ->
         browser.onRegister name : 'some'
         expect(spyRegister).to.have.been.called
         expect(spyRegister.args[0][0]).to.equal browser
+
 
     #==========================================================================
     # browser.Browser.onError

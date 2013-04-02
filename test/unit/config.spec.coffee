@@ -312,6 +312,7 @@ describe 'config', ->
       expect(pattern.included).to.equal true
       expect(pattern.served).to.equal true
 
+
     it 'should merge pattern object and set defaults', ->
       pattern = m.createPatternObject {pattern: 'a.js', included: false, watched: false}
 

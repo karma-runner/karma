@@ -28,11 +28,13 @@ describe 'reporter', ->
                          'http://127.0.0.1:8080/base/home/b.js').
           to.be.equal 'file /usr/a.js and /home/b.js\n'
 
+
     it 'should handle non default karma service folders', ->
       formatError = m.createErrorFormatter '', '/_karma_/'
       expect(formatError 'file http://localhost:8080/_karma_/base/usr/a.js and ' +
                          'http://127.0.0.1:8080/_karma_/base/home/b.js').
           to.be.equal 'file /usr/a.js and /home/b.js\n'
+
 
     it 'should remove timestamps', ->
       expect(formatError 'file http://localhost:8080/base/usr/file.js?1325400290544 and ' +
@@ -51,4 +53,3 @@ describe 'reporter', ->
 
     it 'should restore absolute paths', ->
       expect(formatError 'at http://local:1233/absolute/usr/path.js?3333').to.equal 'at /usr/path.js\n'
-

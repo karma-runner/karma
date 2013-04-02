@@ -76,5 +76,3 @@ describe 'preprocessor', ->
       expect(file.path).to.equal 'path-p1-p2'
       expect(mockFs.readFileSync('/some/new.js').toString()).to.equal 'content-c1-c2'
       done()
-
-

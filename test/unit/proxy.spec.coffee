@@ -34,6 +34,7 @@ describe 'proxy', ->
     expect(actualOptions).to.deep.equal {host: 'localhost', port: '9000'}
     done()
 
+
   it 'should support multiple proxies', ->
     proxy = m.createProxyHandler mockProxy, {'/proxy': 'http://localhost:9000', '/static': 'http://gstatic.com'}
     proxy new httpMock.ServerRequest('/static/test.html'), response, nextSpy

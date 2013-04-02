@@ -224,7 +224,6 @@ describe 'helper', ->
       mkdirIfNotExists '/home', done
 
 
-
     it 'should create directory if it does not exist', (done) ->
       mkdirIfNotExists '/home/new', ->
         stat = fs.statSync '/home/new'

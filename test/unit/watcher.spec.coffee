@@ -67,8 +67,9 @@ describe 'watcher', ->
         new config.Pattern('/some/*.js', true, true, false)
         new config.Pattern('/some/sub/*.js')
       ], chokidarWatcher
-      
-      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/sub']      
+
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/sub']
+
 
   #============================================================================
   # ignore() [PRIVATE]
@@ -88,5 +89,3 @@ describe 'watcher', ->
       expect(ignore '/some/files/deep/.npm').to.equal false
       expect(ignore '.#files.js').to.equal true
       expect(ignore '/some/files/deeper/nested/.#files.js').to.equal true
-
-

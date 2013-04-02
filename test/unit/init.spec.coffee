@@ -22,7 +22,7 @@ describe 'init', ->
     beforeEach ->
       machine = new m.StateMachine mockRli
       done = sinon.spy()
-      
+
     it 'should go through all the questions', ->
       questions = [
         {id: 'framework', options: ['jasmine', 'mocha']}
@@ -119,7 +119,6 @@ describe 'init', ->
       machine.onLine 'no'
 
       expect(done).to.have.been.called
-
 
 
   describe 'getBasePath', ->
@@ -223,6 +222,7 @@ describe 'init', ->
 
       replacements = m.getReplacementsFromAnswers answers {browsers: ['Chrome', 'Firefox']}
       expect(replacements.BROWSERS).to.equal "'Chrome', 'Firefox'"
+
 
     it 'should set AUTO_WATCH', ->
       replacements = m.getReplacementsFromAnswers answers {autoWatch: true}
