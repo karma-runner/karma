@@ -1,3 +1,8 @@
+<a name="v0.8.3"></a>
+### v0.8.3 (2013-04-02)
+
+* fixed hack for log4js to install on Windows
+
 <a name="v0.8.2"></a>
 ### v0.8.2 (2013-04-01)
 
