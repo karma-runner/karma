@@ -1,3 +1,12 @@
+<a name="v0.8.2"></a>
+### v0.8.2 (2013-04-01)
+
+* compatibility with Node 0.10
+
+#### Bug Fixes
+
+* **config:** Check if configFilePath is a string. ([cc12d0d3](https://github.com/karma-runner/karma/commit/cc12d0d3afb8c60b5a7e4e4d58793a322bb0314f))
+
 <a name="v0.8.1"></a>
 ### v0.8.1 (2013-03-29)
 
