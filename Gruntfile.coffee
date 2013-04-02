@@ -84,11 +84,22 @@ module.exports = (grunt) ->
         maxlen: 100
         globals: {}
 
+    # CoffeeLint options
+    # http://www.coffeelint.org/#options
+    coffeelint:
+      unittests: files: src: ['test/unit/**/*.coffee']
+      taskstests: files: src: ['test/tasks/**/*.coffee']
+      options:
+        max_line_length:
+          value: 100
+
+
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-simple-mocha'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
+  grunt.loadNpmTasks 'grunt-coffeelint'
 
-  grunt.registerTask 'default', ['build', 'jshint', 'test']
+  grunt.registerTask 'default', ['build', 'test', 'jshint', 'coffeelint']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
     grunt.task.run [
       'contributors'

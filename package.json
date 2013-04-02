@@ -81,6 +81,7 @@
     "grunt": "~0.4",
     "grunt-simple-mocha": "git://github.com/yaymukund/grunt-simple-mocha.git",
     "grunt-contrib-jshint": "~0.3",
+    "grunt-coffeelint": "~0.0.6",
     "mocks": "~0.0.10",
     "which": "~1.0",
     "sinon-chai": "~2.3",
