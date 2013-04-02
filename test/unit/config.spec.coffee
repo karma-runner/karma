@@ -235,6 +235,12 @@ describe 'config', ->
       expect(config.basePath).to.equal resolveWinPath('/some') # overriden by CLI
       expect(config.urlRoot).to.equal '/' # default value
 
+    it 'should not read config file, when null but still resolve cli basePath', ->
+      config = e.parseConfig null, {basePath: './some' }
+
+      expect(logSpy).not.to.have.been.called
+      expect(config.basePath).to.equal resolveWinPath('./some')
+      expect(config.urlRoot).to.equal '/' # default value
 
   describe 'normalizeConfig', ->
 
