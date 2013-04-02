@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "grunt": "~0.4",
-    "grunt-simple-mocha": "~0.3",
+    "grunt-simple-mocha": "git://github.com/yaymukund/grunt-simple-mocha.git",
     "grunt-contrib-jshint": "~0.3",
     "mocks": "~0.0.10",
     "which": "~1.0",
