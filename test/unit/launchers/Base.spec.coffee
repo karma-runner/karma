@@ -6,7 +6,7 @@ describe 'launchers Base', ->
   path = require 'path'
 
   fakeTimer = null
-  
+
   mockSpawn = sinon.spy (cmd, args) ->
     process = new events.EventEmitter
     process.stderr = new events.EventEmitter
@@ -15,7 +15,7 @@ describe 'launchers Base', ->
     mockSpawn._processes.push process
     process
 
-  
+
   mockRimraf = sinon.spy (p, fn) ->
     mockRimraf._callbacks.push fn
 
@@ -36,10 +36,10 @@ describe 'launchers Base', ->
         TMP: '/tmp'
       nextTick: process.nextTick
     setTimeout: timer.setTimeout
- 
+
 
   m = loadFile __dirname + '/../../../lib/launchers/Base.js', mocks, globals
-  
+
 
   beforeEach ->
     mockSpawn.reset()
@@ -101,7 +101,8 @@ describe 'launchers Base', ->
 
       # start the browser
       browser.start 'http://localhost/'
-      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'), ['http://localhost/?id=12345']
+      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'),
+        ['http://localhost/?id=12345']
       mockSpawn.reset()
 
       # mark captured
@@ -128,12 +129,13 @@ describe 'launchers Base', ->
       browser.start 'http://localhost/'
 
       # expect starting the process
-      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'), ['http://localhost/?id=12345']
+      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'),
+                                                ['http://localhost/?id=12345']
       browserProcess = mockSpawn._processes.shift()
 
       # timeout
       expect(timer.setTimeout).to.have.been.called
-  
+
       # expect killing browser
       expect(browserProcess.kill).to.have.been.called
       browserProcess.emit 'close', 0
@@ -142,10 +144,11 @@ describe 'launchers Base', ->
       mockRimraf._callbacks[0]() # cleanup
 
       # expect re-starting
-      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'), ['http://localhost/?id=12345']
+      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'),
+                                                ['http://localhost/?id=12345']
       browserProcess = mockSpawn._processes.shift()
 
-      expect(failureSpy).not.to.have.been.called;
+      expect(failureSpy).not.to.have.been.called
 
 
     it 'start -> timeout -> 3xrestart -> failure', ->
@@ -187,7 +190,7 @@ describe 'launchers Base', ->
       mockRimraf.reset()
 
       # after two time-outs, still no failure
-      expect(failureSpy).not.to.have.been.called;
+      expect(failureSpy).not.to.have.been.called
 
       # expect starting
       expect(mockSpawn).to.have.been.calledWith normalized, ['http://localhost/?id=12345']
@@ -231,4 +234,4 @@ describe 'launchers Base', ->
       expect(mockSpawn).to.have.been.calledWith normalized, ['http://localhost/?id=12345']
       browserProcess = mockSpawn._processes.shift()
 
-      expect(failureSpy).not.to.have.been.called;
+      expect(failureSpy).not.to.have.been.called

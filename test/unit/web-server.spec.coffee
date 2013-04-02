@@ -70,8 +70,9 @@ describe 'web-server', ->
 
     beforeEach ->
       servedFiles defaultFiles
-      handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
-          {'/_karma_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'}, '/_karma_/', [], []
+      handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder,
+          mockProxy, {'/_karma_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'},
+          '/_karma_/', [], []
       actualOptions = {}
       response = new responseMock()
       nextSpy = sinon.spy()
@@ -87,8 +88,8 @@ describe 'web-server', ->
 
 
     it 'should check for forbidden files before serving', (done) ->
-      handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, mockProxy,
-          {'/_karma_/': 'http://localhost:9000'}, '/_karma_/'
+      handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder,
+          mockProxy, {'/_karma_/': 'http://localhost:9000'}, '/_karma_/'
 
       response.once 'end', ->
         expect(response.statusCode).to.equal 404
@@ -142,7 +143,8 @@ describe 'web-server', ->
       includedFiles defaultFiles
       response = new responseMock
       globals.process.platform = 'darwin'
-      karmaSrcHandler = m.createKarmaSourceHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder, '/_karma_/', [], []
+      karmaSrcHandler = m.createKarmaSourceHandler promiseContainer, staticFolderPath,
+          adapterFolderPath, baseFolder, '/_karma_/', [], []
 
 
     it 'should serve client.html', (done) ->
@@ -339,7 +341,11 @@ describe 'web-server', ->
 
 
     it 'should serve js source files from adapter folder ignoring timestamp', (done) ->
-      servedFiles [{path: '/karma/adapter/jasmine.js', contentPath: '/karma/adapter/jasmine.js', mtime: new Date 12345}]
+      servedFiles [{
+        path: '/karma/adapter/jasmine.js'
+        contentPath: '/karma/adapter/jasmine.js'
+        mtime: new Date 12345
+      }]
 
       response.once 'end', ->
         expect(nextSpy).not.to.have.been.called

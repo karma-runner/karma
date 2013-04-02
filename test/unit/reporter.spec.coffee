@@ -52,4 +52,5 @@ describe 'reporter', ->
 
 
     it 'should restore absolute paths', ->
-      expect(formatError 'at http://local:1233/absolute/usr/path.js?3333').to.equal 'at /usr/path.js\n'
+      formatedError = formatError 'at http://local:1233/absolute/usr/path.js?3333'
+      expect(formatedError).to.equal 'at /usr/path.js\n'

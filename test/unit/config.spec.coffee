@@ -92,7 +92,10 @@ describe 'config', ->
 
     it 'should keep absolute url file patterns', ->
       config = e.parseConfig '/conf/absolute.js', {}
-      expect(patternsFrom config.files).to.deep.equal ['http://some.com', 'https://more.org/file.js']
+      expect(patternsFrom config.files).to.deep.equal [
+        'http://some.com'
+        'https://more.org/file.js'
+      ]
 
 
     it 'should resolve all exclude patterns', ->
@@ -220,7 +223,10 @@ describe 'config', ->
 
     it 'should compile coffeescript config', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
-      expect(patternsFrom config.files).to.deep.equal [resolveWinPath('/conf/one.js'), resolveWinPath('/conf/two.js')]
+      expect(patternsFrom config.files).to.deep.equal [
+        resolveWinPath('/conf/one.js')
+        resolveWinPath('/conf/two.js')
+      ]
 
 
     it 'should set defaults with coffeescript', ->

@@ -2,8 +2,8 @@ describe 'validate-commit-msg', ->
   m = require '../../../tasks/lib/validate-commit-msg'
   errors = []
 
-  VALID = true;
-  INVALID = false;
+  VALID = true
+  INVALID = false
 
 
   beforeEach ->
@@ -40,7 +40,9 @@ describe 'validate-commit-msg', ->
       msg = 'not correct format'
 
       expect(m.validateMessage msg).to.equal INVALID
-      expect(errors).to.deep.equal ['INVALID COMMIT MSG: does not match "<type>(<scope>): <subject>" !']
+      expect(errors).to.deep.equal [
+        'INVALID COMMIT MSG: does not match "<type>(<scope>): <subject>" !'
+      ]
 
 
     it 'should validate type', ->

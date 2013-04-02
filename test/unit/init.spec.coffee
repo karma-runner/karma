@@ -142,8 +142,8 @@ describe 'init', ->
 
     it 'should handle config in a parent path', ->
       # config /home/file.js
-      file = replace('../../../file.js')
-      expect(m.getBasePath file, replace('/home/vojta/tc/project')).to.equal replace('vojta/tc/project')
+      basePath = m.getBasePath replace('../../../file.js'), replace('/home/vojta/tc/project')
+      expect(basePath).to.equal replace('vojta/tc/project')
 
 
     it 'should handle config in parent subfolder', ->
@@ -153,7 +153,8 @@ describe 'init', ->
 
 
     it 'should handle absolute paths', ->
-      expect(m.getBasePath replace('/Users/vojta/karma/conf.js'), replace('/Users/vojta')).to.equal replace('..')
+      basePath = m.getBasePath replace('/Users/vojta/karma/conf.js'), replace('/Users/vojta')
+      expect(basePath).to.equal replace('..')
 
 
   describe 'getReplacementsFromAnswers', ->

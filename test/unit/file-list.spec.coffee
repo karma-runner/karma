@@ -190,7 +190,8 @@ describe 'file-list', ->
       # /a.*       => /a.txt                   [MATCH in *.txt as well]
       # /some/*.js => /some/a.js, /some/b.js   [/some/b.js EXCLUDED]
       # *.txt      => /c.txt, a.txt, b.txt     [UNSORTED]
-      list = new m.List patterns('/a.*', '/some/*.js', '*.txt'), ['**/b.js'], emitter, preprocessMock
+      list = new m.List patterns('/a.*', '/some/*.js', '*.txt'), ['**/b.js'], emitter,
+                        preprocessMock
 
       refreshListAndThen (files) ->
         expect(pathsFrom files.served).to.deep.equal ['/a.txt', '/some/a.js', '/b.txt', '/c.txt']
@@ -251,7 +252,9 @@ describe 'file-list', ->
       refreshListAndThen (files) ->
         expect(pathsFrom files.served).to.deep.equal ['/some/a.js', '/some/b.js', '/a.txt']
         waitForAddingFile done, '/a.js', (files) ->
-          expect(pathsFrom files.served).to.deep.equal ['/some/a.js', '/some/b.js', '/a.js', '/a.txt']
+          expect(pathsFrom files.served).to.deep.equal [
+            '/some/a.js', '/some/b.js', '/a.js', '/a.txt'
+          ]
 
 
     it 'should fire "file_list_modified" and pass a promise', (done) ->
@@ -388,7 +391,7 @@ describe 'file-list', ->
       refreshListAndThen (files) ->
         waitForRemovingFile '/some/a.js', (files) ->
           expect(pathsFrom files.served).to.deep.equal ['/some/b.js', '/a.txt']
-          expect(onFileListModifiedSpy).to.have.been.called;
+          expect(onFileListModifiedSpy).to.have.been.called
 
 
     it 'should not fire "file_list_modified" if file is not in the list', ->
@@ -397,7 +400,7 @@ describe 'file-list', ->
 
       refreshListAndThen (files) ->
         waitForRemovingFile '/a.js', ->
-          expect(onFileListModifiedSpy).not.to.have.been.called;
+          expect(onFileListModifiedSpy).not.to.have.been.called
 
 
   #============================================================================

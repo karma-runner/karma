@@ -36,7 +36,10 @@ describe 'proxy', ->
 
 
   it 'should support multiple proxies', ->
-    proxy = m.createProxyHandler mockProxy, {'/proxy': 'http://localhost:9000', '/static': 'http://gstatic.com'}
+    proxy = m.createProxyHandler mockProxy, {
+      '/proxy': 'http://localhost:9000'
+      '/static': 'http://gstatic.com'
+    }
     proxy new httpMock.ServerRequest('/static/test.html'), response, nextSpy
 
     expect(nextSpy).not.to.have.been.called
@@ -45,7 +48,10 @@ describe 'proxy', ->
 
 
   it 'should handle nested proxies', ->
-    proxy = m.createProxyHandler mockProxy, {'/sub': 'http://localhost:9000', '/sub/some': 'http://gstatic.com/something'}
+    proxy = m.createProxyHandler mockProxy, {
+      '/sub': 'http://localhost:9000'
+      '/sub/some': 'http://gstatic.com/something'
+    }
     proxy new httpMock.ServerRequest('/sub/some/Test.html'), response, nextSpy
 
     expect(nextSpy).not.to.have.been.called
@@ -70,13 +76,17 @@ describe 'proxy', ->
   it 'should parse a simple proxy config', ->
     proxy = {'/base/': 'http://localhost:8000/'}
     parsedProxyConfig = m.parseProxyConfig proxy
-    expect(parsedProxyConfig).to.deep.equal({'/base/': {host: 'localhost', port: '8000', baseProxyUrl: '/'}})
+    expect(parsedProxyConfig).to.deep.equal {
+      '/base/': {host: 'localhost', port: '8000', baseProxyUrl: '/'}
+    }
 
 
   it 'should handle proxy configs with paths', ->
     proxy = {'/base': 'http://localhost:8000/proxy'}
     parsedProxyConfig = m.parseProxyConfig proxy
-    expect(parsedProxyConfig).to.deep.equal({'/base': {host: 'localhost', port: '8000', baseProxyUrl: '/proxy'}})
+    expect(parsedProxyConfig).to.deep.equal {
+      '/base': {host: 'localhost', port: '8000', baseProxyUrl: '/proxy'}
+    }
 
 
   it 'should handle empty proxy config', ->
