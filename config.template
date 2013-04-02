@@ -6,6 +6,10 @@
 basePath = '%BASE_PATH%';
 
 
+// frameworks to use
+frameworks = [%FRAMEWORKS%];
+
+
 // list of files / patterns to load in the browser
 files = [
   %FILES%
@@ -62,3 +66,9 @@ captureTimeout = 60000;
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
+
+
+// plugins to load
+plugins = [
+  %PLUGINS%
+];

@@ -173,24 +173,28 @@ describe 'init', ->
       replacements = m.getReplacementsFromAnswers answers {files: ['*.js', 'other/file.js']}
       expect(replacements.FILES).to.equal "'*.js',\n  'other/file.js'"
 
-      # prepend testing framework files
-      replacements = m.getReplacementsFromAnswers answers {files: ['*.js'], framework: 'jasmine'}
-      expect(replacements.FILES).to.equal "JASMINE,\n  JASMINE_ADAPTER,\n  '*.js'"
-      replacements = m.getReplacementsFromAnswers answers {files: ['*.js'], framework: 'mocha'}
-      expect(replacements.FILES).to.equal "MOCHA,\n  MOCHA_ADAPTER,\n  '*.js'"
+
+    it 'should set FRAMEWORKS', ->
+      replacements = m.getReplacementsFromAnswers answers {
+        framework: 'mocha',
+        requirejs: true
+      }
+
+      expect(replacements.FRAMEWORKS).to.equal "'mocha', 'requirejs'"
 
 
-    it 'should add REQUIRE and set files non-included if requirejs used', ->
+    it 'should add requirejs and set files non-included if requirejs used', ->
       replacements = m.getReplacementsFromAnswers answers {
         requirejs: true,
         includedFiles: [],
         files: ['*.js', 'other/file.js']
       }
 
-      expect(replacements.FILES).to.equal "REQUIRE,\n" +
-        "  REQUIRE_ADAPTER,\n" +
-        "  {pattern: '*.js', included: false},\n" +
-        "  {pattern: 'other/file.js', included: false}"
+      expect(replacements.FRAMEWORKS).to.contain "'requirejs'"
+
+      expect(replacements.FILES).to.equal "" +
+        "{pattern: '*.js', included: false},\n  " +
+        "{pattern: 'other/file.js', included: false}"
 
 
     it 'should prepend includedFiles into FILES', ->
@@ -200,10 +204,9 @@ describe 'init', ->
         files: ['*.js']
       }
 
-      expect(replacements.FILES).to.equal "REQUIRE,\n" +
-        "  REQUIRE_ADAPTER,\n" +
-        "  'main.js',\n" +
-        "  {pattern: '*.js', included: false}"
+      expect(replacements.FILES).to.equal "" +
+        "'main.js',\n  " +
+        "{pattern: '*.js', included: false}"
 
 
     it 'should set EXCLUDE', ->
@@ -227,3 +230,18 @@ describe 'init', ->
 
       replacements = m.getReplacementsFromAnswers answers {autoWatch: false}
       expect(replacements.AUTO_WATCH).to.equal 'false'
+
+
+    it 'should set PLUGINS', ->
+      replacements = m.getReplacementsFromAnswers answers {
+        browsers: ['Chrome', 'Firefox', 'ChromeCanary']
+        framework: 'jasmine'
+        requirejs: true
+      }
+
+      # ignore chrome canary
+      expect(replacements.PLUGINS).to.equal "" +
+        "'karma-jasmine',\n  " +
+        "'karma-requirejs',\n  " +
+        "'karma-chrome-launcher',\n  " +
+        "'karma-firefox-launcher'"
