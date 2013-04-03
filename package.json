@@ -113,7 +113,6 @@
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*"
   },
-  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "git://github.com/karma-runner/karma.git"
