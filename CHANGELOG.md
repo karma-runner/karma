@@ -1,3 +1,8 @@
+<a name="v0.8.4"></a>
+### v0.8.4 (2013-04-03)
+
+* update angular-scenario.js to v1.1.4 ([2d4ce4a0](https://github.com/karma-runner/karma/commit/2d4ce4a04a10c3e42e45b05debbbea68127343a8))
+
 <a name="v0.8.3"></a>
 ### v0.8.3 (2013-04-02)
 
