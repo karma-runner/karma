@@ -27,12 +27,11 @@
     "Daniel Aleksandersen <code@daniel.priv.no>",
     "Ilya Volodin <ivolodin@vistaprint.com>",
     "Marcello Nuccio <marcello.nuccio@gmail.com>",
-    "rdodev <rubenoz@gmail.com>",
     "Bulat Shakirzyanov <mallluhuct@gmail.com>",
+    "rdodev <rubenoz@gmail.com>",
     "Hugues Malphettes <hmalphettes@gmail.com>",
-    "Igor Minar <iiminar@gmail.com>",
-    "Chad Smith <chad@configit.com>",
     "Igor Minar <igor@angularjs.org>",
+    "Igor Minar <iiminar@gmail.com>",
     "Alexander Shtuchkin <ashtuchkin@gmail.com>",
     "James Shore <jshore@jamesshore.com>",
     "Kevin Ortman <kevin_ortman@msn.com>",
@@ -53,7 +52,8 @@
     "David Souther <davidsouther@gmail.com>",
     "Eldar Jafarov <djkojb@gmail.com>",
     "Ethan J. Brown <ethan_j_brown@hotmail.com>",
-    "Fred Sauer <fredsa@google.com>"
+    "Fred Sauer <fredsa@google.com>",
+    "Chad Smith <chad@configit.com>"
   ],
   "dependencies": {
     "socket.io": "~0.9.13",
