@@ -1,35 +1,15 @@
-.npmignore
-.travis.yml
+.*
+
 tmp
 test
 tasks
 docs
 
-junit-schema.xsd
-
 TODO.md
 CONTRIBUTING.md
-jsl.conf
 Gruntfile.coffee
-changelog.sh
 
 Karma.sublime-*
-screencast*
-
-adapter/jasmine.src.js
-adapter/jasmine.wrapper
-
-adapter/mocha.src.js
-adapter/mocha.wrapper
-
-adapter/angular-scenario.src.js
-adapter/angular-scenario.wrapper
-
-adapter/require.src.js
-adapter/require.wrapper
-
-adapter/qunit.src.js
-adapter/qunit.wrapper
 
 static/karma.src.js
 static/karma.wrapper
