@@ -75,7 +75,8 @@
     "karma-jasmine": "*",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
-    "karma-phantomjs-launcher": "*"
+    "karma-phantomjs-launcher": "*",
+    "karma-requirejs": "*"
   },
   "devDependencies": {
     "grunt": "~0.4",
