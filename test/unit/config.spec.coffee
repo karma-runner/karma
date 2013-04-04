@@ -47,6 +47,7 @@ describe 'config', ->
         'config5.js': fsMock.file 0, 'port = {f: __filename, d: __dirname}' # piggyback on port prop
         'config6.js': fsMock.file 0, 'reporters = "junit";'
         'config7.js': fsMock.file 0, 'browsers = ["Chrome", "Firefox"];'
+        'config8.js': fsMock.file 0, 'require("fs").readFileSync("/not/a/real/file/path")'
       conf:
         'invalid.js': fsMock.file 0, '={function'
         'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
@@ -116,6 +117,15 @@ describe 'config', ->
       event = logSpy.lastCall.args[0]
       expect(event.level.toString()).to.be.equal 'ERROR'
       expect(event.data).to.be.deep.equal ['Config file does not exist!']
+      expect(mocks.process.exit).to.have.been.calledWith 1
+
+    it 'should not log config file does not exist if config file throws an ENOENT', ->
+      e.parseConfig '/home/config8.js', {}
+
+      expect(logSpy).to.have.been.called
+      event = logSpy.lastCall.args[0]
+      expect(event.level.toString()).to.be.equal 'ERROR'
+      expect(event.data).to.be.not.deep.equal ['Config file does not exist!']
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
