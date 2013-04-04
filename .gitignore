@@ -1,9 +1,4 @@
 node_modules
-adapter/jasmine.js
-adapter/mocha.js
-adapter/angular-scenario.js
-adapter/require.js
-adapter/qunit.js
 static/karma.js
 .idea/*
 tmp/*
