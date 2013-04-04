@@ -81,6 +81,8 @@
   },
   "peerDependencies": {
     "karma-jasmine": "*",
+    "karma-requirejs": "*",
+    "karma-coffee-preprocessor": "*",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
     "karma-phantomjs-launcher": "*"
