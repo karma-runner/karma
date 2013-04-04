@@ -121,6 +121,22 @@ describe 'init', ->
       expect(done).to.have.been.called
 
 
+    it 'should parse booleans before validation', ->
+      validator = sinon.spy (value) ->
+        expect(typeof value).to.equal 'boolean'
+
+      questions = [
+        {id: 'what', options: ['yes', 'no'], boolean: true, validate: validator}
+        {id: 'really', options: ['yes', 'no'], boolean: true, validate: validator}
+      ]
+
+      machine.process questions, done
+      machine.onLine 'yes'
+      machine.onLine 'no'
+
+      expect(validator).to.have.been.calledTwice
+
+
   describe 'getBasePath', ->
 
     # just for windows.
