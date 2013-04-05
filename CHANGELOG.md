@@ -1,3 +1,16 @@
+<a name="v0.9.1"></a>
+### v0.9.1 (2013-04-04)
+
+
+#### Bug Fixes
+
+* **init:** to not give false warning about missing requirejs ([562607a1](https://github.com/karma-runner/karma/commit/562607a16221b256c6e92ad2029154aac88eec8d))
+
+
+#### Features
+
+* ship coffee-preprocessor and requirejs as default plugins ([f34e30db](https://github.com/karma-runner/karma/commit/f34e30db4d25d484a30d12e3cb1c41069c0b263a))
+
 <a name="v0.9.0"></a>
 ## v0.9.0 (2013-04-03)
 

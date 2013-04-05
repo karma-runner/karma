@@ -129,5 +129,5 @@
   "scripts": {
     "install": "node install-log4js.js"
   },
-  "version": "0.9.0"
+  "version": "0.9.1"
 }
