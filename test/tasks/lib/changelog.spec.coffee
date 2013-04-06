@@ -1,5 +1,5 @@
 describe 'changelog', ->
-  ch = require '../../../tasks/lib/changelog'
+  ch = require '../../../scripts/changelog'
 
   describe 'parseRawCommit', ->
 

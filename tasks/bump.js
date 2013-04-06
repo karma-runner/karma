@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
   var exec = require('child_process').exec;
-  var changelog = require('./lib/changelog');
+  var changelog = require('./../scripts/changelog');
 
   /**
    * Bump version

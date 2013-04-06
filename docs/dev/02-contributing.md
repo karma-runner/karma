@@ -15,7 +15,7 @@ are some tips to get you started.
 * Init your workspace
 
 ```bash
-$ ./init-dev-env.js
+$ ./scripts/init-dev-env.js
 ```
 
 * Checkout a new branch (usually based on `master`) and name it accordingly to what

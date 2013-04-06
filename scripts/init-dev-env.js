@@ -6,15 +6,16 @@ var exec = require('child_process').exec;
 
 var isWin = !!process.platform.match(/^win/);
 
-var validateCommitPath = '../../tasks/lib/validate-commit-msg.js';
-var gitHookPath = '.git/hooks/commit-msg';
+var validateCommitPath = '../../scripts/validate-commit-msg.js';
+var gitHookPath = __dirname+'/../.git/hooks/commit-msg';
 
-var nodeModulesPath = 'node_modules';
+var nodeModulesPath = __dirname+'/../node_modules';
 var karmaPath = '..';
-var nmKarmaPath = 'node_modules/karma';
+var nmKarmaPath = __dirname+'/../node_modules/karma';
 
 //Add Hook "validate-commit-msg"
 var gitHookSetup = function(){
+
   if (fs.existsSync(gitHookPath)) {
     fs.unlinkSync(gitHookPath);
     console.log('Existing link removed:', gitHookPath);
@@ -38,7 +39,8 @@ var selfLinkSetup = function() {
   fs.symlinkSync(karmaPath, nmKarmaPath, 'dir');
 };
 
-// Check for gurnt-cli
+
+// Check for grunt-cli
 var installGruntCli = function(callback) {
 
   console.log('Installing grunt-cli...');
@@ -64,7 +66,7 @@ var checkForGruntCli = function(callback) {
 
   exec('grunt --version', function (error, stdout) {
 
-    if ( error ) {
+    if ( error ){
       installGruntCli(callback);
     } else {
       console.log('grunt-cli is already installed:');
