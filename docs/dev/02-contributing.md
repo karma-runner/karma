@@ -12,15 +12,12 @@ are some tips to get you started.
 
 ## Making Changes
 * Clone your fork
-* Install dependencies via
+* Init your workspace
 
-  ```bash
-  $ npm install
-  ```
-* Install global dependencies via
 ```bash
-$ npm install grunt-cli -g
+$ ./init-dev-env.js
 ```
+
 * Checkout a new branch (usually based on `master`) and name it accordingly to what
   you intend to do
   * Features get the prefix `feature-`
