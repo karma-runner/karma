@@ -1,6 +1,7 @@
 node_modules
 static/karma.js
 .idea/*
+*.iml
 tmp/*
 docs/_build
 *.swp
