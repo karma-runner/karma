@@ -97,7 +97,7 @@ $ grunt test:client
 * [GitHub pull request documentation]
 * [@JsKarma]
 
-[Karma - Git Commit Msg Format Conventions]: http://karma-runner.github.com/0.8/dev/git-commit-msg.html
+[Karma - Git Commit Msg Format Conventions]: http://karma-runner.github.io/0.8/dev/git-commit-msg.html
 [Issue tracker]: https://github.com/karma-runner/karma/issues
 [Mailing List]: https://groups.google.com/forum/#!forum/karma-users
 [General GitHub documentation]: http://help.github.com/
