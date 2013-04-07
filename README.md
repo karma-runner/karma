@@ -160,8 +160,8 @@ or the [docs] for more information.
 [JSTD]: http://code.google.com/p/js-test-driver/
 [Socket.io]: http://socket.io/
 [Node.js]: http://nodejs.org/
-[Jasmine]: http://pivotal.github.com/jasmine/
-[Mocha]: http://visionmedia.github.com/mocha/
+[Jasmine]: http://pivotal.github.io/jasmine/
+[Mocha]: http://visionmedia.github.io/mocha/
 [QUnit]: http://qunitjs.com/
 [here]: http://www.youtube.com/watch?v=MVw8N3hTfCI
 [Mailing List]: https://groups.google.com/forum/#!forum/karma-users
@@ -170,9 +170,9 @@ or the [docs] for more information.
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
-[Browsers]: http://karma-runner.github.com/0.8/config/browsers.html
-[Versioning]: http://karma-runner.github.com/0.8/about/versioning.html
-[Configuration File Overview]: http://karma-runner.github.com/0.8/config/configuration-file.html
-[docs]: http://karma-runner.github.com
-[Docs]: http://karma-runner.github.com
-[website]: http://karma-runner.github.com
+[Browsers]: http://karma-runner.github.io/0.8/config/browsers.html
+[Versioning]: http://karma-runner.github.io/0.8/about/versioning.html
+[Configuration File Overview]: http://karma-runner.github.io/0.8/config/configuration-file.html
+[docs]: http://karma-runner.github.io
+[Docs]: http://karma-runner.github.io
+[website]: http://karma-runner.github.io
