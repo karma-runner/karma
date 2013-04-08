@@ -1,8 +1,8 @@
-**The files array determines which files are loaded, watched and served by Testacular.**
+**The files array determines which files are loaded, watched and served by Karma.**
 
 ## Adapters
 The first thing you usually need is an adapter. The following adapters
-are bundled with Testacular:
+are bundled with Karma:
 
 * Jasmine (`JASMINE`, `JASMINE_ADAPTER`)
 * Mocha (`MOCHA`, `MOCHA_ADAPTER`)
@@ -62,7 +62,7 @@ If you define them like before a simple pattern like
 ### `served`
 * **Type.** Boolean
 * **Default.** `true`
-* **Description.** Should the files be served by Testacular's webserver?
+* **Description.** Should the files be served by Karma's webserver?
 
 ## Complete example
 Here is a complete example showing the different options that are possible.

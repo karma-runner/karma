@@ -1,6 +1,6 @@
 This page shows how to configure a project that uses [RequireJS]. It is based on Jake's [post].
 
-## Configure Testacular
+## Configure Karma
 
 ### Directory Setup
 
@@ -17,36 +17,36 @@ project/
   test/
     MyModule.test.js
     test-main.js
-testacular.conf.js
+karma.conf.js
 ```
 
-### Initialize Testacular
+### Initialize Karma
 
-Testacular comes with a nice utility for generating a config file
-(default name: `testacular.conf.js`) that it needs in order to run.
+Karma comes with a nice utility for generating a config file
+(default name: `karma.conf.js`) that it needs in order to run.
 
 In your terminal, type:
 ```bash
-$ testacular init
+$ karma init
 ```
 This will give you a series of prompts for things such as paths to
 source and tests and which browsers to capture.
 
 ### RequireJs Shim
 Not immediately apparent is the fact that the ‘shim’ config from
-RequireJs 2.x does not work from within Testacular. I haven’t yet
+RequireJs 2.x does not work from within Karma. I haven’t yet
 figured out why. For instance, I was constantly getting `‘Backbone’ is
 not defined` messages even though it was specified in the ‘shim’
 config and required in the test. I could have been doing something
 wrong. My solution thus far has been to list each of the non-RequireJs
 modules and their dependencies in the `files` attribute of
-`testacular.conf.js`.
+`karma.conf.js`.
 
-### `testacular.conf.js`
+### `karma.conf.js`
 The final point is that the RequireJs main module for your test runner
 should be the last file listed.
 
-So, finally, here is the ‘file’ excerpt of `testacular.conf.js`:
+So, finally, here is the ‘file’ excerpt of `karma.conf.js`:
 ```javascript
 files = [
   MOCHA,
@@ -81,12 +81,12 @@ This config is awesome. It replaces an html test runner that you would otherwise
 Just like any RequireJs project, you need a main module to bootstrap
 your tests. In the main module, you setup the `require.config`.
 
-### Testacular `/base` Directory
-Testacular serves files under the `/base` directory. So, on the
+### Karma `/base` Directory
+Karma serves files under the `/base` directory. So, on the
 server, requests to files will be served up under
 `http://localhost:9876/base/*`. The RequireJs config for `baseUrl`
 gives a starting context for modules that load with relative paths.
-When setting this value for the Testacular server, it will need to
+When setting this value for the Karma server, it will need to
 start with `/base`. I want my baseUrl to be at the root of my `/src`
 directory so relative requires in the source won’t need to change. My
 baseUrl has the value of `/base/src`.
@@ -97,10 +97,10 @@ tests to run every time I add a test. There is no config option for
 this, but there's an easy way to get around it by filtering the tests
 from the `window.__karma__.files` object.
 The code is included in the example below and the original suggestion
-came from <https://github.com/testacular/testacular/pull/236>.
+came from <https://github.com/karma-runner/karma/pull/236>.
 
-### Asynchronously Run Testacular
-Because the RequireJs require statements are asynchronous, Testacular
+### Asynchronously Run Karma
+Because the RequireJs require statements are asynchronous, Karma
 needs to wait until they’re done (the code is loaded and ready) before
 it starts the tests.
 
@@ -111,7 +111,7 @@ var tests = Object.keys(window.__karma__.files).filter(function (file) {
 });
 
 require({
-  // Testacular serves files from '/base'
+  // Karma serves files from '/base'
   baseUrl: '/base/src',
   paths: {
     require: '../lib/require',
@@ -124,11 +124,11 @@ require({
 });
 ```
 
-## RequireJs Test in Testacular
+## RequireJs Test in Karma
 All the setup thus far has been in preparation for the code to follow.
 The test can now be setup as a RequireJs module. It can require the
 source code under test. It can use Mocha (or whatever framework there
-is a Testacular adapter for).
+is a Karma adapter for).
 
 I will also use Chai in order to get the ‘should’ BDD-style
 assertions. Note that by using RequireJs and running in the browser,
@@ -156,15 +156,15 @@ define(['../node_modules/chai/chai', 'MyModule'], function(chai, MyModule) {
 });
 ```
 
-## Run the Tests in Testacular
-To start the Testacular server:
+## Run the Tests in Karma
+To start the Karma server:
 ```bash
-$ testacular start
+$ karma start
 ```
 
 If you didn't configure to watch all the files and run tests automatically on any change, you can trigger the tests manually. Just type:
 ```bash
-$ testacular run
+$ karma run
 ```
 
 

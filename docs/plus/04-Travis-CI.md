@@ -28,14 +28,14 @@ is where you tell Travis how to run your tests.
 },
 // ...snip...
 'scripts': {
-   'test': './node_modules/.bin/testacular start --single-run --browsers PhantomJS'
+   'test': './node_modules/.bin/karma start --single-run --browsers PhantomJS'
 }
 // ...snip...
 ```
 
 Travis will run `npm install` before every suite so this is your
 chance to specify any modules your app needs that Travis does not know
-about like Testacular.
+about like Karma.
 
 ## Configure Travis with Firefox
 Travis supports running a real browser (Firefox) with a virtual
@@ -53,7 +53,7 @@ before_script:
 And now, you can run your tests on Firefox, just change the `npm test`
 command to
 ```bash
-./node_modules/.bin/testacular start --browsers Firefox --single-run
+./node_modules/.bin/karma start --browsers Firefox --single-run
 ```
 
 ## Notes

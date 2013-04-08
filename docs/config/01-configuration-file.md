@@ -1,7 +1,7 @@
-In order to serve you well, Testacular needs to know about your
+In order to serve you well, Karma needs to know about your
 project. That's done through a configuration file.
 
-For an example configuration, see [test/client/testacular.conf.js]
+For an example configuration, see [test/client/karma.conf.js]
 which contains most of the options.
 
 This document contains a list of all available options, as well as
@@ -46,8 +46,8 @@ their command line equivalents.
   * `PhantomJS`
 
 **Description:**
-  A list of browsers to launch and capture. Once testacular is shut down, it will shut down these
-  browsers as well. You can capture any browser manually just by opening a url, where Testacular's
+  A list of browsers to launch and capture. Once karma is shut down, it will shut down these
+  browsers as well. You can capture any browser manually just by opening a url, where Karma's
   web server is listening.
 
 See [config/browsers] for more.
@@ -60,8 +60,8 @@ See [config/browsers] for more.
 
 **Description:** Timeout for capturing a browser (in ms).
 
-If any browser does not get captured within the timeout, Testacular will kill it and try to launch
-it again. After three attempts to capture it, Testacular will give up.
+If any browser does not get captured within the timeout, Karma will kill it and try to launch
+it again. After three attempts to capture it, Karma will give up.
 
 
 ## colors
@@ -165,7 +165,7 @@ See [config/files] for more information.
 
 **Default:** `0`
 
-**Description:** Testacular will report all the tests that are slower than given time limit (in ms).
+**Description:** Karma will report all the tests that are slower than given time limit (in ms).
 This is disabled by default.
 
 
@@ -195,7 +195,7 @@ This is disabled by default.
 **CLI:** `--runner-port 9100`
 
 **Description:** The port where the server will be listening. This is only used when you are using
-`testacular run`.
+`karma run`.
 
 
 ## singleRun
@@ -216,14 +216,14 @@ If `true`, it captures browsers, runs tests and exits with `0` exit code (if all
 
 **Default:** `'/'`
 
-**Description:** The base url, where Testacular runs.
+**Description:** The base url, where Karma runs.
 
-All the Testacular's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
-sometimes you might want to proxy a url that is already taken by Testacular.
+All the Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
+sometimes you might want to proxy a url that is already taken by Karma.
 
 
 
-[test/client/testacular.conf.js]: https://github.com/testacular/testacular/blob/master/test/client/testacular.conf.js
+[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
 [config/files]: files.html
 [config/browsers]: browsers.html
 [config/preprocessors]: preprocessors.html

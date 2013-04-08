@@ -1,34 +1,34 @@
-Most of the time, you will be using Testacular directly from the command line.
+Most of the time, you will be using Karma directly from the command line.
 
-You can, however, call Testacular programmatically from your node module. This might be helpful when
-using Testacular with [Grunt] for instance.
+You can, however, call Karma programmatically from your node module. This might be helpful when
+using Karma with [Grunt] for instance.
 
 
 
-## testacular.server
+## karma.server
 
 ### **server.start(options, [callback=process.exit])**
 
-Equivalent of `testacular start`.
+Equivalent of `karma start`.
 
 ```javascript
-var server = require('testacular').server;
+var server = require('karma').server;
 server.start({port: 9877}, function(exitCode) {
-  console.log('Testacular has exitted with ' + exitCode);
+  console.log('Karma has exitted with ' + exitCode);
   process.exit(exitCode);
 });
 ```
 
-## testacular.runner
+## karma.runner
 
 ### **runner.run(options, [callback=process.exit])**
 
-Equivalent of `testacular run`.
+Equivalent of `karma run`.
 
 ```javascript
-var runner = require('testacular').runner;
+var runner = require('karma').runner;
 runner.run({runnerPort: 9100}, function(exitCode) {
-  console.log('Testacular has exitted with ' + exitCode);
+  console.log('Karma has exitted with ' + exitCode);
   process.exit(exitCode);
 });
 ```
