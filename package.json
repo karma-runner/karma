@@ -85,7 +85,8 @@
     "karma-coffee-preprocessor": "*",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
-    "karma-phantomjs-launcher": "*"
+    "karma-phantomjs-launcher": "*",
+    "karma-script-launcher": "*"
   },
   "devDependencies": {
     "grunt": "~0.4",
