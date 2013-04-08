@@ -15,7 +15,7 @@ $ karma init my.conf.js
 ```
 
 ## Starting Karma
-When starting karma, you can pass a path to the configuration file as an argument.
+When starting Karma, you can pass a path to the configuration file as an argument.
 
 By default, Karma will look for `karma.conf.js` in the current directory.
 ```bash
