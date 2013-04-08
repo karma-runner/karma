@@ -95,7 +95,7 @@ baseUrl has the value of `/base/src`.
 One of the things I hate is having to update a master list of all
 tests to run every time I add a test. There is no config option for
 this, but there's an easy way to get around it by filtering the tests
-from the `window.__testacular__.files` object.
+from the `window.__karma__.files` object.
 The code is included in the example below and the original suggestion
 came from <https://github.com/karma-runner/karma/pull/236>.
 
@@ -106,7 +106,7 @@ it starts the tests.
 
 The main-test.js file ends up looking like this:
 ```javascript
-var tests = Object.keys(window.__testacular__.files).filter(function (file) {
+var tests = Object.keys(window.__karma__.files).filter(function (file) {
   return /\.test\.js$/.test(file);
 });
 
@@ -120,7 +120,7 @@ require({
   // ask requirejs to load these files (all our tests)
   deps: tests,
   // start test run, once requirejs is done
-  callback: window.__testacular__.start
+  callback: window.__karma__.start
 });
 ```
 
@@ -170,4 +170,4 @@ $ karma run
 
 
 [RequireJS]: http://requirejs.org/
-[post]: http://jaketrent.com/post/test-requirejs-testacular/
+[post]: http://jaketrent.com/post/test-requirejs-karma/
