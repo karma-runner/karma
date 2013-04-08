@@ -46,7 +46,7 @@ their command line equivalents.
   * `PhantomJS`
 
 **Description:**
-  A list of browsers to launch and capture. Once karma is shut down, it will shut down these
+  A list of browsers to launch and capture. Once Karma is shut down, it will shut down these
   browsers as well. You can capture any browser manually just by opening a url, where Karma's
   web server is listening.
 

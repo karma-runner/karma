@@ -62,4 +62,4 @@ If grunt fails, make sure grunt-0.4x is installed: https://github.com/gruntjs/gr
 * [Mailing List](https://groups.google.com/forum/#!forum/karma-users)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
-* [@KarmaJS](http://twitter.com/JsKarma)
+* [@JsKarma](http://twitter.com/JsKarma)

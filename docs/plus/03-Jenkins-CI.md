@@ -19,7 +19,7 @@ Optional we highly suggest to install the following Jenkins plug-in:
 distributions and user permissions.
 
 ## Configure Karma
- Make the following additions and changes to your karma config
+ Make the following additions and changes to your `karma.conf.js`
  file as needed:
 
 ```javascript

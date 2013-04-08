@@ -37,7 +37,7 @@ these file are only for the test setup used and not for your program.
 
 If you include these files there can occur side effects like the following,
 
-* a part of the code coverage report will be output in the installation directory of karma.
+* a part of the code coverage report will be output in the installation directory of Karma.
 * the code coverage rate is reduced unfairly.
 
 ## Reporter
