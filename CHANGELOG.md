@@ -1,3 +1,52 @@
+<a name="v0.9.1"></a>
+### v0.9.1 (2013-04-04)
+
+
+#### Bug Fixes
+
+* **init:** to not give false warning about missing requirejs ([562607a1](https://github.com/karma-runner/karma/commit/562607a16221b256c6e92ad2029154aac88eec8d))
+
+
+#### Features
+
+* ship coffee-preprocessor and requirejs as default plugins ([f34e30db](https://github.com/karma-runner/karma/commit/f34e30db4d25d484a30d12e3cb1c41069c0b263a))
+
+<a name="v0.9.0"></a>
+## v0.9.0 (2013-04-03)
+
+
+#### Bug Fixes
+
+* global error handler should propagate errors ([dec0c196](https://github.com/karma-runner/karma/commit/dec0c19651c251dcbc16c44a57775bcb37f78cf1), closes [#368](https://github.com/karma-runner/karma/issues/368))
+* **config:**
+  * Check if configFilePath is a string. Fixes #447. ([98724b6e](https://github.com/karma-runner/karma/commit/98724b6ef5a6ba60d487e7b774056832c6ca9d8c))
+  * do not change urlRoot even if proxied ([8c138b50](https://github.com/karma-runner/karma/commit/8c138b504046a3aeb230b71e1049aa60ee46905d))
+* **coverage:** always send a result object ([62c3c679](https://github.com/karma-runner/karma/commit/62c3c6790659f8f82f8a2ca5646aa424eeb28842), closes [#365](https://github.com/karma-runner/karma/issues/365))
+* **init:**
+  * generate plugins and frameworks config ([17798d55](https://github.com/karma-runner/karma/commit/17798d55988d61070f2b9f59574217208f2b497e))
+  * fix for failing "testacular init" on Windows ([0b5b3853](https://github.com/karma-runner/karma/commit/0b5b385383f13ac8f29fa6e591a8634eefa04ab7))
+* **preprocessor:** resolve relative patterns to basePath ([c608a9e5](https://github.com/karma-runner/karma/commit/c608a9e5a34a49da2971add8759a9422b74fa6fd), closes [#382](https://github.com/karma-runner/karma/issues/382))
+* **runner:** send exit code as string ([ca75aafd](https://github.com/karma-runner/karma/commit/ca75aafdf6b7b425ee151c2ae4ede37933befe1f), closes [#403](https://github.com/karma-runner/karma/issues/403))
+
+
+#### Features
+
+* display the version when starting ([39617395](https://github.com/karma-runner/karma/commit/396173952addce3f6e904310686a42b102aa53f8), closes [#391](https://github.com/karma-runner/karma/issues/391))
+* allow multiple preprocessors ([1d17c1aa](https://github.com/karma-runner/karma/commit/1d17c1aacf607d6c4269f05df97d024bc9ca994e))
+* allow plugins ([125ab4f8](https://github.com/karma-runner/karma/commit/125ab4f88a7cf49fd7df32264a9847847e2326ca))
+* **config:**
+  * always ignore the config file itself ([103bc0f8](https://github.com/karma-runner/karma/commit/103bc0f878a8870770c8a8afce0a3fbf8a516ea7))
+  * normalize string preprocessors into an array ([4dde1608](https://github.com/karma-runner/karma/commit/4dde16087d0a704a47528d44e23ace0c536d8c72))
+* **web-server:** allow custom file handlers and mime types ([2df88287](https://github.com/karma-runner/karma/commit/2df8828742041fd09c0b45d6a62ebd7552116589))
+
+
+#### Breaking Changes
+
+* reporters, launchers, preprocessors, adapters are separate plugins now, in order to use them, you need to install the npm package (probably add it as a `devDependency` into your `package.json`) and load in the `karma.conf.js` with `plugins = ['karma-jasmine', ...]`. Karma ships with couple of default plugins (karma-jasmine, karma-chrome-launcher, karma-phantomjs-launcher).
+
+* frameworks (such as jasmine, mocha, qunit) are configured using `frameworks = ['jasmine'];` instead of prepending `JASMINE_ADAPTER` into files.
+
+
 <a name="v0.8.0"></a>
 ## v0.8.0 (2013-03-18)
 

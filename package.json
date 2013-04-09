@@ -23,36 +23,44 @@
     "taichi <ryushi@gmail.com>",
     "Liam Newman <bitwiseman@gmail.com>",
     "Shyam Seshadri <shyamseshadri@gmail.com>",
+    "Andrew Martin <sublimino@gmail.com>",
     "Ilya Volodin <ivolodin@vistaprint.com>",
-    "Daniel Aleksandersen <code@daniel.priv.no>",
     "Iristyle <Iristyle@github>",
     "Marcello Nuccio <marcello.nuccio@gmail.com>",
-    "Igor Minar <iiminar@gmail.com>",
+    "Daniel Aleksandersen <code@daniel.priv.no>",
+    "Ethan J. Brown <ethan_j_brown@hotmail.com>",
     "Hugues Malphettes <hmalphettes@gmail.com>",
     "Bulat Shakirzyanov <mallluhuct@gmail.com>",
+    "Igor Minar <iiminar@gmail.com>",
     "rdodev <rubenoz@gmail.com>",
-    "Chad Smith <chad@configit.com>",
-    "Igor Minar <igor@angularjs.org>",
-    "Alexander Shtuchkin <ashtuchkin@gmail.com>",
-    "James Shore <jshore@jamesshore.com>",
-    "Kevin Ortman <kevin_ortman@msn.com>",
-    "Andy Joslin <andytjoslin@gmail.com>",
     "Nish <nishantpatel611@gmail.com>",
     "Nuno Job <nunojobpinto@gmail.com>",
+    "Pascal Hartig <phartig@rdrei.net>",
+    "Patrick Lussan <patrick.lussan@componize.com>",
     "Patrik Henningsson <patrik.henningsson@gmail.com>",
     "Pete Bacon Darwin <pete@bacondarwin.com>",
     "Pete Swan <pete@indabamusic.com>",
-    "Brian Ford <btford@umich.edu>",
-    "AvnerCohen <israbirding@gmail.com>",
     "Yi Wang <e@yi-wang.me>",
     "ahaurw01 <ahaurwitz@gmail.com>",
+    "Alexander Shtuchkin <ashtuchkin@gmail.com>",
+    "lanshunfang <lanshunfang@gmail.com>",
+    "ngiebel <ngiebel@starkinvestments.com>",
+    "pavelgj <pavelgj@gmail.com>",
     "hrgdavor <hrgdavor@gmail.com>",
+    "Andy Joslin <andytjoslin@gmail.com>",
+    "AvnerCohen <israbirding@gmail.com>",
+    "Brian Ford <btford@umich.edu>",
+    "Chad Smith <chad@configit.com>",
     "David Jensen <david@frode.(none)>",
-    "Ed Rooth <ed.rooth@rackspace.com>",
     "David Souther <davidsouther@gmail.com>",
+    "Ed Rooth <ed.rooth@rackspace.com>",
     "Eldar Jafarov <djkojb@gmail.com>",
-    "Ethan J. Brown <ethan_j_brown@hotmail.com>",
-    "Fred Sauer <fredsa@google.com>"
+    "Fred Sauer <fredsa@google.com>",
+    "Igor Minar <igor@angularjs.org>",
+    "James Ford <jford@psyked.co.uk>",
+    "James Shore <jshore@jamesshore.com>",
+    "Kevin Ortman <kevin_ortman@msn.com>",
+    "Milan Aleksic <milanaleksic@gmail.com>"
   ],
   "dependencies": {
     "di": "git://github.com/vojtajina/node-di.git",
@@ -73,9 +81,12 @@
   },
   "peerDependencies": {
     "karma-jasmine": "*",
+    "karma-requirejs": "*",
+    "karma-coffee-preprocessor": "*",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
-    "karma-phantomjs-launcher": "*"
+    "karma-phantomjs-launcher": "*",
+    "karma-script-launcher": "*"
   },
   "devDependencies": {
     "grunt": "~0.4",
@@ -105,7 +116,6 @@
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*"
   },
-  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "git://github.com/karma-runner/karma.git"
@@ -119,6 +129,6 @@
   },
   "scripts": {
     "install": "node install-log4js.js"
-    },
-  "version": "0.9.0"
+  },
+  "version": "0.9.1"
 }
