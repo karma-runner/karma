@@ -36,6 +36,24 @@ describe 'preprocessor', ->
       expect(mockFs.readFileSync('/some/new.js').toString()).to.equal 'new-content'
       done()
 
+  it 'should send configuration options for the preprocessor', (done) ->
+    configurablePreprocessor = sinon.spy (content, file, done, options) ->
+      file.path = file.path + '-preprocessed'
+      file.contentPath = '/some/new.js'
+      done "new-content, #{options.append}"
+
+    injector = new di.Injector [{'preprocessor:fake': ['factory', -> configurablePreprocessor]}]
+    ppSetup = name: 'fake', options: {append: 'test'}
+    pp = m.createPreprocessor {'**/*.js': [ppSetup]}, null, injector
+
+    file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp file, ->
+      expect(configurablePreprocessor).to.have.been.called
+      expect(file.path).to.equal 'path-preprocessed'
+      expect(mockFs.readFileSync('/some/new.js').toString()).to.equal 'new-content, test'
+      done()
+
 
   it 'should ignore not matching file', (done) ->
     fakePreprocessor = sinon.spy (content, file, done) ->
