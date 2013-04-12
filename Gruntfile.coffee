@@ -21,6 +21,7 @@ module.exports = (grunt) ->
       server: ['lib/**/*.js']
       client: ['static/karma.src.js']
       grunt: ['grunt.js', 'tasks/**/*.js']
+      scripts: ['scripts/*.js']
 
     build:
       client: '<%= files.client %>'
@@ -57,6 +58,10 @@ module.exports = (grunt) ->
       grunt:
         files:
           src: '<%= files.grunt %>'
+        options: JSHINT_NODE
+      scripts:
+        files:
+          src: '<%= files.scripts %>'
         options: JSHINT_NODE
       client:
         files:
