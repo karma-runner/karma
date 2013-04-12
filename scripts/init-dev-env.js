@@ -3,18 +3,22 @@
 
 var fs = require('fs');
 var exec = require('child_process').exec;
+var path = require('path');
 
 var isWin = !!process.platform.match(/^win/);
 
-var validateCommitPath = '../../scripts/validate-commit-msg.js';
-var gitHookPath = __dirname+'/../.git/hooks/commit-msg';
+var pathTo = function(p) {
+  return path.resolve(__dirname + '/../' + p);
+};
 
-var nodeModulesPath = __dirname+'/../node_modules';
+var validateCommitPath = pathTo('scripts/validate-commit-msg.js');
+var gitHookPath = pathTo('.git/hooks/commit-msg');
+var nodeModulesPath = pathTo('node_modules');
+var nmKarmaPath = pathTo('node_modules/karma');
+
 var karmaPath = '..';
-var nmKarmaPath = __dirname+'/../node_modules/karma';
 
-//Add Hook "validate-commit-msg"
-var gitHookSetup = function(){
+var gitHookSetup = function() {
 
   if (fs.existsSync(gitHookPath)) {
     fs.unlinkSync(gitHookPath);
@@ -39,8 +43,6 @@ var selfLinkSetup = function() {
   fs.symlinkSync(karmaPath, nmKarmaPath, 'dir');
 };
 
-
-// Check for grunt-cli
 var installGruntCli = function(callback) {
 
   console.log('Installing grunt-cli...');
@@ -66,7 +68,7 @@ var checkForGruntCli = function(callback) {
 
   exec('grunt --version', function (error, stdout) {
 
-    if ( error ){
+    if (error) {
       installGruntCli(callback);
     } else {
       console.log('grunt-cli is already installed:');
@@ -104,7 +106,7 @@ var runInit = function() {
 
 };
 
-if ( isWin ){
+if (isWin) {
 
   exec('whoami /priv', function(err, o) {
     if (err || o.indexOf('SeCreateSymbolicLinkPrivilege') === -1) {
