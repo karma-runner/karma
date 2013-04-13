@@ -74,7 +74,7 @@
     "growly": "~1.1",
     "pause": "0.0.1",
     "mime": "~1.2",
-    "log4js": "~0.5.8 || ~0.6.1"
+    "log4js": "~0.6.3"
   },
   "devDependencies": {
     "grunt": "~0.4",
@@ -102,9 +102,6 @@
   },
   "engines": {
     "node": "~0.8 || ~0.10"
-  },
-  "scripts": {
-    "install": "node install-log4js.js"
   },
   "version": "0.8.4"
 }
