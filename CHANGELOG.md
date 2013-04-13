@@ -1,3 +1,12 @@
+<a name="v0.8.5"></a>
+### v0.8.5 (2013-04-13)
+
+* removed hack for manual log4js install ([a584e27e](https://github.com/karma-runner/karma/commit/a584e27e8f068a254305d965ca8674e7c18bbfc7))
+
+#### Features
+
+* **adapter.scenario:** update to the latest ([71babd98](https://github.com/karma-runner/karma/commit/71babd987fedf2f8f4973d5023bbef97771b78e5))
+
 <a name="v0.8.4"></a>
 ### v0.8.4 (2013-04-03)
 
