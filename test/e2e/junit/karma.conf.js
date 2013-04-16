@@ -1,24 +1,28 @@
-frameworks = ['jasmine'];
+module.exports = function(karma) {
+  karma.configure({
+    frameworks: ['jasmine'],
 
-files = [
-  '*.js'
-];
+    files: [
+      '*.js'
+    ],
 
-autoWatch = true;
+    autoWatch: true,
 
-browsers = ['Chrome']
+    browsers: ['Chrome'],
 
-reporters = ['dots', 'junit'];
+    reporters: ['dots', 'junit'],
 
-logLevel = LOG_DEBUG;
+    logLevel: LOG_DEBUG,
 
-junitReporter = {
-  outputFile: 'test-results.xml'
+    junitReporter: {
+      outputFile: 'test-results.xml'
+    },
+
+    plugins: [
+      'karma-jasmine',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-junit-reporter'
+    ],
+  });
 };
-
-plugins = [
-  'karma-jasmine',
-  'karma-chrome-launcher',
-  'karma-firefox-launcher',
-  'karma-junit-reporter'
-];
