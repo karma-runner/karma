@@ -1,3 +1,20 @@
+<a name="v0.9.2"></a>
+### v0.9.2 (2013-04-16)
+
+
+#### Bug Fixes
+
+* better error reporting when loading plugins ([d9078a8e](https://github.com/karma-runner/karma/commit/d9078a8eca41df15f26b53e2375f722a48d0992d))
+* **config:**
+  * Separate ENOENT error handler from others ([e49dabe7](https://github.com/karma-runner/karma/commit/e49dabe783d6cfb2ee97b70ac01953e82f70f831))
+  * ensure basePath is always resolved ([2e5c5aaa](https://github.com/karma-runner/karma/commit/2e5c5aaaddc4ad4e1ee9c8fa0388d3916827f403))
+
+
+#### Features
+
+* allow inlined plugins ([3034bcf9](https://github.com/karma-runner/karma/commit/3034bcf9b074b693afab9c62856346d6f305d0c0))
+* **debug:** show skipped specs and failure details in the console ([42ab936b](https://github.com/karma-runner/karma/commit/42ab936b254983faa8ab0ee76a6278fb3aff7fa2))
+
 <a name="v0.9.1"></a>
 ### v0.9.1 (2013-04-04)
 
