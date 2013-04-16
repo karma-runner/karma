@@ -1,6 +1,22 @@
 In order to serve you well, Karma needs to know about your
 project. That's done through a configuration file.
 
+Karma config files are Node modules which are
+[required](http://nodejs.org/api/modules.html#modules_module_require_id) and
+are expected to export a function which accepts one argument -- Karma dsl
+object. Karma DSL object exposes [configure] method which can be called to set
+karma properties. For example:
+
+```javascript
+module.exports = function(karma) {
+  karma.configure({
+    basePath: '../..',
+    frameworks: ['jasmine'],
+    //...
+  });
+};
+```
+
 For an example configuration, see [test/client/karma.conf.js]
 which contains most of the options.
 
@@ -154,10 +170,10 @@ See [config/files] for more information.
 
 **Example:**
   ```javascript
-  proxies =  {
+  proxies:  {
     '/static': 'http://gstatic.com',
     '/web': 'http://localhost:9000'
-  };
+  },
   ```
 
 ## reportSlowerThan

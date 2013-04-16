@@ -62,7 +62,7 @@ Now your `karma.conf.js` should include:
 
 ```javascript
 // list of files / patterns to load in the browser
-files = [
+files: [
   JASMINE,
   JASMINE_ADAPTER,
   REQUIRE,
@@ -73,12 +73,12 @@ files = [
   {pattern: 'test/**/*Spec.js', included: false},
 
   'test/test-main.js'
-];
+],
 
 // list of files to exclude
-exclude = [
+exclude: [
     'src/main.js'
-];
+],
 ```
 
 ## Configuring Require.js
