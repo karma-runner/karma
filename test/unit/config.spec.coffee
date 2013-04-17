@@ -133,7 +133,8 @@ describe 'config', ->
       expect(logSpy).to.have.been.called
       event = logSpy.lastCall.args[0]
       expect(event.level.toString()).to.be.equal 'ERROR'
-      expect(event.data).to.be.deep.equal [new SyntaxError('Unexpected token =')]
+      expect(event.data).to.be.deep.equal ["Error in config file!\n",
+          new SyntaxError('Unexpected token =')]
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
