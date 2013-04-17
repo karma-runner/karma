@@ -14,10 +14,10 @@ If you want to use any of these, add `<FRAMEWORK>` and
 `<FRAMEWORK>_ADAPTER` to your `files` list. So for example if you want
 to use Mocha you have the following in your config file:
 ```javascript
-files = [
+files: [
   MOCHA,
   MOCHA_ADAPTER
-];
+],
 ```
 
 ## Pattern matching and `basePath`
@@ -67,7 +67,7 @@ If you define them like before a simple pattern like
 ## Complete example
 Here is a complete example showing the different options that are possible.
 ```javascript
-files = [
+files: [
 
   // Adapter
   MOCHA,
@@ -82,7 +82,7 @@ files = [
 
   // this file only gets watched but otherwise ignored
   {pattern: 'app/index.html', included: false, served: false}
-];
+],
 ```
 
 [glob]: https://github.com/isaacs/node-glob
