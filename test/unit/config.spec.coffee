@@ -2,7 +2,6 @@
 # lib/config.js module
 #==============================================================================
 describe 'config', ->
-  fsMock = require('mocks').fs
   loadFile = require('mocks').loadFile
   mocks = m = e = null
   path = require('path')
@@ -22,41 +21,39 @@ describe 'config', ->
   patternsFrom = (list) ->
     list.map (pattern) -> pattern.pattern
 
+  wrapCfg = (cfg) ->
+    return (karma) ->
+      karma.configure cfg
+
   beforeEach ->
-    # create instance of fs mock
     mocks = {}
     mocks.process = exit: sinon.spy()
-    mocks.fs = fsMock.create
-      bin:
-        sub:
-          'one.js'  : fsMock.file '2011-12-25'
-          'two.js'  : fsMock.file '2011-12-26'
-          'log.txt' : 1
-        mod:
-          'one.js'  : 1
-          'test.xml': 1
-        'file.js' : 1
-        'some.txt': 1
-        'more.js' : 1
-      home:
-        '.vojta'   : 1
-        'config1.js': fsMock.file 0, 'basePath = "base";reporter="dots"'
-        'config2.js': fsMock.file 0, 'basePath = "/abs/base"'
-        'config3.js': fsMock.file 0, 'files = ["one.js", "sub/two.js"];'
-        'config4.js': fsMock.file 0, 'port = 123; autoWatch = true; basePath = "/abs/base"'
-        'config5.js': fsMock.file 0, 'port = {f: __filename, d: __dirname}' # piggyback on port prop
-        'config6.js': fsMock.file 0, 'reporters = "junit";'
-        'config7.js': fsMock.file 0, 'browsers = ["Chrome", "Firefox"];'
-        'config8.js': fsMock.file 0, 'require("fs").readFileSync("/not/a/real/file/path")'
-      conf:
-        'invalid.js': fsMock.file 0, '={function'
-        'exclude.js': fsMock.file 0, 'exclude = ["one.js", "sub/two.js"];'
-        'absolute.js': fsMock.file 0, 'files = ["http://some.com", "https://more.org/file.js"];'
-        'both.js': fsMock.file 0, 'files = ["one.js", "two.js"]; exclude = ["third.js"]'
-        'coffee.coffee': fsMock.file 0, 'files = [ "one.js"\n  "two.js"]'
+    mockConfigs = {
+      '/home/config1.js': wrapCfg({basePath: 'base', reporter: 'dots'}),
+      '/home/config2.js': wrapCfg({basePath: '/abs/base'}),
+      '/home/config3.js': wrapCfg({files: ['one.js', 'sub/two.js']}),
+      '/home/config4.js': wrapCfg({port: 123, autoWatch: true, basePath: '/abs/base'}),
+      '/home/config6.js': wrapCfg({reporters: 'junit'}),
+      '/home/config7.js': wrapCfg({browsers: ['Chrome', 'Firefox']}),
+      '/conf/invalid.js': () -> throw new SyntaxError('Unexpected token =')
+      '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
+      '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
+      '/conf/both.js': wrapCfg({files: ['one.js', 'two.js'], exclude: ['third.js']}),
+      '/conf/coffee.coffee': wrapCfg({files: [ 'one.js',  'two.js']}),
+    }
 
     # load file under test
-    m = loadFile __dirname + '/../../lib/config.js', mocks, {process: mocks.process}
+    m = loadFile __dirname + '/../../lib/config.js', mocks, {
+      global: {},
+      process: mocks.process,
+      require: (path) ->
+        if mockConfigs[path]
+          return mockConfigs[path]
+        if path.indexOf('./') is 0
+          require '../../lib/' + path
+        else
+          require path
+    }
     e = m.exports
 
 
@@ -119,15 +116,6 @@ describe 'config', ->
       expect(event.data).to.be.deep.equal ['Config file does not exist!']
       expect(mocks.process.exit).to.have.been.calledWith 1
 
-    it 'should not log config file does not exist if config file throws an ENOENT', ->
-      e.parseConfig '/home/config8.js', {}
-
-      expect(logSpy).to.have.been.called
-      event = logSpy.lastCall.args[0]
-      expect(event.level.toString()).to.be.equal 'ERROR'
-      expect(event.data).to.be.not.deep.equal ['Config file does not exist!']
-      expect(mocks.process.exit).to.have.been.calledWith 1
-
 
     it 'should log error and exit if it is a directory', ->
       e.parseConfig '/conf', {}
@@ -145,7 +133,8 @@ describe 'config', ->
       expect(logSpy).to.have.been.called
       event = logSpy.lastCall.args[0]
       expect(event.level.toString()).to.be.equal 'ERROR'
-      expect(event.data).to.be.deep.equal ['Syntax error in config file!\nUnexpected token =']
+      expect(event.data).to.be.deep.equal ["Error in config file!\n",
+          new SyntaxError('Unexpected token =')]
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
@@ -198,12 +187,6 @@ describe 'config', ->
       expect(config.JASMINE).to.not.exist
       expect(config.console).to.not.exist
       expect(config.require).to.not.exist
-
-
-    it 'should export __filename and __dirname of the config file in the config context', ->
-      config = e.parseConfig '/home/config5.js', {}
-      expect(config.port.f).to.equal '/home/config5.js'
-      expect(config.port.d).to.equal '/home'
 
 
     it 'should normalize urlRoot config', ->

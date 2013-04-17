@@ -1,19 +1,23 @@
-frameworks = ['mocha'];
+module.exports = function(karma) {
+  karma.configure({
+    frameworks: ['mocha'],
 
-files = [
-  '*.js'
-];
+    files: [
+      '*.js'
+    ],
 
-autoWatch = true;
-browsers = ['Chrome'];
-singleRun = false;
+    autoWatch: true,
+    browsers: ['Chrome'],
+    singleRun: false,
 
-browsers = ['Chrome'];
+    browsers: ['Chrome'],
 
-reporters = ['dots'];
+    reporters: ['dots'],
 
-plugins = [
-  'karma-mocha',
-  'karma-chrome-launcher',
-  'karma-firefox-launcher'
-];
+    plugins: [
+      'karma-mocha',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher'
+    ],
+  });
+};

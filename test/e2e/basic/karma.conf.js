@@ -1,17 +1,21 @@
-frameworks = ['jasmine'];
+module.exports = function(karma) {
+  karma.configure({
+    frameworks: ['jasmine'],
 
-files = [
-  '*.js'
-];
+    files: [
+      '*.js'
+    ],
 
-autoWatch = true;
+    autoWatch: true,
 
-browsers = ['Chrome'];
+    browsers: ['Chrome'],
 
-reporters = ['dots'];
+    reporters: ['dots'],
 
-plugins = [
-  'karma-jasmine',
-  'karma-chrome-launcher',
-  'karma-firefox-launcher'
-];
+    plugins: [
+      'karma-jasmine',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher'
+    ],
+  });
+};

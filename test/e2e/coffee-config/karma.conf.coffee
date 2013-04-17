@@ -1,8 +1,9 @@
-module.exports = function(karma) {
-  karma.configure({
+module.exports = (karma) ->
+  karma.configure {
     frameworks: ['jasmine'],
 
     files: [
+      '*.js',
       '*.coffee'
     ],
 
@@ -10,11 +11,11 @@ module.exports = function(karma) {
 
     browsers: ['Chrome'],
 
+    reporters: ['dots'],
+
     preprocessors: {
       '**/*.coffee': 'coffee'
     },
-
-    reporters: ['dots'],
 
     plugins: [
       'karma-jasmine',
@@ -22,5 +23,4 @@ module.exports = function(karma) {
       'karma-chrome-launcher',
       'karma-firefox-launcher'
     ],
-  });
-};
+  }

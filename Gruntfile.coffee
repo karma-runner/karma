@@ -30,7 +30,7 @@ module.exports = (grunt) ->
       unit: 'simplemocha:unit'
       tasks: 'simplemocha:tasks'
       client: 'test/client/karma.conf.js'
-      e2e: 'test/e2e/*/karma.conf.js'
+      e2e: ['test/e2e/*/karma.conf.js', 'test/e2e/*/karma.conf.coffee']
 
 
     simplemocha:
