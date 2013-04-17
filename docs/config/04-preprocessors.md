@@ -3,10 +3,10 @@ they get served to the browser. The configuration of these happens in this block
 in the config file.
 
 ```javascript
-preprocessors = {
+preprocessors: {
   '**/*.coffee': 'coffee',
   '**/*.html': 'html2js'
-};
+},
 ```
 
 ## Available Preprocessors
