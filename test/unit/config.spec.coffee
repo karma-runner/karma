@@ -44,15 +44,15 @@ describe 'config', ->
 
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {
-        global: {},
-        process: mocks.process,
-        require: (path) ->
-          if mockConfigs[path]
-            return mockConfigs[path]
-          if path.indexOf('./') is 0
-            require '../../lib/' + path
-          else
-            require path
+      global: {},
+      process: mocks.process,
+      require: (path) ->
+        if mockConfigs[path]
+          return mockConfigs[path]
+        if path.indexOf('./') is 0
+          require '../../lib/' + path
+        else
+          require path
     }
     e = m.exports
 
