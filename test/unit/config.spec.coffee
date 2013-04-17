@@ -27,7 +27,7 @@ describe 'config', ->
 
   beforeEach ->
     mocks = {}
-    mocks.process = exit: sinon.spy () -> throw Error('mocks.process.exit')
+    mocks.process = exit: sinon.spy()
     mockConfigs = {
       '/home/config1.js': wrapCfg({basePath: 'base', reporter: 'dots'}),
       '/home/config2.js': wrapCfg({basePath: '/abs/base'}),
@@ -44,6 +44,7 @@ describe 'config', ->
 
     # load file under test
     m = loadFile __dirname + '/../../lib/config.js', mocks, {
+        global: {},
         process: mocks.process,
         require: (path) ->
           if mockConfigs[path]
@@ -107,10 +108,7 @@ describe 'config', ->
 
 
     it 'should log error and exit if file does not exist', ->
-      try
-        e.parseConfig '/conf/not-exist.js', {}
-      catch error
-        expect(error.message).to.be.equal 'mocks.process.exit'
+      e.parseConfig '/conf/not-exist.js', {}
 
       expect(logSpy).to.have.been.called
       event = logSpy.lastCall.args[0]
@@ -120,10 +118,7 @@ describe 'config', ->
 
 
     it 'should log error and exit if it is a directory', ->
-      try
-        e.parseConfig '/conf', {}
-      catch error
-        expect(error.message).to.be.equal 'mocks.process.exit'
+      e.parseConfig '/conf', {}
 
       expect(logSpy).to.have.been.called
       event = logSpy.lastCall.args[0]
@@ -133,10 +128,7 @@ describe 'config', ->
 
 
     it 'should throw and log error if invalid file', ->
-      try
-        e.parseConfig '/conf/invalid.js', {}
-      catch error
-        expect(error.message).to.be.equal 'mocks.process.exit'
+      e.parseConfig '/conf/invalid.js', {}
 
       expect(logSpy).to.have.been.called
       event = logSpy.lastCall.args[0]

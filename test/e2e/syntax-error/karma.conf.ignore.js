@@ -9,7 +9,7 @@ module.exports = function(karma) {
 
     autoWatch: true,
     autoWatchInterval: 1,
-    logLevel: LOG_INFO,
+    logLevel: karma.LOG_INFO,
     logColors: true,
 
     browsers: ['Chrome'],

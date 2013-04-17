@@ -12,7 +12,7 @@ module.exports = function(karma) {
 
     reporters: ['dots', 'junit'],
 
-    logLevel: LOG_DEBUG,
+    logLevel: karma.LOG_DEBUG,
 
     junitReporter: {
       outputFile: 'test-results.xml'

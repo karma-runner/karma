@@ -119,17 +119,17 @@ See [config/files] for more information.
 ## logLevel
 **Type:** Constant
 
-**Default:** `LOG_INFO`
+**Default:** `karma.LOG_INFO`
 
 **CLI:** `--log-level debug`
 
 **Possible values:**
 
-  * `LOG_DISABLE`
-  * `LOG_ERROR`
-  * `LOG_WARN`
-  * `LOG_INFO`
-  * `LOG_DEBUG`
+  * `karma.LOG_DISABLE`
+  * `karma.LOG_ERROR`
+  * `karma.LOG_WARN`
+  * `karma.LOG_INFO`
+  * `karma.LOG_DEBUG`
 
 **Description:** Level of logging.
 
