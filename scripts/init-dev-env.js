@@ -29,20 +29,6 @@ var gitHookSetup = function() {
   fs.symlinkSync(validateCommitPath, gitHookPath, 'file');
 };
 
-var selfLinkSetup = function() {
-  if (!fs.existsSync(nodeModulesPath)) {
-    fs.mkdirSync(nodeModulesPath);
-  }
-
-  if (fs.existsSync(nmKarmaPath)) {
-    fs.unlinkSync(nmKarmaPath);
-    console.log('Existing link removed:', nmKarmaPath);
-  }
-
-  console.log('Adding symbolic link: %s linked to %s', karmaPath, nmKarmaPath);
-  fs.symlinkSync(karmaPath, nmKarmaPath, 'dir');
-};
-
 var installGruntCli = function(callback) {
 
   console.log('Installing grunt-cli...');
@@ -99,7 +85,6 @@ var installDependencies = function() {
 var runInit = function() {
 
   gitHookSetup();
-  selfLinkSetup();
   checkForGruntCli(function cb() {
     installDependencies();
   });
