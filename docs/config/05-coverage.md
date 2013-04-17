@@ -12,9 +12,9 @@ For example if all your code lives in ``lib/`` you need to add this to your
 configuration file.
 
 ```javascript
-preprocessors = {
+preprocessors: {
   '**/lib/*.js': 'coverage'
-};
+},
 ```
 You should not however include the files that aren't directly related to your
 program, e.g. libraries, mocks, neither tests.
@@ -22,15 +22,15 @@ program, e.g. libraries, mocks, neither tests.
 This is a **BAD** example
 
 ```javascript
-files = [
+files: [
   JASMINE,
   JASMINE_ADAPTER,
   'lib/*.js',
   'test/*.js'
-];
-preprocessors = {
+],
+preprocessors: {
   '**/*.js': 'coverage'
-};
+},
 ```
 In this example also JASMINE and JASMINE_ADAPTER get included but they shouldn't as
 these file are only for the test setup used and not for your program.
@@ -43,7 +43,7 @@ If you include these files there can occur side effects like the following,
 ## Reporter
 To activate the coverage reporter add this to your configuration file.
 ```javascript
-reporters = ['coverage'];
+reporters: ['coverage'],
 ```
 This will create a coverage report for every browser that the tests are run in.
 In addition, it will create a JSON file that outputs the intermediate data.
@@ -53,10 +53,10 @@ In addition, it will create a JSON file that outputs the intermediate data.
 The reporter defaults to the following values.
 
 ```javascript
-coverageReporter = {
+coverageReporter: {
   type : 'html',
   dir : 'coverage/'
-}
+},
 ```
 If you want to configure it yourself here are the options explained.
 
@@ -73,11 +73,11 @@ If you want to configure it yourself here are the options explained.
 
 If you set `type` to `text` or `text-summary`, you may set the `file` option, like this.
 ```javascript
-coverageReporter = {
+coverageReporter: {
   type : 'text',
   dir : 'coverage/',
   file : 'coverage.txt'
-}
+},
 ```
 If no filename is given, it will write the output to the console.
 

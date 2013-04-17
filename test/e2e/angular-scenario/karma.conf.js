@@ -1,24 +1,27 @@
-frameworks = ['ng-scenario'];
+module.exports = function(karma) {
+  karma.configure({
+    frameworks: ['ng-scenario'],
 
-files = [
-  'e2eSpec.js'
-];
+    files: [
+      'e2eSpec.js'
+    ],
 
-urlRoot = '/__karma/';
+    urlRoot: '/__karma/',
 
-autoWatch = true;
+    autoWatch: true,
 
-proxies = {
-  '/': 'http://localhost:8000/test/e2e/angular-scenario/'
+    proxies: {
+      '/': 'http://localhost:8000/test/e2e/angular-scenario/'
+    },
+
+    browsers: ['Chrome'],
+
+    reporters: ['dots'],
+
+    plugins: [
+      'karma-ng-scenario',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher'
+    ]
+  });
 };
-
-browsers = ['Chrome'];
-
-reporters = ['dots'];
-
-plugins = [
-  'karma-ng-scenario',
-  'karma-chrome-launcher',
-  'karma-firefox-launcher'
-];
-

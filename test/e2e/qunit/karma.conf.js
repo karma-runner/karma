@@ -1,17 +1,21 @@
-frameworks = ['qunit'];
+module.exports = function(karma) {
+  karma.configure({
+    frameworks: ['qunit'],
 
-files = [
-  '*.js'
-];
+    files: [
+      '*.js'
+    ],
 
-autoWatch = true;
+    autoWatch: true,
 
-browsers = ['Chrome'];
+    browsers: ['Chrome'],
 
-reporters = ['dots'];
+    reporters: ['dots'],
 
-plugins = [
-  'karma-qunit',
-  'karma-chrome-launcher',
-  'karma-firefox-launcher'
-];
+    plugins: [
+      'karma-qunit',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher'
+    ],
+  });
+};
