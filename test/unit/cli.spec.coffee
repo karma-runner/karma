@@ -80,3 +80,7 @@ describe 'cli', ->
 
       options = processArgs ['--reporters', 'dots']
       expect(options.reporters).to.deep.equal ['dots']
+
+    it 'should cast exclude to array', ->
+      options = processArgs ['--exclude', 'foo.js,bar.js']
+      expect(options.exclude).to.deep.equal ['foo.js', 'bar.js']
