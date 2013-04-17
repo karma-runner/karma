@@ -23,11 +23,11 @@ distributions and user permissions.
  file as needed:
 
 ```javascript
-singleRun = true;
-reporters = ['dots', 'junit'];
-junitReporter = {
+singleRun: true,
+reporters: ['dots', 'junit'],
+junitReporter: {
   outputFile: 'test-results.xml'
-};
+},
  ```
 
 Please note the `test-result.xml` file will be output to the present

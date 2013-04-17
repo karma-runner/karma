@@ -3,7 +3,7 @@ Capturing browsers is kinda boring, so Karma can do that for you.
 Just simply add into the configuration file:
 
 ```javascript
-browsers = ['Chrome'];
+browsers: ['Chrome'],
 ```
 Then, Karma will take care of autocapturing these browsers, as
 well as killing them.
@@ -53,7 +53,7 @@ $Env:FIREFOX_BIN = 'c:\Program Files (x86)\Mozilla Firefox 4.0 Beta 6\firefox.ex
 ## Custom browsers
 ```javascript
 // in the karma.conf.js
-browsers = ['/usr/local/bin/custom-browser.sh'];
+browsers: ['/usr/local/bin/custom-browser.sh'],
 
 // from cli
 karma start --browsers /usr/local/bin/custom-browser.sh
