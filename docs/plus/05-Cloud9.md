@@ -16,10 +16,10 @@ PhantomJS must be installed with `npm install phantomjs`.
 The `karma.conf.js` file (tried it out for the [AngularJS foodme app]) must include the following entries:
 
 ```javascript
-browsers = ['PhantomJS'];
-hostname = process.env.IP;
-port = process.env.PORT;
-runnerPort = 0;
+browsers: ['PhantomJS'],
+hostname: process.env.IP,
+port: process.env.PORT,
+runnerPort: 0,
 ```
 
 [Cloud9 IDE]: https://c9.io/
