@@ -13,10 +13,6 @@ var pathTo = function(p) {
 
 var validateCommitPath = pathTo('scripts/validate-commit-msg.js');
 var gitHookPath = pathTo('.git/hooks/commit-msg');
-var nodeModulesPath = pathTo('node_modules');
-var nmKarmaPath = pathTo('node_modules/karma');
-
-var karmaPath = '..';
 
 var gitHookSetup = function() {
 
