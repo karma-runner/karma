@@ -1,22 +1,26 @@
-frameworks = ['jasmine'];
+module.exports = function(karma) {
+  karma.configure({
+    frameworks: ['jasmine'],
 
-files = [
-  '*.coffee'
-];
+    files: [
+      '*.coffee'
+    ],
 
-autoWatch = true;
+    autoWatch: true,
 
-browsers = ['Chrome'];
+    browsers: ['Chrome'],
 
-preprocessors = {
-  '**/*.coffee': 'coffee'
+    preprocessors: {
+      '**/*.coffee': 'coffee'
+    },
+
+    reporters: ['dots'],
+
+    plugins: [
+      'karma-jasmine',
+      'karma-coffee-preprocessor',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher'
+    ],
+  });
 };
-
-reporters = ['dots'];
-
-plugins = [
-  'karma-jasmine',
-  'karma-coffee-preprocessor',
-  'karma-chrome-launcher',
-  'karma-firefox-launcher'
-];
