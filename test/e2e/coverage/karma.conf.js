@@ -1,36 +1,40 @@
-frameworks = ['jasmine'];
+module.exports = function(karma) {
+  karma.configure({
+    frameworks: ['jasmine'],
 
-files = [
-  'lib/*.js',
-  'test/*.js'
-];
+    files: [
+      'lib/*.js',
+      'test/*.js'
+    ],
 
-autoWatch = true;
+    autoWatch: true,
 
-browsers = ['Chrome']
+    browsers: ['Chrome'],
 
-reporters = ['progress', 'coverage'];
+    reporters: ['progress', 'coverage'],
 
-preprocessors = {
-  'lib/*.js': 'coverage'
+    preprocessors: {
+      'lib/*.js': 'coverage'
+    },
+
+    //Code Coverage options. report type available:
+    //- html (default)
+    //- lcov (lcov and html)
+    //- lcovonly
+    //- text (standard output)
+    //- text-summary (standard output)
+    //- cobertura (xml format supported by Jenkins)
+    coverageReporter: {
+        // cf. http://gotwarlost.github.io/istanbul/public/apidocs/
+        type : 'html',
+        dir : 'coverage/'
+    },
+
+    plugins: [
+      'karma-jasmine',
+      'karma-coverage',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher'
+    ],
+  });
 };
-
-//Code Coverage options. report type available:
-//- html (default)
-//- lcov (lcov and html)
-//- lcovonly
-//- text (standard output)
-//- text-summary (standard output)
-//- cobertura (xml format supported by Jenkins)
-coverageReporter = {
-    // cf. http://gotwarlost.github.io/istanbul/public/apidocs/
-    type : 'html',
-    dir : 'coverage/'
-};
-
-plugins = [
-  'karma-jasmine',
-  'karma-coverage',
-  'karma-chrome-launcher',
-  'karma-firefox-launcher'
-];
