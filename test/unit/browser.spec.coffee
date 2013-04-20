@@ -52,9 +52,11 @@ describe 'browser', ->
     describe 'onRegister', ->
 
       it 'should set fullName and name', ->
-        browser.onRegister name: 'Chrome/16.0 full name'
-        expect(browser.name).to.equal 'Chrome 16.0'
-        expect(browser.fullName).to.equal 'Chrome/16.0 full name'
+        fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' +
+                   '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
+        browser.onRegister name: fullName
+        expect(browser.name).to.equal 'Chrome 16.0.912 (Mac OS X 10.6.8)'
+        expect(browser.fullName).to.equal fullName
 
 
       it 'should set launchId', ->
