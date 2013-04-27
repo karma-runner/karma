@@ -67,7 +67,7 @@
     "James Ford <jford@psyked.co.uk>"
   ],
   "dependencies": {
-    "di": "git://github.com/vojtajina/node-di.git",
+    "di": "~0.0.1",
     "socket.io": "~0.9.13",
     "chokidar": "~0.6",
     "glob": "~3.1.21",
