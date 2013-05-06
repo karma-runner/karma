@@ -247,18 +247,3 @@ describe 'init', ->
 
       replacements = m.getReplacementsFromAnswers answers {autoWatch: false}
       expect(replacements.AUTO_WATCH).to.equal 'false'
-
-
-    it 'should set PLUGINS', ->
-      replacements = m.getReplacementsFromAnswers answers {
-        browsers: ['Chrome', 'Firefox', 'ChromeCanary']
-        framework: 'jasmine'
-        requirejs: true
-      }
-
-      # ignore chrome canary
-      expect(replacements.PLUGINS).to.equal "" +
-        "'karma-jasmine',\n  " +
-        "'karma-requirejs',\n  " +
-        "'karma-chrome-launcher',\n  " +
-        "'karma-firefox-launcher'"
