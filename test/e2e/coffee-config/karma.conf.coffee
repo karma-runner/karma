@@ -1,26 +1,26 @@
 module.exports = (karma) ->
-  karma.configure {
-    frameworks: ['jasmine'],
+  karma.configure
+
+    frameworks: ['jasmine']
 
     files: [
-      '*.js',
+      '*.js'
       '*.coffee'
-    ],
+    ]
 
-    autoWatch: true,
+    autoWatch: true
 
-    browsers: ['Chrome'],
+    browsers: ['Chrome']
 
-    reporters: ['dots'],
+    reporters: ['dots']
 
     preprocessors: {
       '**/*.coffee': 'coffee'
-    },
+    }
 
     plugins: [
-      'karma-jasmine',
-      'karma-coffee-preprocessor',
-      'karma-chrome-launcher',
+      'karma-jasmine'
+      'karma-coffee-preprocessor'
+      'karma-chrome-launcher'
       'karma-firefox-launcher'
-    ],
-  }
+    ]
