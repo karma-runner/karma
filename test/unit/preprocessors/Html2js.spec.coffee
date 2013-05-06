@@ -32,3 +32,11 @@ describe 'preprocessors html2js', ->
     process 'first\nsecond', file, '/base', (processedContent) ->
       expect(removeSpacesFrom processedContent).to.contain "'first\\n'+'second'"
       done()
+
+
+  it 'should preserve Windows new lines', (done) ->
+    file = new File '/base/path/file.html'
+
+    process 'first\r\nsecond', file, '/base', (processedContent) ->
+      expect(processedContent).to.not.contain '\r'
+      done()
