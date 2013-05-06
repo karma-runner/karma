@@ -29,7 +29,7 @@ describe 'config', ->
     mocks = {}
     mocks.process = exit: sinon.spy()
     mockConfigs = {
-      '/home/config1.js': wrapCfg({basePath: 'base', reporter: 'dots'}),
+      '/home/config1.js': wrapCfg({basePath: 'base', reporters: ['dots']}),
       '/home/config2.js': wrapCfg({basePath: '/abs/base'}),
       '/home/config3.js': wrapCfg({files: ['one.js', 'sub/two.js']}),
       '/home/config4.js': wrapCfg({port: 123, autoWatch: true, basePath: '/abs/base'}),
@@ -170,13 +170,13 @@ describe 'config', ->
 
       expect(config.port).to.equal 456
       expect(config.basePath).to.equal resolveWinPath('/home/base')
+      expect(config.reporters).to.deep.equal ['dots']
 
       # defaults
       expect(config.files).to.deep.equal []
       expect(config.exclude).to.deep.equal [resolveWinPath('/home/config1.js')]
       expect(config.logLevel).to.exist
       expect(config.autoWatch).to.equal false
-      expect(config.reporters).to.deep.equal ['progress']
       expect(config.singleRun).to.equal false
       expect(config.browsers).to.deep.equal []
       expect(config.reportSlowerThan).to.equal 0
