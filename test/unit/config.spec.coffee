@@ -344,3 +344,53 @@ describe 'config', ->
       expect(pattern.included).to.equal true
       expect(pattern.watched).to.equal false
       expect(pattern.served).to.equal false
+
+
+  describe 'DSL', ->
+    di = require 'di'
+    dsl = config = null
+
+    forwardArgsFactory = (args) ->
+      args
+
+    baseModule =
+      'preprocessor:base': ['type', forwardArgsFactory]
+      'launcher:base': ['type', forwardArgsFactory]
+      'reporter:base': ['type', forwardArgsFactory]
+
+    beforeEach ->
+      config = {plugins: []}
+      dsl = new m.KarmaDsl config
+
+
+    it 'should define a custom launcher', ->
+      dsl.defineLauncher 'custom', 'base', {first: 123, whatever: 'aaa'}
+
+      injector = new di.Injector([baseModule].concat config.plugins)
+      injectedArgs = injector.get 'launcher:custom'
+
+      expect(injectedArgs).to.be.defined
+      expect(injectedArgs.first).to.equal 123
+      expect(injectedArgs.whatever).to.equal 'aaa'
+
+
+    it 'should define a custom preprocessor', ->
+      dsl.definePreprocessor 'custom', 'base', {second: 123, whatever: 'bbb'}
+
+      injector = new di.Injector([baseModule].concat config.plugins)
+      injectedArgs = injector.get 'preprocessor:custom'
+
+      expect(injectedArgs).to.be.defined
+      expect(injectedArgs.second).to.equal 123
+      expect(injectedArgs.whatever).to.equal 'bbb'
+
+
+    it 'should define a custom reporter', ->
+      dsl.defineReporter 'custom', 'base', {third: 123, whatever: 'ccc'}
+
+      injector = new di.Injector([baseModule].concat config.plugins)
+      injectedArgs = injector.get 'reporter:custom'
+
+      expect(injectedArgs).to.be.defined
+      expect(injectedArgs.third).to.equal 123
+      expect(injectedArgs.whatever).to.equal 'ccc'
