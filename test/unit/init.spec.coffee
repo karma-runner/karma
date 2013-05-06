@@ -187,7 +187,7 @@ describe 'init', ->
       expect(replacements.FILES).to.equal ''
 
       replacements = m.getReplacementsFromAnswers answers {files: ['*.js', 'other/file.js']}
-      expect(replacements.FILES).to.equal "'*.js',\n  'other/file.js'"
+      expect(replacements.FILES).to.equal "'*.js',\n      'other/file.js'"
 
 
     it 'should set FRAMEWORKS', ->
@@ -209,7 +209,7 @@ describe 'init', ->
       expect(replacements.FRAMEWORKS).to.contain "'requirejs'"
 
       expect(replacements.FILES).to.equal "" +
-        "{pattern: '*.js', included: false},\n  " +
+        "{pattern: '*.js', included: false},\n      " +
         "{pattern: 'other/file.js', included: false}"
 
 
@@ -221,7 +221,7 @@ describe 'init', ->
       }
 
       expect(replacements.FILES).to.equal "" +
-        "'main.js',\n  " +
+        "'main.js',\n      " +
         "{pattern: '*.js', included: false}"
 
 
@@ -230,7 +230,7 @@ describe 'init', ->
       expect(replacements.EXCLUDE).to.equal ''
 
       replacements = m.getReplacementsFromAnswers answers {exclude: ['*.js', 'other/file.js']}
-      expect(replacements.EXCLUDE).to.equal "'*.js',\n  'other/file.js'"
+      expect(replacements.EXCLUDE).to.equal "'*.js',\n      'other/file.js'"
 
 
     it 'should set BROWSERS', ->
