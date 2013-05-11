@@ -32,6 +32,7 @@ describe 'launchers Base', ->
   globals =
     process:
       platform: 'darwin'
+      versions: node: '0.10.x'
       env:
         TMP: '/tmp'
       nextTick: process.nextTick
@@ -72,6 +73,30 @@ describe 'launchers Base', ->
 
       browser.start '/capture/url'
       expect(browser._start).to.have.been.calledWith '/capture/url?id=123'
+
+
+    it 'should handle spawn ENOENT error and not even retry', (done) ->
+      browser = new m.BaseBrowser 123, new events.EventEmitter, 0, 3
+      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
+
+      error = new Error 'spawn ENOENT'
+      error.code = 'ENOENT'
+
+      browser.start '/capture/url'
+
+      spawnProcess = mockSpawn._processes[0]
+      mockSpawn.reset()
+
+      spawnProcess.emit 'error', error
+      spawnProcess.emit 'close', 1
+
+      # do not retry
+      expect(mockSpawn).not.to.have.been.called
+
+      browser.kill done
+
+      # do not kill already dead process
+      expect(spawnProcess.kill).to.not.have.been.called
 
 
   describe 'kill', ->
