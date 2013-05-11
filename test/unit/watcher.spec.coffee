@@ -62,6 +62,12 @@ describe 'watcher', ->
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
 
 
+    it 'should watch a file matching subpath directory', ->
+      # regression #521
+      m.watchPatterns patterns('/some/test-file.js', '/some/test/**'), chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/test-file.js', '/some/test']
+
+
     it 'should not watch if watched false', ->
       m.watchPatterns [
         new config.Pattern('/some/*.js', true, true, false)
