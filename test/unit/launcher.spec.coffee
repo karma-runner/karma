@@ -29,6 +29,7 @@ describe 'launcher', ->
   globals =
     global: global
     process:
+      versions: node: '0.10.x'
       nextTick: process.nextTick
       platform: 'linux'
       env: TMPDIR: '/temp'
