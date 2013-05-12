@@ -34,5 +34,5 @@ extension-related conflict that needs to be taken care of.
 
 [#202]: https://github.com/karma-runner/karma/issues/202
 [#74]: https://github.com/karma-runner/karma/issues/74
-[chocolatey]: (http://chocolatey.org/)
+[chocolatey]: http://chocolatey.org/
 [mailing list]: https://groups.google.com/forum/#!forum/karma-users
