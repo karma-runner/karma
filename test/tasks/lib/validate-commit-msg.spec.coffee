@@ -1,5 +1,5 @@
 describe 'validate-commit-msg', ->
-  m = require '../../../tasks/lib/validate-commit-msg'
+  m = require '../../../scripts/validate-commit-msg'
   errors = []
   sandbox = null
 

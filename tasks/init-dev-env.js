@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     var fs = require('fs');
     var done = this.async();
 
-    fs.symlink('../../tasks/lib/validate-commit-msg.js', '.git/hooks/commit-msg', function(e) {
+    fs.symlink('../../scripts/validate-commit-msg.js', '.git/hooks/commit-msg', function(e) {
       if (!e) {
         grunt.log.ok('Hook "validate-commit-msg" installed.');
       }
