@@ -72,7 +72,7 @@ var Karma = function(socket, context, navigator, location) {
 
     localConsole.log = function() {
       contextWindow.__karma__.info({dump: Array.prototype.slice.call(arguments, 0)});
-      return browserConsoleLog.apply(localConsole, arguments);
+      return Function.prototype.apply.call(browserConsoleLog, localConsole, arguments);
     };
   };
 
