@@ -46,7 +46,9 @@ module.exports = function(grunt) {
         'start', null, '--single-run', '--no-auto-watch'
       ];
 
+
       var next = function(err, result, code) {
+        var testArgs = [];
         if (processToKill) {
           processToKill.kill();
         }
@@ -64,7 +66,38 @@ module.exports = function(grunt) {
               }, function() {});
             }
 
-            spawnKarma(args, next);
+            if (args[1] === 'test/e2e/pass-opts/karma.conf.js') {
+              var serverArgs = args.slice();
+              serverArgs.splice(args.indexOf('--single-run'), 1);
+              var done = false;
+              var cont = function() {
+                if (!done) {
+                  done = true;
+                  next.apply(this, arguments);
+                }
+              };
+
+              processToKill = grunt.util.spawn({
+                cmd: node,
+                args: [cmd].concat(serverArgs),
+                opts: {stdio: [process.stdin, 'pipe', process.stderr]}
+              }, cont);
+
+              var onData = function(data) {
+                data = data.toString();
+                // wait for the browser to connect
+                if (/Connected on socket/.test(data)) {
+                  processToKill.stdout.removeListener('data', onData);
+                  spawnKarma(['run', 'runArg', '--','arg1','arg2','arg3'], cont);
+                } else {
+                  console.log(data);
+                }
+              };
+
+              processToKill.stdout.on('data', onData);
+            } else {
+              spawnKarma(args.concat(testArgs), next);
+            }
           } else {
             specDone();
           }
