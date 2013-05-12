@@ -46,12 +46,12 @@ var instanceOf = function(value, constructorName) {
 
 /* jshint unused: false */
 var Karma = function(socket, context, navigator, location) {
-  var config;
   var hasError = false;
   var store = {};
   var self = this;
 
   this.VERSION = VERSION;
+  this.config = {};
 
   this.setupContext = function(contextWindow) {
     if (hasError) {
@@ -210,7 +210,7 @@ var Karma = function(socket, context, navigator, location) {
   this.loaded = function() {
     // has error -> cancel
     if (!hasError) {
-      this.start(config);
+      this.start(this.config);
     }
 
     // remove reference to child iframe
@@ -240,7 +240,7 @@ var Karma = function(socket, context, navigator, location) {
   socket.on('execute', function(cfg) {
     // reset hasError and reload the iframe
     hasError = false;
-    config = cfg;
+    self.config = cfg;
     context.src = CONTEXT_URL;
 
     // clear the console before run

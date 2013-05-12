@@ -8,9 +8,9 @@ describe 'cli', ->
   CWD = process.cwd()
   path = require 'path'
 
-  processArgs = (args) ->
+  processArgs = (args, opts) ->
     argv = optimist.parse(args)
-    cli.processArgs argv, {}
+    cli.processArgs argv, opts || {}
 
   describe 'processArgs', ->
 
@@ -80,3 +80,13 @@ describe 'cli', ->
 
       options = processArgs ['--reporters', 'dots']
       expect(options.reporters).to.deep.equal ['dots']
+
+
+  describe 'parseClientArgs', ->
+    it 'should return arguments after --', ->
+      args = cli.parseClientArgs(['node', 'karma.js', 'runArg', '--flag', '--', '--foo', '--bar', 'baz']);
+      expect(args).to.deep.equal ['--foo', '--bar', 'baz']
+
+    it 'should return empty args if -- is not present', ->
+      args = cli.parseClientArgs(['node', 'karma.js', 'runArg', '--flag', '--foo', '--bar', 'baz']);
+      expect(args).to.deep.equal []
