@@ -109,13 +109,13 @@ describe 'browser', ->
         expect(browser.lastResult.total).to.equal 20
 
 
-      it 'should emit "browser_dump"', ->
+      it 'should emit "browser_log"', ->
         spy = sinon.spy()
-        emitter.on 'browser_dump', spy
+        emitter.on 'browser_log', spy
 
         browser.isReady = false
-        browser.onInfo {dump: 'something'}
-        expect(spy).to.have.been.calledWith browser, 'something'
+        browser.onInfo {log: 'something', type: 'info'}
+        expect(spy).to.have.been.calledWith browser, 'something', 'info'
 
 
       it 'should ignore if browser not executing', ->

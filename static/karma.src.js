@@ -40,11 +40,16 @@ socket.on('reconnecting', updateStatus('reconnecting in $ ms...'));
 socket.on('reconnect', updateStatus('re-connected'));
 socket.on('reconnect_failed', updateStatus('failed to reconnect'));
 
+var instanceOf = function(value, constructorName) {
+  return Object.prototype.toString.apply(value) === '[object ' + constructorName + ']';
+};
+
 /* jshint unused: false */
 var Karma = function(socket, context, navigator, location) {
   var config;
   var hasError = false;
   var store = {};
+  var self = this;
 
   this.VERSION = VERSION;
 
@@ -77,14 +82,79 @@ var Karma = function(socket, context, navigator, location) {
         return;
       }
       localConsole[method] = function() {
-        contextWindow.__karma__.info({dump: Array.prototype.slice.call(arguments, 0)});
+        self.log(method, arguments);
         return Function.prototype.apply.call(orig, localConsole, arguments);
       };
     };
     for (var i = 0; i < logMethods.length; i++) {
       patchConsoleMethod(logMethods[i]);
     }
+
+    contextWindow.dump = function() {
+      self.log('dump', arguments);
+    };
   };
+
+  this.log = function(type, args) {
+    var values = [];
+
+    for (var i = 0; i < args.length; i++) {
+      values.push(this.stringify(args[i], 3));
+    }
+
+    this.info({log: values.join(', '), type: type});
+  };
+
+  this.stringify = function(obj, depth) {
+
+    if (depth == 0) return '...';
+
+    if (obj === null) return 'null';
+
+    switch (typeof obj) {
+      case 'string':
+        return "'" + obj + "'";
+      case 'undefined':
+        return 'undefined';
+      case 'function':
+        return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }');
+      case 'boolean':
+        return obj ? 'true' : 'false';
+      case 'object':
+        var strs = [];
+        if (instanceOf(obj, 'Array')) {
+          strs.push('[');
+          for (var i = 0, ii = obj.length; i < ii; i++) {
+            if (i) strs.push(', ');
+            strs.push(this.stringify(obj[i], depth - 1));
+          }
+          strs.push(']');
+        } else if (instanceOf(obj, 'Date')) {
+          return obj.toString();
+        } else if (instanceOf(obj, 'Text')) {
+          return obj.nodeValue;
+        } else if (instanceOf(obj, 'Comment')) {
+          return '<!--' + obj.nodeValue + '-->';
+        } else if (obj.outerHTML) {
+          return obj.outerHTML;
+        } else {
+          strs.push(obj.constructor.name);
+          strs.push('{');
+          var first = true;
+          for(var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              if (first) { first = false; } else { strs.push(', '); }
+              strs.push(key + ': ' + this.stringify(obj[key], depth - 1));
+            }
+          }
+          strs.push('}');
+        }
+        return strs.join('');
+      default:
+        return obj;
+    };
+  };
+
 
   var clearContext = function() {
     context.src = 'about:blank';
