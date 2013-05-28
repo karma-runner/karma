@@ -176,6 +176,13 @@ See [config/files] for more information.
   },
   ```
 
+## proxyValidateSSL 
+**Type:** Boolean 
+
+**Default:**   `true`
+
+**Description:** Should https proxies error on invalid SSL cert.
+
 ## reportSlowerThan
 **Type:** Number
 

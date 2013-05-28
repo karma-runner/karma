@@ -72,7 +72,7 @@ describe 'web-server', ->
       servedFiles defaultFiles
       handler = m.createHandler promiseContainer, staticFolderPath, adapterFolderPath, baseFolder,
           mockProxy, {'/_karma_/': 'http://localhost:9000', '/base/': 'http://localhost:1000'},
-          '/_karma_/', [], []
+          '/_karma_/', [], [], true
       actualOptions = {}
       response = new responseMock()
       nextSpy = sinon.spy()
@@ -109,7 +109,11 @@ describe 'web-server', ->
 
     it 'should delegate to proxy after checking for karma files', (done) ->
       response.once 'end', ->
-        expect(actualOptions).to.deep.equal  {host: 'localhost', port: '9000'}
+        expect(actualOptions).to.deep.equal  {
+          host: 'localhost',
+          port: '9000',
+          target:{https:false, rejectUnauthorized:true}
+          }
         done()
 
       handler new httpMock.ServerRequest('/_karma_/not_client.html'), response
@@ -117,7 +121,11 @@ describe 'web-server', ->
 
     it 'should delegate to proxy after checking for source files', (done) ->
       response.once 'end', ->
-        expect(actualOptions).to.deep.equal  {host: 'localhost', port: '1000'}
+        expect(actualOptions).to.deep.equal  {
+          host: 'localhost',
+          port: '1000',
+          target:{https:false, rejectUnauthorized:true}
+          }
         done()
 
       handler new httpMock.ServerRequest('/base/not_client.html'), response
