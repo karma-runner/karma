@@ -82,7 +82,8 @@
     "pause": "0.0.1",
     "mime": "~1.2",
     "log4js": "~0.6.3",
-    "useragent": "~2.0.4"
+    "useragent": "~2.0.4",
+    "graceful-fs": "~1.2.1"
   },
   "peerDependencies": {
     "karma-jasmine": "*",
