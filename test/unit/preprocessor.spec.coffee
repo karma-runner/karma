@@ -13,7 +13,7 @@ describe 'preprocessor', ->
         'a.js': mocks.fs.file 0, 'content'
 
     mocks_ =
-      fs: mockFs
+      'graceful-fs': mockFs
       minimatch: require 'minimatch'
 
     m = mocks.loadFile __dirname + '/../../lib/preprocessor.js', mocks_
