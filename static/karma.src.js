@@ -53,6 +53,7 @@ var Karma = function(socket, context, navigator, location) {
     var getConsole = function(currentWindow) {
       return currentWindow.console || {
           log: function() {},
+          info: function() {},
           warn: function() {},
           error: function() {},
           debug: function() {}
@@ -69,11 +70,20 @@ var Karma = function(socket, context, navigator, location) {
     // patch the console
     var localConsole = contextWindow.console = getConsole(contextWindow);
     var browserConsoleLog = localConsole.log;
-
-    localConsole.log = function() {
-      contextWindow.__karma__.info({dump: Array.prototype.slice.call(arguments, 0)});
-      return Function.prototype.apply.call(browserConsoleLog, localConsole, arguments);
+    var logMethods = ['log', 'info', 'warn', 'error', 'debug'];
+    var patchConsoleMethod = function(method) {
+      var orig = localConsole[method];
+      if (!orig) {
+        return;
+      }
+      localConsole[method] = function() {
+        contextWindow.__karma__.info({dump: Array.prototype.slice.call(arguments, 0)});
+        return Function.prototype.apply.call(orig, localConsole, arguments);
+      };
     };
+    for (var i = 0; i < logMethods.length; i++) {
+      patchConsoleMethod(logMethods[i]);
+    }
   };
 
   var clearContext = function() {
