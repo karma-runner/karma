@@ -32,4 +32,4 @@ Try `karma start --help` if you want to see all available options.
 
 
 [test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
-[configuration file docs]: configuration_file.html
+[configuration file docs]: ../config/configuration-file.html
