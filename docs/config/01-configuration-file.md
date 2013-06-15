@@ -227,6 +227,14 @@ If `true`, it captures browsers, runs tests and exits with `0` exit code (if all
 `1` exit code (if any test failed).
 
 
+## transports
+**Type:** Array
+
+**Default:** `['websocket', 'flashsocket', 'xhr-polling', 'jsonp-polling']`
+
+**Description:** An array of allowed transport methods between the server and the client. This is configuration of [socket.io](https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO).
+
+
 ## urlRoot
 **Type:** String
 
