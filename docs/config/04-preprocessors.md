@@ -5,6 +5,7 @@ in the config file.
 ```javascript
 preprocessors: {
   '**/*.coffee': 'coffee',
+  '**/*.handlebars': 'ember',
   '**/*.html': 'html2js'
 },
 ```
@@ -14,6 +15,7 @@ preprocessors: {
 - [live]
 - [html2js]
 - [coverage]
+- [ember]
 
 
 ## Minimatching
@@ -38,3 +40,4 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 [live]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Live.js
 [html2js]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Html2js.js
 [coverage]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Coverage.js
+[ember]: https://github.com/toranb/karma-ember-preprocessor/blob/master/index.js
