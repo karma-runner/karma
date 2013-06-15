@@ -64,7 +64,8 @@
     "Igor Minar <igor@angularjs.org>",
     "Alexander Shtuchkin <ashtuchkin@gmail.com>",
     "pavelgj <pavelgj@gmail.com>",
-    "James Ford <jford@psyked.co.uk>"
+    "James Ford <jford@psyked.co.uk>",
+    "Toran Billups <toranb@gmail.com>"
   ],
   "dependencies": {
     "di": "~0.0.1",
@@ -88,6 +89,7 @@
     "karma-jasmine": "*",
     "karma-requirejs": "*",
     "karma-coffee-preprocessor": "*",
+    "karma-ember-preprocessor": "0.0.2",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
     "karma-phantomjs-launcher": "*",
@@ -119,7 +121,8 @@
     "karma-firefox-launcher": "*",
     "karma-phantomjs-launcher": "*",
     "karma-ng-scenario": "*",
-    "karma-coffee-preprocessor": "*"
+    "karma-coffee-preprocessor": "*",
+    "karma-ember-preprocessor": "0.0.2"
   },
   "repository": {
     "type": "git",
