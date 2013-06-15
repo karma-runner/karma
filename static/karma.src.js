@@ -1,5 +1,6 @@
 var CONTEXT_URL = 'context.html';
 var VERSION = '%KARMA_VERSION%';
+var config;
 
 // connect socket.io
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
@@ -42,7 +43,6 @@ socket.on('reconnect_failed', updateStatus('failed to reconnect'));
 
 /* jshint unused: false */
 var Karma = function(socket, context, navigator, location) {
-  var config;
   var hasError = false;
   var store = {};
 
