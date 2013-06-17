@@ -1,4 +1,4 @@
-# Karma [![Build Status](https://secure.travis-ci.org/karma-runner/karma.png?branch=stable)](http://travis-ci.org/karma-runner/karma) [![Build Status](https://secure.travis-ci.org/karma-runner/karma.png?branch=master)](http://travis-ci.org/karma-runner/karma)
+# Karma [![Build Status](https://secure.travis-ci.org/karma-runner/karma.png?branch=master)](http://travis-ci.org/karma-runner/karma)
 
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers, powered by [Node.js] and [Socket.io].
