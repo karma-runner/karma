@@ -176,10 +176,10 @@ See [config/files] for more information.
   },
   ```
 
-## validateSsl 
+## proxyValidateSSL 
 **Type:** Boolean 
 
-**Default:**   `false`
+**Default:**   `true`
 
 **Description:** Should https proxies error on invalid SSL cert.
 
