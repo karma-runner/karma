@@ -1,3 +1,15 @@
+<a name="v0.8.6"></a>
+### v0.8.6 (2013-06-16)
+
+
+#### Bug Fixes
+
+* **launcher:**
+  * ignore exit code when killing/timeouting ([ac71fd89](https://github.com/karma-runner/karma/commit/ac71fd89096e735e521dbc1b85106062b33d616d), closes [#444](https://github.com/karma-runner/karma/issues/444))
+  * handle ENOENT error, do not retry ([df4ffc73](https://github.com/karma-runner/karma/commit/df4ffc73495b1230561ae8b2785eb7ec5ea8ac18), closes [#452](https://github.com/karma-runner/karma/issues/452))
+* **preprocessor.html2js:** handling NL on Windows ([bfdf6fd0](https://github.com/karma-runner/karma/commit/bfdf6fd05eb366695705c9a8b08a4a0f45b2558d))
+* **watcher:** watch files that match watched directory ([e99aedc2](https://github.com/karma-runner/karma/commit/e99aedc2a3baa2694c5acaf375b9795229a1139d), closes [#521](https://github.com/karma-runner/karma/issues/521))
+
 <a name="v0.8.5"></a>
 ### v0.8.5 (2013-04-13)
 
