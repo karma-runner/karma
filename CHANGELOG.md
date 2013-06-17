@@ -1,3 +1,48 @@
+<a name="v0.9.3"></a>
+### v0.9.3 (2013-06-16)
+
+
+#### Bug Fixes
+
+* capturing console.log on IE ([fa4b686a](https://github.com/karma-runner/karma/commit/fa4b686a81ad826f256a4ca63c772af7ad6e411e), closes [#329](https://github.com/karma-runner/karma/issues/329))
+* **config:** fix the warning when using old syntax ([5e55d797](https://github.com/karma-runner/karma/commit/5e55d797f7544a45c3042e301bbf71e8b830daf3))
+* **init:** generate correct indentation ([5fc17957](https://github.com/karma-runner/karma/commit/5fc17957be761c06f6ae120c5d3ba800dba8d3a4))
+* **launcher:**
+  * ignore exit code when killing/timeouting ([1029bf2d](https://github.com/karma-runner/karma/commit/1029bf2d7d3d22986aa41439d2ce4115770f4dbd), closes [#444](https://github.com/karma-runner/karma/issues/444))
+  * handle ENOENT error, do not retry ([7d790b29](https://github.com/karma-runner/karma/commit/7d790b29c09c1f3784fe648b7d5ed16add10b4ca), closes [#452](https://github.com/karma-runner/karma/issues/452))
+* **logger:** configure the logger as soon as possible ([0607d67c](https://github.com/karma-runner/karma/commit/0607d67c15eab58ce83cce14ada70a1e2a9f17e9))
+* **preprocessor:** use graceful-fs to prevent EACCESS errors ([279bcab5](https://github.com/karma-runner/karma/commit/279bcab54019a0f0af72c7c08017cf4cdefebe46), closes [#566](https://github.com/karma-runner/karma/issues/566))
+* **watcher:** watch files that match watched directory ([39401175](https://github.com/karma-runner/karma/commit/394011753b918b8db807f31da9f5c316e296cf32), closes [#521](https://github.com/karma-runner/karma/issues/521))
+
+
+#### Features
+
+* simplify loading plugins using patterns like `karma-*` ([405a5a62](https://github.com/karma-runner/karma/commit/405a5a62d2ecc47a46b2ff069bfeb624f0b06982))
+* **client:** capture all `console.*` log methods ([683e6dcb](https://github.com/karma-runner/karma/commit/683e6dcb9132de3caee39c809b5b58efe8236564))
+* **config:**
+  * make socket.io transports configurable ([bbd5eb86](https://github.com/karma-runner/karma/commit/bbd5eb8688b2bc1e3dd04910aa68fd19c5036b31))
+  * allow configurable launchers, preprocessors, reporters ([76bdac16](https://github.com/karma-runner/karma/commit/76bdac1681f012749648f5a76b4a9d96c7a5ef20), closes [#317](https://github.com/karma-runner/karma/issues/317))
+  * add warning if old constants are used ([7233c5fb](https://github.com/karma-runner/karma/commit/7233c5fb9e1c105032000bbcb9afaddf72ccbc97))
+  * require config as a regular module ([a37fd6f7](https://github.com/karma-runner/karma/commit/a37fd6f7d28036b8da5fe98634cf711cebafc1ff), closes [#304](https://github.com/karma-runner/karma/issues/304))
+* **helper:** improve useragent detection ([eb58768e](https://github.com/karma-runner/karma/commit/eb58768e32baf13b45d9649743d7ef45798ffb27))
+* **init:**
+  * generate coffee config files ([d2173717](https://github.com/karma-runner/karma/commit/d21737176c1d866a11249d626a75440b398171ce))
+  * improve the questions a bit ([baecadb2](https://github.com/karma-runner/karma/commit/baecadb2f1a8f31c233edacafb1f8a4b736ea243))
+* **proxy:** add https proxy support ([be878dc5](https://github.com/karma-runner/karma/commit/be878dc545a0dd266d5686387c976ce70f1a095c))
+
+
+#### Breaking Changes
+
+* Update your karma.conf.js to export a config function.
+````javascript
+module.exports = function(karma) {
+  karma.configure({
+    autoWatch: true,
+    // ...
+  });
+};
+ ([a37fd6f7](https://github.com/karma-runner/karma/commit/a37fd6f7d28036b8da5fe98634cf711cebafc1ff))
+
 <a name="v0.9.2"></a>
 ### v0.9.2 (2013-04-16)
 
