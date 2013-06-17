@@ -122,7 +122,8 @@
     "karma-firefox-launcher": "*",
     "karma-phantomjs-launcher": "*",
     "karma-ng-scenario": "*",
-    "karma-coffee-preprocessor": "*"
+    "karma-coffee-preprocessor": "*",
+    "semver": "~1.1.4"
   },
   "repository": {
     "type": "git",

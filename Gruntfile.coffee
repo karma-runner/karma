@@ -98,7 +98,7 @@ module.exports = (grunt) ->
         max_line_length:
           value: 100
 
-    publish:
+    'npm-publish':
       options:
         requires: ['build']
         abortIfDirty: true
@@ -106,14 +106,15 @@ module.exports = (grunt) ->
           pkg = grunt.file.readJSON grunt.config 'pkgFile'
           minor = parseInt pkg.version.split('.')[1], 10
           if (minor % 2) then 'canary' else 'latest'
-    contributors:
+    'npm-contributors':
       options:
         commitMessage: 'chore: update contributors'
 
     bump:
       options:
         commitFiles: ['package.json', 'CHANGELOG.md']
-        commitMessage: 'chore: release v${version}'
+        commitMessage: 'chore: release v%VERSION%'
+        pushTo: 'upstream'
 
 
   grunt.loadTasks 'tasks'
@@ -126,9 +127,9 @@ module.exports = (grunt) ->
   grunt.registerTask 'default', ['build', 'test', 'jshint', 'coffeelint']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
     grunt.task.run [
-      'contributors'
+      'npm-contributors'
       'build'
-      'changelog'
+      "changelog:#{type||'patch'}"
       "bump:#{type||'patch'}"
-      'publish'
+      'npm-publish'
     ]
