@@ -15,7 +15,7 @@ module.exports = function(config) {
     // list of files to exclude
     exclude: [],
 
-    // use dolts reporter, as travis terminal does not support escaping sequences
+    // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress', 'junit', 'teamcity'
     // CLI --reporters progress
     reporters: ['progress', 'junit'],
