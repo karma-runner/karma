@@ -1,5 +1,5 @@
-module.exports = function(karma) {
-  karma.configure({
+module.exports = function(config) {
+  config.set({
     frameworks: ['jasmine'],
 
     // files to load
@@ -9,7 +9,7 @@ module.exports = function(karma) {
 
     autoWatch: true,
     autoWatchInterval: 1,
-    logLevel: karma.LOG_INFO,
+    logLevel: config.LOG_INFO,
     logColors: true,
 
     browsers: ['Chrome'],
