@@ -1,5 +1,5 @@
-module.exports = (karma) ->
-  karma.configure
+module.exports = (config) ->
+  config.set
 
     frameworks: ['jasmine']
 
@@ -14,9 +14,8 @@ module.exports = (karma) ->
 
     reporters: ['dots']
 
-    preprocessors: {
+    preprocessors:
       '**/*.coffee': 'coffee'
-    }
 
     plugins: [
       'karma-jasmine'
