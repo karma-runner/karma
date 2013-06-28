@@ -1,3 +1,68 @@
+<a name="v0.9.4"></a>
+### v0.9.4 (2013-06-28)
+
+
+#### Bug Fixes
+
+* **config:**
+  * make the config changes backwards compatible ([593ad853](https://github.com/karma-runner/karma/commit/593ad853c330a7856f2112db2bfb288f67948fa6))
+  * better errors if file invalid or does not exist ([74b533be](https://github.com/karma-runner/karma/commit/74b533beb34c115f5080d412a03573d269d540aa))
+  * allow parsing the config multiple times ([78a7094e](https://github.com/karma-runner/karma/commit/78a7094e0f262c431e904f99cf356be53eee3510))
+* **launcher:** better errors when loading launchers ([504e848c](https://github.com/karma-runner/karma/commit/504e848cf66b065380fa72e07f5337ae2d6e35b5))
+* **preprocessor:**
+  * do not show duplicate warnings ([47c641f7](https://github.com/karma-runner/karma/commit/47c641f7560d28e0d9eac7ae010566d296d5b628))
+  * better errors when loading preprocessors ([3390a00b](https://github.com/karma-runner/karma/commit/3390a00b49c513a6da60f48044462118436130f8))
+* **reporter:** better errors when loading reporters ([c645c060](https://github.com/karma-runner/karma/commit/c645c060c4f381902c2005eefe5b3a7bfa63cdcc))
+
+
+#### Features
+
+* **config:** pass the config object rather than a wrapper ([d2a3c854](https://github.com/karma-runner/karma/commit/d2a3c8546dc4b10bb9194047a1c11963639f3730))
+
+
+#### Breaking Changes
+
+* please update your karma.conf.js as follows:
+// before:
+module.exports = function(karma) {
+  karma.configure({port: 123});
+  karma.defineLauncher('x', 'Chrome', {
+    flags: ['--disable-web-security']
+  });
+  karma.definePreprocessor('y', 'coffee', {
+    bare: false
+  });
+  karma.defineReporter('z', 'coverage', {
+    type: 'html'
+  });
+};
+
+// after:
+module.exports = function(config) {
+  config.set({
+    port: 123,
+    customLaunchers: {
+      'x': {
+        base: 'Chrome',
+        flags: ['--disable-web-security']
+      }
+    },
+    customPreprocessors: {
+      'y': {
+        base: 'coffee',
+        bare: false
+      }
+    },
+    customReporters: {
+      'z': {
+        base: 'coverage',
+        type: 'html'
+      }
+    }
+  });
+};
+ ([d2a3c854](https://github.com/karma-runner/karma/commit/d2a3c8546dc4b10bb9194047a1c11963639f3730))
+
 <a name="v0.9.3"></a>
 ### v0.9.3 (2013-06-16)
 
