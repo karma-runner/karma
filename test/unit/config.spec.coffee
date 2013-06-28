@@ -15,6 +15,7 @@ describe 'config', ->
     cfg.exclude = [] if not cfg.exclude
     cfg.junitReporter = {} if not cfg.junitReporter
     cfg.coverageReporter = {} if not cfg.coverageReporter
+    cfg.plugins = [] if not cfg.plugins
     m.normalizeConfig cfg
 
   # extract only pattern properties from list of pattern objects
@@ -22,8 +23,8 @@ describe 'config', ->
     list.map (pattern) -> pattern.pattern
 
   wrapCfg = (cfg) ->
-    return (karma) ->
-      karma.configure cfg
+    return (config) ->
+      config.set cfg
 
   beforeEach ->
     mocks = {}
@@ -66,9 +67,7 @@ describe 'config', ->
 
     beforeEach ->
       logSpy = sinon.spy()
-
       logger = require '../../lib/logger.js'
-
       logger.create('config').on 'log', logSpy
 
 
@@ -113,17 +112,7 @@ describe 'config', ->
       expect(logSpy).to.have.been.called
       event = logSpy.lastCall.args[0]
       expect(event.level.toString()).to.be.equal 'ERROR'
-      expect(event.data).to.be.deep.equal ['Config file does not exist!']
-      expect(mocks.process.exit).to.have.been.calledWith 1
-
-
-    it 'should log error and exit if it is a directory', ->
-      e.parseConfig '/conf', {}
-
-      expect(logSpy).to.have.been.called
-      event = logSpy.lastCall.args[0]
-      expect(event.level.toString()).to.be.equal 'ERROR'
-      expect(event.data).to.be.deep.equal ['Config file does not exist!']
+      expect(event.data).to.be.deep.equal ['File %s does not exist!', '/conf/not-exist.js']
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
@@ -163,30 +152,6 @@ describe 'config', ->
         resolveWinPath('/xxx/third.js')
         resolveWinPath('/conf/both.js')
       ]
-
-
-    it 'should return only config, no globals', ->
-      config = e.parseConfig '/home/config1.js', {port: 456}
-
-      expect(config.port).to.equal 456
-      expect(config.basePath).to.equal resolveWinPath('/home/base')
-      expect(config.reporters).to.deep.equal ['dots']
-
-      # defaults
-      expect(config.files).to.deep.equal []
-      expect(config.exclude).to.deep.equal [resolveWinPath('/home/config1.js')]
-      expect(config.logLevel).to.exist
-      expect(config.autoWatch).to.equal false
-      expect(config.singleRun).to.equal false
-      expect(config.browsers).to.deep.equal []
-      expect(config.reportSlowerThan).to.equal 0
-      expect(config.captureTimeout).to.equal 60000
-      expect(config.proxies).to.deep.equal {}
-
-      expect(config.LOG_DISABLE).to.not.exist
-      expect(config.JASMINE).to.not.exist
-      expect(config.console).to.not.exist
-      expect(config.require).to.not.exist
 
 
     it 'should normalize urlRoot config', ->
@@ -346,9 +311,8 @@ describe 'config', ->
       expect(pattern.served).to.equal false
 
 
-  describe 'DSL', ->
+  describe 'custom', ->
     di = require 'di'
-    dsl = config = null
 
     forwardArgsFactory = (args) ->
       args
@@ -358,13 +322,12 @@ describe 'config', ->
       'launcher:base': ['type', forwardArgsFactory]
       'reporter:base': ['type', forwardArgsFactory]
 
-    beforeEach ->
-      config = {plugins: []}
-      dsl = new m.KarmaDsl config
-
-
     it 'should define a custom launcher', ->
-      dsl.defineLauncher 'custom', 'base', {first: 123, whatever: 'aaa'}
+      config = normalizeConfigWithDefaults
+        customLaunchers: custom:
+          base: 'base'
+          first: 123
+          whatever: 'aaa'
 
       injector = new di.Injector([baseModule].concat config.plugins)
       injectedArgs = injector.get 'launcher:custom'
@@ -375,7 +338,11 @@ describe 'config', ->
 
 
     it 'should define a custom preprocessor', ->
-      dsl.definePreprocessor 'custom', 'base', {second: 123, whatever: 'bbb'}
+      config = normalizeConfigWithDefaults
+        customPreprocessors: custom:
+          base: 'base'
+          second: 123
+          whatever: 'bbb'
 
       injector = new di.Injector([baseModule].concat config.plugins)
       injectedArgs = injector.get 'preprocessor:custom'
@@ -386,7 +353,11 @@ describe 'config', ->
 
 
     it 'should define a custom reporter', ->
-      dsl.defineReporter 'custom', 'base', {third: 123, whatever: 'ccc'}
+      config = normalizeConfigWithDefaults
+        customReporters: custom:
+          base: 'base'
+          third: 123
+          whatever: 'ccc'
 
       injector = new di.Injector([baseModule].concat config.plugins)
       injectedArgs = injector.get 'reporter:custom'

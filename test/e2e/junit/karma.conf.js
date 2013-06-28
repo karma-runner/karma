@@ -1,5 +1,5 @@
-module.exports = function(karma) {
-  karma.configure({
+module.exports = function(config) {
+  config.set({
     frameworks: ['jasmine'],
 
     files: [
@@ -12,7 +12,7 @@ module.exports = function(karma) {
 
     reporters: ['dots', 'junit'],
 
-    logLevel: karma.LOG_DEBUG,
+    logLevel: config.LOG_DEBUG,
 
     junitReporter: {
       outputFile: 'test-results.xml'
