@@ -1,10 +1,8 @@
 module.exports = (config) ->
   config.set
-
     frameworks: ['jasmine']
 
     files: [
-      '*.js'
       '*.coffee'
     ]
 
@@ -12,10 +10,10 @@ module.exports = (config) ->
 
     browsers: ['Chrome']
 
-    reporters: ['dots']
-
     preprocessors:
       '**/*.coffee': 'coffee'
+
+    reporters: ['dots']
 
     plugins: [
       'karma-jasmine'
