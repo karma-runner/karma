@@ -112,17 +112,7 @@ describe 'config', ->
       expect(logSpy).to.have.been.called
       event = logSpy.lastCall.args[0]
       expect(event.level.toString()).to.be.equal 'ERROR'
-      expect(event.data).to.be.deep.equal ['Config file does not exist!']
-      expect(mocks.process.exit).to.have.been.calledWith 1
-
-
-    it 'should log error and exit if it is a directory', ->
-      e.parseConfig '/conf', {}
-
-      expect(logSpy).to.have.been.called
-      event = logSpy.lastCall.args[0]
-      expect(event.level.toString()).to.be.equal 'ERROR'
-      expect(event.data).to.be.deep.equal ['Config file does not exist!']
+      expect(event.data).to.be.deep.equal ['File %s does not exist!', '/conf/not-exist.js']
       expect(mocks.process.exit).to.have.been.calledWith 1
 
 
