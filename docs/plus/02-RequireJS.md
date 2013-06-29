@@ -48,7 +48,7 @@ Usually you'll only need to include your `test-main.js` file, which has
 the same role for your tests as `main.js` has for your app when using
 Require.js.
 
-For the qustion *"Which files do you want to test?"*, we choose all the
+For the question *"Which files do you want to test?"*, we choose all the
 files we want to load with Require.js. For this example we'll need:
 
 * `lib/**/*.js` &mdash; all external libraries
