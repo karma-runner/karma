@@ -40,3 +40,11 @@ describe 'preprocessors html2js', ->
     process 'first\r\nsecond', file, '/base', (processedContent) ->
       expect(processedContent).to.not.contain '\r'
       done()
+
+
+  it 'should preserve the backslash character', (done) ->
+    file = new File '/base/path/file.html'
+
+    process 'first\\second', file, '/base', (processedContent) ->
+      expect(processedContent).to.contain "'first\\\\second'"
+      done()
