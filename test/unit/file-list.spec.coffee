@@ -131,6 +131,15 @@ describe 'file-list', ->
         expect(files.served).to.exist
         done()
 
+    it 'should handle fs.stat errors', (done) ->
+      sinon.stub(mockFs, 'stat').yields([new Error(), null])
+      list = new m.List patterns('/some/*.js'), [], emitter, preprocessMock
+
+      list.refresh().then (files) ->
+        mockFs.stat.restore()
+        done()
+
+
   #============================================================================
   # List.reload()
   #============================================================================
