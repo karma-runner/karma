@@ -1,8 +1,8 @@
 # Karma configuration
 # Generated on %DATE%
 
-module.exports = (karma) ->
-  karma.configure
+module.exports = (config) ->
+  config.set
 
     # base path, that will be used to resolve all patterns, eg. files, exclude
     basePath: '%BASE_PATH%'
@@ -34,8 +34,8 @@ module.exports = (karma) ->
     colors: true
 
     # level of logging
-    # possible values: karma.LOG_DISABLE || karma.LOG_ERROR || karma.LOG_WARN || karma.LOG_INFO || karma.LOG_DEBUG
-    logLevel: karma.LOG_INFO
+    # possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    logLevel: config.LOG_INFO
 
     # enable / disable watching file and executing tests whenever any file changes
     autoWatch: %AUTO_WATCH%
