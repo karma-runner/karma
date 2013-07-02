@@ -169,6 +169,13 @@ describe 'browser', ->
         expect(browser.lastResult.totalTime).to.equal 2
 
 
+      it 'should error the result if zero tests executed', ->
+        browser.isReady = false
+        browser.onComplete()
+
+        expect(browser.lastResult.error).to.equal true
+
+
     #==========================================================================
     # browser.Browser.onDisconnect
     #==========================================================================
