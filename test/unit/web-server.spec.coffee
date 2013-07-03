@@ -188,6 +188,19 @@ describe 'web-server', ->
 
       karmaSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
 
+    it 'should serve context.html with replaced link tags', ->
+      includedFiles [{path: '/first.css', mtime: new Date 12345},
+        {path: '/second.css', mtime: new Date 67890}]
+
+      response.once 'end', ->
+        expect(nextSpy).not.to.have.been.called
+        expect(response._content.toString()).to.equal  'CONTEXT\n' +
+        '<link type="text/css" href="/absolute/first.css?12345" rel="stylesheet">\n' +
+        '<link type="text/css" href="/absolute/second.css?67890" rel="stylesheet">'
+        expect(response.statusCode).to.equal 200
+
+      karmaSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
+
 
     it 'should serve debug.html with replaced script tags without timestamps', (done) ->
       includedFiles [{path: '/first.js', mtime: new Date 12345},
@@ -204,7 +217,22 @@ describe 'web-server', ->
       karmaSrcHandler new httpMock.ServerRequest('/_karma_/debug.html'), response, nextSpy
 
 
-    it 'should serve context.html with /basepath/*, /adapter/*, /absolute/* ', (done) ->
+    it 'should serve debug.html with replaced link tags without timestamps', (done) ->
+      includedFiles [{path: '/first.css', mtime: new Date 12345},
+        {path: '/second.css', mtime: new Date 67890}]
+
+      response.once 'end', ->
+        expect(nextSpy).not.to.have.been.called
+        expect(response._content.toString()).to.equal  'RUNNER\n' +
+        '<link type="text/css" href="/absolute/first.css" rel="stylesheet">\n' +
+        '<link type="text/css" href="/absolute/second.css" rel="stylesheet">'
+        expect(response.statusCode).to.equal 200
+        done()
+
+      karmaSrcHandler new httpMock.ServerRequest('/_karma_/debug.html'), response, nextSpy
+
+
+    it 'should serve context.html with the correct path for script tags', (done) ->
       includedFiles [{path: '/some/abs/a.js', mtime: new Date 12345},
         {path: '/base/path/b.js', mtime: new Date 67890},
         {path: '/karma/adapter/c.js', mtime: new Date 321}]
@@ -215,6 +243,23 @@ describe 'web-server', ->
         '<script type="text/javascript" src="/absolute/some/abs/a.js?12345"></script>\n' +
         '<script type="text/javascript" src="/base/b.js?67890"></script>\n' +
         '<script type="text/javascript" src="/adapter/c.js?321"></script>'
+        expect(response.statusCode).to.equal 200
+        done()
+
+      karmaSrcHandler new httpMock.ServerRequest('/_karma_/context.html'), response, nextSpy
+
+
+    it 'should serve context.html with the correct path for link tags', (done) ->
+      includedFiles [{path: '/some/abs/a.css', mtime: new Date 12345},
+        {path: '/base/path/b.css', mtime: new Date 67890},
+        {path: '/karma/adapter/c.css', mtime: new Date 321}]
+
+      response.once 'end', ->
+        expect(nextSpy).not.to.have.been.called
+        expect(response._content.toString()).to.equal  'CONTEXT\n' +
+        '<link type="text/css" href="/absolute/some/abs/a.css?12345" rel="stylesheet">\n' +
+        '<link type="text/css" href="/base/b.css?67890" rel="stylesheet">\n' +
+        '<link type="text/css" href="/adapter/c.css?321" rel="stylesheet">'
         expect(response.statusCode).to.equal 200
         done()
 
