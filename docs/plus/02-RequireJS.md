@@ -111,9 +111,14 @@ asynchronously as dependencies must be fetched before the tests are run.
 The `test/main-test.js` file ends up looking like this:
 
 ```javascript
-var tests = Object.keys(window.__karma__.files).filter(function (file) {
-      return /Spec\.js$/.test(file);
-});
+var tests = [];
+for (var file in window.__karma__.files) {
+  if (window.__karma__.files.hasOwnProperty(file)) {
+    if (/Spec\.js$/.test(file)) {
+      tests.push(file);
+    }
+  }
+}
 
 requirejs.config({
     // Karma serves files from '/base'
