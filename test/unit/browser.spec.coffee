@@ -147,7 +147,7 @@ describe 'browser', ->
 
         browser.isReady = false
         browser.onComplete()
-        expect(spy).to.have.been.called
+        expect(spy).to.have.been.calledWith collection
 
 
       it 'should ignore if browser not executing', ->
