@@ -99,6 +99,22 @@ describe 'launchers Base', ->
       expect(spawnProcess.kill).to.not.have.been.called
 
 
+    it 'should remove quotes from the cmd', ->
+      browser = new m.BaseBrowser 123
+
+      browser.DEFAULT_CMD = darwin: '"/bin/brow ser"'
+      browser.start '/url'
+      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
+
+      browser.DEFAULT_CMD = darwin: '\'bin/brow ser\''
+      browser.start '/url'
+      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
+
+      browser.DEFAULT_CMD = darwin: '`bin/brow ser`'
+      browser.start '/url'
+      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
+
+
   describe 'kill', ->
     it 'should just fire done if already killed', (done) ->
       browser = new m.BaseBrowser 123, new events.EventEmitter, 0, 1 # disable retry
