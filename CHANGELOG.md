@@ -22,7 +22,9 @@
 
 #### Breaking Changes
 
-* please update your karma.conf.js as follows:
+* please update your karma.conf.js as follows ([d2a3c854](https://github.com/karma-runner/karma/commit/d2a3c8546dc4b10bb9194047a1c11963639f3730)):
+
+```js
 // before:
 module.exports = function(karma) {
   karma.configure({port: 123});
@@ -61,7 +63,7 @@ module.exports = function(config) {
     }
   });
 };
- ([d2a3c854](https://github.com/karma-runner/karma/commit/d2a3c8546dc4b10bb9194047a1c11963639f3730))
+```
 
 <a name="v0.9.3"></a>
 ### v0.9.3 (2013-06-16)
@@ -98,15 +100,16 @@ module.exports = function(config) {
 
 #### Breaking Changes
 
-* Update your karma.conf.js to export a config function.
-````javascript
+* Update your karma.conf.js to export a config function ([a37fd6f7](https://github.com/karma-runner/karma/commit/a37fd6f7d28036b8da5fe98634cf711cebafc1ff)):
+
+```js
 module.exports = function(karma) {
   karma.configure({
     autoWatch: true,
     // ...
   });
 };
- ([a37fd6f7](https://github.com/karma-runner/karma/commit/a37fd6f7d28036b8da5fe98634cf711cebafc1ff))
+```
 
 <a name="v0.9.2"></a>
 ### v0.9.2 (2013-04-16)
