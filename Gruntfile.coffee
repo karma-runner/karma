@@ -119,6 +119,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-bump'
   grunt.loadNpmTasks 'grunt-npm'
+  grunt.loadNpmTasks 'grunt-auto-release'
   grunt.loadNpmTasks 'grunt-conventional-changelog'
 
   grunt.registerTask 'default', ['build', 'test', 'jshint', 'coffeelint']
