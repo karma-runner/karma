@@ -11,7 +11,7 @@ var pathTo = function(p) {
   return path.resolve(__dirname + '/../' + p);
 };
 
-var validateCommitPath = pathTo('scripts/validate-commit-msg.js');
+var validateCommitPath = pathTo('node_modules/grunt-conventional-changelog/lib/validate-commit-msg.js');
 var gitHookPath = pathTo('.git/hooks/commit-msg');
 
 var gitHookSetup = function() {
