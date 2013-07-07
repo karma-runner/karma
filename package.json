@@ -71,7 +71,7 @@
     "LiveScript": "1.0.1",
     "colors": "0.6.0-1",
     "dateformat": "1.0.2-1.2.3",
-    "istanbul": "0.1.22",
+    "istanbul": "~0.1.40",
     "lodash": "~1.1",
     "growly": "~1.1",
     "pause": "0.0.1",
