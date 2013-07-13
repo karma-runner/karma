@@ -130,6 +130,7 @@
     "karma-phantomjs-launcher": "*",
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*",
+    "karma-html2js-preprocessor": "*",
     "semver": "~1.1.4"
   },
   "repository": {
