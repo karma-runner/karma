@@ -106,7 +106,7 @@
     "grunt-coffeelint": "~0.0.6",
     "grunt-npm": "~0.0.1",
     "grunt-bump": "~0.0.10",
-    "grunt-conventional-changelog": "~0.2",
+    "grunt-conventional-changelog": "git://github.com/btford/grunt-conventional-changelog.git",
     "grunt-auto-release": "~0.0.3",
     "mocks": "~0.0.10",
     "which": "~1.0",
