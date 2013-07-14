@@ -16,7 +16,7 @@ module.exports = function(config) {
     exclude: [],
 
     // use dots reporter, as travis terminal does not support escaping sequences
-    // possible values: 'dots', 'progress', 'junit', 'teamcity'
+    // possible values: 'dots', 'progress'
     // CLI --reporters progress
     reporters: ['progress', 'junit'],
 
@@ -38,7 +38,7 @@ module.exports = function(config) {
     colors: true,
 
     // level of logging
-    // possible values: karma.LOG_DISABLE || karma.LOG_ERROR || karma.LOG_WARN || karma.LOG_INFO || karma.LOG_DEBUG
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     // CLI --log-level debug
     logLevel: config.LOG_INFO,
 
