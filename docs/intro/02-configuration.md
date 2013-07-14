@@ -31,5 +31,5 @@ overrides the configuration from the config file.
 Try `karma start --help` if you want to see all available options.
 
 
-[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
+[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/v0.8.5/test/client/karma.conf.js
 [configuration file docs]: ../config/configuration-file.html
