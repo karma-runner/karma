@@ -24,7 +24,7 @@
 
 * please update your karma.conf.js as follows ([d2a3c854](https://github.com/karma-runner/karma/commit/d2a3c8546dc4b10bb9194047a1c11963639f3730)):
 
-```js
+```javascript
 // before:
 module.exports = function(karma) {
   karma.configure({port: 123});
@@ -102,7 +102,7 @@ module.exports = function(config) {
 
 * Update your karma.conf.js to export a config function ([a37fd6f7](https://github.com/karma-runner/karma/commit/a37fd6f7d28036b8da5fe98634cf711cebafc1ff)):
 
-```js
+```javascript
 module.exports = function(karma) {
   karma.configure({
     autoWatch: true,
