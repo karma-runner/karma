@@ -1,24 +1,5 @@
-**The files array determines which files are loaded, watched and served by Karma.**
+**The `files` array determines which files are included in the browser and which files are watched and served by Karma.**
 
-## Adapters
-The first thing you usually need is an adapter. The following adapters
-are bundled with Karma:
-
-* Jasmine (`JASMINE`, `JASMINE_ADAPTER`)
-* Mocha (`MOCHA`, `MOCHA_ADAPTER`)
-* QUnit (`QUNIT`, `QUNIT_ADAPTER`)
-* RequireJS (`REQUIRE`, `REQUIRE_ADAPTER`)
-* Angular Scenario Runner (`ANGULAR_SCENARIO`, `ANGULAR_SCENARIO_ADAPTER`)
-
-If you want to use any of these, add `<FRAMEWORK>` and
-`<FRAMEWORK>_ADAPTER` to your `files` list. So for example if you want
-to use Mocha you have the following in your config file:
-```javascript
-files: [
-  MOCHA,
-  MOCHA_ADAPTER
-],
-```
 
 ## Pattern matching and `basePath`
 - All the relative patterns will get resolved to `basePath` first.
@@ -35,16 +16,10 @@ files: [
   same file, it's included as if it only matched the first pattern.
 
 ## Included, served, watched
-Since version 0.5.2 there is the ability to configure the patterns
-more closely.
+Each pattern is either a simple string or an object with four properties:
 
-If you define them like before a simple pattern like
-`'test/unit/*.js'` this gets expanded internally to the following:
-```javascript
-  {pattern: 'test/unit/*.js', watched: true, included: true, served: true}
-```
 ### `pattern`
-* **Description.** The pattern to use for matching.
+* **Description.** The pattern to use for matching. This property is mandatory.
 
 ### `watched`
 * **Type.** Boolean
@@ -64,17 +39,14 @@ If you define them like before a simple pattern like
 * **Default.** `true`
 * **Description.** Should the files be served by Karma's webserver?
 
+
 ## Complete example
 Here is a complete example showing the different options that are possible.
 ```javascript
 files: [
 
-  // Adapter
-  MOCHA,
-  MOCHA_ADAPTER,
-
   // simple patterns to load the needed testfiles
-  'test/fixtures/**/*.html',
+  // equals to {pattern: 'test/unit/*.spec.js', watched: true, served: true, included: true}
   'test/unit/*.spec.js',
 
   // this file gets served but will be ignored by the watcher

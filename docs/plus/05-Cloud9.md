@@ -13,7 +13,7 @@ Open `http://<projectName>.<cloud9User>.c9.io/` in your browser.
 PhantomJS must be installed with `npm install phantomjs`.
 
 ### Configure Karma
-The `karma.conf.js` file (tried it out for the [AngularJS foodme app]) must include the following entries:
+The `karma.conf.js` file must include the following entries:
 
 ```javascript
 browsers: ['PhantomJS'],
@@ -23,5 +23,4 @@ runnerPort: 0,
 ```
 
 [Cloud9 IDE]: https://c9.io/
-[AngularJS foodme app]: https://github.com/IgorMinar/foodme
 [NodeJS]: http://nodejs.org/

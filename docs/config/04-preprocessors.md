@@ -1,19 +1,48 @@
 Preprocessors in Karma allow you to do some work with your files before
-they get served to the browser. The configuration of these happens in this block
-in the config file.
+they get served to the browser. The configuration of these happens in the `preprocessors` block
+in the configuration file.
 
 ```javascript
 preprocessors: {
-  '**/*.coffee': 'coffee',
-  '**/*.html': 'html2js'
+  '**/*.coffee': ['coffee'],
+  '**/*.html': ['html2js']
 },
 ```
 
 ## Available Preprocessors
+These preprocessors/plugins are shipped with Karma by default:
 - [coffee]
-- [live]
 - [html2js]
+
+Additional preprocessors can be loaded through [plugins], such as:
 - [coverage]
+- [ng-html2js]
+- [ember]
+
+Of course, you can write [custom plugins] too!
+
+
+## Configured Preprocessors
+Some of the preprocessors can be also configured:
+
+```javascript
+coffeePreprocessor: {
+  options: {
+    bare: false
+  }
+}
+```
+
+Or define a configured preprocessor:
+
+```javascript
+customPreprocessors: {
+  bare_coffee: {
+    base: 'coffee',
+    options: {bare: true}
+  }
+}
+```
 
 
 ## Minimatching
@@ -34,7 +63,10 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 
 [files]: files.html
 [minimatch]: https://github.com/isaacs/minimatch
-[coffee]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Coffee.js
-[live]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Live.js
-[html2js]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Html2js.js
-[coverage]: https://github.com/karma-runner/karma/blob/v0.5.8/lib/preprocessors/Coverage.js
+[coffee]: https://github.com/karma-runner/karma-coffee-preprocessor
+[html2js]: https://github.com/karma-runner/karma-html2js-preprocessor
+[ng-html2js]: https://github.com/karma-runner/karma-ng-html2js-preprocessor
+[coverage]: https://github.com/karma-runner/karma-coverage
+[ember]: https://github.com/karma-runner/karma-ember-preprocessor
+[custom plugins]: ../dev/plugins.html
+[plugins]: plugins.html

@@ -1,15 +1,12 @@
 In order to serve you well, Karma needs to know about your
 project. That's done through a configuration file.
 
-Karma config files are Node modules which are
-[required](http://nodejs.org/api/modules.html#modules_module_require_id) and
-are expected to export a function which accepts one argument -- Karma dsl
-object. Karma DSL object exposes [configure] method which can be called to set
-karma properties. For example:
+Karma configuration file is a written in JavaScript or CoffeeScript and it is loaded as a regular Node module - using [require()](http://nodejs.org/api/modules.html#modules_module_require_id). It is expected to export a function which accepts one argument - a configuration object:
 
 ```javascript
-module.exports = function(karma) {
-  karma.configure({
+// an example karma.conf.js
+module.exports = function(config) {
+  config.set({
     basePath: '../..',
     frameworks: ['jasmine'],
     //...
@@ -17,11 +14,18 @@ module.exports = function(karma) {
 };
 ```
 
-For an example configuration, see [test/client/karma.conf.js]
-which contains most of the options.
+```coffeescript
+# an example karma.conf.coffee
+module.exports = (config) ->
+  config.set
+    basePath: '../..'
+    frameworks: ['jasmine']
+    # ...
+```
 
-This document contains a list of all available options, as well as
-their command line equivalents.
+For an example configuration, see [test/client/karma.conf.js] which contains most of the available options.
+
+This document contains a list of all available options, as well as their command line equivalents.
 
 ## autoWatch
 **Type:** Boolean
@@ -56,17 +60,17 @@ their command line equivalents.
 
   * `Chrome`
   * `ChromeCanary`
-  * `Firefox`
-  * `Opera`
-  * `Safari`
   * `PhantomJS`
+  * `Firefox` (requires karma-firefox-launcher plugin)
+  * `Opera` (requires karma-opera-launcher plugin)
+  * `Safari` (requires karma-ie-launcher plugin)
 
 **Description:**
   A list of browsers to launch and capture. Once Karma is shut down, it will shut down these
   browsers as well. You can capture any browser manually just by opening a url, where Karma's
   web server is listening.
 
-See [config/browsers] for more.
+See [config/browsers] for more. Additional launchers can be defined through [plugins].
 
 
 ## captureTimeout
@@ -108,6 +112,16 @@ it again. After three attempts to capture it, Karma will give up.
 See [config/files] for more information.
 
 
+## frameworks
+**Type:** Array
+
+**Default:** `[]`
+
+**Description:** List of frameworks you wanna use. Typically, you will set this to `['jasmine']`, `['mocha']` or `['qunit']`.
+
+Additional frameworks can be loaded through [plugins].
+
+
 ## hostname
 **Type:** String
 
@@ -119,17 +133,17 @@ See [config/files] for more information.
 ## logLevel
 **Type:** Constant
 
-**Default:** `karma.LOG_INFO`
+**Default:** `config.LOG_INFO`
 
 **CLI:** `--log-level debug`
 
 **Possible values:**
 
-  * `karma.LOG_DISABLE`
-  * `karma.LOG_ERROR`
-  * `karma.LOG_WARN`
-  * `karma.LOG_INFO`
-  * `karma.LOG_DEBUG`
+  * `config.LOG_DISABLE`
+  * `config.LOG_ERROR`
+  * `config.LOG_WARN`
+  * `config.LOG_INFO`
+  * `config.LOG_DEBUG`
 
 **Description:** Level of logging.
 
@@ -141,6 +155,14 @@ See [config/files] for more information.
 
 **Description:** A list of log appenders to be used. See the
   documentation for [log4js] for more information.
+
+
+## plugins
+**Type:** Array
+
+**Default:** `['karma-*']`
+
+**Description:** List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object. By default, Karma loads all siblink modules, that match `karma-*`. See [plugins] for more information.
 
 
 ## port
@@ -158,7 +180,9 @@ See [config/files] for more information.
 
 **Default:** `{'**/*.coffee': 'coffee'}`
 
-**Description:** A map of preprocessors to use. See [config/preprocessors] for more.
+**Description:** A map of preprocessors to use.
+
+Preprocessors can be loaded through [plugins]. See [config/preprocessors] for more.
 
 
 ## proxies
@@ -176,12 +200,12 @@ See [config/files] for more information.
   },
   ```
 
-## proxyValidateSSL 
-**Type:** Boolean 
+## proxyValidateSSL
+**Type:** Boolean
 
 **Default:**   `true`
 
-**Description:** Should https proxies error on invalid SSL cert.
+**Description:** Should https proxies error on invalid SSL certificate?
 
 ## reportSlowerThan
 **Type:** Number
@@ -203,11 +227,10 @@ This is disabled by default.
 
   * `dots`
   * `progress`
-  * `junit`
-  * `growl`
-  * `coverage`
 
 **Description:** A list of reporters to use.
+
+Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be loaded through [plugins].
 
 
 ## runnerPort
@@ -253,7 +276,7 @@ All the Karma's urls get prefixed with the `urlRoot`. This is helpful when using
 sometimes you might want to proxy a url that is already taken by Karma.
 
 
-
+[plugins]: plugins.html
 [test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
 [config/files]: files.html
 [config/browsers]: browsers.html

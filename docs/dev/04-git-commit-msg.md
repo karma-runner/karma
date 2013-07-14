@@ -1,4 +1,10 @@
-**Format of the commit message:**
+showInMenu: false
+
+## The reasons for these conventions:
+- automatic generating of the changelog
+- simple navigation through git history (eg. ignoring style changes)
+
+## Format of the commit message:
 ```bash
 <type>(<scope>): <subject>
 
@@ -30,8 +36,6 @@ blank and other lines should be wrapped at 80 characters.
 * config
 * web-server
 * proxy
-* adapter.jasmine
-* launcher.chrome
 * etc.
 
 The `<scope>` can be empty (eg. if the change is a global or difficult

@@ -1,10 +1,8 @@
-You are having some problems with the great Karma? Look no
-further. Known problems and solutions are collected here so you don't
-have to figure them out again and again.
-
-If you can't find solution to your problem here, feel free to ask on the [mailing list].
-
+You are having some problems with the great Karma? Look no further.
+Known problems and solutions are collected here so you don't have to figure them out again and again.
+If you can't find any solution to your problem here, feel free to ask on the [mailing list].
 Before complaining, please make sure you are on the latest version.
+If you think you found a bug in Karma, please [submit an issue]. Please, make sure to search the existing issues first.
 
 ## Windows
 
@@ -20,10 +18,6 @@ Before complaining, please make sure you are on the latest version.
      ```
      > export CHROME_BIN='C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
      ```
-  3. Increase the timeout from 5000ms to 10000ms. At 5000ms, timeouts
-     occurred and the retry logic kicks in and eventually resolves
-     after two to three tries.
-
 
 ## Unix
 
@@ -36,3 +30,4 @@ extension-related conflict that needs to be taken care of.
 [#74]: https://github.com/karma-runner/karma/issues/74
 [chocolatey]: http://chocolatey.org/
 [mailing list]: https://groups.google.com/forum/#!forum/karma-users
+[submit an issue]: https://github.com/karma-runner/karma/issues/new

@@ -48,7 +48,7 @@ Usually you'll only need to include your `test-main.js` file, which has
 the same role for your tests as `main.js` has for your app when using
 Require.js.
 
-For the question *"Which files do you want to test?"*, we choose all the
+For the question *"What is the location of your source and test files?"*, we choose all the
 files we want to load with Require.js. For this example we'll need:
 
 * `lib/**/*.js` &mdash; all external libraries
@@ -62,23 +62,22 @@ Now your `karma.conf.js` should include:
 
 ```javascript
 // list of files / patterns to load in the browser
-files: [
-  JASMINE,
-  JASMINE_ADAPTER,
-  REQUIRE,
-  REQUIRE_ADAPTER,
+module.exports = function(config) {
+  frameworks: ['jasmine', 'requirejs'],
 
-  {pattern: 'lib/**/*.js', included: false},
-  {pattern: 'src/**/*.js', included: false},
-  {pattern: 'test/**/*Spec.js', included: false},
+  files: [
+    {pattern: 'lib/**/*.js', included: false},
+    {pattern: 'src/**/*.js', included: false},
+    {pattern: 'test/**/*Spec.js', included: false},
 
-  'test/test-main.js'
-],
+    'test/test-main.js'
+  ],
 
-// list of files to exclude
-exclude: [
-    'src/main.js'
-],
+  // list of files to exclude
+  exclude: [
+      'src/main.js'
+  ]
+};
 ```
 
 ## Configuring Require.js

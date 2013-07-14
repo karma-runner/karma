@@ -13,7 +13,7 @@ make it easy to run your tests. Here's an example:
 ```javascript
 // ...snip...
 'devDependencies': {
-  'karma': '~0.8'
+  'karma': '~0.10'
 },
 // ...snip...
 'scripts': {

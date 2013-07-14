@@ -1,5 +1,5 @@
-If you are thinking about making Karma better, or you just want to hack on it, that’s great here
-are some tips to get you started.
+If you are thinking about making Karma better, or you just want to hack on it, that’s great!
+Here are some tips to get you started.
 
 ## Getting Started
 
@@ -12,6 +12,9 @@ are some tips to get you started.
 
 ## Making Changes
 * Clone your fork
+```bash
+$ git clone git@github.com:<your-username>/karma.git
+```
 * Init your workspace
 
 ```bash
@@ -50,6 +53,7 @@ If grunt fails, make sure grunt-0.4x is installed: https://github.com/gruntjs/gr
 
 * One branch per feature/fix
 * Follow  http://nodeguide.com/style.html (with exception of 100 characters per line)
+* Please follow [commit message conventions].
 * Send a pull request to the `master` branch.
 
 
@@ -60,3 +64,5 @@ If grunt fails, make sure grunt-0.4x is installed: https://github.com/gruntjs/gr
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
 * [@JsKarma](http://twitter.com/JsKarma)
+
+[commit message conventions]: git-commit-msg.html

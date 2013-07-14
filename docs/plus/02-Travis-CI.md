@@ -24,7 +24,7 @@ is where you tell Travis how to run your tests.
 ```javascript
 // ...snip...
 'devDependencies': {
-  'karma': '~0.8'
+  'karma': '~0.10'
 },
 // ...snip...
 'scripts': {
