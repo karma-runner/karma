@@ -7,7 +7,7 @@ module.exports = function(config) {
     ],
 
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
     singleRun: false,
 
     browsers: ['Chrome'],

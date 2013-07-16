@@ -8,14 +8,21 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
+    browsers: ['sl_chrome_linux'],
 
     reporters: ['dots'],
 
     plugins: [
       'karma-jasmine',
-      'karma-chrome-launcher',
-      'karma-firefox-launcher'
+      'karma-sauce-launcher'
     ],
+
+    customLaunchers: {
+      sl_chrome_linux: {
+        base: 'SauceLabs',
+        browserName: 'chrome',
+        platform: 'linux'
+      }
+    }
   });
 };

@@ -8,7 +8,7 @@ module.exports = (config) ->
 
     autoWatch: true
 
-    browsers: ['Chrome']
+    browsers: [if process.env.TRAVIS then 'Firefox' else 'Chrome']
 
     preprocessors:
       '**/*.coffee': 'coffee'

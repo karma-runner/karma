@@ -1,6 +1,4 @@
 module.exports = function(grunt) {
-  var TRAVIS = process.env.TRAVIS;
-  var BROWSERS = TRAVIS ? 'Firefox' : 'Chrome';
 
   /**
    * Run tests
@@ -45,7 +43,7 @@ module.exports = function(grunt) {
       var tests = grunt.file.expand(this.data);
       var processToKill;
       var args = [
-        'start', null, '--single-run', '--no-auto-watch', '--browsers=' + BROWSERS
+        'start', null, '--single-run', '--no-auto-watch'
       ];
 
       var next = function(err, result, code) {
@@ -90,8 +88,8 @@ module.exports = function(grunt) {
 
     // CLIENT unit tests
     if (this.target === 'client') {
-      return exec(['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
-          '--browsers=' + BROWSERS], 'Client unit tests failed.');
+      return exec(['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots'],
+          'Client unit tests failed.');
     }
 
     // UNIT tests or TASK tests

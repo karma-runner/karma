@@ -3,7 +3,10 @@ node_js:
   - 0.8
   - 0.10
 
-before_install:
+env:
+  global:
+  - SAUCE_USERNAME: vojtajina
+  - secure: "F/q7B9PKan0RLtP69q4faqqmNrcmotCR1/MoghSA/+XgESZweH5SAkBiDCto9xHg4XtIkhKdS3GpenkYXRhaC9vuR+wdcZ/Hf68r1if9tmCgeRplGPyn1jLlpbkFDceXDXxlTBgM/GwqKvVOI5rKc/9X7IsjCS0aFlBD9+8doPY="
 
 before_script:
   - export DISPLAY=:99.0
