@@ -127,7 +127,7 @@
     "karma-junit-reporter": "*",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
-    "karma-sauce-launcher": "*",
+    "karma-sauce-launcher": "git://github.com/karma-runner/karma-sauce-launcher.git",
     "karma-phantomjs-launcher": "*",
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*",
