@@ -48,6 +48,9 @@ describe 'web-server', ->
       'some.js': fsMock.file(0, 'js-source')
     other:
       'file.js': fsMock.file(0, 'js-source')
+    utf8:
+      'páth':
+        'utf8.js': fsMock.file(0, 'js-src-utf8')
 
   globals = process: {}
 
@@ -336,6 +339,20 @@ describe 'web-server', ->
         done()
 
       srcFileHandler new httpMock.ServerRequest('/absolute/src/some.js'), response, nextSpy
+
+
+    it 'should serve js source file from base path containing utf8 chars', (done) ->
+      servedFiles [{path: '/utf8/páth/utf8.js', contentPath: '/utf8/páth/utf8.js'}]
+
+      response.once 'end', ->
+        expect(nextSpy).not.to.have.been.called
+        console.log(response)
+        expect(response._content.toString()).to.equal 'js-src-utf8'
+        expect(response.statusCode).to.equal 200
+        done()
+
+      srcFileHandler = m.createSourceFileHandler promiseContainer, '/karma/adapter', '/utf8/páth'
+      srcFileHandler new httpMock.ServerRequest('/base/utf8.js'), response, nextSpy
 
 
     it 'should return false for non-existing servedFiles', (done) ->
