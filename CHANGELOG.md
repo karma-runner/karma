@@ -1,3 +1,12 @@
+<a name="v0.8.7"></a>
+### v0.8.7 (2013-07-18)
+
+
+#### Bug Fixes
+
+* **html2js:** handling of the backslash character ([0f0a0893](https://github.com/karma-runner/karma/commit/0f0a0893115c5b58cc6f5605cf33db5aea54a731), closes [#583](https://github.com/karma-runner/karma/issues/583))
+* **watcher:** ignore fs.stat errors ([c07dd160](https://github.com/karma-runner/karma/commit/c07dd16052fd11bcc6ae501824fbc7eb4717976e))
+
 <a name="v0.8.6"></a>
 ### v0.8.6 (2013-06-16)
 
