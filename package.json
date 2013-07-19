@@ -2,6 +2,10 @@
   "name": "karma",
   "description": "Spectacular Test Runner for JavaScript.",
   "homepage": "http://karma-runner.github.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/karma-runner/karma.git"
+  },
   "bugs": {
     "url": "https://github.com/karma-runner/karma/issues"
   },
@@ -106,7 +110,7 @@
     "grunt-coffeelint": "~0.0.6",
     "grunt-npm": "~0.0.1",
     "grunt-bump": "~0.0.10",
-    "grunt-conventional-changelog": "git://github.com/btford/grunt-conventional-changelog.git",
+    "grunt-conventional-changelog": "~1.0.0",
     "grunt-auto-release": "~0.0.3",
     "mocks": "~0.0.10",
     "which": "~1.0",
@@ -127,16 +131,12 @@
     "karma-junit-reporter": "*",
     "karma-chrome-launcher": "*",
     "karma-firefox-launcher": "*",
-    "karma-sauce-launcher": "git://github.com/karma-runner/karma-sauce-launcher.git",
+    "karma-sauce-launcher": "*",
     "karma-phantomjs-launcher": "*",
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*",
     "karma-html2js-preprocessor": "*",
     "semver": "~1.1.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/karma-runner/karma.git"
   },
   "main": "./lib/index",
   "bin": {
