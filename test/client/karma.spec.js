@@ -84,6 +84,23 @@ describe('karma', function() {
   });
 
 
+  describe('setupContext', function() {
+    it('should capture alert', function() {
+      spyOn(k, 'log');
+
+      var mockWindow = {
+        alert: function() {
+          throw 'Alert was not patched!';
+        }
+      };
+
+      k.setupContext(mockWindow);
+      mockWindow.alert('What?');
+      expect(k.log).toHaveBeenCalledWith('alert', ['What?']);
+    })
+  });
+
+
   describe('store', function() {
 
     it('should be getter/setter', function() {

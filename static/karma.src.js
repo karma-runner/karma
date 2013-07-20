@@ -103,6 +103,10 @@ var Karma = function(socket, context, navigator, location) {
     contextWindow.dump = function() {
       self.log('dump', arguments);
     };
+
+    contextWindow.alert = function(msg) {
+      self.log('alert', [msg]);
+    };
   };
 
   this.log = function(type, args) {
