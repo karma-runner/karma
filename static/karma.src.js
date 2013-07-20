@@ -54,6 +54,9 @@ var Karma = function(socket, context, navigator, location) {
   this.VERSION = VERSION;
 
   this.setupContext = function(contextWindow) {
+    if (hasError) {
+      return;
+    }
 
     var getConsole = function(currentWindow) {
       return currentWindow.console || {
@@ -70,6 +73,13 @@ var Karma = function(socket, context, navigator, location) {
     // This causes memory leak in Chrome (17.0.963.66)
     contextWindow.onerror = function() {
       return contextWindow.__karma__.error.apply(contextWindow.__karma__, arguments);
+    };
+
+    contextWindow.onbeforeunload = function(e, b) {
+      if (context.src !== 'about:blank') {
+        // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
+        contextWindow.__karma__.error('Some of your tests did a full page reload!');
+      }
     };
 
     // patch the console
@@ -170,7 +180,7 @@ var Karma = function(socket, context, navigator, location) {
   // we are not going to execute at all
   this.error = function(msg, url, line) {
     hasError = true;
-    socket.emit('error', msg + '\nat ' + url + ':' + line);
+    socket.emit('error', url ? msg + '\nat ' + url + (line ? ':' + line : '') : msg);
     this.complete();
     return false;
   };
@@ -180,8 +190,12 @@ var Karma = function(socket, context, navigator, location) {
   };
 
   this.complete = function(result) {
-    socket.emit('complete', result || {});
-    clearContext();
+    // give the browser some time to breath, there could be a page reload, but because a bunch of
+    // tests could run in the same event loop, we wouldn't notice.
+    setTimeout(function() {
+      socket.emit('complete', result || {});
+      clearContext();
+    }, 0);
   };
 
   this.info = function(info) {

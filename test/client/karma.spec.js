@@ -45,6 +45,18 @@ describe('karma', function() {
   });
 
 
+  it('should not set up context if there was an error', function() {
+    var mockWindow = {};
+
+    k.error('page reload');
+    k.setupContext(mockWindow);
+
+    expect(mockWindow.__karma__).toBeUndefined();
+    expect(mockWindow.onbeforeunload).toBeUndefined();
+    expect(mockWindow.onerror).toBeUndefined();
+  });
+
+
   it('should report navigator name', function() {
     var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
       expect(info.name).toBe('Fake browser name');
