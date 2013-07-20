@@ -4,14 +4,14 @@
  */
 
 describe('karma', function() {
-  var socket, tc, spyStart, windowNavigator, windowLocation;
+  var socket, k, spyStart, windowNavigator, windowLocation;
 
   beforeEach(function() {
     socket = new MockSocket();
     windowNavigator = {};
     windowLocation = {};
-    tc = new Karma(socket, {}, windowNavigator, windowLocation);
-    spyStart = spyOn(tc, 'start');
+    k = new Karma(socket, {}, windowNavigator, windowLocation);
+    spyStart = spyOn(k, 'start');
   });
 
 
@@ -21,27 +21,27 @@ describe('karma', function() {
     socket.emit('execute', config);
     expect(spyStart).not.toHaveBeenCalled();
 
-    tc.loaded();
+    k.loaded();
     expect(spyStart).toHaveBeenCalledWith(config);
   });
 
 
   it('should not start execution if any error during loading files', function() {
-    tc.error('syntax error', '/some/file.js', 11);
-    tc.loaded();
+    k.error('syntax error', '/some/file.js', 11);
+    k.loaded();
 
     expect(spyStart).not.toHaveBeenCalled();
   });
 
 
   it('should remove reference to start even after syntax error', function() {
-    tc.error('syntax error', '/some/file.js', 11);
-    tc.loaded();
-    expect(tc.start).toBeFalsy();
+    k.error('syntax error', '/some/file.js', 11);
+    k.loaded();
+    expect(k.start).toBeFalsy();
 
-    tc.start = function() {};
-    tc.loaded();
-    expect(tc.start).toBeFalsy();
+    k.start = function() {};
+    k.loaded();
+    expect(k.start).toBeFalsy();
   });
 
 
@@ -75,39 +75,39 @@ describe('karma', function() {
   describe('store', function() {
 
     it('should be getter/setter', function() {
-      tc.store('a', 10);
-      tc.store('b', [1, 2, 3]);
+      k.store('a', 10);
+      k.store('b', [1, 2, 3]);
 
-      expect(tc.store('a')).toBe(10);
-      expect(tc.store('b')).toEqual([1, 2, 3]);
+      expect(k.store('a')).toBe(10);
+      expect(k.store('b')).toEqual([1, 2, 3]);
     });
 
 
     it('should clone arrays to avoid memory leaks', function() {
       var array = [1, 2, 3, 4, 5];
 
-      tc.store('one.array', array);
-      expect(tc.store('one.array')).toEqual(array);
-      expect(tc.store('one.array')).not.toBe(array);
+      k.store('one.array', array);
+      expect(k.store('one.array')).toEqual(array);
+      expect(k.store('one.array')).not.toBe(array);
     });
   });
 
 
   describe('stringify', function() {
     it('should serialize string', function() {
-      expect(tc.stringify('aaa')).toBe("'aaa'");
+      expect(k.stringify('aaa')).toBe("'aaa'");
     });
 
 
     it('should serialize booleans', function() {
-      expect(tc.stringify(true)).toBe('true');
-      expect(tc.stringify(false)).toBe('false');
+      expect(k.stringify(true)).toBe('true');
+      expect(k.stringify(false)).toBe('false');
     });
 
 
     it('should serialize null and undefined', function() {
-      expect(tc.stringify(null)).toBe('null');
-      expect(tc.stringify()).toBe('undefined');
+      expect(k.stringify(null)).toBe('null');
+      expect(k.stringify()).toBe('undefined');
     });
 
 
@@ -115,23 +115,23 @@ describe('karma', function() {
       function abc(a, b, c) { return 'whatever'; }
       var def = function(d, e, f) { return 'whatever'; };
 
-      expect(tc.stringify(abc)).toBe('function abc(a, b, c) { ... }');
-      expect(tc.stringify(def)).toBe('function (d, e, f) { ... }');
+      expect(k.stringify(abc)).toBe('function abc(a, b, c) { ... }');
+      expect(k.stringify(def)).toBe('function (d, e, f) { ... }');
     });
 
 
     it('should serialize arrays', function() {
-      expect(tc.stringify(['a', 'b', null, true, false])).toBe("['a', 'b', null, true, false]");
+      expect(k.stringify(['a', 'b', null, true, false])).toBe("['a', 'b', null, true, false]");
     });
 
 
     it('should serialize html', function() {
       var div = document.createElement('div');
 
-      expect(tc.stringify(div)).toBe('<div></div>');
+      expect(k.stringify(div)).toBe('<div></div>');
 
       div.innerHTML = 'some <span>text</span>';
-      expect(tc.stringify(div)).toBe('<div>some <span>text</span></div>');
+      expect(k.stringify(div)).toBe('<div>some <span>text</span></div>');
     });
 
 
