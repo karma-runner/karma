@@ -32,6 +32,11 @@ module.exports = (grunt) ->
       client: 'test/client/karma.conf.js'
       e2e: ['test/e2e/*/karma.conf.js', 'test/e2e/*/karma.conf.coffee']
 
+    watch:
+      client:
+        files: '<%= files.client %>'
+        tasks: 'build:client'
+
 
     simplemocha:
       options:
@@ -116,6 +121,7 @@ module.exports = (grunt) ->
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-simple-mocha'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-bump'
   grunt.loadNpmTasks 'grunt-npm'
