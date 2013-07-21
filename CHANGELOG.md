@@ -1,3 +1,25 @@
+<a name="v0.9.5"></a>
+### v0.9.5 (2013-07-21)
+
+
+#### Bug Fixes
+
+* detect a full page reload, show error and recover ([15d80f47](http://github.com/karma-runner/karma/commit/15d80f47a227839e9b0d54aeddf49b9aa9afe8aa), closes [#27](http://github.com/karma-runner/karma/issues/27))
+* better serialization in dump/console.log ([fd46365d](http://github.com/karma-runner/karma/commit/fd46365d1fd3a9bea15c04abeb7df33a3a2d96a4), closes [#640](http://github.com/karma-runner/karma/issues/640))
+* browsers_change event always has collection as arg ([42bf787f](http://github.com/karma-runner/karma/commit/42bf787f87304e6be23dd3dac893b3c3f77d6764))
+* **init:** generate config with the new syntax ([6b27fee5](http://github.com/karma-runner/karma/commit/6b27fee5a43a7d02e706355f62fe5105b4966c43))
+* **reporter:** prevent throwing exception when null is sent to formatter ([3b49c385](http://github.com/karma-runner/karma/commit/3b49c385fcc8ef96e72be390df058bd278b40c17))
+* **watcher:** ignore fs.stat errors ([74ccc9a8](http://github.com/karma-runner/karma/commit/74ccc9a8017f869bd7bbbf8831415964110a7073))
+
+
+#### Features
+
+* capture window.alert ([284c4f5c](http://github.com/karma-runner/karma/commit/284c4f5c9c481759fe564627a00d72ba5c54e433))
+* ship html2js preprocessor as a default plugin ([37ecf416](http://github.com/karma-runner/karma/commit/37ecf41600a9b255ab3d57327cc83d64751642f5))
+* fail if zero tests executed ([5670415e](http://github.com/karma-runner/karma/commit/5670415ecdc5e54902b479c78df5c3c422855e5c), closes [#468](http://github.com/karma-runner/karma/issues/468))
+* **launcher:** normalize quoted paths ([f2155e0c](http://github.com/karma-runner/karma/commit/f2155e0c3305538c0fb95791e56f34743977a865), closes [#491](http://github.com/karma-runner/karma/issues/491))
+* **web-server:** serve css files ([4e305545](http://github.com/karma-runner/karma/commit/4e305545ddf2726c1fe65c46efd5e7c1045ac041), closes [#431](http://github.com/karma-runner/karma/issues/431))
+
 <a name="v0.9.4"></a>
 ### v0.9.4 (2013-06-28)
 
