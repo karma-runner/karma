@@ -223,7 +223,7 @@ sometimes you might want to proxy a url that is already taken by Karma.
 
 
 
-[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
+[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/v0.8.5/test/client/karma.conf.js
 [config/files]: files.html
 [config/browsers]: browsers.html
 [config/preprocessors]: preprocessors.html
