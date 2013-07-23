@@ -233,17 +233,6 @@ This is disabled by default.
 Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be loaded through [plugins].
 
 
-## runnerPort
-**Type:** Number
-
-**Default:** `9100`
-
-**CLI:** `--runner-port 9100`
-
-**Description:** The port where the server will be listening. This is only used when you are using
-`karma run`.
-
-
 ## singleRun
 **Type:** Boolean
 

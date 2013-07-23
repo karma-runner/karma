@@ -18,8 +18,7 @@ The `karma.conf.js` file must include the following entries:
 ```javascript
 browsers: ['PhantomJS'],
 hostname: process.env.IP,
-port: process.env.PORT,
-runnerPort: 0,
+port: process.env.PORT
 ```
 
 [Cloud9 IDE]: https://c9.io/

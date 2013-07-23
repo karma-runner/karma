@@ -13,7 +13,7 @@ Equivalent of `karma start`.
 
 ```javascript
 var server = require('karma').server;
-server.start({port: 9877}, function(exitCode) {
+server.start({port: 9876}, function(exitCode) {
   console.log('Karma has exited with ' + exitCode);
   process.exit(exitCode);
 });
@@ -27,7 +27,7 @@ Equivalent of `karma run`.
 
 ```javascript
 var runner = require('karma').runner;
-runner.run({runnerPort: 9100}, function(exitCode) {
+runner.run({port: 9876}, function(exitCode) {
   console.log('Karma has exited with ' + exitCode);
   process.exit(exitCode);
 });
