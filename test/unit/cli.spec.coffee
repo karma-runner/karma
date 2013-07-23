@@ -15,11 +15,10 @@ describe 'cli', ->
   describe 'processArgs', ->
 
     it 'should return camelCased options', ->
-      options = processArgs ['some.conf', '--port', '12', '--runner-port', '45', '--single-run']
+      options = processArgs ['some.conf', '--port', '12', '--single-run']
 
       expect(options.configFile).to.exist
       expect(options.port).to.equal 12
-      expect(options.runnerPort).to.equal 45
       expect(options.singleRun).to.equal  true
 
 

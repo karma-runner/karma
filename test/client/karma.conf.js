@@ -29,10 +29,6 @@ module.exports = function(config) {
     // CLI --port 9876
     port: 9876,
 
-    // cli runner port
-    // CLI --runner-port 9100
-    runnerPort: 9100,
-
     // enable / disable colors in the output (reporters and logs)
     // CLI --colors --no-colors
     colors: true,
