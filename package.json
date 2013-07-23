@@ -94,11 +94,11 @@
     "q": "~0.9",
     "colors": "0.6.0-1",
     "lodash": "~1.1",
-    "pause": "0.0.1",
     "mime": "~1.2",
     "log4js": "~0.6.3",
     "useragent": "~2.0.4",
-    "graceful-fs": "~1.2.1"
+    "graceful-fs": "~1.2.1",
+    "connect": "~2.8.4"
   },
   "peerDependencies": {
     "karma-jasmine": "*",
@@ -127,7 +127,6 @@
     "sinon": "~1.6",
     "timer-shim": "~0.2",
     "chai-as-promised": "~3.2",
-    "mock-http-response": "~0.1",
     "qq": "~0.3",
     "karma-jasmine": "*",
     "karma-mocha": "*",

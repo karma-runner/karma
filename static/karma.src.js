@@ -1,13 +1,13 @@
 var CONTEXT_URL = 'context.html';
 var VERSION = '%KARMA_VERSION%';
+var KARMA_URL_ROOT = '%KARMA_URL_ROOT%';
 
 // connect socket.io
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-var karmaSrcPrefix = '%KARMA_SRC_PREFIX%';
 var socket = io.connect('http://' + location.host, {
   'reconnection delay': 500,
   'reconnection limit': 2000,
-  'resource': karmaSrcPrefix + 'socket.io',
+  'resource': KARMA_URL_ROOT.substr(1) + 'socket.io',
   'max reconnection attempts': Infinity
 });
 

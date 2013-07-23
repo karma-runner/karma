@@ -1,14 +1,14 @@
 #==============================================================================
 # lib/proxy.js module
 #==============================================================================
-describe 'proxy', ->
+describe 'middleware.proxy', ->
   fsMock = require('mocks').fs
   httpMock = require('mocks').http
   loadFile = require('mocks').loadFile
 
   actualOptions = requestedUrl = response = nextSpy = null
 
-  m = loadFile __dirname + '/../../lib/proxy.js', {'http-proxy': {}}
+  m = loadFile __dirname + '/../../../lib/middleware/proxy.js', {'http-proxy': {}}
 
   mockProxy =
     on: ->

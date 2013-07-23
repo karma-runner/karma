@@ -24,3 +24,23 @@ beforeEach ->
 
 afterEach ->
   global.sinon.restore()
+
+
+
+# TODO(vojta): move to helpers or something
+chai.use (chai, utils) ->
+  chai.Assertion.addMethod 'beServedAs', (expectedStatus, expectedBody) ->
+    response = utils.flag @, 'object'
+
+    @assert response._status is expectedStatus,
+      "expected response status '#{response._status}' to be '#{expectedStatus}'"
+    @assert response._body is expectedBody,
+      "expected response body '#{response._body}' to be '#{expectedBody}'"
+
+  chai.Assertion.addMethod 'beNotServed', ->
+    response = utils.flag @, 'object'
+
+    @assert response._status is null,
+      "expected response status to not be set, it was '#{response._status}'"
+    @assert response._body is null,
+      "expected response body to not be set, it was '#{response._body}'"
