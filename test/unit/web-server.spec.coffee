@@ -36,7 +36,11 @@ describe 'web-server', ->
 
     injector = new di.Injector [{
       config: ['value', {basePath: '/base/path', urlRoot: '/'}]
-      customFileHandlers: ['value', customFileHandlers]
+      customFileHandlers: ['value', customFileHandlers],
+      emitter: ['value', null],
+      fileList: ['value', null],
+      capturedBrowsers: ['value', null],
+      reporter: ['value', null]
     }]
 
     server = injector.invoke m.createWebServer
