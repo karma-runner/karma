@@ -128,7 +128,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-auto-release'
   grunt.loadNpmTasks 'grunt-conventional-changelog'
 
-  grunt.registerTask 'default', ['build', 'test', 'jshint', 'coffeelint']
+  grunt.registerTask 'default', ['build', 'test', 'lint']
+  grunt.registerTask 'lint', ['jshint', 'coffeelint']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
     grunt.task.run [
       'npm-contributors'
