@@ -51,8 +51,6 @@ module.exports = function(config) {
     // - IE (only Windows)
     browsers: [__dirname + '/fake-browser.sh'],
 
-    captureTimeout: 1000,
-
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit

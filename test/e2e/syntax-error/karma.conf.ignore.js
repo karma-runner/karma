@@ -8,7 +8,6 @@ module.exports = function(config) {
     ],
 
     autoWatch: true,
-    autoWatchInterval: 1,
     logLevel: config.LOG_INFO,
     logColors: true,
 
