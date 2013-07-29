@@ -12,7 +12,6 @@ if (!fs.existsSync(dir)) {
 }
 
 var cli = require(path.join(dir, 'cli'));
-
 var config = cli.process();
 
 switch (config.cmd) {
@@ -24,5 +23,8 @@ switch (config.cmd) {
     break;
   case 'init':
     require(path.join(dir, 'init')).init(config);
+    break;
+  case 'completion':
+    require(path.join(dir, 'completion')).completion(config);
     break;
 }
