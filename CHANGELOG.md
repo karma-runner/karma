@@ -1,3 +1,19 @@
+<a name="v0.9.6"></a>
+### v0.9.6 (2013-07-28)
+
+
+#### Features
+
+* pass command line opts through to browser ([00d63d0b](http://github.com/karma-runner/karma/commit/00d63d0b965a998b04d1917d4c4421abc24cec18))
+* **web-server:** compress responses (gzip/deflate) ([8e8a2d44](http://github.com/karma-runner/karma/commit/8e8a2d4418e7abef7dca42e58bf09c95b07687b2))
+
+
+#### Breaking Changes
+
+* `runnerPort` is merged with `port`
+if you are using `karma run` with custom `--runer-port`, please change that to `--port`.
+ ([ca4c4d88](http://github.com/karma-runner/karma/commit/ca4c4d88b9a4a1992f7975aa32b37a008394847b))
+
 <a name="v0.9.5"></a>
 ### v0.9.5 (2013-07-21)
 
