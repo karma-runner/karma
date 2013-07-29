@@ -103,6 +103,16 @@ $ karma run
 ```
 But only if you have started the Karma server before.
 
+## Continuous Integration Support
+
+```bash
+// from cli
+karma start your-config.js --reporter teamcity
+
+// in the config file
+reporters = ['teamcity'];
+```
+
 
 ## Why did you create this?
 
@@ -126,7 +136,6 @@ use the awesome [Socket.io] library and [Node.js].
 See
 [Contributing.md](https://github.com/karma-runner/karma/blob/master/CONTRIBUTING.md)
 or the [docs] for more information.
-
 
 ## My boss wants a license. So where is it?
 
