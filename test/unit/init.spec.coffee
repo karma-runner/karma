@@ -54,6 +54,20 @@ describe 'init', ->
       expect(done).to.have.been.called
 
 
+    it 'should treat spaces as confirmation of multiple answers', ->
+      questions = [
+        {id: 'browsers', multiple: true}
+      ]
+
+      done = sinon.spy (answers) ->
+        expect(answers.browsers).to.deep.equal ['Chrome']
+
+      machine.process questions, done
+      machine.onLine 'Chrome'
+      machine.onLine ' '
+      expect(done).to.have.been.called
+
+
     it 'should always return array for multiple', ->
       questions = [
         {id: 'empty', multiple: true}
