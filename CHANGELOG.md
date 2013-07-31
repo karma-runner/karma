@@ -1,3 +1,12 @@
+<a name="v0.8.8"></a>
+### v0.8.8 (2013-07-30)
+
+
+#### Bug Fixes
+
+* **init:** trim the inputs ([4d6d838f](https://github.com/karma-runner/karma/commit/4d6d838f9479ba9357760749f7f0fd28a11ada4c), closes [#663](https://github.com/karma-runner/karma/issues/663))
+* **web-server:** handle utf8 characters in basePath ([732c123e](https://github.com/karma-runner/karma/commit/732c123e8b62f9ba3b7b9fb39bdc08f5ae3bfc76))
+
 <a name="v0.8.7"></a>
 ### v0.8.7 (2013-07-18)
 
