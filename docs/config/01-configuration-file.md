@@ -38,6 +38,18 @@ This document contains a list of all available options, as well as their command
   whenever one of these files changes.
 
 
+## autoWatchBatchDelay
+**Type:** Number
+
+**Default:**  `250`
+
+**Description:** When Karma is watching the files for changes, it tries to batch
+multiple changes into a single run. For instance, if you do `git checkout` you
+don't want to trigger multiple tests runs. Instead, you wanna wait for all the
+changes and then run the tests once. This tells Karma how long to wait for more
+changes (in ms).
+
+
 ## basePath
 **Type:** String
 
