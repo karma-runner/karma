@@ -68,7 +68,7 @@ describe 'web-server', ->
   it 'should load custom handlers', (done) ->
     # TODO(vojta): change this, only keeping because karma-dart is relying on it
     customFileHandlers.push {
-      urlRegexp: /\/some\/weird/
+      urlRegex: /\/some\/weird/
       handler: (request, response, staticFolder, adapterFolder, baseFolder, urlRoot) ->
         response.writeHead 222
         response.end 'CONTENT'
