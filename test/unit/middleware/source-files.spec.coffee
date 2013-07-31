@@ -14,6 +14,9 @@ describe 'middleware.source-files', ->
         'a.js': mocks.fs.file(0, 'js-src-a')
     src:
       'some.js': mocks.fs.file(0, 'js-source')
+    'utf8ášč':
+      'some.js': mocks.fs.file(0, 'utf8-file')
+
 
   serveFile = require('../../../lib/middleware/common').createServeFile fsMock, null
   createSourceFilesMiddleware = require('../../../lib/middleware/source-files').create
@@ -113,5 +116,20 @@ describe 'middleware.source-files', ->
       expect(response).to.beServedAs 404, 'NOT FOUND'
       done()
 
-    callHandlerWith '/absolute/non-existing.js', ->
+    callHandlerWith '/absolute/non-existing.js'
 
+
+  it 'should serve js source file from base path containing utf8 chars', (done) ->
+    servedFiles [
+      new File('/utf8ášč/some.js')
+    ]
+
+    handler = createSourceFilesMiddleware filesDeferred.promise, serveFile, '/utf8ášč'
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response._body).to.equal 'utf8-file'
+      expect(response._status).to.equal 200
+      done()
+
+    callHandlerWith '/base/some.js'
