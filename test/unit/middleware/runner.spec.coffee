@@ -11,6 +11,7 @@ describe 'middleware.runner', ->
   createRunnerMiddleware = require('../../../lib/middleware/runner').create
 
   handler = nextSpy = response = mockReporter = capturedBrowsers = emitter = config = null
+  fileListMock = null
 
   beforeEach ->
     mockReporter =
@@ -21,6 +22,10 @@ describe 'middleware.runner', ->
     capturedBrowsers = new BrowserCollection emitter
     fileListMock =
       refresh: -> emitter.emit 'run_start'
+      addFile: -> null
+      removeFile: -> null
+      changeFile: -> null
+
     nextSpy = sinon.spy()
     response = new HttpResponseMock
     config = {client: {}}
@@ -71,6 +76,38 @@ describe 'middleware.runner', ->
 
     request.emit 'data', '{"args": ["arg1", "arg2"]}'
     request.emit 'end'
+
+
+  it 'should refresh explicit files if specified', (done) ->
+    capturedBrowsers.add new Browser
+    sinon.stub capturedBrowsers, 'areAllReady', -> true
+    sinon.stub fileListMock, 'refresh'
+    sinon.stub fileListMock, 'addFile'
+    sinon.stub fileListMock, 'changeFile'
+    sinon.stub fileListMock, 'removeFile'
+
+    request = new HttpRequestMock '/__run__', {
+      'content-type': 'application/json'
+      'content-length': 1
+    }
+    request.setEncoding = -> null
+
+    handler request, response, nextSpy
+    message =
+      addedFiles: ['/new.js']
+      removedFiles: ['/foo.js', '/bar.js']
+      changedFiles: ['/changed.js']
+
+    request.emit 'data', JSON.stringify(message)
+    request.emit 'end'
+
+    process.nextTick ->
+      expect(fileListMock.refresh).not.to.have.been.called
+      expect(fileListMock.addFile).to.have.been.calledWith '/new.js'
+      expect(fileListMock.removeFile).to.have.been.calledWith '/foo.js'
+      expect(fileListMock.removeFile).to.have.been.calledWith '/bar.js'
+      expect(fileListMock.changeFile).to.have.been.calledWith '/changed.js'
+      done()
 
 
   it 'should ignore other urls', (done) ->

@@ -81,6 +81,18 @@ describe 'cli', ->
       expect(options.reporters).to.deep.equal ['dots']
 
 
+    it 'should parse removed/added/changed files to array', ->
+      options = processArgs [
+        '--removed-files', 'r1.js,r2.js',
+        '--changed-files', 'ch1.js,ch2.js',
+        '--added-files', 'a1.js,a2.js'
+      ]
+
+      expect(options.removedFiles).to.deep.equal ['r1.js', 'r2.js']
+      expect(options.addedFiles).to.deep.equal ['a1.js', 'a2.js']
+      expect(options.changedFiles).to.deep.equal ['ch1.js', 'ch2.js']
+
+
   describe 'parseClientArgs', ->
     it 'should return arguments after --', ->
       args = cli.parseClientArgs ['node', 'karma.js', 'runArg', '--flag', '--', '--foo', '--bar',
