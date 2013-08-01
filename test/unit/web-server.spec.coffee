@@ -8,6 +8,8 @@ describe 'web-server', ->
 
   File = require('../../lib/file-list').File
 
+  EventEmitter = require('events').EventEmitter
+
   _mocks = {}
   _globals = {__dirname: '/karma/lib'}
 
@@ -23,21 +25,22 @@ describe 'web-server', ->
   # this relies on the fact that none of these tests mutate fs
   m = mocks.loadFile __dirname + '/../../lib/web-server.js', _mocks, _globals
 
-  customFileHandlers = server = response = null
+  customFileHandlers = server = response = emitter = null
 
   requestPath = (path) ->
     server.emit 'request', new HttpRequestMock(path), response
 
   servedFiles = (files) ->
-    server.updateFilesPromise q.resolve({included: [], served: files})
+    emitter.emit 'file_list_modified', q.resolve({included: [], served: files})
 
   beforeEach ->
     customFileHandlers = []
+    emitter = new EventEmitter
 
     injector = new di.Injector [{
       config: ['value', {basePath: '/base/path', urlRoot: '/'}]
       customFileHandlers: ['value', customFileHandlers],
-      emitter: ['value', null],
+      emitter: ['value', emitter],
       fileList: ['value', null],
       capturedBrowsers: ['value', null],
       reporter: ['value', null],
@@ -45,7 +48,7 @@ describe 'web-server', ->
     }]
 
     server = injector.invoke m.createWebServer
-    server.updateFilesPromise q.resolve({included: [], served: []})
+    servedFiles []
     response = new HttpResponseMock
 
 
