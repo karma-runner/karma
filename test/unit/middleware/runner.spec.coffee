@@ -11,17 +11,20 @@ describe 'middleware.runner', ->
   createRunnerMiddleware = require('../../../lib/middleware/runner').create
 
   handler = nextSpy = response = mockReporter = capturedBrowsers = emitter = config = null
-  fileListMock = null
+  fileListMock = executor = null
 
   beforeEach ->
     mockReporter =
       adapters: []
       write: (msg) -> @adapters.forEach (adapter) -> adapter msg
 
+    executor =
+      schedule: -> emitter.emit 'run_start'
+
     emitter = new EventEmitter
     capturedBrowsers = new BrowserCollection emitter
     fileListMock =
-      refresh: -> emitter.emit 'run_start'
+      refresh: -> null
       addFile: -> null
       removeFile: -> null
       changeFile: -> null
@@ -31,7 +34,7 @@ describe 'middleware.runner', ->
     config = {client: {}}
 
     handler = createRunnerMiddleware emitter, fileListMock, capturedBrowsers,
-        new MultReporter([mockReporter]), 'localhost', 8877, '/', config
+        new MultReporter([mockReporter]), executor, 'localhost', 8877, '/', config
 
 
   it 'should trigger test run and stream the reporter', (done) ->
@@ -50,9 +53,12 @@ describe 'middleware.runner', ->
 
 
   it 'should not run if there is no browser captured', (done) ->
+    sinon.stub fileListMock, 'refresh'
+
     response.once 'end', ->
       expect(nextSpy).to.not.have.been.called
       expect(response).to.beServedAs 200, 'No captured browser, open http://localhost:8877/\n'
+      expect(fileListMock.refresh).not.to.have.been.called
       done()
 
     handler new HttpRequestMock('/__run__'), response, nextSpy
@@ -107,6 +113,46 @@ describe 'middleware.runner', ->
       expect(fileListMock.removeFile).to.have.been.calledWith '/foo.js'
       expect(fileListMock.removeFile).to.have.been.calledWith '/bar.js'
       expect(fileListMock.changeFile).to.have.been.calledWith '/changed.js'
+      done()
+
+  it 'should schedule execution if no refresh', (done) ->
+    capturedBrowsers.add new Browser
+    sinon.stub capturedBrowsers, 'areAllReady', -> true
+
+    sinon.stub fileListMock, 'refresh'
+    sinon.stub executor, 'schedule'
+
+    request = new HttpRequestMock '/__run__', {
+      'content-type': 'application/json'
+      'content-length': 1
+    }
+    request.setEncoding = -> null
+
+    handler request, response, nextSpy
+
+    request.emit 'data', JSON.stringify {refresh: false}
+    request.emit 'end'
+
+    process.nextTick ->
+      expect(fileListMock.refresh).not.to.have.been.called
+      expect(executor.schedule).to.have.been.called
+      done()
+
+
+  it 'should not schedule execution if refreshing and autoWatch', (done) ->
+    config.autoWatch = true
+
+    capturedBrowsers.add new Browser
+    sinon.stub capturedBrowsers, 'areAllReady', -> true
+
+    sinon.stub fileListMock, 'refresh'
+    sinon.stub executor, 'schedule'
+
+    handler new HttpRequestMock('/__run__'), response, nextSpy
+
+    process.nextTick ->
+      expect(fileListMock.refresh).to.have.been.called
+      expect(executor.schedule).not.to.have.been.called
       done()
 
 

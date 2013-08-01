@@ -40,7 +40,8 @@ describe 'web-server', ->
       emitter: ['value', null],
       fileList: ['value', null],
       capturedBrowsers: ['value', null],
-      reporter: ['value', null]
+      reporter: ['value', null],
+      executor: ['value', null]
     }]
 
     server = injector.invoke m.createWebServer
