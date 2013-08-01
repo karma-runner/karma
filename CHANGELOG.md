@@ -1,3 +1,19 @@
+<a name="v0.9.7"></a>
+### v0.9.7 (2013-07-31)
+
+
+#### Bug Fixes
+
+* **init:** trim the inputs ([b72355cb](http://github.com/karma-runner/karma/commit/b72355cbeadc8e907e48bbd7d9a11e6de17343f7), closes [#663](http://github.com/karma-runner/karma/issues/663))
+* **web-server:** correct urlRegex in custom handlers ([a641c2c1](http://github.com/karma-runner/karma/commit/a641c2c1dd0f5f1e0045e7cff1516d2820a8204e))
+
+
+#### Features
+
+* basic bash/zsh completion ([9dc1cf6a](http://github.com/karma-runner/karma/commit/9dc1cf6a6e095653fed6c79c4896c71af8af1953))
+* **runner:** allow passing changed/added/removed files ([b598106d](http://github.com/karma-runner/karma/commit/b598106de1295f3e1e58338a8eca2b60f99175c3))
+* **watcher:** make the batching delay configurable ([fa139312](http://github.com/karma-runner/karma/commit/fa139312a0fff981f11182c17ba6979dccca1105))
+
 <a name="v0.9.6"></a>
 ### v0.9.6 (2013-07-28)
 
