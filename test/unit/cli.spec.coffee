@@ -4,13 +4,31 @@
 describe 'cli', ->
   cli = require '../../lib/cli'
   optimist = require 'optimist'
-  constant = require '../../lib/constants'
-  CWD = process.cwd()
   path = require 'path'
+  constant = require '../../lib/constants'
+  path = require 'path'
+  mocks = require 'mocks'
+
+  fsMock = mocks.fs.create
+    cwd:
+      'karma.conf.js': true
+    cwd2:
+      'karma.conf.coffee': true
+
+  currentCwd = null
+
+  pathMock =
+    resolve: (p) -> path.resolve currentCwd, p
+
+  setCWD = (cwd) ->
+    currentCwd = cwd
+    fsMock._setCWD cwd
 
   processArgs = (args, opts) ->
     argv = optimist.parse(args)
-    cli.processArgs argv, opts || {}
+    cli.processArgs argv, opts || {}, fsMock, pathMock
+
+  beforeEach -> setCWD '/'
 
   describe 'processArgs', ->
 
@@ -23,11 +41,26 @@ describe 'cli', ->
 
 
     it 'should parse options without configFile and set default', ->
+      setCWD '/cwd'
       options = processArgs ['--auto-watch', '--auto-watch-interval', '10']
 
-      expect(options.configFile).to.equal path.join(CWD, 'karma.conf.js')
+      expect(options.configFile).to.equal '/cwd/karma.conf.js'
       expect(options.autoWatch).to.equal  true
       expect(options.autoWatchInterval).to.equal 10
+
+
+    it 'should set default karma.conf.coffee config file if exists', ->
+      setCWD '/cwd2'
+      options = processArgs ['--port', '10']
+
+      expect(options.configFile).to.equal '/cwd2/karma.conf.coffee'
+
+
+    it 'should not set default config if neither exists', ->
+      setCWD '/'
+      options = processArgs []
+
+      expect(options.configFile).to.equal null
 
 
     it 'should parse auto-watch, colors, singleRun to boolean', ->
@@ -61,8 +94,9 @@ describe 'cli', ->
 
 
     it 'should resolve configFile to absolute path', ->
+      setCWD '/cwd'
       options = processArgs ['some/config.js']
-      expect(options.configFile).to.equal path.join(CWD, '/some/config.js')
+      expect(options.configFile).to.equal '/cwd/some/config.js'
 
 
     it 'should parse report-slower-than to a number', ->
