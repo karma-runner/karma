@@ -1,3 +1,5 @@
+var TRAVIS_WITHOUT_SAUCE = process.env.TRAVIS_SECURE_ENV_VARS === 'false';
+
 module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
@@ -8,7 +10,7 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    browsers: ['sl_chrome_linux'],
+    browsers: [TRAVIS_WITHOUT_SAUCE ? 'Firefox' : 'sl_chrome_linux'],
 
     reporters: ['dots'],
 
