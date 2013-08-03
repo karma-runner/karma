@@ -1,3 +1,6 @@
+pageTitle: Jenkins CI
+menuTitle: Jenkins CI
+
 [Jenkins CI] is one of the most popular continuous integration servers
 in the market today. At some point while developing your [AngularJS]
 project (hopefully early on), you might want to have automated tests run

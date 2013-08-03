@@ -1,7 +1,7 @@
 In order to serve you well, Karma needs to know about your project.
-That's done through a configuration file.
+That is done through a configuration file. This page explains how to create such a configuration file.
 
-For an example file, see [test/client/karma.conf.js] which contains most of the options.
+See [configuration file docs] for more information about the syntax and the available options.
 
 ## Generating the config file
 
@@ -44,7 +44,7 @@ Config file generated at "/Users/vojta/Code/karma/my.conf.js".
 ```
 
 The configuration file can be written in CoffeeScript as well.
-In fact, if you pass it a filename with `coffee` extension, `karma init` will generate a CoffeeScript file.
+In fact, if you pass `karma run` a filename with `.coffee` extension, it will generate a CoffeeScript file.
 
 Of course, you can write the config file by hand or copy paste it from another project ;-)
 
@@ -56,7 +56,8 @@ By default, Karma will look for `karma.conf.js` in the current directory.
 # Start Karma using your configuration
 $ karma start my.conf.js
 ```
-For more info about configuration file, see the [configuration file docs].
+
+For more information about the configuration file such as available options, see the [configuration file docs].
 
 ## Command line arguments
 Some of the configurations can be specified as a command line argument, which
@@ -66,10 +67,9 @@ Try `karma start --help` if you want to see all available options.
 
 
 ## Using Grunt
-If you are using [Grunt], you can use [grunt-karma] plugin, which allows you to configure Karma from `Gruntfile`, without having a configuration file at all.
+If you are using [Grunt], you can use [grunt-karma] plugin which allows you to configure Karma from your `Gruntfile`, without having a configuration file at all.
 
 
-[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
 [configuration file docs]: ../config/configuration-file.html
 [Grunt]: http://gruntjs.com/
 [grunt-karma]: https://github.com/karma-runner/grunt-karma

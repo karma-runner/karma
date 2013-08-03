@@ -1,6 +1,6 @@
 Preprocessors in Karma allow you to do some work with your files before
 they get served to the browser. The configuration of these happens in the `preprocessors` block
-in the configuration file.
+in the configuration file:
 
 ```javascript
 preprocessors: {
@@ -8,6 +8,8 @@ preprocessors: {
   '**/*.html': ['html2js']
 },
 ```
+
+Note: Most of the preprocessors needs to be loaded as [plugins].
 
 ## Available Preprocessors
 These preprocessors/plugins are shipped with Karma by default:

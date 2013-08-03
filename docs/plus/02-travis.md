@@ -1,3 +1,6 @@
+pageTitle: Travis CI
+menuTitle: Travis CI
+
 [Travis CI] is a popular continuous integration service that
 integrates with your [Github] repository to automatically run your
 tests when code is pushed. Integration is done by adding a simple

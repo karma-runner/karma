@@ -1,7 +1,13 @@
-In order to serve you well, Karma needs to know about your
-project. That's done through a configuration file.
+**In order to serve you well, Karma needs to know about your project.
+That is done through a configuration file.
+This page explains the syntax of the configuration file and all the available options.**
 
-Karma configuration file is a written in JavaScript or CoffeeScript and it is loaded as a regular Node module - using [require()](http://nodejs.org/api/modules.html#modules_module_require_id). It is expected to export a function which accepts one argument - a configuration object:
+
+Note: Most of the framework adapters, reporters, preprocessors and launchers needs to be loaded as [plugins].
+
+
+Karma configuration file is written in JavaScript or CoffeeScript and it is loaded as a regular Node.js module.
+It is expected to export a function which accepts one argument - the configuration object:
 
 ```javascript
 // an example karma.conf.js

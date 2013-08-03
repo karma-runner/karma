@@ -2,13 +2,15 @@ Capturing browsers is kinda boring, so Karma can do that for you.
 Just simply add into the configuration file:
 
 ```javascript
-browsers: ['Chrome'],
+browsers: ['Chrome']
 ```
 
 Then, Karma will take care of autocapturing these browsers, as well as killing them.
 
+Note: Most of the browser launchers needs to be loaded as [plugins].
+
 ## Available browser launchers
-These launchers/plugins are shipped with Karma by default:
+These launchers are shipped with Karma by default:
 - [Chrome and Chrome Canary]
 - [PhantomJS]
 
@@ -19,6 +21,12 @@ Additional launchers can be loaded through [plugins], such as:
 - [IE]
 
 Of course, you can write [custom plugins] too!
+
+## Capturing any browser manually
+
+You can also capture browsers by simply opening `http://<hostname>:<port>/`, where `<hostname>` is the IP address or hostname of the machine where Karma server is running and `<port>` is the port where Karma server is listening (by default it's `9876`).
+
+This allows you to capture a browser on any device such as a tablet or a phone, that is on the same network as the machine running Karma (or using a local tunnel).
 
 
 ## Configured launchers
