@@ -136,3 +136,9 @@ describe 'cli', ->
     it 'should return empty args if -- is not present', ->
       args = cli.parseClientArgs ['node', 'karma.js', 'runArg', '--flag', '--foo', '--bar', 'baz']
       expect(args).to.deep.equal []
+
+
+  describe 'argsBeforeDoubleDash', ->
+    it 'should return array of args that occur before --', ->
+      args = cli.argsBeforeDoubleDash ['aa', '--bb', 'value', '--', 'some', '--no-more']
+      expect(args).to.deep.equal ['aa', '--bb', 'value']
