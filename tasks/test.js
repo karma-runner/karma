@@ -88,7 +88,7 @@ module.exports = function(grunt) {
                 // wait for the browser to connect
                 if (/Connected on socket/.test(data)) {
                   processToKill.stdout.removeListener('data', onData);
-                  spawnKarma(['run', 'runArg', '--','arg1','arg2','arg3'], cont);
+                  spawnKarma(['run', '--','arg1','arg2','arg3'], cont);
                 } else {
                   console.log(data);
                 }
