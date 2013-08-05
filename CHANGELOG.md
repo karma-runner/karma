@@ -1,3 +1,20 @@
+<a name="v0.9.8"></a>
+### v0.9.8 (2013-08-05)
+
+
+#### Bug Fixes
+
+* **init:** install plugin as dev dependency ([46b7a402](http://github.com/karma-runner/karma/commit/46b7a402fb8d700b10e2d72908c309d27212b5a0))
+* **runner:** do not confuse client args with the config file ([6f158aba](http://github.com/karma-runner/karma/commit/6f158abaf923dad6878a64da2d8a3c2c56ae604f))
+
+
+#### Features
+
+* **config:** default config can be karma.conf.js or karma.conf.coffee ([d4a06f29](http://github.com/karma-runner/karma/commit/d4a06f296c4d805f2dccd85b4898766593af4d66))
+* **runner:**
+  * support config files ([449e4a1a](http://github.com/karma-runner/karma/commit/449e4a1ad8b8543f84f1953c875cfbdf5692caa7), closes [#625](http://github.com/karma-runner/karma/issues/625))
+  * add --no-refresh to disable re-globbing ([b9c670ac](http://github.com/karma-runner/karma/commit/b9c670accbde8d027bdc3e09a4080c546b05853c))
+
 <a name="v0.9.7"></a>
 ### v0.9.7 (2013-07-31)
 
