@@ -38,7 +38,7 @@ Now running `npm test` within your project will run your tests with Karma.
 
 ## Add Your Project to Semaphore
 
-Follow the process as shown in the screencast on the Semaphore homepage.
+Follow the process as shown in the [screencast] on the Semaphore homepage.
 
 After the analysis is finished, ignore the Ruby version Semaphore has set
 for you, choose to customize your build commands and use these:
@@ -52,9 +52,10 @@ That's it - proceed to your first build. In case you're using Firefox as
 your test browser, Semaphore will automatically run it in a virtual screen
 during your builds.
 
-If necessary, build commands can be [customized] at any time.
+Also, if necessary, build commands can be further [customized] at any time.
 
 
+[screencast]: https://semaphoreapp.com/
 [Semaphore]: https://semaphoreapp.com
 [integrates]: https://semaphoreapp.com/features
 [Github]: https://github.com/

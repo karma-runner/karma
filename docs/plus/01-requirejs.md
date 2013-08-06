@@ -6,8 +6,7 @@ To get Karma to run with [Require.js] we need two files:
 * `karma.conf.js` &mdash; which configures Karma
 * `test-main.js` &mdash; which configures Require.js for the tests
 
-Let's say our app has a directory structure which looks something like
-this:
+Let's imagine our app has a directory structure which looks something like this:
 
 ```bash
 $ tree
@@ -37,8 +36,8 @@ command line:
 $ karma init
 ```
 
-This will give you a series of prompts for things such as paths to
-source and test and which browsers to capture.
+This will give you a series of prompts for things such as paths to the source and test
+files as well as which browsers to capture.
 
 In this example we'll use Jasmine, but other test frameworks works just
 as well.
@@ -58,7 +57,7 @@ files we want to load with Require.js. For this example we'll need:
 * `src/**/*.js` &mdash; our source code
 * `test/**/*Spec.js` &mdash; all the tests
 
-And then, for excludes, type `src/main.js`, as we don't want to actually
+And then, when excluding files, type in `src/main.js`, as we don't want to actually
 start the application in our tests.
 
 Now your `karma.conf.js` should include:

@@ -1,5 +1,5 @@
-Capturing browsers is kinda boring, so Karma can do that for you.
-Just simply add into the configuration file:
+Capturing browsers on your own is kinda tedious and time consuming,
+so Karma can do that for you. Just simply add into the configuration file:
 
 ```javascript
 browsers: ['Chrome']
@@ -15,16 +15,38 @@ These launchers are shipped with Karma by default:
 - [PhantomJS]
 
 Additional launchers can be loaded through [plugins], such as:
-- [Firefox]
-- [Safari]
-- [Opera]
-- [IE]
+- [Firefox] (install karma-firefox-launcher first)
+- [Safari] (install karma-safari-launcher first)
+- [Opera] (install karma-opera-launcher first)
+- [IE] (install karma-ie-launcher first)
+
+As mentioned above above, only Chrome and PhantomJS come bundled with Karma. Therefore, to use other browsers naturally,
+simply install the required launcher first using NPM and then assign the browser setting within the configuration file using the `browsers`.
+
+Here's an example of how to add Firefox to your testing suite:
+
+```bash
+# Install it first with NPM
+$ npm install karma-firefox-launcher --save-dev
+```
+
+And then inside your configuration file...
+
+```javascript
+module.exports = function(config) {
+  config.set({
+    browsers : ['Chrome', 'Firefox']
+  });
+};
+```
+
+Also keep in mind that the `browsers` configuraiton setting is empty by default.
 
 Of course, you can write [custom plugins] too!
 
 ## Capturing any browser manually
 
-You can also capture browsers by simply opening `http://<hostname>:<port>/`, where `<hostname>` is the IP address or hostname of the machine where Karma server is running and `<port>` is the port where Karma server is listening (by default it's `9876`).
+You can also capture browsers by simply opening `http://<hostname>:<port>/`, where `<hostname>` is the IP address or hostname of the machine where Karma server is running and `<port>` is the port where Karma server is listening (by default it's `9876`). With the default settings in place, just point your browser to `http://localhost:9876/`.
 
 This allows you to capture a browser on any device such as a tablet or a phone, that is on the same network as the machine running Karma (or using a local tunnel).
 
@@ -89,9 +111,9 @@ browsers: ['/usr/local/bin/custom-browser.sh'],
 // from cli
 karma start --browsers /usr/local/bin/custom-browser.sh
 ```
-The browser scripts need to take one argument, the url with id
-parameter to be used to connect to the server. The supplied id is used
-by the server to determine when the specific browser is captured.
+The browser scripts need to take one argument, which is the URL with the ID
+parameter to be used to connect to the server. The supplied ID is used
+by the server to keep track of which specific browser is captured.
 
 
 

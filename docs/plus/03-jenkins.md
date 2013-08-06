@@ -29,7 +29,7 @@ junitReporter: {
 },
  ```
 
-Please note the `test-result.xml` file will be output to the present
+Please note the `test-result.xml` file will be written to the present
 working directory (and you will need to tell Jenkins where to find it).
 
 ## Create a new Jenkins Job

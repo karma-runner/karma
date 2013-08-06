@@ -1,5 +1,5 @@
 Karma can be easily extended through plugins.
-In fact, all the existing preprocessors, reporters, browser launchers and frameworks are plugins.
+In fact, all the existing preprocessors, reporters, browser launchers and frameworks are also plugins.
 
 ## Installation
 
@@ -25,8 +25,8 @@ npm install karma-<plugin name> --save-dev
 ## Loading Plugins
 By default, Karma loads all NPM modules that are siblinks to it and their name matches `karma-*`.
 
-You can also explicitly list plugins you want to load. It can be either a string (module name),
-which will be required by Karma, or an object (inlined plugin).
+You can also explicitly list plugins you want to load via the `plugins` configuration setting. The configuration value can either be
+a string (module name), which will be required by Karma, or an object (inlined plugin).
 
 ```javascript
 plugins: [

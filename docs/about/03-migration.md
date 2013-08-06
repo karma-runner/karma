@@ -3,10 +3,16 @@ pageTitle: Migration from v0.8
 
 The good thing is that you don't have to migrate everything at once. You can keep the global Karma and update project by project.
 
-Let's get started:
+Let's get started...
+
+First upgrade your local or global install of Karma via the command line using NPM.
 ```bash
+# upgrade local install...
 cd <path-to-your-project>
 npm install karma
+
+# or upgrade global install...
+sudo npm install -g karma
 ```
 
 ## Plugins

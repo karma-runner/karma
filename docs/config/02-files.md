@@ -2,7 +2,7 @@
 
 
 ## Pattern matching and `basePath`
-- All the relative patterns will get resolved to `basePath` first.
+- All of the relative patterns will get resolved to `basePath` first.
 - If the `basePath` is a relative path, it gets resolved to the
   directory where the configuration file is.
 - Eventually, all the patterns will get resolved into files using
