@@ -1,7 +1,7 @@
 {
   "name": "karma",
   "description": "Spectacular Test Runner for JavaScript.",
-  "homepage": "http://karma-runner.github.com/",
+  "homepage": "http://karma-runner.github.io/",
   "repository": {
     "type": "git",
     "url": "git://github.com/karma-runner/karma.git"
