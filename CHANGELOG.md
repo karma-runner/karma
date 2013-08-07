@@ -1,3 +1,12 @@
+<a name="v0.10.1"></a>
+### v0.10.1 (2013-08-06)
+
+
+#### Bug Fixes
+
+* **cli:** Always pass an instance of fs to processArgs. ([06532b70](http://github.com/karma-runner/karma/commit/06532b7042371f270c227a1a7f859f2dab5afac1), closes [#677](http://github.com/karma-runner/karma/issues/677))
+* **init:** set default filename ([34d49b13](http://github.com/karma-runner/karma/commit/34d49b138f3bee8f17e1e9e343012d82887f906b), closes [#680](http://github.com/karma-runner/karma/issues/680), [#681](http://github.com/karma-runner/karma/issues/681))
+
 <a name="v0.10.0"></a>
 ## v0.10.0 (2013-08-06)
 
