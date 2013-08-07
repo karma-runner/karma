@@ -144,6 +144,7 @@
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*",
     "karma-html2js-preprocessor": "*",
+    "karma-browserstack-launcher": "git://github.com/karma-runner/karma-browserstack-launcher.git",
     "semver": "~1.1.4",
     "grunt-contrib-watch": "~0.5.0"
   },

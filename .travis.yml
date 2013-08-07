@@ -6,7 +6,8 @@ node_js:
 env:
   global:
   - SAUCE_USERNAME: vojtajina
-  - secure: "F/q7B9PKan0RLtP69q4faqqmNrcmotCR1/MoghSA/+XgESZweH5SAkBiDCto9xHg4XtIkhKdS3GpenkYXRhaC9vuR+wdcZ/Hf68r1if9tmCgeRplGPyn1jLlpbkFDceXDXxlTBgM/GwqKvVOI5rKc/9X7IsjCS0aFlBD9+8doPY="
+  - BROWSER_STACK_USERNAME: vojta.jina@gmail.com
+  - secure: "k2x1puIrj42LqnWF8SoDod19xpeJhJN3RDMgRLK2LTYffcdJV8TXilPRUk4pXyN6u8B79fxAW8WucsrlxB6CaaB5cXsFTDG+jpO21AlFc3mFjPh6sTkp/1L/bxc3cJNc9w18Ol2+8MO5s37xuy/lJaQeBRFxQleZZWCLLjtXytg="
 
 before_script:
   - export DISPLAY=:99.0
