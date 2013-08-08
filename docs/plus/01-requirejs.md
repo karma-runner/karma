@@ -65,20 +65,22 @@ Now your `karma.conf.js` should include:
 ```javascript
 // list of files / patterns to load in the browser
 module.exports = function(config) {
-  frameworks: ['jasmine', 'requirejs'],
+  config.set({
+    frameworks: ['jasmine', 'requirejs'],
 
-  files: [
-    {pattern: 'lib/**/*.js', included: false},
-    {pattern: 'src/**/*.js', included: false},
-    {pattern: 'test/**/*Spec.js', included: false},
+    files: [
+      {pattern: 'lib/**/*.js', included: false},
+      {pattern: 'src/**/*.js', included: false},
+      {pattern: 'test/**/*Spec.js', included: false},
 
-    'test/test-main.js'
-  ],
+      'test/test-main.js'
+    ],
 
-  // list of files to exclude
-  exclude: [
-      'src/main.js'
-  ]
+    // list of files to exclude
+    exclude: [
+        'src/main.js'
+    ]
+  });
 };
 ```
 
