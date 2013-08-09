@@ -1,17 +1,15 @@
 pageTitle: Ember.js
 menuTitle: Ember.js
 
-To execute javascript unit and integration tests with ember.js follow the steps below
+To execute javascript unit and integration tests with ember.js follow the steps below:
 
-1. [install karma] with npm globally
+1. [install karma]
 
-    npm install -g karma@0.10
-
-2. install the qunit plugin locally (in the project directory)
+2. install the qunit plugin
 
     npm install karma-qunit --save-dev
 
-3. install the ember preprocessor plugin locally (in the project directory)
+3. install the ember preprocessor plugin
 
     npm install karma-ember-preprocessor --save-dev
 
@@ -21,38 +19,39 @@ To execute javascript unit and integration tests with ember.js follow the steps 
 
 note -the above will walk you through the basic setup. An example configuration file that works with ember.js/qunit and phantomjs is below
 
-    module.exports = function(karma) {
-        karma.set({
-            basePath: 'js',
+```javascript
+module.exports = function(config) {
+  config.set({
+    basePath: 'js',
 
-            files: [
-              'vendor/jquery/jquery.min.js',
-              'vendor/handlebars/handlebars.js',
-              'vendor/ember/ember.js',
-              'app.js',
-              'tests/*.js',
-              'templates/*.handlebars'
-            ],
+    files: [
+      'vendor/jquery/jquery.min.js',
+      'vendor/handlebars/handlebars.js',
+      'vendor/ember/ember.js',
+      'app.js',
+      'tests/*.js',
+      'templates/*.handlebars'
+    ],
 
-            browsers: ['PhantomJS'],
-            singleRun: true,
-            autoWatch: false,
+    browsers: ['PhantomJS'],
+    singleRun: true,
+    autoWatch: false,
 
-            frameworks: ['qunit'],
+    frameworks: ['qunit'],
 
-            plugins: [
-                'karma-qunit',
-                'karma-ember-preprocessor',
-                'karma-phantomjs-launcher'
-            ],
+    plugins: [
+      'karma-qunit',
+      'karma-ember-preprocessor',
+      'karma-phantomjs-launcher'
+    ],
 
-            preprocessors: {
-                '**/*.handlebars': 'ember'
-            }
-        });
-    };
+    preprocessors: {
+      '**/*.handlebars': 'ember'
+    }
+  });
+};
 
-Note - the "files" section above should include all dependencies, ie- jQuery/handlebars/ember.js along with the js and handlebars files required to deploy and run your production ember.js application
+Note - the `files` section above should include all dependencies, ie- jQuery/handlebars/ember.js along with the js and handlebars files required to deploy and run your production ember.js application
 
 5. add a simple qunit test
 
@@ -66,5 +65,5 @@ Note - the "files" section above should include all dependencies, ie- jQuery/han
 
 A simple unit / integration tested example app showing karma / qunit / ember in action can be found [here]
 
-[install karma]: http://karma-runner.github.io/0.10/intro/installation.html
+[install karma]: ../intro/installation.html
 [here]: https://github.com/toranb/ember-testing-example
