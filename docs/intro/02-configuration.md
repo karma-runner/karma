@@ -44,7 +44,7 @@ Config file generated at "/Users/vojta/Code/karma/my.conf.js".
 ```
 
 The configuration file can be written in CoffeeScript as well.
-In fact, if you execute `karma run` with a `.coffee` filename extension, it will generate a CoffeeScript file.
+In fact, if you execute `karma init` with a `.coffee` filename extension, it will generate a CoffeeScript file.
 
 Of course, you can write the config file by hand or copy paste it from another project ;-)
 
