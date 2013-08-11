@@ -28,7 +28,7 @@ Here's an example of how to add the coverage preprocessor to your testing suite:
 
 ```bash
 # Install it first with NPM
-$ npm install karma-coverage --save-dev</code></pre>
+$ npm install karma-coverage --save-dev
 ```
 
 And then inside your configuration file...
