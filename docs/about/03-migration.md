@@ -22,7 +22,7 @@ All the frameworks, reporters, preprocessors and browser launchers are now separ
 npm install karma-<plugin name> --save-dev
 ```
 
-### Framworks
+### Frameworks
 - jasmine (`karma-jasmine` ships with Karma)
 - mocha   `karma-mocha`
 - qunit   `karma-qunit`
