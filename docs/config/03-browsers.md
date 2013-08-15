@@ -40,7 +40,7 @@ module.exports = function(config) {
 };
 ```
 
-Also keep in mind that the `browsers` configuraiton setting is empty by default.
+Also keep in mind that the `browsers` configuration setting is empty by default.
 
 Of course, you can write [custom plugins] too!
 
