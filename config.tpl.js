@@ -50,10 +50,10 @@ module.exports = function(config) {
     // - Chrome
     // - ChromeCanary
     // - Firefox
-    // - Opera
-    // - Safari (only Mac)
+    // - Opera (has to be installed with `npm install karma-opera-launcher`)
+    // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
-    // - IE (only Windows)
+    // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
     browsers: [%BROWSERS%],
 
 
