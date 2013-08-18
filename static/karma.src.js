@@ -8,6 +8,7 @@ var socket = io.connect('http://' + location.host, {
   'reconnection delay': 500,
   'reconnection limit': 2000,
   'resource': KARMA_URL_ROOT.substr(1) + 'socket.io',
+  'sync disconnect on unload': true,
   'max reconnection attempts': Infinity
 });
 
