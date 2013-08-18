@@ -25,6 +25,10 @@ The latest stable version from NPM (`npm install karma`). See [versioning] for m
 Please use the latest stable version found via NPM (`npm install karma`). See [versioning] for more detailed information.
 
 
+### Which version of Node.js does Karma run with ?
+In general, the two latest stable versions. That means `0.8` and `0.10` at this point.
+
+
 ### The browser does not start.
 ### The browser just does not start. What's going on?
 It's more likely Karma can't find the location of the browser binary (the execution file). You can fix this by setting
@@ -42,6 +46,10 @@ the web inspector is open.)
 The patterns in the `preprocessors` configuration setting are resolved via the `basePath` setting.
 See preprocessors for more information. You can also turn on debug logging (use `--log-level debug` when starting Karma)
 and Karma will display which files are preprocessed.
+
+
+### I'm getting a `npm ERR! peerinvalid Peer` error. How can I fix that ?
+Try to remove `karma` and `karma-*` modules from your `node_modules` first (for instance `rm -rf /usr/local/lib/node_modules/karma-*`), than install Karma again.
 
 
 [mailing list]: https://groups.google.com/d/forum/karma-users
