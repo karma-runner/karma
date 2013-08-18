@@ -5,6 +5,8 @@ describe 'browser', ->
   b = require '../../lib/browser'
   e = require '../../lib/events'
 
+  Timer = require('timer-shim').Timer
+
   beforeEach -> sinon.stub(Date, 'now')
   afterEach -> Date.now.restore()
 
@@ -29,48 +31,58 @@ describe 'browser', ->
   # browser.Browser
   #============================================================================
   describe 'Browser', ->
-    browser = collection = emitter = null
+    browser = collection = emitter = socket = null
 
     beforeEach ->
+      socket = new e.EventEmitter
       emitter = new e.EventEmitter
       collection = new b.Collection emitter
 
       Date.now.returns 12345
-      browser = new b.Browser 'fake-id', collection, emitter
 
 
-    it 'should have toString method', ->
-      expect(browser.toString()).to.equal 'fake-id'
-
-      browser.name = 'Chrome 16.0'
-      expect(browser.toString()).to.equal 'Chrome 16.0'
+    it 'should set fullName and name', ->
+      fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' +
+                 '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
+      browser = new b.Browser 'id', fullName, collection, emitter, socket
+      expect(browser.name).to.equal 'Chrome 16.0.912 (Mac OS X 10.6.8)'
+      expect(browser.fullName).to.equal fullName
 
 
     #==========================================================================
-    # browser.Browser.onRegister
+    # browser.Browser.init
     #==========================================================================
-    describe 'onRegister', ->
+    describe 'init', ->
 
-      it 'should set fullName and name', ->
-        fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' +
-                   '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
-        browser.onRegister name: fullName
-        expect(browser.name).to.equal 'Chrome 16.0.912 (Mac OS X 10.6.8)'
-        expect(browser.fullName).to.equal fullName
-
-
-      it 'should set launchId', ->
-        browser.onRegister id: 12345, name: 'some'
-        expect(browser.launchId).to.equal 12345
-
-
-      it 'should emit "browser_register', ->
+      it 'should emit "browser_register"', ->
         spyRegister = sinon.spy()
-
         emitter.on 'browser_register', spyRegister
-        browser.onRegister name : 'some'
+        browser = new b.Browser 12345, '', collection, emitter, socket
+        browser.init()
+
         expect(spyRegister).to.have.been.called
         expect(spyRegister.args[0][0]).to.equal browser
+
+
+      it 'should ad itself into the collection', ->
+        browser = new b.Browser 12345, '', collection, emitter, socket
+        browser.init()
+
+        expect(collection.length).to.equal 1
+        collection.forEach (browserInCollection) ->
+          expect(browserInCollection).to.equal browser
+
+
+    #==========================================================================
+    # browser.Browser.toString
+    #==========================================================================
+    describe 'toString', ->
+
+      it 'should return browser name', ->
+        fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' +
+                   '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
+        browser = new b.Browser 'id', fullName, collection, emitter, socket
+        expect(browser.toString()).to.equal 'Chrome 16.0.912 (Mac OS X 10.6.8)'
 
 
     #==========================================================================
@@ -78,10 +90,14 @@ describe 'browser', ->
     #==========================================================================
     describe 'onError', ->
 
+      beforeEach ->
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
+
+
       it 'should set lastResult.error and fire "browser_error"', ->
         spy = sinon.spy()
         emitter.on 'browser_error', spy
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
 
         browser.onError()
         expect(browser.lastResult.error).to.equal  true
@@ -91,7 +107,7 @@ describe 'browser', ->
       it 'should ignore if browser not executing', ->
         spy = sinon.spy()
         emitter.on 'browser_error', spy
-        browser.isReady = true
+        browser.state = b.Browser.STATE_READY
 
         browser.onError()
         expect(browser.lastResult.error).to.equal  false
@@ -103,8 +119,12 @@ describe 'browser', ->
     #==========================================================================
     describe 'onInfo', ->
 
+      beforeEach ->
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
+
+
       it 'should set total count of specs', ->
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onInfo {total: 20}
         expect(browser.lastResult.total).to.equal 20
 
@@ -113,16 +133,16 @@ describe 'browser', ->
         spy = sinon.spy()
         emitter.on 'browser_log', spy
 
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onInfo {log: 'something', type: 'info'}
         expect(spy).to.have.been.calledWith browser, 'something', 'info'
 
 
       it 'should ignore if browser not executing', ->
         spy = sinon.spy()
-        browser.isReady = true
         emitter.on 'browser_dump', spy
 
+        browser.state = b.Browser.STATE_READY
         browser.onInfo {dump: 'something'}
         browser.onInfo {total: 20}
 
@@ -135,17 +155,21 @@ describe 'browser', ->
     #==========================================================================
     describe 'onComplete', ->
 
+      beforeEach ->
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
+
+
       it 'should set isReady to true', ->
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onComplete()
-        expect(browser.isReady).to.equal  true
+        expect(browser.isReady()).to.equal  true
 
 
       it 'should fire "browsers_change" event', ->
         spy = sinon.spy()
         emitter.on 'browsers_change', spy
 
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onComplete()
         expect(spy).to.have.been.calledWith collection
 
@@ -155,7 +179,7 @@ describe 'browser', ->
         emitter.on 'browsers_change', spy
         emitter.on 'browser_complete', spy
 
-        browser.isReady = true
+        browser.state = b.Browser.STATE_READY
         browser.onComplete()
         expect(spy).not.to.have.been.called
 
@@ -163,14 +187,14 @@ describe 'browser', ->
       it 'should set totalTime', ->
         Date.now.returns 12347 # the default spy return 12345
 
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onComplete()
 
         expect(browser.lastResult.totalTime).to.equal 2
 
 
       it 'should error the result if zero tests executed', ->
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onComplete()
 
         expect(browser.lastResult.error).to.equal true
@@ -180,11 +204,18 @@ describe 'browser', ->
     # browser.Browser.onDisconnect
     #==========================================================================
     describe 'onDisconnect', ->
+      timer = null
+
+      beforeEach ->
+        timer = new Timer
+        timer.pause()
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket, timer, 10
+        browser.init()
+
 
       it 'should remove from parent collection', ->
-        collection.add browser
-
         expect(collection.length).to.equal 1
+
         browser.onDisconnect()
         expect(collection.length).to.equal 0
 
@@ -192,23 +223,63 @@ describe 'browser', ->
       it 'should complete if browser executing', ->
         spy = sinon.spy()
         emitter.on 'browser_complete', spy
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
 
         browser.onDisconnect()
+        timer.wind 20
 
-        expect(browser.isReady).to.equal  true
-        expect(browser.lastResult.disconnected).to.equal  true
+        expect(browser.lastResult.disconnected).to.equal true
         expect(spy).to.have.been.called
 
 
       it 'should not complete if browser not executing', ->
         spy = sinon.spy()
         emitter.on 'browser_complete', spy
-        browser.isReady = true
+        browser.state = b.Browser.STATE_READY
 
         browser.onDisconnect()
-
         expect(spy).not.to.have.been.called
+
+
+    #==========================================================================
+    # browser.Browser.onReconnect
+    #==========================================================================
+    describe 'onReconnect', ->
+
+      it 'should cancel disconnecting', ->
+        timer = new Timer
+        timer.pause()
+
+        browser = new b.Browser 'id', 'Chrome 19.0', collection, emitter, socket, timer, 10
+        browser.init()
+        browser.state = b.Browser.STATE_EXECUTING
+
+        browser.onDisconnect()
+        browser.onReconnect new e.EventEmitter
+
+        timer.wind 10
+        expect(browser.state).to.equal b.Browser.STATE_EXECUTING
+
+
+      it 'should ignore disconnects on old sockets, but accept other messages', ->
+        # IE on polling sometimes reconnect on another socket (before disconnecting)
+
+        browser = new b.Browser 'id', 'Chrome 19.0', collection, emitter, socket, timer, 10
+        browser.init()
+        browser.state = b.Browser.STATE_EXECUTING
+
+        browser.onReconnect new e.EventEmitter
+
+        # still accept results on the old socket
+        socket.emit 'result', {success: true}
+        expect(browser.lastResult.success).to.equal 1
+
+        socket.emit 'error', {}
+        expect(browser.lastResult.error).to.equal true
+
+        # should be ignored, keep executing
+        socket.emit 'disconnect'
+        expect(browser.state).to.equal b.Browser.STATE_EXECUTING
 
 
     #==========================================================================
@@ -225,8 +296,12 @@ describe 'browser', ->
       createSkippedResult = ->
         {success: true, skipped: true, suite: [], log: []}
 
+      beforeEach ->
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
+
+
       it 'should update lastResults', ->
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onResult createSuccessResult()
         browser.onResult createSuccessResult()
         browser.onResult createFailedResult()
@@ -238,7 +313,7 @@ describe 'browser', ->
 
 
       it 'should ignore if not running', ->
-        browser.isReady = true
+        browser.state = b.Browser.STATE_READY
         browser.onResult createSuccessResult()
         browser.onResult createSuccessResult()
         browser.onResult createFailedResult()
@@ -248,7 +323,7 @@ describe 'browser', ->
 
 
       it 'should update netTime', ->
-        browser.isReady = false
+        browser.state = b.Browser.STATE_EXECUTING
         browser.onResult {time: 3, suite: [], log: []}
         browser.onResult {time: 1, suite: [], log: []}
         browser.onResult {time: 5, suite: [], log: []}
@@ -262,11 +337,54 @@ describe 'browser', ->
     describe 'serialize', ->
 
       it 'should return plain object with only name, id, isReady properties', ->
-        browser.isReady = true
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
+        browser.state = b.Browser.STATE_READY
         browser.name = 'Browser 1.0'
         browser.id = '12345'
 
         expect(browser.serialize()).to.deep.equal {id: '12345', name: 'Browser 1.0', isReady: true}
+
+
+    #==========================================================================
+    # browser.Browser higher level tests for reconnecting
+    #==========================================================================
+    describe 'scenario:', ->
+
+      it 'reconnecting during the run', ->
+        timer = new Timer
+        timer.pause()
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket, timer, 10
+        browser.init()
+        browser.state = b.Browser.STATE_EXECUTING
+        socket.emit 'result', {success: true, suite: [], log: []}
+        socket.emit 'disconnect'
+        expect(browser.isReady()).to.equal false
+
+        newSocket = new e.EventEmitter
+        browser.onReconnect newSocket
+        expect(browser.isReady()).to.equal false
+
+        newSocket.emit 'result', {success: false, suite: [], log: []}
+        newSocket.emit 'complete'
+        expect(browser.isReady()).to.equal true
+        expect(browser.lastResult.success).to.equal 1
+        expect(browser.lastResult.failed).to.equal 1
+
+
+      it 'disconecting during the run', ->
+        spy = sinon.spy()
+        emitter.on 'browser_complete', spy
+        timer = new Timer
+        timer.pause()
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket, timer, 10
+        browser.init()
+        browser.state = b.Browser.STATE_EXECUTING
+        socket.emit 'result', {success: true, suite: [], log: []}
+        socket.emit 'disconnect'
+
+        timer.wind 10
+        expect(browser.lastResult.disconnected).to.equal true
+        expect(spy).to.have.been.calledWith browser
 
 
   #============================================================================
@@ -329,41 +447,48 @@ describe 'browser', ->
 
 
     #==========================================================================
-    # browser.Collection.setAllIsReadyTo
+    # browser.Collection.getById
     #==========================================================================
-    describe 'setAllIsReadyTo', ->
+    describe 'getById', ->
+
+      it 'should find the browser by id', ->
+        browser = new b.Browser 123
+        collection.add browser
+
+        expect(collection.getById 123).to.equal browser
+
+
+      it 'should return null if no browser with given id', ->
+        expect(collection.getById 123).to.equal null
+
+        collection.add new b.Browser 456
+        expect(collection.getById 123).to.equal null
+
+
+    #==========================================================================
+    # browser.Collection.setAllToExecuting
+    #==========================================================================
+    describe 'setAllToExecuting', ->
       browsers = null
 
       beforeEach ->
         browsers = [new b.Browser, new b.Browser, new b.Browser]
         browsers.forEach (browser) ->
-          browser.isReady = true
           collection.add browser
 
 
-      it 'should set all browsers isReady to given value', ->
-        collection.setAllIsReadyTo false
+      it 'should set all browsers state to executing', ->
+        collection.setAllToExecuting()
         browsers.forEach (browser) ->
-          expect(browser.isReady).to.equal  false
-
-        collection.setAllIsReadyTo true
-        browsers.forEach (browser) ->
-          expect(browser.isReady).to.equal  true
+          expect(browser.isReady()).to.equal false
+          expect(browser.state).to.equal b.Browser.STATE_EXECUTING
 
 
-      it 'should fire "browsers_change" event if at least one browser changed', ->
+      it 'should fire "browsers_change" event', ->
         spy = sinon.spy()
-        browsers[0].isReady = false
         emitter.on 'browsers_change', spy
-        collection.setAllIsReadyTo true
+        collection.setAllToExecuting()
         expect(spy).to.have.been.called
-
-
-      it 'should not fire "browsers_change" event if no change', ->
-        spy = sinon.spy()
-        emitter.on 'browsers_change', spy
-        collection.setAllIsReadyTo true
-        expect(spy).not.to.have.been.called
 
 
     #==========================================================================
@@ -375,22 +500,22 @@ describe 'browser', ->
       beforeEach ->
         browsers = [new b.Browser, new b.Browser, new b.Browser]
         browsers.forEach (browser) ->
-          browser.isReady = true
+          browser.state = b.Browser.STATE_READY
           collection.add browser
 
 
       it 'should return true if all browsers are ready', ->
-        expect(collection.areAllReady()).to.equal  true
+        expect(collection.areAllReady()).to.equal true
 
 
       it 'should return false if at least one browser is not ready', ->
-        browsers[1].isReady = false
-        expect(collection.areAllReady()).to.equal  false
+        browsers[1].state = b.Browser.STATE_EXECUTING
+        expect(collection.areAllReady()).to.equal false
 
 
       it 'should add all non-ready browsers into given array', ->
-        browsers[0].isReady = false
-        browsers[1].isReady = false
+        browsers[0].state = b.Browser.STATE_EXECUTING
+        browsers[1].state = b.Browser.STATE_EXECUTING_DISCONNECTED
         nonReady = []
         collection.areAllReady nonReady
         expect(nonReady).to.deep.equal [browsers[0], browsers[1]]

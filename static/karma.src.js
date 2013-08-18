@@ -250,9 +250,6 @@ var Karma = function(socket, context, navigator, location) {
     }
   });
 
-  // cancel execution
-  socket.on('disconnect', clearContext);
-
   // report browser name, id
   socket.on('connect', function() {
     socket.emit('register', {
