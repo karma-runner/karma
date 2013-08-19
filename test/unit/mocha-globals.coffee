@@ -3,7 +3,6 @@ chai = require 'chai'
 logger = require '../../lib/logger'
 
 # publish globals that all specs can use
-global.timer = require 'timer-shim'
 global.expect = chai.expect
 global.should = chai.should()
 global.sinon = sinon
@@ -11,9 +10,6 @@ global.sinon = sinon
 # chai plugins
 chai.use(require 'chai-as-promised')
 chai.use(require 'sinon-chai')
-
-# TODO(vojta): remove this global stub
-sinon.stub(timer, 'setTimeout').callsArg 0
 
 beforeEach ->
   global.sinon = sinon.sandbox.create()

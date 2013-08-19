@@ -5,7 +5,7 @@ describe 'browser', ->
   b = require '../../lib/browser'
   e = require '../../lib/events'
 
-  Timer = require('timer-shim').Timer
+  createMockTimer = require './mocks/timer'
 
   beforeEach -> sinon.stub(Date, 'now')
   afterEach -> Date.now.restore()
@@ -207,8 +207,7 @@ describe 'browser', ->
       timer = null
 
       beforeEach ->
-        timer = new Timer
-        timer.pause()
+        timer = createMockTimer()
         browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket, timer, 10
         browser.init()
 
@@ -247,8 +246,7 @@ describe 'browser', ->
     describe 'onReconnect', ->
 
       it 'should cancel disconnecting', ->
-        timer = new Timer
-        timer.pause()
+        timer = createMockTimer()
 
         browser = new b.Browser 'id', 'Chrome 19.0', collection, emitter, socket, timer, 10
         browser.init()
@@ -264,7 +262,7 @@ describe 'browser', ->
       it 'should ignore disconnects on old sockets, but accept other messages', ->
         # IE on polling sometimes reconnect on another socket (before disconnecting)
 
-        browser = new b.Browser 'id', 'Chrome 19.0', collection, emitter, socket, timer, 10
+        browser = new b.Browser 'id', 'Chrome 19.0', collection, emitter, socket, null, 0
         browser.init()
         browser.state = b.Browser.STATE_EXECUTING
 
@@ -351,8 +349,7 @@ describe 'browser', ->
     describe 'scenario:', ->
 
       it 'reconnecting during the run', ->
-        timer = new Timer
-        timer.pause()
+        timer = createMockTimer()
         browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket, timer, 10
         browser.init()
         browser.state = b.Browser.STATE_EXECUTING
@@ -374,8 +371,7 @@ describe 'browser', ->
       it 'disconecting during the run', ->
         spy = sinon.spy()
         emitter.on 'browser_complete', spy
-        timer = new Timer
-        timer.pause()
+        timer = createMockTimer()
         browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket, timer, 10
         browser.init()
         browser.state = b.Browser.STATE_EXECUTING
