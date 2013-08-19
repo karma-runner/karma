@@ -29,7 +29,6 @@ Please use the latest stable version found via NPM (`npm install karma`). See [v
 In general, the two latest stable versions. That means `0.8` and `0.10` at this point.
 
 
-### The browser does not start.
 ### The browser just does not start. What's going on?
 It's more likely Karma can't find the location of the browser binary (the execution file). You can fix this by setting
 the appropriate environment variable with the correct path (Google Chrome for instance uses the `$CHROME_BIN` environment variable).
