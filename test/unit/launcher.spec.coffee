@@ -16,14 +16,14 @@ describe 'launcher', ->
     constructor: (@id, @name, baseBrowserDecorator) ->
       baseBrowserDecorator @
       FakeBrowser._instances.push @
-      sinon.stub @, 'start'
+      sinon.stub @, 'start', -> @state = 1 # BEING_CAPTURED
       sinon.stub @, 'kill'
 
   class ScriptBrowser
     constructor: (@id, @name, baseBrowserDecorator) ->
       baseBrowserDecorator @
       ScriptBrowser._instances.push @
-      sinon.stub @, 'start'
+      sinon.stub @, 'start', -> @state = 1 # BEING_CAPTURED
       sinon.stub @, 'kill'
 
 
