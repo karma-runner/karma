@@ -23,14 +23,16 @@ module.exports = function(config) {
       bs_ff_mac: {
         base: 'BrowserStack',
         browser: 'firefox',
-        os: 'mac',
-        version: '21.0'
+        browser_version: 'latest',
+        os: 'Windows',
+        os_version: 'XP'
       },
       bs_ch_mac: {
         base: 'BrowserStack',
         browser: 'chrome',
-        os: 'mac',
-        version: 'latest'
+        browser_version: 'latest',
+        os: 'OS X',
+        os_version: 'Lion'
       }
     },
 
