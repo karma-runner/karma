@@ -1,3 +1,18 @@
+<a name="v0.10.2"></a>
+### v0.10.2 (2013-08-21)
+
+
+#### Bug Fixes
+
+* don't mark a browser captured if already being killed/timeouted ([21230979](http://github.com/karma-runner/karma/commit/212309795861cf599dbcc0ed60fff612ccf25cf5), closes [#88](http://github.com/karma-runner/karma/issues/88))
+
+
+#### Features
+
+* sync page unload (disconnect) ([ac9b3f01](http://github.com/karma-runner/karma/commit/ac9b3f01e88ce2cf91fc86aca9cecfdb8177a6fa))
+* buffer result messages when polling ([c4ad6970](http://github.com/karma-runner/karma/commit/c4ad69709103110a066ae1d9652af69e42434c6b))
+* allow browser to reconnect during the test run ([cbe2851b](http://github.com/karma-runner/karma/commit/cbe2851baa55312f00be420e0345283b33326266), closes [#82](http://github.com/karma-runner/karma/issues/82), [#590](http://github.com/karma-runner/karma/issues/590))
+
 <a name="v0.10.1"></a>
 ### v0.10.1 (2013-08-06)
 
