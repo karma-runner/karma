@@ -8,6 +8,8 @@ module.exports = function(config) {
 
     autoWatch: true,
 
+    logLevel: config.LOG_DEBUG,
+
     browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
 
     reporters: ['dots'],

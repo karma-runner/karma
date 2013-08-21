@@ -459,6 +459,8 @@ describe 'browser', ->
 
       it 'should find the browser by id', ->
         browser = new b.Browser 123
+        # TODO(vojta): temporary, until we fix WebStorm plugin
+        browser.launchId = 123
         collection.add browser
 
         expect(collection.getById 123).to.equal browser
