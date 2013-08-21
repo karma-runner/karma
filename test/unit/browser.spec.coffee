@@ -329,6 +329,16 @@ describe 'browser', ->
         expect(browser.lastResult.netTime).to.equal 9
 
 
+      it 'should accept array of results', ->
+        browser.state = b.Browser.STATE_EXECUTING
+        browser.onResult [createSuccessResult(), createSuccessResult(),
+                          createFailedResult(), createSkippedResult()]
+
+        expect(browser.lastResult.success).to.equal 2
+        expect(browser.lastResult.failed).to.equal 1
+        expect(browser.lastResult.skipped).to.equal 1
+
+
     #==========================================================================
     # browser.Browser.serialize
     #==========================================================================

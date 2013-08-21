@@ -50,6 +50,9 @@ var Karma = function(socket, context, navigator, location) {
   var store = {};
   var self = this;
 
+  var resultsBufferLimit = 1;
+  var resultsBuffer = [];
+
   this.VERSION = VERSION;
   this.config = {};
 
@@ -190,10 +193,24 @@ var Karma = function(socket, context, navigator, location) {
   };
 
   this.result = function(result) {
-    socket.emit('result', result);
+    if (resultsBufferLimit === 1) {
+      return socket.emit('result', result);
+    }
+
+    resultsBuffer.push(result);
+
+    if (resultsBuffer.length === resultsBufferLimit) {
+      socket.emit('result', resultsBuffer);
+      resultsBuffer = [];
+    }
   };
 
   this.complete = function(result) {
+    if (resultsBuffer.length) {
+      socket.emit('result', resultsBuffer);
+      resultsBuffer = [];
+    }
+
     // give the browser some time to breath, there could be a page reload, but because a bunch of
     // tests could run in the same event loop, we wouldn't notice.
     setTimeout(function() {
@@ -252,6 +269,15 @@ var Karma = function(socket, context, navigator, location) {
 
   // report browser name, id
   socket.on('connect', function() {
+    var transport = socket.socket.transport.name;
+
+    // TODO(vojta): make resultsBufferLimit configurable
+    if (transport === 'websocket' || transport === 'flashsocket') {
+      resultsBufferLimit = 1;
+    } else {
+      resultsBufferLimit = 50;
+    }
+
     socket.emit('register', {
       name: navigator.userAgent,
       id: parseInt((location.search.match(/\?id=(.*)/) || [])[1], 10) || null

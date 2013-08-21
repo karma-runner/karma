@@ -27,7 +27,18 @@ var Emitter = function() {
   };
 };
 
-var MockSocket = Emitter;
+
+var MockSocket = function() {
+  Emitter.call(this);
+
+  this.socket = {transport: {name: 'websocket'}};
+
+  // MOCK API
+  this._setTransportNameTo = function(transportName) {
+    this.socket.transport.name = transportName;
+  };
+};
+
 
 var io = {
   connect: function() {

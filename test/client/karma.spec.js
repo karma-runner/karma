@@ -6,10 +6,16 @@
 describe('karma', function() {
   var socket, k, spyStart, windowNavigator, windowLocation;
 
+  var setTransportTo = function(transportName) {
+    socket._setTransportNameTo(transportName);
+    socket.emit('connect');
+  };
+
+
   beforeEach(function() {
     socket = new MockSocket();
     windowNavigator = {};
-    windowLocation = {};
+    windowLocation = {search: ''};
     k = new Karma(socket, {}, windowNavigator, windowLocation);
     spyStart = spyOn(k, 'start');
   });
@@ -81,6 +87,45 @@ describe('karma', function() {
     socket.emit('connect');
 
     expect(spyInfo).toHaveBeenCalled();
+  });
+
+
+  describe('result', function() {
+    var spyResult;
+
+    beforeEach(function() {
+      spyResult = jasmine.createSpy('onResult');
+      socket.on('result', spyResult);
+    });
+
+    it('should buffer results when polling', function() {
+      setTransportTo('xhr-polling');
+
+      // emit 49 results
+      for (var i = 1; i < 50; i++) {
+        k.result({id: i});
+      }
+
+      expect(spyResult).not.toHaveBeenCalled();
+
+      k.result('result', {id: 50});
+      expect(spyResult).toHaveBeenCalled();
+      expect(spyResult.argsForCall[0][0].length).toBe(50);
+    });
+
+
+    it('should buffer results when polling', function() {
+      setTransportTo('xhr-polling');
+
+      // emit 40 results
+      for (var i = 1; i <= 40; i++) {
+        k.result({id: i});
+      }
+
+      k.complete();
+      expect(spyResult).toHaveBeenCalled();
+      expect(spyResult.argsForCall[0][0].length).toBe(40);
+    });
   });
 
 
