@@ -43,6 +43,7 @@ describe('plus', function() {
     console.log(4);
     expect(4).toBe(4);
     socket().reconnect();
+    // window.parent.socket.socket.connect();
 
     breath();
   });
