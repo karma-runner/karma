@@ -20,12 +20,14 @@ module.exports = (grunt) ->
 
     files:
       server: ['lib/**/*.js']
-      client: ['static/karma.src.js']
+      client: ['client/**/*.js']
       grunt: ['grunt.js', 'tasks/*.js']
       scripts: ['scripts/*.js']
 
-    build:
-      client: '<%= files.client %>'
+    browserify:
+      client:
+        files:
+          'static/karma.js': ['client/main.js']
 
     test:
       unit: 'simplemocha:unit'
@@ -35,7 +37,7 @@ module.exports = (grunt) ->
     watch:
       client:
         files: '<%= files.client %>'
-        tasks: 'build:client'
+        tasks: 'browserify:client'
 
 
     simplemocha:
@@ -127,7 +129,9 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-npm'
   grunt.loadNpmTasks 'grunt-auto-release'
   grunt.loadNpmTasks 'grunt-conventional-changelog'
+  grunt.loadNpmTasks 'grunt-browserify'
 
+  grunt.registerTask 'build', ['browserify:client']
   grunt.registerTask 'default', ['build', 'test', 'lint']
   grunt.registerTask 'lint', ['jshint', 'coffeelint']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->

@@ -1,8 +1,3 @@
-/**
- Mocks for testing static/karma.js
- Needs to be loaded before karma.js
- */
-
 var Emitter = function() {
   var listeners = {};
 
@@ -40,8 +35,4 @@ var MockSocket = function() {
 };
 
 
-var io = {
-  connect: function() {
-    return new MockSocket();
-  }
-};
+exports.Socket = MockSocket;

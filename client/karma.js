@@ -1,49 +1,7 @@
-var CONTEXT_URL = 'context.html';
-var VERSION = '%KARMA_VERSION%';
-var KARMA_URL_ROOT = '%KARMA_URL_ROOT%';
+var stringify = require('./stringify');
+var constant = require('./constants');
+var util = require('./util');
 
-// connect socket.io
-// https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-var socket = io.connect('http://' + location.host, {
-  'reconnection delay': 500,
-  'reconnection limit': 2000,
-  'resource': KARMA_URL_ROOT.substr(1) + 'socket.io',
-  'sync disconnect on unload': true,
-  'max reconnection attempts': Infinity
-});
-
-var browsersElement = document.getElementById('browsers');
-socket.on('info', function(browsers) {
-  var items = [], status;
-  for (var i = 0; i < browsers.length; i++) {
-    status = browsers[i].isReady ? 'idle' : 'executing';
-    items.push('<li class="' + status + '">' + browsers[i].name + ' is ' + status + '</li>');
-  }
-  browsersElement.innerHTML = items.join('\n');
-});
-socket.on('disconnect', function() {
-  browsersElement.innerHTML = '';
-});
-
-var titleElement = document.getElementById('title');
-var bannerElement = document.getElementById('banner');
-var updateStatus = function(status) {
-  return function(param) {
-    var paramStatus = param ? status.replace('$', param) : status;
-    titleElement.innerHTML = 'Karma v' + VERSION + ' - ' + paramStatus;
-    bannerElement.className = status === 'connected' ? 'online' : 'offline';
-  };
-};
-
-socket.on('connect', updateStatus('connected'));
-socket.on('disconnect', updateStatus('disconnected'));
-socket.on('reconnecting', updateStatus('reconnecting in $ ms...'));
-socket.on('reconnect', updateStatus('re-connected'));
-socket.on('reconnect_failed', updateStatus('failed to reconnect'));
-
-var instanceOf = function(value, constructorName) {
-  return Object.prototype.toString.apply(value) === '[object ' + constructorName + ']';
-};
 
 /* jshint unused: false */
 var Karma = function(socket, context, navigator, location) {
@@ -51,13 +9,12 @@ var Karma = function(socket, context, navigator, location) {
   var startEmitted = false;
   var store = {};
   var self = this;
-  var browserId = (location.search.match(/\?id=(.*)/) || [])[1] ||
-      'manual-' + Math.floor(Math.random() * 10000);
+  var browserId = (location.search.match(/\?id=(.*)/) || [])[1] || util.generateId('manual-');
 
   var resultsBufferLimit = 1;
   var resultsBuffer = [];
 
-  this.VERSION = VERSION;
+  this.VERSION = constant.VERSION;
   this.config = {};
 
   this.setupContext = function(contextWindow) {
@@ -126,61 +83,7 @@ var Karma = function(socket, context, navigator, location) {
     this.info({log: values.join(', '), type: type});
   };
 
-  this.stringify = function(obj, depth) {
-
-    if (depth === 0) {
-      return '...';
-    }
-
-    if (obj === null) {
-      return 'null';
-    }
-
-    switch (typeof obj) {
-    case 'string':
-      return '\'' + obj + '\'';
-    case 'undefined':
-      return 'undefined';
-    case 'function':
-      return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }');
-    case 'boolean':
-      return obj ? 'true' : 'false';
-    case 'object':
-      var strs = [];
-      if (instanceOf(obj, 'Array')) {
-        strs.push('[');
-        for (var i = 0, ii = obj.length; i < ii; i++) {
-          if (i) {
-            strs.push(', ');
-          }
-          strs.push(this.stringify(obj[i], depth - 1));
-        }
-        strs.push(']');
-      } else if (instanceOf(obj, 'Date')) {
-        return obj.toString();
-      } else if (instanceOf(obj, 'Text')) {
-        return obj.nodeValue;
-      } else if (instanceOf(obj, 'Comment')) {
-        return '<!--' + obj.nodeValue + '-->';
-      } else if (obj.outerHTML) {
-        return obj.outerHTML;
-      } else {
-        strs.push(obj.constructor.name);
-        strs.push('{');
-        var first = true;
-        for(var key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            if (first) { first = false; } else { strs.push(', '); }
-            strs.push(key + ': ' + this.stringify(obj[key], depth - 1));
-          }
-        }
-        strs.push('}');
-      }
-      return strs.join('');
-    default:
-      return obj;
-    }
-  };
+  this.stringify = stringify;
 
 
   var clearContext = function() {
@@ -230,7 +133,7 @@ var Karma = function(socket, context, navigator, location) {
 
   this.info = function(info) {
     // TODO(vojta): introduce special API for this
-    if (!startEmitted && typeof info.total !== 'undefined') {
+    if (!startEmitted && util.isDefined(info.total)) {
       socket.emit('start', info);
       startEmitted = true;
     } else {
@@ -250,11 +153,11 @@ var Karma = function(socket, context, navigator, location) {
   };
 
   this.store = function(key, value) {
-    if (typeof value === 'undefined') {
+    if (util.isUndefined(value)) {
       return store[key];
     }
 
-    if (Object.prototype.toString.apply(value) === '[object Array]') {
+    if (util.instanceOf(value, 'Array')) {
       var s = store[key] = [];
       for (var i = 0; i < value.length; i++) {
         s.push(value[i]);
@@ -274,7 +177,7 @@ var Karma = function(socket, context, navigator, location) {
     hasError = false;
     startEmitted = false;
     self.config = cfg;
-    context.src = CONTEXT_URL;
+    context.src = constant.CONTEXT_URL;
 
     // clear the console before run
     // works only on FF (Safari, Chrome do not allow to clear console from js source)
@@ -300,3 +203,5 @@ var Karma = function(socket, context, navigator, location) {
     });
   });
 };
+
+module.exports = Karma;

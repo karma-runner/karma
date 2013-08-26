@@ -1,9 +1,8 @@
-/**
- Tests for static/karma.js
- These tests are executed in browser.
- */
+var Karma  = require('../../client/karma');
+var MockSocket = require('./mocks').Socket;
 
-describe('karma', function() {
+
+describe('Karma', function() {
   var socket, k, spyStart, windowNavigator, windowLocation;
 
   var setTransportTo = function(transportName) {
@@ -200,57 +199,6 @@ describe('karma', function() {
       k.store('one.array', array);
       expect(k.store('one.array')).toEqual(array);
       expect(k.store('one.array')).not.toBe(array);
-    });
-  });
-
-
-  describe('stringify', function() {
-    it('should serialize string', function() {
-      expect(k.stringify('aaa')).toBe("'aaa'");
-    });
-
-
-    it('should serialize booleans', function() {
-      expect(k.stringify(true)).toBe('true');
-      expect(k.stringify(false)).toBe('false');
-    });
-
-
-    it('should serialize null and undefined', function() {
-      expect(k.stringify(null)).toBe('null');
-      expect(k.stringify()).toBe('undefined');
-    });
-
-
-    it('should serialize functions', function() {
-      function abc(a, b, c) { return 'whatever'; }
-      var def = function(d, e, f) { return 'whatever'; };
-
-      expect(k.stringify(abc)).toBe('function abc(a, b, c) { ... }');
-      expect(k.stringify(def)).toBe('function (d, e, f) { ... }');
-    });
-
-
-    it('should serialize arrays', function() {
-      expect(k.stringify(['a', 'b', null, true, false])).toBe("['a', 'b', null, true, false]");
-    });
-
-
-    it('should serialize html', function() {
-      var div = document.createElement('div');
-
-      expect(k.stringify(div)).toBe('<div></div>');
-
-      div.innerHTML = 'some <span>text</span>';
-      expect(k.stringify(div)).toBe('<div>some <span>text</span></div>');
-    });
-
-
-    it('should serialize across iframes', function() {
-      var div = document.createElement('div');
-      expect(__karma__.stringify(div)).toBe('<div></div>');
-
-      expect(__karma__.stringify([1, 2])).toBe('[1, 2]');
     });
   });
 });

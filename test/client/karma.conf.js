@@ -3,17 +3,23 @@ module.exports = function(config) {
     // base path, that will be used to resolve files and exclude
     basePath: '../..',
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'commonjs'],
 
     // list of files / patterns to load in the browser
     files: [
-      'test/client/mocks.js',
-      'static/karma.src.js',
-      'test/client/*.spec.js'
+      'client/*.js',
+      'test/client/*.js'
     ],
 
     // list of files to exclude
-    exclude: [],
+    exclude: [
+      'client/main.js'
+    ],
+
+    preprocessors: {
+      'client/*.js': ['commonjs'],
+      'test/client/*.js': ['commonjs']
+    },
 
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress'
@@ -65,16 +71,12 @@ module.exports = function(config) {
     // CLI --report-slower-than 500
     reportSlowerThan: 500,
 
-    // compile coffee scripts
-    preprocessors: {
-      '**/*.coffee': 'coffee'
-    },
-
     plugins: [
       'karma-jasmine',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
-      'karma-junit-reporter'
+      'karma-junit-reporter',
+      'karma-commonjs'
     ]
   });
 };
