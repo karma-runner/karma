@@ -354,6 +354,21 @@ describe 'browser', ->
 
 
     #==========================================================================
+    # browser.Browser.serialize
+    #==========================================================================
+    describe 'execute', ->
+      it 'should emit execute and change state to EXECUTING', ->
+        spyExecute = sinon.spy()
+        config = {}
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
+        socket.on 'execute', spyExecute
+        browser.execute config
+
+        expect(browser.isReady()).to.equal false
+        expect(spyExecute).to.have.been.calledWith config
+
+
+    #==========================================================================
     # browser.Browser higher level tests for reconnecting
     #==========================================================================
     describe 'scenario:', ->
