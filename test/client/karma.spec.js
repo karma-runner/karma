@@ -78,11 +78,14 @@ describe('karma', function() {
 
 
   it('should report browser id', function() {
+    windowLocation.search = '?id=567';
+    socket = new MockSocket();
+    k = new Karma(socket, {}, windowNavigator, windowLocation);
+
     var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
-      expect(info.id).toBe(567);
+      expect(info.id).toBe('567');
     });
 
-    windowLocation.search = '?id=567';
     socket.on('register', spyInfo);
     socket.emit('connect');
 

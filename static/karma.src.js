@@ -50,6 +50,8 @@ var Karma = function(socket, context, navigator, location) {
   var hasError = false;
   var store = {};
   var self = this;
+  var browserId = (location.search.match(/\?id=(.*)/) || [])[1] ||
+      'manual-' + Math.floor(Math.random() * 10000);
 
   var resultsBufferLimit = 1;
   var resultsBuffer = [];
@@ -281,7 +283,7 @@ var Karma = function(socket, context, navigator, location) {
 
     socket.emit('register', {
       name: navigator.userAgent,
-      id: parseInt((location.search.match(/\?id=(.*)/) || [])[1], 10) || null
+      id: browserId
     });
   });
 };
