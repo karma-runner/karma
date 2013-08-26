@@ -123,12 +123,6 @@ describe 'browser', ->
         browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
 
 
-      it 'should set total count of specs', ->
-        browser.state = b.Browser.STATE_EXECUTING
-        browser.onInfo {total: 20}
-        expect(browser.lastResult.total).to.equal 20
-
-
       it 'should emit "browser_log"', ->
         spy = sinon.spy()
         emitter.on 'browser_log', spy
@@ -148,6 +142,31 @@ describe 'browser', ->
 
         expect(browser.lastResult.total).to.equal 0
         expect(spy).not.to.have.been.called
+
+
+    #==========================================================================
+    # browser.Browser.onStart
+    #==========================================================================
+    describe 'onStart', ->
+
+      beforeEach ->
+        browser = new b.Browser 'fake-id', 'full name', collection, emitter, socket
+
+
+      it 'should set total count of specs', ->
+        browser.state = b.Browser.STATE_EXECUTING
+        browser.onStart {total: 20}
+        expect(browser.lastResult.total).to.equal 20
+
+
+      it 'should emit "browser_start"', ->
+        spy = sinon.spy()
+        emitter.on 'browser_start', spy
+
+        browser.state = b.Browser.STATE_EXECUTING
+        browser.onStart {total: 20}
+
+        expect(spy).to.have.been.calledWith browser, {total: 20}
 
 
     #==========================================================================

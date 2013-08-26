@@ -129,6 +129,40 @@ describe('karma', function() {
       expect(spyResult).toHaveBeenCalled();
       expect(spyResult.argsForCall[0][0].length).toBe(40);
     });
+
+
+    it('should emit "start" with total specs count first', function() {
+      var log = [];
+      spyResult.andCallFake(function() {
+        log.push('result');
+      });
+
+      socket.on('start', function() {
+        log.push('start');
+      });
+
+      // adapter didn't call info({total: x})
+      k.result();
+      expect(log).toEqual(['start', 'result']);
+    });
+
+
+    it('should not emit "start" if already done by the adapter', function() {
+      var log = [];
+      var spyStart = jasmine.createSpy('onStart').andCallFake(function() {
+        log.push('start');
+      });
+      spyResult.andCallFake(function() {
+        log.push('result');
+      });
+
+      socket.on('start', spyStart);
+
+      k.info({total: 321});
+      k.result();
+      expect(log).toEqual(['start', 'result']);
+      expect(spyStart).toHaveBeenCalledWith({total: 321});
+    });
   });
 
 

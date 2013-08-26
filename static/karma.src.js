@@ -48,6 +48,7 @@ var instanceOf = function(value, constructorName) {
 /* jshint unused: false */
 var Karma = function(socket, context, navigator, location) {
   var hasError = false;
+  var startEmitted = false;
   var store = {};
   var self = this;
   var browserId = (location.search.match(/\?id=(.*)/) || [])[1] ||
@@ -196,6 +197,11 @@ var Karma = function(socket, context, navigator, location) {
   };
 
   this.result = function(result) {
+    if (!startEmitted) {
+      socket.emit('start', {total: null});
+      startEmitted = true;
+    }
+
     if (resultsBufferLimit === 1) {
       return socket.emit('result', result);
     }
@@ -223,7 +229,13 @@ var Karma = function(socket, context, navigator, location) {
   };
 
   this.info = function(info) {
-    socket.emit('info', info);
+    // TODO(vojta): introduce special API for this
+    if (!startEmitted && typeof info.total !== 'undefined') {
+      socket.emit('start', info);
+      startEmitted = true;
+    } else {
+      socket.emit('info', info);
+    }
   };
 
   // all files loaded, let's start the execution
@@ -260,6 +272,7 @@ var Karma = function(socket, context, navigator, location) {
   socket.on('execute', function(cfg) {
     // reset hasError and reload the iframe
     hasError = false;
+    startEmitted = false;
     self.config = cfg;
     context.src = CONTEXT_URL;
 
