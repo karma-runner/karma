@@ -42,6 +42,7 @@
     "Ethan J. Brown <ethan_j_brown@hotmail.com>",
     "Bulat Shakirzyanov <mallluhuct@gmail.com>",
     "rdodev <rubenoz@gmail.com>",
+    "Karolis Narkevicius <karolis.n@gmail.com>",
     "Kevin Ortman <kevin_ortman@msn.com>",
     "Marko Anastasov <marko@renderedtext.com>",
     "Matias Niemelä <matias@yearofmoo.com>",
@@ -68,6 +69,7 @@
     "toran billups <toranb@gmail.com>",
     "Andy Joslin <andytjoslin@gmail.com>",
     "AvnerCohen <israbirding@gmail.com>",
+    "Breno Calazans <breno@vtex.com.br>",
     "Brian Ford <btford@umich.edu>",
     "Chad Smith <chad@configit.com>",
     "Chris Dawson <xrdawson@gmail.com>",
@@ -83,8 +85,7 @@
     "Igor Minar <igor@angularjs.org>",
     "James Ford <jford@psyked.co.uk>",
     "James Shore <jshore@jamesshore.com>",
-    "Julian Connor <julian.connor@venmo.com>",
-    "Karolis Narkevicius <karolis.n@gmail.com>"
+    "Julian Connor <julian.connor@venmo.com>"
   ],
   "dependencies": {
     "di": "~0.0.1",
