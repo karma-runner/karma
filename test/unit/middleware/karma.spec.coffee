@@ -77,6 +77,25 @@ describe 'middleware.karma', ->
 
     callHandlerWith '/'
 
+  it 'should serve client.html when requested with absoluteURI', (done) ->
+    handler = createKarmaMiddleware null, serveFile, '/base', '/'
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, 'CLIENT HTML'
+      done()
+
+    callHandlerWith 'http://localhost/'
+
+  it 'should serve client.html when requested with absoluteURI and specified port', (done) ->
+    handler = createKarmaMiddleware null, serveFile, '/base', '/'
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, 'CLIENT HTML'
+      done()
+
+    callHandlerWith 'http://localhost:9876/'
 
   it 'should serve /?id=xxx', (done) ->
     handler = createKarmaMiddleware null, serveFile, '/base', '/'
