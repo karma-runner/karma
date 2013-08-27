@@ -1,3 +1,17 @@
+<a name="v0.11.0"></a>
+## v0.11.0 (2013-08-26)
+
+
+#### Bug Fixes
+
+* support reconnecting for manually captured browsers ([a8ac6d2d](http://github.com/karma-runner/karma/commit/a8ac6d2d86cad3898d21f019b6fc0a5a2b99cd00))
+* **reporter:** print browser stats immediately after it finishes ([65202d87](http://github.com/karma-runner/karma/commit/65202d870fa602e70483aeebbf87d0e11d6c1017))
+
+
+#### Features
+
+* don't wait for all browsers and start executing immediately ([8647266f](http://github.com/karma-runner/karma/commit/8647266fd592fe245aaf2be964319d3026432e33), closes [#57](http://github.com/karma-runner/karma/issues/57))
+
 <a name="v0.10.2"></a>
 ### v0.10.2 (2013-08-21)
 
