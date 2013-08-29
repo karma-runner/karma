@@ -77,7 +77,7 @@ files = [
 ];
 
 // change to
-module.export = function(config) {
+module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
     files: ['*.js']
