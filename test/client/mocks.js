@@ -28,6 +28,10 @@ var MockSocket = function() {
 
   this.socket = {transport: {name: 'websocket'}};
 
+  this.disconnect = function() {
+    this.emit('disconnect');
+  };
+
   // MOCK API
   this._setTransportNameTo = function(transportName) {
     this.socket.transport.name = transportName;

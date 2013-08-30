@@ -9,7 +9,9 @@ var Karma = function(socket, context, navigator, location) {
   var startEmitted = false;
   var store = {};
   var self = this;
-  var browserId = (location.search.match(/\?id=(.*)/) || [])[1] || util.generateId('manual-');
+  var queryParams = util.parseQueryParams(location.search);
+  var browserId = queryParams.id || util.generateId('manual-');
+  var returnUrl = queryParams.return_url || null;
 
   var resultsBufferLimit = 1;
   var resultsBuffer = [];
@@ -127,7 +129,12 @@ var Karma = function(socket, context, navigator, location) {
     // tests could run in the same event loop, we wouldn't notice.
     setTimeout(function() {
       socket.emit('complete', result || {});
-      clearContext();
+      if (returnUrl) {
+        socket.disconnect();
+        location.href = returnUrl;
+      } else {
+        clearContext();
+      }
     }, 0);
   };
 

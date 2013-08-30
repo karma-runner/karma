@@ -227,5 +227,18 @@ describe('Karma', function() {
       k.complete();
       expect(spyResult).toHaveBeenCalled();
     });
+
+
+    it('should disconnect navigate the client to return_url if specified', function() {
+      windowLocation.search = '?id=567&return_url=http://return.com';
+      socket = new MockSocket();
+      k = new Karma(socket, {}, windowNavigator, windowLocation);
+
+      spyOn(socket, 'disconnect');
+
+      k.complete();
+      expect(socket.disconnect).toHaveBeenCalled();
+      expect(windowLocation.href).toBe('http://return.com');
+    });
   });
 });
