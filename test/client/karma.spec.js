@@ -201,4 +201,31 @@ describe('Karma', function() {
       expect(k.store('one.array')).not.toBe(array);
     });
   });
+
+
+  describe('complete', function() {
+
+    beforeEach(function() {
+      spyOn(window, 'setTimeout').andCallFake(function(fn) {
+        fn();
+      });
+    });
+
+    it('should clean the result buffer before completing', function() {
+      var spyResult = jasmine.createSpy('onResult');
+      socket.on('result', spyResult);
+
+      setTransportTo('xhr-polling');
+
+      // emit 40 results
+      for (var i = 0; i < 40; i++) {
+        k.result({id: i});
+      }
+
+      expect(spyResult).not.toHaveBeenCalled();
+
+      k.complete();
+      expect(spyResult).toHaveBeenCalled();
+    });
+  });
 });
