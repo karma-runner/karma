@@ -96,6 +96,13 @@ describe 'launcher', ->
         expect(l.kill 'weid-id', done).to.equal false
         expect(browser.kill).not.to.have.been.called
 
+      it 'should not resolve callback if none was defined', (done) ->
+        l.launch ['Fake']
+        browser = FakeBrowser._instances.pop()
+
+        expect(l.kill 'weid-id').to.equal false
+        process.nextTick ->
+          done()
 
     describe 'killAll', ->
       exitSpy = null
