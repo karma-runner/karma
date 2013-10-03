@@ -112,6 +112,18 @@ it again and, after three attempts to capture it, Karma will give up.
 **Description:**  Enable or disable colors in the output (reporters and logs).
 
 
+## disconnectTolerance
+**Type:** Number
+
+**Default:** `0`
+
+**Description:** The number of disconnections tolerated.
+
+The `disconnectTolerance` value represents the maximum number of tries a browser will attempt in case of disconnection.
+Usually any disconnection is considered as a failure, but this option allows to define a tolerance level when there is
+a flaky network link between the karma server and the browsers.
+
+
 ## exclude
 **Type:** Array
 
