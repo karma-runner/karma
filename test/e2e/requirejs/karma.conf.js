@@ -26,10 +26,6 @@ module.exports = function(config) {
     port: 9876,
 
 
-    // cli runner port
-    runnerPort: 9100,
-
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
 
@@ -50,7 +46,7 @@ module.exports = function(config) {
     // - Opera
     // - Safari
     // - PhantomJS
-    browsers: ['Chrome'],
+    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
 
 
     // Continuous Integration mode

@@ -5,7 +5,7 @@ describe 'launchers Base', ->
   fsMock = nodeMocks.fs
   path = require 'path'
 
-  fakeTimer = null
+  setTimeoutMock = null
 
   mockSpawn = sinon.spy (cmd, args) ->
     process = new events.EventEmitter
@@ -36,13 +36,14 @@ describe 'launchers Base', ->
       env:
         TMP: '/tmp'
       nextTick: process.nextTick
-    setTimeout: timer.setTimeout
+    setTimeout: (fn, delay) -> setTimeoutMock fn, delay
 
 
   m = loadFile __dirname + '/../../../lib/launchers/Base.js', mocks, globals
 
 
   beforeEach ->
+    setTimeoutMock = sinon.stub().callsArg 0
     mockSpawn.reset()
     mockSpawn._processes = []
     mockRimraf.reset()
@@ -63,7 +64,7 @@ describe 'launchers Base', ->
       sinon.stub browser, '_onTimeout'
 
       browser.start '/some'
-      expect(timer.setTimeout).not.to.have.been.called
+      expect(setTimeoutMock).not.to.have.been.called
       expect(browser._onTimeout).not.to.have.been.called
 
 
@@ -97,6 +98,22 @@ describe 'launchers Base', ->
 
       # do not kill already dead process
       expect(spawnProcess.kill).to.not.have.been.called
+
+
+    it 'should remove quotes from the cmd', ->
+      browser = new m.BaseBrowser 123
+
+      browser.DEFAULT_CMD = darwin: '"/bin/brow ser"'
+      browser.start '/url'
+      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
+
+      browser.DEFAULT_CMD = darwin: '\'bin/brow ser\''
+      browser.start '/url'
+      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
+
+      browser.DEFAULT_CMD = darwin: '`bin/brow ser`'
+      browser.start '/url'
+      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
 
 
   describe 'kill', ->
@@ -159,7 +176,7 @@ describe 'launchers Base', ->
       browserProcess = mockSpawn._processes.shift()
 
       # timeout
-      expect(timer.setTimeout).to.have.been.called
+      expect(setTimeoutMock).to.have.been.called
 
       # expect killing browser
       expect(browserProcess.kill).to.have.been.called
@@ -189,7 +206,7 @@ describe 'launchers Base', ->
       browserProcess = mockSpawn._processes.shift()
 
       # timeout
-      expect(timer.setTimeout).to.have.been.called
+      expect(setTimeoutMock).to.have.been.called
 
       # expect killing browser
       expect(browserProcess.kill).to.have.been.called
@@ -204,7 +221,7 @@ describe 'launchers Base', ->
       browserProcess = mockSpawn._processes.shift()
 
       # timeout
-      expect(timer.setTimeout).to.have.been.called
+      expect(setTimeoutMock).to.have.been.called
 
       # expect killing browser
       expect(browserProcess.kill).to.have.been.called
@@ -222,7 +239,7 @@ describe 'launchers Base', ->
       browserProcess = mockSpawn._processes.shift()
 
       # timeout
-      expect(timer.setTimeout).to.have.been.called
+      expect(setTimeoutMock).to.have.been.called
 
       # expect killing browser
       expect(browserProcess.kill).to.have.been.called

@@ -16,14 +16,14 @@ describe 'launcher', ->
     constructor: (@id, @name, baseBrowserDecorator) ->
       baseBrowserDecorator @
       FakeBrowser._instances.push @
-      sinon.stub @, 'start'
+      sinon.stub @, 'start', -> @state = 1 # BEING_CAPTURED
       sinon.stub @, 'kill'
 
   class ScriptBrowser
     constructor: (@id, @name, baseBrowserDecorator) ->
       baseBrowserDecorator @
       ScriptBrowser._instances.push @
-      sinon.stub @, 'start'
+      sinon.stub @, 'start', -> @state = 1 # BEING_CAPTURED
       sinon.stub @, 'kill'
 
 
@@ -76,6 +76,28 @@ describe 'launcher', ->
 
 
     describe 'kill', ->
+      it 'should kill browser with given id', ->
+        killSpy = sinon.spy()
+
+        l.launch ['Fake']
+        browser = FakeBrowser._instances.pop()
+
+        l.kill browser.id, killSpy
+        expect(browser.kill).to.have.been.called
+
+        browser.kill.invokeCallback()
+        expect(killSpy).to.have.been.called
+
+
+      it 'should return false if browser does not exist, but still resolve the callback', (done) ->
+        l.launch ['Fake']
+        browser = FakeBrowser._instances.pop()
+
+        expect(l.kill 'weid-id', done).to.equal false
+        expect(browser.kill).not.to.have.been.called
+
+
+    describe 'killAll', ->
       exitSpy = null
 
       beforeEach ->
@@ -83,7 +105,7 @@ describe 'launcher', ->
 
       it 'should kill all running processe', ->
         l.launch ['Fake', 'Fake'], 'localhost', 1234
-        l.kill()
+        l.killAll()
 
         browser = FakeBrowser._instances.pop()
         expect(browser.kill).to.have.been.called
@@ -94,7 +116,7 @@ describe 'launcher', ->
 
       it 'should call callback when all processes killed', ->
         l.launch ['Fake', 'Fake'], 'localhost', 1234
-        l.kill exitSpy
+        l.killAll exitSpy
 
         expect(exitSpy).not.to.have.been.called
 
@@ -111,7 +133,7 @@ describe 'launcher', ->
 
 
       it 'should call callback even if no browsers lanunched', (done) ->
-        l.kill done
+        l.killAll done
 
 
     describe 'areAllCaptured', ->

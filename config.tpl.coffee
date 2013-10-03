@@ -27,9 +27,6 @@ module.exports = (config) ->
     # web server port
     port: 9876
 
-    # cli runner port
-    runnerPort: 9100
-
     # enable / disable colors in the output (reporters and logs)
     colors: true
 

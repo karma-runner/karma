@@ -1,6 +1,4 @@
 module.exports = function(grunt) {
-  var TRAVIS = process.env.TRAVIS;
-  var BROWSERS = TRAVIS ? 'Firefox' : 'Chrome';
 
   /**
    * Run tests
@@ -45,10 +43,12 @@ module.exports = function(grunt) {
       var tests = grunt.file.expand(this.data);
       var processToKill;
       var args = [
-        'start', null, '--single-run', '--no-auto-watch', '--browsers=' + BROWSERS
+        'start', null, '--single-run', '--no-auto-watch'
       ];
 
+
       var next = function(err, result, code) {
+        var testArgs = [];
         if (processToKill) {
           processToKill.kill();
         }
@@ -66,7 +66,38 @@ module.exports = function(grunt) {
               }, function() {});
             }
 
-            spawnKarma(args, next);
+            if (args[1] === 'test/e2e/pass-opts/karma.conf.js') {
+              var serverArgs = args.slice();
+              serverArgs.splice(args.indexOf('--single-run'), 1);
+              var done = false;
+              var cont = function() {
+                if (!done) {
+                  done = true;
+                  next.apply(this, arguments);
+                }
+              };
+
+              processToKill = grunt.util.spawn({
+                cmd: node,
+                args: [cmd].concat(serverArgs),
+                opts: {stdio: [process.stdin, 'pipe', process.stderr]}
+              }, cont);
+
+              var onData = function(data) {
+                data = data.toString();
+                // wait for the browser to connect
+                if (/Connected on socket/.test(data)) {
+                  processToKill.stdout.removeListener('data', onData);
+                  spawnKarma(['run', '--','arg1','arg2','arg3'], cont);
+                } else {
+                  console.log(data);
+                }
+              };
+
+              processToKill.stdout.on('data', onData);
+            } else {
+              spawnKarma(args.concat(testArgs), next);
+            }
           } else {
             specDone();
           }
@@ -90,8 +121,8 @@ module.exports = function(grunt) {
 
     // CLIENT unit tests
     if (this.target === 'client') {
-      return exec(['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots',
-          '--browsers=' + BROWSERS], 'Client unit tests failed.');
+      return exec(['start', this.data, '--single-run', '--no-auto-watch', '--reporters=dots'],
+          'Client unit tests failed.');
     }
 
     // UNIT tests or TASK tests

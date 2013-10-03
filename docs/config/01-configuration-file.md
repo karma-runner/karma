@@ -1,15 +1,18 @@
-In order to serve you well, Karma needs to know about your
-project. That's done through a configuration file.
+**In order to serve you well, Karma needs to know about your project in order to test it
+and this is done via a configuration file. This page explains how to create such a configuration file.**
 
-Karma config files are Node modules which are
-[required](http://nodejs.org/api/modules.html#modules_module_require_id) and
-are expected to export a function which accepts one argument -- Karma dsl
-object. Karma DSL object exposes [configure] method which can be called to set
-karma properties. For example:
+
+Note: Most of the framework adapters, reporters, preprocessors and launchers needs to be loaded as [plugins].
+
+
+The Karma configuration file can be written in JavaScript or CoffeeScript and is loaded as a regular Node.js module.
+Within the configuration file, the configuration code is put together by setting `module.exports` to point to a function
+which accepts one argument: the configuration object.
 
 ```javascript
-module.exports = function(karma) {
-  karma.configure({
+// an example karma.conf.js
+module.exports = function(config) {
+  config.set({
     basePath: '../..',
     frameworks: ['jasmine'],
     //...
@@ -17,11 +20,19 @@ module.exports = function(karma) {
 };
 ```
 
-For an example configuration, see [test/client/karma.conf.js]
-which contains most of the options.
+```coffeescript
+# an example karma.conf.coffee
+module.exports = (config) ->
+  config.set
+    basePath: '../..'
+    frameworks: ['jasmine']
+    # ...
+```
 
-This document contains a list of all available options, as well as
-their command line equivalents.
+To see a more detailed example configuration file, see [test/client/karma.conf.js] which contains most of
+the available configuration options.
+
+The rest of the document contains a list of all available configuration options...
 
 ## autoWatch
 **Type:** Boolean
@@ -34,15 +45,25 @@ their command line equivalents.
   whenever one of these files changes.
 
 
+## autoWatchBatchDelay
+**Type:** Number
+
+**Default:**  `250`
+
+**Description:** When Karma is watching the files for changes, it tries to batch
+multiple changes into a single run so that the test runner doesn't try to start and restart running
+tests more than it should. The configuration setting tells Karma how long to wait (in milliseconds) after any changes
+have occurred before starting the test process again.
+
+
 ## basePath
 **Type:** String
 
 **Default:** `''`
 
-**Description:**  Base path, that will be used to resolve all relative
-  paths defined in `files` and `exclude`. If `basePath` is a
-  relative path, it will be resolved to the `__dirname` of the
-  configuration file.
+**Description:** The root path location that will be used to resolve all relative
+paths defined in `files` and `exclude`. If the `basePath` configuration is a
+relative path then it will be resolved to the `__dirname` of the configuration file.
 
 
 ## browsers
@@ -54,19 +75,19 @@ their command line equivalents.
 
 **Possible Values:**
 
-  * `Chrome`
-  * `ChromeCanary`
-  * `Firefox`
-  * `Opera`
-  * `Safari`
-  * `PhantomJS`
+  * `Chrome` (comes installed with Karma)
+  * `ChromeCanary` (comes installed with Karma)
+  * `PhantomJS` (comes installed with Karma)
+  * `Firefox` (requires karma-firefox-launcher plugin)
+  * `Opera` (requires karma-opera-launcher plugin)
+  * `Safari` (requires karma-ie-launcher plugin)
 
-**Description:**
-  A list of browsers to launch and capture. Once Karma is shut down, it will shut down these
-  browsers as well. You can capture any browser manually just by opening a url, where Karma's
-  web server is listening.
+**Description:** A list of browsers to launch and capture. When Karma starts up, it will also start up each browser
+which is placed within this setting.  Once Karma is shut down, it will shut down these
+browsers as well. You can capture any browser manually just by opening the browser and visiting the URL where
+the Karma web server is listening (by default it is `http://localhost:9876/`).
 
-See [config/browsers] for more.
+See [config/browsers] for more. Additional launchers can be defined through [plugins].
 
 
 ## captureTimeout
@@ -76,8 +97,9 @@ See [config/browsers] for more.
 
 **Description:** Timeout for capturing a browser (in ms).
 
+The `captureTimeout` value represents the maximum boot-up time allowed for a browser to start and connect to Karma.
 If any browser does not get captured within the timeout, Karma will kill it and try to launch
-it again. After three attempts to capture it, Karma will give up.
+it again and, after three attempts to capture it, Karma will give up.
 
 
 ## colors
@@ -108,6 +130,18 @@ it again. After three attempts to capture it, Karma will give up.
 See [config/files] for more information.
 
 
+## frameworks
+**Type:** Array
+
+**Default:** `[]`
+
+**Description:** List of frameworks you want to use. Typically, you will set this to `['jasmine']`, `['mocha']` or `['qunit']`...
+
+Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via NPM).
+
+Additional information can be found in [plugins].
+
+
 ## hostname
 **Type:** String
 
@@ -119,17 +153,17 @@ See [config/files] for more information.
 ## logLevel
 **Type:** Constant
 
-**Default:** `karma.LOG_INFO`
+**Default:** `config.LOG_INFO`
 
 **CLI:** `--log-level debug`
 
 **Possible values:**
 
-  * `karma.LOG_DISABLE`
-  * `karma.LOG_ERROR`
-  * `karma.LOG_WARN`
-  * `karma.LOG_INFO`
-  * `karma.LOG_DEBUG`
+  * `config.LOG_DISABLE`
+  * `config.LOG_ERROR`
+  * `config.LOG_WARN`
+  * `config.LOG_INFO`
+  * `config.LOG_DEBUG`
 
 **Description:** Level of logging.
 
@@ -141,6 +175,19 @@ See [config/files] for more information.
 
 **Description:** A list of log appenders to be used. See the
   documentation for [log4js] for more information.
+
+
+## plugins
+**Type:** Array
+
+**Default:** `['karma-*']`
+
+**Description:** List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object.
+By default, Karma loads all siblink modules, that match `karma-*`.
+
+Please note just about all plugins in Karma require an additional library to be installed (via NPM).
+
+See [plugins] for more information.
 
 
 ## port
@@ -158,7 +205,14 @@ See [config/files] for more information.
 
 **Default:** `{'**/*.coffee': 'coffee'}`
 
-**Description:** A map of preprocessors to use. See [config/preprocessors] for more.
+**Description:** A map of preprocessors to use.
+
+Preprocessors can be loaded through [plugins]. 
+
+Please note just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
+require an additional library to be installed (via NPM).
+
+Click <a href="preprocessors.html">here</a> for more information.
 
 
 ## proxies
@@ -176,12 +230,12 @@ See [config/files] for more information.
   },
   ```
 
-## proxyValidateSSL 
-**Type:** Boolean 
+## proxyValidateSSL
+**Type:** Boolean
 
 **Default:**   `true`
 
-**Description:** Should https proxies error on invalid SSL cert.
+**Description:** Whether or not karma or any browsers should raise an error when an inavlid SSL certificate is found.
 
 ## reportSlowerThan
 **Type:** Number
@@ -189,7 +243,7 @@ See [config/files] for more information.
 **Default:** `0`
 
 **Description:** Karma will report all the tests that are slower than given time limit (in ms).
-This is disabled by default.
+This is disabled by default (since the default value is 0).
 
 
 ## reporters
@@ -203,22 +257,12 @@ This is disabled by default.
 
   * `dots`
   * `progress`
-  * `junit`
-  * `growl`
-  * `coverage`
 
 **Description:** A list of reporters to use.
 
+Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be loaded through [plugins].
 
-## runnerPort
-**Type:** Number
-
-**Default:** `9100`
-
-**CLI:** `--runner-port 9100`
-
-**Description:** The port where the server will be listening. This is only used when you are using
-`karma run`.
+Please note just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
 
 
 ## singleRun
@@ -230,8 +274,8 @@ This is disabled by default.
 
 **Description:** Continuous Integration mode.
 
-If `true`, it captures browsers, runs tests and exits with `0` exit code (if all tests passed) or
-`1` exit code (if any test failed).
+If `true`, Karma will start and capture all configured browsers, run tests and then exit with an exit code of `0` or `1` depending
+on whether all tests passed or any tests failed.
 
 
 ## transports
@@ -239,7 +283,9 @@ If `true`, it captures browsers, runs tests and exits with `0` exit code (if all
 
 **Default:** `['websocket', 'flashsocket', 'xhr-polling', 'jsonp-polling']`
 
-**Description:** An array of allowed transport methods between the server and the client. This is configuration of [socket.io](https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO).
+**Description:** An array of allowed transport methods between the browser and testing server. This configuration setting
+is handed off to [socket.io](https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO) (which manages the communication
+between browsers and the testing server).
 
 
 ## urlRoot
@@ -253,7 +299,7 @@ All the Karma's urls get prefixed with the `urlRoot`. This is helpful when using
 sometimes you might want to proxy a url that is already taken by Karma.
 
 
-
+[plugins]: plugins.html
 [test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
 [config/files]: files.html
 [config/browsers]: browsers.html

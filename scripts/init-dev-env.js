@@ -4,6 +4,7 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
 var path = require('path');
+var rimraf = require('rimraf');
 
 var isWin = !!process.platform.match(/^win/);
 
@@ -11,7 +12,7 @@ var pathTo = function(p) {
   return path.resolve(__dirname + '/../' + p);
 };
 
-var validateCommitPath = pathTo('scripts/validate-commit-msg.js');
+var scriptPath = pathTo('node_modules/grunt-conventional-changelog/lib/validate-commit-msg.js');
 var gitHookPath = pathTo('.git/hooks/commit-msg');
 
 var gitHookSetup = function() {
@@ -21,8 +22,8 @@ var gitHookSetup = function() {
     console.log('Existing link removed:', gitHookPath);
   }
 
-  console.log('Adding symbolic link: %s linked to %s', validateCommitPath, gitHookPath);
-  fs.symlinkSync(validateCommitPath, gitHookPath, 'file');
+  console.log('Adding symbolic link: %s linked to %s', scriptPath, gitHookPath);
+  fs.symlinkSync(scriptPath, gitHookPath, 'file');
 };
 
 var installGruntCli = function(callback) {
@@ -71,6 +72,12 @@ var installDependencies = function() {
       console.error('Error installing karma dependencies: ' + error);
     }
 
+    // Remove the extra karma in node_modules/karma.
+    // This is Karma from NPM, installed because plugins have Karma as a peer dependency and
+    // at the same time, Karma uses a local instance if present and therefore running `karma`
+    // in the working directory would cause using the Karma from NPM, rather than the Karma from
+    // the working space.
+    rimraf(pathTo('node_modules/karma'));
   });
 
   install.stdout.pipe(process.stdout);

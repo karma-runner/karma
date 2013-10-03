@@ -1,8 +1,3 @@
-/**
- Mocks for testing static/karma.js
- Needs to be loaded before karma.js
- */
-
 var Emitter = function() {
   var listeners = {};
 
@@ -27,10 +22,21 @@ var Emitter = function() {
   };
 };
 
-var MockSocket = Emitter;
 
-var io = {
-  connect: function() {
-    return new MockSocket();
-  }
+var MockSocket = function() {
+  Emitter.call(this);
+
+  this.socket = {transport: {name: 'websocket'}};
+
+  this.disconnect = function() {
+    this.emit('disconnect');
+  };
+
+  // MOCK API
+  this._setTransportNameTo = function(transportName) {
+    this.socket.transport.name = transportName;
+  };
 };
+
+
+exports.Socket = MockSocket;

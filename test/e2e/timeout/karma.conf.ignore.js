@@ -24,10 +24,6 @@ module.exports = function(config) {
     port: 8080,
 
 
-    // cli runner port
-    runnerPort: 9100,
-
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
 
@@ -50,8 +46,6 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [__dirname + '/fake-browser.sh'],
-
-    captureTimeout: 1000,
 
 
     // Continuous Integration mode

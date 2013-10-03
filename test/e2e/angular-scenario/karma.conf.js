@@ -14,7 +14,7 @@ module.exports = function(config) {
       '/': 'http://localhost:8000/test/e2e/angular-scenario/'
     },
 
-    browsers: ['Chrome'],
+    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
 
     reporters: ['dots'],
 

@@ -106,3 +106,59 @@ describe 'events', ->
       emitter.emit 'bar'
 
       expect(object.onFoo).to.have.been.called
+
+  #============================================================================
+  # events.bufferEvents
+  #============================================================================
+  describe 'bufferEvents', ->
+
+    it 'should reply all events', ->
+      spy = sinon.spy()
+      replyEvents = e.bufferEvents emitter, ['foo', 'bar']
+
+      emitter.emit 'foo', 'foo-1'
+      emitter.emit 'bar', 'bar-2'
+      emitter.emit 'foo', 'foo-3'
+
+      emitter.on 'foo', spy
+      emitter.on 'bar', spy
+
+      replyEvents()
+      expect(spy).to.have.been.calledThrice
+      expect(spy.firstCall).to.have.been.calledWith 'foo-1'
+      expect(spy.secondCall).to.have.been.calledWith 'bar-2'
+      expect(spy.thirdCall).to.have.been.calledWith 'foo-3'
+
+
+    it 'should not buffer after reply()', ->
+      spy = sinon.spy()
+      replyEvents = e.bufferEvents emitter, ['foo', 'bar']
+      replyEvents()
+
+      emitter.emit 'foo', 'foo-1'
+      emitter.emit 'bar', 'bar-2'
+      emitter.emit 'foo', 'foo-3'
+
+      emitter.on 'foo', spy
+      emitter.on 'bar', spy
+
+      replyEvents()
+      expect(spy).to.not.have.been.caleed
+
+
+    it 'should work with overriden "emit" method', ->
+      # This is to make sure it works with socket.io sockets,
+      # which overrides the emit() method to send the event through the wire,
+      # instead of local emit.
+      originalEmit = emitter.emit
+      emitter.emit = -> null
+
+      spy = sinon.spy()
+      replyEvents = e.bufferEvents emitter, ['foo']
+
+      originalEmit.apply emitter, ['foo', 'whatever']
+
+      emitter.on 'foo', spy
+
+      replyEvents()
+      expect(spy).to.have.been.calledWith 'whatever'

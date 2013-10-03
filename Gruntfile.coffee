@@ -15,22 +15,29 @@ module.exports = (grunt) ->
 
   # Project configuration.
   grunt.initConfig
+    pkg: grunt.file.readJSON 'package.json'
     pkgFile: 'package.json'
 
     files:
       server: ['lib/**/*.js']
-      client: ['static/karma.src.js']
-      grunt: ['grunt.js', 'tasks/**/*.js']
+      client: ['client/**/*.js']
+      grunt: ['grunt.js', 'tasks/*.js']
       scripts: ['scripts/*.js']
 
-    build:
-      client: '<%= files.client %>'
+    browserify:
+      client:
+        files:
+          'static/karma.js': ['client/main.js']
 
     test:
       unit: 'simplemocha:unit'
-      tasks: 'simplemocha:tasks'
       client: 'test/client/karma.conf.js'
       e2e: ['test/e2e/*/karma.conf.js', 'test/e2e/*/karma.conf.coffee']
+
+    watch:
+      client:
+        files: '<%= files.client %>'
+        tasks: 'browserify:client'
 
 
     simplemocha:
@@ -41,11 +48,6 @@ module.exports = (grunt) ->
         src: [
           'test/unit/mocha-globals.coffee'
           'test/unit/**/*.coffee'
-        ]
-      tasks:
-        src: [
-          'test/tasks/mocha-globals.coffee'
-          'test/tasks/**/*.coffee'
         ]
 
     # JSHint options
@@ -103,15 +105,16 @@ module.exports = (grunt) ->
         requires: ['build']
         abortIfDirty: true
         tag: ->
-          pkg = grunt.file.readJSON grunt.config 'pkgFile'
-          minor = parseInt pkg.version.split('.')[1], 10
+          minor = parseInt grunt.config('pkg.version').split('.')[1], 10
           if (minor % 2) then 'canary' else 'latest'
+
     'npm-contributors':
       options:
         commitMessage: 'chore: update contributors'
 
     bump:
       options:
+        updateConfigs: ['pkg']
         commitFiles: ['package.json', 'CHANGELOG.md']
         commitMessage: 'chore: release v%VERSION%'
         pushTo: 'upstream'
@@ -120,16 +123,23 @@ module.exports = (grunt) ->
   grunt.loadTasks 'tasks'
   grunt.loadNpmTasks 'grunt-simple-mocha'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-bump'
   grunt.loadNpmTasks 'grunt-npm'
+  grunt.loadNpmTasks 'grunt-auto-release'
+  grunt.loadNpmTasks 'grunt-conventional-changelog'
+  grunt.loadNpmTasks 'grunt-browserify'
 
-  grunt.registerTask 'default', ['build', 'test', 'jshint', 'coffeelint']
+  grunt.registerTask 'build', ['browserify:client']
+  grunt.registerTask 'default', ['build', 'test', 'lint']
+  grunt.registerTask 'lint', ['jshint', 'coffeelint']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
     grunt.task.run [
       'npm-contributors'
+      "bump:#{type||'patch'}:bump-only"
       'build'
-      "changelog:#{type||'patch'}"
-      "bump:#{type||'patch'}"
+      'changelog'
+      'bump-commit'
       'npm-publish'
     ]
