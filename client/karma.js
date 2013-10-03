@@ -7,6 +7,7 @@ var util = require('./util');
 var Karma = function(socket, context, navigator, location) {
   var hasError = false;
   var startEmitted = false;
+  var hasRegistered = false;
   var store = {};
   var self = this;
   var queryParams = util.parseQueryParams(location.search);
@@ -195,19 +196,23 @@ var Karma = function(socket, context, navigator, location) {
 
   // report browser name, id
   socket.on('connect', function() {
-    var transport = socket.socket.transport.name;
+    // prevent double registration on reconnect
+    if (!hasRegistered) {
+        hasRegistered = true;
+        var transport = socket.socket.transport.name;
 
-    // TODO(vojta): make resultsBufferLimit configurable
-    if (transport === 'websocket' || transport === 'flashsocket') {
-      resultsBufferLimit = 1;
-    } else {
-      resultsBufferLimit = 50;
+        // TODO(vojta): make resultsBufferLimit configurable
+        if (transport === 'websocket' || transport === 'flashsocket') {
+          resultsBufferLimit = 1;
+        } else {
+          resultsBufferLimit = 50;
+        }
+
+        socket.emit('register', {
+          name: navigator.userAgent,
+          id: browserId
+        });
     }
-
-    socket.emit('register', {
-      name: navigator.userAgent,
-      id: browserId
-    });
   });
 };
 
