@@ -112,6 +112,14 @@ it again and, after three attempts to capture it, Karma will give up.
 **Description:**  Enable or disable colors in the output (reporters and logs).
 
 
+## disableCompression
+**Type:** Boolean
+
+**Default:**   `false`
+
+**Description:**  Enable or disable gzip compression on the server.
+
+
 ## exclude
 **Type:** Array
 
