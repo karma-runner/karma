@@ -80,7 +80,8 @@ relative path then it will be resolved to the `__dirname` of the configuration f
   * `PhantomJS` (comes installed with Karma)
   * `Firefox` (requires karma-firefox-launcher plugin)
   * `Opera` (requires karma-opera-launcher plugin)
-  * `Safari` (requires karma-ie-launcher plugin)
+  * `Internet Explorer` (requires karma-ie-launcher plugin)
+  * `Safari` (requires karma-safari-launcher plugin)
 
 **Description:** A list of browsers to launch and capture. When Karma starts up, it will also start up each browser
 which is placed within this setting.  Once Karma is shut down, it will shut down these
