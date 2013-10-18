@@ -38,6 +38,13 @@ describe('Karma', function() {
     expect(spyStart).not.toHaveBeenCalled();
   });
 
+  it('should never register twice', function() {
+      var spyInfo = jasmine.createSpy('onInfo');
+      socket.on('register', spyInfo);
+      socket.emit('connect');
+      socket.emit('connect');
+      expect(spyInfo.calls.length).toEqual(1);
+  });
 
   it('should remove reference to start even after syntax error', function() {
     k.error('syntax error', '/some/file.js', 11);
