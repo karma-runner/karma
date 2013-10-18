@@ -44,7 +44,7 @@ module.exports = (config) ->
     # - Opera
     # - Safari (only Mac)
     # - PhantomJS
-    # - IE (only Windows)
+    # - IE (only Windows - has to be installed separately with 'npm install karma-ie-launcher --save-dev')
     browsers: [%BROWSERS%]
 
     # If browser does not capture in given timeout [ms], kill it
