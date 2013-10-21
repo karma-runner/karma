@@ -95,3 +95,21 @@ describe 'watcher', ->
       expect(ignore '/some/files/deep/.npm').to.equal false
       expect(ignore '.#files.js').to.equal true
       expect(ignore '/some/files/deeper/nested/.#files.js').to.equal true
+
+    it 'should ignore patterns with watched: false', ->
+      ignore = m.createIgnore [], [{pattern: 'app/*.html', watched: false}]
+      expect(ignore 'app/app.html').to.equal true
+
+    it 'should not ignore patterns with watched: true', ->
+      ignore = m.createIgnore [], [{pattern: 'app/*.html', watched: true}]
+      expect(ignore 'app/app.html').to.equal false
+
+    it 'should combine exclude and patterns', ->
+      ignore = m.createIgnore ['app/*.ignoreme'], [
+        {pattern: 'app/*.html', watched: false},
+        {pattern: 'app/*.js', watched: true}]
+
+      expect(ignore 'app/please.ignoreme').to.equal true
+      expect(ignore 'app/dontwatch.html').to.equal true
+      expect(ignore 'app/dowatch.js').to.equal false
+
