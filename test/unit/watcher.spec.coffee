@@ -6,10 +6,6 @@ describe 'watcher', ->
   config = require '../../lib/config'
   m = null
 
-  # create an array of pattern objects from given strings
-  patterns = (strings...) ->
-    new config.createPatternObject(str) for str in strings
-
   beforeEach ->
     mocks_ = chokidar: mocks.chokidar
     m = mocks.loadFile __dirname + '/../../lib/watcher.js', mocks_
@@ -43,55 +39,76 @@ describe 'watcher', ->
       chokidarWatcher = new mocks.chokidar.FSWatcher
 
     it 'should watch all the patterns', ->
-      m.watchPatterns patterns('/some/*.js', '/a/*'), chokidarWatcher
+      m.watchPatterns ['/some/*.js', '/a/*'], chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some', '/a']
 
 
-    it 'should not watch urls', ->
-      m.watchPatterns patterns('http://some.com', '/a.*'), chokidarWatcher
-      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/']
-
-
     it 'should not watch the same path twice', ->
-      m.watchPatterns patterns('/some/a*.js', '/some/*.txt'), chokidarWatcher
+      m.watchPatterns ['/some/a*.js', '/some/*.txt'], chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
 
 
     it 'should not watch subpaths that are already watched', ->
-      m.watchPatterns patterns('/some/sub/*.js', '/some/a*.*'), chokidarWatcher
+      m.watchPatterns ['/some/sub/*.js', '/some/a*.*'], chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
 
 
     it 'should watch a file matching subpath directory', ->
       # regression #521
-      m.watchPatterns patterns('/some/test-file.js', '/some/test/**'), chokidarWatcher
+      m.watchPatterns ['/some/test-file.js', '/some/test/**'], chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/test-file.js', '/some/test']
 
 
-    it 'should not watch if watched false', ->
-      m.watchPatterns [
-        new config.Pattern('/some/*.js', true, true, false)
-        new config.Pattern('/some/sub/*.js')
-      ], chokidarWatcher
+  describe 'getWatchedPatterns', ->
 
-      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/sub']
+    it 'should return list of watched patterns (strings)', ->
+      watchedPatterns = m.getWatchedPatterns [
+        config.createPatternObject('/watched.js')
+        config.createPatternObject(pattern: 'non/*.js', watched: false)
+      ]
+      expect(watchedPatterns).to.deep.equal ['/watched.js']
 
 
   #============================================================================
   # ignore() [PRIVATE]
   #============================================================================
   describe 'ignore', ->
+    FILE_STAT =
+      isDirectory: -> false
+      isFile: -> true
+    DIRECTORY_STAT =
+      isDirectory: -> true
+      isFile: -> false
 
     it 'should ignore all files', ->
-      ignore = m.createIgnore ['**/*']
-      expect(ignore '/some/files/deep/nested.js').to.equal true
-      expect(ignore '/some/files').to.equal true
+      ignore = m.createIgnore ['**/*'], ['**/*']
+      expect(ignore '/some/files/deep/nested.js', FILE_STAT).to.equal true
+      expect(ignore '/some/files', FILE_STAT).to.equal true
 
 
     it 'should ignore .# files', ->
-      ignore = m.createIgnore ['**/.#*']
-      expect(ignore '/some/files/deep/nested.js').to.equal false
-      expect(ignore '/some/files').to.equal false
-      expect(ignore '/some/files/deep/.npm').to.equal false
-      expect(ignore '.#files.js').to.equal true
-      expect(ignore '/some/files/deeper/nested/.#files.js').to.equal true
+      ignore = m.createIgnore ['**/*'], ['**/.#*']
+      expect(ignore '/some/files/deep/nested.js', FILE_STAT).to.equal false
+      expect(ignore '/some/files', FILE_STAT).to.equal false
+      expect(ignore '/some/files/deep/.npm', FILE_STAT).to.equal false
+      expect(ignore '.#files.js', FILE_STAT).to.equal true
+      expect(ignore '/some/files/deeper/nested/.#files.js', FILE_STAT).to.equal true
+
+
+    it 'should ignore files that do not match any pattern', ->
+      ignore = m.createIgnore ['/some/*.js'], []
+      expect(ignore '/a.js', FILE_STAT).to.equal true
+      expect(ignore '/some.js', FILE_STAT).to.equal true
+      expect(ignore '/some/a.js', FILE_STAT).to.equal false
+
+
+    it 'should not ignore directories', ->
+      ignore = m.createIgnore ['**/*'], ['**/*']
+      expect(ignore '/some/dir', DIRECTORY_STAT).to.equal false
+
+
+    it 'should not ignore items without stat', ->
+      # before we know whether it's a directory or file, we can't ignore
+      ignore = m.createIgnore ['**/*'], ['**/*']
+      expect(ignore '/some.js', undefined).to.equal false
+      expect(ignore '/what/ever', undefined).to.equal false
