@@ -56,6 +56,11 @@ If grunt fails, make sure grunt-0.4x is installed: https://github.com/gruntjs/gr
 * Please follow [commit message conventions].
 * Send a pull request to the `master` branch.
 
+## Contributor License Agreement
+Please sign our Contributor License Agreement (CLA) before sending pull requests.
+For any code changes to be accepted, the CLA must be signed. It's a quick process, we promise!
+  * For individuals we have a [simple click-through form].
+  * For corporations we'll need you to print, sign and one of scan+email, fax or mail [the form].
 
 ## Additional Resources
 

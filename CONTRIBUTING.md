@@ -46,6 +46,10 @@ are some tips to get you started.
 
 ## Making and Submitting Changes
 
+* Please sign our Contributor License Agreement (CLA) before sending pull requests.
+  For any code changes to be accepted, the CLA must be signed. It's a quick process, we promise!
+  * For individuals we have a [simple click-through form].
+  * For corporations we'll need you to print, sign and one of scan+email, fax or mail [the form].
 * Checkout a new branch (usually based on `master`) and name it accordingly to what
   you intend to do
   * Features get the prefix `feature-`
@@ -103,3 +107,5 @@ $ grunt test:client
 [General GitHub documentation]: http://help.github.com/
 [GitHub pull request documentation]: http://help.github.com/send-pull-requests/
 [@JsKarma]: http://twitter.com/JsKarma
+[simple click-through form]: http://code.google.com/legal/individual-cla-v1.0.html
+[the form]: http://code.google.com/legal/corporate-cla-v1.0.html
