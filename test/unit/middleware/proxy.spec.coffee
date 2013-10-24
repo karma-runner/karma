@@ -27,7 +27,7 @@ describe 'middleware.proxy', ->
 
   it 'should proxy requests', (done) ->
     proxy = m.createProxyHandler mockProxy, {'/proxy': 'http://localhost:9000'}, true
-    proxy new httpMock.ServerRequest('/proxy/test.html'), response, nextSpy
+    proxy.middleware new httpMock.ServerRequest('/proxy/test.html'), response, nextSpy
 
     expect(nextSpy).not.to.have.been.called
     expect(requestedUrl).to.equal '/test.html'
@@ -40,7 +40,7 @@ describe 'middleware.proxy', ->
 
    it 'should enable https', (done) ->
     proxy = m.createProxyHandler mockProxy, {'/proxy': 'https://localhost:9000'}, true
-    proxy new httpMock.ServerRequest('/proxy/test.html'), response, nextSpy
+    proxy.middleware new httpMock.ServerRequest('/proxy/test.html'), response, nextSpy
 
     expect(nextSpy).not.to.have.been.called
     expect(requestedUrl).to.equal '/test.html'
@@ -53,7 +53,7 @@ describe 'middleware.proxy', ->
 
    it 'disable ssl validation', (done) ->
     proxy = m.createProxyHandler mockProxy, {'/proxy': 'https://localhost:9000'}, false
-    proxy new httpMock.ServerRequest('/proxy/test.html'), response, nextSpy
+    proxy.middleware new httpMock.ServerRequest('/proxy/test.html'), response, nextSpy
 
     expect(nextSpy).not.to.have.been.called
     expect(requestedUrl).to.equal '/test.html'
@@ -69,7 +69,7 @@ describe 'middleware.proxy', ->
       '/proxy': 'http://localhost:9000'
       '/static': 'http://gstatic.com'
     }, true
-    proxy new httpMock.ServerRequest('/static/test.html'), response, nextSpy
+    proxy.middleware new httpMock.ServerRequest('/static/test.html'), response, nextSpy
 
     expect(nextSpy).not.to.have.been.called
     expect(requestedUrl).to.equal '/test.html'
@@ -84,7 +84,7 @@ describe 'middleware.proxy', ->
       '/sub': 'http://localhost:9000'
       '/sub/some': 'http://gstatic.com/something'
     }, true
-    proxy new httpMock.ServerRequest('/sub/some/Test.html'), response, nextSpy
+    proxy.middleware new httpMock.ServerRequest('/sub/some/Test.html'), response, nextSpy
 
     expect(nextSpy).not.to.have.been.called
     expect(requestedUrl).to.equal '/something/Test.html'
@@ -97,14 +97,14 @@ describe 'middleware.proxy', ->
 
   it 'should call next handler if the path is not proxied', ->
     proxy = m.createProxyHandler mockProxy, {'/proxy': 'http://localhost:9000'}
-    proxy new httpMock.ServerRequest('/non/proxy/test.html'), response, nextSpy
+    proxy.middleware new httpMock.ServerRequest('/non/proxy/test.html'), response, nextSpy
 
     expect(nextSpy).to.have.been.called
 
 
   it 'should call next handler if no proxy defined', ->
     proxy = m.createProxyHandler mockProxy, {}
-    proxy new httpMock.ServerRequest('/non/proxy/test.html'), response, nextSpy
+    proxy.middleware new httpMock.ServerRequest('/non/proxy/test.html'), response, nextSpy
 
     expect(nextSpy).to.have.been.called
 
