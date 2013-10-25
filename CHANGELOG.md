@@ -1,3 +1,22 @@
+<a name="v0.11.1"></a>
+### v0.11.1 (2013-10-25)
+
+
+#### Bug Fixes
+
+* launcher kill method which was throwing an error if no callback was specified bu ([5439f1cb](http://github.com/karma-runner/karma/commit/5439f1cbbdce9de0c2193171f75798587221e257))
+* **static:** Use full height for the iFrame. Fix based on PR #714. ([f95daf3c](http://github.com/karma-runner/karma/commit/f95daf3ce0af11b3c58dc09ef852ef0378b484fd))
+* **watcher:**
+  * ignore double "add" events ([6cbaac7a](http://github.com/karma-runner/karma/commit/6cbaac7aba0534c9a7688f6953c61505fcd1289c))
+  * improve watching efficiency ([6a272aa5](http://github.com/karma-runner/karma/commit/6a272aa5763eb0c728b76adc3b12bb12abc1aaca), closes [#616](http://github.com/karma-runner/karma/issues/616))
+
+
+#### Features
+
+* redirect client to "return_url" if specified ([6af2c897](http://github.com/karma-runner/karma/commit/6af2c897f3b35060a146efdef7da597ba53d8cdd))
+* **config:** add usePolling config ([18514d63](http://github.com/karma-runner/karma/commit/18514d63534c82094b231eb1e0b0e41011519183))
+* **watcher:** ignore initial "add" events ([dde1da4c](http://github.com/karma-runner/karma/commit/dde1da4c78470fec3565920df418a3786fb57797))
+
 <a name="v0.11.0"></a>
 ## v0.11.0 (2013-08-26)
 
