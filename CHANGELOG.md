@@ -1,3 +1,19 @@
+<a name="v0.10.3"></a>
+### v0.10.3 (2013-10-25)
+
+
+#### Bug Fixes
+
+* **static:** Use full height for the iFrame. Fix based on PR #714. ([ca98f3a4](http://github.com/karma-runner/karma/commit/ca98f3a4eafaf9aa3e84636364d108ffa49bc9e3))
+* **watcher:**
+  * ignore double "add" events ([8a55901b](http://github.com/karma-runner/karma/commit/8a55901be322586b3a747be7c36b2dd6f6dd9923))
+  * improve watching efficiency ([1e4a66d3](http://github.com/karma-runner/karma/commit/1e4a66d33aeaec7900baeee0867679b9cbc3e535), closes [#616](http://github.com/karma-runner/karma/issues/616))
+
+
+#### Features
+
+* **watcher:** ignore initial "add" events ([7ab9e7bd](http://github.com/karma-runner/karma/commit/7ab9e7bd442ac4fdad6eadb37dbb69f1837c6434))
+
 <a name="v0.10.2"></a>
 ### v0.10.2 (2013-08-21)
 
