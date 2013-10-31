@@ -210,20 +210,6 @@ describe 'config', ->
 
   describe 'normalizeConfig', ->
 
-    it 'should resolve junitReporter.outputFile to basePath and CWD', ->
-      config = normalizeConfigWithDefaults
-        basePath: '/some/base'
-        junitReporter: {outputFile: 'file.xml'}
-      expect(config.junitReporter.outputFile).to.equal resolveWinPath('/some/base/file.xml')
-
-
-    it 'should resolve coverageReporter.dir to basePath and CWD', ->
-      config = normalizeConfigWithDefaults
-        basePath: '/some/base'
-        coverageReporter: {dir: 'path/to/coverage'}
-      expect(config.coverageReporter.dir).to.equal resolveWinPath('/some/base/path/to/coverage')
-
-
     it 'should convert patterns to objects and set defaults', ->
       config = normalizeConfigWithDefaults
         basePath: '/base'
