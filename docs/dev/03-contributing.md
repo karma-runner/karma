@@ -71,3 +71,5 @@ For any code changes to be accepted, the CLA must be signed. It's a quick proces
 * [@JsKarma](http://twitter.com/JsKarma)
 
 [commit message conventions]: git-commit-msg.html
+[simple click-through form]: http://code.google.com/legal/individual-cla-v1.0.html
+[the form]: http://code.google.com/legal/corporate-cla-v1.0.html
