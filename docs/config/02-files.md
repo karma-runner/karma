@@ -39,6 +39,8 @@ Each pattern is either a simple string or an object with four properties:
 * **Default.** `true`
 * **Description.** Should the files be served by Karma's webserver?
 
+## Preprocessor tranformations
+Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in their native format. For instance, if html2js preprocessor is enabled, the actual .html files are no longer served - but rather available as `window.__html__['my.html']`. Read more about [preprocessors].
 
 ## Complete example
 Here is a complete example showing the different options that are possible.
@@ -50,6 +52,7 @@ files: [
   'test/unit/*.spec.js',
 
   // this file gets served but will be ignored by the watcher
+  // note if html2js preprocessor is active, reference as `window.__html__['compiled/index.html']`
   {pattern: 'compiled/index.html', watched: false},
 
   // this file only gets watched but otherwise ignored
@@ -58,3 +61,4 @@ files: [
 ```
 
 [glob]: https://github.com/isaacs/node-glob
+[preprocessors]: 04-preprocessors.html

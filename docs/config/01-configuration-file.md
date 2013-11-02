@@ -213,6 +213,8 @@ Preprocessors can be loaded through [plugins].
 Please note just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
 require an additional library to be installed (via NPM).
 
+Be aware that preprocessors may be transforming the files and file types that are available at run time.
+
 Click <a href="preprocessors.html">here</a> for more information.
 
 
