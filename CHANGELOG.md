@@ -1,3 +1,12 @@
+<a name="v0.11.2"></a>
+### v0.11.2 (2013-11-03)
+
+
+#### Bug Fixes
+
+* **config:** use polling by default ([53978c42](http://github.com/karma-runner/karma/commit/53978c42f10088fb29d09597817c5dde58aeb32b))
+* **proxy:** handle proxied socket.io websocket transport upgrade ([fcc2a98f](http://github.com/karma-runner/karma/commit/fcc2a98f6af5f71a929130825b18db56557f29f7))
+
 <a name="v0.11.1"></a>
 ### v0.11.1 (2013-10-25)
 
