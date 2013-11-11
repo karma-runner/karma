@@ -15,6 +15,8 @@ Note: Most of the preprocessors needs to be loaded as [plugins].
 These preprocessors/plugins are shipped with Karma by default:
 - [coffee]
 - [html2js]
+  - Note any .html files listed in the files section must be referenced at run time as `window.__html__['template.html']`. [Learn more](html2js).
+  - If this preprocessor is disabled, included .html files will need `base/` added to beginning of their path reference. See [discussion in issue 788][issue788].
 
 Additional preprocessors can be loaded through [plugins], such as:
 - [coverage]
@@ -94,3 +96,4 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 [ember]: https://github.com/karma-runner/karma-ember-preprocessor
 [custom plugins]: ../dev/plugins.html
 [plugins]: plugins.html
+[issue788]: https://github.com/karma-runner/karma/issues/788
