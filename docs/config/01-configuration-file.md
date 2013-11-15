@@ -1,3 +1,4 @@
+## Overview
 **In order to serve you well, Karma needs to know about your project in order to test it
 and this is done via a configuration file. This page explains how to create such a configuration file.**
 
@@ -32,7 +33,23 @@ module.exports = (config) ->
 To see a more detailed example configuration file, see [test/client/karma.conf.js] which contains most of
 the available configuration options.
 
-The rest of the document contains a list of all available configuration options...
+## File Patterns
+All of the configuration options which specify file paths use the [minimatch][minimatch] library to facilitate flexible but concise file expressions, so you can easily list all the files you want to include, along with excluding the files that need to be skipped.
+
+You can find details of each option in the following section, but this is the list of options that utilize minimatch expressions:
+
+ * `exclude`
+ * `files`
+ * `preprocessors`
+
+Examples:
+
+ * `**/*.js`: All files with a "js" extension in all subdirectories
+ * `**/!(jquery).js`: Same as previous, but excludes "jquery.js"
+ * `**/(foo|bar).js`: In all subdirectories, all "foo.js" or "bar.js" files
+
+## Configuration Options
+These are all the available configuration options.
 
 ## autoWatch
 **Type:** Boolean
@@ -208,12 +225,16 @@ See [plugins] for more information.
 
 **Description:** A map of preprocessors to use.
 
-Preprocessors can be loaded through [plugins]. 
+Preprocessors can be loaded through [plugins].
 
 Please note just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
 require an additional library to be installed (via NPM).
 
-Be aware that preprocessors may be transforming the files and file types that are available at run time.
+Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance,
+if you are using the "coverage" preprocessor on your source files, if you then attempt to interactively debug
+your tests, you'll discover that your expected source code is completely changed from what you expected.  Because
+of that, you'll want to engineer this so that your automated builds use the coverage entry in the "reporters" list,
+but your interactive debugging does not.
 
 Click <a href="preprocessors.html">here</a> for more information.
 
@@ -308,3 +329,4 @@ sometimes you might want to proxy a url that is already taken by Karma.
 [config/browsers]: browsers.html
 [config/preprocessors]: preprocessors.html
 [log4js]: https://github.com/nomiddlename/log4js-node
+[minimatch]: https://github.com/isaacs/minimatch

@@ -6,7 +6,7 @@
 - If the `basePath` is a relative path, it gets resolved to the
   directory where the configuration file is.
 - Eventually, all the patterns will get resolved into files using
-  [glob], so you can use expressions like `test/unit/**/*.spec.js`.
+  [glob], so you can use [minimatch] expressions like `test/unit/**/*.spec.js`.
 
 ## Ordering
 - The order of patterns determines the order of files in which they
@@ -40,7 +40,9 @@ Each pattern is either a simple string or an object with four properties:
 * **Description.** Should the files be served by Karma's webserver?
 
 ## Preprocessor tranformations
-Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in their native format. For instance, if html2js preprocessor is enabled, the actual .html files are no longer served - but rather available as `window.__html__['my.html']`. Read more about [preprocessors].
+Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in
+their native format. For instance, if html2js preprocessor is enabled, the actual .html files are no longer
+served - but rather available as `window.__html__['my.html']`. Read more about [preprocessors].
 
 ## Complete example
 Here is a complete example showing the different options that are possible.
@@ -62,3 +64,4 @@ files: [
 
 [glob]: https://github.com/isaacs/node-glob
 [preprocessors]: 04-preprocessors.html
+[minimatch]: https://github.com/isaacs/minimatch
