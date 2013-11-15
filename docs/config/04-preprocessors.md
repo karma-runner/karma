@@ -1,15 +1,18 @@
 Preprocessors in Karma allow you to do some work with your files before
-they get served to the browser. The configuration of these happens in the `preprocessors` block
-within the configuration file:
+they get served to the browser. These are configured in the `preprocessors` block
+of the configuration file:
 
 ```javascript
 preprocessors: {
   '**/*.coffee': ['coffee'],
+  '**/*.tea': ['coffee'],
   '**/*.html': ['html2js']
 },
 ```
+Note the multiple expressions referencing the "coffee" preprocessor, as a preprocessor can be listed more than once,
+as another way to specify multiple file path expressions.
 
-Note: Most of the preprocessors needs to be loaded as [plugins].
+Note: Most of the preprocessors need to be loaded as [plugins].
 
 ## Available Preprocessors
 These preprocessors/plugins are shipped with Karma by default:
