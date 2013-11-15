@@ -156,8 +156,7 @@ describe 'launchers Base', ->
       expect(killSpy).not.to.have.been.called
 
       mockSpawn._processes[0].emit 'close', 0
-      expect(mockRimraf).to.have.been.calledWith path.normalize('/tmp/karma-12345'), killSpy
-
+      expect(mockRimraf).to.have.been.calledWith path.normalize('/tmp/karma-12345')
       mockRimraf._callbacks[0]() # rm tempdir
       expect(killSpy).to.have.been.called
 
