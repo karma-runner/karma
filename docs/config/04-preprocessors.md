@@ -1,22 +1,22 @@
 Preprocessors in Karma allow you to do some work with your files before
-they get served to the browser. The configuration of these happens in the `preprocessors` block
-within the configuration file:
+they get served to the browser. These are configured in the `preprocessors` block
+of the configuration file:
 
 ```javascript
 preprocessors: {
   '**/*.coffee': ['coffee'],
+  '**/*.tea': ['coffee'],
   '**/*.html': ['html2js']
 },
 ```
+As the example shows, a preprocessor can be listed more than once, as another way to specify multiple file path expressions.
 
-Note: Most of the preprocessors needs to be loaded as [plugins].
+Note: Most of the preprocessors need to be loaded as [plugins].
 
 ## Available Preprocessors
 These preprocessors/plugins are shipped with Karma by default:
 - [coffee]
 - [html2js]
-  - Note any .html files listed in the files section must be referenced at run time as `window.__html__['template.html']`. [Learn more](html2js).
-  - If this preprocessor is disabled, included .html files will need `base/` added to beginning of their path reference. See [discussion in issue 788][issue788].
 
 Additional preprocessors can be loaded through [plugins], such as:
 - [coverage]
@@ -30,7 +30,7 @@ Here's an example of how to add the coverage preprocessor to your testing suite:
 
 ```bash
 # Install it first with NPM
-$ npm install karma-coverage --save-dev
+$ npm install karma-coverage --save-dev 
 ```
 
 And then inside your configuration file...
@@ -96,4 +96,3 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 [ember]: https://github.com/karma-runner/karma-ember-preprocessor
 [custom plugins]: ../dev/plugins.html
 [plugins]: plugins.html
-[issue788]: https://github.com/karma-runner/karma/issues/788
