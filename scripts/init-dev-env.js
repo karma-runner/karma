@@ -4,7 +4,9 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
 var path = require('path');
-var rimraf = require('rimraf');
+
+// We have a copy of rimraf (v2.2.2), so that people can run this script without `npm install`.
+var rimraf = require('./rimraf');
 
 var isWin = !!process.platform.match(/^win/);
 
@@ -77,7 +79,14 @@ var installDependencies = function() {
     // at the same time, Karma uses a local instance if present and therefore running `karma`
     // in the working directory would cause using the Karma from NPM, rather than the Karma from
     // the working space.
-    rimraf(pathTo('node_modules/karma'));
+    rimraf(pathTo('node_modules/karma'), function(err) {
+      if (err) {
+        console.error('Can not remove "' + pathTo('node_modules/karma') + '".\n' +
+                      'Please remove it manually.');
+      } else {
+        console.log('YAY, YOUR WORKSPACE IS READY!');
+      }
+    });
   });
 
   install.stdout.pipe(process.stdout);

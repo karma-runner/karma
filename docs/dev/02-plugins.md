@@ -32,7 +32,7 @@ Karma is assembled by Dependency Injection and a plugin is just an additional DI
 [karma-requirejs]: https://github.com/karma-runner/karma-requirejs
 [karma-growl-reporter]: https://github.com/karma-runner/karma-growl-reporter
 [karma-junit-reporter]: https://github.com/karma-runner/karma-junit-reporter
-[karma-chroma-launcher]: https://github.com/karma-runner/karma-chrome-launcher
+[karma-chrome-launcher]: https://github.com/karma-runner/karma-chrome-launcher
 [karma-sauce-launcher]: https://github.com/karma-runner/karma-sauce-launcher
 [karma-coffee-preprocessor]: https://github.com/karma-runner/karma-coffee-preprocessor
 [karma-ng-html2js-preprocessor]: https://github.com/karma-runner/karma-ng-html2js-preprocessor

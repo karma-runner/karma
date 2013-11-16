@@ -47,8 +47,6 @@ $ grunt build
 ```
 The default task, just calling `grunt` will run `build lint test`.
 
-If grunt fails, make sure grunt-0.4x is installed: https://github.com/gruntjs/grunt/wiki/Getting-started.
-
 ## Submitting Changes
 
 * One branch per feature/fix
