@@ -20,9 +20,24 @@ describe 'watcher', ->
       expect(m.baseDirFromPattern '/some/p*/file.js').to.equal '/some'
 
 
-    it 'should remove part with parenthesis', ->
-      expect(m.baseDirFromPattern '/some/p/(a|b).js').to.equal '/some/p'
-      expect(m.baseDirFromPattern '/some/p(c|b)*.js').to.equal '/some'
+    it 'should remove part with !(x)', ->
+      expect(m.baseDirFromPattern '/some/p/!(a|b).js').to.equal '/some/p'
+      expect(m.baseDirFromPattern '/some/p!(c|b)*.js').to.equal '/some'
+
+
+    it 'should remove part with +(x)', ->
+      expect(m.baseDirFromPattern '/some/p/+(a|b).js').to.equal '/some/p'
+      expect(m.baseDirFromPattern '/some/p+(c|bb).js').to.equal '/some'
+
+
+    it 'should remove part with (x)?', ->
+      expect(m.baseDirFromPattern '/some/p/(a|b)?.js').to.equal '/some/p'
+      expect(m.baseDirFromPattern '/some/p(c|b)?.js').to.equal '/some'
+
+
+    it 'should allow paths with parentheses', ->
+      expect(m.baseDirFromPattern '/some/x (a|b)/a.js').to.equal '/some/x (a|b)/a.js'
+      expect(m.baseDirFromPattern '/some/p(c|b)/*.js').to.equal '/some/p(c|b)'
 
 
     it 'should ignore exact files', ->
