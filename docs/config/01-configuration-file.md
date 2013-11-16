@@ -1,4 +1,4 @@
-# Overview
+## Overview
 **In order to serve you well, Karma needs to know about your project in order to test it
 and this is done via a configuration file. This page explains how to create such a configuration file.**
 
@@ -229,6 +229,12 @@ Preprocessors can be loaded through [plugins].
 Please note just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
 require an additional library to be installed (via NPM).
 
+Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance,
+if you are using the "coverage" preprocessor on your source files, if you then attempt to interactively debug
+your tests, you'll discover that your expected source code is completely changed from what you expected.  Because
+of that, you'll want to engineer this so that your automated builds use the coverage entry in the "reporters" list,
+but your interactive debugging does not.
+
 Click <a href="preprocessors.html">here</a> for more information.
 
 
@@ -325,3 +331,5 @@ sometimes you might want to proxy a url that is already taken by Karma.
 
 
   [1]: https://github.com/isaacs/minimatch
+  
+  
