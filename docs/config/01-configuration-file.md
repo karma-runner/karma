@@ -47,6 +47,7 @@ Examples:
  * `**/*.js`: All files with a "js" extension in all subdirectories
  * `**/!(jquery).js`: Same as previous, but excludes "jquery.js"
  * `**/(foo|bar).js`: In all subdirectories, all "foo.js" or "bar.js" files
+ 
 ## Configuration Options
 These are all the available configuration options.
 
