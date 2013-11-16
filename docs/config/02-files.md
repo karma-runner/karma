@@ -55,7 +55,7 @@ files: [
 
   // this file gets served but will be ignored by the watcher
   // note if html2js preprocessor is active, reference as `window.__html__['compiled/index.html']`
-   {pattern: 'compiled/index.html', watched: false},
+  {pattern: 'compiled/index.html', watched: false},
 
   // this file only gets watched but otherwise ignored
   {pattern: 'app/index.html', included: false, served: false}
