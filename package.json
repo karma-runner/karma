@@ -164,9 +164,7 @@
     "grunt-browserify": "~1.2.4"
   },
   "main": "./lib/index",
-  "bin": {
-    "karma": "./bin/karma"
-  },
+  "bin": {},
   "engines": {
     "node": "~0.8 || ~0.10"
   },
