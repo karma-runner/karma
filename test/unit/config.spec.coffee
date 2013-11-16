@@ -365,3 +365,8 @@ describe 'config', ->
       expect(injectedArgs).to.be.defined
       expect(injectedArgs.third).to.equal 123
       expect(injectedArgs.whatever).to.equal 'ccc'
+
+
+    it 'should not create empty module', ->
+      config = normalizeConfigWithDefaults {}
+      expect(config.plugins).to.deep.equal []
