@@ -22,7 +22,7 @@ module.exports = (grunt) ->
       server: ['lib/**/*.js']
       client: ['client/**/*.js']
       grunt: ['grunt.js', 'tasks/*.js']
-      scripts: ['scripts/*.js']
+      scripts: ['scripts/init-dev-env.js']
 
     browserify:
       client:
