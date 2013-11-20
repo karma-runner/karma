@@ -4,9 +4,8 @@ of the configuration file:
 
 ```javascript
 preprocessors: {
-  '**/*.coffee': ['coffee'],
-  '**/*.tea': ['coffee'],
-  '**/*.html': ['html2js']
+  'coffee': '**/*.coffee',
+  'html2js': '**/*.html'
 },
 ```
 Note the multiple expressions referencing the "coffee" preprocessor, as a preprocessor can be listed more than once,
@@ -42,7 +41,8 @@ And then inside your configuration file...
 module.exports = function(config) {
   config.set({
     preprocessors: {
-      '**/*.js': ['coverage']
+      'coffee': '**/*.coffee',
+      'coverage': ['**/*.js', '!**/*.spec.js, '!**/Route.js']
     }
   });
 };
@@ -75,14 +75,14 @@ customPreprocessors: {
 
 
 ## Minimatching
-The keys of the preprocessors config object are used to filter the files specified in
-the `files` configuration.
+The values of the preprocessors config object are used to filter the files specified in
+the `files` configuration. This can be a single string patterns or a list of patterns.
 
 * First the file paths are expanded to an absolute path, based on the
   `basePath` configuration and the directory of the configuration file. See
   [files] for more information on that.
 * Then the newly expanded path is matched using [minimatch] against the
-  specified key.
+  specified patttern.
 
 So for example the path `/my/absolute/path/to/test/unit/file.coffee` matched against
 the key `**/*.coffee` would return `true`, but matched against just `*.coffee` it would

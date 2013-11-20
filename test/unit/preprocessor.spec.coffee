@@ -26,7 +26,7 @@ describe 'preprocessor', ->
       done 'new-content'
 
     injector = new di.Injector [{'preprocessor:fake': ['factory', -> fakePreprocessor]}]
-    pp = m.createPreprocessor {'**/*.js': ['fake']}, null, injector
+    pp = m.createPreprocessor {'fake': '**/*.js'}, null, injector
 
     file = {originalPath: '/some/a.js', path: 'path'}
 
@@ -37,12 +37,39 @@ describe 'preprocessor', ->
       done()
 
 
+  it 'should preprocess matching file with multiple patterns', (done) ->
+    fakePreprocessor = sinon.spy (content, file, done) ->
+      file.contentPath = '/some/new.js'
+      file.path = file.path + '-new'
+      done content + '-new'
+
+    injector = new di.Injector [{
+      'preprocessor:fake': ['factory', -> fakePreprocessor]
+    }]
+
+    pp = m.createPreprocessor {'fake': ['**/*.js', '!**/*.spec.js']}, null, injector
+
+    file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp file, ->
+      expect(fakePreprocessor).to.have.been.calledOnce
+      expect(file.path).to.equal 'path-new'
+      expect(mockFs.readFileSync('/some/new.js').toString()).to.equal 'content-new'
+
+    file2 = {originalPath: '/some/a.spec.js', path: 'path2'}
+
+    pp file2, ->
+      expect(fakePreprocessor).to.have.been.calledOnce
+      expect(file2.path).to.equal 'path2'
+      done()
+
+
   it 'should ignore not matching file', (done) ->
     fakePreprocessor = sinon.spy (content, file, done) ->
       done ''
 
     injector = new di.Injector [{'preprocessor:fake': ['factory', -> fakePreprocessor]}]
-    pp = m.createPreprocessor {'**/*.js': ['fake']}, null, injector
+    pp = m.createPreprocessor {'fake': '**/*.js'}, null, injector
 
     file = {originalPath: '/some/a.txt', path: 'path'}
 
@@ -65,7 +92,7 @@ describe 'preprocessor', ->
       'preprocessor:fake2': ['factory', -> fakePreprocessor2]
     }]
 
-    pp = m.createPreprocessor {'**/*.js': ['fake1', 'fake2']}, null, injector
+    pp = m.createPreprocessor {'fake1': '**/*.js', 'fake2': '**/*.js'}, null, injector
 
     file = {originalPath: '/some/a.js', path: 'path'}
 
