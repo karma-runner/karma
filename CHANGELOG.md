@@ -1,3 +1,17 @@
+<a name="v0.10.5"></a>
+### v0.10.5 (2013-11-20)
+
+
+#### Bug Fixes
+
+* **config:** not append empty module if no custom launcher/rep/prep ([c025cdcd](http://github.com/karma-runner/karma/commit/c025cdcdd97b8b9efc0c0dc1086b6c3a31aadebc))
+* **watcher:** allow parentheses in a pattern ([8eaa0562](http://github.com/karma-runner/karma/commit/8eaa0562e07e8ab06fea04f134bdfbdffc2e84f6), closes [#728](http://github.com/karma-runner/karma/issues/728))
+
+
+#### Features
+
+* **config:** log if no config file is specified ([27a07912](http://github.com/karma-runner/karma/commit/27a079129f5adcc0478b6006ee69d3323faa4431))
+
 <a name="v0.10.4"></a>
 ### v0.10.4 (2013-10-25)
 
