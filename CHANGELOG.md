@@ -1,3 +1,30 @@
+<a name="v0.11.3"></a>
+### v0.11.3 (2013-11-20)
+
+
+#### Bug Fixes
+
+* **config:** not append empty module if no custom launcher/rep/prep ([ee15a4e4](http://github.com/karma-runner/karma/commit/ee15a4e446e9f35949a2fdde7cbdbecdd7ca0750))
+* **watcher:** allow parentheses in a pattern ([438eb8dd](http://github.com/karma-runner/karma/commit/438eb8ddbc0b82cd5ab299f6f27f5ae3cc29a20f), closes [#728](http://github.com/karma-runner/karma/issues/728))
+
+
+#### Features
+
+* remove `karma` binary in favor of karma-cli ([c7d46270](http://github.com/karma-runner/karma/commit/c7d46270aca83ecfe78f69fa923bc574c0b5bfdc))
+* **config:** log if no config file is specified ([ce4c5646](http://github.com/karma-runner/karma/commit/ce4c5646dfff7bd40abfd1f9e51dc4f5b779bf4a))
+
+
+#### Breaking Changes
+
+* The `karma` module does not export `karma` binary anymore. The recommended way is to have local modules (karma and all the plugins that your project needs) stored in your `package.json`. You can run that particular Karma by `./node_modules/karma/bin/karma`. Or you can have `karma-cli` installed globally on your system, which enables you to use the `karma` command.
+
+The global `karma` command (installed by `karma-cli`) does look for local version of Karma (including parent directories) first and fall backs to a global one.
+
+The `bin/karma` binary does not look for any other instances of Karma and just runs the one that it belongs to.
+
+
+ ([c7d46270](http://github.com/karma-runner/karma/commit/c7d46270aca83ecfe78f69fa923bc574c0b5bfdc))
+
 <a name="v0.11.2"></a>
 ### v0.11.2 (2013-11-03)
 
