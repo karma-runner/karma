@@ -1,3 +1,11 @@
+<a name="v0.11.4"></a>
+### v0.11.4 (2013-11-21)
+
+
+#### Bug Fixes
+
+* **browser:** reply "start" event ([4fde43de](http://github.com/karma-runner/karma/commit/4fde43deee22b53fcca52132c51c27f4012d2933))
+
 <a name="v0.11.3"></a>
 ### v0.11.3 (2013-11-20)
 
