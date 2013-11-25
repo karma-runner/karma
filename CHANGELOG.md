@@ -1,3 +1,16 @@
+<a name="v0.11.5"></a>
+### v0.11.5 (2013-11-25)
+
+
+#### Bug Fixes
+
+* do not execute already executing browsers ([00136cf6](http://github.com/karma-runner/karma/commit/00136cf6d818b9bc6e4d77504e3ce1ed3d23d611))
+
+
+#### Features
+
+* **launcher:** send SIGKILL if SIGINT does not kill the browser ([c0fa49aa](http://github.com/karma-runner/karma/commit/c0fa49aa7c56f14a3836986e8629411a72515a78))
+
 <a name="v0.11.4"></a>
 ### v0.11.4 (2013-11-21)
 
