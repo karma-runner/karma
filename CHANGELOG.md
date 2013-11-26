@@ -1,3 +1,16 @@
+<a name="v0.10.6"></a>
+### v0.10.6 (2013-11-26)
+
+
+#### Bug Fixes
+
+* **browser:** reply "start" event ([8c1feae1](http://github.com/karma-runner/karma/commit/8c1feae1c0c60077365ca977fcf96640da449bee))
+
+
+#### Features
+
+* **launcher:** send SIGKILL if SIGINT does not kill the browser ([eefcf00d](http://github.com/karma-runner/karma/commit/eefcf00dd869c7fce4da86064c2f063b5db39372))
+
 <a name="v0.10.5"></a>
 ### v0.10.5 (2013-11-20)
 
