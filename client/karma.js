@@ -177,7 +177,9 @@ var Karma = function(socket, context, navigator, location) {
 
   // supposed to be overriden by the context
   // TODO(vojta): support multiple callbacks (queue)
-  this.start = this.complete;
+  this.start = function() {
+    this.error('You need to include some adapter that implements __karma__.start method!');
+  };
 
   socket.on('execute', function(cfg) {
     // reset hasError and reload the iframe
