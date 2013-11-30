@@ -189,7 +189,7 @@ describe 'config', ->
 
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
-      expect(config.autoWatch).to.equal false
+      expect(config.autoWatch).to.equal true
 
 
     it 'should not read config file, when null', ->
