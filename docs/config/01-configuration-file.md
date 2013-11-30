@@ -54,7 +54,7 @@ These are all the available configuration options.
 ## autoWatch
 **Type:** Boolean
 
-**Default:**  `false`
+**Default:**  `true`
 
 **CLI:** `--auto-watch`, `--no-auto-watch`
 
