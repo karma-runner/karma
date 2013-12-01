@@ -14,8 +14,6 @@ module.exports = function(config) {
 
     reporters: ['dots'],
 
-    logLevel: config.LOG_DEBUG,
-
     plugins: [
       'karma-jasmine',
       'karma-sauce-launcher',

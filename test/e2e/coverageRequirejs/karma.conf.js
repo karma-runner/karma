@@ -11,7 +11,7 @@ module.exports = function(config) {
     browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
     singleRun: false,
 
-    reporters: ['progress', 'coverage'],
+    reporters: ['dots', 'coverage'],
 
     preprocessors: {
       'dependency.js': 'coverage'
