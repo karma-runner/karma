@@ -39,6 +39,13 @@ of the box there is support for
 All the major browsers are supported, if you want to know more see the
 [Browsers] page.
 
+## Troubleshooting
+
+### My tests are running *really* slow
+
+1. If you're testing in the browser, make sure the Karma tab is the active tab. If you're using LiveReload to develop, try opening a second browser window so Karma can always be active.
+
+2. Make sure you're not watching too many files. Set your `logLevel` to `config.LOG_DEBUG` to see how many files are being watched.
 
 ## I want to use it. Where do I sign?
 
