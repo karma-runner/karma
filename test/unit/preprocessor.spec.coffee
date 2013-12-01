@@ -11,20 +11,12 @@ describe 'preprocessor', ->
     mockFs = mocks.fs.create
       some:
         'a.js': mocks.fs.file 0, 'content'
-        'style.less': mocks.fs.file 0, 'whatever'
-      temp: {} # so that we can write preprocessed content here
-
 
     mocks_ =
       'graceful-fs': mockFs
       minimatch: require 'minimatch'
 
-    globals_ =
-      process:
-        env: TMPDIR: '/temp'
-        nextTick: process.nextTick
-
-    m = mocks.loadFile __dirname + '/../../lib/preprocessor.js', mocks_, globals_
+    m = mocks.loadFile __dirname + '/../../lib/preprocessor.js', mocks_
 
 
   it 'should preprocess matching file', (done) ->
@@ -40,7 +32,7 @@ describe 'preprocessor', ->
     pp file, ->
       expect(fakePreprocessor).to.have.been.called
       expect(file.path).to.equal 'path-preprocessed'
-      expect(mockFs.readFileSync(file.contentPath).toString()).to.equal 'new-content'
+      expect(file.content).to.equal 'new-content'
       done()
 
 
@@ -80,22 +72,5 @@ describe 'preprocessor', ->
       expect(fakePreprocessor1).to.have.been.calledOnce
       expect(fakePreprocessor2).to.have.been.calledOnce
       expect(file.path).to.equal 'path-p1-p2'
-      expect(mockFs.readFileSync(file.contentPath).toString()).to.equal 'content-c1-c2'
-      done()
-
-
-  it 'should keep processed extension', (done) ->
-    fakePreprocessor = sinon.spy (content, file, done) ->
-      file.path = file.path.replace '.less', '.css'
-      done content
-
-    injector = new di.Injector [{
-      'preprocessor:less': ['factory', -> fakePreprocessor]
-    }]
-
-    pp = m.createPreprocessor {'**/*.less': ['less']}, null, injector
-    file = {originalPath: '/some/style.less', path: '/some/style.less'}
-
-    pp file, ->
-      expect(file.contentPath).to.match /\.css$/
+      expect(file.content).to.equal 'content-c1-c2'
       done()

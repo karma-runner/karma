@@ -12,6 +12,7 @@ describe 'middleware.source-files', ->
     base:
       path:
         'a.js': mocks.fs.file(0, 'js-src-a')
+        'index.html': mocks.fs.file(0, '<html>')
     src:
       'some.js': mocks.fs.file(0, 'js-source')
     'utf8ášč':
@@ -133,3 +134,30 @@ describe 'middleware.source-files', ->
       done()
 
     callHandlerWith '/base/some.js'
+
+  it 'should set content-type headers', (done) ->
+    servedFiles [
+      new File('/base/path/index.html')
+    ]
+
+    response.once 'end', ->
+      expect(response._headers['Content-Type']).to.equal 'text/html'
+      done()
+
+    callHandlerWith '/base/index.html'
+
+
+  it 'should use cached content if available', (done) ->
+    cachedFile = new File('/some/file.js')
+    cachedFile.content = 'cached-content'
+
+    servedFiles [
+      cachedFile
+    ]
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, 'cached-content'
+      done()
+
+    callHandlerWith '/absolute/some/file.js'
