@@ -5,8 +5,8 @@ describe 'middleware.runner', ->
   HttpRequestMock = mocks.http.ServerRequest
 
   EventEmitter = require('events').EventEmitter
-  Browser = require('../../../lib/browser').Browser
-  BrowserCollection = require('../../../lib/browser').Collection
+  Browser = require '../../../lib/browser'
+  BrowserCollection = require '../../../lib/browser-collection'
   MultReporter = require('../../../lib/reporters/Multi')
   createRunnerMiddleware = require('../../../lib/middleware/runner').create
 
