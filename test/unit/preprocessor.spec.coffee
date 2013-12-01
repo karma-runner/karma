@@ -11,6 +11,7 @@ describe 'preprocessor', ->
     mockFs = mocks.fs.create
       some:
         'a.js': mocks.fs.file 0, 'content'
+        'a.txt': mocks.fs.file 0, 'some-text'
 
     mocks_ =
       'graceful-fs': mockFs
@@ -74,3 +75,22 @@ describe 'preprocessor', ->
       expect(file.path).to.equal 'path-p1-p2'
       expect(file.content).to.equal 'content-c1-c2'
       done()
+
+
+  it 'should compute SHA', (done) ->
+    pp = m.createPreprocessor {}, null, new di.Injector([])
+    file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp file, ->
+      expect(file.sha).to.exist
+      expect(file.sha.length).to.equal 40
+      previousSHA = file.sha
+
+      pp file, ->
+        expect(file.sha).to.equal previousSHA
+        mockFs._touchFile '/some/a.js', null, 'new-content'
+
+        pp file, ->
+          expect(file.sha.length).to.equal 40
+          expect(file.sha).not.to.equal previousSHA
+          done()

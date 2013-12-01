@@ -9,6 +9,10 @@ describe 'middleware.karma', ->
   File = require('../../../lib/file-list').File
   Url = require('../../../lib/file-list').Url
 
+  MockFile = (path, sha) ->
+    File.call @, path
+    @sha = sha or 'sha-default'
+
   fsMock = mocks.fs.create
     karma:
       static:
@@ -101,15 +105,15 @@ describe 'middleware.karma', ->
 
   it 'should serve context.html with replaced script tags', (done) ->
     includedFiles [
-      new File('/first.js', new Date 12345)
-      new File('/second.dart', new Date 67890)
+      new MockFile('/first.js', 'sha123')
+      new MockFile('/second.dart', 'sha456')
     ]
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs 200, 'CONTEXT\n' +
-      '<script type="text/javascript" src="/absolute/first.js?12345"></script>\n' +
-      '<script type="application/dart" src="/absolute/second.dart?67890"></script>'
+      '<script type="text/javascript" src="/absolute/first.js?sha123"></script>\n' +
+      '<script type="application/dart" src="/absolute/second.dart?sha456"></script>'
       done()
 
     callHandlerWith '/__karma__/context.html'
@@ -117,13 +121,13 @@ describe 'middleware.karma', ->
 
   it 'should serve context.html with replaced link tags', (done) ->
     includedFiles [
-      new File('/first.css', new Date 12345)
+      new MockFile('/first.css', 'sha007')
     ]
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs 200, 'CONTEXT\n' +
-      '<link type="text/css" href="/absolute/first.css?12345" rel="stylesheet">'
+      '<link type="text/css" href="/absolute/first.css?sha007" rel="stylesheet">'
       done()
 
     callHandlerWith '/__karma__/context.html'
@@ -131,15 +135,15 @@ describe 'middleware.karma', ->
 
   it 'should serve context.html with the correct path for the script tags', (done) ->
     includedFiles [
-      new File('/some/abc/a.js', new Date 12345)
-      new File('/base/path/b.js', new Date 67890)
+      new MockFile('/some/abc/a.js', 'sha')
+      new MockFile('/base/path/b.js', 'shaaa')
     ]
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs 200, 'CONTEXT\n' +
-      '<script type="text/javascript" src="/absolute/some/abc/a.js?12345"></script>\n' +
-      '<script type="text/javascript" src="/base/b.js?67890"></script>'
+      '<script type="text/javascript" src="/absolute/some/abc/a.js?sha"></script>\n' +
+      '<script type="text/javascript" src="/base/b.js?shaaa"></script>'
       done()
 
     callHandlerWith '/__karma__/context.html'
@@ -147,15 +151,15 @@ describe 'middleware.karma', ->
 
   it 'should serve context.html with the correct path for link tags', (done) ->
     includedFiles [
-      new File('/some/abc/a.css', new Date 12345)
-      new File('/base/path/b.css', new Date 67890)
+      new MockFile('/some/abc/a.css', 'sha1')
+      new MockFile('/base/path/b.css', 'sha2')
     ]
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs 200, 'CONTEXT\n' +
-      '<link type="text/css" href="/absolute/some/abc/a.css?12345" rel="stylesheet">\n' +
-      '<link type="text/css" href="/base/b.css?67890" rel="stylesheet">'
+      '<link type="text/css" href="/absolute/some/abc/a.css?sha1" rel="stylesheet">\n' +
+      '<link type="text/css" href="/base/b.css?sha2" rel="stylesheet">'
       done()
 
     callHandlerWith '/__karma__/context.html'
@@ -193,14 +197,14 @@ describe 'middleware.karma', ->
   it 'should inline mappings with all served files', (done) ->
     fsMock._touchFile '/karma/static/context.html', 0, '%MAPPINGS%'
     servedFiles [
-      new File('/some/abc/a.js', new Date 12345)
-      new File('/base/path/b.js', new Date 67890)
+      new MockFile('/some/abc/a.js', 'sha_a')
+      new MockFile('/base/path/b.js', 'sha_b')
     ]
 
     response.once 'end', ->
       expect(response).to.beServedAs 200, 'window.__karma__.files = {\n' +
-      "  '/absolute/some/abc/a.js': '12345',\n" +
-      "  '/base/b.js': '67890'\n" +
+      "  '/absolute/some/abc/a.js': 'sha_a',\n" +
+      "  '/base/b.js': 'sha_b'\n" +
       "};\n"
       done()
 
@@ -209,8 +213,8 @@ describe 'middleware.karma', ->
 
   it 'should serve debug.html with replaced script tags without timestamps', (done) ->
     includedFiles [
-      new File('/first.js', new Date 12345)
-      new File('/base/path/b.js', new Date 67890)
+      new MockFile('/first.js')
+      new MockFile('/base/path/b.js')
     ]
 
     response.once 'end', ->
@@ -225,8 +229,8 @@ describe 'middleware.karma', ->
 
   it 'should serve debug.html with replaced link tags without timestamps', (done) ->
     includedFiles [
-      new File('/first.css', new Date 12345)
-      new File('/base/path/b.css', new Date 67890)
+      new MockFile('/first.css')
+      new MockFile('/base/path/b.css')
     ]
 
     response.once 'end', ->
