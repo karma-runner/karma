@@ -6,13 +6,13 @@ describe 'reporter', ->
   m = null
 
   beforeEach ->
-    m = loadFile __dirname + '/../../../lib/reporters/Base.js'
+    m = loadFile __dirname + '/../../../lib/reporters/base.js'
 
   describe 'Progress', ->
     adapter = reporter = null
 
     beforeEach ->
-      
+
       adapter = sinon.spy()
       reporter = new m.BaseReporter null, null, adapter
 
@@ -31,4 +31,4 @@ describe 'reporter', ->
 
       expect(adapter).to.have.been.calledWith 'Success: 10 Failure: 20'
 
-    
+

@@ -1,8 +1,8 @@
 #============================================================================
-# lib/browser-result.js module
+# lib/browser_result.js module
 #============================================================================
 describe 'BrowserResult', ->
-  Result = require '../../lib/browser-result'
+  Result = require '../../lib/browser_result'
   result = null
 
   successResultFromBrowser =

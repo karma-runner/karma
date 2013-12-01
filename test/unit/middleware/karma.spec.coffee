@@ -6,8 +6,8 @@ describe 'middleware.karma', ->
   HttpResponseMock = mocks.http.ServerResponse
   HttpRequestMock = mocks.http.ServerRequest
 
-  File = require('../../../lib/file-list').File
-  Url = require('../../../lib/file-list').Url
+  File = require('../../../lib/file_list').File
+  Url = require('../../../lib/file_list').Url
 
   MockFile = (path, sha) ->
     File.call @, path

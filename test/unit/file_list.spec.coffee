@@ -1,7 +1,7 @@
 #==============================================================================
-# lib/file-list.js module
+# lib/file_list.js module
 #==============================================================================
-describe 'file-list', ->
+describe 'file_list', ->
   mocks = require 'mocks'
   events = require 'events'
   path = require 'path'
@@ -64,7 +64,7 @@ describe 'file-list', ->
       fs: mockFs
       minimatch: require('minimatch')
 
-    m = mocks.loadFile __dirname + '/../../lib/file-list.js', mocks_
+    m = mocks.loadFile __dirname + '/../../lib/file_list.js', mocks_
 
     onFileListModifiedSpy = sinon.spy()
     emitter = new events.EventEmitter
@@ -445,7 +445,7 @@ describe 'file-list', ->
       timeoutSpy = sinon.stub().returns true
       globals_ = setTimeout: timeoutSpy
 
-      m = mocks.loadFile __dirname + '/../../lib/file-list.js', mocks_, globals_
+      m = mocks.loadFile __dirname + '/../../lib/file_list.js', mocks_, globals_
 
       # MATCH: /some/a.js, /some/b.js, /a.txt
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock, 1000

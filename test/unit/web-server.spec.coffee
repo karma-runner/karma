@@ -6,7 +6,7 @@ describe 'web-server', ->
   HttpResponseMock = mocks.http.ServerResponse
   HttpRequestMock = mocks.http.ServerRequest
 
-  File = require('../../lib/file-list').File
+  File = require('../../lib/file_list').File
 
   EventEmitter = require('events').EventEmitter
 

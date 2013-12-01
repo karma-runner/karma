@@ -1,9 +1,9 @@
 #============================================================================
-# lib/browser-collection.js module
+# lib/browser_collection.js module
 #============================================================================
 describe 'BrowserCollection', ->
   e = require '../../lib/events'
-  Collection = require '../../lib/browser-collection'
+  Collection = require '../../lib/browser_collection'
   Browser = require '../../lib/browser'
   collection = emitter = null
 

@@ -1,6 +1,6 @@
 describe 'executor', ->
   Browser = require '../../lib/browser'
-  BrowserCollection = require '../../lib/browser-collection'
+  BrowserCollection = require '../../lib/browser_collection'
   EventEmitter = require('../../lib/events').EventEmitter
   Executor = require '../../lib/executor'
 

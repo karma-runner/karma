@@ -39,7 +39,7 @@ describe 'launchers Base', ->
     setTimeout: (fn, delay) -> setTimeoutMock fn, delay
 
 
-  m = loadFile __dirname + '/../../../lib/launchers/Base.js', mocks, globals
+  m = loadFile __dirname + '/../../../lib/launchers/base.js', mocks, globals
 
 
   beforeEach ->

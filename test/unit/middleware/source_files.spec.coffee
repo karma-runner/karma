@@ -1,12 +1,12 @@
-describe 'middleware.source-files', ->
+describe 'middleware.source_files', ->
   q = require 'q'
 
   mocks = require 'mocks'
   HttpResponseMock = mocks.http.ServerResponse
   HttpRequestMock = mocks.http.ServerRequest
 
-  File = require('../../../lib/file-list').File
-  Url = require('../../../lib/file-list').Url
+  File = require('../../../lib/file_list').File
+  Url = require('../../../lib/file_list').Url
 
   fsMock = mocks.fs.create
     base:
@@ -20,7 +20,7 @@ describe 'middleware.source-files', ->
 
 
   serveFile = require('../../../lib/middleware/common').createServeFile fsMock, null
-  createSourceFilesMiddleware = require('../../../lib/middleware/source-files').create
+  createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
 
   handler = filesDeferred = nextSpy = response = null
 

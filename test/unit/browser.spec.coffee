@@ -4,7 +4,7 @@
 describe 'Browser', ->
   e = require '../../lib/events'
   Browser = require '../../lib/browser'
-  Collection = require '../../lib/browser-collection'
+  Collection = require '../../lib/browser_collection'
   createMockTimer = require './mocks/timer'
 
   browser = collection = emitter = socket = null

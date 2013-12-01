@@ -6,8 +6,8 @@ describe 'middleware.runner', ->
 
   EventEmitter = require('events').EventEmitter
   Browser = require '../../../lib/browser'
-  BrowserCollection = require '../../../lib/browser-collection'
-  MultReporter = require('../../../lib/reporters/Multi')
+  BrowserCollection = require '../../../lib/browser_collection'
+  MultReporter = require('../../../lib/reporters/multi')
   createRunnerMiddleware = require('../../../lib/middleware/runner').create
 
   handler = nextSpy = response = mockReporter = capturedBrowsers = emitter = config = null
