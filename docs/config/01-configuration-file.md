@@ -83,6 +83,16 @@ paths defined in `files` and `exclude`. If the `basePath` configuration is a
 relative path then it will be resolved to the `__dirname` of the configuration file.
 
 
+## browserDisconnectTimeout
+**Type:** Number
+
+**Default:** `2000`
+
+**Description:** How long does Karma wait for a browser to reconnect (in ms).
+
+With a flaky connection it is pretty common that browser disconnects but the actual execution is running without any problems. Karma does not treat a disconnection as immediate failure and rather wait `browserDisconnectTimeout` ms. If the browser reconnect during that time, everything is fine.
+
+
 ## browserDisconnectTolerance
 **Type:** Number
 
