@@ -299,6 +299,15 @@ describe 'browser', ->
         expect(browser.state).to.equal b.Browser.STATE_EXECUTING
 
 
+      it 'should reconnect a disconnected browser', ->
+        browser = new b.Browser 'id', 'Chrome 25.0', collection, emitter, socket, null, 10
+        browser.state = b.Browser.STATE_DISCONNECTED
+
+        browser.onReconnect new e.EventEmitter
+
+        expect(browser.isReady()).to.equal true
+
+
     #==========================================================================
     # browser.Browser.onResult
     #==========================================================================
@@ -425,6 +434,37 @@ describe 'browser', ->
         timer.wind 10
         expect(browser.lastResult.disconnected).to.equal true
         expect(spy).to.have.been.calledWith browser
+
+
+      it 'restarting a disconnected browser', ->
+        timer = createMockTimer()
+        browser = new b.Browser 'fake-id', 'Chrome 31.0', collection, emitter, socket, timer, 10
+        browser.init()
+
+        browser.execute()
+        socket.emit 'start', {total: 10}
+        socket.emit 'result', {success: true, suite: [], log: []}
+        socket.emit 'result', {success: false, suite: [], log: []}
+        socket.emit 'result', {skipped: true, suite: [], log: []}
+        socket.emit 'disconnect'
+        timer.wind 10 # wait-for reconnecting delay
+        expect(browser.state).to.equal b.Browser.STATE_DISCONNECTED
+        expect(browser.disconnectsCount).to.equal 1
+
+        newSocket = new e.EventEmitter
+        emitter.on 'browser_register', -> browser.execute()
+
+        # reconnect on a new socket (which triggers re-execution)
+        browser.onReconnect newSocket
+        expect(browser.state).to.equal b.Browser.STATE_EXECUTING
+        newSocket.emit 'start', {total: 11}
+        socket.emit 'result', {success: true, suite: [], log: []}
+
+        # expected cleared last result (should not include the results from previous run)
+        expect(browser.lastResult.total).to.equal 11
+        expect(browser.lastResult.success).to.equal 1
+        expect(browser.lastResult.failed).to.equal 0
+        expect(browser.lastResult.skipped).to.equal 0
 
 
   #============================================================================

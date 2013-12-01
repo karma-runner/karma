@@ -75,6 +75,24 @@ describe 'launcher', ->
         expect(browser.start).to.have.been.calledWith 'http://whatever:1234/root/'
 
 
+    describe 'restart', ->
+      it 'should kill and start the browser with the original url', ->
+        l.launch ['Fake'], 'localhost', 1234, '/root/'
+        browser = FakeBrowser._instances.pop()
+        browser.start.reset()
+
+        returnedValue = l.restart lastGeneratedId
+        expect(returnedValue).to.equal true
+        expect(browser.kill).to.have.been.called
+        browser.kill.callArg 0 # killing is done
+        expect(browser.start).to.have.been.calledWith 'http://localhost:1234/root/'
+
+
+      it 'should return false if the browser was not launched by launcher (manual)', ->
+        l.launch [], 'localhost', 1234, '/'
+        expect(l.restart 'manual-id').to.equal false
+
+
     describe 'kill', ->
       it 'should kill browser with given id', ->
         killSpy = sinon.spy()

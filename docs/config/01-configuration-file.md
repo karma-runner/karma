@@ -83,6 +83,18 @@ paths defined in `files` and `exclude`. If the `basePath` configuration is a
 relative path then it will be resolved to the `__dirname` of the configuration file.
 
 
+## browserDisconnectTolerance
+**Type:** Number
+
+**Default:** `0`
+
+**Description:** The number of disconnections tolerated.
+
+The `disconnectTolerance` value represents the maximum number of tries a browser will attempt in case of disconnection.
+Usually any disconnection is considered as a failure, but this option allows to define a tolerance level when there is
+a flaky network link between the karma server and the browsers.
+
+
 ## browsers
 **Type:** Array
 
