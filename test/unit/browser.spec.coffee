@@ -305,9 +305,9 @@ describe 'browser', ->
 
 
     #==========================================================================
-    # browser.Browser.onReconnect
+    # browser.Browser.reconnect
     #==========================================================================
-    describe 'onReconnect', ->
+    describe 'reconnect', ->
 
       it 'should cancel disconnecting', ->
         timer = createMockTimer()
@@ -317,7 +317,7 @@ describe 'browser', ->
         browser.state = b.Browser.STATE_EXECUTING
 
         browser.onDisconnect()
-        browser.onReconnect new e.EventEmitter
+        browser.reconnect new e.EventEmitter
 
         timer.wind 10
         expect(browser.state).to.equal b.Browser.STATE_EXECUTING
@@ -330,7 +330,7 @@ describe 'browser', ->
         browser.init()
         browser.state = b.Browser.STATE_EXECUTING
 
-        browser.onReconnect new e.EventEmitter
+        browser.reconnect new e.EventEmitter
 
         # still accept results on the old socket
         socket.emit 'result', {success: true}
@@ -348,7 +348,7 @@ describe 'browser', ->
         browser = new b.Browser 'id', 'Chrome 25.0', collection, emitter, socket, null, 10
         browser.state = b.Browser.STATE_DISCONNECTED
 
-        browser.onReconnect new e.EventEmitter
+        browser.reconnect new e.EventEmitter
 
         expect(browser.isReady()).to.equal true
 
@@ -456,7 +456,7 @@ describe 'browser', ->
         expect(browser.isReady()).to.equal false
 
         newSocket = new e.EventEmitter
-        browser.onReconnect newSocket
+        browser.reconnect newSocket
         expect(browser.isReady()).to.equal false
 
         newSocket.emit 'result', {success: false, suite: [], log: []}
@@ -500,7 +500,7 @@ describe 'browser', ->
         emitter.on 'browser_register', -> browser.execute()
 
         # reconnect on a new socket (which triggers re-execution)
-        browser.onReconnect newSocket
+        browser.reconnect newSocket
         expect(browser.state).to.equal b.Browser.STATE_EXECUTING
         newSocket.emit 'start', {total: 11}
         socket.emit 'result', {success: true, suite: [], log: []}
