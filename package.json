@@ -119,16 +119,6 @@
     "graceful-fs": "~1.2.1",
     "connect": "~2.8.4"
   },
-  "peerDependencies": {
-    "karma-jasmine": "*",
-    "karma-requirejs": "*",
-    "karma-coffee-preprocessor": "*",
-    "karma-html2js-preprocessor": "*",
-    "karma-chrome-launcher": "*",
-    "karma-firefox-launcher": "*",
-    "karma-phantomjs-launcher": "*",
-    "karma-script-launcher": "*"
-  },
   "devDependencies": {
     "grunt": "~0.4",
     "grunt-simple-mocha": "*",
