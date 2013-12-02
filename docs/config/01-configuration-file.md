@@ -141,6 +141,19 @@ The `captureTimeout` value represents the maximum boot-up time allowed for a bro
 If any browser does not get captured within the timeout, Karma will kill it and try to launch
 it again and, after three attempts to capture it, Karma will give up.
 
+## client.args
+**Type:** Array
+
+**Default:** `undefined`
+
+**CLI:** All arguments after `--` (only when using `karma run`)
+
+**Description:** When `karma run` is passed additional arguments on the command-line, they
+are passed through to the test adapter as ``karma.config.args` (an array of strings).
+The `client.args` option allows you to set this value for actions other than `run`.
+
+How this value is used is up to your test adapter - you should check your adapter's
+documentation to see how (and if) it uses this value.
 
 ## colors
 **Type:** Boolean
