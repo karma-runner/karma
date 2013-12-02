@@ -1,3 +1,31 @@
+<a name="v0.11.6"></a>
+### v0.11.6 (2013-12-01)
+
+
+#### Bug Fixes
+
+* **config:**
+  * ignore empty string patterns ([66c86a66](http://github.com/karma-runner/karma/commit/66c86a6689aaac82006fa47762bd86496ad76bf7))
+  * apply CLI logger options as soon as we can ([16179b08](http://github.com/karma-runner/karma/commit/16179b08021334cfab02a9dcba8d7f4bd219bc5e))
+* **preprocess:** set correct extension for the preprocessed path ([c9a64d2f](http://github.com/karma-runner/karma/commit/c9a64d2f1a94c0a7dab2fcde79696c139d958c57), closes [#843](http://github.com/karma-runner/karma/issues/843))
+
+
+#### Features
+
+* add `browserDisconnectTolerance` config option ([19590e1f](http://github.com/karma-runner/karma/commit/19590e1f66fd6c3b0d3fc9e90000c705198e0e70))
+* make autoWatch true by default ([8454898c](http://github.com/karma-runner/karma/commit/8454898c5e2b56cb81f0c808153b5f82cfac62a4))
+* **browser:** improve logging ([71b542ad](http://github.com/karma-runner/karma/commit/71b542adc6d6bd24d0ab2bb5cb0a473e1813804a))
+* **client:** show error if no adapter is included ([7213877f](http://github.com/karma-runner/karma/commit/7213877f3542a4c65d91d2dbde6633b928aba049))
+* **web-server:**
+  * use SHA hash instead of timestamps ([6e31cb24](http://github.com/karma-runner/karma/commit/6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9), closes [#520](http://github.com/karma-runner/karma/issues/520))
+  * cache preprocessed files ([c786ee2e](http://github.com/karma-runner/karma/commit/c786ee2ea19d2fcef078a30cecb70d69036a4803))
+
+
+#### Breaking Changes
+
+* `autoWatch` is `true` by default. If you rely on the default value being `false`, please set it in `karma.conf.js` explicitly to `false`.
+ ([8454898c](http://github.com/karma-runner/karma/commit/8454898c5e2b56cb81f0c808153b5f82cfac62a4))
+
 <a name="v0.11.5"></a>
 ### v0.11.5 (2013-11-25)
 
