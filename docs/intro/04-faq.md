@@ -21,18 +21,17 @@ Of course! Check out the docs for [Jenkins], [Travis] or [Semaphore].
 
 
 ### Which version of Karma should I use ?
-The latest stable version from NPM (`npm install karma`). See [versioning] for more.
-Please use the latest stable version found via NPM (`npm install karma`). See [versioning] for more detailed information.
+The latest stable version from NPM (`npm install karma`). See [versioning] for more detailed information about Karma's release channels.
 
 
 ### Which version of Node.js does Karma run with ?
-In general, the two latest stable versions. That means `0.8` and `0.10` at this point.
+The two latest stable versions. That means `0.8` and `0.10` at this point.
 
 
 ### The browser just does not start. What's going on?
 It's more likely Karma can't find the location of the browser binary (the execution file). You can fix this by setting
-the appropriate environment variable with the correct path (Google Chrome for instance uses the `$CHROME_BIN` environment variable).
-Check out browsers for more information.
+the appropriate environment variable with the correct path (Google Chrome for instance uses the `CHROME_BIN` environment variable).
+Check out [browsers] for more information.
 
 
 ### I'm getting a weird error from the browser, how can I debug it ?
@@ -51,6 +50,10 @@ and Karma will display which files are preprocessed.
 Try to remove `karma` and `karma-*` modules from your `node_modules` first (for instance `rm -rf /usr/local/lib/node_modules/karma-*`), than install Karma again.
 
 
+### My tests are running really slow. What's going on?
+Make sure the Karma's tab is active. Browsers give inactive tabs only minimum CPU.
+
+
 [mailing list]: https://groups.google.com/d/forum/karma-users
 [karma-ng-scenario]: https://github.com/karma-runner/karma-ng-scenario
 [Protractor]: https://github.com/angular/protractor
@@ -58,3 +61,4 @@ Try to remove `karma` and `karma-*` modules from your `node_modules` first (for 
 [Travis]: ../plus/travis.html
 [Semaphore]: ../plus/semaphore.html
 [versioning]: ../about/versioning.html
+[browsers]: ../config/browsers.html
