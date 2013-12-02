@@ -1,3 +1,13 @@
+<a name="v0.10.7"></a>
+### v0.10.7 (2013-12-01)
+
+
+#### Bug Fixes
+
+* **config:**
+  * ignore empty string patterns ([cd045943](http://github.com/karma-runner/karma/commit/cd0459432fb66c66245c5f00ddde3a576ddca1d2))
+  * apply CLI logger options as soon as we can ([6a02056c](http://github.com/karma-runner/karma/commit/6a02056ca45752211abfb4816d39f5f583fda9a4))
+
 <a name="v0.10.6"></a>
 ### v0.10.6 (2013-11-26)
 
