@@ -68,7 +68,7 @@ describe 'middleware.source_files', ->
     callHandlerWith '/base/a.js?123345'
 
 
-  it 'should send strict caching headers for js source files with timestamps', (done) ->
+  it 'should send strict caching headers for js source files with sha', (done) ->
     servedFiles [
       new File('/src/some.js')
     ]
@@ -78,7 +78,20 @@ describe 'middleware.source_files', ->
       expect(response._headers['Cache-Control']).to.deep.equal  ['public', 'max-age=31536000']
       done()
 
-    callHandlerWith '/absolute/src/some.js?12323'
+    callHandlerWith '/absolute/src/some.js?df43b8acf136389a8dd989bda397d1c9b4e048be'
+
+
+  it 'should send strict caching headers for js source files with sha (in basePath)', (done) ->
+    servedFiles [
+      new File('/base/path/a.js')
+    ]
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response._headers['Cache-Control']).to.deep.equal  ['public', 'max-age=31536000']
+      done()
+
+    callHandlerWith '/base/a.js?df43b8acf136389a8dd989bda397d1c9b4e048be'
 
 
   it 'should send no-caching headers for js source files without timestamps', (done) ->
