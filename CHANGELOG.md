@@ -1,3 +1,17 @@
+<a name="v0.11.8"></a>
+### v0.11.8 (2013-12-03)
+
+
+#### Bug Fixes
+
+* **reporter:** remove SHAs from stack traces ([d7c31f97](http://github.com/karma-runner/karma/commit/d7c31f97be654f08d484563282a68d59638c5693))
+* **web-server:** correct caching headers for SHAs ([bf27e80b](http://github.com/karma-runner/karma/commit/bf27e80bb8ff3e60d19b408803596145c821bae7))
+
+
+#### Features
+
+* **web-server:** disable gzip compression ([5ee886bc](http://github.com/karma-runner/karma/commit/5ee886bc16fc5a2bd08101d351027345530f87df))
+
 <a name="v0.11.7"></a>
 ### v0.11.7 (2013-12-02)
 
