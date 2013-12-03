@@ -229,7 +229,7 @@ describe('Karma', function() {
     });
 
 
-    it('should disconnect navigate the client to return_url if specified', function() {
+    it('should navigate the client to return_url if specified', function() {
       windowLocation.search = '?id=567&return_url=http://return.com';
       socket = new MockSocket();
       k = new Karma(socket, {}, windowNavigator, windowLocation);
@@ -237,7 +237,6 @@ describe('Karma', function() {
       spyOn(socket, 'disconnect');
 
       k.complete();
-      expect(socket.disconnect).toHaveBeenCalled();
       expect(windowLocation.href).toBe('http://return.com');
     });
   });

@@ -12,6 +12,7 @@ var Karma = function(socket, context, navigator, location) {
   var queryParams = util.parseQueryParams(location.search);
   var browserId = queryParams.id || util.generateId('manual-');
   var returnUrl = queryParams.return_url || null;
+  var currentTransport;
 
   var resultsBufferLimit = 1;
   var resultsBuffer = [];
@@ -129,11 +130,15 @@ var Karma = function(socket, context, navigator, location) {
     // tests could run in the same event loop, we wouldn't notice.
     setTimeout(function() {
       socket.emit('complete', result || {});
+      clearContext();
+
+      // Redirect to the return_url, however we need to give the browser some time,
+      // so that all the messages are sent.
+      // TODO(vojta): can we rather get notification from socket.io?
       if (returnUrl) {
-        socket.disconnect();
-        location.href = returnUrl;
-      } else {
-        clearContext();
+        setTimeout(function() {
+          location.href = returnUrl;
+        }, (currentTransport === 'websocket' || currentTransport === 'flashsocket') ? 0 : 3000);
       }
     }, 0);
   };
@@ -197,10 +202,10 @@ var Karma = function(socket, context, navigator, location) {
 
   // report browser name, id
   socket.on('connect', function() {
-    var transport = socket.socket.transport.name;
+    currentTransport = socket.socket.transport.name;
 
     // TODO(vojta): make resultsBufferLimit configurable
-    if (transport === 'websocket' || transport === 'flashsocket') {
+    if (currentTransport === 'websocket' || currentTransport === 'flashsocket') {
       resultsBufferLimit = 1;
     } else {
       resultsBufferLimit = 50;
