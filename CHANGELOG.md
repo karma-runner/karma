@@ -1,3 +1,18 @@
+<a name="v0.11.7"></a>
+### v0.11.7 (2013-12-02)
+
+
+#### Bug Fixes
+
+* keep all sockets in the case an old socket will survive ([a5945ebc](http://github.com/karma-runner/karma/commit/a5945ebcf11c4b17b99c40b78d7e2946f79c77c2))
+* reuse browser instance when restarting disconnected browser ([1f1a8ebf](http://github.com/karma-runner/karma/commit/1f1a8ebf38827fe772c631de200fdfa4a705a40b))
+* **client:** redirect to redirect_url after all messages are sent ([4d05602c](http://github.com/karma-runner/karma/commit/4d05602c803a6645d6c0e9404a60ed380f0329ee))
+
+
+#### Features
+
+* **plugins:** ignore some non-plugins package names ([01776030](http://github.com/karma-runner/karma/commit/01776030a294ef051b6454c2fb9bc3f980a6d36a))
+
 <a name="v0.11.6"></a>
 ### v0.11.6 (2013-12-01)
 
