@@ -40,9 +40,11 @@ describe 'reporter', ->
 
 
     it 'should remove shas', ->
-      expect(formatError 'file http://localhost:8080/base/usr/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9 and ' +
-                         'http://127.0.0.1:8080/absolute/home/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9').
-          to.be.equal 'file /usr/file.js and /home/file.js\n'
+      ERROR = 'file ' +
+              'http://localhost:8080/base/usr/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9 ' +
+              'and ' +
+              'http://127.0.0.1:8080/absolute/home/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
+      expect(formatError ERROR).to.be.equal 'file /usr/file.js and /home/file.js\n'
 
 
     it 'should indent all lines', ->
@@ -55,10 +57,10 @@ describe 'reporter', ->
 
 
     it 'should restore absolute paths', ->
-      formatedError = formatError 'at http://local:1233/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
-      expect(formatedError).to.equal 'at /usr/path.js\n'
+      ERROR = 'at http://local:1233/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
+      expect(formatError ERROR).to.equal 'at /usr/path.js\n'
 
 
     it 'should preserve line numbers', ->
-      formatedError = formatError 'at http://local:1233/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9:23'
-      expect(formatedError).to.equal 'at /usr/path.js:23\n'
+      ERROR = 'at http://local:1233/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9:2'
+      expect(formatError ERROR).to.equal 'at /usr/path.js:2\n'
