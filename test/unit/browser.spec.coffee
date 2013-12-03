@@ -212,7 +212,7 @@ describe 'Browser', ->
     it 'should remove from parent collection', ->
       expect(collection.length).to.equal 1
 
-      browser.onDisconnect()
+      browser.onDisconnect 'socket.io-reason', socket
       expect(collection.length).to.equal 0
 
 
@@ -221,7 +221,7 @@ describe 'Browser', ->
       emitter.on 'browser_complete', spy
       browser.state = Browser.STATE_EXECUTING
 
-      browser.onDisconnect()
+      browser.onDisconnect 'socket.io-reason', socket
       timer.wind 20
 
       expect(browser.lastResult.disconnected).to.equal true
@@ -233,7 +233,7 @@ describe 'Browser', ->
       emitter.on 'browser_complete', spy
       browser.state = Browser.STATE_READY
 
-      browser.onDisconnect()
+      browser.onDisconnect 'socket.io-reason', socket
       expect(spy).not.to.have.been.called
 
 
@@ -249,7 +249,7 @@ describe 'Browser', ->
       browser.init()
       browser.state = Browser.STATE_EXECUTING
 
-      browser.onDisconnect()
+      browser.onDisconnect 'socket.io-reason', socket
       browser.reconnect new e.EventEmitter
 
       timer.wind 10
@@ -273,7 +273,7 @@ describe 'Browser', ->
       expect(browser.lastResult.error).to.equal true
 
       # should be ignored, keep executing
-      socket.emit 'disconnect'
+      socket.emit 'disconnect', 'socket.io reason'
       expect(browser.state).to.equal Browser.STATE_EXECUTING
 
 
@@ -385,7 +385,7 @@ describe 'Browser', ->
       browser.init()
       browser.state = Browser.STATE_EXECUTING
       socket.emit 'result', {success: true, suite: [], log: []}
-      socket.emit 'disconnect'
+      socket.emit 'disconnect', 'socket.io reason'
       expect(browser.isReady()).to.equal false
 
       newSocket = new e.EventEmitter
@@ -407,7 +407,7 @@ describe 'Browser', ->
       browser.init()
       browser.state = Browser.STATE_EXECUTING
       socket.emit 'result', {success: true, suite: [], log: []}
-      socket.emit 'disconnect'
+      socket.emit 'disconnect', 'socket.io reason'
 
       timer.wind 10
       expect(browser.lastResult.disconnected).to.equal true
@@ -424,7 +424,7 @@ describe 'Browser', ->
       socket.emit 'result', {success: true, suite: [], log: []}
       socket.emit 'result', {success: false, suite: [], log: []}
       socket.emit 'result', {skipped: true, suite: [], log: []}
-      socket.emit 'disconnect'
+      socket.emit 'disconnect', 'socket.io reason'
       timer.wind 10 # wait-for reconnecting delay
       expect(browser.state).to.equal Browser.STATE_DISCONNECTED
       expect(browser.disconnectsCount).to.equal 1
@@ -443,3 +443,24 @@ describe 'Browser', ->
       expect(browser.lastResult.success).to.equal 1
       expect(browser.lastResult.failed).to.equal 0
       expect(browser.lastResult.skipped).to.equal 0
+
+
+    it 'keeping multiple active sockets', ->
+      # If there is a new connection (socket) for an already connected browser,
+      # we need to keep the old socket, in the case that the new socket will disconnect.
+      browser = new Browser 'fake-id', 'Chrome 31.0', collection, emitter, socket, null, 10
+      browser.init()
+      browser.execute()
+
+      # A second connection...
+      newSocket = new e.EventEmitter
+      browser.reconnect newSocket
+
+      # Disconnect the second connection...
+      browser.onDisconnect 'socket.io-reason', newSocket
+      expect(browser.state).to.equal Browser.STATE_EXECUTING
+
+      # It should still be listening on the old socket.
+      socket.emit 'result', {success: true, suite: [], log: []}
+      expect(browser.lastResult.success).to.equal 1
+

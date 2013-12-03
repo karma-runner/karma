@@ -107,6 +107,16 @@ describe 'events', ->
 
       expect(object.onFoo).to.have.been.called
 
+
+    it 'should append "context" to event arguments', ->
+      object = sinon.stub onFoo: ->
+
+      e.bindAll object, emitter
+      emitter.emit 'foo', 'event-argument'
+
+      expect(object.onFoo).to.have.been.calledWith 'event-argument', emitter
+
+
   #============================================================================
   # events.bufferEvents
   #============================================================================
