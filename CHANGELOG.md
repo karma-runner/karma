@@ -1,3 +1,11 @@
+<a name="v0.10.8"></a>
+### v0.10.8 (2013-12-04)
+
+
+#### Bug Fixes
+
+* **preprocess:** set correct extension for the preprocessed path ([69cd4ebc](http://github.com/karma-runner/karma/commit/69cd4ebc4c0d9b1ec31b71b0c1c554ea52e1aae7), closes [#843](http://github.com/karma-runner/karma/issues/843))
+
 <a name="v0.10.7"></a>
 ### v0.10.7 (2013-12-01)
 
