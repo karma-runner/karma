@@ -1,3 +1,11 @@
+<a name="v0.11.9"></a>
+### v0.11.9 (2013-12-03)
+
+
+#### Features
+
+* **browser:** add browserNoActivity configuration ([bca8faad](http://github.com/karma-runner/karma/commit/bca8faad91b91baa898e3eba74fe0fa7336971c3))
+
 <a name="v0.11.8"></a>
 ### v0.11.8 (2013-12-03)
 
