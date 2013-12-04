@@ -105,6 +105,16 @@ Usually any disconnection is considered as a failure, but this option allows to 
 a flaky network link between the karma server and the browsers.
 
 
+## browserNoActivityTimeout
+**Type:** Number
+
+**Default:** `10000`
+
+**Description:** How long does Karma wait for a message from a browser before disconnecting it (in ms).
+
+If, during the execution, Karma does not receive any message from a browser within `browserNoActivityTimeout` ms, it will disconnect the browser.
+
+
 ## browsers
 **Type:** Array
 

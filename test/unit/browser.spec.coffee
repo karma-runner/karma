@@ -464,3 +464,20 @@ describe 'Browser', ->
       socket.emit 'result', {success: true, suite: [], log: []}
       expect(browser.lastResult.success).to.equal 1
 
+
+    it 'disconnect when no message during the run', ->
+      timer = createMockTimer()
+      browser = new Browser 'fake-id', 'Chrome 31.0', collection, emitter, socket, timer, 10, 20
+      browser.init()
+      browser.execute()
+
+      spyBrowserComplete = sinon.spy()
+      emitter.on 'browser_complete', spyBrowserComplete
+
+      socket.emit 'start', {total: 11}
+      socket.emit 'result', {success: true, suite: [], log: []}
+
+      timer.wind 20
+      expect(browser.state).to.equal Browser.STATE_DISCONNECTED
+      expect(browser.disconnectsCount).to.equal 1
+      expect(spyBrowserComplete).to.have.been.called
