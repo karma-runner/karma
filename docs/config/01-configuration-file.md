@@ -343,6 +343,15 @@ on whether all tests passed or any tests failed.
 is handed off to [socket.io](https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO) (which manages the communication
 between browsers and the testing server).
 
+## client.useIframe
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** Run the tests inside an iframe or a new window
+
+If true, Karma runs the tests inside an iframe. If false, Karma runs the tests in a new window. Some tests may not run in an iFrame and may need a new window to run.
+
 
 ## urlRoot
 **Type:** String

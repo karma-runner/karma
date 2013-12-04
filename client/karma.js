@@ -4,9 +4,10 @@ var util = require('./util');
 
 
 /* jshint unused: false */
-var Karma = function(socket, context, navigator, location) {
+var Karma = function(socket, iframe, opener, navigator, location) {
   var hasError = false;
   var startEmitted = false;
+  var reloadingContext = false;
   var store = {};
   var self = this;
   var queryParams = util.parseQueryParams(location.search);
@@ -19,6 +20,19 @@ var Karma = function(socket, context, navigator, location) {
 
   this.VERSION = constant.VERSION;
   this.config = {};
+
+  var childWindow = null;
+  var navigateContextTo = function(url) {
+    if (self.config.useIframe === false) {
+      if (childWindow === null || childWindow.closed === true) {
+        // If this is the first time we are opening the window, or the window is closed
+        childWindow = opener('about:blank');
+      }
+      childWindow.location = url;
+    } else {
+      iframe.src = url;
+    }
+  };
 
   this.setupContext = function(contextWindow) {
     if (hasError) {
@@ -43,7 +57,7 @@ var Karma = function(socket, context, navigator, location) {
     };
 
     contextWindow.onbeforeunload = function(e, b) {
-      if (context.src !== 'about:blank') {
+      if (!reloadingContext) {
         // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
         contextWindow.__karma__.error('Some of your tests did a full page reload!');
       }
@@ -90,7 +104,8 @@ var Karma = function(socket, context, navigator, location) {
 
 
   var clearContext = function() {
-    context.src = 'about:blank';
+    reloadingContext = true;
+    navigateContextTo('about:blank');
   };
 
   // error during js file loading (most likely syntax error)
@@ -190,8 +205,9 @@ var Karma = function(socket, context, navigator, location) {
     // reset hasError and reload the iframe
     hasError = false;
     startEmitted = false;
+    reloadingContext = false;
     self.config = cfg;
-    context.src = constant.CONTEXT_URL;
+    navigateContextTo(constant.CONTEXT_URL);
 
     // clear the console before run
     // works only on FF (Safari, Chrome do not allow to clear console from js source)
