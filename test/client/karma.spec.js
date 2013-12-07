@@ -3,7 +3,7 @@ var MockSocket = require('./mocks').Socket;
 
 
 describe('Karma', function() {
-  var socket, k, spyStart, windowNavigator, windowLocation, spywindowOpener;
+  var socket, k, spyStart, windowNavigator, windowLocation, spyWindowOpener;
 
   var setTransportTo = function(transportName) {
     socket._setTransportNameTo(transportName);
@@ -15,10 +15,9 @@ describe('Karma', function() {
     socket = new MockSocket();
     windowNavigator = {};
     windowLocation = {search: ''};
-    spywindowOpener = spyOn(window, 'open').andReturn({});
-    k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
+    spyWindowOpener = jasmine.createSpy('window.open').andReturn({});
+    k = new Karma(socket, {}, spyWindowOpener, windowNavigator, windowLocation);
     spyStart = spyOn(k, 'start');
-
   });
 
 
@@ -34,6 +33,7 @@ describe('Karma', function() {
     expect(spyStart).toHaveBeenCalledWith(config);
   });
 
+
   it('should open a new window when useIFrame is false', function() {
     var config = {
       useIframe: false
@@ -44,7 +44,7 @@ describe('Karma', function() {
 
     k.loaded();
     expect(spyStart).toHaveBeenCalledWith(config);
-    expect(spywindowOpener).toHaveBeenCalledWith('about:blank');
+    expect(spyWindowOpener).toHaveBeenCalledWith('about:blank');
   });
 
 
@@ -116,6 +116,7 @@ describe('Karma', function() {
       spyResult = jasmine.createSpy('onResult');
       socket.on('result', spyResult);
     });
+
 
     it('should buffer results when polling', function() {
       setTransportTo('xhr-polling');
@@ -227,6 +228,7 @@ describe('Karma', function() {
         fn();
       });
     });
+
 
     it('should clean the result buffer before completing', function() {
       var spyResult = jasmine.createSpy('onResult');
