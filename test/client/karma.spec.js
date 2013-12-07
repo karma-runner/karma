@@ -3,7 +3,7 @@ var MockSocket = require('./mocks').Socket;
 
 
 describe('Karma', function() {
-  var socket, k, spyStart, windowNavigator, windowLocation;
+  var socket, k, spyStart, windowNavigator, windowLocation, spywindowOpener;
 
   var setTransportTo = function(transportName) {
     socket._setTransportNameTo(transportName);
@@ -15,19 +15,36 @@ describe('Karma', function() {
     socket = new MockSocket();
     windowNavigator = {};
     windowLocation = {search: ''};
-    k = new Karma(socket, {}, windowNavigator, windowLocation);
+    spywindowOpener = spyOn(window, 'open').andReturn({});
+    k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
     spyStart = spyOn(k, 'start');
+
   });
 
 
   it('should start execution when all files loaded and pass config', function() {
-    var config = {};
+    var config = {
+      useIframe: true
+    };
 
     socket.emit('execute', config);
     expect(spyStart).not.toHaveBeenCalled();
 
     k.loaded();
     expect(spyStart).toHaveBeenCalledWith(config);
+  });
+
+  it('should open a new window when useIFrame is false', function() {
+    var config = {
+      useIframe: false
+    };
+
+    socket.emit('execute', config);
+    expect(spyStart).not.toHaveBeenCalled();
+
+    k.loaded();
+    expect(spyStart).toHaveBeenCalledWith(config);
+    expect(spywindowOpener).toHaveBeenCalledWith('about:blank');
   });
 
 
@@ -79,7 +96,7 @@ describe('Karma', function() {
   it('should report browser id', function() {
     windowLocation.search = '?id=567';
     socket = new MockSocket();
-    k = new Karma(socket, {}, windowNavigator, windowLocation);
+    k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
 
     var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
       expect(info.id).toBe('567');
@@ -232,7 +249,7 @@ describe('Karma', function() {
     it('should navigate the client to return_url if specified', function() {
       windowLocation.search = '?id=567&return_url=http://return.com';
       socket = new MockSocket();
-      k = new Karma(socket, {}, windowNavigator, windowLocation);
+      k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
 
       spyOn(socket, 'disconnect');
 
