@@ -258,5 +258,35 @@ describe('Karma', function() {
       k.complete();
       expect(windowLocation.href).toBe('http://return.com');
     });
+
+    it('should patch the console if captureConsole is true', function() {
+      spyOn(k, 'log');
+      k.config.captureConsole = true;
+
+      var mockWindow = {
+        console: {
+          log: function () {}
+        }
+      };
+
+      k.setupContext(mockWindow);
+      mockWindow.console.log('What?');
+      expect(k.log).toHaveBeenCalledWith('log', ['What?']);
+    });
+
+    it('should not patch the console if captureConsole is false', function() {
+      spyOn(k, 'log');
+      k.config.captureConsole = false;
+
+      var mockWindow = {
+        console: {
+          log: function () {}
+        }
+      };
+
+      k.setupContext(mockWindow);
+      mockWindow.console.log('hello');
+      expect(k.log).not.toHaveBeenCalled();
+    });
   });
 });

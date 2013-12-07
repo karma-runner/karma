@@ -352,6 +352,12 @@ between browsers and the testing server).
 
 If true, Karma runs the tests inside an iframe. If false, Karma runs the tests in a new window. Some tests may not run in an iFrame and may need a new window to run.
 
+## client.captureConsole
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** Capture all console output and pipe it to the terminal.
 
 ## urlRoot
 **Type:** String
