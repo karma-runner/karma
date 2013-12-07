@@ -4,7 +4,7 @@
 # This is stolen from NPM. Thanks @isaac!
 #
 # Installation: karma completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: karma completion > /usr/local/etc/bash_completion.d/npm
+# Or, maybe: karma completion > /usr/local/etc/bash_completion.d/karma
 #
 
 if type complete &>/dev/null; then
