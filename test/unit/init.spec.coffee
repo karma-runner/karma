@@ -76,3 +76,153 @@ describe 'init', ->
       expect(processedAnswers.preprocessors).to.have.property '**/*.coffee'
       expect(processedAnswers.preprocessors['**/*.coffee']).to.deep.equal ['coffee']
 
+
+  describe 'scenario:', ->
+    vm = require 'vm'
+
+    StateMachine = require '../../lib/init/state_machine'
+    JavaScriptFormatter = require('../../lib/init/formatters').JavaScript
+    DefaultKarmaConfig = require('../../lib/config').Config
+
+    mockRli =
+      close: -> null
+      write: -> null
+      prompt: -> null
+      _deleteLineLeft: -> null
+      _deleteLineRight: -> null
+
+    mockColors =
+      question: -> ''
+
+    machine = formatter = null
+
+    evaluateConfigCode = (code) ->
+      sandbox = {module: {}}
+      configModule = vm.runInNewContext code, sandbox
+      config = new DefaultKarmaConfig
+      sandbox.module.exports config
+      config
+
+
+    beforeEach ->
+      machine = new StateMachine mockRli, mockColors
+      formatter = new JavaScriptFormatter
+
+
+    it 'should generate working config', (done) ->
+      machine.process m.questions, (answers) ->
+        basePath = m.getBasePath '../karma.conf.js', '/some/path'
+        processedAnswers = m.processAnswers answers, basePath
+        generatedConfigCode = formatter.generateConfigFile processedAnswers
+        config = evaluateConfigCode generatedConfigCode
+
+        # expect correct configuration
+        expect(config.basePath).to.equal 'path'
+        expect(config.frameworks).to.deep.equal ['jasmine']
+        expect(config.browsers).to.contain 'Chrome'
+        expect(config.browsers).to.contain 'Firefox'
+        expect(config.files).to.deep.equal ['src/app.js', 'src/**/*.js', 'test/**/*.js']
+        expect(config.exclude).to.deep.equal ['src/config.js']
+        expect(config.autoWatch).to.equal false
+        done()
+
+      # frameworks
+      machine.onLine 'jasmine'
+      machine.onLine ''
+
+      # requirejs
+      machine.onLine 'no'
+
+      # browsers
+      machine.onLine 'Chrome'
+      machine.onLine 'Firefox'
+      machine.onLine ''
+
+      # files
+      machine.onLine 'src/app.js'
+      machine.onLine 'src/**/*.js'
+      machine.onLine 'test/**/*.js'
+      machine.onLine ''
+
+      # excludes
+      machine.onLine 'src/config.js'
+      machine.onLine ''
+
+      # autoWatch
+      machine.onLine 'no'
+
+
+    it 'should generate config for requirejs', (done) ->
+      machine.process m.questions, (answers) ->
+        basePath = m.getBasePath '../karma.conf.js', '/some/path'
+        processedAnswers = m.processAnswers answers, basePath
+        generatedConfigCode = formatter.generateConfigFile processedAnswers
+        config = evaluateConfigCode generatedConfigCode
+
+        # expect correct configuration
+        expect(config.frameworks).to.contain 'requirejs'
+        expect(config.files).to.contain 'test/main.js'
+        for pattern in config.files.slice(1)
+          expect(pattern.included).to.equal false
+        done()
+
+      # frameworks
+      machine.onLine 'jasmine'
+      machine.onLine ''
+
+      # requirejs
+      machine.onLine 'yes'
+
+      # browsers
+      machine.onLine 'Chrome'
+      machine.onLine ''
+
+      # files
+      machine.onLine 'src/**/*.js'
+      machine.onLine 'test/**/*.js'
+      machine.onLine ''
+
+      # excludes
+      machine.onLine ''
+
+      # included files
+      machine.onLine 'test/main.js'
+      machine.onLine ''
+
+      # autoWatch
+      machine.onLine 'yes'
+
+
+    it 'should add coffee preprocessor', (done) ->
+      machine.process m.questions, (answers) ->
+        basePath = m.getBasePath 'karma.conf.js', '/cwd'
+        processedAnswers = m.processAnswers answers, basePath
+        generatedConfigCode = formatter.generateConfigFile processedAnswers
+        config = evaluateConfigCode generatedConfigCode
+
+        # expect correct configuration
+        expect(config.preprocessors).to.have.property '**/*.coffee'
+        expect(config.preprocessors['**/*.coffee']).to.deep.equal ['coffee']
+        done()
+
+      # frameworks
+      machine.onLine 'jasmine'
+      machine.onLine ''
+
+      # requirejs
+      machine.onLine 'no'
+
+      # browsers
+      machine.onLine 'Chrome'
+      machine.onLine ''
+
+      # files
+      machine.onLine 'src/*.coffee'
+      machine.onLine 'src/**/*.js'
+      machine.onLine ''
+
+      # excludes
+      machine.onLine ''
+
+      # autoWatch
+      machine.onLine 'no'
