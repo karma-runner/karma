@@ -12,7 +12,7 @@ describe 'init/StateMachine', ->
     _deleteLineRight: -> null
 
   mockColors =
-    bold: -> ''
+    question: -> ''
 
 
   beforeEach ->
