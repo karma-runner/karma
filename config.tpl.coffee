@@ -20,6 +20,12 @@ module.exports = (config) ->
       %EXCLUDE%
     ]
 
+
+    # preprocess matching files before serving them to the browser
+    # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    preprocessors: %PREPROCESSORS%
+
+
     # test results reporter to use
     # possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['progress']
