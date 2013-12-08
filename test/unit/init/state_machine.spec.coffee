@@ -6,6 +6,7 @@ describe 'init/StateMachine', ->
   machine = done = null
 
   mockRli =
+    close: -> null
     write: -> null
     prompt: -> null
     _deleteLineLeft: -> null

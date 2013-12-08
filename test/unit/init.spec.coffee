@@ -8,6 +8,7 @@ describe 'init', ->
 
   beforeEach ->
     m = loadFile __dirname + '/../../lib/init.js', {glob: require 'glob'}
+    sinon.stub m, 'installPackage'
 
 
   describe 'getBasePath', ->
@@ -46,7 +47,7 @@ describe 'init', ->
       expect(basePath).to.equal replace('..')
 
 
-  describe 'getReplacementsFromAnswers', ->
+  describe 'processAnswers', ->
 
     answers = (obj = {}) ->
       obj.files = obj.files or []
@@ -54,69 +55,24 @@ describe 'init', ->
       obj.browsers = obj.browsers or []
       obj
 
-    it 'should set FILES', ->
-      # empty
-      replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.FILES).to.equal ''
-
-      replacements = m.getReplacementsFromAnswers answers {files: ['*.js', 'other/file.js']}
-      expect(replacements.FILES).to.equal "'*.js',\n      'other/file.js'"
-
-
-    it 'should set FRAMEWORKS', ->
-      replacements = m.getReplacementsFromAnswers answers {
-        framework: 'mocha',
-        requirejs: true
-      }
-
-      expect(replacements.FRAMEWORKS).to.equal "'mocha', 'requirejs'"
-
 
     it 'should add requirejs and set files non-included if requirejs used', ->
-      replacements = m.getReplacementsFromAnswers answers {
+      processedAnswers = m.processAnswers answers {
         requirejs: true,
-        includedFiles: [],
-        files: ['*.js', 'other/file.js']
-      }
-
-      expect(replacements.FRAMEWORKS).to.contain "'requirejs'"
-
-      expect(replacements.FILES).to.equal "" +
-        "{pattern: '*.js', included: false},\n      " +
-        "{pattern: 'other/file.js', included: false}"
-
-
-    it 'should prepend includedFiles into FILES', ->
-      replacements = m.getReplacementsFromAnswers answers {
-        requirejs: true,
-        includedFiles: ['main.js']
+        includedFiles: ['test-main.js'],
         files: ['*.js']
       }
 
-      expect(replacements.FILES).to.equal "" +
-        "'main.js',\n      " +
-        "{pattern: '*.js', included: false}"
+      expect(processedAnswers.frameworks).to.contain 'requirejs'
+      expect(processedAnswers.files).to.deep.equal ['test-main.js']
+      expect(processedAnswers.onlyServedFiles).to.deep.equal ['*.js']
 
 
-    it 'should set EXCLUDE', ->
-      replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.EXCLUDE).to.equal ''
+    it 'should add coffee preprocessor', ->
+      processedAnswers = m.processAnswers answers {
+        files: ['src/*.coffee']
+      }
 
-      replacements = m.getReplacementsFromAnswers answers {exclude: ['*.js', 'other/file.js']}
-      expect(replacements.EXCLUDE).to.equal "'*.js',\n      'other/file.js'"
+      expect(processedAnswers.preprocessors).to.have.property '**/*.coffee'
+      expect(processedAnswers.preprocessors['**/*.coffee']).to.deep.equal ['coffee']
 
-
-    it 'should set BROWSERS', ->
-      replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.BROWSERS).to.equal ''
-
-      replacements = m.getReplacementsFromAnswers answers {browsers: ['Chrome', 'Firefox']}
-      expect(replacements.BROWSERS).to.equal "'Chrome', 'Firefox'"
-
-
-    it 'should set AUTO_WATCH', ->
-      replacements = m.getReplacementsFromAnswers answers {autoWatch: true}
-      expect(replacements.AUTO_WATCH).to.equal 'true'
-
-      replacements = m.getReplacementsFromAnswers answers {autoWatch: false}
-      expect(replacements.AUTO_WATCH).to.equal 'false'
