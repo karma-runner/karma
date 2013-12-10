@@ -63,22 +63,24 @@ var Karma = function(socket, iframe, opener, navigator, location) {
       }
     };
 
-    // patch the console
-    var localConsole = contextWindow.console = getConsole(contextWindow);
-    var browserConsoleLog = localConsole.log;
-    var logMethods = ['log', 'info', 'warn', 'error', 'debug'];
-    var patchConsoleMethod = function(method) {
-      var orig = localConsole[method];
-      if (!orig) {
-        return;
-      }
-      localConsole[method] = function() {
-        self.log(method, arguments);
-        return Function.prototype.apply.call(orig, localConsole, arguments);
+    if (self.config.captureConsole) {
+      // patch the console
+      var localConsole = contextWindow.console = getConsole(contextWindow);
+      var browserConsoleLog = localConsole.log;
+      var logMethods = ['log', 'info', 'warn', 'error', 'debug'];
+      var patchConsoleMethod = function(method) {
+        var orig = localConsole[method];
+        if (!orig) {
+          return;
+        }
+        localConsole[method] = function() {
+          self.log(method, arguments);
+          return Function.prototype.apply.call(orig, localConsole, arguments);
+        };
       };
-    };
-    for (var i = 0; i < logMethods.length; i++) {
-      patchConsoleMethod(logMethods[i]);
+      for (var i = 0; i < logMethods.length; i++) {
+        patchConsoleMethod(logMethods[i]);
+      }
     }
 
     contextWindow.dump = function() {
