@@ -63,5 +63,5 @@ files: [
 ```
 
 [glob]: https://github.com/isaacs/node-glob
-[preprocessors]: 04-preprocessors.html
+[preprocessors]: preprocessors.html
 [minimatch]: https://github.com/isaacs/minimatch
