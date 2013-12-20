@@ -1,278 +1,239 @@
-describe 'launchers Base', ->
-  events = require 'events'
-  nodeMocks = require 'mocks'
-  loadFile = nodeMocks.loadFile
-  fsMock = nodeMocks.fs
-  path = require 'path'
-
-  setTimeoutMock = null
-
-  mockSpawn = sinon.spy (cmd, args) ->
-    process = new events.EventEmitter
-    process.stderr = new events.EventEmitter
-    process.kill = sinon.spy()
-    process.exitCode = null
-    mockSpawn._processes.push process
-    process
-
-
-  mockRimraf = sinon.spy (p, fn) ->
-    mockRimraf._callbacks.push fn
-
-  mockFs = fsMock.create
-    tmp:
-      'some.file': fsMock.file()
-
-  mocks =
-    '../logger': require '../../../lib/logger'
-    child_process: spawn: mockSpawn
-    rimraf: mockRimraf
-    fs: mockFs
-
-  globals =
-    process:
-      platform: 'darwin'
-      versions: node: '0.10.x'
-      env:
-        TMP: '/tmp'
-      nextTick: process.nextTick
-    setTimeout: (fn, delay) -> setTimeoutMock fn, delay
-
-
-  m = loadFile __dirname + '/../../../lib/launchers/base.js', mocks, globals
-
+describe 'launchers/base.js', ->
+  BaseLauncher = require '../../../lib/launchers/base'
+  EventEmitter = require('../../../lib/events').EventEmitter
+  launcher = emitter = null
 
   beforeEach ->
-    setTimeoutMock = sinon.stub().callsArg 0
-    mockSpawn.reset()
-    mockSpawn._processes = []
-    mockRimraf.reset()
-    mockRimraf._callbacks = []
+    emitter = new EventEmitter
+    launcher = new BaseLauncher 'fake-id', emitter
+
+  it 'should manage state', ->
+    launcher.start 'http://localhost:9876/'
+    expect(launcher.state).to.equal launcher.STATE_BEING_CAPTURED
+
+    launcher.markCaptured()
+    expect(launcher.state).to.equal launcher.STATE_CAPTURED
+    expect(launcher.isCaptured()).to.equal true
+
 
   describe 'start', ->
-    it 'should create a temp directory', ->
-      browser = new m.BaseBrowser 12345
-      sinon.stub browser, '_start'
 
-      browser.start '/some'
-      expect(mockFs.readdirSync '/tmp/karma-12345').to.exist
+    it 'should fire "start" event and pass url with id', ->
+      spyOnStart = sinon.spy()
+      launcher.on 'start', spyOnStart
+      launcher.start 'http://localhost:9876/'
 
-
-    it 'should not timeout if timeout = 0', ->
-      browser = new m.BaseBrowser 12345, null, 0 # captureTimeout
-      sinon.stub browser, '_start'
-      sinon.stub browser, '_onTimeout'
-
-      browser.start '/some'
-      expect(setTimeoutMock).not.to.have.been.called
-      expect(browser._onTimeout).not.to.have.been.called
+      expect(spyOnStart).to.have.been.calledWith 'http://localhost:9876/?id=fake-id'
 
 
-    it 'should append id to the url', ->
-      browser = new m.BaseBrowser 123
-      sinon.stub browser, '_start'
+  describe 'restart', ->
 
-      browser.start '/capture/url'
-      expect(browser._start).to.have.been.calledWith '/capture/url?id=123'
+    it 'should kill running browser and start with previous url', (done) ->
+      spyOnStart = sinon.spy()
+      spyOnKill = sinon.spy()
+      launcher.on 'start', spyOnStart
+      launcher.on 'kill', spyOnKill
 
+      launcher.start 'http://host:9988/'
+      spyOnStart.reset()
 
-    it 'should handle spawn ENOENT error and not even retry', (done) ->
-      browser = new m.BaseBrowser 123, new events.EventEmitter, 0, 3
-      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
+      launcher.restart()
+      expect(spyOnKill).to.have.been.called
+      expect(spyOnStart).to.not.have.been.called
 
-      error = new Error 'spawn ENOENT'
-      error.code = 'ENOENT'
+      # the process (or whatever it is) actually finished
+      launcher._done()
+      spyOnKill.callArg 0
 
-      browser.start '/capture/url'
-
-      spawnProcess = mockSpawn._processes[0]
-      mockSpawn.reset()
-
-      spawnProcess.emit 'error', error
-      spawnProcess.emit 'close', 1
-
-      # do not retry
-      expect(mockSpawn).not.to.have.been.called
-
-      browser.kill done
-
-      # do not kill already dead process
-      expect(spawnProcess.kill).to.not.have.been.called
+      process.nextTick ->
+        expect(spyOnStart).to.have.been.calledWith 'http://host:9988/?id=fake-id'
+        done()
 
 
-    it 'should remove quotes from the cmd', ->
-      browser = new m.BaseBrowser 123
+    it 'should start when already finished (crashed)', (done) ->
+      spyOnStart = sinon.spy()
+      spyOnKill = sinon.spy()
+      spyOnDone = sinon.spy()
+      launcher.on 'start', spyOnStart
+      launcher.on 'kill', spyOnKill
 
-      browser.DEFAULT_CMD = darwin: '"/bin/brow ser"'
-      browser.start '/url'
-      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
+      launcher.on 'done', -> launcher.restart()
+      launcher.on 'done', spyOnDone
 
-      browser.DEFAULT_CMD = darwin: '\'bin/brow ser\''
-      browser.start '/url'
-      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
 
-      browser.DEFAULT_CMD = darwin: '`bin/brow ser`'
-      browser.start '/url'
-      expect(mockSpawn).to.have.been.calledWith '/bin/brow ser', ['/url?id=123']
+      launcher.start 'http://host:9988/'
+      spyOnStart.reset()
+
+      # simulate crash
+      # the first onDone will restart
+      launcher._done 'crashed'
+
+      process.nextTick ->
+        expect(spyOnKill).to.not.have.been.called
+        expect(spyOnStart).to.have.been.called
+        expect(spyOnDone).to.have.been.called
+        expect(spyOnDone).to.have.been.calledBefore spyOnStart
+        done()
+
+
+    it 'should not restart when being force killed', (done) ->
+      spyOnStart = sinon.spy()
+      spyOnKill = sinon.spy()
+      launcher.on 'start', spyOnStart
+      launcher.on 'kill', spyOnKill
+
+
+      launcher.start 'http://host:9988/'
+      spyOnStart.reset()
+
+      onceKilled = launcher.forceKill()
+
+      launcher.restart()
+
+      # the process (or whatever it is) actually finished
+      launcher._done()
+      spyOnKill.callArg 0
+
+      onceKilled.done ->
+        expect(spyOnStart).to.not.have.been.called
+        done()
 
 
   describe 'kill', ->
-    it 'should just fire done if already killed', (done) ->
-      browser = new m.BaseBrowser 123, new events.EventEmitter, 0, 1 # disable retry
-      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
-      killSpy = sinon.spy done
 
-      browser.start '/some'
-      mockSpawn._processes[0].emit 'close', 0 # crash the browser
+    it 'should manage state', (done) ->
+      onceKilled = launcher.kill()
+      expect(launcher.state).to.equal launcher.STATE_BEING_KILLED
 
-      browser.kill killSpy
-      expect(killSpy).not.to.have.been.called # must be async
+      onceKilled.done ->
+        expect(launcher.state).to.equal launcher.STATE_FINISHED
+        done()
 
 
-  describe 'flow', ->
-    browser = emitter = null
+    it 'should fire "kill" and wait for all listeners to finish', (done) ->
+      spyOnKill1 = sinon.spy()
+      spyOnKill2 = sinon.spy()
+      spyKillDone = sinon.spy done
 
-    beforeEach ->
-      emitter = new events.EventEmitter()
-      browser = new m.BaseBrowser 12345, emitter, 1000, 3
-      browser.DEFAULT_CMD = darwin: '/usr/bin/browser'
+      launcher.on 'kill', spyOnKill1
+      launcher.on 'kill', spyOnKill2
 
-    # the most common scenario, when everything works fine
-    it 'start -> capture -> kill', ->
-      killSpy = sinon.spy()
+      launcher.start 'http://localhost:9876/'
+      launcher.kill().then spyKillDone
+      expect(spyOnKill1).to.have.been.called
+      expect(spyOnKill2).to.have.been.called
+      expect(spyKillDone).to.not.have.been.called
 
-      # start the browser
-      browser.start 'http://localhost/'
-      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'),
-        ['http://localhost/?id=12345']
-      mockSpawn.reset()
+      spyOnKill1.callArg 0 # the first listener is done
+      expect(spyKillDone).to.not.have.been.called
 
-      # mark captured
-      browser.markCaptured()
-
-      # kill it
-      browser.kill killSpy
-      expect(mockSpawn._processes[0].kill).to.have.been.called
-      expect(killSpy).not.to.have.been.called
-
-      mockSpawn._processes[0].emit 'close', 0
-      expect(mockRimraf).to.have.been.calledWith path.normalize('/tmp/karma-12345')
-      mockRimraf._callbacks[0]() # rm tempdir
-      expect(killSpy).to.have.been.called
+      spyOnKill2.callArg 0 # the second listener is done
 
 
-    # when the browser fails to get captured in given timeout, it should restart
-    it 'start -> timeout -> restart', ->
-      failureSpy = sinon.spy()
-      emitter.on 'browser_process_failure', failureSpy
+    it 'should not fire "kill" if already killed', (done) ->
+      spyOnKill = sinon.spy()
+      launcher.on 'kill', spyOnKill
 
-      # start
-      browser.start 'http://localhost/'
+      launcher.start 'http://localhost:9876/'
+      launcher.kill().then ->
+        spyOnKill.reset()
+        launcher.kill().then ->
+          expect(spyOnKill).to.not.have.been.called
+          done()
 
-      # expect starting the process
-      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'),
-                                                ['http://localhost/?id=12345']
-      browserProcess = mockSpawn._processes.shift()
-
-      # timeout
-      expect(setTimeoutMock).to.have.been.called
-
-      # expect killing browser
-      expect(browserProcess.kill).to.have.been.called
-      browserProcess.emit 'close', 0
-      mockSpawn.reset()
-      expect(mockRimraf).to.be.calledOnce
-      mockRimraf._callbacks[0]() # cleanup
-
-      # expect re-starting
-      expect(mockSpawn).to.have.been.calledWith path.normalize('/usr/bin/browser'),
-                                                ['http://localhost/?id=12345']
-      browserProcess = mockSpawn._processes.shift()
-
-      expect(failureSpy).not.to.have.been.called
+      spyOnKill.callArg 0
 
 
-    it 'start -> timeout -> 3xrestart -> failure', ->
-      failureSpy = sinon.spy()
-      emitter.on 'browser_process_failure', failureSpy
-      normalized = path.normalize('/usr/bin/browser')
+    it 'should not fire "kill" if already being killed, but wait for all listeners', (done) ->
+      spyOnKill = sinon.spy()
+      launcher.on 'kill', spyOnKill
 
-      # start
-      browser.start 'http://localhost/'
+      expectOnKillListenerIsAlreadyFinishedAndHasBeenOnlyCalledOnce = ->
+        expect(spyOnKill).to.have.been.called
+        expect(spyOnKill.callCount).to.equal 1
+        expect(spyOnKill.finished).to.equal true
+        expect(launcher.state).to.equal launcher.STATE_FINISHED
 
-      # expect starting
-      expect(mockSpawn).to.have.been.calledWith normalized, ['http://localhost/?id=12345']
-      browserProcess = mockSpawn._processes.shift()
+      launcher.start 'http://localhost:9876/'
+      firstKilling = launcher.kill().then ->
+        expectOnKillListenerIsAlreadyFinishedAndHasBeenOnlyCalledOnce()
 
-      # timeout
-      expect(setTimeoutMock).to.have.been.called
+      secondKilling = launcher.kill().then ->
+        expectOnKillListenerIsAlreadyFinishedAndHasBeenOnlyCalledOnce()
 
-      # expect killing browser
-      expect(browserProcess.kill).to.have.been.called
-      browserProcess.emit 'close', 0
-      mockSpawn.reset()
-      expect(mockRimraf).to.have.been.calledOnce
-      mockRimraf._callbacks.shift()() # cleanup
-      mockRimraf.reset()
+      expect(launcher.state).to.equal launcher.STATE_BEING_KILLED
 
-      # expect starting
-      expect(mockSpawn).to.have.been.calledWith normalized, ['http://localhost/?id=12345']
-      browserProcess = mockSpawn._processes.shift()
+      process.nextTick ->
+        spyOnKill.finished = true
+        spyOnKill.callArg 0
 
-      # timeout
-      expect(setTimeoutMock).to.have.been.called
-
-      # expect killing browser
-      expect(browserProcess.kill).to.have.been.called
-      browserProcess.emit 'close', 0
-      mockSpawn.reset()
-      expect(mockRimraf).to.have.been.calledOnce
-      mockRimraf._callbacks.shift()() # cleanup
-      mockRimraf.reset()
-
-      # after two time-outs, still no failure
-      expect(failureSpy).not.to.have.been.called
-
-      # expect starting
-      expect(mockSpawn).to.have.been.calledWith normalized, ['http://localhost/?id=12345']
-      browserProcess = mockSpawn._processes.shift()
-
-      # timeout
-      expect(setTimeoutMock).to.have.been.called
-
-      # expect killing browser
-      expect(browserProcess.kill).to.have.been.called
-      browserProcess.emit 'close', 0
-      mockSpawn.reset()
-      expect(mockRimraf).to.have.been.calledOnce
-      mockRimraf._callbacks.shift()() # cleanup
-      mockRimraf.reset()
-
-      # expect failure
-      expect(failureSpy).to.have.been.calledWith browser
-      expect(mockSpawn).not.to.have.been.called
+      # finish the test once everything is done
+      firstKilling.done -> secondKilling.done -> done()
 
 
-    # when the browser fails to start, it should restart
-    it 'start -> crash -> restart', ->
-      failureSpy = sinon.spy()
-      emitter.on 'browser_process_failure', failureSpy
-      normalized = path.normalize('/usr/bin/browser')
+    it 'should not kill already crashed browser', (done) ->
+      spyOnKill = sinon.spy((killDone) -> killDone())
+      launcher.on 'kill', spyOnKill
 
-      # start
-      browser.start 'http://localhost/'
+      launcher._done 'crash'
+      launcher.kill().done ->
+        expect(spyOnKill).to.not.have.been.called
+        done()
 
-      # expect starting the process
-      expect(mockSpawn).to.have.been.calledWith normalized, ['http://localhost/?id=12345']
-      browserProcess = mockSpawn._processes.shift()
 
-      # crash
-      browserProcess.emit 'close', 1
-      expect(mockRimraf).to.have.been.calledOnce
-      mockRimraf._callbacks[0]() # cleanup
+  describe 'forceKill', ->
 
-      # expect re-starting
-      expect(mockSpawn).to.have.been.calledWith normalized, ['http://localhost/?id=12345']
-      browserProcess = mockSpawn._processes.shift()
+    it 'should cancel restart', (done) ->
+      spyOnStart = sinon.spy()
+      launcher.on 'start', spyOnStart
 
-      expect(failureSpy).not.to.have.been.called
+      launcher.start 'http://localhost:9876/'
+      spyOnStart.reset()
+      launcher.restart()
+
+      launcher.forceKill().done ->
+        expect(launcher.state).to.equal launcher.STATE_FINISHED
+        expect(spyOnStart).to.not.have.been.called
+        done()
+
+
+    it 'should not fire "browser_process_failure" even if browser crashes', (done) ->
+      spyOnBrowserProcessFailure = sinon.spy()
+      emitter.on 'browser_process_failure', spyOnBrowserProcessFailure
+
+      launcher.on 'kill', (killDone) ->
+        process.nextTick ->
+          launcher._done 'crashed'
+          killDone()
+
+      launcher.start 'http://localhost:9876/'
+      launcher.forceKill().done ->
+        expect(spyOnBrowserProcessFailure).to.not.have.been.called
+        done()
+
+
+  describe 'markCaptured', ->
+
+    it 'should not mark capture when killing', ->
+      launcher.kill()
+      launcher.markCaptured()
+      expect(launcher.state).to.not.equal launcher.STATE_CAPTURED
+
+
+  describe '_done', ->
+
+    it 'should emit "browser_process_failure" if there is an error', ->
+      spyOnBrowserProcessFailure = sinon.spy()
+      emitter.on 'browser_process_failure', spyOnBrowserProcessFailure
+
+      launcher._done 'crashed'
+      expect(spyOnBrowserProcessFailure).to.have.been.called
+      expect(spyOnBrowserProcessFailure).to.have.been.calledWith launcher
+
+
+    it 'should not emit "browser_process_failure" when no error happend', ->
+      spyOnBrowserProcessFailure = sinon.spy()
+      emitter.on 'browser_process_failure', spyOnBrowserProcessFailure
+
+      launcher._done()
+      expect(spyOnBrowserProcessFailure).not.to.have.been.called
