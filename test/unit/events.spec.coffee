@@ -93,6 +93,12 @@ describe 'events', ->
           done()
 
 
+      it 'should resolve asynchronously when no listener', (done) ->
+        spyDone = sinon.spy done
+        emitter.emitAsync('whatever').then spyDone
+        expect(spyDone).to.not.have.been.called
+
+
   #============================================================================
   # events.bindAll
   #============================================================================
