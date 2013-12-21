@@ -2,7 +2,10 @@
 # lib/reporter.js module
 #==============================================================================
 describe 'reporter', ->
+  EventEmitter = require('events').EventEmitter
+  File = require('../../lib/file_list').File
   loadFile = require('mocks').loadFile
+  q = require 'q'
   m = null
 
   beforeEach ->
@@ -13,10 +16,11 @@ describe 'reporter', ->
   # formatError() [PRIVATE]
   #==============================================================================
   describe 'formatError', ->
-    formatError = null
+    formatError = emitter = null
 
     beforeEach ->
-      formatError = m.createErrorFormatter '', '/'
+      emitter = new EventEmitter
+      formatError = m.createErrorFormatter '', emitter
 
 
     it 'should indent', ->
@@ -52,7 +56,7 @@ describe 'reporter', ->
 
 
     it 'should restore base paths', ->
-      formatError = m.createErrorFormatter '/some/base', '/'
+      formatError = m.createErrorFormatter '/some/base', emitter
       expect(formatError 'at http://localhost:123/base/a.js?123').to.equal 'at /some/base/a.js\n'
 
 
@@ -64,3 +68,27 @@ describe 'reporter', ->
     it 'should preserve line numbers', ->
       ERROR = 'at http://local:1233/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9:2'
       expect(formatError ERROR).to.equal 'at /usr/path.js:2\n'
+
+
+    describe 'source maps', ->
+
+      class MockSourceMapConsumer
+        constructor: (sourceMap) ->
+          @source = sourceMap.replace 'SOURCE MAP ', '/original/'
+        originalPositionFor: (position) ->
+          source: @source
+          line: position.line + 2
+          column: position.column + 2
+
+      it 'should rewrite stack traces', (done) ->
+        formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
+        servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        servedFiles[0].sourceMap = 'SOURCE MAP a.js'
+        servedFiles[1].sourceMap = 'SOURCE MAP b.js'
+
+        emitter.emit 'file_list_modified', q(served: servedFiles)
+
+        scheduleNextTick ->
+          ERROR = 'at http://localhost:123/base/b.js:2:6'
+          expect(formatError ERROR).to.equal 'at /some/base/b.js:2:6 <- /original/b.js:4:8\n'
+          done()
