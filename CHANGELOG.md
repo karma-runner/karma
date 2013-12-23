@@ -1,3 +1,43 @@
+<a name="v0.11.10"></a>
+### v0.11.10 (2013-12-22)
+
+
+#### Bug Fixes
+
+* **completion:** add missin --log-level for karma init ([1e79eb55](http://github.com/karma-runner/karma/commit/1e79eb553e40530adef36b30b35a79f7a8026ddf))
+* **init:** clean the terminal if killed ([e2aa7497](http://github.com/karma-runner/karma/commit/e2aa74972ce84388a49090533e353b61bd9b16ed))
+
+
+#### Features
+
+* revert default usePolling to false ([e88fbc24](http://github.com/karma-runner/karma/commit/e88fbc24dd34e7976cae2547bad07e6f044a768b))
+* **config:**
+  * remove default preprocessors (coffee, html2js) ([ada74d55](http://github.com/karma-runner/karma/commit/ada74d55aaf02882a5e12031838404e9ade07d36))
+  * Add the abillity to supress the client console. This adds the client config opti ([4734962d](http://github.com/karma-runner/karma/commit/4734962de747c2a8eab5c8078954bd567e4b4410), closes [#744](http://github.com/karma-runner/karma/issues/744))
+  * set default host/port from env vars ([0a6a0ee4](http://github.com/karma-runner/karma/commit/0a6a0ee4dd443250521d7898ab3086e7fc4f3afc))
+  * Allow tests be to run in a new window instead of iframe ([471e3a8a](http://github.com/karma-runner/karma/commit/471e3a8a506836ba9711637d325c680cfbfff64f))
+* **init:**
+  * install karma-coffee-preprocessor ([29f5cf2d](http://github.com/karma-runner/karma/commit/29f5cf2d4b8c16a49d8528e02f781ef394e19191))
+  * add nodeunit, nunit frameworks ([b4da1a08](http://github.com/karma-runner/karma/commit/b4da1a08b98414e903440d6ec2df7e94b48daea8))
+  * install missing plugins (frameworks, launchers) ([1ba70a6f](http://github.com/karma-runner/karma/commit/1ba70a6fa673fbbb0c1750c777974662989dbf67))
+* **launcher:** log how long it took each browser to capture ([8dd54369](http://github.com/karma-runner/karma/commit/8dd54369f2ec3377ca1cf2d9c3cdacdc80a1331a))
+
+
+#### Breaking Changes
+
+* Karma does not ship with any plugin. You need to explicitly install all the plugins you need. `karma init` can help with this.
+
+Removed plugins that need to be installed explicitly are:
+
+* karma-jasmine
+* karma-requirejs
+* karma-coffee-preprocessor
+* karma-html2js-preprocessor
+* karma-chrome-launcher
+* karma-firefox-launcher
+* karma-phantomjs-launcher
+* karma-script-launcher ([e033d561](http://github.com/karma-runner/karma/commit/e033d5618a98e1f83323bb650e0eaf89c339e5b5))
+
 <a name="v0.11.9"></a>
 ### v0.11.9 (2013-12-03)
 
