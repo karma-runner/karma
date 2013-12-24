@@ -1,3 +1,14 @@
+<a name="v0.11.11"></a>
+### v0.11.11 (2013-12-23)
+
+
+#### Bug Fixes
+
+* **events:** resolve async events without any listener ([4e4bba88](http://github.com/karma-runner/karma/commit/4e4bba8803d1e4f461e568cc2e2ccf82e369721d))
+* **launcher:**
+  * compatibility with Node v0.8 ([6a46be96](http://github.com/karma-runner/karma/commit/6a46be96499876e9aa0892325d783627bd1c535d))
+  * compatibility with old launchers ([ffb74800](http://github.com/karma-runner/karma/commit/ffb74800638417910f453e108c8a4c6ffabaee29))
+
 <a name="v0.11.10"></a>
 ### v0.11.10 (2013-12-22)
 
