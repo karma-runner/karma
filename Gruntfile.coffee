@@ -30,7 +30,7 @@ module.exports = (grunt) ->
     test:
       unit: 'simplemocha:unit'
       client: 'test/client/karma.conf.js'
-      e2e: ['test/e2e/*/karma.conf.js', 'test/e2e/*/karma.conf.coffee']
+      e2e: ['test/e2e/*/karma.conf.js', 'test/e2e/*/karma.conf.coffee', 'test/e2e/*/karma.conf.ls']
 
     watch:
       client:
