@@ -170,6 +170,10 @@ var Karma = function(socket, iframe, opener, navigator, location) {
     }
   };
 
+  var UNIMPLEMENTED_START = function() {
+    this.error('You need to include some adapter that implements __karma__.start method!');
+  };
+
   // all files loaded, let's start the execution
   this.loaded = function() {
     // has error -> cancel
@@ -178,7 +182,7 @@ var Karma = function(socket, iframe, opener, navigator, location) {
     }
 
     // remove reference to child iframe
-    this.start = null;
+    this.start = UNIMPLEMENTED_START;
   };
 
   this.store = function(key, value) {
@@ -199,9 +203,7 @@ var Karma = function(socket, iframe, opener, navigator, location) {
 
   // supposed to be overriden by the context
   // TODO(vojta): support multiple callbacks (queue)
-  this.start = function() {
-    this.error('You need to include some adapter that implements __karma__.start method!');
-  };
+  this.start = UNIMPLEMENTED_START;
 
   socket.on('execute', function(cfg) {
     // reset hasError and reload the iframe
