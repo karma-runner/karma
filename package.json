@@ -151,6 +151,7 @@
     "karma-phantomjs-launcher": "*",
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*",
+    "karma-live-preprocessor": "*",
     "karma-html2js-preprocessor": "*",
     "karma-browserstack-launcher": "*",
     "semver": "~1.1.4",
