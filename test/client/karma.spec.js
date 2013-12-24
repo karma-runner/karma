@@ -57,13 +57,16 @@ describe('Karma', function() {
 
 
   it('should remove reference to start even after syntax error', function() {
+    var ADAPTER_START_FN = function() {};
+
+    k.start = ADAPTER_START_FN;
     k.error('syntax error', '/some/file.js', 11);
     k.loaded();
-    expect(k.start).toBeFalsy();
+    expect(k.start).not.toBe(ADAPTER_START_FN);
 
-    k.start = function() {};
+    k.start = ADAPTER_START_FN;
     k.loaded();
-    expect(k.start).toBeFalsy();
+    expect(k.start).not.toBe(ADAPTER_START_FN);
   });
 
 
