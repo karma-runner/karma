@@ -26,8 +26,10 @@ describe 'reporter', ->
     it 'should indent', ->
       expect(formatError 'Something', '\t').to.equal '\tSomething\n'
 
+
     it 'should handle empty message', ->
       expect(formatError null).to.equal '\n'
+
 
     it 'should remove domain from files', ->
       expect(formatError 'file http://localhost:8080/base/usr/a.js and ' +
