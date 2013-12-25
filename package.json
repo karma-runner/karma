@@ -154,11 +154,13 @@
     "karma-phantomjs-launcher": "*",
     "karma-ng-scenario": "*",
     "karma-coffee-preprocessor": "*",
+    "karma-live-preprocessor": "*",
     "karma-html2js-preprocessor": "*",
     "karma-browserstack-launcher": "*",
     "semver": "~1.1.4",
     "grunt-contrib-watch": "~0.5.0",
-    "grunt-browserify": "~1.2.4"
+    "grunt-browserify": "~1.2.4",
+    "LiveScript": "~1.2.0"
   },
   "main": "./lib/index",
   "bin": {},
