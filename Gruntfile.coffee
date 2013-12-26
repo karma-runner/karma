@@ -121,15 +121,8 @@ module.exports = (grunt) ->
 
 
   grunt.loadTasks 'tasks'
-  grunt.loadNpmTasks 'grunt-simple-mocha'
-  grunt.loadNpmTasks 'grunt-contrib-jshint'
-  grunt.loadNpmTasks 'grunt-contrib-watch'
-  grunt.loadNpmTasks 'grunt-coffeelint'
-  grunt.loadNpmTasks 'grunt-bump'
-  grunt.loadNpmTasks 'grunt-npm'
-  grunt.loadNpmTasks 'grunt-auto-release'
-  grunt.loadNpmTasks 'grunt-conventional-changelog'
-  grunt.loadNpmTasks 'grunt-browserify'
+  # Load grunt tasks automatically
+  require('load-grunt-tasks') grunt
 
   grunt.registerTask 'build', ['browserify:client']
   grunt.registerTask 'default', ['build', 'test', 'lint']
