@@ -134,6 +134,7 @@
     "grunt-conventional-changelog": "~1.0.0",
     "grunt-auto-release": "~0.0.3",
     "grunt-browserify": "~1.3.0",
+    "load-grunt-tasks": "~0.2.1",
     "mocks": "~0.0.10",
     "which": "~1.0",
     "mocha": "~1.16.2",
