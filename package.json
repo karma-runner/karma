@@ -131,6 +131,7 @@
     "grunt-bump": "~0.0.10",
     "grunt-conventional-changelog": "~1.0.0",
     "grunt-auto-release": "~0.0.3",
+    "load-grunt-tasks": "~0.2.1",
     "mocks": "~0.0.10",
     "which": "~1.0",
     "sinon-chai": "~2.3",
