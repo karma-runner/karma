@@ -1,3 +1,18 @@
+<a name="v0.11.12"></a>
+### v0.11.12 (2013-12-25)
+
+
+#### Bug Fixes
+
+* **client:** show error if an adapter is removed ([a8b250cf](http://github.com/karma-runner/karma/commit/a8b250cf6a89cf064f67ecb1e2c040cc224d91e9))
+
+
+#### Features
+
+* **deps:** update all deps ([355a762c](http://github.com/karma-runner/karma/commit/355a762c0fd709261ff1403213bb10db6aa0a396), closes [#794](http://github.com/karma-runner/karma/issues/794))
+* **reporter:** support source maps (rewrite stack traces) ([70e4abd9](http://github.com/karma-runner/karma/commit/70e4abd9b8db6b05de557ca6e9204339a21be06b), closes [#594](http://github.com/karma-runner/karma/issues/594))
+* **watcher:** use polling on Mac ([66f50d7e](http://github.com/karma-runner/karma/commit/66f50d7e584d4cbde820e70746be3f3378440fa8))
+
 <a name="v0.11.11"></a>
 ### v0.11.11 (2013-12-23)
 
