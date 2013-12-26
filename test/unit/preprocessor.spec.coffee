@@ -23,7 +23,7 @@ describe 'preprocessor', ->
   it 'should preprocess matching file', (done) ->
     fakePreprocessor = sinon.spy (content, file, done) ->
       file.path = file.path + '-preprocessed'
-      done 'new-content'
+      done null, 'new-content'
 
     injector = new di.Injector [{'preprocessor:fake': ['factory', -> fakePreprocessor]}]
     pp = m.createPreprocessor {'**/*.js': ['fake']}, null, injector
@@ -39,7 +39,7 @@ describe 'preprocessor', ->
 
   it 'should ignore not matching file', (done) ->
     fakePreprocessor = sinon.spy (content, file, done) ->
-      done ''
+      done null, ''
 
     injector = new di.Injector [{'preprocessor:fake': ['factory', -> fakePreprocessor]}]
     pp = m.createPreprocessor {'**/*.js': ['fake']}, null, injector
@@ -54,7 +54,7 @@ describe 'preprocessor', ->
   it 'should apply all preprocessors', (done) ->
     fakePreprocessor1 = sinon.spy (content, file, done) ->
       file.path = file.path + '-p1'
-      done content + '-c1'
+      done null, content + '-c1'
 
     fakePreprocessor2 = sinon.spy (content, file, done) ->
       file.path = file.path + '-p2'
@@ -94,3 +94,42 @@ describe 'preprocessor', ->
           expect(file.sha.length).to.equal 40
           expect(file.sha).not.to.equal previousSHA
           done()
+
+
+  it 'should return error if any preprocessor fails', (done) ->
+    failingPreprocessor = sinon.spy (content, file, done) ->
+      done new Error('Some error'), null
+
+    injector = new di.Injector [{
+      'preprocessor:failing': ['factory', -> failingPreprocessor]
+    }]
+
+    pp = m.createPreprocessor {'**/*.js': ['failing']}, null, injector
+
+    file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp file, (err) ->
+      expect(err).to.exist
+      done()
+
+
+  it 'should stop preprocessing after an error', (done) ->
+    failingPreprocessor = sinon.spy (content, file, done) ->
+      done new Error('Some error'), null
+
+    fakePreprocessor = sinon.spy (content, file, done) ->
+      done null, content
+
+
+    injector = new di.Injector [{
+      'preprocessor:failing': ['factory', -> failingPreprocessor]
+      'preprocessor:fake': ['factory', -> fakePreprocessor]
+    }]
+
+    pp = m.createPreprocessor {'**/*.js': ['failing', 'fake']}, null, injector
+
+    file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp file, (err) ->
+      expect(fakePreprocessor).not.to.have.been.called
+      done()

@@ -19,6 +19,7 @@ describe 'file_list', ->
     '**':         ['/a.txt', '/b.txt', '/c.txt', '/a.txt', '/c.txt', '/b.txt', '/a.txt', '/c.txt',
                    '/a.txt', '/a.txt', '/c.txt']
 
+  # TODO(vojta): create new fs, as we mutate the file stats now
   mockFs = mocks.fs.create
     some:
       '0.js': mocks.fs.file '2012-04-04'
@@ -152,6 +153,20 @@ describe 'file_list', ->
         mockFs.stat.restore()
         done()
 
+
+    it 'should reject the promise if a preprocessor fails', (done) ->
+      preprocessMock = (file, next) ->
+        next new Error('Prerocess failure.'), null
+
+      # MATCH /some/a.js, /some/b.js
+      list = new m.List patterns('/some/*.js'), [], emitter, preprocessMock
+      spyResolve = sinon.spy()
+      spyReject = sinon.spy()
+
+      list.refresh().then(spyResolve, spyReject).done ->
+        expect(spyResolve).not.to.have.been.called
+        expect(spyReject).to.have.been.called
+        done()
 
 
   #============================================================================
@@ -434,6 +449,140 @@ describe 'file_list', ->
       refreshListAndThen (files) ->
         waitForRemovingFile '/a.js', ->
           expect(onFileListModifiedSpy).not.to.have.been.called
+
+
+  describe 'preprocess failure', ->
+    spyResolve = spyReject = null
+
+    preprocessMock2 = (file, next) ->
+      matchFile = (pattern) ->
+        pattern.test and pattern.test(file.path) or pattern is file.path
+
+      if preprocessMock2._fail.some matchFile
+        next new Error('Failed to preprocess.'), null
+      else
+        next()
+
+    preprocessMock2.fail = (pattern) -> preprocessMock2._fail.push(pattern)
+    preprocessMock2.fix = (pattern) ->
+      preprocessMock2._fail = preprocessMock2._fail.filter((p) -> pattern is not p)
+
+
+    beforeEach ->
+      spyResolve = sinon.spy()
+      spyReject = sinon.spy()
+      preprocessMock2._fail = []
+
+      mockFs._touchFile '/some/a.js', '2012-04-04'
+      mockFs._touchFile '/some/b.js', '2012-05-05'
+
+
+    it 'should reject when an incorrect file added', (done) ->
+      # MATCH: /some/a.js, /some/b.js, /a.txt
+      list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock2
+
+      # once files are resolved, execute next item in the queue
+      emitter.on 'file_list_modified', (files) -> files.then(spyResolve, spyReject).done next
+
+      # refresh the list and kick off the queue
+      list.refresh()
+
+      scheduleNext ->
+        spyResolve.reset()
+        spyReject.reset()
+        preprocessMock2.fail '/some/0.js'
+        list.addFile '/some/0.js'
+
+      scheduleNext ->
+        expect(spyResolve).not.to.have.been.called
+        expect(spyReject).to.have.been.called
+        done()
+
+
+    it 'should resolve once all the files are fixed', (done) ->
+      # MATCH: /some/a.js, /some/b.js, /a.txt
+      list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock2
+
+      # once files are resolved, execute next item in the queue
+      emitter.on 'file_list_modified', (files) -> files.then(spyResolve, spyReject).done next
+
+      # refresh the list and kick off the queue
+      list.refresh()
+
+      scheduleNext ->
+        preprocessMock2.fail '/some/a.js'
+        mockFs._touchFile '/some/a.js', '2020-01-01'
+        list.changeFile '/some/a.js'
+
+      scheduleNext ->
+        spyResolve.reset()
+        spyReject.reset()
+        preprocessMock2.fix '/some/a.js'
+        mockFs._touchFile '/some/a.js', '2020-01-02'
+        list.changeFile '/some/a.js'
+
+      scheduleNext ->
+        expect(spyResolve).to.have.been.called
+        expect(spyReject).not.to.have.been.called
+        done()
+
+
+    it 'should reject if only some files are fixed', (done) ->
+      # MATCH: /some/a.js, /some/b.js, /a.txt
+      list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock2
+
+      # once files are resolved, execute next item in the queue
+      emitter.on 'file_list_modified', (files) -> files.then(spyResolve, spyReject).done next
+
+      # refresh the list and kick off the queue
+      list.refresh()
+
+      scheduleNext ->
+        preprocessMock2.fail '/some/a.js'
+        preprocessMock2.fail '/some/b.js'
+        mockFs._touchFile '/some/a.js', '2020-01-01'
+        list.changeFile '/some/a.js'
+        mockFs._touchFile '/some/b.js', '2020-01-01'
+        list.changeFile '/some/b.js'
+
+      scheduleNext ->
+        spyResolve.reset()
+        spyReject.reset()
+        preprocessMock2.fix '/some/a.js'
+        mockFs._touchFile '/some/a.js', '2020-01-02'
+        list.changeFile '/some/a.js'
+
+      scheduleNext ->
+        # /some/b.js still contains error
+        expect(spyResolve).not.to.have.been.called
+        expect(spyReject).to.have.been.called
+        done()
+
+
+    it 'should resolve if incorrect file is removed', (done) ->
+      # MATCH: /some/a.js, /some/b.js, /a.txt
+      list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock2
+
+      # once files are resolved, execute next item in the queue
+      emitter.on 'file_list_modified', (files) -> files.then(spyResolve, spyReject).done next
+
+      # refresh the list and kick off the queue
+      list.refresh()
+
+      scheduleNext ->
+        preprocessMock2.fail '/some/a.js'
+        mockFs._touchFile '/some/a.js', '2020-01-01'
+        list.changeFile '/some/a.js'
+
+      scheduleNext ->
+        spyResolve.reset()
+        spyReject.reset()
+        list.removeFile '/some/a.js'
+
+      scheduleNext ->
+        expect(spyResolve).to.have.been.called
+        expect(spyReject).not.to.have.been.called
+        done()
 
 
   #============================================================================

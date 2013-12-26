@@ -47,13 +47,28 @@ chai.use (chai, utils) ->
 # TODO(vojta): move it somewhere ;-)
 nextTickQueue = []
 nextTickCallback = ->
+  if not nextTickQueue.length then throw new Error 'Nothing scheduled!'
   nextTickQueue.shift()()
-
   if nextTickQueue.length then process.nextTick nextTickCallback
 
 global.scheduleNextTick = (action) ->
   nextTickQueue.push action
   if nextTickQueue.length is 1 then process.nextTick nextTickCallback
 
+nextQueue = []
+nextCallback = ->
+  if not nextQueue.length then throw new Error 'Nothing scheduled!'
+  nextQueue.shift()()
+
+global.scheduleNextTick = (action) ->
+  nextTickQueue.push action
+  if nextTickQueue.length is 1 then process.nextTick nextTickCallback
+
+global.scheduleNext = (action) ->
+  nextQueue.push action
+
+global.next = nextCallback
+
 beforeEach ->
   nextTickQueue.length = 0
+  nextQueue.length = 0
