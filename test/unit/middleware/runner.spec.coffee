@@ -72,15 +72,16 @@ describe 'middleware.runner', ->
       expect(config.client.args).to.deep.equal ['arg1', 'arg2']
       done()
 
+    RAW_MESSAGE = '{"args": ["arg1", "arg2"]}'
+
     request = new HttpRequestMock '/__run__', {
       'content-type': 'application/json'
-      'content-length': 1
+      'content-length': RAW_MESSAGE.length
     }
-    request.setEncoding = -> null
 
     handler request, response, nextSpy
 
-    request.emit 'data', '{"args": ["arg1", "arg2"]}'
+    request.emit 'data', RAW_MESSAGE
     request.emit 'end'
 
 
@@ -92,19 +93,19 @@ describe 'middleware.runner', ->
     sinon.stub fileListMock, 'changeFile'
     sinon.stub fileListMock, 'removeFile'
 
-    request = new HttpRequestMock '/__run__', {
-      'content-type': 'application/json'
-      'content-length': 1
-    }
-    request.setEncoding = -> null
-
-    handler request, response, nextSpy
-    message =
+    RAW_MESSAGE = JSON.stringify
       addedFiles: ['/new.js']
       removedFiles: ['/foo.js', '/bar.js']
       changedFiles: ['/changed.js']
 
-    request.emit 'data', JSON.stringify(message)
+    request = new HttpRequestMock '/__run__', {
+      'content-type': 'application/json'
+      'content-length': RAW_MESSAGE.length
+    }
+
+    handler request, response, nextSpy
+
+    request.emit 'data', RAW_MESSAGE
     request.emit 'end'
 
     process.nextTick ->
@@ -122,15 +123,16 @@ describe 'middleware.runner', ->
     sinon.stub fileListMock, 'refresh'
     sinon.stub executor, 'schedule'
 
+    RAW_MESSAGE = JSON.stringify {refresh: false}
+
     request = new HttpRequestMock '/__run__', {
       'content-type': 'application/json'
-      'content-length': 1
+      'content-length': RAW_MESSAGE.length
     }
-    request.setEncoding = -> null
 
     handler request, response, nextSpy
 
-    request.emit 'data', JSON.stringify {refresh: false}
+    request.emit 'data', RAW_MESSAGE
     request.emit 'end'
 
     process.nextTick ->
