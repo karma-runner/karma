@@ -1,3 +1,11 @@
+<a name="v0.10.9"></a>
+### v0.10.9 (2013-12-29)
+
+
+#### Features
+
+* **deps:** update chokidar ([26792e44](http://github.com/karma-runner/karma/commit/26792e44c32e39c14e8e90a01573438adbd85dae), closes [#867](http://github.com/karma-runner/karma/issues/867))
+
 <a name="v0.10.8"></a>
 ### v0.10.8 (2013-12-04)
 
