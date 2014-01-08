@@ -189,7 +189,7 @@ describe 'config', ->
 
     it 'should set defaults with coffeescript', ->
       config = e.parseConfig '/conf/coffee.coffee', {}
-      expect(config.autoWatch).to.equal false
+      expect(config.autoWatch).to.equal true
 
 
     it 'should not read config file, when null', ->
@@ -209,20 +209,6 @@ describe 'config', ->
 
 
   describe 'normalizeConfig', ->
-
-    it 'should resolve junitReporter.outputFile to basePath and CWD', ->
-      config = normalizeConfigWithDefaults
-        basePath: '/some/base'
-        junitReporter: {outputFile: 'file.xml'}
-      expect(config.junitReporter.outputFile).to.equal resolveWinPath('/some/base/file.xml')
-
-
-    it 'should resolve coverageReporter.dir to basePath and CWD', ->
-      config = normalizeConfigWithDefaults
-        basePath: '/some/base'
-        coverageReporter: {dir: 'path/to/coverage'}
-      expect(config.coverageReporter.dir).to.equal resolveWinPath('/some/base/path/to/coverage')
-
 
     it 'should convert patterns to objects and set defaults', ->
       config = normalizeConfigWithDefaults
@@ -365,3 +351,8 @@ describe 'config', ->
       expect(injectedArgs).to.be.defined
       expect(injectedArgs.third).to.equal 123
       expect(injectedArgs.whatever).to.equal 'ccc'
+
+
+    it 'should not create empty module', ->
+      config = normalizeConfigWithDefaults {}
+      expect(config.plugins).to.deep.equal []

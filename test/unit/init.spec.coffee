@@ -8,147 +8,7 @@ describe 'init', ->
 
   beforeEach ->
     m = loadFile __dirname + '/../../lib/init.js', {glob: require 'glob'}
-
-
-  describe 'StateMachine', ->
-    machine = done = null
-
-    mockRli =
-      write: -> null
-      prompt: -> null
-      _deleteLineLeft: -> null
-      _deleteLineRight: -> null
-
-    beforeEach ->
-      machine = new m.StateMachine mockRli
-      done = sinon.spy()
-
-    it 'should go through all the questions', ->
-      questions = [
-        {id: 'framework', options: ['jasmine', 'mocha']}
-        {id: 'other'}
-      ]
-
-      done = sinon.spy (answers) ->
-        expect(answers.framework).to.equal 'jasmine'
-        expect(answers.other).to.equal 'abc'
-
-      machine.process questions, done
-      machine.onLine 'jasmine'
-      machine.onLine 'abc'
-      expect(done).to.have.been.called
-
-
-    it 'should allow multiple answers', ->
-      questions = [
-        {id: 'browsers', multiple: true}
-      ]
-
-      done = sinon.spy (answers) ->
-        expect(answers.browsers).to.deep.equal ['Chrome', 'Safari']
-
-      machine.process questions, done
-      machine.onLine 'Chrome'
-      machine.onLine 'Safari'
-      machine.onLine ''
-      expect(done).to.have.been.called
-
-
-    it 'should treat spaces as confirmation of multiple answers', ->
-      questions = [
-        {id: 'browsers', multiple: true}
-      ]
-
-      done = sinon.spy (answers) ->
-        expect(answers.browsers).to.deep.equal ['Chrome']
-
-      machine.process questions, done
-      machine.onLine 'Chrome'
-      machine.onLine ' '
-      expect(done).to.have.been.called
-
-
-    it 'should always return array for multiple', ->
-      questions = [
-        {id: 'empty', multiple: true}
-      ]
-
-      done = sinon.spy (answers) ->
-        expect(answers.empty).to.deep.equal []
-
-      machine.process questions, done
-      machine.onLine ''
-      expect(done).to.have.been.called
-
-
-    it 'should validate answers', ->
-      validator = sinon.spy()
-      questions = [
-        {id: 'validated', validate: validator}
-      ]
-
-      machine.process questions, done
-      machine.onLine 'something'
-
-      expect(done).to.have.been.called
-      expect(validator).to.have.been.calledWith 'something'
-
-
-    it 'should allow conditional answers', ->
-      ifTrue = sinon.spy (answers) ->
-        answers.first is 'true'
-      ifFalse = sinon.spy (answers) ->
-        answers.first is 'false'
-
-      done = sinon.spy (answers) ->
-        expect(answers.first).to.equal 'true'
-        expect(answers.onlyIfTrue).to.equal 'something'
-        expect(answers.onlyIfFalse).to.not.exist
-
-      questions = [
-        {id: 'first'}
-        {id: 'onlyIfTrue', condition: ifTrue}
-        {id: 'onlyIfFalse', condition: ifFalse}
-      ]
-
-      machine.process questions, done
-      machine.onLine 'true'
-      machine.onLine 'something'
-
-      expect(done).to.have.been.called
-
-
-    it 'should parse booleans', ->
-      done = sinon.spy (answers) ->
-        expect(answers.yes).to.equal true
-        expect(answers.no).to.equal false
-
-      questions = [
-        {id: 'yes', options: ['yes', 'no'], boolean: true}
-        {id: 'no', options: ['yes', 'no'], boolean: true}
-      ]
-
-      machine.process questions, done
-      machine.onLine 'yes'
-      machine.onLine 'no'
-
-      expect(done).to.have.been.called
-
-
-    it 'should parse booleans before validation', ->
-      validator = sinon.spy (value) ->
-        expect(typeof value).to.equal 'boolean'
-
-      questions = [
-        {id: 'what', options: ['yes', 'no'], boolean: true, validate: validator}
-        {id: 'really', options: ['yes', 'no'], boolean: true, validate: validator}
-      ]
-
-      machine.process questions, done
-      machine.onLine 'yes'
-      machine.onLine 'no'
-
-      expect(validator).to.have.been.calledTwice
+    sinon.stub m, 'installPackage'
 
 
   describe 'getBasePath', ->
@@ -187,7 +47,7 @@ describe 'init', ->
       expect(basePath).to.equal replace('..')
 
 
-  describe 'getReplacementsFromAnswers', ->
+  describe 'processAnswers', ->
 
     answers = (obj = {}) ->
       obj.files = obj.files or []
@@ -195,69 +55,174 @@ describe 'init', ->
       obj.browsers = obj.browsers or []
       obj
 
-    it 'should set FILES', ->
-      # empty
-      replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.FILES).to.equal ''
-
-      replacements = m.getReplacementsFromAnswers answers {files: ['*.js', 'other/file.js']}
-      expect(replacements.FILES).to.equal "'*.js',\n      'other/file.js'"
-
-
-    it 'should set FRAMEWORKS', ->
-      replacements = m.getReplacementsFromAnswers answers {
-        framework: 'mocha',
-        requirejs: true
-      }
-
-      expect(replacements.FRAMEWORKS).to.equal "'mocha', 'requirejs'"
-
 
     it 'should add requirejs and set files non-included if requirejs used', ->
-      replacements = m.getReplacementsFromAnswers answers {
+      processedAnswers = m.processAnswers answers {
         requirejs: true,
-        includedFiles: [],
-        files: ['*.js', 'other/file.js']
-      }
-
-      expect(replacements.FRAMEWORKS).to.contain "'requirejs'"
-
-      expect(replacements.FILES).to.equal "" +
-        "{pattern: '*.js', included: false},\n      " +
-        "{pattern: 'other/file.js', included: false}"
-
-
-    it 'should prepend includedFiles into FILES', ->
-      replacements = m.getReplacementsFromAnswers answers {
-        requirejs: true,
-        includedFiles: ['main.js']
+        includedFiles: ['test-main.js'],
         files: ['*.js']
       }
 
-      expect(replacements.FILES).to.equal "" +
-        "'main.js',\n      " +
-        "{pattern: '*.js', included: false}"
+      expect(processedAnswers.frameworks).to.contain 'requirejs'
+      expect(processedAnswers.files).to.deep.equal ['test-main.js']
+      expect(processedAnswers.onlyServedFiles).to.deep.equal ['*.js']
 
 
-    it 'should set EXCLUDE', ->
-      replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.EXCLUDE).to.equal ''
+    it 'should add coffee preprocessor', ->
+      processedAnswers = m.processAnswers answers {
+        files: ['src/*.coffee']
+      }
 
-      replacements = m.getReplacementsFromAnswers answers {exclude: ['*.js', 'other/file.js']}
-      expect(replacements.EXCLUDE).to.equal "'*.js',\n      'other/file.js'"
-
-
-    it 'should set BROWSERS', ->
-      replacements = m.getReplacementsFromAnswers answers()
-      expect(replacements.BROWSERS).to.equal ''
-
-      replacements = m.getReplacementsFromAnswers answers {browsers: ['Chrome', 'Firefox']}
-      expect(replacements.BROWSERS).to.equal "'Chrome', 'Firefox'"
+      expect(processedAnswers.preprocessors).to.have.property '**/*.coffee'
+      expect(processedAnswers.preprocessors['**/*.coffee']).to.deep.equal ['coffee']
 
 
-    it 'should set AUTO_WATCH', ->
-      replacements = m.getReplacementsFromAnswers answers {autoWatch: true}
-      expect(replacements.AUTO_WATCH).to.equal 'true'
+  describe 'scenario:', ->
+    vm = require 'vm'
 
-      replacements = m.getReplacementsFromAnswers answers {autoWatch: false}
-      expect(replacements.AUTO_WATCH).to.equal 'false'
+    StateMachine = require '../../lib/init/state_machine'
+    JavaScriptFormatter = require('../../lib/init/formatters').JavaScript
+    DefaultKarmaConfig = require('../../lib/config').Config
+
+    mockRli =
+      close: -> null
+      write: -> null
+      prompt: -> null
+      _deleteLineLeft: -> null
+      _deleteLineRight: -> null
+
+    mockColors =
+      question: -> ''
+
+    machine = formatter = null
+
+    evaluateConfigCode = (code) ->
+      sandbox = {module: {}}
+      configModule = vm.runInNewContext code, sandbox
+      config = new DefaultKarmaConfig
+      sandbox.module.exports config
+      config
+
+
+    beforeEach ->
+      machine = new StateMachine mockRli, mockColors
+      formatter = new JavaScriptFormatter
+
+
+    it 'should generate working config', (done) ->
+      machine.process m.questions, (answers) ->
+        basePath = m.getBasePath '../karma.conf.js', '/some/path'
+        processedAnswers = m.processAnswers answers, basePath
+        generatedConfigCode = formatter.generateConfigFile processedAnswers
+        config = evaluateConfigCode generatedConfigCode
+
+        # expect correct configuration
+        expect(config.basePath).to.equal 'path'
+        expect(config.frameworks).to.deep.equal ['jasmine']
+        expect(config.browsers).to.contain 'Chrome'
+        expect(config.browsers).to.contain 'Firefox'
+        expect(config.files).to.deep.equal ['src/app.js', 'src/**/*.js', 'test/**/*.js']
+        expect(config.exclude).to.deep.equal ['src/config.js']
+        expect(config.autoWatch).to.equal false
+        done()
+
+      # frameworks
+      machine.onLine 'jasmine'
+      machine.onLine ''
+
+      # requirejs
+      machine.onLine 'no'
+
+      # browsers
+      machine.onLine 'Chrome'
+      machine.onLine 'Firefox'
+      machine.onLine ''
+
+      # files
+      machine.onLine 'src/app.js'
+      machine.onLine 'src/**/*.js'
+      machine.onLine 'test/**/*.js'
+      machine.onLine ''
+
+      # excludes
+      machine.onLine 'src/config.js'
+      machine.onLine ''
+
+      # autoWatch
+      machine.onLine 'no'
+
+
+    it 'should generate config for requirejs', (done) ->
+      machine.process m.questions, (answers) ->
+        basePath = m.getBasePath '../karma.conf.js', '/some/path'
+        processedAnswers = m.processAnswers answers, basePath
+        generatedConfigCode = formatter.generateConfigFile processedAnswers
+        config = evaluateConfigCode generatedConfigCode
+
+        # expect correct configuration
+        expect(config.frameworks).to.contain 'requirejs'
+        expect(config.files).to.contain 'test/main.js'
+        for pattern in config.files.slice(1)
+          expect(pattern.included).to.equal false
+        done()
+
+      # frameworks
+      machine.onLine 'jasmine'
+      machine.onLine ''
+
+      # requirejs
+      machine.onLine 'yes'
+
+      # browsers
+      machine.onLine 'Chrome'
+      machine.onLine ''
+
+      # files
+      machine.onLine 'src/**/*.js'
+      machine.onLine 'test/**/*.js'
+      machine.onLine ''
+
+      # excludes
+      machine.onLine ''
+
+      # included files
+      machine.onLine 'test/main.js'
+      machine.onLine ''
+
+      # autoWatch
+      machine.onLine 'yes'
+
+
+    it 'should add coffee preprocessor', (done) ->
+      machine.process m.questions, (answers) ->
+        basePath = m.getBasePath 'karma.conf.js', '/cwd'
+        processedAnswers = m.processAnswers answers, basePath
+        generatedConfigCode = formatter.generateConfigFile processedAnswers
+        config = evaluateConfigCode generatedConfigCode
+
+        # expect correct configuration
+        expect(config.preprocessors).to.have.property '**/*.coffee'
+        expect(config.preprocessors['**/*.coffee']).to.deep.equal ['coffee']
+        done()
+
+      # frameworks
+      machine.onLine 'jasmine'
+      machine.onLine ''
+
+      # requirejs
+      machine.onLine 'no'
+
+      # browsers
+      machine.onLine 'Chrome'
+      machine.onLine ''
+
+      # files
+      machine.onLine 'src/*.coffee'
+      machine.onLine 'src/**/*.js'
+      machine.onLine ''
+
+      # excludes
+      machine.onLine ''
+
+      # autoWatch
+      machine.onLine 'no'

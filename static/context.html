@@ -16,7 +16,12 @@ Realoaded before every execution run.
        manner. -->
   <script type="text/javascript">
     // sets window.__karma__ and overrides console and error handling
-    window.parent.karma.setupContext(window);
+    // Use window.opener if this was opened by someone else - in a new window
+    if (window.opener) {
+      window.opener.karma.setupContext(window);
+    } else {
+      window.parent.karma.setupContext(window);
+    }
 
     // All served files with the latest timestamps
     %MAPPINGS%

@@ -7,6 +7,10 @@ module.exports = function(config) {
       '*.html'
     ],
 
+    preprocessors: {
+      '*.html': ['html2js']
+    },
+
     autoWatch: true,
 
     browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],

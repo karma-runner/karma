@@ -93,6 +93,12 @@ describe 'events', ->
           done()
 
 
+      it 'should resolve asynchronously when no listener', (done) ->
+        spyDone = sinon.spy done
+        emitter.emitAsync('whatever').then spyDone
+        expect(spyDone).to.not.have.been.called
+
+
   #============================================================================
   # events.bindAll
   #============================================================================
@@ -106,6 +112,16 @@ describe 'events', ->
       emitter.emit 'bar'
 
       expect(object.onFoo).to.have.been.called
+
+
+    it 'should append "context" to event arguments', ->
+      object = sinon.stub onFoo: ->
+
+      e.bindAll object, emitter
+      emitter.emit 'foo', 'event-argument'
+
+      expect(object.onFoo).to.have.been.calledWith 'event-argument', emitter
+
 
   #============================================================================
   # events.bufferEvents

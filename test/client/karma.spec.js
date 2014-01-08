@@ -3,7 +3,7 @@ var MockSocket = require('./mocks').Socket;
 
 
 describe('Karma', function() {
-  var socket, k, spyStart, windowNavigator, windowLocation;
+  var socket, k, spyStart, windowNavigator, windowLocation, spyWindowOpener;
 
   var setTransportTo = function(transportName) {
     socket._setTransportNameTo(transportName);
@@ -15,19 +15,36 @@ describe('Karma', function() {
     socket = new MockSocket();
     windowNavigator = {};
     windowLocation = {search: ''};
-    k = new Karma(socket, {}, windowNavigator, windowLocation);
+    spyWindowOpener = jasmine.createSpy('window.open').andReturn({});
+    k = new Karma(socket, {}, spyWindowOpener, windowNavigator, windowLocation);
     spyStart = spyOn(k, 'start');
   });
 
 
   it('should start execution when all files loaded and pass config', function() {
-    var config = {};
+    var config = {
+      useIframe: true
+    };
 
     socket.emit('execute', config);
     expect(spyStart).not.toHaveBeenCalled();
 
     k.loaded();
     expect(spyStart).toHaveBeenCalledWith(config);
+  });
+
+
+  it('should open a new window when useIFrame is false', function() {
+    var config = {
+      useIframe: false
+    };
+
+    socket.emit('execute', config);
+    expect(spyStart).not.toHaveBeenCalled();
+
+    k.loaded();
+    expect(spyStart).toHaveBeenCalledWith(config);
+    expect(spyWindowOpener).toHaveBeenCalledWith('about:blank');
   });
 
 
@@ -40,13 +57,16 @@ describe('Karma', function() {
 
 
   it('should remove reference to start even after syntax error', function() {
+    var ADAPTER_START_FN = function() {};
+
+    k.start = ADAPTER_START_FN;
     k.error('syntax error', '/some/file.js', 11);
     k.loaded();
-    expect(k.start).toBeFalsy();
+    expect(k.start).not.toBe(ADAPTER_START_FN);
 
-    k.start = function() {};
+    k.start = ADAPTER_START_FN;
     k.loaded();
-    expect(k.start).toBeFalsy();
+    expect(k.start).not.toBe(ADAPTER_START_FN);
   });
 
 
@@ -79,7 +99,7 @@ describe('Karma', function() {
   it('should report browser id', function() {
     windowLocation.search = '?id=567';
     socket = new MockSocket();
-    k = new Karma(socket, {}, windowNavigator, windowLocation);
+    k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
 
     var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
       expect(info.id).toBe('567');
@@ -99,6 +119,7 @@ describe('Karma', function() {
       spyResult = jasmine.createSpy('onResult');
       socket.on('result', spyResult);
     });
+
 
     it('should buffer results when polling', function() {
       setTransportTo('xhr-polling');
@@ -211,6 +232,7 @@ describe('Karma', function() {
       });
     });
 
+
     it('should clean the result buffer before completing', function() {
       var spyResult = jasmine.createSpy('onResult');
       socket.on('result', spyResult);
@@ -229,16 +251,45 @@ describe('Karma', function() {
     });
 
 
-    it('should disconnect navigate the client to return_url if specified', function() {
+    it('should navigate the client to return_url if specified', function() {
       windowLocation.search = '?id=567&return_url=http://return.com';
       socket = new MockSocket();
-      k = new Karma(socket, {}, windowNavigator, windowLocation);
+      k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
 
       spyOn(socket, 'disconnect');
 
       k.complete();
-      expect(socket.disconnect).toHaveBeenCalled();
       expect(windowLocation.href).toBe('http://return.com');
+    });
+
+    it('should patch the console if captureConsole is true', function() {
+      spyOn(k, 'log');
+      k.config.captureConsole = true;
+
+      var mockWindow = {
+        console: {
+          log: function () {}
+        }
+      };
+
+      k.setupContext(mockWindow);
+      mockWindow.console.log('What?');
+      expect(k.log).toHaveBeenCalledWith('log', ['What?']);
+    });
+
+    it('should not patch the console if captureConsole is false', function() {
+      spyOn(k, 'log');
+      k.config.captureConsole = false;
+
+      var mockWindow = {
+        console: {
+          log: function () {}
+        }
+      };
+
+      k.setupContext(mockWindow);
+      mockWindow.console.log('hello');
+      expect(k.log).not.toHaveBeenCalled();
     });
   });
 });

@@ -12,8 +12,6 @@ module.exports = function(config) {
 
     reporters: ['dots', 'junit'],
 
-    logLevel: config.LOG_DEBUG,
-
     junitReporter: {
       outputFile: 'test-results.xml'
     },

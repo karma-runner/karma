@@ -40,3 +40,18 @@ chai.use (chai, utils) ->
       "expected response status to not be set, it was '#{response._status}'"
     @assert response._body is null,
       "expected response body to not be set, it was '#{response._body}'"
+
+
+# TODO(vojta): move it somewhere ;-)
+nextTickQueue = []
+nextTickCallback = ->
+  nextTickQueue.shift()()
+
+  if nextTickQueue.length then process.nextTick nextTickCallback
+
+global.scheduleNextTick = (action) ->
+  nextTickQueue.push action
+  if nextTickQueue.length is 1 then process.nextTick nextTickCallback
+
+beforeEach ->
+  nextTickQueue.length = 0

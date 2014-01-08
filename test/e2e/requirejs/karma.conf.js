@@ -13,7 +13,7 @@ module.exports = function(config) {
       'main.js',
 
       // all the sources, tests
-      {pattern: '*.js', included: false}
+      {pattern: '**/*.js', included: false}
     ],
 
 

@@ -11,6 +11,7 @@ describe 'preprocessor', ->
     mockFs = mocks.fs.create
       some:
         'a.js': mocks.fs.file 0, 'content'
+        'a.txt': mocks.fs.file 0, 'some-text'
 
     mocks_ =
       'graceful-fs': mockFs
@@ -22,7 +23,6 @@ describe 'preprocessor', ->
   it 'should preprocess matching file', (done) ->
     fakePreprocessor = sinon.spy (content, file, done) ->
       file.path = file.path + '-preprocessed'
-      file.contentPath = '/some/new.js'
       done 'new-content'
 
     injector = new di.Injector [{'preprocessor:fake': ['factory', -> fakePreprocessor]}]
@@ -33,7 +33,7 @@ describe 'preprocessor', ->
     pp file, ->
       expect(fakePreprocessor).to.have.been.called
       expect(file.path).to.equal 'path-preprocessed'
-      expect(mockFs.readFileSync('/some/new.js').toString()).to.equal 'new-content'
+      expect(file.content).to.equal 'new-content'
       done()
 
 
@@ -53,7 +53,6 @@ describe 'preprocessor', ->
 
   it 'should apply all preprocessors', (done) ->
     fakePreprocessor1 = sinon.spy (content, file, done) ->
-      file.contentPath = '/some/new.js'
       file.path = file.path + '-p1'
       done content + '-c1'
 
@@ -74,5 +73,24 @@ describe 'preprocessor', ->
       expect(fakePreprocessor1).to.have.been.calledOnce
       expect(fakePreprocessor2).to.have.been.calledOnce
       expect(file.path).to.equal 'path-p1-p2'
-      expect(mockFs.readFileSync('/some/new.js').toString()).to.equal 'content-c1-c2'
+      expect(file.content).to.equal 'content-c1-c2'
       done()
+
+
+  it 'should compute SHA', (done) ->
+    pp = m.createPreprocessor {}, null, new di.Injector([])
+    file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp file, ->
+      expect(file.sha).to.exist
+      expect(file.sha.length).to.equal 40
+      previousSHA = file.sha
+
+      pp file, ->
+        expect(file.sha).to.equal previousSHA
+        mockFs._touchFile '/some/a.js', null, 'new-content'
+
+        pp file, ->
+          expect(file.sha.length).to.equal 40
+          expect(file.sha).not.to.equal previousSHA
+          done()

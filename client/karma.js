@@ -4,20 +4,35 @@ var util = require('./util');
 
 
 /* jshint unused: false */
-var Karma = function(socket, context, navigator, location) {
+var Karma = function(socket, iframe, opener, navigator, location) {
   var hasError = false;
   var startEmitted = false;
+  var reloadingContext = false;
   var store = {};
   var self = this;
   var queryParams = util.parseQueryParams(location.search);
   var browserId = queryParams.id || util.generateId('manual-');
   var returnUrl = queryParams.return_url || null;
+  var currentTransport;
 
   var resultsBufferLimit = 1;
   var resultsBuffer = [];
 
   this.VERSION = constant.VERSION;
   this.config = {};
+
+  var childWindow = null;
+  var navigateContextTo = function(url) {
+    if (self.config.useIframe === false) {
+      if (childWindow === null || childWindow.closed === true) {
+        // If this is the first time we are opening the window, or the window is closed
+        childWindow = opener('about:blank');
+      }
+      childWindow.location = url;
+    } else {
+      iframe.src = url;
+    }
+  };
 
   this.setupContext = function(contextWindow) {
     if (hasError) {
@@ -42,28 +57,30 @@ var Karma = function(socket, context, navigator, location) {
     };
 
     contextWindow.onbeforeunload = function(e, b) {
-      if (context.src !== 'about:blank') {
+      if (!reloadingContext) {
         // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
         contextWindow.__karma__.error('Some of your tests did a full page reload!');
       }
     };
 
-    // patch the console
-    var localConsole = contextWindow.console = getConsole(contextWindow);
-    var browserConsoleLog = localConsole.log;
-    var logMethods = ['log', 'info', 'warn', 'error', 'debug'];
-    var patchConsoleMethod = function(method) {
-      var orig = localConsole[method];
-      if (!orig) {
-        return;
-      }
-      localConsole[method] = function() {
-        self.log(method, arguments);
-        return Function.prototype.apply.call(orig, localConsole, arguments);
+    if (self.config.captureConsole) {
+      // patch the console
+      var localConsole = contextWindow.console = getConsole(contextWindow);
+      var browserConsoleLog = localConsole.log;
+      var logMethods = ['log', 'info', 'warn', 'error', 'debug'];
+      var patchConsoleMethod = function(method) {
+        var orig = localConsole[method];
+        if (!orig) {
+          return;
+        }
+        localConsole[method] = function() {
+          self.log(method, arguments);
+          return Function.prototype.apply.call(orig, localConsole, arguments);
+        };
       };
-    };
-    for (var i = 0; i < logMethods.length; i++) {
-      patchConsoleMethod(logMethods[i]);
+      for (var i = 0; i < logMethods.length; i++) {
+        patchConsoleMethod(logMethods[i]);
+      }
     }
 
     contextWindow.dump = function() {
@@ -89,7 +106,8 @@ var Karma = function(socket, context, navigator, location) {
 
 
   var clearContext = function() {
-    context.src = 'about:blank';
+    reloadingContext = true;
+    navigateContextTo('about:blank');
   };
 
   // error during js file loading (most likely syntax error)
@@ -129,11 +147,15 @@ var Karma = function(socket, context, navigator, location) {
     // tests could run in the same event loop, we wouldn't notice.
     setTimeout(function() {
       socket.emit('complete', result || {});
+      clearContext();
+
+      // Redirect to the return_url, however we need to give the browser some time,
+      // so that all the messages are sent.
+      // TODO(vojta): can we rather get notification from socket.io?
       if (returnUrl) {
-        socket.disconnect();
-        location.href = returnUrl;
-      } else {
-        clearContext();
+        setTimeout(function() {
+          location.href = returnUrl;
+        }, (currentTransport === 'websocket' || currentTransport === 'flashsocket') ? 0 : 3000);
       }
     }, 0);
   };
@@ -148,6 +170,10 @@ var Karma = function(socket, context, navigator, location) {
     }
   };
 
+  var UNIMPLEMENTED_START = function() {
+    this.error('You need to include some adapter that implements __karma__.start method!');
+  };
+
   // all files loaded, let's start the execution
   this.loaded = function() {
     // has error -> cancel
@@ -156,7 +182,7 @@ var Karma = function(socket, context, navigator, location) {
     }
 
     // remove reference to child iframe
-    this.start = null;
+    this.start = UNIMPLEMENTED_START;
   };
 
   this.store = function(key, value) {
@@ -177,14 +203,15 @@ var Karma = function(socket, context, navigator, location) {
 
   // supposed to be overriden by the context
   // TODO(vojta): support multiple callbacks (queue)
-  this.start = this.complete;
+  this.start = UNIMPLEMENTED_START;
 
   socket.on('execute', function(cfg) {
     // reset hasError and reload the iframe
     hasError = false;
     startEmitted = false;
+    reloadingContext = false;
     self.config = cfg;
-    context.src = constant.CONTEXT_URL;
+    navigateContextTo(constant.CONTEXT_URL);
 
     // clear the console before run
     // works only on FF (Safari, Chrome do not allow to clear console from js source)
@@ -195,10 +222,10 @@ var Karma = function(socket, context, navigator, location) {
 
   // report browser name, id
   socket.on('connect', function() {
-    var transport = socket.socket.transport.name;
+    currentTransport = socket.socket.transport.name;
 
     // TODO(vojta): make resultsBufferLimit configurable
-    if (transport === 'websocket' || transport === 'flashsocket') {
+    if (currentTransport === 'websocket' || currentTransport === 'flashsocket') {
       resultsBufferLimit = 1;
     } else {
       resultsBufferLimit = 50;

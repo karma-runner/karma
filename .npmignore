@@ -5,6 +5,8 @@ test
 tasks
 scripts
 docs
+client
+logo
 
 TODO.md
 CONTRIBUTING.md
@@ -14,3 +16,6 @@ Karma.sublime-*
 
 static/karma.src.js
 static/karma.wrapper
+test-results.xml
+thesis.pdf
+mocha-watch.sh

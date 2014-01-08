@@ -2,29 +2,42 @@
 # lib/launcher.js module
 #==============================================================================
 describe 'launcher', ->
+  q = require 'q'
   di = require 'di'
   events = require '../../lib/events'
   logger = require '../../lib/logger'
   launcher = require '../../lib/launcher'
+  createMockTimer = require './mocks/timer'
 
   # mock out id generator
   lastGeneratedId = null
   launcher.Launcher.generateId = ->
     ++lastGeneratedId
 
+  # promise mock
+  stubPromise = (obj, method, stubAction) ->
+    deferred = q.defer()
+    sinon.stub obj, method, ->
+      stubAction() if stubAction
+      deferred.promise
+    obj[method].resolve = deferred.resolve
+
+
   class FakeBrowser
     constructor: (@id, @name, baseBrowserDecorator) ->
       baseBrowserDecorator @
       FakeBrowser._instances.push @
-      sinon.stub @, 'start', -> @state = 1 # BEING_CAPTURED
-      sinon.stub @, 'kill'
+      sinon.stub @, 'start', -> @state = @STATE_BEING_CAPTURED
+      stubPromise @, 'forceKill'
+      sinon.stub @, 'restart'
 
   class ScriptBrowser
     constructor: (@id, @name, baseBrowserDecorator) ->
       baseBrowserDecorator @
       ScriptBrowser._instances.push @
-      sinon.stub @, 'start', -> @state = 1 # BEING_CAPTURED
-      sinon.stub @, 'kill'
+      sinon.stub @, 'start', -> @state = @STATE_BEING_CAPTURED
+      stubPromise @, 'forceKill'
+      sinon.stub @, 'restart'
 
 
   beforeEach ->
@@ -46,6 +59,7 @@ describe 'launcher', ->
         'launcher:Script': ['type', ScriptBrowser]
         'emitter': ['value', emitter]
         'config': ['value', {captureTimeout: 0}]
+        'timer': ['factory', createMockTimer]
       }]
       l = new launcher.Launcher emitter, injector
 
@@ -75,53 +89,67 @@ describe 'launcher', ->
         expect(browser.start).to.have.been.calledWith 'http://whatever:1234/root/'
 
 
+    describe 'restart', ->
+      it 'should restart the browser', ->
+        l.launch ['Fake'], 'localhost', 1234, '/root/'
+        browser = FakeBrowser._instances.pop()
+
+        returnedValue = l.restart lastGeneratedId
+        expect(returnedValue).to.equal true
+        expect(browser.restart).to.have.been.called
+
+
+      it 'should return false if the browser was not launched by launcher (manual)', ->
+        l.launch [], 'localhost', 1234, '/'
+        expect(l.restart 'manual-id').to.equal false
+
+
     describe 'kill', ->
-      it 'should kill browser with given id', ->
+      it 'should kill browser with given id', (done) ->
         killSpy = sinon.spy()
 
         l.launch ['Fake']
         browser = FakeBrowser._instances.pop()
 
-        l.kill browser.id, killSpy
-        expect(browser.kill).to.have.been.called
+        l.kill browser.id, done
+        expect(browser.forceKill).to.have.been.called
 
-        browser.kill.invokeCallback()
-        expect(killSpy).to.have.been.called
+        browser.forceKill.resolve()
 
 
       it 'should return false if browser does not exist, but still resolve the callback', (done) ->
         l.launch ['Fake']
         browser = FakeBrowser._instances.pop()
 
-        expect(l.kill 'weid-id', done).to.equal false
-        expect(browser.kill).not.to.have.been.called
+        returnedValue = l.kill 'weird-id', done
+        expect(returnedValue).to.equal false
+        expect(browser.forceKill).not.to.have.been.called
 
-      it 'should not resolve callback if none was defined', (done) ->
+
+      it 'should not require a callback', (done) ->
         l.launch ['Fake']
         browser = FakeBrowser._instances.pop()
 
-        expect(l.kill 'weid-id').to.equal false
-        process.nextTick ->
-          done()
+        l.kill 'weird-id'
+        process.nextTick done
+
 
     describe 'killAll', ->
-      exitSpy = null
-
-      beforeEach ->
-        exitSpy = sinon.spy()
 
       it 'should kill all running processe', ->
         l.launch ['Fake', 'Fake'], 'localhost', 1234
         l.killAll()
 
         browser = FakeBrowser._instances.pop()
-        expect(browser.kill).to.have.been.called
+        expect(browser.forceKill).to.have.been.called
 
         browser = FakeBrowser._instances.pop()
-        expect(browser.kill).to.have.been.called
+        expect(browser.forceKill).to.have.been.called
 
 
       it 'should call callback when all processes killed', ->
+        exitSpy = sinon.spy()
+
         l.launch ['Fake', 'Fake'], 'localhost', 1234
         l.killAll exitSpy
 
@@ -129,14 +157,18 @@ describe 'launcher', ->
 
         # finish the first browser
         browser = FakeBrowser._instances.pop()
-        browser.kill.invokeCallback()
-        expect(exitSpy).not.to.have.been.called
+        browser.forceKill.resolve()
 
-        # finish the second browser
-        browser = FakeBrowser._instances.pop()
-        browser.kill.invokeCallback()
-        expect(exitSpy).to.have.been.called
-        # expect(browser.lastCall)
+        scheduleNextTick ->
+          expect(exitSpy).not.to.have.been.called
+
+        scheduleNextTick ->
+          # finish the second browser
+          browser = FakeBrowser._instances.pop()
+          browser.forceKill.resolve()
+
+        scheduleNextTick ->
+          expect(exitSpy).to.have.been.called
 
 
       it 'should call callback even if no browsers lanunched', (done) ->
@@ -165,7 +197,7 @@ describe 'launcher', ->
         emitter.emitAsync('exit').then done
 
         browser = FakeBrowser._instances.pop()
-        browser.kill.invokeCallback()
+        browser.forceKill.resolve()
 
         browser = FakeBrowser._instances.pop()
-        browser.kill.invokeCallback()
+        browser.forceKill.resolve()

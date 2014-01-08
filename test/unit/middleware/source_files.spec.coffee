@@ -1,17 +1,18 @@
-describe 'middleware.source-files', ->
+describe 'middleware.source_files', ->
   q = require 'q'
 
   mocks = require 'mocks'
   HttpResponseMock = mocks.http.ServerResponse
   HttpRequestMock = mocks.http.ServerRequest
 
-  File = require('../../../lib/file-list').File
-  Url = require('../../../lib/file-list').Url
+  File = require('../../../lib/file_list').File
+  Url = require('../../../lib/file_list').Url
 
   fsMock = mocks.fs.create
     base:
       path:
         'a.js': mocks.fs.file(0, 'js-src-a')
+        'index.html': mocks.fs.file(0, '<html>')
     src:
       'some.js': mocks.fs.file(0, 'js-source')
     'utf8ášč':
@@ -19,7 +20,7 @@ describe 'middleware.source-files', ->
 
 
   serveFile = require('../../../lib/middleware/common').createServeFile fsMock, null
-  createSourceFilesMiddleware = require('../../../lib/middleware/source-files').create
+  createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
 
   handler = filesDeferred = nextSpy = response = null
 
@@ -90,7 +91,7 @@ describe 'middleware.source-files', ->
 
     callHandlerWith 'http://localhost/base/a.js?123345'
 
-  it 'should send strict caching headers for js source files with timestamps', (done) ->
+  it 'should send strict caching headers for js source files with sha', (done) ->
     servedFiles [
       new File('/src/some.js')
     ]
@@ -100,7 +101,20 @@ describe 'middleware.source-files', ->
       expect(response._headers['Cache-Control']).to.deep.equal  ['public', 'max-age=31536000']
       done()
 
-    callHandlerWith '/absolute/src/some.js?12323'
+    callHandlerWith '/absolute/src/some.js?df43b8acf136389a8dd989bda397d1c9b4e048be'
+
+
+  it 'should send strict caching headers for js source files with sha (in basePath)', (done) ->
+    servedFiles [
+      new File('/base/path/a.js')
+    ]
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response._headers['Cache-Control']).to.deep.equal  ['public', 'max-age=31536000']
+      done()
+
+    callHandlerWith '/base/a.js?df43b8acf136389a8dd989bda397d1c9b4e048be'
 
 
   it 'should send no-caching headers for js source files without timestamps', (done) ->
@@ -155,3 +169,30 @@ describe 'middleware.source-files', ->
       done()
 
     callHandlerWith '/base/some.js'
+
+  it 'should set content-type headers', (done) ->
+    servedFiles [
+      new File('/base/path/index.html')
+    ]
+
+    response.once 'end', ->
+      expect(response._headers['Content-Type']).to.equal 'text/html'
+      done()
+
+    callHandlerWith '/base/index.html'
+
+
+  it 'should use cached content if available', (done) ->
+    cachedFile = new File('/some/file.js')
+    cachedFile.content = 'cached-content'
+
+    servedFiles [
+      cachedFile
+    ]
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, 'cached-content'
+      done()
+
+    callHandlerWith '/absolute/some/file.js'

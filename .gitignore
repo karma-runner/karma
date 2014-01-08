@@ -9,5 +9,6 @@ docs/_build
 test/e2e/coverage/coverage
 test/e2e/coverageQunit/coverage
 test/e2e/coverageRequirejs/coverage
+test/e2e/coffee-coverage/coverage
 test-results.xml
 test/unit/test.log

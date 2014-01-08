@@ -1,6 +1,6 @@
 Karma is essentially a tool which spawns a web server that executes source code against test code for each of the browsers connected.
 The results for each test against each browser are examined and displayed via the command line to the developer
-such that they can to see which browsers and tests passed or failed.
+such that they can see which browsers and tests passed or failed.
 
 A browser can be captured either
 - manually, by visiting the URL where the Karma server is listening (typically `http://localhost:9876/`)

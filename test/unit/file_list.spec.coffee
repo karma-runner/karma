@@ -1,7 +1,7 @@
 #==============================================================================
-# lib/file-list.js module
+# lib/file_list.js module
 #==============================================================================
-describe 'file-list', ->
+describe 'file_list', ->
   mocks = require 'mocks'
   events = require 'events'
   path = require 'path'
@@ -64,7 +64,7 @@ describe 'file-list', ->
       fs: mockFs
       minimatch: require('minimatch')
 
-    m = mocks.loadFile __dirname + '/../../lib/file-list.js', mocks_
+    m = mocks.loadFile __dirname + '/../../lib/file_list.js', mocks_
 
     onFileListModifiedSpy = sinon.spy()
     emitter = new events.EventEmitter
@@ -296,6 +296,30 @@ describe 'file-list', ->
           done()
 
 
+    it 'should ignore very quick double "add"', (done) ->
+      # On linux fs.watch (chokidar with usePolling: false) fires "add" event twice.
+      # This checks that we only stat and preprocess the file once.
+
+      sinon.spy mockFs, 'stat'
+      list = new m.List patterns('/a.*'), [], emitter, preprocessMock
+
+      pending = 2
+      finish = ->
+        pending--
+        if pending is 0
+          expect(preprocessMock).to.have.been.calledOnce
+          expect(mockFs.stat).to.have.been.calledOnce
+          done()
+
+      refreshListAndThen (files) ->
+        preprocessMock.reset()
+        mockFs.stat.reset()
+
+        list.addFile '/a.js', finish
+        # fire again, before the stat gets back
+        list.addFile '/a.js', finish
+
+
     it 'should set proper mtime of new file', (done) ->
       list = new m.List patterns('/a.*'), [], emitter, preprocessMock
 
@@ -421,7 +445,7 @@ describe 'file-list', ->
       timeoutSpy = sinon.stub().returns true
       globals_ = setTimeout: timeoutSpy
 
-      m = mocks.loadFile __dirname + '/../../lib/file-list.js', mocks_, globals_
+      m = mocks.loadFile __dirname + '/../../lib/file_list.js', mocks_, globals_
 
       # MATCH: /some/a.js, /some/b.js, /a.txt
       list = new m.List patterns('/some/*.js', '/a.*'), [], emitter, preprocessMock, 1000
