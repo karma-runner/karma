@@ -67,30 +67,6 @@ describe 'middleware.source_files', ->
 
     callHandlerWith '/base/a.js?123345'
 
-  it 'should serve file when requested with absoluteURI with port', (done) ->
-    servedFiles [
-      new File('/base/path/a.js')
-    ]
-
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs 200, 'js-src-a'
-      done()
-
-    callHandlerWith 'http://localhost:9876/base/a.js?123345'
-
-  it 'should serve file when requested with absoluteURI without port', (done) ->
-    servedFiles [
-      new File('/base/path/a.js')
-    ]
-
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs 200, 'js-src-a'
-      done()
-
-    callHandlerWith 'http://localhost/base/a.js?123345'
-
   it 'should send strict caching headers for js source files with sha', (done) ->
     servedFiles [
       new File('/src/some.js')
