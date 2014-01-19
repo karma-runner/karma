@@ -31,7 +31,7 @@ Each pattern is either a simple string or an object with four properties:
 * **Type.** Boolean
 * **Default.** `true`
 * **Description.** Should the files be included in the browser using
-    `<script>` tag? Use `false` if you wanna load them manually, eg.
+    `<script>` tag? Use `false` if you want to load them manually, eg.
     using [Require.js](../plus/RequireJS.html).
 
 ### `served`
@@ -39,25 +39,25 @@ Each pattern is either a simple string or an object with four properties:
 * **Default.** `true`
 * **Description.** Should the files be served by Karma's webserver?
 
-## Preprocessor tranformations
+## Preprocessor transformations
 Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in
 their native format. For instance, if html2js preprocessor is enabled, the actual .html files are no longer
 served - but rather available as `window.__html__['my.html']`. Read more about [preprocessors].
 
 ## Complete example
-Here is a complete example showing the different options that are possible.
+Here is a complete example showing the different options possible:
 ```javascript
 files: [
 
-  // simple patterns to load the needed testfiles
-  // equals to {pattern: 'test/unit/*.spec.js', watched: true, served: true, included: true}
+  // simple pattern to load the needed testfiles
+  // equal to {pattern: 'test/unit/*.spec.js', watched: true, served: true, included: true}
   'test/unit/*.spec.js',
 
   // this file gets served but will be ignored by the watcher
   // note if html2js preprocessor is active, reference as `window.__html__['compiled/index.html']`
   {pattern: 'compiled/index.html', watched: false},
 
-  // this file only gets watched but otherwise ignored
+  // this file only gets watched and is otherwise ignored
   {pattern: 'app/index.html', included: false, served: false}
 ],
 ```
