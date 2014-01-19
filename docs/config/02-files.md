@@ -32,7 +32,7 @@ Each pattern is either a simple string or an object with four properties:
 * **Default.** `true`
 * **Description.** Should the files be included in the browser using
     `<script>` tag? Use `false` if you want to load them manually, eg.
-    using [Require.js](../plus/RequireJS.html).
+    using [Require.js](../plus/requirejs.html).
 
 ### `served`
 * **Type.** Boolean
