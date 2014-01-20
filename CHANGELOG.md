@@ -1,3 +1,16 @@
+<a name="v0.11.13"></a>
+### v0.11.13 (2014-01-19)
+
+
+#### Bug Fixes
+
+* **launcher:** compatibility with old launchers ([df557cec](http://github.com/karma-runner/karma/commit/df557cec8093de301a8d7dea4ddca8670629c0af))
+
+
+#### Features
+
+* support LiveScript configuration ([88deebe7](http://github.com/karma-runner/karma/commit/88deebe74a0b6f01e23f3ceefea5811183218600))
+
 <a name="v0.11.12"></a>
 ### v0.11.12 (2013-12-25)
 
