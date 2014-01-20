@@ -6,6 +6,7 @@ tmp/*
 docs/_build
 *.swp
 *.swo
+coverage/
 test/e2e/coverage/coverage
 test/e2e/coverageQunit/coverage
 test/e2e/coverageRequirejs/coverage

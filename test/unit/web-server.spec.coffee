@@ -59,6 +59,12 @@ describe 'web-server', ->
 
     requestPath '/'
 
+  it 'should serve client.html with a absoluteURI request path ', (done) ->
+    response.once 'end', ->
+      expect(response).to.beServedAs 200, 'CLIENT HTML'
+      done()
+    console.log('absoluteURI!')
+    requestPath 'http://localhost:9876/'
 
   it 'should serve source files', (done) ->
     response.once 'end', ->

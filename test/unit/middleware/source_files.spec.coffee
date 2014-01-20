@@ -67,7 +67,6 @@ describe 'middleware.source_files', ->
 
     callHandlerWith '/base/a.js?123345'
 
-
   it 'should send strict caching headers for js source files with sha', (done) ->
     servedFiles [
       new File('/src/some.js')
@@ -118,7 +117,6 @@ describe 'middleware.source_files', ->
     callHandlerWith '/absolute/non-existing.html', ->
       expect(response).to.beNotServed()
       done()
-
 
   it 'should serve 404 if file is served but does not exist', (done) ->
     servedFiles [

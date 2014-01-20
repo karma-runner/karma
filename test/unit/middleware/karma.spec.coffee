@@ -81,7 +81,6 @@ describe 'middleware.karma', ->
 
     callHandlerWith '/'
 
-
   it 'should serve /?id=xxx', (done) ->
     handler = createKarmaMiddleware null, serveFile, '/base', '/'
 
