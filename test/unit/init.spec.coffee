@@ -184,10 +184,58 @@ describe 'init', ->
 
       # excludes
       machine.onLine ''
+      machine.onLine ''
+
+      # generate test-main
+      machine.onLine 'no'
 
       # included files
       machine.onLine 'test/main.js'
       machine.onLine ''
+
+      # autoWatch
+      machine.onLine 'yes'
+
+
+    it 'should generate the test-main for requirejs', (done) ->
+      machine.process m.questions, (answers) ->
+        basePath = m.getBasePath '../karma.conf.js', '/some/path'
+        processedAnswers = m.processAnswers answers, basePath, 'test-main.js'
+        generatedConfigCode = formatter.generateConfigFile processedAnswers
+        config = evaluateConfigCode generatedConfigCode
+
+        # expect correct processedAnswers
+        expect(processedAnswers.generateTestMain).to.be.ok
+        expect(processedAnswers.files).to.contain 'test-main.js'
+
+        # expect correct configuration
+        expect(config.frameworks).to.contain 'requirejs'
+        for pattern in config.files.slice(1)
+          expect(pattern.included).to.equal false
+        done()
+
+      # frameworks
+      machine.onLine 'jasmine'
+      machine.onLine ''
+
+      # requirejs
+      machine.onLine 'yes'
+
+      # browsers
+      machine.onLine 'Chrome'
+      machine.onLine ''
+
+      # files
+      machine.onLine 'src/**/*.js'
+      machine.onLine 'test/**/*.js'
+      machine.onLine ''
+
+      # excludes
+      machine.onLine ''
+      machine.onLine ''
+
+      # generate test-main
+      machine.onLine 'yes'
 
       # autoWatch
       machine.onLine 'yes'
