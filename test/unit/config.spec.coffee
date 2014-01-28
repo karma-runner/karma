@@ -240,23 +240,21 @@ describe 'config', ->
       config = normalizeConfigWithDefaults
         basePath: ''
         preprocessors:
-          '/*.coffee': 'coffee'
-          '/*.html': 'html2js'
+          'coffee': '/*.coffee'
+          'html2js': '/*.html'
 
-      expect(config.preprocessors[resolveWinPath('/*.coffee')]).to.deep.equal ['coffee']
-      expect(config.preprocessors[resolveWinPath('/*.html')]).to.deep.equal ['html2js']
+      expect(config.preprocessors['coffee']).to.deep.equal [resolveWinPath('/*.coffee')]
+      expect(config.preprocessors['html2js']).to.deep.equal [resolveWinPath('/*.html')]
+      #expect(config.preprocessors[resolveWinPath('/*.html')]).to.deep.equal ['html2js']
 
 
-    it 'should resolve relative preprocessor patterns', ->
+    it 'should handle negative preprocessors lookups', ->
       config = normalizeConfigWithDefaults
-        basePath: '/some/base'
+        basePath: ''
         preprocessors:
-          '*.coffee': 'coffee'
-          '/**/*.html': 'html2js'
+          'coffee': ['*.coffee', '!*.spec.coffee']
 
-      expect(config.preprocessors).to.have.property resolveWinPath('/some/base/*.coffee')
-      expect(config.preprocessors).not.to.have.property resolveWinPath('*.coffee')
-      expect(config.preprocessors).to.have.property resolveWinPath('/**/*.html')
+      expect(config.preprocessors['coffee']).to.deep.equal [resolveWinPath('*.coffee'), '!' + resolveWinPath('*.spec.coffee')]
 
 
   describe 'createPatternObject', ->
