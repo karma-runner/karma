@@ -122,16 +122,17 @@ describe 'middleware.karma', ->
   it 'should serve context.html with replaced link tags', (done) ->
     includedFiles [
       new MockFile('/first.css', 'sha007')
+      new MockFile('/second.html', 'sha678')
     ]
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs 200, 'CONTEXT\n' +
-      '<link type="text/css" href="/absolute/first.css?sha007" rel="stylesheet">'
+      '<link type="text/css" href="/absolute/first.css?sha007" rel="stylesheet">\n' +
+      '<link href="/absolute/second.html?sha678" rel="import">'
       done()
 
     callHandlerWith '/__karma__/context.html'
-
 
   it 'should serve context.html with the correct path for the script tags', (done) ->
     includedFiles [
@@ -153,13 +154,17 @@ describe 'middleware.karma', ->
     includedFiles [
       new MockFile('/some/abc/a.css', 'sha1')
       new MockFile('/base/path/b.css', 'sha2')
+      new MockFile('/some/abc/c.html', 'sha3')
+      new MockFile('/base/path/d.html', 'sha4')
     ]
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs 200, 'CONTEXT\n' +
       '<link type="text/css" href="/absolute/some/abc/a.css?sha1" rel="stylesheet">\n' +
-      '<link type="text/css" href="/base/b.css?sha2" rel="stylesheet">'
+      '<link type="text/css" href="/base/b.css?sha2" rel="stylesheet">\n' +
+      '<link href="/absolute/some/abc/c.html?sha3" rel="import">\n' +
+      '<link href="/base/d.html?sha4" rel="import">'
       done()
 
     callHandlerWith '/__karma__/context.html'
@@ -231,13 +236,17 @@ describe 'middleware.karma', ->
     includedFiles [
       new MockFile('/first.css')
       new MockFile('/base/path/b.css')
+      new MockFile('/second.html')
+      new MockFile('/base/path/d.html')
     ]
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs 200, 'DEBUG\n' +
       '<link type="text/css" href="/absolute/first.css" rel="stylesheet">\n' +
-      '<link type="text/css" href="/base/b.css" rel="stylesheet">'
+      '<link type="text/css" href="/base/b.css" rel="stylesheet">\n' +
+      '<link href="/absolute/second.html" rel="import">\n' +
+      '<link href="/base/d.html" rel="import">'
       done()
 
     callHandlerWith '/__karma__/debug.html'
