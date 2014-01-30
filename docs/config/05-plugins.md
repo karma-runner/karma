@@ -34,7 +34,7 @@ plugins: [
   'karma-jasmine',
   'karma-chrome-launcher'
 
-  // inelined plugins
+  // inlined plugins
   {'framework:xyz', ['factory', factoryFn]},
   require('./plugin-required-from-config')
 ]
