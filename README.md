@@ -23,8 +23,9 @@ _real_ browsers, powered by [Node.js] and [Socket.io].
 
 ## But I still want to use \_insert testing library\_
 
-Karma is not a testing framework, neither an assertion library,
-so for that you can use pretty much anything you like. Right now out
+Karma is not a testing framework, neither an assertion library.
+Karma just launches a HTTP server, and generates the test runner HTML file you probably already know from your favourite testing framework.
+So for testing purposes you can use pretty much anything you like. Right now out
 of the box there is support for
 
 * [Mocha]
@@ -32,6 +33,9 @@ of the box there is support for
 * [QUnit]
 * \_anything else\_ Write your own adapter. It's not that hard. And we
   are here to help.
+
+If you want to use one or more frameworks with Karma, then please read the documentation of the related [adapters](https://github.com/karma-runner)!
+It will help a lot about how to configure your project...
 
 
 ## Which Browsers can I use?
@@ -103,12 +107,21 @@ start Karma:
 ```bash
 $ karma start
 ```
+That command starts a HTTP server and connects it to one or more browser window. It creates a test runner HTML file as well.
+The HTTP server configuration and the test runner is generated from your Karma configuration.
+The `file patterns` in the Karma configuration are very important, because Karma creates HTML script elements
+from the files matching a `file pattern` with short pattern syntax or `include` flag.
+So these matching files will be included directly into the test runner HTML file.
+If you want to use a _static file_ in your tests, then you have to turn off the `include` flag by its `file pattern`.
 
 If you want to run tests manually (without auto watching file changes), you can:
 ```bash
 $ karma run
 ```
-But only if you have started the Karma server before.
+By executing that command, Karma runs your test runner HTML file in the opened
+browser window and sends back the results to your test reporter. Many reporters are supported, for example you can use the
+[IntelliJ reporter](https://github.com/karma-runner/karma-intellij) for WebStorm.
+You can of course create your own reporter if your want. Please let us know if you need any help!
 
 
 ## Why did you create this?
