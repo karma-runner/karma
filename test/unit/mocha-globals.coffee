@@ -1,3 +1,5 @@
+require 'coffee-errors'
+
 sinon = require 'sinon'
 chai = require 'chai'
 logger = require '../../lib/logger'

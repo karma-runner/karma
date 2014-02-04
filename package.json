@@ -162,7 +162,8 @@
     "karma-live-preprocessor": "*",
     "karma-html2js-preprocessor": "*",
     "karma-browserstack-launcher": "*",
-    "LiveScript": "~1.2.0"
+    "LiveScript": "~1.2.0",
+    "coffee-errors": "~0.8.6"
   },
   "main": "./lib/index",
   "bin": {},
