@@ -1,3 +1,13 @@
+<a name="v0.11.14"></a>
+### v0.11.14 (2014-02-04)
+
+
+#### Features
+
+* **preprocessor:** allow preprocessor to cancel test run ([4d669bf3](http://github.com/karma-runner/karma/commit/4d669bf36b091e8808c9a280900fe19c8b2a72cc), closes [#550](http://github.com/karma-runner/karma/issues/550))
+* **reporter:** use spaces rather than tabs when formatting errors ([112becf7](http://github.com/karma-runner/karma/commit/112becf7ffa79d2519777300be0beff568114fe6))
+* **web-server:** include html files as <link rel="import"> ([03d7b106](http://github.com/karma-runner/karma/commit/03d7b1065e31e6a42e67a0eb3e22009731865648))
+
 <a name="v0.11.13"></a>
 ### v0.11.13 (2014-01-19)
 
