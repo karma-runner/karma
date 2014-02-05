@@ -117,7 +117,6 @@
     "minimatch": "~0.2",
     "http-proxy": "~0.10",
     "optimist": "~0.6.0",
-    "coffee-script": "~1.6",
     "rimraf": "~2.2.5",
     "q": "~0.9.7",
     "colors": "~0.6.2",
@@ -167,7 +166,8 @@
     "karma-html2js-preprocessor": "*",
     "karma-browserstack-launcher": "*",
     "LiveScript": "~1.2.0",
-    "coffee-errors": "~0.8.6"
+    "coffee-errors": "~0.8.6",
+    "coffee-script": "~1.6"
   },
   "main": "./lib/index",
   "bin": {},
