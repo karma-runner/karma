@@ -72,7 +72,7 @@ describe 'launchers/retry.js', ->
     spyOnBrowserProcessFailure = sinon.spy()
     emitter.on 'browser_process_failure', spyOnBrowserProcessFailure
 
-    # process just exitted normally
+    # process just exited normally
     launcher._done()
 
     scheduleNextTick ->
