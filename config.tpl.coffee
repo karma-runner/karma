@@ -58,7 +58,7 @@ module.exports = (config) ->
     autoWatch: %AUTO_WATCH%
 
 
-    # satart these browsers
+    # start these browsers
     # available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [%BROWSERS%]
 
