@@ -204,12 +204,14 @@ describe 'middleware.karma', ->
     servedFiles [
       new MockFile('/some/abc/a.js', 'sha_a')
       new MockFile('/base/path/b.js', 'sha_b')
+      new MockFile('\\windows\\path\\uuu\\c.js', 'sha_c')
     ]
 
     response.once 'end', ->
       expect(response).to.beServedAs 200, 'window.__karma__.files = {\n' +
       "  '/absolute/some/abc/a.js': 'sha_a',\n" +
       "  '/base/b.js': 'sha_b'\n" +
+      "  '/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n" +
       "};\n"
       done()
 
