@@ -210,7 +210,7 @@ describe 'middleware.karma', ->
     response.once 'end', ->
       expect(response).to.beServedAs 200, 'window.__karma__.files = {\n' +
       "  '/absolute/some/abc/a.js': 'sha_a',\n" +
-      "  '/base/b.js': 'sha_b'\n" +
+      "  '/base/b.js': 'sha_b',\n" +
       "  '/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n" +
       "};\n"
       done()
