@@ -1,29 +1,17 @@
-Karma runs on [Node.js] and is available via [NPM].
+Karma runs on [Node.js] and is available as an [NPM] package.
 
-## Requirements
+## Installing Node.js
 
-<ol>
-  <li>
-    <h3><a href="http://nodejs.org/download/">Node.js</a></h3>
-    <p>
-      There are installers for both Mac and Windows. On Linux, we recommend using
-      <a href="https://github.com/creationix/nvm">NVM</a>.
-    </p>
-  </li>
-  <li>
-    <h3><a href="https://npmjs.org/">Node Package Manager (NPM)</a></h3>
-    <p>
-      NPM is a package manager for Node.js which is used to install Karma. This should
-      automatically be installed when Node.js is installed, but if not then please install
-      it afterwards.
-    </p>
-  </li>
-</ol>
+There are [installers](http://nodejs.org/download/) for both Mac and Windows.
+On Linux, we recommend using [NVM](https://github.com/creationix/nvm).
+
+Note: Karma works on the two latest stable versions. That is **0.8.x** and **0.10.x** at this point.
+
 
 ## Installing Karma and plugins
 
 The recommended approach is to install Karma (and all the plugins your project needs) locally in
-the project's directory:
+the project's directory.
 
 ```bash
 # Install Karma:
@@ -34,10 +22,10 @@ $ npm install karma-jasmine karma-chrome-launcher --save-dev
 
 ```
 
-This will install Karma and `karma-jasmine` and `karma-chrome-launcher` plugins into your current
-directory's `node_modules` and also save these as devDependencies in `package.json`, so that any
-other developer working on the project will only have to do `npm install` in order to get all the
-dependencies.
+This will install `karma`, `karma-jasmine` and `karma-chrome-launcher` packages into `node_modules` in your current
+working directory and also save these as `devDependencies` in `package.json`, so that any
+other developer working on the project will only have to do `npm install` in order to get all these
+dependencies installed.
 
 ```bash
 # Run Karma:

@@ -1,7 +1,7 @@
 ## Overview
-**In order to serve you well, Karma needs to know about your project in order to test it
-and this is done via a configuration file. This page explains how to create such a configuration file.**
-
+In order to serve you well, Karma needs to know about your project in order to test it
+and this is done via a configuration file. The easiest way to generate initial configuration file
+is using `karma init` command. This page lists all the available configuration options.
 
 Note: Most of the framework adapters, reporters, preprocessors and launchers needs to be loaded as [plugins].
 
@@ -11,7 +11,7 @@ Within the configuration file, the configuration code is put together by setting
 which accepts one argument: the configuration object.
 
 ```javascript
-// an example karma.conf.js
+// karma.conf.js
 module.exports = function(config) {
   config.set({
     basePath: '../..',
@@ -22,16 +22,13 @@ module.exports = function(config) {
 ```
 
 ```coffeescript
-# an example karma.conf.coffee
+# karma.conf.coffee
 module.exports = (config) ->
   config.set
     basePath: '../..'
     frameworks: ['jasmine']
     # ...
 ```
-
-To see a more detailed example configuration file, see [test/client/karma.conf.js] which contains most of
-the available configuration options.
 
 ## File Patterns
 All of the configuration options which specify file paths use the [minimatch][minimatch] library to facilitate flexible but concise file expressions, so you can easily list all the files you want to include, along with excluding the files that need to be skipped.
@@ -384,7 +381,6 @@ sometimes you might want to proxy a url that is already taken by Karma.
 
 
 [plugins]: plugins.html
-[test/client/karma.conf.js]: https://github.com/karma-runner/karma/blob/master/test/client/karma.conf.js
 [config/files]: files.html
 [config/browsers]: browsers.html
 [config/preprocessors]: preprocessors.html

@@ -10,23 +10,20 @@ Then, Karma will take care of autocapturing these browsers, as well as killing t
 Note: Most of the browser launchers needs to be loaded as [plugins].
 
 ## Available browser launchers
-These launchers are shipped with Karma by default:
-- [Chrome and Chrome Canary]
-- [PhantomJS]
-
-Additional launchers can be loaded through [plugins], such as:
+- [Chrome and Chrome Canary] (install karma-chrome-launcher)
 - [Firefox] (install karma-firefox-launcher first)
 - [Safari] (install karma-safari-launcher first)
+- [PhantomJS] (install karma-phantomjs-launcher)
 - [Opera] (install karma-opera-launcher first)
 - [IE] (install karma-ie-launcher first)
-
-As mentioned above above, only Chrome and PhantomJS come bundled with Karma. Therefore, to use other browsers naturally,
-simply install the required launcher first using NPM and then assign the browser setting within the configuration file using the `browsers`.
+- [SauceLabs] (install karma-sauce-launcher)
+- [BrowserStack] (install karma-browserstack-launcher)
+- [many more](https://www.npmjs.org/browse/keyword/karma-launcher)
 
 Here's an example of how to add Firefox to your testing suite:
 
 ```bash
-# Install it first with NPM
+# Install it first with NPM:
 $ npm install karma-firefox-launcher --save-dev
 ```
 
@@ -124,5 +121,6 @@ by the server to keep track of which specific browser is captured.
 [IE]: https://github.com/karma-runner/karma-ie-launcher
 [Opera]: https://github.com/karma-runner/karma-opera-launcher
 [SauceLabs]: https://github.com/karma-runner/karma-sauce-launcher
+[BrowserStack]: https://github.com/karma-runner/karma-browserstack-launcher
 [custom plugins]: ../dev/plugins.html
 [plugins]: plugins.html

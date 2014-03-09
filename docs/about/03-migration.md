@@ -1,90 +1,57 @@
-pageTitle: Migration from v0.8
+pageTitle: Migration from v0.10
 
 
-The good thing is that you don't have to migrate everything at once. You can keep the global Karma and update project by project.
+The good thing is that you don't have to migrate everything at once.
+You can leave all the existing projects using an older version of Karma and only use the latest
+version for the new projects. Or you can migrate the existing projects one at the time...
 
-Note: If you are getting "npm ERR! peerinvalid Peer" error. Try removing old version of Karma first.
 
+Anyway, this migration should be easy ;-) so let's get started...
 
-Let's get started...
-
-First upgrade your local or global install of Karma via the command line using NPM.
 ```bash
-# upgrade local install...
 cd <path-to-your-project>
-npm install karma
-
-# or upgrade global install...
-sudo npm install -g karma
+npm install karma --save-dev
 ```
+This will install the latest version of Karma and also update `package.json` of your project.
 
-## Plugins
 
-All the frameworks, reporters, preprocessors and browser launchers are now separate plugins. Here is a list of all of them including related plugins. So install all the plugins you need:
+## Install missing plugins
+Karma does not ship with any "default" plugin anymore.
+For existing projects, this should not cause any problems as NPM (when installing Karma 0.10) probably added these "default" plugins into `package.json` as regular dependencies.
+For new projects, just remember you have to install all the plugins you need. These are the "default" plugins that were removed:
+- karma-jasmine
+- karma-requirejs
+- karma-coffee-preprocessor
+- karma-html2js-preprocessor
+- karma-chrome-launcher
+- karma-firefox-launcher
+- karma-phantomjs-launcher
+- karma-script-launcher
+
+
+## Install CLI interface
+Karma does not put the `karma` command in your system PATH anymore.
+If you want to use the `karma` command, please install the command line interface (`karma-cli`).
+
+You probably have `karma` package installed globally, in which case you should remove it first:
 ```bash
-npm install karma-<plugin name> --save-dev
+npm remove -g karma
 ```
 
-### Frameworks
-- jasmine (`karma-jasmine` ships with Karma)
-- mocha   `karma-mocha`
-- qunit   `karma-qunit`
-
-
-### Preprocessors
-- coffee    (`karma-coffee-preprocessor` ships with Karma)
-- html2js   (`karma-ng-html2js-preprocessor` ships with Karma)
-- coverage  `karma-coverage`
-- live      `karma-live-preprocessor`
-
-### Reporters
-- dots (included, no plugin)
-- progress (included, no plugin)
-- growl `karma-growl-reporter`
-- junit `karma-junit-reporter`
-- teamcity `karma-teamcity-reporter`
-
-### Launchers
-- Chrome        (`karma-chrome-launcher` ships with Karma)
-- Chrome Canary (`karma-chrome-launcher` ships with Karma)
-- PhantomJS     (`karma-phantomjs-launcher` ships with Karma)
-- Firefox       `karma-firefox-launcher`
-- Safari        `karma-safari-launcher`
-- IE            `karma-ie-launcher`
-- Opera         `karma-opera-launcher`
-
-
-## New config syntax
-The configuration file is now a regular Node module, that exports a single function. This function will get called with a config object:
-```javascript
-module.exports = function(config) {
-  config.set({
-    basePath: '.',
-    files: [
-      // ...
-    ]
-  })
-};
+And then install the command line interface:
+```bash
+npm install -g karma-cli
 ```
 
-Also, remove all the constants like `JASMINE`, `JASMINE_ADAPTER`, `MOCHA`, `MOCHA_ADAPTER`, `QUNIT`, `QUNIT_ADAPTER`, `REQUIRE`, `REQUIRE_ADAPTER`, `ANGULAR_SCENARIO`, `ANGULAR_SCENARIO_ADAPTER` from files and use frameworks config instead:
-```javascript
-// before
-files = [
-  JASMINE,
-  JASMINE_ADAPTER,
-  '*.js'
-];
 
-// change to
-module.exports = function(config) {
-  config.set({
-    frameworks: ['jasmine'],
-    files: ['*.js']
-  });
-};
-```
+## Default configuration
+`autoWatch` is true by default, so if you don't wanna use it make sure you set it to `false`. But hey, give it a shot first, it's really awesome to run your tests on every save!
 
-That should be it ;-) If you have any problem, ask on [mailing list](https://groups.google.com/forum/?fromgroups#!forum/karma-users).
 
-You can also check out [migrating AngularJS](https://github.com/angular/angular.js/commit/29f96c852c355d0e283a64111d4923d1bcde8f5f).
+## NPM complaining
+NPM is sometimes retarded so if you get into troubles like "unsatisfied peer dependency", just try to remove all the packages (`rm -rf ./node_modules`) and install again.
+
+If you have any other issuses, please ask on the [mailing list].
+
+
+[mailing list]: https://groups.google.com/forum/?fromgroups#!forum/karma-users

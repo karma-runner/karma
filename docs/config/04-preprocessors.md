@@ -15,25 +15,19 @@ as another way to specify multiple file path expressions.
 Note: Most of the preprocessors need to be loaded as [plugins].
 
 ## Available Preprocessors
-These preprocessors/plugins are shipped with Karma by default:
 - [coffee]
 - [html2js]
   - Note any .html files listed in the files section must be referenced at run time as `window.__html__['template.html']`. [Learn more](html2js).
   - If this preprocessor is disabled, included .html files will need `base/` added to beginning of their path reference. See [discussion in issue 788][issue788].
-
-Additional preprocessors can be loaded through [plugins], such as:
 - [coverage]
 - [ng-html2js]
-- [ember]
+- [many more](https://www.npmjs.org/browse/keyword/karma-preprocessor)
 
-As mentioned above above, only the coffee and html2j preprocessors come bundled with Karma. Therefore, to use additional preprocessors,
-simply install the required NPM library first and the installed preprocessor can be used regularly.
-
-Here's an example of how to add the coverage preprocessor to your testing suite:
+Here's an example of how to add the CoffeScript preprocessor to your testing suite:
 
 ```bash
 # Install it first with NPM
-$ npm install karma-coverage --save-dev
+$ npm install karma-coffee-preprocessor --save-dev
 ```
 
 And then inside your configuration file...
@@ -42,7 +36,7 @@ And then inside your configuration file...
 module.exports = function(config) {
   config.set({
     preprocessors: {
-      '**/*.js': ['coverage']
+      '**/*.coffee': ['coffee']
     }
   });
 };
@@ -96,7 +90,6 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 [html2js]: https://github.com/karma-runner/karma-html2js-preprocessor
 [ng-html2js]: https://github.com/karma-runner/karma-ng-html2js-preprocessor
 [coverage]: https://github.com/karma-runner/karma-coverage
-[ember]: https://github.com/karma-runner/karma-ember-preprocessor
 [custom plugins]: ../dev/plugins.html
 [plugins]: plugins.html
 [issue788]: https://github.com/karma-runner/karma/issues/788
