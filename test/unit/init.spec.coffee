@@ -205,6 +205,7 @@ describe 'init', ->
 
         # expect correct processedAnswers
         expect(processedAnswers.generateTestMain).to.be.ok
+        expect(processedAnswers.files).to.contain 'test-main.js'
         # expect correct configuration
         expect(config.frameworks).to.contain 'requirejs'
         for pattern in config.files.slice(1)
