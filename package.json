@@ -182,6 +182,6 @@
   "engines": {
     "node": "~0.8 || ~0.10"
   },
-  "version": "0.11.14",
+  "version": "0.12.0",
   "license": "MIT"
 }

@@ -1,3 +1,25 @@
+<a name="v0.12.0"></a>
+## v0.12.0 (2014-03-10)
+
+
+#### Bug Fixes
+
+* serving binary files ([8a30cf55](http://github.com/karma-runner/karma/commit/8a30cf55751bbaec672597f4f0ed66fe8742095f), closes [#864](http://github.com/karma-runner/karma/issues/864), [#885](http://github.com/karma-runner/karma/issues/885))
+* **config:**
+  * fail if client.args is set to a non array ([fe4eaec0](http://github.com/karma-runner/karma/commit/fe4eaec09f1b7d34270dec7f948cd9441ef6fe48))
+  * allow CoffeeScript 1.7 to be used ([a1583dec](http://github.com/karma-runner/karma/commit/a1583decd97438a241f99287159da2948eb3a95f))
+* **runner:** Karma hangs when file paths have \u in them #924 ([1199fc4d](http://github.com/karma-runner/karma/commit/1199fc4d7ee7be2d48a707876ddb857544cf2fb4), closes [#924](http://github.com/karma-runner/karma/issues/924))
+* **web-server:**
+  * detach listeners after running ([3baa8e19](http://github.com/karma-runner/karma/commit/3baa8e1979003e4136e48515c0ba1815a950ca19))
+  * close webserver after running ([f9dee468](http://github.com/karma-runner/karma/commit/f9dee4681cad716b56748e275680fb09e574978c))
+
+
+#### Features
+
+* remove dependency on coffee-script ([af2d0e72](http://github.com/karma-runner/karma/commit/af2d0e72599d242c59ebefd6c3c965bf8496399e))
+* **config:** better error when Coffee/Live Script not installed ([aca84dc9](http://github.com/karma-runner/karma/commit/aca84dc9c6f4a966280bfcd080317c7c9d498f53))
+* **init:** generate test-main.(js/coffee) for RequireJS projects ([85900c93](http://github.com/karma-runner/karma/commit/85900c93f070264d71fdae6c257285767119c5c2))
+
 <a name="v0.11.14"></a>
 ### v0.11.14 (2014-02-04)
 
