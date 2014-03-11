@@ -116,14 +116,14 @@
     "connect": "~2.8.4"
   },
   "peerDependencies": {
-    "karma-jasmine": "*",
-    "karma-requirejs": "*",
-    "karma-coffee-preprocessor": "*",
-    "karma-html2js-preprocessor": "*",
-    "karma-chrome-launcher": "*",
-    "karma-firefox-launcher": "*",
-    "karma-phantomjs-launcher": "*",
-    "karma-script-launcher": "*"
+    "karma-jasmine": "~0.1.0",
+    "karma-requirejs": "~0.2.0",
+    "karma-coffee-preprocessor": "~0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-phantomjs-launcher": "~0.1.0",
+    "karma-script-launcher": "~0.1.0"
   },
   "devDependencies": {
     "grunt": "~0.4",
