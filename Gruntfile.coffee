@@ -101,6 +101,14 @@ module.exports = (grunt) ->
         max_line_length:
           value: 100
 
+    jscs:
+      server: files: src: '<%= files.server %>'
+      client: files: src: '<%= files.client %>'
+      scripts: files: src: '<%= files.scripts %>'
+      grunt: files: src: '<%= files.grunt %>'
+      options:
+        config: '.jscs.json'
+
     'npm-publish':
       options:
         requires: ['build']
@@ -127,7 +135,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build', ['browserify:client']
   grunt.registerTask 'default', ['build', 'test', 'lint']
-  grunt.registerTask 'lint', ['jshint', 'coffeelint']
+  grunt.registerTask 'lint', ['jshint', 'jscs', 'coffeelint']
   grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
     grunt.task.run [
       'npm-contributors'
