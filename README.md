@@ -66,7 +66,7 @@ See [installation](http://karma-runner.github.io/0.12/intro/installation.html).
 
 ### Using it.
 
-See [configuration](http://karma-runner.github.io/0.10/intro/configuration.html).
+See [karma-cli](https://github.com/karma-runner/karma-cli), [configuration](http://karma-runner.github.io/0.10/intro/configuration.html).
 
 
 ## I still don't get it. Where can I get help?
