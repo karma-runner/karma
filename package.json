@@ -156,7 +156,7 @@
     "sinon": "~1.7.3",
     "sinon-chai": "~2.4.0",
     "timer-shim": "~0.3.0",
-    "karma-jasmine": "*",
+    "karma-jasmine": "~0.1.0",
     "karma-mocha": "*",
     "karma-qunit": "*",
     "karma-coverage": "*",
