@@ -42,9 +42,14 @@ var stringify = function stringify(obj, depth) {
       strs.push(obj.constructor.name);
       strs.push('{');
       var first = true;
-      for(var key in obj) {
+      for (var key in obj) {
         if (obj.hasOwnProperty(key)) {
-          if (first) { first = false; } else { strs.push(', '); }
+          if (first) {
+            first = false;
+          } else {
+            strs.push(', ');
+          }
+
           strs.push(key + ': ' + stringify(obj[key], depth - 1));
         }
       }

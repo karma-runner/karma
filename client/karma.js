@@ -12,7 +12,7 @@ var Karma = function(socket, iframe, opener, navigator, location) {
   var self = this;
   var queryParams = util.parseQueryParams(location.search);
   var browserId = queryParams.id || util.generateId('manual-');
-  var returnUrl = queryParams.return_url || null;
+  var returnUrl = queryParams['return_url' + ''] || null;
   var currentTransport;
 
   var resultsBufferLimit = 1;

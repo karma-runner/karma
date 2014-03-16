@@ -32,7 +32,7 @@ var installGruntCli = function(callback) {
 
   console.log('Installing grunt-cli...');
 
-  var gcli = exec('npm install -g grunt-cli', function (error) {
+  var gcli = exec('npm install -g grunt-cli', function(error) {
 
     if (error !== null) {
       console.error('error installing grunt-cli: ' + error);
@@ -51,7 +51,7 @@ var checkForGruntCli = function(callback) {
 
   console.log('Checking for grunt-cli...');
 
-  exec('grunt --version', function (error, stdout) {
+  exec('grunt --version', function(error, stdout) {
 
     if (error) {
       installGruntCli(callback);
@@ -68,7 +68,7 @@ var installDependencies = function() {
 
   console.log('Installing dependencies...');
 
-  var install = exec('npm install', function (error) {
+  var install = exec('npm install', function(error) {
 
     if (error !== null) {
       console.error('Error installing karma dependencies: ' + error);
