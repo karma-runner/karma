@@ -1,3 +1,11 @@
+<a name="v0.12.1"></a>
+### v0.12.1 (2014-03-16)
+
+
+#### Features
+
+* **preprocessor:** Adding the `dat` file extension as a recognised binary. ([be923571](http://github.com/karma-runner/karma/commit/be923571751199e0d795f620425fdf6eaf3f9818))
+
 <a name="v0.12.0"></a>
 ## v0.12.0 (2014-03-10)
 
