@@ -19,3 +19,4 @@ static/karma.wrapper
 test-results.xml
 thesis.pdf
 mocha-watch.sh
+mocha-watch-debug.sh
