@@ -121,7 +121,7 @@
   "dependencies": {
     "di": "~0.0.1",
     "socket.io": "~0.9.13",
-    "chokidar": "~0.8.0",
+    "chokidar": ">=0.8.2",
     "glob": "~3.2.7",
     "minimatch": "~0.2",
     "http-proxy": "~0.10",
