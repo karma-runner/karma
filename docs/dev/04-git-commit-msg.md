@@ -20,11 +20,11 @@ blank and other lines should be wrapped at 80 characters.
 
 ### Allowed `<type>` values:
 
-* **feat** (new feature)
-* **fix** (bug fix)
-* **docs** (changes to documentation)
-* **style** (formatting, missing semi colons, etc; no code change)
-* **refactor** (refactoring production code)
+* **feat** (new feature for the user, not a new feature for build script)
+* **fix** (bug fix for the user, not a fix to a build script)
+* **docs** (changes to the documentation)
+* **style** (formatting, missing semi colons, etc; no production code change)
+* **refactor** (refactoring production code, eg. renaming a variable)
 * **test** (adding missing tests, refactoring tests; no production code change)
 * **chore** (updating grunt tasks etc; no production code change)
 
@@ -40,7 +40,7 @@ blank and other lines should be wrapped at 80 characters.
 
 The `<scope>` can be empty (eg. if the change is a global or difficult
 to assign to a single component), in which case the parentheses are
-omitted.
+omitted. In smaller projects such as Karma plugins, the `<scope>` is empty.
 
 
 ## Message body
