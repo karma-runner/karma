@@ -4,8 +4,6 @@ pageTitle: Contributing to Karma
 You wanna contribute to Karma? That is truly great!
 Here are some tips to get you started...
 
-You might also find [set up the workspace] helpful.
-
 ### Help others
 The best way to start contributing to any open source project is to help other people.
 You can answer questions on the [mailing list] or [Stack Overflow].
