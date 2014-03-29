@@ -29,6 +29,16 @@ Then, send a pull request and let other contributors to review.
 [Here](./making-changes.html) is some more info on how to set up your workspace and send a pull
 request.
 
+
+### Fix something else
+You want to contribute some code but not sure where to start? That's cool. Fortunately,
+there are many issues labeled as "PR please". These are typically fairly simple issues with
+a well-known, waiting just for you...
+
+[Here](https://github.com/karma-runner/karma/issues?labels=PR+please&page=1&state=open) is a list
+of all the issues for the core repo. In the same way, each plugin has "PR please" label as well...
+
+
 ### Review others work
 Check out the list of outstanding pull requests if there is something you might be interested in.
 Maybe somebody is trying to fix that stupid bug that bothers you. Review the PR.
