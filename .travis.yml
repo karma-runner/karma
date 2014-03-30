@@ -9,6 +9,10 @@ env:
   - BROWSER_STACK_USERNAME: vojta.jina@gmail.com
   - secure: "k2x1puIrj42LqnWF8SoDod19xpeJhJN3RDMgRLK2LTYffcdJV8TXilPRUk4pXyN6u8B79fxAW8WucsrlxB6CaaB5cXsFTDG+jpO21AlFc3mFjPh6sTkp/1L/bxc3cJNc9w18Ol2+8MO5s37xuy/lJaQeBRFxQleZZWCLLjtXytg="
 
+# Make sure we have new NPM.
+before_install:
+  - npm install -g npm
+
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
