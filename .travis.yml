@@ -21,3 +21,4 @@ before_script:
 
 script:
   - grunt build test lint
+  - ./scripts/integration-tests.sh
