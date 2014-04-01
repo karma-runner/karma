@@ -20,4 +20,5 @@ before_script:
   - rm -rf node_modules/karma
 
 script:
-  - grunt
+  - grunt build test lint
+  - ./scripts/integration-tests.sh
