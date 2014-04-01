@@ -1,3 +1,16 @@
+<a name="v0.12.3"></a>
+### v0.12.3 (2014-04-01)
+
+
+#### Bug Fixes
+
+* **web-server:** implement a timeout on webServer.close() ([fe3dca78](http://github.com/karma-runner/karma/commit/fe3dca781def0a5f813e598fe73eb97b3f55d223), closes [#952](http://github.com/karma-runner/karma/issues/952))
+
+
+#### Features
+
+* **web-server:** run karma using multiple emulation modes, #631 ([b9a2930a](http://github.com/karma-runner/karma/commit/b9a2930a7fead5f29eb5f62b1a87739c4cf2e04b), closes [#936](http://github.com/karma-runner/karma/issues/936))
+
 <a name="v0.12.2"></a>
 ### v0.12.2 (2014-03-30)
 
