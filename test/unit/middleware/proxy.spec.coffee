@@ -9,6 +9,7 @@ describe 'middleware.proxy', ->
   actualOptions = requestedUrl = response = nextSpy = null
 
   m = loadFile __dirname + '/../../../lib/middleware/proxy.js', {'http-proxy': {}}
+  c = require('../../../lib/constants')
 
   mockProxy =
     on: ->
@@ -143,6 +144,14 @@ describe 'middleware.proxy', ->
     parsedProxyConfig = m.parseProxyConfig proxy
     expect(parsedProxyConfig).to.deep.equal {
       '/base': {host: 'localhost', port: '8000', baseProxyUrl: '', https: true}
+    }
+
+  it 'should handle proxy configs with only basepaths', ->
+    proxy = {'/base': '/proxy/test'}
+    parsedProxyConfig = m.parseProxyConfig proxy
+    expect(parsedProxyConfig).to.deep.equal {
+      '/base': {host: c.DEFAULT_HOSTNAME, port: c.DEFAULT_PORT,
+      baseProxyUrl: '/proxy/test', https:false}
     }
 
   it 'should handle empty proxy config', ->
