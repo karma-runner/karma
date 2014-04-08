@@ -31,4 +31,19 @@ describe 'reporter', ->
 
       expect(adapter).to.have.been.calledWith 'Success: 10 Failure: 20'
 
+    it 'should format log messages correctly for single browser', ->
+      writeSpy = sinon.spy reporter, 'writeCommonMsg'
+
+      reporter._browsers = ['Chrome']
+      reporter.onBrowserLog 'Chrome', 'Message', 'LOG'
+
+      expect(writeSpy).to.have.been.calledWith 'LOG: Message\n'
+
+    it 'should format log messages correctly for multi browsers', ->
+      writeSpy = sinon.spy reporter, 'writeCommonMsg'
+
+      reporter._browsers = ['Chrome', 'Firefox']
+      reporter.onBrowserLog 'Chrome', 'Message', 'LOG'
+
+      expect(writeSpy).to.have.been.calledWith 'Chrome LOG: Message\n'
 
