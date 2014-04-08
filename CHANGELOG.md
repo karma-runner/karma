@@ -1,3 +1,11 @@
+<a name="v0.12.4"></a>
+### v0.12.4 (2014-04-06)
+
+
+#### Bug Fixes
+
+* **init:** Fix type in init text ([e34465b0](http://github.com/karma-runner/karma/commit/e34465b01cc583cac9645acc98d20acbf471c856), closes [#954](http://github.com/karma-runner/karma/issues/954))
+
 <a name="v0.12.3"></a>
 ### v0.12.3 (2014-04-01)
 
