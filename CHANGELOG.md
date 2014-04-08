@@ -1,3 +1,11 @@
+<a name="v0.12.5"></a>
+### v0.12.5 (2014-04-08)
+
+
+#### Bug Fixes
+
+* **reporters:** format fix for console log ([d2d1377d](http://github.com/karma-runner/karma/commit/d2d1377d1be0da17196a1c82bf5584997d502b68), closes [#934](http://github.com/karma-runner/karma/issues/934))
+
 <a name="v0.12.4"></a>
 ### v0.12.4 (2014-04-06)
 
