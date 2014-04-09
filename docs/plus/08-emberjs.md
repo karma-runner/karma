@@ -58,6 +58,28 @@ To execute javascript unit and integration tests with ember.js follow the steps 
 
   Note - the `files` section above should include all dependencies, ie- jQuery/handlebars/ember.js along with the js and handlebars files required to deploy and run your production ember.js application
 
+  Note - when testing ember applications, it is important that karma not being running the tests until the ember application has finished initialization.  you will need to include a small bootstrap file in the `files` section above to enforce this.  Here's an example:
+  ```javascript
+  __karma__.loaded = function() {};
+
+  App.setupForTesting();
+  App.injectTestHelpers();
+
+  //this gate/check is required given that standard practice in Ember tests to is to call
+  //Ember.reset() in the afterEach/tearDown for each test.  Doing so, causes the application
+  //to 're-initialize', resulting in repeated calls to the initialize function below
+  var karma_started = false;
+  App.initializer({
+      name: "run tests",
+      initialize: function(container, application) {
+          if (!karma_started) {
+              karma_started = true;
+              __karma__.start();
+          }
+      }
+  });
+  ```
+
 5. add a simple qunit test
 
   ```javascript
