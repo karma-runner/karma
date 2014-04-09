@@ -2,13 +2,13 @@ deepmerge = require 'deepmerge'
 
 # JS Hint options
 JSHINT_BROWSER =
-  browser: true,
+  browser: true
   strict: false
   undef: false
   camelcase: false
 
 JSHINT_NODE =
-  node: true,
+  node: true
   strict: false
 
 module.exports = (grunt) ->
@@ -19,8 +19,8 @@ module.exports = (grunt) ->
     pkgFile: 'package.json'
 
     files:
-      server: ['lib/**/*.js']
       client: ['client/**/*.js']
+      server: ['lib/**/*.js']
       grunt: ['grunt.js', 'tasks/*.js']
       scripts: ['scripts/init-dev-env.js']
 
@@ -53,6 +53,13 @@ module.exports = (grunt) ->
     # JSHint options
     # http://www.jshint.com/options/
     jshint:
+      client:
+        files:
+          src: '<%= files.client %>'
+        options: (deepmerge (require './node_modules/common/common/jshint-browser.json'),
+          # Custom browser files configuration (override the default browser configuration file)
+          JSHINT_BROWSER
+        )
       server:
         files:
           src: '<%= files.server %>'
@@ -74,15 +81,16 @@ module.exports = (grunt) ->
           # Custom node files configuration (override the default node configuration file)
           JSHINT_NODE
         )
-      client:
-        files:
-          src: '<%= files.client %>'
-        options: (deepmerge (require './node_modules/common/common/jshint-browser.json'),
-          # Custom browser files configuration (override the default browser configuration file)
-          JSHINT_BROWSER
-        )
 
       options: require './node_modules/common/common/jshint.json'
+
+    jscs:
+      client: files: src: '<%= files.client %>'
+      server: files: src: '<%= files.server %>'
+      grunt: files: src: '<%= files.grunt %>'
+      scripts: files: src: '<%= files.scripts %>'
+      options:
+        config: './node_modules/common/common/jscs.json'
 
     # CoffeeLint options
     # http://www.coffeelint.org/#options
@@ -92,14 +100,6 @@ module.exports = (grunt) ->
       gruntfile: files: src: ['Gruntfile.coffee']
       options:
         configFile: './node_modules/common/common/coffeelint.json'
-
-    jscs:
-      server: files: src: '<%= files.server %>'
-      client: files: src: '<%= files.client %>'
-      scripts: files: src: '<%= files.scripts %>'
-      grunt: files: src: '<%= files.grunt %>'
-      options:
-        config: './node_modules/common/common/jscs.json'
 
     'npm-publish':
       options:
