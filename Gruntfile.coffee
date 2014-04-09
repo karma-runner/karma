@@ -99,7 +99,7 @@ module.exports = (grunt) ->
       scripts: files: src: '<%= files.scripts %>'
       grunt: files: src: '<%= files.grunt %>'
       options:
-        config: '.jscs.json'
+        config: './node_modules/common/common/jscs.json'
 
     'npm-publish':
       options:
