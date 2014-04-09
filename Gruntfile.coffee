@@ -89,9 +89,9 @@ module.exports = (grunt) ->
     coffeelint:
       unittests: files: src: ['test/unit/**/*.coffee']
       taskstests: files: src: ['test/tasks/**/*.coffee']
+      gruntfile: files: src: ['Gruntfile.coffee']
       options:
-        max_line_length:
-          value: 100
+        configFile: './node_modules/common/common/coffeelint.json'
 
     jscs:
       server: files: src: '<%= files.server %>'
