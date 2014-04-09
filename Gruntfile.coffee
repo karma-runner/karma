@@ -1,3 +1,5 @@
+deepmerge = require 'deepmerge'
+
 # JS Hint options
 JSHINT_BROWSER =
   browser: true,
@@ -54,43 +56,33 @@ module.exports = (grunt) ->
       server:
         files:
           src: '<%= files.server %>'
-        options: JSHINT_NODE
+        options: (deepmerge (require './node_modules/common/common/jshint-node.json'),
+          # Custom node files configuration (override the default node configuration file)
+          JSHINT_NODE
+        )
       grunt:
         files:
           src: '<%= files.grunt %>'
-        options: JSHINT_NODE
+        options: (deepmerge (require './node_modules/common/common/jshint-node.json'),
+          # Custom node files configuration (override the default node configuration file)
+          JSHINT_NODE
+        )
       scripts:
         files:
           src: '<%= files.scripts %>'
-        options: JSHINT_NODE
+        options: (deepmerge (require './node_modules/common/common/jshint-node.json'),
+          # Custom node files configuration (override the default node configuration file)
+          JSHINT_NODE
+        )
       client:
         files:
           src: '<%= files.client %>'
-        options: JSHINT_BROWSER
+        options: (deepmerge (require './node_modules/common/common/jshint-browser.json'),
+          # Custom browser files configuration (override the default browser configuration file)
+          JSHINT_BROWSER
+        )
 
-      options:
-        quotmark: 'single'
-        bitwise: true
-        freeze: true
-        indent: 2
-        camelcase: true
-        strict: true
-        trailing: true
-        curly: true
-        eqeqeq: true
-        immed: true
-        latedef: true
-        newcap: true
-        noempty: true
-        unused: true
-        noarg: true
-        sub: true
-        undef: true
-        maxdepth: 4
-        maxstatements: 100
-        maxcomplexity: 100
-        maxlen: 100
-        globals: {}
+      options: require './node_modules/common/common/jshint.json'
 
     # CoffeeLint options
     # http://www.coffeelint.org/#options

@@ -142,7 +142,8 @@
     "graceful-fs": "~2.0.1",
     "connect": "~2.12.0",
     "source-map": "~0.1.31",
-    "common": "git+https://github.com/karma-runner/common.git#post-install-script"
+    "common": "git+https://github.com/karma-runner/common.git#post-install-script",
+    "deepmerge": "~0.2.7"
   },
   "devDependencies": {
     "grunt": "~0.4",
