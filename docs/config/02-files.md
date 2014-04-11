@@ -62,6 +62,33 @@ files: [
 ],
 ```
 
+## Loading Assets
+By default all assets are served at `http://localhost:[PORT]/base/`, Example for loading images
+
+```javascript
+files: [
+  {pattern: 'test/images/*.jpg', watched: false, included: false, served: true}
+],
+```
+
+in this case the image is accessed at `http://localhost:[PORT]/base/test/images/[MY IMAGE].jpg`
+
+notice the **base** in the URL
+
+
+or in addition you can use a proxy
+
+```javascript
+proxies: {
+  '/img/': 'http://localhost:8080/base/test/images/'
+},
+```
+now you can fetch images in 'test/images' at `http://localhost:8080/img/[MY IMAGE].jpg`
+
+just change **8080** to the port you use
+
+
+
 [glob]: https://github.com/isaacs/node-glob
 [preprocessors]: preprocessors.html
 [minimatch]: https://github.com/isaacs/minimatch
