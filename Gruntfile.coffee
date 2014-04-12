@@ -126,7 +126,10 @@ module.exports = (grunt) ->
         updateConfigs: ['pkg']
         commitFiles: ['package.json', 'CHANGELOG.md']
         commitMessage: 'chore: release v%VERSION%'
-        pushTo: 'upstream'
+        push: false,
+        # A crazy hack.
+        # TODO(vojta): fix grunt-bump
+        gitDescribeOptions: '| echo "beta-$(git rev-parse --short HEAD)"'
 
 
   grunt.loadTasks 'tasks'
