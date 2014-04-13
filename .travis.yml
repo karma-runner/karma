@@ -11,6 +11,7 @@ env:
 # Make sure we have new NPM.
 before_install:
   - npm install -g npm
+  - npm config set loglevel warn
 
 before_script:
   - export DISPLAY=:99.0
