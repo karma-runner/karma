@@ -126,7 +126,7 @@ fi
 
 
 if [ "$PUSH_TO_NPM" ]; then
-  if [ "$TRAVIS_BRANCH" = "$STABLE_BRANCH" ]; then
+  if [ "$REMOTE_BRANCH" = "$STABLE_BRANCH" ]; then
     grunt bump-only:patch changelog bump-commit
   else
     # master, mark the version with git SHA, but do not commit
