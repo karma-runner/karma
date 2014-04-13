@@ -76,6 +76,8 @@ DIFF_FIX=$(git log $TRAVIS_BRANCH ^$MERGING_BRANCH --grep "^fix" --oneline)
 DIFF_FEAT=$(git log $TRAVIS_BRANCH ^$MERGING_BRANCH --grep "^feat" --oneline)
 DIFF_DOCS=$(git log $TRAVIS_BRANCH ^$MERGING_BRANCH --grep "^docs" --oneline)
 
+# TODO(vojta): check for --no-merges, if all commits already merged, ignore, just remove the branch.
+
 # Fast forward local stable/master branch.
 git merge --ff-only $TRAVIS_BRANCH
 
@@ -146,6 +148,7 @@ if [ $? -ne 0 ]; then
   rm .git/credentials
   exit 1
 else
+  # TODO(vojta): if stable, create another presubmit for merging into master
   git push $REMOTE --tags
   echo "Successfuly merged and pushed to github. Removing the branch."
   git push $REMOTE :$TRAVIS_BRANCH
