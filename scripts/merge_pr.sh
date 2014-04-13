@@ -35,7 +35,18 @@ else
   MERGE_INTO="master"
 fi
 
+# Do not merge feat changes into stable.
+if [ "$MERGE_INTO" = "stable" ]; then
+  DIFF_FEAT=$(git log $PR_BRANCH ^$MERGE_INTO --grep "^feat" --oneline)
+  if [ "$DIFF_FEAT" ]; then
+    echo "Can not merge features into stable. Merging into master instead."
+    MERGE_INTO="master"
+  fi
+fi
+
 echo "Merging into $MERGE_INTO..."
+git log $PR_BRANCH ^$MERGE_INTO --no-merges --oneline
+
 MERGING_BRANCH="presubmit-$MERGE_INTO-$PR_BRANCH"
 git checkout -b $MERGING_BRANCH upstream/$MERGE_INTO
 git merge $PR_BRANCH
