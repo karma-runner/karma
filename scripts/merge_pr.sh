@@ -8,8 +8,7 @@ PR_NUMBER=$1
 ORIGINAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 # Stash local changes first.
-# TODO(vojta): Only check for modifications?
-if [ "$(git status -s)" ]; then
+if [ "$(git status -s --untracked-files=no)" ]; then
   git stash
   STASHED=true
 fi
