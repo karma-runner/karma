@@ -1,3 +1,12 @@
+<a name="v0.12.7"></a>
+### v0.12.7 (2014-04-14)
+
+
+#### Bug Fixes
+
+* don't crash/terminate upon errors within chokidar ([2c389311](http://github.com/karma-runner/karma/commit/2c389311ce683646675adccf5a7b7b3160335148))
+* **preprocessor:** consider SVG files as text files, not binary files ([ff288036](http://github.com/karma-runner/karma/commit/ff2880369f0c4e8b78d95bb20365cead340f8fc9), closes [#1026](http://github.com/karma-runner/karma/issues/1026))
+
 <a name="v0.12.6"></a>
 ### v0.12.6 (2014-04-09)
 
