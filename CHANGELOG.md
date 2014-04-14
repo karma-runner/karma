@@ -1,3 +1,11 @@
+<a name="v0.12.8"></a>
+### v0.12.8 (2014-04-14)
+
+
+#### Bug Fixes
+
+* **web-server:** inline the config, when serving debug.html ([1eb36430](http://github.com/karma-runner/karma/commit/1eb36430ca26a769cd8fd2ab5a471aecb31cad9f))
+
 <a name="v0.12.7"></a>
 ### v0.12.7 (2014-04-14)
 
