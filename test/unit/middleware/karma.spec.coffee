@@ -41,8 +41,13 @@ describe 'middleware.karma', ->
   servedFiles = (files) ->
     filesDeferred.resolve {included: [], served: files}
 
+  normalizedHttpRequest = (urlPath) ->
+    req = new HttpRequestMock(urlPath)
+    req.normalizedUrl = req.url
+    return req
+
   callHandlerWith = (urlPath, next) ->
-    promise = handler new HttpRequestMock(urlPath), response, next or nextSpy
+    promise = handler normalizedHttpRequest(urlPath), response, next or nextSpy
     if promise and promise.done then promise.done()
 
 
@@ -57,19 +62,19 @@ describe 'middleware.karma', ->
 
 
   it 'should not serve outside of urlRoot', ->
-    handler new HttpRequestMock('/'), null, nextSpy
+    handler normalizedHttpRequest('/'), null, nextSpy
     expect(nextSpy).to.have.been.called
     nextSpy.reset()
 
-    handler new HttpRequestMock('/client.html'), null, nextSpy
+    handler normalizedHttpRequest('/client.html'), null, nextSpy
     expect(nextSpy).to.have.been.called
     nextSpy.reset()
 
-    handler new HttpRequestMock('/debug.html'), null, nextSpy
+    handler normalizedHttpRequest('/debug.html'), null, nextSpy
     expect(nextSpy).to.have.been.called
     nextSpy.reset()
 
-    handler new HttpRequestMock('/context.html'), null, nextSpy
+    handler normalizedHttpRequest('/context.html'), null, nextSpy
     expect(nextSpy).to.have.been.called
 
 
