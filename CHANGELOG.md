@@ -1,3 +1,11 @@
+<a name="v0.12.9"></a>
+### v0.12.9 (2014-04-14)
+
+
+#### Bug Fixes
+
+* **web-server:** strip scheme, host and port ([06a0da09](http://github.com/karma-runner/karma/commit/06a0da09320340a988513285046b577b4a7518fd))
+
 <a name="v0.12.8"></a>
 ### v0.12.8 (2014-04-14)
 
