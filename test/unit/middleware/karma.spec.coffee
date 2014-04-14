@@ -27,10 +27,12 @@ describe 'middleware.karma', ->
   handler = filesDeferred = nextSpy = response = null
 
   beforeEach ->
+    clientConfig = foo: 'bar'
     nextSpy = sinon.spy()
     response = new HttpResponseMock
     filesDeferred = q.defer()
-    handler = createKarmaMiddleware filesDeferred.promise, serveFile, '/base/path', '/__karma__/'
+    handler = createKarmaMiddleware filesDeferred.promise, serveFile,
+      '/base/path', '/__karma__/', clientConfig
 
   # helpers
   includedFiles = (files) ->
@@ -271,6 +273,19 @@ describe 'middleware.karma', ->
       '<link type="text/css" href="/base/b.css" rel="stylesheet">\n' +
       '<link href="/absolute/second.html" rel="import">\n' +
       '<link href="/base/d.html" rel="import">'
+      done()
+
+    callHandlerWith '/__karma__/debug.html'
+
+
+  it 'should inline client config to debug.html', (done) ->
+    includedFiles [
+      new MockFile('/first.js')
+    ]
+    fsMock._touchFile '/karma/static/debug.html', 1, '%CLIENT_CONFIG%'
+
+    response.once 'end', ->
+      expect(response).to.beServedAs 200, 'window.__karma__.config = {"foo":"bar"};\n'
       done()
 
     callHandlerWith '/__karma__/debug.html'
