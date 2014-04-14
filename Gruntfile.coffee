@@ -37,7 +37,6 @@ module.exports = (grunt) ->
         files: '<%= files.client %>'
         tasks: 'browserify:client'
 
-
     simplemocha:
       options:
         ui: 'bdd'
