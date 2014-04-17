@@ -1,13 +1,14 @@
-Capturing browsers on your own is kinda tedious and time consuming,
-so Karma can do that for you. Just simply add into the configuration file:
+Capturing browsers on your own can be a tedious and time consuming task,
+so Karma can automate this for you. Simply add the browsers you would like to
+capture into the configuration file:
 
 ```javascript
 browsers: ['Chrome']
 ```
 
-Then, Karma will take care of autocapturing these browsers, as well as killing them.
+Then, Karma will take care of auto-capturing these browsers, as well as killing them.
 
-Note: Most of the browser launchers needs to be loaded as [plugins].
+Note: Most of the browser launchers need to be loaded as [plugins].
 
 ## Available browser launchers
 - [Chrome and Chrome Canary] (install karma-chrome-launcher)
@@ -23,7 +24,7 @@ Note: Most of the browser launchers needs to be loaded as [plugins].
 Here's an example of how to add Firefox to your testing suite:
 
 ```bash
-# Install it first with NPM:
+# Install the launcher first with NPM:
 $ npm install karma-firefox-launcher --save-dev
 ```
 
@@ -43,9 +44,12 @@ Of course, you can write [custom plugins] too!
 
 ## Capturing any browser manually
 
-You can also capture browsers by simply opening `http://<hostname>:<port>/`, where `<hostname>` is the IP address or hostname of the machine where Karma server is running and `<port>` is the port where Karma server is listening (by default it's `9876`). With the default settings in place, just point your browser to `http://localhost:9876/`.
+You can also capture browsers by simply opening `http://<hostname>:<port>/`, where `<hostname>` is the IP
+address or hostname of the machine where the Karma server is running and `<port>` is the port where the Karma
+server is listening (by default it's `9876`). With the default settings in place, just point your browser to `http://localhost:9876/`.
 
-This allows you to capture a browser on any device such as a tablet or a phone, that is on the same network as the machine running Karma (or using a local tunnel).
+This allows you to capture a browser on any device, such as a tablet or a phone, that is on the same network
+as the machine running Karma (or using a local tunnel).
 
 
 ## Configured launchers

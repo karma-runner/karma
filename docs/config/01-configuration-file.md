@@ -1,7 +1,7 @@
 ## Overview
 In order to serve you well, Karma needs to know about your project in order to test it
-and this is done via a configuration file. The easiest way to generate initial configuration file
-is using `karma init` command. This page lists all the available configuration options.
+and this is done via a configuration file. The easiest way to generate an initial configuration file
+is by using the `karma init` command. This page lists all of the available configuration options.
 
 Note: Most of the framework adapters, reporters, preprocessors and launchers needs to be loaded as [plugins].
 
@@ -31,9 +31,10 @@ module.exports = (config) ->
 ```
 
 ## File Patterns
-All of the configuration options which specify file paths use the [minimatch][minimatch] library to facilitate flexible but concise file expressions, so you can easily list all the files you want to include, along with excluding the files that need to be skipped.
+All of the configuration options, which specify file paths, use the [minimatch][minimatch] library to facilitate flexible
+but concise file expressions so you can easily list all of the files you want to include and exclude.
 
-You can find details of each option in the following section, but this is the list of options that utilize minimatch expressions:
+You can find details about each configuration option in the section below. The following options utilize minimatch expressions:
 
  * `exclude`
  * `files`
@@ -46,7 +47,7 @@ Examples:
  * `**/(foo|bar).js`: In all subdirectories, all "foo.js" or "bar.js" files
 
 ## Configuration Options
-These are all the available configuration options.
+These are all of the available configuration options.
 
 ## autoWatch
 **Type:** Boolean
@@ -55,8 +56,7 @@ These are all the available configuration options.
 
 **CLI:** `--auto-watch`, `--no-auto-watch`
 
-**Description:** Enable or disable watching files and executing the tests
-  whenever one of these files changes.
+**Description:** Enable or disable watching files and executing the tests whenever one of these files changes.
 
 
 ## autoWatchBatchDelay
@@ -87,7 +87,9 @@ relative path then it will be resolved to the `__dirname` of the configuration f
 
 **Description:** How long does Karma wait for a browser to reconnect (in ms).
 
-With a flaky connection it is pretty common that browser disconnects but the actual execution is running without any problems. Karma does not treat a disconnection as immediate failure and rather wait `browserDisconnectTimeout` ms. If the browser reconnect during that time, everything is fine.
+With a flaky connection it is pretty common that the browser disconnects, but the actual test execution is still running
+without any problems. Karma does not treat a disconnection as immediate failure and will wait `browserDisconnectTimeout` (ms).
+If the browser reconnects during that time, everything is fine.
 
 
 ## browserDisconnectTolerance
@@ -97,9 +99,9 @@ With a flaky connection it is pretty common that browser disconnects but the act
 
 **Description:** The number of disconnections tolerated.
 
-The `disconnectTolerance` value represents the maximum number of tries a browser will attempt in case of disconnection.
-Usually any disconnection is considered as a failure, but this option allows to define a tolerance level when there is
-a flaky network link between the karma server and the browsers.
+The `disconnectTolerance` value represents the maximum number of tries a browser will attempt in the case of a disconnection.
+Usually any disconnection is considered a failure, but this option allows you to define a tolerance level when there is
+a flaky network link between the Karma server and the browsers.
 
 
 ## browserNoActivityTimeout
@@ -107,9 +109,10 @@ a flaky network link between the karma server and the browsers.
 
 **Default:** `10000`
 
-**Description:** How long does Karma wait for a message from a browser before disconnecting it (in ms).
+**Description:** How long will Karma wait for a message from a browser before disconnecting from it (in ms).
 
-If, during the execution, Karma does not receive any message from a browser within `browserNoActivityTimeout` ms, it will disconnect the browser.
+If, during test execution, Karma does not receive any message from a browser within `browserNoActivityTimeout`
+(ms), it will disconnect from the browser.
 
 
 ## browsers
@@ -121,20 +124,20 @@ If, during the execution, Karma does not receive any message from a browser with
 
 **Possible Values:**
 
-  * `Chrome` (comes installed with Karma)
-  * `ChromeCanary` (comes installed with Karma)
-  * `PhantomJS` (comes installed with Karma)
-  * `Firefox` (requires karma-firefox-launcher plugin)
-  * `Opera` (requires karma-opera-launcher plugin)
-  * `Internet Explorer` (requires karma-ie-launcher plugin)
-  * `Safari` (requires karma-safari-launcher plugin)
+  * `Chrome` (launcher comes installed with Karma)
+  * `ChromeCanary` (launcher comes installed with Karma)
+  * `PhantomJS` (launcher comes installed with Karma)
+  * `Firefox` (launcher requires karma-firefox-launcher plugin)
+  * `Opera` (launcher requires karma-opera-launcher plugin)
+  * `Internet Explorer` (launcher requires karma-ie-launcher plugin)
+  * `Safari` (launcher requires karma-safari-launcher plugin)
 
 **Description:** A list of browsers to launch and capture. When Karma starts up, it will also start up each browser
-which is placed within this setting.  Once Karma is shut down, it will shut down these
-browsers as well. You can capture any browser manually just by opening the browser and visiting the URL where
+which is placed within this setting. Once Karma is shut down, it will shut down these
+browsers as well. You can capture any browser manually by opening the browser and visiting the URL where
 the Karma web server is listening (by default it is `http://localhost:9876/`).
 
-See [config/browsers] for more. Additional launchers can be defined through [plugins].
+See [config/browsers] for more information. Additional launchers can be defined through [plugins].
 
 
 ## captureTimeout
@@ -156,7 +159,7 @@ it again and, after three attempts to capture it, Karma will give up.
 **CLI:** All arguments after `--` (only when using `karma run`)
 
 **Description:** When `karma run` is passed additional arguments on the command-line, they
-are passed through to the test adapter as ``karma.config.args` (an array of strings).
+are passed through to the test adapter as `karma.config.args` (an array of strings).
 The `client.args` option allows you to set this value for actions other than `run`.
 
 How this value is used is up to your test adapter - you should check your adapter's
@@ -169,7 +172,7 @@ documentation to see how (and if) it uses this value.
 
 **CLI:** `--colors`, `--no-colors`
 
-**Description:**  Enable or disable colors in the output (reporters and logs).
+**Description:** Enable or disable colors in the output (reporters and logs).
 
 
 ## exclude
@@ -195,7 +198,7 @@ See [config/files] for more information.
 
 **Default:** `[]`
 
-**Description:** List of frameworks you want to use. Typically, you will set this to `['jasmine']`, `['mocha']` or `['qunit']`...
+**Description:** List of test frameworks you want to use. Typically, you will set this to `['jasmine']`, `['mocha']` or `['qunit']`...
 
 Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via NPM).
 
@@ -233,8 +236,7 @@ Additional information can be found in [plugins].
 
 **Default:** `[{type: 'console'}]`
 
-**Description:** A list of log appenders to be used. See the
-  documentation for [log4js] for more information.
+**Description:** A list of log appenders to be used. See the documentation for [log4js] for more information.
 
 
 ## plugins
@@ -243,9 +245,9 @@ Additional information can be found in [plugins].
 **Default:** `['karma-*']`
 
 **Description:** List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object.
-By default, Karma loads all siblink modules, that match `karma-*`.
+By default, Karma loads all sibling NPM modules which have a name starting with `karma-*`.
 
-Please note just about all plugins in Karma require an additional library to be installed (via NPM).
+Note: Just about all plugins in Karma require an additional library to be installed (via NPM).
 
 See [plugins] for more information.
 
@@ -257,7 +259,7 @@ See [plugins] for more information.
 
 **CLI:** `--port 9876`
 
-**Description:** The port where the webserver will be listening.
+**Description:** The port where the web server will be listening.
 
 
 ## preprocessors
@@ -269,7 +271,7 @@ See [plugins] for more information.
 
 Preprocessors can be loaded through [plugins].
 
-Please note just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
+Note: Just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
 require an additional library to be installed (via NPM).
 
 Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance,
@@ -284,24 +286,26 @@ Click <a href="preprocessors.html">here</a> for more information.
 ## proxies
 **Type:** Object
 
-**Default:**   `{}`
+**Default:** `{}`
 
 **Description:** A map of path-proxy pairs.
 
 **Example:**
-  ```javascript
-  proxies:  {
-    '/static': 'http://gstatic.com',
-    '/web': 'http://localhost:9000'
-  },
-  ```
+```javascript
+proxies: {
+'/static': 'http://gstatic.com',
+'/web': 'http://localhost:9000'
+},
+```
+
 
 ## proxyValidateSSL
 **Type:** Boolean
 
-**Default:**   `true`
+**Default:** `true`
 
-**Description:** Whether or not karma or any browsers should raise an error when an inavlid SSL certificate is found.
+**Description:** Whether or not Karma or any browsers should raise an error when an inavlid SSL certificate is found.
+
 
 ## reportSlowerThan
 **Type:** Number
@@ -328,7 +332,7 @@ This is disabled by default (since the default value is 0).
 
 Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be loaded through [plugins].
 
-Please note just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
+Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
 
 
 ## singleRun
@@ -358,9 +362,10 @@ between browsers and the testing server).
 
 **Default:** `true`
 
-**Description:** Run the tests inside an iframe or a new window
+**Description:** Run the tests inside an iFrame or a new window
 
-If true, Karma runs the tests inside an iframe. If false, Karma runs the tests in a new window. Some tests may not run in an iFrame and may need a new window to run.
+If true, Karma runs the tests inside an iFrame. If false, Karma runs the tests in a new window. Some tests may not run in an
+iFrame and may need a new window to run.
 
 ## client.captureConsole
 **Type:** Boolean
@@ -376,7 +381,7 @@ If true, Karma runs the tests inside an iframe. If false, Karma runs the tests i
 
 **Description:** The base url, where Karma runs.
 
-All the Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
+All of Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
 sometimes you might want to proxy a url that is already taken by Karma.
 
 
