@@ -49,7 +49,7 @@ npm install -g karma-cli
 
 
 ## NPM complaining
-NPM is sometimes retarded so if you get into troubles like "unsatisfied peer dependency", just try to remove all the packages (`rm -rf ./node_modules`) and install again.
+NPM is sometimes finicky so if you encounter errors such as "unsatisfied peer dependency", just try to remove all the packages (`rm -rf ./node_modules`) and install again.
 
 If you have any other issuses, please ask on the [mailing list].
 
