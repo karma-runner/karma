@@ -1,3 +1,11 @@
+<a name="v0.12.10"></a>
+### v0.12.10 (2014-04-23)
+
+
+#### Bug Fixes
+
+* **server:** clear web server close timeout on clean close ([34123fed](http://github.com/karma-runner/karma/commit/34123fed2fbe99b3a9a39ad5e0a141d55decb9f6))
+
 <a name="v0.12.9"></a>
 ### v0.12.9 (2014-04-14)
 
