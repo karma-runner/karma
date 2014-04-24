@@ -5,6 +5,18 @@ Here you'll find a list of the most common problems and how to solve it.
 
 Note: If you can't find the solution for your issue here you can also ask for help in the [mailing-list](https://groups.google.com/d/forum/karma-users) or [Stack Overflow](http://stackoverflow.com/questions/tagged/karma-runner).
 
+### I'm getting an error during the installation related to the ```ws``` module, how can I solve it?
+This is a common Windows [issue](https://github.com/einaros/ws/issues/178), the compilation of the native [ws](https://www.npmjs.org/package/ws) module fails. Anyways, ```ws``` has a fallback JS implementation which NPM should take care using it. All you need to do is make sure that you're using an up-to-date version of NPM. To do that you can:
+
+#### Update NPM
+```$ npm install -g npm```
+
+or
+
+#### Do a fresh NodeJS install
+If you have issues to update NPM, you can just go to the [NodeJS](http://nodejs.org/) download the current version. It will come with the latest NPM version.
+
+
 ### The browser just does not start. What's going on?
 It's more likely Karma can't find the location of the browser binary (the execution file). You can fix this by setting
 the appropriate environment variable with the correct path (Google Chrome for instance uses the `CHROME_BIN` environment variable).
