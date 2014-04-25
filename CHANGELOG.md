@@ -1,3 +1,11 @@
+<a name="v0.12.11"></a>
+### v0.12.11 (2014-04-25)
+
+
+#### Bug Fixes
+
+* **preprocessor:** remove ts from binary extensions ([82698523](http://github.com/karma-runner/karma/commit/8269852304d2d420bb25a0e4bb13bba58a339f39))
+
 <a name="v0.12.10"></a>
 ### v0.12.10 (2014-04-23)
 
