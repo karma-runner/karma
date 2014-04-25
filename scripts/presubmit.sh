@@ -86,7 +86,7 @@ if [ $? -ne 0 ]; then
   # if [ "$(git log --merges -n 1 --oneline)" = "$(git log -n 1 --oneline)" ]; then
   # # HEAD is a merge commit
 
-  git merge $TRAVIS_BRANCH
+  git merge --no-edit $TRAVIS_BRANCH
 
   if [ $? -ne 0 ]; then
     echo "Cannot merge. Please merge manually."
