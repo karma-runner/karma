@@ -1,3 +1,11 @@
+<a name="v0.12.12"></a>
+### v0.12.12 (2014-04-25)
+
+
+#### Bug Fixes
+
+* **server:** properly close flash transport ([de89cd33](http://github.com/karma-runner/karma/commit/de89cd33b772d373569d2db2e9066c6656016aa3))
+
 <a name="v0.12.11"></a>
 ### v0.12.11 (2014-04-25)
 
