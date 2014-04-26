@@ -25,7 +25,7 @@ just for immediate execution, without reporting to Karma server.
       complete: function() {},
       store: function() {},
       result: window.console ? function(result) {
-        var msg = result.skipped ? 'SKIPPED' : (result.success ? 'SUCCESS ' : 'FAILED ');
+        var msg = result.skipped ? 'SKIPPED ' : (result.success ? 'SUCCESS ' : 'FAILED ');
         window.console.log(msg + result.suite.join(' ') + ' ' + result.description);
 
         for (var i = 0; i < result.log.length; i++) {
