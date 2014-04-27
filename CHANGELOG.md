@@ -1,3 +1,11 @@
+<a name="v0.12.14"></a>
+### v0.12.14 (2014-04-27)
+
+
+#### Bug Fixes
+
+* **debug.html:** Added whitespace after 'SKIPPED' ([218ee859](http://github.com/karma-runner/karma/commit/218ee859d8c8f1c7d2f47435548030f367f1e05d))
+
 <a name="v0.12.13"></a>
 ### v0.12.13 (2014-04-27)
 
