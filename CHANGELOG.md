@@ -1,3 +1,11 @@
+<a name="v0.12.13"></a>
+### v0.12.13 (2014-04-27)
+
+
+#### Bug Fixes
+
+* **preprocessor:** serve NaCl binaries ([1cc6a1e3](http://github.com/karma-runner/karma/commit/1cc6a1e34b24768bffdaf47fb5e36559f5dc5135))
+
 <a name="v0.12.12"></a>
 ### v0.12.12 (2014-04-25)
 
