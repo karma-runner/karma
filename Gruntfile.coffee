@@ -8,6 +8,7 @@ JSHINT_BROWSER =
 JSHINT_NODE =
   node: true,
   strict: false
+  latedef: "nofunc"
 
 module.exports = (grunt) ->
 
