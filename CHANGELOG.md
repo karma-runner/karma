@@ -1,3 +1,11 @@
+<a name="v0.12.15"></a>
+### v0.12.15 (2014-05-08)
+
+
+#### Bug Fixes
+
+* **server:** don't wait for socket.io store expiration timeout ([cd30a422](http://github.com/karma-runner/karma/commit/cd30a422fbc3d9d96b9aae791063a20d02a5f195))
+
 <a name="v0.12.14"></a>
 ### v0.12.14 (2014-04-27)
 
