@@ -1,4 +1,5 @@
 .*
+*.tgz
 
 tmp
 test
@@ -7,11 +8,12 @@ scripts
 docs
 client
 logo
+integration-tests
 
 TODO.md
 CONTRIBUTING.md
 Gruntfile.coffee
-
+credentials
 Karma.sublime-*
 
 static/karma.src.js
