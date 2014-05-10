@@ -1,3 +1,11 @@
+<a name="v0.12.16"></a>
+### v0.12.16 (2014-05-10)
+
+
+#### Bug Fixes
+
+* **launcher:** cancel kill timeout when process exits cleanly ([bd662744](http://github.com/karma-runner/karma/commit/bd662744bfbe353ccb63c7a795f691d12530129c), closes [#946](http://github.com/karma-runner/karma/issues/946))
+
 <a name="v0.12.15"></a>
 ### v0.12.15 (2014-05-08)
 
