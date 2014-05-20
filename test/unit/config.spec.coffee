@@ -64,10 +64,10 @@ describe 'config', ->
   #============================================================================
   describe 'parseConfig', ->
     logSpy = null
+    logger = require '../../lib/logger.js'
 
     beforeEach ->
       logSpy = sinon.spy()
-      logger = require '../../lib/logger.js'
       logger.create('config').on 'log', logSpy
 
 
@@ -133,6 +133,13 @@ describe 'config', ->
       expect(config.port).to.equal 456
       expect(config.autoWatch).to.equal false
       expect(config.basePath).to.equal resolveWinPath('/abs/base')
+
+
+    it 'should immediately set log level set on cli option', ->
+      e.parseConfig null, {}
+      expect(logger.create('config').level.toString()).to.not.equal 'ERROR'
+      e.parseConfig null, {logLevel: 'ERROR'}
+      expect(logger.create('config').level.toString()).to.equal 'ERROR'
 
 
     it 'should override config with cli options, but not deep merge', ->
