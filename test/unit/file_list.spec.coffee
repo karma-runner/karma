@@ -589,7 +589,6 @@ describe 'file_list', ->
   # Batch Interval processing
   #============================================================================
   describe 'batch interval', ->
-
     it 'should batch multiple changes within an interval', (done) ->
       timeoutSpy = sinon.stub().returns true
       globals_ = setTimeout: timeoutSpy
@@ -631,6 +630,36 @@ describe 'file_list', ->
           expect(timeoutSpy).to.have.been.called
           timeoutSpy.lastCall.args[0]()
 
+    it 'should wait while file preprocessing, if file was deleted and immediately added', (done) ->
+      clock = sinon.useFakeTimers()
+
+      m = mocks.loadFile __dirname + '/../../lib/file_list.js', mocks_, global
+      list = new m.List patterns('/a.*'), [], emitter, preprocessMock, 1000
+
+      refreshListAndThen (files) ->
+        preprocessMock.reset()
+
+        emitter.once 'file_list_modified', (promise) ->
+          expect(promise).to.be.fulfilled.then((files)->
+
+            # expect file will be preprocessed when file list promise
+            # resolved, else we will get incorrect(not processed) content in response
+            expect(preprocessMock.callCount).to.equal 1
+          ).should.notify(done)
+
+        # Remove and then immediately add file to the bucket
+        list.removeFile '/a.txt'
+        list.addFile '/a.txt'
+
+        # Timed remove pending timeout
+        # but processing file after add is not completed
+        clock.tick(1000)
+
+        # Finish processing file
+        process.nextTick -> process.nextTick ->
+          clock.tick(1000)
+
+      clock.tick()
 
   #============================================================================
   # Win Globbing
