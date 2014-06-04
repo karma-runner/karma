@@ -142,6 +142,14 @@ describe 'config', ->
       expect(config.browsers).to.deep.equal ['Safari']
 
 
+    it 'should deep merge config with cli options', ->
+      # https://github.com/karma-runner/karma/pull/1084
+      config = e.parseConfig '/home/config7.js', {client: {customProperty: true}}, true
+
+      expect(config.client.useIframe).to.equal true
+      expect(config.client.customProperty).to.equal true
+
+
     it 'should resolve files and excludes to overriden basePath from cli', ->
       config = e.parseConfig '/conf/both.js', {port: 456, autoWatch: false, basePath: '/xxx'}
 
