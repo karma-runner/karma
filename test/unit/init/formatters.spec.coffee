@@ -30,7 +30,7 @@ describe 'init/formatters', ->
         expect(replacements.FILES).to.equal ''
 
         replacements = formatter.formatAnswers createAnswers {files: ['*.js', 'other/file.js']}
-        expect(replacements.FILES).to.equal "'*.js',\n      'other/file.js'"
+        expect(replacements.FILES).to.equal "\n      '*.js',\n      'other/file.js'"
 
 
       it 'should format BROWSERS', ->
@@ -52,7 +52,7 @@ describe 'init/formatters', ->
           onlyServedFiles: ['src/*.js']
         }
 
-        expect(replacements.FILES).to.equal "'test-main.js',\n" +
+        expect(replacements.FILES).to.equal "\n      'test-main.js',\n" +
                                       "      {pattern: 'src/*.js', included: false}"
 
 
