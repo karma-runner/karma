@@ -154,5 +154,20 @@ describe 'middleware.proxy', ->
       baseProxyUrl: '/proxy/test', https:false}
     }
 
+  it 'should normalize proxy url with only basepaths', ->
+    proxy = {'/base/': '/proxy/test'}
+    parsedProxyConfig = m.parseProxyConfig proxy
+    expect(parsedProxyConfig).to.deep.equal {
+      '/base/': {host: c.DEFAULT_HOSTNAME, port: c.DEFAULT_PORT,
+      baseProxyUrl: '/proxy/test/', https:false}
+    }
+
+  it 'should normalize proxy url', ->
+    proxy = {'/base/': 'http://localhost:8000/proxy/test'}
+    parsedProxyConfig = m.parseProxyConfig proxy
+    expect(parsedProxyConfig).to.deep.equal {
+      '/base/': {host: 'localhost', port: '8000', baseProxyUrl: '/proxy/test/', https:false}
+    }
+
   it 'should handle empty proxy config', ->
     expect(m.parseProxyConfig {}).to.deep.equal({})
