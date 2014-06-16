@@ -25,6 +25,10 @@ var gitHookSetup = function() {
   }
 
   console.log('Adding symbolic link: %s linked to %s', scriptPath, gitHookPath);
+  try {
+    // "hooks" may not exist
+    fs.mkdirSync(path.dirname(gitHookPath));
+  } catch (e) {}
   fs.symlinkSync(scriptPath, gitHookPath, 'file');
 };
 
