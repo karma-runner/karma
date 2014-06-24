@@ -24,7 +24,7 @@ and Karma will display which files are preprocessed.
 
 
 ### I'm getting a `npm ERR! peerinvalid Peer` error. How can I fix that ?
-Try to remove `karma` and `karma-*` modules from your `node_modules` first (for instance `rm -rf /usr/local/lib/node_modules/karma-*`), than install Karma again.
+Try to remove `karma` and `karma-*` modules from your `node_modules` first (for instance `rm -rf /usr/local/lib/node_modules/karma-*`), then install Karma again.
 
 
 ### My tests are running really slow. What's going on?
