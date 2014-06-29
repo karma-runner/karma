@@ -80,4 +80,4 @@ Try `karma start --help` if you want to see all available options.
 [Grunt]: http://gruntjs.com/
 [grunt-karma]: https://github.com/karma-runner/grunt-karma
 [Gulp]: http://gulpjs.com
-[gulp-karma]: https://github.com/lazd/gulp-karma
+[gulp-karma]: https://github.com/karma-runner/gulp-karma
