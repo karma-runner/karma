@@ -109,7 +109,6 @@ describe 'launchers/base.js', ->
         expect(launcher.state).to.equal launcher.STATE_FINISHED
         done()
 
-
     it 'should fire "kill" and wait for all listeners to finish', (done) ->
       spyOnKill1 = sinon.spy()
       spyOnKill2 = sinon.spy()
