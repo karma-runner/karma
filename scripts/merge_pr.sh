@@ -29,7 +29,7 @@ git fetch upstream stable
 
 # Determine whether merging to master/stable.
 COMMON_PARENT=$(git merge-base $PR_BRANCH master)
-if git merge-base --is-ancestor $COMMON_PARENT stable; then
+if git merge-base --is-ancestor $COMMON_PARENT upstream/stable; then
   MERGE_INTO="stable"
 else
   MERGE_INTO="master"
