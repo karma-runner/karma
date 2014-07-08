@@ -184,7 +184,8 @@
     "LiveScript": "~1.2.0",
     "coffee-errors": "~0.8.6",
     "coffee-script": "~1.6",
-    "grunt-jscs-checker": "~0.4.0"
+    "grunt-jscs-checker": "~0.4.0",
+    "mockery": "^1.4.0"
   },
   "main": "./lib/index",
   "bin": {},
