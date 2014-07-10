@@ -111,7 +111,7 @@ array we find all our test files.
 
 Now we can tell Require.js to load our tests, which must be done
 asynchronously as dependencies must be fetched before the tests are run.
-The `test/main-test.js` file ends up looking like this:
+The `test/test-main.js` file ends up looking like this:
 
 ```javascript
 var allTestFiles = [];
