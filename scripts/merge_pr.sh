@@ -25,27 +25,27 @@ fi
 
 # Make sure we have all the latest bits.
 git fetch upstream master
-git fetch upstream stable
+git fetch upstream canary
 
-# Determine whether merging to master/stable.
-COMMON_PARENT=$(git merge-base $PR_BRANCH master)
-if git merge-base --is-ancestor $COMMON_PARENT upstream/stable; then
-  MERGE_INTO="stable"
-else
+# Determine whether merging to master/canary.
+COMMON_PARENT=$(git merge-base $PR_BRANCH upstream/canary)
+if git merge-base --is-ancestor $COMMON_PARENT upstream/master; then
   MERGE_INTO="master"
+else
+  MERGE_INTO="canary"
 fi
 
-# Do not merge feat changes into stable.
-if [ "$MERGE_INTO" = "stable" ]; then
+# Do not merge feat changes into master.
+if [ "$MERGE_INTO" = "master" ]; then
   DIFF_FEAT=$(git log $PR_BRANCH ^$MERGE_INTO --grep "^feat" --oneline)
   if [ "$DIFF_FEAT" ]; then
-    echo "Can not merge features into stable. Merging into master instead."
-    MERGE_INTO="master"
+    echo "Can not merge features into master. Merging into canary instead."
+    MERGE_INTO="canary"
   fi
 fi
 
 echo "Merging into $MERGE_INTO..."
-git log $PR_BRANCH ^$MERGE_INTO --no-merges --oneline
+git log $PR_BRANCH ^upstream/$MERGE_INTO --no-merges --oneline
 
 MERGING_BRANCH="presubmit-$MERGE_INTO-$PR_BRANCH"
 git checkout -b $MERGING_BRANCH upstream/$MERGE_INTO

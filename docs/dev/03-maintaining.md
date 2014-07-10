@@ -33,16 +33,16 @@ Please, make sure:
   - It’s alright to ask the author of the pull request to fix any of the above.
 
 ### There are two branches:
-- **master** is what gets automatically released into the “canary” channel (`npm install karma@canary`).
-- **stable** is what gets automatically released into the “stable” channel (`npm install karma`)
+- **master** is what gets automatically released into the "stable" channel (`npm install karma`).
+- **canary** is what gets automatically released into the "canary" channel (`npm install karma@canary`)
 
-Once the PR is ready to be merged, merge it into the master.
+If the PR is a bug fix or documentation change that is relevant to the current stable release (branch "master"), merge the PR into master.
 You can use the “green button” on GitHub.
 
-If it’s a bug fix or just a documentation change that is relevant to the current stable branch,
-please cherry pick the change to the stable branch too.
+**No new features or breaking changes can go into the master branch.**
 
-**No new features or breaking changes can go into the stable branch.**
+Features or breaking changes should be merged into "canary" branch.
+So do bug fixes or documentation fixes that are only related to the canary release.
 
 An easy way to merge a pull request is to use the [fetch_pr] and [merge_pr] scripts.
 

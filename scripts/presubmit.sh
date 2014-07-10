@@ -21,16 +21,16 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "false" ]; then
   exit 0
 fi
 
-STABLE_BRANCH="stable"
-CANARY_BRANCH="master"
+STABLE_BRANCH="master"
+CANARY_BRANCH="canary"
 
 case "$TRAVIS_BRANCH" in
 
-  presubmit-master-*)
+  presubmit-canary-*)
     REMOTE_BRANCH=$CANARY_BRANCH
     ;;
 
-  presubmit-stable-*)
+  presubmit-master-*)
     REMOTE_BRANCH=$STABLE_BRANCH
     ;;
 
