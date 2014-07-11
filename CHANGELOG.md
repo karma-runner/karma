@@ -1,3 +1,20 @@
+<a name="0.12.17"></a>
+### 0.12.17 (2014-07-11)
+
+
+#### Bug Fixes
+
+* **logging:** Summarize SKIPPED tests in debug.html. Before: hundreds of SKIPPING lines in con ([a01100f5](http://github.com/karma-runner/karma/commit/a01100f5c6404366dd4219b9bf6c3161300dc735), closes [#1111](http://github.com/karma-runner/karma/issues/1111))
+* **server:** Force clients disconnect on Windows ([28239f42](http://github.com/karma-runner/karma/commit/28239f420460bdb9dd3b71f8088a0dfc1277dca6), closes [#1109](http://github.com/karma-runner/karma/issues/1109))
+* **travis_ci:** converted node versions as string ([25ee6fc9](http://github.com/karma-runner/karma/commit/25ee6fc9c57e11a012ecc3910fcb72386a3403a1))
+
+
+#### Features
+
+* serve ePub as binary files ([82ed0c6e](http://github.com/karma-runner/karma/commit/82ed0c6e94e77757270e6694f7082eac5ef5e066))
+* **preprocessor:** add 'mp3' and 'ogg' as binary formats to avoid media corruption in the browser. ([65a0767e](http://github.com/karma-runner/karma/commit/65a0767e8024879e3a5c4557f376d8b6684530e8))
+
+
 <a name="v0.12.16"></a>
 ### v0.12.16 (2014-05-10)
 
