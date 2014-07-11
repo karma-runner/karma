@@ -39,39 +39,41 @@
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpaceAfterObjectKeys": true,
   "requireCommaBeforeLineBreak": true,
-  "disallowLeftStickedOperators": [
-    "?",
+  "requireSpaceBeforeBinaryOperators": [
+    "=",
+    ",",
     "+",
+    "-",
     "/",
     "*",
-    "=",
     "==",
     "===",
     "!=",
-    "!==",
-    ">",
-    ">=",
-    "<",
-    "<="
+    "!=="
   ],
-  "requireRightStickedOperators": ["!"],
-  "disallowRightStickedOperators": [
-    "?",
+  "requireSpaceBeforePostfixUnaryOperators": [],
+  "disallowSpaceAfterBinaryOperators": [],
+  "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
+  "requireSpaceAfterBinaryOperators": [
+    "=",
+    ",",
     "+",
+    "-",
     "/",
     "*",
-    ":",
-    "=",
     "==",
     "===",
     "!=",
-    "!==",
-    ">",
-    ">=",
-    "<",
-    "<="
+    "!=="
   ],
-  "requireLeftStickedOperators": [","],
+  "requireSpaceAfterPrefixUnaryOperators": [],
+  "requireSpacesInConditionalExpression": {
+    "afterTest": true,
+    "beforeConsequent": true,
+    "afterConsequent": true,
+    "beforeAlternate": true
+  },
+  "disallowSpaceBeforeBinaryOperators": [],
   "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
   "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
   "requireSpaceBeforeBinaryOperators": [
@@ -111,6 +113,4 @@
   "maximumLineLength": 100,
   "requireCapitalizedConstructors": true,
   "requireDotNotation": true
-
-
 }
