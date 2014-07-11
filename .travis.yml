@@ -21,8 +21,7 @@ before_script:
   - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
 
 script:
-  - grunt build test lint
-  - ./scripts/integration-tests.sh
+  - ./scripts/travis_run.sh
 
 after_success:
   - ./scripts/presubmit.sh
