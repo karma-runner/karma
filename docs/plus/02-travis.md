@@ -31,7 +31,7 @@ is where you tell Travis how to run your tests.
 },
 // ...snip...
 'scripts': {
-   'test': './node_modules/.bin/karma start --single-run --browsers PhantomJS'
+   'test': 'karma start --single-run --browsers PhantomJS'
 }
 // ...snip...
 ```
@@ -56,7 +56,7 @@ before_script:
 And now, you can run your tests on Firefox, just change the `npm test`
 command to
 ```bash
-./node_modules/.bin/karma start --browsers Firefox --single-run
+karma start --browsers Firefox --single-run
 ```
 
 ## Notes
