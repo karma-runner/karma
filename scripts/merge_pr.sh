@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Take a PR from Github, merge it into master/stable and push that into presubmit-master/stable
-# so that presubmit will merge it into master/stable if all the tests pass.
+# Take a PR from Github, merge it into master/canary and push that into presubmit-master/canary
+# so that presubmit will merge it into master/canary if all the tests pass.
 
 
 PR_NUMBER=$1
@@ -37,7 +37,7 @@ fi
 
 # Do not merge feat changes into master.
 if [ "$MERGE_INTO" = "master" ]; then
-  DIFF_FEAT=$(git log $PR_BRANCH ^$MERGE_INTO --grep "^feat" --oneline)
+  DIFF_FEAT=$(git log $PR_BRANCH ^upstream/$MERGE_INTO --grep "^feat" --oneline)
   if [ "$DIFF_FEAT" ]; then
     echo "Can not merge features into master. Merging into canary instead."
     MERGE_INTO="canary"
@@ -62,3 +62,5 @@ git branch -D $MERGING_BRANCH
 if [ "$PR_BRANCH_CREATED" ]; then
   git branch -D $PR_BRANCH
 fi
+
+echo "PRESUBMIT BRANCH: $MERGING_BRANCH"
