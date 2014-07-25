@@ -1,3 +1,12 @@
+<a name="0.12.18"></a>
+### 0.12.18 (2014-07-25)
+
+
+#### Bug Fixes
+
+* **watcher:** handle paths on Windows ([6164d869](http://github.com/karma-runner/karma/commit/6164d8699c0f07fd8fcbae88221eb35d99fb02e4))
+
+
 <a name="0.12.17"></a>
 ### 0.12.17 (2014-07-11)
 
