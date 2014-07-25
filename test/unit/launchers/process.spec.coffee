@@ -54,9 +54,10 @@ describe 'launchers/process.js', ->
     it 'should remove quotes from the cmd', ->
       ProcessLauncher.call launcher, null, mockTempDir
 
-      expect(launcher._normalizeCommand '"/bin/brow ser"').to.equal '/bin/brow ser'
-      expect(launcher._normalizeCommand '\'/bin/brow ser\'').to.equal '/bin/brow ser'
-      expect(launcher._normalizeCommand '`/bin/brow ser`').to.equal '/bin/brow ser'
+      expect(launcher._normalizeCommand '"/bin/brow ser"').to.equal path.normalize('/bin/brow ser')
+      expect(launcher._normalizeCommand '\'/bin/brow ser\'').to.equal
+      path.normalize('/bin/brow ser')
+      expect(launcher._normalizeCommand '`/bin/brow ser`').to.equal path.normalize('/bin/brow ser')
 
 
   describe 'with RetryLauncher', ->

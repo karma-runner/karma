@@ -111,7 +111,7 @@ describe 'init', ->
 
     it 'should generate working config', (done) ->
       machine.process m.questions, (answers) ->
-        basePath = m.getBasePath '../karma.conf.js', '/some/path'
+        basePath = m.getBasePath '../karma.conf.js', path.normalize('/some/path')
         processedAnswers = m.processAnswers answers, basePath
         generatedConfigCode = formatter.generateConfigFile processedAnswers
         config = evaluateConfigCode generatedConfigCode

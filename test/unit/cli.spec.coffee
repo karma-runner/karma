@@ -43,8 +43,7 @@ describe 'cli', ->
     it 'should parse options without configFile and set default', ->
       setCWD '/cwd'
       options = processArgs ['--auto-watch', '--auto-watch-interval', '10']
-
-      expect(options.configFile).to.equal '/cwd/karma.conf.js'
+      expect(path.resolve(options.configFile)).to.equal path.resolve('/cwd/karma.conf.js')
       expect(options.autoWatch).to.equal  true
       expect(options.autoWatchInterval).to.equal 10
 
@@ -53,7 +52,7 @@ describe 'cli', ->
       setCWD '/cwd2'
       options = processArgs ['--port', '10']
 
-      expect(options.configFile).to.equal '/cwd2/karma.conf.coffee'
+      expect(path.resolve(options.configFile)).to.equal path.resolve('/cwd2/karma.conf.coffee')
 
 
     it 'should not set default config if neither exists', ->
@@ -96,7 +95,7 @@ describe 'cli', ->
     it 'should resolve configFile to absolute path', ->
       setCWD '/cwd'
       options = processArgs ['some/config.js']
-      expect(options.configFile).to.equal '/cwd/some/config.js'
+      expect(path.resolve(options.configFile)).to.equal path.resolve('/cwd/some/config.js')
 
 
     it 'should parse report-slower-than to a number', ->

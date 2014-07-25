@@ -4,6 +4,7 @@
 describe 'watcher', ->
   mocks = require 'mocks'
   config = require '../../lib/config'
+  path = require 'path'
   m = null
 
   beforeEach ->
@@ -64,8 +65,8 @@ describe 'watcher', ->
 
 
     it 'should not watch subpaths that are already watched', ->
-      m.watchPatterns ['/some/sub/*.js', '/some/a*.*'], chokidarWatcher
-      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
+      m.watchPatterns ['/some/sub/*.js', '/some/a*.*'].map(path.normalize), chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal [path.normalize('/some')]
 
 
     it 'should watch a file matching subpath directory', ->

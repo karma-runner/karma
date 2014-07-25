@@ -4,6 +4,7 @@ describe 'middleware.runner', ->
   HttpResponseMock = mocks.http.ServerResponse
   HttpRequestMock = mocks.http.ServerRequest
 
+  path = require('path')
   EventEmitter = require('events').EventEmitter
   Browser = require '../../../lib/browser'
   BrowserCollection = require '../../../lib/browser_collection'
@@ -31,7 +32,7 @@ describe 'middleware.runner', ->
 
     nextSpy = sinon.spy()
     response = new HttpResponseMock
-    config = {client: {}}
+    config = {client: {}, basePath: '/'}
 
     handler = createRunnerMiddleware emitter, fileListMock, capturedBrowsers,
         new MultReporter([mockReporter]), executor, 'localhost', 8877, '/', config
@@ -110,10 +111,10 @@ describe 'middleware.runner', ->
 
     process.nextTick ->
       expect(fileListMock.refresh).not.to.have.been.called
-      expect(fileListMock.addFile).to.have.been.calledWith '/new.js'
-      expect(fileListMock.removeFile).to.have.been.calledWith '/foo.js'
-      expect(fileListMock.removeFile).to.have.been.calledWith '/bar.js'
-      expect(fileListMock.changeFile).to.have.been.calledWith '/changed.js'
+      expect(fileListMock.addFile).to.have.been.calledWith path.resolve('/new.js')
+      expect(fileListMock.removeFile).to.have.been.calledWith path.resolve('/foo.js')
+      expect(fileListMock.removeFile).to.have.been.calledWith path.resolve('/bar.js')
+      expect(fileListMock.changeFile).to.have.been.calledWith path.resolve('/changed.js')
       done()
 
   it 'should schedule execution if no refresh', (done) ->
