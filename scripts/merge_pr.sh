@@ -27,9 +27,13 @@ fi
 git fetch upstream master
 git fetch upstream canary
 
-# Determine whether merging to master/canary.
-COMMON_PARENT=$(git merge-base $PR_BRANCH upstream/canary)
-if git merge-base --is-ancestor $COMMON_PARENT upstream/master; then
+# Determine whether the PR is based on master/canary.
+COMMON_PARENT_CANARY=$(git merge-base $PR_BRANCH upstream/canary)
+COMMON_PARENT_MASTER=$(git merge-base $PR_BRANCH upstream/master)
+
+if [ $COMMON_PARENT_MASTER == $COMMON_PARENT_CANARY ]; then
+  MERGE_INTO="master"
+elif git merge-base --is-ancestor $COMMON_PARENT_CANARY $COMMON_PARENT_MASTER; then
   MERGE_INTO="master"
 else
   MERGE_INTO="canary"
@@ -47,6 +51,7 @@ fi
 echo "Merging into $MERGE_INTO..."
 git log $PR_BRANCH ^upstream/$MERGE_INTO --no-merges --oneline
 
+# TODO(vojta): handle merge conflicts and push rejects
 MERGING_BRANCH="presubmit-$MERGE_INTO-$PR_BRANCH"
 git checkout -b $MERGING_BRANCH upstream/$MERGE_INTO
 git merge $PR_BRANCH
