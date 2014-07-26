@@ -1,3 +1,12 @@
+<a name="0.12.19"></a>
+### 0.12.19 (2014-07-26)
+
+
+#### Bug Fixes
+
+* **proxy:** More useful proxyError log message ([96640a75](http://github.com/karma-runner/karma/commit/96640a75dab089255c0619733ca9d5f9fe80127d))
+
+
 <a name="0.12.18"></a>
 ### 0.12.18 (2014-07-25)
 
