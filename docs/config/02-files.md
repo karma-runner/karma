@@ -2,30 +2,32 @@
 
 
 ## Pattern matching and `basePath`
-- All of the relative patterns will get resolved to `basePath` first.
+- All of the relative patterns will get resolved using the `basePath` first.
 - If the `basePath` is a relative path, it gets resolved to the
-  directory where the configuration file is.
+  directory where the configuration file is located.
 - Eventually, all the patterns will get resolved into files using
   [glob], so you can use [minimatch] expressions like `test/unit/**/*.spec.js`.
 
+
 ## Ordering
-- The order of patterns determines the order of files in which they
-  are included in the browser.
+- The order of patterns determines the order in which files are included in the browser.
 - Multiple files matching a single pattern are sorted alphabetically.
 - Each file is included exactly once. If multiple patterns match the
   same file, it's included as if it only matched the first pattern.
+
 
 ## Included, served, watched
 Each pattern is either a simple string or an object with four properties:
 
 ### `pattern`
+* **Type.** String
+* **No Default.**
 * **Description.** The pattern to use for matching. This property is mandatory.
 
 ### `watched`
 * **Type.** Boolean
 * **Default.** `true`
-* **Description.**  If `autoWatch` is `true` all files that have set `watched` to true will be
-  watched for changes.
+* **Description.**  If `autoWatch` is `true` all files that have set `watched` to true will be watched for changes.
 
 ### `included`
 * **Type.** Boolean
@@ -39,10 +41,12 @@ Each pattern is either a simple string or an object with four properties:
 * **Default.** `true`
 * **Description.** Should the files be served by Karma's webserver?
 
+
 ## Preprocessor transformations
 Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in
 their native format. For instance, if html2js preprocessor is enabled, the actual .html files are no longer
 served - but rather available as `window.__html__['my.html']`. Read more about [preprocessors].
+
 
 ## Complete example
 Here is a complete example showing the different options possible:

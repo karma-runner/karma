@@ -9,8 +9,9 @@ preprocessors: {
   '**/*.html': ['html2js']
 },
 ```
-Note the multiple expressions referencing the "coffee" preprocessor, as a preprocessor can be listed more than once,
-as another way to specify multiple file path expressions.
+
+Note: There are multiple expressions referencing the "coffee" preprocessor in this example, as a preprocessor
+can be listed more than once as another way to specify multiple file path expressions.
 
 Note: Most of the preprocessors need to be loaded as [plugins].
 
@@ -75,8 +76,7 @@ the `files` configuration.
 * First the file paths are expanded to an absolute path, based on the
   `basePath` configuration and the directory of the configuration file. See
   [files] for more information on that.
-* Then the newly expanded path is matched using [minimatch] against the
-  specified key.
+* Then the newly expanded path is matched using [minimatch] against the specified key.
 
 So for example the path `/my/absolute/path/to/test/unit/file.coffee` matched against
 the key `**/*.coffee` would return `true`, but matched against just `*.coffee` it would
