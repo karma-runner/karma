@@ -21,16 +21,17 @@ describe 'middleware.karma', ->
         'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%\n%X_UA_COMPATIBLE%')
         'karma.js': mocks.fs.file(0, 'root: %KARMA_URL_ROOT%, v: %KARMA_VERSION%')
 
-  serveFile = require('../../../lib/middleware/common').createServeFile fsMock, '/karma/static'
+  createServeFile = require('../../../lib/middleware/common').createServeFile
   createKarmaMiddleware = require('../../../lib/middleware/karma').create
 
-  handler = filesDeferred = nextSpy = response = null
+  handler = serveFile = filesDeferred = nextSpy = response = null
 
   beforeEach ->
     clientConfig = foo: 'bar'
     nextSpy = sinon.spy()
     response = new HttpResponseMock
     filesDeferred = q.defer()
+    serveFile = createServeFile fsMock, '/karma/static'
     handler = createKarmaMiddleware filesDeferred.promise, serveFile,
       '/base/path', '/__karma__/', clientConfig
 
