@@ -1,3 +1,12 @@
+<a name="0.12.21"></a>
+### 0.12.21 (2014-08-05)
+
+
+#### Bug Fixes
+
+* **web-server:** cache static files ([eb5bd53f](http://github.com/karma-runner/karma/commit/eb5bd53ff0b6dc01e247fce9af01d0ed97d8c9ba))
+
+
 <a name="0.12.20"></a>
 ### 0.12.20 (2014-08-05)
 
