@@ -1,3 +1,15 @@
+<a name="0.12.20"></a>
+### 0.12.20 (2014-08-05)
+
+
+#### Bug Fixes
+
+* **config:** #1113 Watching is not working properly on linux ([c91ffbc0](http://github.com/karma-runner/karma/commit/c91ffbc05f78f2c17dcc43039300cdf045e64ccc), closes [#1113](http://github.com/karma-runner/karma/issues/1113))
+* **preprocessor:**
+  * treat *.gz files as binary ([1b56932f](http://github.com/karma-runner/karma/commit/1b56932fb49e0f3793f00599e11c24f6254236f4))
+  * treat *.swf files as binary ([62d7d387](http://github.com/karma-runner/karma/commit/62d7d3873ed3e046ab24530cb20297ddad51cf85))
+
+
 <a name="0.12.19"></a>
 ### 0.12.19 (2014-07-26)
 
