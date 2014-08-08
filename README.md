@@ -1,4 +1,4 @@
-# Karma [![Build Status](https://secure.travis-ci.org/karma-runner/karma.png?branch=master)](http://travis-ci.org/karma-runner/karma) [![Dependency Status](https://david-dm.org/karma-runner/karma.png)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://david-dm.org/karma-runner/karma/dev-status.png)](https://david-dm.org/karma-runner/karma#info=devDependencies)
+# Karma [![Build Status](https://secure.travis-ci.org/karma-runner/karma.svg?branch=master)](http://travis-ci.org/karma-runner/karma) [![Dependency Status](https://david-dm.org/karma-runner/karma.svg)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://david-dm.org/karma-runner/karma/dev-status.svg)](https://david-dm.org/karma-runner/karma#info=devDependencies)
 
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers.
