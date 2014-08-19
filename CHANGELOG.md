@@ -1,3 +1,12 @@
+<a name="0.12.22"></a>
+### 0.12.22 (2014-08-19)
+
+
+#### Bug Fixes
+
+* **preprocessor:** treat *.tgz, *.tbz2, *.txz & *.xz as binary ([7b642449](http://github.com/karma-runner/karma/commit/7b642449811b0c0af63147f74159c6dbb8900563))
+
+
 <a name="0.12.21"></a>
 ### 0.12.21 (2014-08-05)
 
