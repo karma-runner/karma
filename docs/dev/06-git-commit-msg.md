@@ -15,8 +15,9 @@ showInMenu: false
 
 
 ## Message subject (first line)
-First line cannot be longer than 70 characters, second line is always
-blank and other lines should be wrapped at 80 characters.
+First line cannot be longer than 70 characters, second line is always blank and
+other lines should be wrapped at 80 characters. The type and scope should
+always be lowercase as shown below.
 
 ### Allowed `<type>` values:
 
@@ -80,6 +81,8 @@ to `--runner-port`.
 
 ---
 
-This document is based on [AngularJS Git Commit Msg Convention].
+This document is based on [AngularJS Git Commit Msg Convention]. See the
+[commit history] for examples of properly-formatted commit messages.
 
 [AngularJS Git Commit Msg Convention]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
+[commit history]: https://github.com/karma-runner/karma/commits/master
