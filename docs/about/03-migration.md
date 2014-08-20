@@ -55,7 +55,7 @@ In some cases NPM can run into dependency tree issues during the migration proce
 with an "unsatisfied peer dependency" error, removing all of the packages (`rm -rf ./node_modules`) and installing
 them again should clear up the issue.
 
-If you have any other issuses, please ask on the [mailing list].
+If you have any other issues, please ask on the [mailing list].
 
 
 [mailing list]: https://groups.google.com/forum/?fromgroups#!forum/karma-users

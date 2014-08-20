@@ -56,7 +56,7 @@ Checkout a new branch and name it accordingly to what you intend to do:
 $ git checkout -b <branch_name>
 ```
 
-Open your favourite editor, make some changes, run the tests, change the code, run the tests,
+Open your favorite editor, make some changes, run the tests, change the code, run the tests,
 change the code, run the tests, etc.
 
 - Please follow http://nodeguide.com/style.html (with exception of 100 characters per line).
@@ -72,7 +72,7 @@ change the code, run the tests, etc.
   ```bash
   $ git push origin <branch_name>
   ```
-- Go to the github page and click "Open a Pull reguest".
+- Go to the GitHub page and click "Open a Pull request".
 - Write a good description of the change.
 
 After sending a pull request, other developers will review and discuss your change.

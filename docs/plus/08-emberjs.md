@@ -17,7 +17,7 @@ To execute javascript unit and integration tests with ember.js follow the steps 
   npm install karma-ember-preprocessor --save-dev
   ```
 
-4. genenerate a configuration file for karma
+4. generate a configuration file for karma
   ```bash
   karma init
   ```
@@ -80,7 +80,7 @@ To execute javascript unit and integration tests with ember.js follow the steps 
   });
   ```
 
-5. add a simple qunit test
+5. add a simple Qunit test
 
   ```javascript
   test('one should equal one', function() {

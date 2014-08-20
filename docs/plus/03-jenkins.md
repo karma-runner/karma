@@ -40,7 +40,7 @@ from, etc.)
 ## Configure the Build Environment
 First go to the job page and click on configure. Then in the Build
 Environment sub-section, check the “Inject environment
-variables to the build process” checkbox. A few textboxes will
+variables to the build process' checkbox. A few textboxes will
 appear and in the “Properties Content” box set the following:
 
 ```bash
