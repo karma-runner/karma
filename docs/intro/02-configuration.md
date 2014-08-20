@@ -65,7 +65,7 @@ Some configurations, which are already present within the configuration file, ca
 as a command line argument for when Karma is executed.
 
 ```bash
-karma start karma-conf.js --log-level debug --single-run
+karma start my.conf.js --log-level debug --single-run
 ```
 
 Try `karma start --help` if you want to see all available options.
