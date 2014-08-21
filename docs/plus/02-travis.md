@@ -16,7 +16,7 @@ following YAML content:
 ```ruby
 language: node_js
 node_js:
-  - 0.8
+  - "0.10"
 ```
 
 ## Setup a Test Command
@@ -27,11 +27,11 @@ is where you tell Travis how to run your tests.
 ```javascript
 // ...snip...
 'devDependencies': {
-  'karma': '~0.10'
+  'karma': '~0.12'
 },
 // ...snip...
 'scripts': {
-   'test': 'karma start --single-run --browsers PhantomJS'
+   'test': './node_modules/karma/bin/karma start --single-run --browsers PhantomJS'
 }
 // ...snip...
 ```
@@ -47,7 +47,7 @@ like this:
 ```ruby
 language: node_js
 node_js:
-  - 0.8
+  - "0.10"
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
