@@ -1,3 +1,18 @@
+<a name="0.12.23"></a>
+### 0.12.23 (2014-08-28)
+
+
+#### Bug Fixes
+
+* **file_list:** Incorrect response after remove and add file ([0dbc0201](http://github.com/karma-runner/karma/commit/0dbc0201b2d1f7c909f74816cc50bc68013fc70f))
+* **preprocessor:** Throw error if can't open file ([bb4edde9](http://github.com/karma-runner/karma/commit/bb4edde9f15a07e6dac0d4dc01731f1e277d34a4))
+
+
+#### Features
+
+* **init:** install coffee-script automatically ([e876db63](http://github.com/karma-runner/karma/commit/e876db63dc5c4708345f5cdc335195fe4a5b8808), closes [#1152](http://github.com/karma-runner/karma/issues/1152))
+
+
 <a name="0.12.22"></a>
 ### 0.12.22 (2014-08-19)
 
