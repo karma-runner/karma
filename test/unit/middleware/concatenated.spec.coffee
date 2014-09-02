@@ -56,3 +56,25 @@ describe 'middleware.concatenated', ->
       done()
 
     callHandlerWith '/concatenated.js'
+
+  it 'should handle goog.loadModule', (done) ->
+    files = [
+      file '/module.js', 'goog.module("a");\nhello();'
+    ]
+    filesDeferred.resolve {included: [], served: files}
+
+    expected = """
+      // /module.js
+      try{goog.loadModule("goog.module(\\"a\\");\\nhello();\\n//# \
+      sourceURL=http://concatenate/module.js");} catch(e) { if (!e.fileName) \
+      e.message +=" @/module.js"; throw e;}
+
+
+      """
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, expected
+      done()
+
+    callHandlerWith '/concatenated.js'
