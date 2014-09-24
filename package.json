@@ -123,7 +123,8 @@
     "inf3rno <laszlo.janszky@gmail.com>",
     "lanshunfang <lanshunfang@gmail.com>",
     "maik <mauk@gulli.com>",
-    "toran billups <toranb@gmail.com>"
+    "toran billups <toranb@gmail.com>",
+    "Jasmine Hegman <jasmine@jhegman.com>"
   ],
   "dependencies": {
     "di": "~0.0.1",
@@ -187,7 +188,9 @@
     "grunt-jscs-checker": "~0.6.1"
   },
   "main": "./lib/index",
-  "bin": {},
+  "bin": {
+    "karma": "./bin/karma"
+  },
   "engines": {
     "node": "~0.8 || ~0.10"
   },
