@@ -1,3 +1,11 @@
+<a name="v0.12.24"></a>
+### v0.12.24 (2014-09-30)
+
+
+#### Bug Fixes
+
+* Wrap url.parse to always return an object for query property ([72452e9f](http://github.com/karma-runner/karma/commit/72452e9fce4c42dc843c1157c19c08d39e3996df), closes [#1182](http://github.com/karma-runner/karma/issues/1182))
+
 <a name="0.12.23"></a>
 ### 0.12.23 (2014-08-28)
 
