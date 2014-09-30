@@ -29,7 +29,11 @@ Realoaded before every execution run.
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
   <script type="text/javascript">
-    window.__karma__.loaded();
+    window.envReady = window.envReady || new Promise(function(res, rej) { res(); });
+
+    window.envReady.then(function() {
+      window.__karma__.loaded();
+    }.bind(this));
   </script>
 </body>
 </html>
