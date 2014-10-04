@@ -33,7 +33,7 @@ describe 'middleware.karma', ->
     filesDeferred = q.defer()
     serveFile = createServeFile fsMock, '/karma/static'
     handler = createKarmaMiddleware filesDeferred.promise, serveFile,
-      '/base/path', '/__karma__/', clientConfig
+      '/base/path', '/__karma__/', clientConfig, false
 
   # helpers
   includedFiles = (files) ->
@@ -144,6 +144,23 @@ describe 'middleware.karma', ->
       expect(response).to.beServedAs 200, 'CONTEXT\n' +
       '<script type="text/javascript" src="/absolute/first.js?sha123"></script>\n' +
       '<script type="application/dart" src="/absolute/second.dart?sha456"></script>'
+      done()
+
+    callHandlerWith '/__karma__/context.html'
+
+
+  it 'should only include /concatenated.js when concatenating', (done) ->
+    handler = createKarmaMiddleware filesDeferred.promise, serveFile,
+      '/base/path', '/__karma__/', {}, true # concatenate
+
+    includedFiles [
+      new MockFile('/source.js', 'sha123')
+    ]
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, 'CONTEXT\n' +
+          '<script type="text/javascript" src="/concatenated.js"></script>'
       done()
 
     callHandlerWith '/__karma__/context.html'
