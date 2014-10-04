@@ -43,5 +43,5 @@ Then, you can run Karma simply by `karma` from anywhere and it will always run t
 
 
 [Node.js]: http://nodejs.org/
-[NPM]: npmjs.org/package/karma
+[NPM]: https://npmjs.org/package/karma
 [NVM]: https://github.com/creationix/nvm
