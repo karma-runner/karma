@@ -10,6 +10,7 @@ env:
 
 # Make sure we have new NPM.
 before_install:
+  - '[ "${TRAVIS_NODE_VERSION}" != "0.8"  ] || npm install -g npm@1.4.28'
   - npm install -g npm
   - npm config set loglevel warn
 
