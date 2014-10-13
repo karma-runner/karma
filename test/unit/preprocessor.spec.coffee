@@ -11,6 +11,7 @@ describe 'preprocessor', ->
     mockFs = mocks.fs.create
       some:
         'a.js': mocks.fs.file 0, 'content'
+        'b.js': mocks.fs.file 0, 'content'
         'a.txt': mocks.fs.file 0, 'some-text'
         'photo.png': mocks.fs.file 0, 'binary'
 
@@ -95,6 +96,28 @@ describe 'preprocessor', ->
           expect(file.sha.length).to.equal 40
           expect(file.sha).not.to.equal previousSHA
           done()
+
+  it 'should compute SHA from content returned by a processor', (done) ->
+    fakePreprocessor = sinon.spy (content, file, done) ->
+      done null, content + '-processed'
+
+    injector = new di.Injector [{
+      'preprocessor:fake': ['factory', -> fakePreprocessor]
+    }]
+
+    pp = m.createPreprocessor {'**/a.js': ['fake']}, null, injector
+
+    fileProcess = {originalPath: '/some/a.js', path: 'path'}
+    fileSkip = {originalPath: '/some/b.js', path: 'path'}
+
+    pp fileProcess, ->
+      pp fileSkip, ->
+        expect(fileProcess.sha).to.exist
+        expect(fileProcess.sha.length).to.equal 40
+        expect(fileSkip.sha).to.exist
+        expect(fileSkip.sha.length).to.equal 40
+        expect(fileProcess.sha).not.to.equal fileSkip.sha
+        done()
 
 
   it 'should return error if any preprocessor fails', (done) ->
