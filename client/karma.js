@@ -222,14 +222,17 @@ var Karma = function(socket, iframe, opener, navigator, location) {
 
   // report browser name, id
   socket.on('connect', function() {
-    currentTransport = socket.socket.transport.name;
+    // Change buffer limit when upgraded
+    socket.io.engine.on('upgrade', function() {
+      currentTransport = socket.io.engine.transport.name;
 
-    // TODO(vojta): make resultsBufferLimit configurable
-    if (currentTransport === 'websocket' || currentTransport === 'flashsocket') {
-      resultsBufferLimit = 1;
-    } else {
-      resultsBufferLimit = 50;
-    }
+      // TODO(vojta): make resultsBufferLimit configurable
+      if (currentTransport === 'websocket' || currentTransport === 'flashsocket') {
+        resultsBufferLimit = 1;
+      } else {
+        resultsBufferLimit = 50;
+      }
+    });
 
     socket.emit('register', {
       name: navigator.userAgent,
