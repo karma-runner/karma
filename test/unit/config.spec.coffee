@@ -36,6 +36,11 @@ describe 'config', ->
       '/home/config4.js': wrapCfg({port: 123, autoWatch: true, basePath: '/abs/base'}),
       '/home/config6.js': wrapCfg({reporters: 'junit'}),
       '/home/config7.js': wrapCfg({browsers: ['Chrome', 'Firefox']}),
+      '/home/config8.js': wrapCfg({protocol: 'http'}),
+      '/home/config9.js': wrapCfg({protocol: 'https'}),
+      '/home/config10.js': wrapCfg({protocol: 'https', cert: {key: 'key.pem'}}),
+      '/home/config11.js': wrapCfg({protocol: 'https', cert: {cert: 'cert.pem'}}),
+      '/home/config12.js': wrapCfg({protocol: 'https', cert: {key: 'key.pem', cert: 'cert.pem'}}),
       '/conf/invalid.js': () -> throw new SyntaxError('Unexpected token =')
       '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
       '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
@@ -140,6 +145,42 @@ describe 'config', ->
       config = e.parseConfig '/home/config7.js', {browsers: ['Safari']}
 
       expect(config.browsers).to.deep.equal ['Safari']
+
+
+    it 'should set protocol to http if http protocol specified', ->
+      config = e.parseConfig '/home/config8.js', {}
+
+      expect(config.protocol).to.equal 'http'
+
+
+    it 'should set protocol to https with one-time cert', ->
+      config = e.parseConfig '/home/config9.js', {}
+
+      expect(config.protocol).to.equal 'https'
+      expect(config.oneTimeCert).to.equal true
+
+
+    it 'should set protocol to https and drop back to one-time cert', ->
+      config = e.parseConfig '/home/config10.js', {}
+
+      expect(config.protocol).to.equal 'https'
+      expect(config.oneTimeCert).to.equal true
+
+
+    it 'should set protocol to https with one-time cert (2)', ->
+      config = e.parseConfig '/home/config11.js', {}
+
+      expect(config.protocol).to.equal 'https'
+      expect(config.oneTimeCert).to.equal true
+
+
+    it 'should set protocol to https with certificate files specified', ->
+      config = e.parseConfig '/home/config12.js', {}
+
+      expect(config.protocol).to.equal 'https'
+      expect(config.oneTimeCert).to.equal false
+      expect(config.cert.key).to.equal 'key.pem'
+      expect(config.cert.cert).to.equal 'cert.pem'
 
 
     it 'should resolve files and excludes to overriden basePath from cli', ->
