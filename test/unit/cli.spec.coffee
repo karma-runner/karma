@@ -8,6 +8,8 @@ describe 'cli', ->
   constant = require '../../lib/constants'
   path = require 'path'
   mocks = require 'mocks'
+  loadFile = mocks.loadFile
+  mockery = m = e = null
 
   fsMock = mocks.fs.create
     cwd:
@@ -26,9 +28,26 @@ describe 'cli', ->
 
   processArgs = (args, opts) ->
     argv = optimist.parse(args)
-    cli.processArgs argv, opts || {}, fsMock, pathMock
+    e.processArgs argv, opts || {}, fsMock, pathMock
 
-  beforeEach -> setCWD '/'
+  beforeEach ->
+    setCWD '/'
+    mockery = {}
+    mockery.process = exit: sinon.spy()
+    mockery.console = error: sinon.spy()
+
+    # load file under test
+    m = loadFile __dirname + '/../../lib/cli.js', mockery, {
+      global: {},
+      console: mockery.console,
+      process: mockery.process,
+      require: (path) ->
+        if path.indexOf('./') is 0
+          require '../../lib/' + path
+        else
+          require path
+    }
+    e = m.exports
 
   describe 'processArgs', ->
 
@@ -94,6 +113,12 @@ describe 'cli', ->
 
       options = processArgs ['--log-level', 'warn']
       expect(options.logLevel).to.equal constant.LOG_WARN
+
+      options = processArgs ['--log-level', 'foo']
+      expect(mockery.process.exit).to.have.been.calledWith 1
+
+      options = processArgs ['--log-level']
+      expect(mockery.process.exit).to.have.been.calledWith 1
 
 
     it 'should parse browsers into an array', ->
