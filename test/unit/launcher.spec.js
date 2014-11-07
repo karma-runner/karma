@@ -69,18 +69,22 @@ describe('launcher', () => {
 
   describe('Launcher', () => {
     var emitter
-    var l = emitter = null
+    var server
+    var l = emitter = server = null
 
     beforeEach(() => {
       emitter = new events.EventEmitter()
+      server = {'loadErrors': []}
+
       var injector = new di.Injector([{
         'launcher:Fake': ['type', FakeBrowser],
         'launcher:Script': ['type', ScriptBrowser],
+        'server': ['value', server],
         'emitter': ['value', emitter],
         'config': ['value', {captureTimeout: 0}],
         'timer': ['factory', createMockTimer]
       }])
-      l = new launcher.Launcher(emitter, injector)
+      l = new launcher.Launcher(server, emitter, injector)
     })
 
     describe('launch', () => {
@@ -89,6 +93,15 @@ describe('launcher', () => {
 
         var browser = FakeBrowser._instances.pop()
         expect(browser.start).to.have.been.calledWith('http://localhost:1234/root/')
+        expect(browser.id).to.equal(lastGeneratedId)
+        expect(browser.name).to.equal('Fake')
+      })
+
+      it('should not start when server has load errors', () => {
+        server.loadErrors = ['error']
+        l.launch(['Fake'], 'http:', 'localhost', 1234, '/root/', 1)
+        var browser = FakeBrowser._instances.pop()
+        expect(browser.start).to.not.have.been.called
         expect(browser.id).to.equal(lastGeneratedId)
         expect(browser.name).to.equal('Fake')
       })
