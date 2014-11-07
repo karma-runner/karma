@@ -26,14 +26,14 @@ Press tab to list possible options. Enter empty string to move to the next quest
 
 What is the location of your source and test files ?
 You can use glob patterns, eg. "js/*.js" or "test/**/*Spec.js".
-Enter empty string to move to the next question.
+Press Enter to move to the next question.
 > *.js
 > test/**/*.js
 >
 
 Should any of the files included by the previous patterns be excluded ?
 You can use glob patterns, eg. "**/*.swp".
-Enter empty string to move to the next question.
+Press Enter to move to the next question.
 >
 
 Do you want Karma to watch all the files and run the tests on change ?
