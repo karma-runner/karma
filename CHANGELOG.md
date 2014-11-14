@@ -1,3 +1,16 @@
+<a name="0.12.25"></a>
+### 0.12.25 (2014-11-14)
+
+
+#### Bug Fixes
+
+* add emscripten memory image as binary suffix ([f6b2b561](http://github.com/karma-runner/karma/commit/f6b2b561c5d5e083cd204df9564024cac163b611))
+* Wrap url.parse to always return an object for query property ([72452e9f](http://github.com/karma-runner/karma/commit/72452e9fce4c42dc843c1157c19c08d39e3996df), closes [#1182](http://github.com/karma-runner/karma/issues/1182))
+* **client.html:** always open debug.html in a new browser process ([d176bcf4](http://github.com/karma-runner/karma/commit/d176bcf47e9b3a7df8c6ae691f767f1012214c53))
+* **preprocessor:** calculate sha1 on content returned from a preprocessor ([6cf79557](http://github.com/karma-runner/karma/commit/6cf795576bd6d77decac68ecc4838871b6df4836), closes [#1204](http://github.com/karma-runner/karma/issues/1204))
+* **runner:** Fix typo in CSS class name for .idle ([fc5a7ce0](http://github.com/karma-runner/karma/commit/fc5a7ce0904a78ece6a9cfa29215b17bd5c1929d))
+
+
 <a name="v0.12.24"></a>
 ### v0.12.24 (2014-09-30)
 
