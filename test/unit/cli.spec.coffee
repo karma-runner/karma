@@ -32,6 +32,15 @@ describe 'cli', ->
 
   describe 'processArgs', ->
 
+    it 'should override if multiple options given', ->
+      # optimist parses --port 123 --port 456 as port = [123, 456] which makes no sense
+      options = processArgs ['some.conf', '--port', '12', '--log-level', 'info',
+                                          '--port', '34', '--log-level', 'debug']
+
+      expect(options.port).to.equal 34
+      expect(options.logLevel).to.equal 'DEBUG'
+
+
     it 'should return camelCased options', ->
       options = processArgs ['some.conf', '--port', '12', '--single-run']
 
