@@ -167,6 +167,7 @@
     "chokidar": ">=0.8.2",
     "glob": "~3.2.7",
     "minimatch": "~0.2",
+    "expand-braces": "~0.1.1",
     "http-proxy": "~0.10",
     "optimist": "~0.6.0",
     "rimraf": "~2.2.5",
