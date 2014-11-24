@@ -59,8 +59,18 @@ describe 'watcher', ->
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some', '/a']
 
 
+    it 'should expand braces and watch all the patterns', ->
+      m.watchPatterns ['/some/{a,b}/*.js', '/a/*'], chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/a', '/some/b', '/a']
+
+
     it 'should not watch the same path twice', ->
       m.watchPatterns ['/some/a*.js', '/some/*.txt'], chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
+
+
+    it 'should not watch the same path twice when using braces', ->
+      m.watchPatterns ['/some/*.{js,txt}'], chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some']
 
 
@@ -73,6 +83,11 @@ describe 'watcher', ->
       # regression #521
       m.watchPatterns ['/some/test-file.js', '/some/test/**'], chokidarWatcher
       expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/test-file.js', '/some/test']
+
+
+    it 'should watch files matching a subpath directory with braces', ->
+      m.watchPatterns ['/some/{a,b}/test.js'], chokidarWatcher
+      expect(chokidarWatcher.watchedPaths_).to.deep.equal ['/some/a/test.js', '/some/b/test.js']
 
 
   describe 'getWatchedPatterns', ->
