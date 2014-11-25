@@ -258,8 +258,15 @@ describe('Karma', function() {
 
       spyOn(socket, 'disconnect');
 
+      socket.on('complete', function(data, ack) {
+        ack();
+      });
+
       k.complete();
-      expect(windowLocation.href).toBe('http://return.com');
+
+      waitsFor(function(){
+        return windowLocation.href === 'http://return.com';
+      }, '', 9000);
     });
 
     it('should patch the console if captureConsole is true', function() {
