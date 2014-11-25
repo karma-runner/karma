@@ -1,3 +1,13 @@
+<a name="0.12.27"></a>
+### 0.12.27 (2014-11-25)
+
+
+#### Bug Fixes
+
+* **browser:** don't add already active socket again on reconnect ([37a7958a](http://github.com/karma-runner/karma/commit/37a7958ae5517b8bf16e36cc90fe0b1cf0c09afd))
+* **reporter:** sourcemap not working in windows ([a9516af2](http://github.com/karma-runner/karma/commit/a9516af2af87953154e81b6080214798a9b64da5))
+
+
 <a name="0.12.26"></a>
 ### 0.12.26 (2014-11-25)
 
