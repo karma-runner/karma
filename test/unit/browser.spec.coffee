@@ -8,9 +8,15 @@ describe 'Browser', ->
   createMockTimer = require './mocks/timer'
 
   browser = collection = emitter = socket = null
+  socketId = 0
+
+  mkSocket = ->
+    s = new e.EventEmitter
+    s.id = socketId++
+    return s
 
   beforeEach ->
-    socket = new e.EventEmitter
+    socket = mkSocket()
     emitter = new e.EventEmitter
     collection = new Collection emitter
 
@@ -250,7 +256,7 @@ describe 'Browser', ->
       browser.state = Browser.STATE_EXECUTING
 
       browser.onDisconnect 'socket.io-reason', socket
-      browser.reconnect new e.EventEmitter
+      browser.reconnect mkSocket()
 
       timer.wind 10
       expect(browser.state).to.equal Browser.STATE_EXECUTING
@@ -263,7 +269,7 @@ describe 'Browser', ->
       browser.init()
       browser.state = Browser.STATE_EXECUTING
 
-      browser.reconnect new e.EventEmitter
+      browser.reconnect mkSocket()
 
       # still accept results on the old socket
       socket.emit 'result', {success: true}
@@ -281,7 +287,7 @@ describe 'Browser', ->
       browser = new Browser 'id', 'Chrome 25.0', collection, emitter, socket, null, 10
       browser.state = Browser.STATE_DISCONNECTED
 
-      browser.reconnect new e.EventEmitter
+      browser.reconnect mkSocket()
 
       expect(browser.isReady()).to.equal true
 
@@ -388,7 +394,7 @@ describe 'Browser', ->
       socket.emit 'disconnect', 'socket.io reason'
       expect(browser.isReady()).to.equal false
 
-      newSocket = new e.EventEmitter
+      newSocket = mkSocket()
       browser.reconnect newSocket
       expect(browser.isReady()).to.equal false
 
@@ -429,7 +435,7 @@ describe 'Browser', ->
       expect(browser.state).to.equal Browser.STATE_DISCONNECTED
       expect(browser.disconnectsCount).to.equal 1
 
-      newSocket = new e.EventEmitter
+      newSocket = mkSocket()
       emitter.on 'browser_register', -> browser.execute()
 
       # reconnect on a new socket (which triggers re-execution)
@@ -453,7 +459,7 @@ describe 'Browser', ->
       browser.execute()
 
       # A second connection...
-      newSocket = new e.EventEmitter
+      newSocket = mkSocket()
       browser.reconnect newSocket
 
       # Disconnect the second connection...
@@ -464,6 +470,21 @@ describe 'Browser', ->
       socket.emit 'result', {success: true, suite: [], log: []}
       expect(browser.lastResult.success).to.equal 1
 
+    it 'complete only once after reconnect on the same socket', ->
+      # If there is a new connection on the same socket,
+      # we should emit complete message only once.
+      browser = new Browser 'fake-id', 'Chrome 31.0', collection, emitter, socket, null, 10
+      browser.onComplete = sinon.spy()
+      browser.init()
+      browser.execute()
+
+      # A second connection...
+      browser.reconnect socket
+
+      socket.emit 'result', {success: true, suite: [], log: []}
+      socket.emit 'complete'
+
+      expect(browser.onComplete.callCount).to.equal 1
 
     it 'disconnect when no message during the run', ->
       timer = createMockTimer()
