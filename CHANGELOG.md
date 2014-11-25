@@ -1,3 +1,12 @@
+<a name="0.12.26"></a>
+### 0.12.26 (2014-11-25)
+
+
+#### Bug Fixes
+
+* **cli:** override if an arg is defined multiple times ([31eb2c2c](http://github.com/karma-runner/karma/commit/31eb2c2c3ca1663eff94f0398768a9b582332a93), closes [#1192](http://github.com/karma-runner/karma/issues/1192))
+
+
 <a name="0.12.25"></a>
 ### 0.12.25 (2014-11-14)
 
