@@ -1,3 +1,12 @@
+<a name="0.12.28"></a>
+### 0.12.28 (2014-11-25)
+
+
+#### Bug Fixes
+
+* **server:** complete acknowledgment ([f4144b0d](http://github.com/karma-runner/karma/commit/f4144b0d2d5eafff7245301454305d2005e46449))
+
+
 <a name="0.12.27"></a>
 ### 0.12.27 (2014-11-25)
 
