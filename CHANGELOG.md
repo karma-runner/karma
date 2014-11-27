@@ -1,3 +1,31 @@
+<a name="0.12.28"></a>
+### 0.12.28 (2014-11-25)
+
+
+#### Bug Fixes
+
+* **server:** complete acknowledgment ([f4144b0d](http://github.com/karma-runner/karma/commit/f4144b0d2d5eafff7245301454305d2005e46449))
+
+
+<a name="0.12.27"></a>
+### 0.12.27 (2014-11-25)
+
+
+#### Bug Fixes
+
+* **browser:** don't add already active socket again on reconnect ([37a7958a](http://github.com/karma-runner/karma/commit/37a7958ae5517b8bf16e36cc90fe0b1cf0c09afd))
+* **reporter:** sourcemap not working in windows ([a9516af2](http://github.com/karma-runner/karma/commit/a9516af2af87953154e81b6080214798a9b64da5))
+
+
+<a name="0.12.26"></a>
+### 0.12.26 (2014-11-25)
+
+
+#### Bug Fixes
+
+* **cli:** override if an arg is defined multiple times ([31eb2c2c](http://github.com/karma-runner/karma/commit/31eb2c2c3ca1663eff94f0398768a9b582332a93), closes [#1192](http://github.com/karma-runner/karma/issues/1192))
+
+
 <a name="0.12.25"></a>
 ### 0.12.25 (2014-11-14)
 
