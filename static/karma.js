@@ -6,6 +6,26 @@ module.exports = {
 };
 
 },{}],2:[function(require,module,exports){
+// TODO(vojta): remove once we don't care about karma-jasmine 0.1.x
+//
+// karma-jasmine@0.1.x relies on socket.io@0.9.x internals to figure out which transport is used.
+// See https://github.com/karma-runner/karma-jasmine/blob/57dddeed2771d65457418f0357f740e3d64d6862/src/adapter.js#L50
+//
+// This should be ultimately solved on socket.io level (split or truncate too big messages).
+
+var hostname = 'http://' + location.host;
+
+if (!location.port) {
+  hostname += ':80';
+}
+
+if (!io.sockets) {
+  io.sockets = {};
+  // Patch, so that karma-jasmine does not throw "undefined has no transport property".
+  io.sockets[hostname] = {transport: {name: '<unknown transport>'}};
+}
+
+},{}],3:[function(require,module,exports){
 var stringify = require('./stringify');
 var constant = require('./constants');
 var util = require('./util');
@@ -251,7 +271,7 @@ var Karma = function(socket, iframe, opener, navigator, location) {
 
 module.exports = Karma;
 
-},{"./constants":1,"./stringify":4,"./util":6}],3:[function(require,module,exports){
+},{"./constants":1,"./stringify":5,"./util":7}],4:[function(require,module,exports){
 var Karma = require('./karma');
 var StatusUpdater = require('./updater');
 var util = require('./util');
@@ -274,7 +294,11 @@ new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('brows
 window.karma = new Karma(socket, util.elm('context'), window.open,
 	window.navigator, window.location);
 
-},{"./constants":1,"./karma":2,"./updater":5,"./util":6}],4:[function(require,module,exports){
+
+// TODO(vojta): remove once we don't care about karma-jasmine 0.1.x
+require('./jasmine_socketio_patch');
+
+},{"./constants":1,"./jasmine_socketio_patch":2,"./karma":3,"./updater":6,"./util":7}],5:[function(require,module,exports){
 var instanceOf = require('./util').instanceOf;
 
 var stringify = function stringify(obj, depth) {
@@ -341,7 +365,7 @@ var stringify = function stringify(obj, depth) {
 
 module.exports = stringify;
 
-},{"./util":6}],5:[function(require,module,exports){
+},{"./util":7}],6:[function(require,module,exports){
 var VERSION = require('./constants').VERSION;
 
 
@@ -376,7 +400,7 @@ var StatusUpdater = function(socket, titleElement, bannerElement, browsersElemen
 
 module.exports = StatusUpdater;
 
-},{"./constants":1}],6:[function(require,module,exports){
+},{"./constants":1}],7:[function(require,module,exports){
 exports.instanceOf = function(value, constructorName) {
   return Object.prototype.toString.apply(value) === '[object ' + constructorName + ']';
 };
@@ -410,4 +434,4 @@ exports.parseQueryParams = function(locationSearch) {
   return params;
 };
 
-},{}]},{},[3]);
+},{}]},{},[4]);
