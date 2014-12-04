@@ -43,7 +43,7 @@ var Karma = function(socket, iframe, opener, navigator, location) {
   var returnUrl = queryParams['return_url' + ''] || null;
   var currentTransport;
 
-  var resultsBufferLimit = 1;
+  var resultsBufferLimit = 50;
   var resultsBuffer = [];
 
   this.VERSION = constant.VERSION;
@@ -255,11 +255,11 @@ var Karma = function(socket, iframe, opener, navigator, location) {
       currentTransport = socket.io.engine.transport.name;
 
       // TODO(vojta): make resultsBufferLimit configurable
-      if (currentTransport === 'websocket' || currentTransport === 'flashsocket') {
-        resultsBufferLimit = 1;
-      } else {
-        resultsBufferLimit = 50;
-      }
+      // if (currentTransport === 'websocket' || currentTransport === 'flashsocket') {
+      //   resultsBufferLimit = 1;
+      // } else {
+      //   resultsBufferLimit = 50;
+      // }
     });
 
     socket.emit('register', {
