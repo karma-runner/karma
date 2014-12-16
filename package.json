@@ -178,7 +178,8 @@
     "useragent": "~2.0.4",
     "graceful-fs": "~2.0.1",
     "connect": "~2.26.0",
-    "source-map": "~0.1.31"
+    "source-map": "~0.1.31",
+    "convert-source-map": "^0.4.1"
   },
   "devDependencies": {
     "grunt": "~0.4",
