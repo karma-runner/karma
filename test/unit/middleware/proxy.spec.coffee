@@ -148,17 +148,19 @@ describe 'middleware.proxy', ->
 
   it 'should handle proxy configs with only basepaths', ->
     proxy = {'/base': '/proxy/test'}
-    parsedProxyConfig = m.parseProxyConfig proxy
+    config = {port: 9877, hostname: 'localhost'}
+    parsedProxyConfig = m.parseProxyConfig proxy, config
     expect(parsedProxyConfig).to.deep.equal {
-      '/base': {host: c.DEFAULT_HOSTNAME, port: c.DEFAULT_PORT,
+      '/base': {host: config.hostname, port: config.port,
       baseProxyUrl: '/proxy/test', https:false}
     }
 
   it 'should normalize proxy url with only basepaths', ->
     proxy = {'/base/': '/proxy/test'}
-    parsedProxyConfig = m.parseProxyConfig proxy
+    config = {port: 9877, hostname: 'localhost'}
+    parsedProxyConfig = m.parseProxyConfig proxy, config
     expect(parsedProxyConfig).to.deep.equal {
-      '/base/': {host: c.DEFAULT_HOSTNAME, port: c.DEFAULT_PORT,
+      '/base/': {host: config.hostname, port: config.port,
       baseProxyUrl: '/proxy/test/', https:false}
     }
 
