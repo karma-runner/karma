@@ -223,7 +223,9 @@
     "grunt-jscs-checker": "~0.6.1"
   },
   "main": "./lib/index",
-  "bin": {},
+  "bin": {
+    "karma": "./bin/karma"
+  },
   "engines": {
     "node": "~0.8 || ~0.10"
   },
