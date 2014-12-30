@@ -227,6 +227,6 @@
   "engines": {
     "node": "~0.8 || ~0.10"
   },
-  "version": "0.12.29",
+  "version": "0.12.30",
   "license": "MIT"
 }

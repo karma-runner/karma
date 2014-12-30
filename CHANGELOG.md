@@ -1,3 +1,12 @@
+<a name="0.12.30"></a>
+### 0.12.30 (2014-12-30)
+
+
+#### Bug Fixes
+
+* **socket.io:** Force 0.9.16 which works with Chrome ([840ee5f7](http://github.com/karma-runner/karma/commit/840ee5f771d547f0fd140c3728ecb92edadf835e))
+
+
 <a name="0.12.29"></a>
 ### 0.12.29 (2014-12-30)
 
