@@ -76,7 +76,7 @@ describe 'reporter', ->
 
       class MockSourceMapConsumer
         constructor: (sourceMap) ->
-          @source = sourceMap.replace 'SOURCE MAP ', '/original/'
+          @source = sourceMap.content.replace 'SOURCE MAP ', '/original/'
         originalPositionFor: (position) ->
           source: @source
           line: position.line + 2
@@ -85,8 +85,8 @@ describe 'reporter', ->
       it 'should rewrite stack traces', (done) ->
         formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
         servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = 'SOURCE MAP a.js'
-        servedFiles[1].sourceMap = 'SOURCE MAP b.js'
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
         emitter.emit 'file_list_modified', q(served: servedFiles)
 
@@ -102,7 +102,7 @@ describe 'reporter', ->
         beforeEach ->
           formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
           servedFiles = [new File('C:/a/b/c.js')]
-          servedFiles[0].sourceMap = 'SOURCE MAP b.js'
+          servedFiles[0].sourceMap = {content: 'SOURCE MAP b.js'}
 
         it 'should correct rewrite stack traces without sha', (done) ->
           emitter.emit 'file_list_modified', q(served: servedFiles)
