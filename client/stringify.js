@@ -39,11 +39,16 @@ var stringify = function stringify(obj, depth) {
     } else if (obj.outerHTML) {
       return obj.outerHTML;
     } else {
-      strs.push(obj.constructor.name);
+      var constructor = 'Object';
+      if (obj.constructor && typeof obj.constructor === 'function') {
+        constructor = obj.constructor.name;
+      }
+
+      strs.push(constructor);
       strs.push('{');
       var first = true;
       for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
           if (first) {
             first = false;
           } else {

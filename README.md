@@ -1,4 +1,4 @@
-# Karma [![Build Status](https://secure.travis-ci.org/karma-runner/karma.svg?branch=master)](http://travis-ci.org/karma-runner/karma) [![Dependency Status](https://david-dm.org/karma-runner/karma.svg)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://david-dm.org/karma-runner/karma/dev-status.svg)](https://david-dm.org/karma-runner/karma#info=devDependencies)
+# Karma [![Build Status](https://travis-ci.org/karma-runner/karma.svg?branch=master)](https://travis-ci.org/karma-runner/karma) [![Dependency Status](https://david-dm.org/karma-runner/karma.svg)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://david-dm.org/karma-runner/karma/dev-status.svg)](https://david-dm.org/karma-runner/karma#info=devDependencies)
 
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers.
@@ -44,7 +44,7 @@ All the major browsers are supported, if you want to know more see the
 
 
 ## Troubleshooting
-See [FAQ](http://karma-runner.github.io/0.12/intro/faq.html).
+See [FAQ](https://karma-runner.github.io/0.12/intro/faq.html).
 
 
 ## I want to use it. Where do I sign?
@@ -61,12 +61,12 @@ Every serious project has a screencast, so here is ours.  Just click
 
 ### Installation.
 
-See [installation](http://karma-runner.github.io/0.12/intro/installation.html).
+See [installation](https://karma-runner.github.io/0.12/intro/installation.html).
 
 
 ### Using it.
 
-See [configuration](http://karma-runner.github.io/0.10/intro/configuration.html).
+See [configuration](https://karma-runner.github.io/0.12/intro/configuration.html).
 
 
 ## I still don't get it. Where can I get help?
@@ -80,7 +80,7 @@ See [configuration](http://karma-runner.github.io/0.10/intro/configuration.html)
 ## This is so great. I want to help.
 
 Please, see
-[contributing](http://karma-runner.github.io/0.12/dev/contributing.html).
+[contributing](https://karma-runner.github.io/0.12/dev/contributing.html).
 
 
 ## Why did you create this?
@@ -94,22 +94,22 @@ use the awesome [Socket.io] library and [Node.js].
 
 
 ## My boss wants a license. So where is it?
-[MIT License](https://raw.github.com/karma-runner/karma/master/LICENSE)
+[MIT License](./LICENSE)
 
 
-[AngularJS]: http://angularjs.org/
-[JSTD]: http://code.google.com/p/js-test-driver/
+[AngularJS]: https://angularjs.org/
+[JSTD]: https://code.google.com/p/js-test-driver/
 [Socket.io]: http://socket.io/
 [Node.js]: http://nodejs.org/
 [Jasmine]: https://github.com/karma-runner/karma-jasmine
 [Mocha]: https://github.com/karma-runner/karma-mocha
 [QUnit]: https://github.com/karma-runner/karma-qunit
-[here]: http://www.youtube.com/watch?v=MVw8N3hTfCI
+[here]: https://www.youtube.com/watch?v=MVw8N3hTfCI
 [Mailing List]: https://groups.google.com/forum/#!forum/karma-users
 [Issue Tracker]: https://github.com/karma-runner/karma/issues
-[@JsKarma]: http://twitter.com/JsKarma
+[@JsKarma]: https://twitter.com/JsKarma
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
-[browsers]: http://karma-runner.github.io/0.8/config/browsers.html
-[Docs]: http://karma-runner.github.io
+[browsers]: https://karma-runner.github.io/0.12/config/browsers.html
+[Docs]: https://karma-runner.github.io

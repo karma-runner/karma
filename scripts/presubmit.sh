@@ -131,7 +131,9 @@ if [ "$PUSH_TO_NPM" ]; then
   if [ "$REMOTE_BRANCH" = "$STABLE_BRANCH" ]; then
     grunt bump-only:patch changelog bump-commit
   else
-    # master, mark the version with git SHA, but do not commit
+    # canary, bump minor version (the version in package.json is the latest master,
+    # to avoid merge conflicts in package.json) and append -beta-<SHA>.
+    grunt bump-only:minor
     grunt bump-only:git
   fi
 fi
