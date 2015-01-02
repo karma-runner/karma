@@ -32,6 +32,28 @@ describe('stringify', function() {
     expect(stringify(['a', 'b', null, true, false])).toBe("['a', 'b', null, true, false]");
   });
 
+  it('should serialize objects', function () {
+    var obj;
+
+
+    obj = {a: 'a', b: 'b', c: null, d: true, e: false};
+    expect(stringify(obj)).toBe('Object{a: \'a\', b: \'b\', c: null, d: true, e: false}');
+
+    function MyObj() {
+      this.a = 'a';
+    }
+
+    obj = new MyObj();
+    expect(stringify(obj)).toBe('MyObj{a: \'a\'}');
+
+    obj = {constructor: null};
+    expect(stringify(obj)).toBe('Object{constructor: null}');
+
+    obj = Object.create(null);
+    obj.a = 'a';
+    expect(stringify(obj)).toBe('Object{a: \'a\'}');
+  });
+
 
   it('should serialize html', function() {
     var div = document.createElement('div');
