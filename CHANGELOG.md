@@ -1,3 +1,12 @@
+<a name="0.12.31"></a>
+### 0.12.31 (2015-01-02)
+
+
+#### Bug Fixes
+
+* **client:** Fix stringify serializing objects ([0d0972a5](http://github.com/karma-runner/karma/commit/0d0972a59e6e0354033c9fdfec72d5ddfbfe8e1e))
+
+
 <a name="0.12.30"></a>
 ### 0.12.30 (2014-12-30)
 
