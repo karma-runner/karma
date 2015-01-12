@@ -5,7 +5,7 @@ Karma runs on [Node.js] and is available as an [NPM] package.
 There are [installers](http://nodejs.org/download/) for both Mac and Windows.
 On Linux, we recommend using [NVM](https://github.com/creationix/nvm).
 
-Note: Karma works on the two latest stable versions. That is **0.8.x** and **0.10.x** at this point.
+Note: Karma works on the two latest stable versions. That is **0.10.x** and **0.12.x** at this point.
 
 
 ## Installing Karma and plugins
