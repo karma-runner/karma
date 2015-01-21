@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - "0.10"
   - "0.8"
+  - "iojs-v1.1.0"
 
 env:
   global:
