@@ -174,18 +174,14 @@ var Karma = function(socket, iframe, opener, navigator, location) {
     // give the browser some time to breath, there could be a page reload, but because a bunch of
     // tests could run in the same event loop, we wouldn't notice.
     setTimeout(function() {
-      socket.emit('complete', result || {});
       clearContext();
-
-      // Redirect to the return_url, however we need to give the browser some time,
-      // so that all the messages are sent.
-      // TODO(vojta): can we rather get notification from socket.io?
-      if (returnUrl) {
-        setTimeout(function() {
-          location.href = returnUrl;
-        }, (currentTransport === 'websocket' || currentTransport === 'flashsocket') ? 0 : 3000);
-      }
     }, 0);
+
+    socket.emit('complete', result || {}, function() {
+      if (returnUrl) {
+        location.href = returnUrl;
+      }
+    });
   };
 
   this.info = function(info) {
@@ -340,11 +336,16 @@ var stringify = function stringify(obj, depth) {
     } else if (obj.outerHTML) {
       return obj.outerHTML;
     } else {
-      strs.push(obj.constructor.name);
+      var constructor = 'Object';
+      if (obj.constructor && typeof obj.constructor === 'function') {
+        constructor = obj.constructor.name;
+      }
+
+      strs.push(constructor);
       strs.push('{');
       var first = true;
       for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
           if (first) {
             first = false;
           } else {
