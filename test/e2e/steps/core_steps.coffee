@@ -39,10 +39,10 @@ coreSteps = ->
     callback()
 
   @When /^I (run|start|init) Karma$/, (command, callback) ->
-    @writeConfigFile tmpDir, tmpConfigFile, (err) =>
-      callback.fail new Error(err) if err
+    @writeConfigFile tmpDir, tmpConfigFile, (err, hash) =>
+      return callback.fail new Error(err) if err
 
-      configFile = path.join tmpDir, tmpConfigFile
+      configFile = path.join tmpDir, hash + '.' + tmpConfigFile
       options =
         stdio: 'pipe'
         cwd: baseDir
