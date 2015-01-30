@@ -155,7 +155,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'build', ['browserify:client']
   grunt.registerTask 'default', ['build', 'test', 'lint']
   grunt.registerTask 'lint', ['jshint', 'jscs', 'coffeelint']
-  grunt.registerTask 'release', 'Build, bump and publish to NPM.', (type) ->
+  grunt.registerTask 'release', 'Build, bump and publish to npm.', (type) ->
     grunt.task.run [
       'npm-contributors'
       "bump:#{type||'patch'}:bump-only"

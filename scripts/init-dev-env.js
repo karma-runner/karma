@@ -79,9 +79,9 @@ var installDependencies = function() {
     }
 
     // Remove the extra karma in node_modules/karma.
-    // This is Karma from NPM, installed because plugins have Karma as a peer dependency and
+    // This is Karma from npm, installed because plugins have Karma as a peer dependency and
     // at the same time, Karma uses a local instance if present and therefore running `karma`
-    // in the working directory would cause using the Karma from NPM, rather than the Karma from
+    // in the working directory would cause using the Karma from npm, rather than the Karma from
     // the working space.
     rimraf(pathTo('node_modules/karma'), function(err) {
       if (err) {

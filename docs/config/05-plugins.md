@@ -3,7 +3,7 @@ In fact, all the existing preprocessors, reporters, browser launchers and framew
 
 ## Installation
 
-Karma plugins are NPM modules, so the recommended way to install them are as project dependencies in your `package.json`:
+Karma plugins are npm modules, so the recommended way to install them are as project dependencies in your `package.json`:
 
 ```javascript
 {
@@ -24,7 +24,7 @@ npm install karma-<plugin name> --save-dev
 
 
 ## Loading Plugins
-By default, Karma loads all sibling NPM modules which have a name starting with `karma-*`.
+By default, Karma loads all sibling npm modules which have a name starting with `karma-*`.
 
 You can also explicitly list plugins you want to load via the `plugins` configuration setting. The configuration value can either be
 a string (module name), which will be required by Karma, or an object (inlined plugin).

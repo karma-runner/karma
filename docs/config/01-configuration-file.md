@@ -200,7 +200,7 @@ See [config/files] for more information.
 
 **Description:** List of test frameworks you want to use. Typically, you will set this to `['jasmine']`, `['mocha']` or `['qunit']`...
 
-Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via NPM).
+Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via npm).
 
 Additional information can be found in [plugins].
 
@@ -245,9 +245,9 @@ Additional information can be found in [plugins].
 **Default:** `['karma-*']`
 
 **Description:** List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object.
-By default, Karma loads all sibling NPM modules which have a name starting with `karma-*`.
+By default, Karma loads all sibling npm modules which have a name starting with `karma-*`.
 
-Note: Just about all plugins in Karma require an additional library to be installed (via NPM).
+Note: Just about all plugins in Karma require an additional library to be installed (via npm).
 
 See [plugins] for more information.
 
@@ -272,7 +272,7 @@ See [plugins] for more information.
 Preprocessors can be loaded through [plugins].
 
 Note: Just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
-require an additional library to be installed (via NPM).
+require an additional library to be installed (via npm).
 
 Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance,
 if you are using the "coverage" preprocessor on your source files, if you then attempt to interactively debug
@@ -332,7 +332,7 @@ This is disabled by default (since the default value is 0).
 
 Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be loaded through [plugins].
 
-Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
+Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via npm).
 
 
 ## singleRun

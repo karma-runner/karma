@@ -3,7 +3,7 @@
 # On presubmit branches (eg. presubmit-master-xxx or presubmit-stable-xxx),
 # this script merges the changes into the main branch (master/stable).
 #
-# If there are any fix/feat changes, it also pushes a new release to NPM.
+# If there are any fix/feat changes, it also pushes a new release to npm.
 #
 # If the main branch (master/stable) can't be fast-forwarded, a merge is done and the presubmit
 # branch is pushed to upstream to get tested again.
@@ -105,8 +105,8 @@ if [ $? -ne 0 ]; then
   fi
 fi
 
-# Decide if we should push to NPM.
-# If the PR contains feat/fix commits, we gonna push to NPM.
+# Decide if we should push to npm.
+# If the PR contains feat/fix commits, we gonna push to npm.
 if [ "$DIFF_FEAT" ]; then
   echo "New features to be merged:"
   echo -e $DIFF_FEAT
@@ -157,7 +157,7 @@ else
 fi
 
 
-# Authenticate NPM.
+# Authenticate npm.
 npm config set email "karmarunnerbot@gmail.com"
 npm config set _auth $NPM_TOKEN
 
@@ -170,7 +170,7 @@ if [ "$PUSH_TO_NPM" ]; then
     npm tag karma@$LATEST_VERSION latest
   fi
 else
-  echo "There is nothing to be pushed to NPM."
+  echo "There is nothing to be pushed to npm."
 fi
 
 # Clean up the credentials.
