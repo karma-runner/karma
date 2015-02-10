@@ -30,7 +30,7 @@ module.exports = (grunt) ->
     test:
       unit: 'simplemocha:unit'
       client: 'test/client/karma.conf.js'
-      e2e: ['test/e2e/*/karma.conf.js', 'test/e2e/*/karma.conf.coffee', 'test/e2e/*/karma.conf.ls']
+      e2e: 'cucumberjs:ci'
 
     watch:
       client:
@@ -46,6 +46,22 @@ module.exports = (grunt) ->
           'test/unit/mocha-globals.coffee'
           'test/unit/**/*.coffee'
         ]
+    cucumberjs:
+      options:
+        steps: 'test/e2e/steps'
+        format: 'progress'
+      all: 'test/e2e/*.feature'
+      current:
+        files:
+          src: 'test/e2e/*.feature'
+        options:
+          tags: '@current'
+      ci:
+        files:
+          src: 'test/e2e/*.feature'
+        options:
+          tags: '~@not-jenkins'
+
 
     # JSHint options
     # http://www.jshint.com/options/
@@ -132,6 +148,7 @@ module.exports = (grunt) ->
 
 
   grunt.loadTasks 'tasks'
+
   # Load grunt tasks automatically
   require('load-grunt-tasks') grunt
 

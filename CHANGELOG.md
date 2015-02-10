@@ -1,3 +1,31 @@
+<a name="0.12.31"></a>
+### 0.12.31 (2015-01-02)
+
+
+#### Bug Fixes
+
+* **client:** Fix stringify serializing objects ([0d0972a5](http://github.com/karma-runner/karma/commit/0d0972a59e6e0354033c9fdfec72d5ddfbfe8e1e))
+
+
+<a name="0.12.30"></a>
+### 0.12.30 (2014-12-30)
+
+
+#### Bug Fixes
+
+* **socket.io:** Force 0.9.16 which works with Chrome ([840ee5f7](http://github.com/karma-runner/karma/commit/840ee5f771d547f0fd140c3728ecb92edadf835e))
+
+
+<a name="0.12.29"></a>
+### 0.12.29 (2014-12-30)
+
+
+#### Bug Fixes
+
+* **proxy:** proxy to correct port ([a483636e](http://github.com/karma-runner/karma/commit/a483636efd440c13e6db36f6b661861558464089))
+* **watcher:** Close file watchers on exit event ([71810257](http://github.com/karma-runner/karma/commit/718102572a13d7e70d1f2c0b48b6b60a766b76b2))
+
+
 <a name="0.12.28"></a>
 ### 0.12.28 (2014-11-25)
 
