@@ -261,6 +261,15 @@ See [plugins] for more information.
 
 **Description:** The port where the web server will be listening.
 
+## listenAddr
+**Type:** String
+
+**Default:** `0.0.0.0`
+
+**CLI:** `--listen-addr 192.168.1.1`
+
+**Description:** The address where the web server will be listening.
+
 
 ## preprocessors
 **Type:** Object
