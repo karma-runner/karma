@@ -9,6 +9,6 @@ function httpGet(url) {
 
 describe('foo', function() {
   it('should should serve /foo.js', function() {
-    expect(httpGet('/foo.js')).toBe("'/base/foo.js source'\n");
+    expect(httpGet('/foo.js')).toBe("'/base/proxy/foo.js source'\n");
   });
 });

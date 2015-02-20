@@ -1,1 +1,0 @@
-'/base/foo.js source'

@@ -23,7 +23,7 @@ just for immediate execution, without reporting to Karma server.
         if (info.dump && window.console) window.console.log(info.dump);
       },
       complete: function() {
-        window.console.log('Skipped ' + this.skipped + ' tests');
+        if (window.console) window.console.log('Skipped ' + this.skipped + ' tests');
       },
       store: function() {},
       skipped: 0,
