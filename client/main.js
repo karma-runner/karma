@@ -20,6 +20,9 @@ new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('brows
 window.karma = new Karma(socket, util.elm('context'), window.open,
 	window.navigator, window.location);
 
+// TODO(julie): is there a better way to store this?
+window.karmasocket = socket;
+
 
 // TODO(vojta): remove once we don't care about karma-jasmine 0.1.x
 require('./jasmine_socketio_patch');

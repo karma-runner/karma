@@ -13,8 +13,7 @@ describe('plus', function() {
 
   // super hacky way to get the actual socket to manipulate it...
   var socket = function() {
-    var location = window.parent.location;
-    return window.parent.io.sockets[location.protocol + '//' + location.host];
+    return window.parent.karmasocket;
   };
 
   it('should pass', function() {
@@ -34,7 +33,8 @@ describe('plus', function() {
 
   it('should re-connect', function() {
     expect(4).toBe(4);
-    socket().reconnect();
+    console.log('reconnecting');
+    socket().connect();
     // window.parent.socket.socket.connect();
 
     breath();
