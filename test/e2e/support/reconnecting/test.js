@@ -13,7 +13,7 @@ describe('plus', function() {
 
   // super hacky way to get the actual socket to manipulate it...
   var socket = function() {
-    return window.parent.karmasocket;
+    return window.parent.karmasocket_;
   };
 
   it('should pass', function() {
