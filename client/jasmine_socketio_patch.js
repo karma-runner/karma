@@ -11,7 +11,12 @@ if (!location.port) {
   hostname += ':80';
 }
 
+if (!window.io) {
+  io = {};
+}
+
 if (!io.sockets) {
+  io = {};
   io.sockets = {};
   // Patch, so that karma-jasmine does not throw "undefined has no transport property".
   io.sockets[hostname] = {transport: {name: '<unknown transport>'}};

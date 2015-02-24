@@ -8,6 +8,7 @@ describe('Karma', function() {
   var setTransportTo = function(transportName) {
     socket._setTransportNameTo(transportName);
     socket.emit('connect');
+    socket.io.engine.emit('upgrade');
   };
 
 

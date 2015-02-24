@@ -26,7 +26,10 @@ var Emitter = function() {
 var MockSocket = function() {
   Emitter.call(this);
 
-  this.socket = {transport: {name: 'websocket'}};
+  // Socket.io returns the Manager.
+  this.io = { engine: new Emitter() };
+
+  this.io.engine.transport = {name: 'websocket'};
 
   this.disconnect = function() {
     this.emit('disconnect');
@@ -34,7 +37,7 @@ var MockSocket = function() {
 
   // MOCK API
   this._setTransportNameTo = function(transportName) {
-    this.socket.transport.name = transportName;
+    this.io.engine.transport.name = transportName;
   };
 };
 
