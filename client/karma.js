@@ -114,7 +114,7 @@ var Karma = function(socket, iframe, opener, navigator, location) {
   // we are not going to execute at all
   this.error = function(msg, url, line) {
     hasError = true;
-    socket.emit('error', url ? msg + '\nat ' + url + (line ? ':' + line : '') : msg);
+    socket.emit('jserror', url ? msg + '\nat ' + url + (line ? ':' + line : '') : msg);
     this.complete();
     return false;
   };
