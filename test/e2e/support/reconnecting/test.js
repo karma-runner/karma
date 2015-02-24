@@ -33,7 +33,6 @@ describe('plus', function() {
 
   it('should re-connect', function() {
     expect(4).toBe(4);
-    console.log('reconnecting');
     socket().connect();
     // window.parent.socket.socket.connect();
 
