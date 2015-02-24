@@ -18,10 +18,10 @@ var socket = io.connect('http://' + location.host, {
 // instantiate the updater of the view
 new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'));
 window.karma = new Karma(socket, util.elm('context'), window.open,
-	window.navigator, window.location);
+    window.navigator, window.location);
 
-// TODO(julie): is there a better way to store this?
-window.karmasocket = socket;
+// Expose socket for testing
+window.karmasocket_ = socket;
 
 
 // TODO(vojta): remove once we don't care about karma-jasmine 0.1.x
