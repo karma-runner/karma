@@ -1,7 +1,7 @@
 // TODO(vojta): remove once we don't care about karma-jasmine 0.1.x
 //
 // karma-jasmine@0.1.x relies on socket.io@0.9.x internals to figure out which transport is used.
-// See https://github.com/karma-runner/karma-jasmine/blob/57dddeed2771d65457418f0357f740e3d64d6862/src/adapter.js#L50
+// See https://github.com/karma-runner/karma-jasmine/blob/57ddde/src/adapter.js#L50
 //
 // This should be ultimately solved on socket.io level (split or truncate too big messages).
 
