@@ -1,6 +1,7 @@
 fs = require 'fs'
 vm = require 'vm'
 path = require 'path'
+hasher = require('crypto').createHash
 
 mkdirp = require 'mkdirp'
 _ = require 'lodash'
@@ -29,13 +30,15 @@ World = (callback) ->
   # Generate a configuration file and save it to path.
   @writeConfigFile = (dir, file, done) =>
     mkdirp dir, 0o0755, (err) =>
-      throw new Error(err) if err
+      return done err if err
 
       # Remove dirname from config again
       delete @configFile.__dirname
 
       content = @generateJS @configFile
-      fs.writeFile path.join(dir, file), content, done
+      hash = hasher('md5').update(content + Math.random()).digest 'hex';
+      fs.writeFile path.join(dir, hash + '.' + file), content, (err) ->
+        done err, hash
 
   @generateJS = (config) ->
     _.template @template, {content: JSON.stringify config}
