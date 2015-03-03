@@ -92,7 +92,7 @@ describe 'reporter', ->
 
         scheduleNextTick ->
           ERROR = 'at http://localhost:123/base/b.js:2:6'
-          expect(formatError ERROR).to.equal 'at /some/base/b.js:2:6 <- /original/b.js:4:8\n'
+          expect(formatError ERROR).to.equal 'at /original/b.js:4:8\n'
           done()
 
       describe 'Windows', ->
