@@ -39,6 +39,26 @@ describe 'preprocessor', ->
       done()
 
 
+  it 'should check patterns after creation when invoked', (done) ->
+    fakePreprocessor = sinon.spy (content, file, done) ->
+      file.path = file.path + '-preprocessed'
+      done null, 'new-content'
+
+    injector = new di.Injector [{'preprocessor:fake': ['factory', -> fakePreprocessor]}]
+    config = {'**/*.txt': ['fake']}
+    pp = m.createPreprocessor config, null, injector
+
+    file = {originalPath: '/some/a.js', path: 'path'}
+
+    config['**/*.js'] = ['fake']
+
+    pp file, ->
+      expect(fakePreprocessor).to.have.been.called
+      expect(file.path).to.equal 'path-preprocessed'
+      expect(file.content).to.equal 'new-content'
+      done()
+
+
   it 'should ignore not matching file', (done) ->
     fakePreprocessor = sinon.spy (content, file, done) ->
       done null, ''
