@@ -1,7 +1,7 @@
 ###-begin-karma-completion-###
 #
 # karma command completion script
-# This is stolen from NPM. Thanks @isaac!
+# This is stolen from npm. Thanks @isaac!
 #
 # Installation: karma completion >> ~/.bashrc  (or ~/.zshrc)
 # Or, maybe: karma completion > /usr/local/etc/bash_completion.d/karma

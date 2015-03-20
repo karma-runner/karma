@@ -1,4 +1,4 @@
-Karma runs on [Node.js] and is available as an [NPM] package.
+Karma runs on [Node.js] and is available as an [npm] package.
 
 ## Installing Node.js or iojs
 
@@ -43,5 +43,5 @@ Then, you can run Karma simply by `karma` from anywhere and it will always run t
 
 
 [Node.js]: http://nodejs.org/
-[NPM]: https://npmjs.org/package/karma
+[npm]: https://npmjs.org/package/karma
 [NVM]: https://github.com/creationix/nvm

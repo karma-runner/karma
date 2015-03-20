@@ -27,7 +27,7 @@ Note: Most of the preprocessors need to be loaded as [plugins].
 Here's an example of how to add the CoffeScript preprocessor to your testing suite:
 
 ```bash
-# Install it first with NPM
+# Install it first with npm
 $ npm install karma-coffee-preprocessor --save-dev
 ```
 
