@@ -32,7 +32,7 @@ describe 'middleware.karma', ->
     response = new HttpResponseMock
     filesDeferred = q.defer()
     serveFile = createServeFile fsMock, '/karma/static'
-    handler = createKarmaMiddleware filesDeferred.promise, serveFile,
+    handler = createKarmaMiddleware filesDeferred.promise, serveFile, null,
       '/base/path', '/__karma__/', clientConfig
 
   # helpers
@@ -80,7 +80,7 @@ describe 'middleware.karma', ->
 
 
   it 'should serve client.html', (done) ->
-    handler = createKarmaMiddleware null, serveFile, '/base', '/'
+    handler = createKarmaMiddleware null, serveFile, null, '/base', '/'
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
@@ -91,7 +91,7 @@ describe 'middleware.karma', ->
 
 
   it 'should serve /?id=xxx', (done) ->
-    handler = createKarmaMiddleware null, serveFile, '/base', '/'
+    handler = createKarmaMiddleware null, serveFile, null, '/base', '/'
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
@@ -101,7 +101,7 @@ describe 'middleware.karma', ->
     callHandlerWith '/?id=123'
 
   it 'should serve /?x-ua-compatible with replaced values', (done) ->
-    handler = createKarmaMiddleware null, serveFile, '/base', '/'
+    handler = createKarmaMiddleware null, serveFile, null, '/base', '/'
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
