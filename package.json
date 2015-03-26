@@ -227,7 +227,9 @@
     "which": "~1.0"
   },
   "main": "./lib/index",
-  "bin": {},
+  "bin": {
+    "karma": "bin/karma"
+  },
   "engines": {
     "node":  ">=0.8 <=0.12",
     "iojs": "~1"
