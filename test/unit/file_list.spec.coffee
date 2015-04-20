@@ -241,6 +241,20 @@ describe 'file_list', ->
         expect(pathsFrom files.served).to.deep.equal ['/a.txt']
         done()
 
+    it 'should properly mark files that should not be cached', (done) ->
+      # /a.*       => /a.txt                   [nocache FALSE]
+      # /some/*.js => /some/a.js, /some/b.js   [nocache TRUE]
+      files = [new config.Pattern('/a.*'), new config.Pattern('/some/*.js', true, true, true, true)]
+      list = new m.List files, [], emitter, preprocessMock
+
+      refreshListAndThen (files) ->
+        expect(pathsFrom files.served).to.deep.equal ['/a.txt', '/some/a.js', '/some/b.js']
+        expect(preprocessMock.callCount).to.equal 1
+        expect(files.served[0].doNotCache).to.be.false
+        expect(files.served[1].doNotCache).to.be.true
+        expect(files.served[2].doNotCache).to.be.true
+        done()
+
 
   #============================================================================
   # List.getIncludedFiles()
