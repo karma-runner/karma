@@ -22,6 +22,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - npm install -g grunt-cli
   - rm -rf node_modules/karma
+  - echo $CREDENTIALS_PASS
   - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
 
 script:
