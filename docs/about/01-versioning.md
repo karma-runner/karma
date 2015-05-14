@@ -21,4 +21,4 @@ $ npm install karma
 $ npm install karma@canary
 ```
 
-[Semantic Versioning]: http://semver.org/
+[Semantic Versioning]: http://semver.org
