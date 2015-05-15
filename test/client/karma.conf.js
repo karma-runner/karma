@@ -3,22 +3,19 @@ module.exports = function(config) {
     // base path, that will be used to resolve files and exclude
     basePath: '../..',
 
-    frameworks: ['jasmine', 'commonjs'],
+    frameworks: ['browserify', 'mocha'],
 
     // list of files / patterns to load in the browser
     files: [
-      'client/*.js',
       'test/client/*.js'
     ],
 
     // list of files to exclude
     exclude: [
-      'client/main.js'
     ],
 
     preprocessors: {
-      'client/*.js': ['commonjs'],
-      'test/client/*.js': ['commonjs']
+      'test/client/*.js': ['browserify']
     },
 
     // use dots reporter, as travis terminal does not support escaping sequences
@@ -72,11 +69,11 @@ module.exports = function(config) {
     reportSlowerThan: 500,
 
     plugins: [
-      'karma-jasmine',
+      'karma-mocha',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-junit-reporter',
-      'karma-commonjs'
+      'karma-browserify'
     ]
   });
 };
