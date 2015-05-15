@@ -1,25 +1,29 @@
+var sinon = require('sinon');
+var chai = require('chai');
+chai.use(require('sinon-chai'));
+var expect = chai.expect
+
 var Karma  = require('../../client/karma');
 var MockSocket = require('./mocks').Socket;
 
 
 describe('Karma', function() {
-  var socket, k, spyStart, windowNavigator, windowLocation, spyWindowOpener;
+  var socket, k, windowNavigator, windowLocation, windowStub, startSpy;
 
   var setTransportTo = function(transportName) {
     socket._setTransportNameTo(transportName);
     socket.emit('connect');
   };
 
-
   beforeEach(function() {
     socket = new MockSocket();
     windowNavigator = {};
     windowLocation = {search: ''};
-    spyWindowOpener = jasmine.createSpy('window.open').andReturn({});
-    k = new Karma(socket, {}, spyWindowOpener, windowNavigator, windowLocation);
-    spyStart = spyOn(k, 'start');
-  });
+    windowStub = sinon.stub().returns({});
 
+    k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation);
+    startSpy = sinon.spy(k, 'start');
+  });
 
   it('should start execution when all files loaded and pass config', function() {
     var config = {
@@ -27,10 +31,10 @@ describe('Karma', function() {
     };
 
     socket.emit('execute', config);
-    expect(spyStart).not.toHaveBeenCalled();
+    expect(startSpy).to.not.have.been.called;
 
     k.loaded();
-    expect(spyStart).toHaveBeenCalledWith(config);
+    expect(startSpy).to.have.been.calledWith(config);
   });
 
 
@@ -40,19 +44,19 @@ describe('Karma', function() {
     };
 
     socket.emit('execute', config);
-    expect(spyStart).not.toHaveBeenCalled();
+    expect(k.start).to.not.have.been.called;
 
     k.loaded();
-    expect(spyStart).toHaveBeenCalledWith(config);
-    expect(spyWindowOpener).toHaveBeenCalledWith('about:blank');
+    expect(startSpy).to.have.been.calledWith(config);
+    expect(windowStub).to.have.been.calledWith('about:blank');
   });
 
 
   it('should not start execution if any error during loading files', function() {
     k.error('syntax error', '/some/file.js', 11);
     k.loaded();
-
-    expect(spyStart).not.toHaveBeenCalled();
+    sinon.spy(k, 'start');
+    expect(startSpy).to.not.have.been.called;
   });
 
 
@@ -62,11 +66,11 @@ describe('Karma', function() {
     k.start = ADAPTER_START_FN;
     k.error('syntax error', '/some/file.js', 11);
     k.loaded();
-    expect(k.start).not.toBe(ADAPTER_START_FN);
+    expect(k.start).to.not.be.eql(ADAPTER_START_FN);
 
     k.start = ADAPTER_START_FN;
     k.loaded();
-    expect(k.start).not.toBe(ADAPTER_START_FN);
+    expect(k.start).to.not.be.eql(ADAPTER_START_FN);
   });
 
 
@@ -76,15 +80,15 @@ describe('Karma', function() {
     k.error('page reload');
     k.setupContext(mockWindow);
 
-    expect(mockWindow.__karma__).toBeUndefined();
-    expect(mockWindow.onbeforeunload).toBeUndefined();
-    expect(mockWindow.onerror).toBeUndefined();
+    expect(mockWindow.__karma__).to.not.exist;
+    expect(mockWindow.onbeforeunload).to.not.exist;
+    expect(mockWindow.onerror).to.not.exist;
   });
 
 
   it('should report navigator name', function() {
-    var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
-      expect(info.name).toBe('Fake browser name');
+    var spyInfo = sinon.spy(function(info) {
+      expect(info.name).to.be.eql('Fake browser name');
     });
 
     windowNavigator.userAgent = 'Fake browser name';
@@ -92,36 +96,31 @@ describe('Karma', function() {
     socket.on('register', spyInfo);
     socket.emit('connect');
 
-    expect(spyInfo).toHaveBeenCalled();
+    expect(spyInfo).to.have.been.called;
   });
 
 
   it('should report browser id', function() {
     windowLocation.search = '?id=567';
     socket = new MockSocket();
-    k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
+    k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation);
 
-    var spyInfo = jasmine.createSpy('onInfo').andCallFake(function(info) {
-      expect(info.id).toBe('567');
+    var spyInfo = sinon.spy(function(info) {
+      expect(info.id).to.be.eql('567');
     });
 
     socket.on('register', spyInfo);
     socket.emit('connect');
 
-    expect(spyInfo).toHaveBeenCalled();
+    expect(spyInfo).to.have.been.called;
   });
 
 
   describe('result', function() {
-    var spyResult;
-
-    beforeEach(function() {
-      spyResult = jasmine.createSpy('onResult');
-      socket.on('result', spyResult);
-    });
-
-
     it('should buffer results when polling', function() {
+      var spyResult = sinon.stub();
+      socket.on('result', spyResult);
+
       setTransportTo('polling');
 
       // emit 49 results
@@ -129,15 +128,18 @@ describe('Karma', function() {
         k.result({id: i});
       }
 
-      expect(spyResult).not.toHaveBeenCalled();
+      expect(spyResult).to.not.have.been.called;
 
       k.result('result', {id: 50});
-      expect(spyResult).toHaveBeenCalled();
-      expect(spyResult.argsForCall[0][0].length).toBe(50);
+      expect(spyResult).to.have.been.called;
+      expect(spyResult.args[0][0].length).to.be.eql(50);
     });
 
 
     it('should buffer results when polling', function() {
+      var spyResult = sinon.stub();
+      socket.on('result', spyResult);
+
       setTransportTo('polling');
 
       // emit 40 results
@@ -146,14 +148,15 @@ describe('Karma', function() {
       }
 
       k.complete();
-      expect(spyResult).toHaveBeenCalled();
-      expect(spyResult.argsForCall[0][0].length).toBe(40);
+      expect(spyResult).to.have.been.called;
+      expect(spyResult.args[0][0].length).to.be.eql(40);
     });
 
 
     it('should emit "start" with total specs count first', function() {
       var log = [];
-      spyResult.andCallFake(function() {
+
+      socket.on('result', function() {
         log.push('result');
       });
 
@@ -165,34 +168,37 @@ describe('Karma', function() {
 
       // adapter didn't call info({total: x})
       k.result();
-      expect(log).toEqual(['start', 'result']);
+      expect(log).to.be.eql(['start', 'result']);
     });
 
 
     it('should not emit "start" if already done by the adapter', function() {
       var log = [];
-      var spyStart = jasmine.createSpy('onStart').andCallFake(function() {
+
+      var spyStart = sinon.spy(function() {
         log.push('start');
       });
-      spyResult.andCallFake(function() {
+
+      spyResult = sinon.spy(function() {
         log.push('result');
       });
 
+      socket.on('result', spyResult);
       socket.on('start', spyStart);
 
       setTransportTo('websocket');
 
       k.info({total: 321});
       k.result();
-      expect(log).toEqual(['start', 'result']);
-      expect(spyStart).toHaveBeenCalledWith({total: 321});
+      expect(log).to.be.eql(['start', 'result']);
+      expect(spyStart).to.have.been.calledWith({total: 321});
     });
   });
 
 
   describe('setupContext', function() {
     it('should capture alert', function() {
-      spyOn(k, 'log');
+      sinon.spy(k, 'log');
 
       var mockWindow = {
         alert: function() {
@@ -202,7 +208,7 @@ describe('Karma', function() {
 
       k.setupContext(mockWindow);
       mockWindow.alert('What?');
-      expect(k.log).toHaveBeenCalledWith('alert', ['What?']);
+      expect(k.log).to.have.been.calledWith('alert', ['What?']);
     })
   });
 
@@ -213,8 +219,8 @@ describe('Karma', function() {
       k.store('a', 10);
       k.store('b', [1, 2, 3]);
 
-      expect(k.store('a')).toBe(10);
-      expect(k.store('b')).toEqual([1, 2, 3]);
+      expect(k.store('a')).to.be.eql(10);
+      expect(k.store('b')).to.be.eql([1, 2, 3]);
     });
 
 
@@ -222,23 +228,25 @@ describe('Karma', function() {
       var array = [1, 2, 3, 4, 5];
 
       k.store('one.array', array);
-      expect(k.store('one.array')).toEqual(array);
-      expect(k.store('one.array')).not.toBe(array);
+      expect(k.store('one.array')).to.be.eql(array);
+      expect(k.store('one.array')).to.be.eql(array);
     });
   });
 
 
   describe('complete', function() {
+    var clock;
 
-    beforeEach(function() {
-      spyOn(window, 'setTimeout').andCallFake(function(fn) {
-        fn();
-      });
+    before(function() {
+      clock = sinon.useFakeTimers();
     });
 
+    after(function() {
+      clock.restore();
+    });
 
     it('should clean the result buffer before completing', function() {
-      var spyResult = jasmine.createSpy('onResult');
+      var spyResult = sinon.stub();
       socket.on('result', spyResult);
 
       setTransportTo('polling');
@@ -248,19 +256,19 @@ describe('Karma', function() {
         k.result({id: i});
       }
 
-      expect(spyResult).not.toHaveBeenCalled();
+      expect(spyResult).to.not.have.been.called;
 
       k.complete();
-      expect(spyResult).toHaveBeenCalled();
+      expect(spyResult).to.have.been.called;
     });
 
 
-    it('should navigate the client to return_url if specified', function() {
+    it('should navigate the client to return_url if specified', function(done) {
       windowLocation.search = '?id=567&return_url=http://return.com';
       socket = new MockSocket();
-      k = new Karma(socket, {}, window.open, windowNavigator, windowLocation);
+      k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation);
 
-      spyOn(socket, 'disconnect');
+      sinon.spy(socket, 'disconnect');
 
       socket.on('complete', function(data, ack) {
         ack();
@@ -268,13 +276,16 @@ describe('Karma', function() {
 
       k.complete();
 
-      waitsFor(function(){
-        return windowLocation.href === 'http://return.com';
-      }, '', 9000);
+      clock.tick(500);
+      setTimeout(function() {
+        expect(windowLocation.href).to.be.eql('http://return.com');
+        done()
+      }, 5);
+      clock.tick(10)
     });
 
     it('should patch the console if captureConsole is true', function() {
-      spyOn(k, 'log');
+      sinon.spy(k, 'log');
       k.config.captureConsole = true;
 
       var mockWindow = {
@@ -285,11 +296,12 @@ describe('Karma', function() {
 
       k.setupContext(mockWindow);
       mockWindow.console.log('What?');
-      expect(k.log).toHaveBeenCalledWith('log', ['What?']);
+      expect(k.log).to.have.been.calledWith('log');
+      expect(k.log.args[0][1][0]).to.be.eql('What?');
     });
 
     it('should not patch the console if captureConsole is false', function() {
-      spyOn(k, 'log');
+      sinon.spy(k, 'log');
       k.config.captureConsole = false;
 
       var mockWindow = {
@@ -300,7 +312,7 @@ describe('Karma', function() {
 
       k.setupContext(mockWindow);
       mockWindow.console.log('hello');
-      expect(k.log).not.toHaveBeenCalled();
+      expect(k.log).to.not.have.been.called;
     });
   });
 });
