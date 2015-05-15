@@ -122,7 +122,7 @@ describe('Karma', function() {
 
 
     it('should buffer results when polling', function() {
-      setTransportTo('xhr-polling');
+      setTransportTo('polling');
 
       // emit 49 results
       for (var i = 1; i < 50; i++) {
@@ -138,7 +138,7 @@ describe('Karma', function() {
 
 
     it('should buffer results when polling', function() {
-      setTransportTo('xhr-polling');
+      setTransportTo('polling');
 
       // emit 40 results
       for (var i = 1; i <= 40; i++) {
@@ -161,6 +161,8 @@ describe('Karma', function() {
         log.push('start');
       });
 
+      setTransportTo('websocket');
+
       // adapter didn't call info({total: x})
       k.result();
       expect(log).toEqual(['start', 'result']);
@@ -177,6 +179,8 @@ describe('Karma', function() {
       });
 
       socket.on('start', spyStart);
+
+      setTransportTo('websocket');
 
       k.info({total: 321});
       k.result();
@@ -237,7 +241,7 @@ describe('Karma', function() {
       var spyResult = jasmine.createSpy('onResult');
       socket.on('result', spyResult);
 
-      setTransportTo('xhr-polling');
+      setTransportTo('polling');
 
       // emit 40 results
       for (var i = 0; i < 40; i++) {

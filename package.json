@@ -163,7 +163,7 @@
   ],
   "dependencies": {
     "di": "~0.0.1",
-    "socket.io": "0.9.16",
+    "socket.io": "~1.3.5",
     "chokidar": ">=0.8.2",
     "glob": "~3.2.7",
     "minimatch": "~0.2",
