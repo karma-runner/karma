@@ -26,15 +26,26 @@ var Emitter = function() {
 var MockSocket = function() {
   Emitter.call(this);
 
-  this.socket = {transport: {name: 'websocket'}};
+  var transportName = 'websocket';
+
+  this.io = {
+    engine: {
+      on: function(event, cb) {
+        if (event === 'upgrade' && transportName === 'websocket') {
+          //setTimeout(cb, 0);
+          cb();
+        }
+      }
+    }
+  };
 
   this.disconnect = function() {
     this.emit('disconnect');
   };
 
   // MOCK API
-  this._setTransportNameTo = function(transportName) {
-    this.socket.transport.name = transportName;
+  this._setTransportNameTo = function(name) {
+    transportName = name;
   };
 };
 

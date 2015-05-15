@@ -66,9 +66,9 @@ describe 'Browser', ->
 
 
   #==========================================================================
-  # Browser.onError
+  # Browser.onKarmaError
   #==========================================================================
-  describe 'onError', ->
+  describe 'onKarmaError', ->
 
     beforeEach ->
       browser = new Browser 'fake-id', 'full name', collection, emitter, socket
@@ -79,7 +79,7 @@ describe 'Browser', ->
       emitter.on 'browser_error', spy
       browser.state = Browser.STATE_EXECUTING
 
-      browser.onError()
+      browser.onKarmaError()
       expect(browser.lastResult.error).to.equal  true
       expect(spy).to.have.been.called
 
@@ -89,7 +89,7 @@ describe 'Browser', ->
       emitter.on 'browser_error', spy
       browser.state = Browser.STATE_READY
 
-      browser.onError()
+      browser.onKarmaError()
       expect(browser.lastResult.error).to.equal  false
       expect(spy).not.to.have.been.called
 
@@ -275,7 +275,7 @@ describe 'Browser', ->
       socket.emit 'result', {success: true}
       expect(browser.lastResult.success).to.equal 1
 
-      socket.emit 'error', {}
+      socket.emit 'karma_error', {}
       expect(browser.lastResult.error).to.equal true
 
       # should be ignored, keep executing
