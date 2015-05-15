@@ -351,10 +351,10 @@ on whether all tests passed or any tests failed.
 ## transports
 **Type:** Array
 
-**Default:** `['websocket', 'flashsocket', 'xhr-polling', 'jsonp-polling']`
+**Default:** `['polling', 'websocket']`
 
 **Description:** An array of allowed transport methods between the browser and testing server. This configuration setting
-is handed off to [socket.io](https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO) (which manages the communication
+is handed off to [socket.io](http://socket.io/) (which manages the communication
 between browsers and the testing server).
 
 ## client.useIframe
