@@ -1,7 +1,8 @@
 # Contributing to Karma
 If you are thinking about making Karma better, or you just want to hack on it, that’s great!
 
-**Check out the docs on how to [get started][docs_contributing].**
+> Check out the docs on how to [get started][docs_contributing] and please follow
+> the [code of conduct](CODE_OF_CONDUCT.md).
 
 
 ## Got a Question or Problem?
