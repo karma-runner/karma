@@ -3,7 +3,7 @@ describe('plus', function() {
   // super hacky way to get the actual socket to manipulate it...
   var socket = function() {
     var location = window.parent.location;
-    return window.parent.io.sockets[location.protocol + '//' + location.host];
+    return window.parent.karma.socket;
   };
 
   it('should pass', function() {
