@@ -20,6 +20,10 @@ var Karma = function(socket, iframe, opener, navigator, location) {
   this.VERSION = constant.VERSION;
   this.config = {};
 
+  // Expose for testing purposes as there is no global socket.io
+  // registry anymore.
+  this.socket = socket;
+
   var childWindow = null;
   var navigateContextTo = function(url) {
     if (self.config.useIframe === false) {
