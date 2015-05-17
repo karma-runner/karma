@@ -9,7 +9,7 @@ _ = require 'lodash'
 
 World = (callback) ->
 
-  @template = """
+  @template = _.template """
     module.exports = function (config) {
       config.set(
         <%= content %>
@@ -41,7 +41,7 @@ World = (callback) ->
         done err, hash
 
   @generateJS = (config) ->
-    _.template @template, {content: JSON.stringify config}
+    @template {content: JSON.stringify config}
 
   @lastRun =
     error: null
