@@ -197,8 +197,8 @@
     "grunt-conventional-changelog": "^1.1.0",
     "grunt-cucumberjs": "^0.7.0",
     "grunt-jscs": "^1.8.0",
+    "grunt-mocha-test": "^0.12.7",
     "grunt-npm": "0.0.2",
-    "grunt-simple-mocha": "*",
     "karma-browserstack-launcher": "*",
     "karma-chrome-launcher": "*",
     "karma-coffee-preprocessor": "*",
@@ -229,7 +229,7 @@
   "main": "./lib/index",
   "bin": {},
   "engines": {
-    "node":  ">=0.8 <=0.12 || >=1 <=2"
+    "node": ">=0.8 <=0.12 || >=1 <=2"
   },
   "version": "0.12.31",
   "license": "MIT"
