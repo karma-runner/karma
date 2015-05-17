@@ -177,7 +177,7 @@
     "log4js": "~0.6.3",
     "useragent": "~2.0.4",
     "graceful-fs": "~2.0.1",
-    "connect": "~2.26.0",
+    "connect": "~2.28.0",
     "source-map": "~0.1.31"
   },
   "devDependencies": {
