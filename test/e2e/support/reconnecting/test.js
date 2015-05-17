@@ -25,7 +25,7 @@ describe('plus', function() {
   it('should re-connect', function(done) {
     console.log(4);
     expect(4).toBe(4);
-    socket().reconnect();
+    socket().connect();
     // window.parent.socket.socket.connect();
 
     done();
