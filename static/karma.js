@@ -1,3 +1,31 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = {
+  VERSION: '%KARMA_VERSION%',
+  KARMA_URL_ROOT: '%KARMA_URL_ROOT%',
+  CONTEXT_URL: 'context.html'
+};
+
+},{}],2:[function(require,module,exports){
+// TODO(vojta): remove once we don't care about karma-jasmine 0.1.x
+//
+// karma-jasmine@0.1.x relies on socket.io@0.9.x internals to figure out which transport is used.
+// See https://github.com/karma-runner/karma-jasmine/blob/57dddeed2771d65457418f0357f740e3d64d6862/src/adapter.js#L50
+//
+// This should be ultimately solved on socket.io level (split or truncate too big messages).
+
+var hostname = 'http://' + location.host;
+
+if (!location.port) {
+  hostname += ':80';
+}
+
+if (!io.sockets) {
+  io.sockets = {};
+  // Patch, so that karma-jasmine does not throw "undefined has no transport property".
+  io.sockets[hostname] = {transport: {name: '<unknown transport>'}};
+}
+
+},{}],3:[function(require,module,exports){
 var stringify = require('./stringify');
 var constant = require('./constants');
 var util = require('./util');
@@ -238,3 +266,173 @@ var Karma = function(socket, iframe, opener, navigator, location) {
 };
 
 module.exports = Karma;
+
+},{"./constants":1,"./stringify":5,"./util":7}],4:[function(require,module,exports){
+var Karma = require('./karma');
+var StatusUpdater = require('./updater');
+var util = require('./util');
+
+var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT;
+
+
+// connect socket.io
+// https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
+var socket = io.connect('http://' + location.host, {
+  'reconnection delay': 500,
+  'reconnection limit': 2000,
+  'resource': KARMA_URL_ROOT.substr(1) + 'socket.io',
+  'sync disconnect on unload': true,
+  'max reconnection attempts': Infinity
+});
+
+// instantiate the updater of the view
+new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'));
+window.karma = new Karma(socket, util.elm('context'), window.open,
+	window.navigator, window.location);
+
+
+// TODO(vojta): remove once we don't care about karma-jasmine 0.1.x
+require('./jasmine_socketio_patch');
+
+},{"./constants":1,"./jasmine_socketio_patch":2,"./karma":3,"./updater":6,"./util":7}],5:[function(require,module,exports){
+var instanceOf = require('./util').instanceOf;
+
+var stringify = function stringify(obj, depth) {
+
+  if (depth === 0) {
+    return '...';
+  }
+
+  if (obj === null) {
+    return 'null';
+  }
+
+  switch (typeof obj) {
+  case 'string':
+    return '\'' + obj + '\'';
+  case 'undefined':
+    return 'undefined';
+  case 'function':
+    return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }');
+  case 'boolean':
+    return obj ? 'true' : 'false';
+  case 'object':
+    var strs = [];
+    if (instanceOf(obj, 'Array')) {
+      strs.push('[');
+      for (var i = 0, ii = obj.length; i < ii; i++) {
+        if (i) {
+          strs.push(', ');
+        }
+        strs.push(stringify(obj[i], depth - 1));
+      }
+      strs.push(']');
+    } else if (instanceOf(obj, 'Date')) {
+      return obj.toString();
+    } else if (instanceOf(obj, 'Text')) {
+      return obj.nodeValue;
+    } else if (instanceOf(obj, 'Comment')) {
+      return '<!--' + obj.nodeValue + '-->';
+    } else if (obj.outerHTML) {
+      return obj.outerHTML;
+    } else {
+      var constructor = 'Object';
+      if (obj.constructor && typeof obj.constructor === 'function') {
+        constructor = obj.constructor.name;
+      }
+
+      strs.push(constructor);
+      strs.push('{');
+      var first = true;
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          if (first) {
+            first = false;
+          } else {
+            strs.push(', ');
+          }
+
+          strs.push(key + ': ' + stringify(obj[key], depth - 1));
+        }
+      }
+      strs.push('}');
+    }
+    return strs.join('');
+  default:
+    return obj;
+  }
+};
+
+
+module.exports = stringify;
+
+},{"./util":7}],6:[function(require,module,exports){
+var VERSION = require('./constants').VERSION;
+
+
+var StatusUpdater = function(socket, titleElement, bannerElement, browsersElement) {
+  var updateBrowsersInfo = function(browsers) {
+    var items = [], status;
+    for (var i = 0; i < browsers.length; i++) {
+      status = browsers[i].isReady ? 'idle' : 'executing';
+      items.push('<li class="' + status + '">' + browsers[i].name + ' is ' + status + '</li>');
+    }
+    browsersElement.innerHTML = items.join('\n');
+  };
+
+  var updateBanner = function(status) {
+    return function(param) {
+      var paramStatus = param ? status.replace('$', param) : status;
+      titleElement.innerHTML = 'Karma v' + VERSION + ' - ' + paramStatus;
+      bannerElement.className = status === 'connected' ? 'online' : 'offline';
+    };
+  };
+
+  socket.on('connect', updateBanner('connected'));
+  socket.on('disconnect', updateBanner('disconnected'));
+  socket.on('reconnecting', updateBanner('reconnecting in $ ms...'));
+  socket.on('reconnect', updateBanner('connected'));
+  socket.on('reconnect_failed', updateBanner('failed to reconnect'));
+  socket.on('info', updateBrowsersInfo);
+  socket.on('disconnect', function() {
+    updateBrowsersInfo([]);
+  });
+};
+
+module.exports = StatusUpdater;
+
+},{"./constants":1}],7:[function(require,module,exports){
+exports.instanceOf = function(value, constructorName) {
+  return Object.prototype.toString.apply(value) === '[object ' + constructorName + ']';
+};
+
+exports.elm = function(id) {
+  return document.getElementById(id);
+};
+
+exports.generateId = function(prefix) {
+  return prefix + Math.floor(Math.random() * 10000);
+};
+
+exports.isUndefined = function(value) {
+  return typeof value === 'undefined';
+};
+
+exports.isDefined = function(value) {
+  return !exports.isUndefined(value);
+};
+
+exports.parseQueryParams = function(locationSearch) {
+  var params = {};
+  var pairs = locationSearch.substr(1).split('&');
+  var keyValue;
+
+  for (var i = 0; i < pairs.length; i++) {
+    keyValue = pairs[i].split('=');
+    params[decodeURIComponent(keyValue[0])] = decodeURIComponent(keyValue[1]);
+  }
+
+  return params;
+};
+
+},{}]},{},[4]);
