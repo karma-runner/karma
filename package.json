@@ -162,9 +162,10 @@
     "Jeff Froom <jeff@jfroom.com>"
   ],
   "dependencies": {
+    "body-parser": "^1.12.4",
     "chokidar": "^1.0.1",
     "colors": "^1.1.0",
-    "connect": "^2.29.2",
+    "connect": "^3.3.5",
     "di": "^0.0.1",
     "glob": "^5.0.6",
     "graceful-fs": "^3.0.6",
@@ -227,7 +228,9 @@
     "which": "^1.1.1"
   },
   "main": "./lib/index",
-  "bin": { "karma": "./bin/karma" },
+  "bin": {
+    "karma": "./bin/karma"
+  },
   "engines": {
     "node": ">=0.8 <=0.12 || >=1 <=2"
   },
