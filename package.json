@@ -194,9 +194,10 @@
     "Jeff Lage <jefflage@me.com>"
   ],
   "dependencies": {
+    "body-parser": "^1.12.4",
     "chokidar": "^1.0.1",
     "colors": "^1.1.0",
-    "connect": "^2.29.2",
+    "connect": "^3.3.5",
     "di": "^0.0.1",
     "expand-braces": "^0.1.1",
     "glob": "^5.0.6",
