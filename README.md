@@ -119,4 +119,4 @@ use the awesome [Socket.io] library and [Node.js].
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
 [browsers]: https://karma-runner.github.io/0.12/config/browsers.html
-[Docs]: https://karma-runner.github.io
+[documentation]: https://karma-runner.github.io
