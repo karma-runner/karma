@@ -209,7 +209,7 @@
     "karma-firefox-launcher": "*",
     "karma-growl-reporter": "*",
     "karma-html2js-preprocessor": "*",
-    "karma-jasmine": "^0.1.5",
+    "karma-jasmine": "~0.3.5",
     "karma-junit-reporter": "*",
     "karma-live-preprocessor": "*",
     "karma-mocha": "*",
