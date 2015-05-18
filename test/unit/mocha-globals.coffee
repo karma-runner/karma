@@ -12,6 +12,7 @@ global.sinon = sinon
 # chai plugins
 chai.use(require 'chai-as-promised')
 chai.use(require 'sinon-chai')
+chai.use(require 'chai-subset')
 
 beforeEach ->
   global.sinon = sinon.sandbox.create()
