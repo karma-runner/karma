@@ -28,7 +28,7 @@ module.exports = (grunt) ->
           'static/karma.js': ['client/main.js']
 
     test:
-      unit: 'simplemocha:unit'
+      unit: 'mochaTest:unit'
       client: 'test/client/karma.conf.js'
       e2e: 'cucumberjs:ci'
 
@@ -37,10 +37,12 @@ module.exports = (grunt) ->
         files: '<%= files.client %>'
         tasks: 'browserify:client'
 
-    simplemocha:
+    mochaTest:
       options:
         ui: 'bdd'
         reporter: 'dot'
+        quite: false
+        colors: true
       unit:
         src: [
           'test/unit/mocha-globals.coffee'
