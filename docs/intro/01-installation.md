@@ -5,7 +5,7 @@ Karma runs on [Node.js] and is available as an [NPM] package.
 There are [node.js](http://nodejs.org/download/) or [iojs](https://iojs.org/en/index.html) for both Mac and Windows.
 On Linux, we recommend using [NVM](https://github.com/creationix/nvm).
 
-Note: Karma works on the three latest stable versions of node. That is **0.8.x**, **0.10.x** and **0.12.x** at this point. Also works on iojs 1.x.x.
+Note: Karma works on the two latest stable versions of node. That is **0.10.x** and **0.12.x** at this point. Also works on iojs 2.x.x.
 
 
 ## Installing Karma and plugins
