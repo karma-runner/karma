@@ -213,6 +213,14 @@ Additional information can be found in [plugins].
 **Description:** Hostname to be used when capturing browsers.
 
 
+## listen
+**Type:** String
+
+**Default:** `0.0.0.0` or `KARMA_IP` env variable value if set
+
+**Description:** The address where the web server will be listening.
+
+
 ## logLevel
 **Type:** Constant
 
