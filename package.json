@@ -194,7 +194,7 @@
     "grunt-coffeelint": "^0.0.13",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-conventional-changelog": "^1.1.0",
+    "grunt-conventional-changelog": "^1.2.2",
     "grunt-cucumberjs": "^0.7.0",
     "grunt-jscs": "^1.8.0",
     "grunt-mocha-test": "^0.12.7",
