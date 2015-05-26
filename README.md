@@ -1,10 +1,25 @@
-# Karma [![Build Status](https://travis-ci.org/karma-runner/karma.svg?branch=master)](https://travis-ci.org/karma-runner/karma) [![Dependency Status](https://david-dm.org/karma-runner/karma.svg)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://david-dm.org/karma-runner/karma/dev-status.svg)](https://david-dm.org/karma-runner/karma#info=devDependencies)
+# Karma
+
+[![npm version](https://img.shields.io/npm/v/karma.svg?style=flat-square)](https://www.npmjs.com/package/karma) [![npm downloads](https://img.shields.io/npm/dm/karma.svg?style=flat-square)](https://www.npmjs.com/package/karma)
+
+[![Build Status](https://img.shields.io/travis/karma-runner/karma/master.svg?style=flat-square)](https://travis-ci.org/karma-runner/karma) [![Code Climate](https://img.shields.io/codeclimate/github/karma-runner/karma.svg?style=flat-square)](https://codeclimate.com/github/karma-runner/karma) [![Dependency Status](https://img.shields.io/david/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://img.shields.io/david/dev/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma#info=devDependencies)
 
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers.
 
 > The main purpose of Karma is to make your TDD development easy,
 >  fast, and fun.
+
+
+## Help and Support
+
+* Obligatory [documentation]
+* Quick questions:
+[![Gitter Chat](https://img.shields.io/badge/GITTER-join%20chat-green.svg?style=flat-square)](https://gitter.im/karma-runner/karma)
+* Longer questions: [Mailing List]
+* Bug reports [Issue Tracker]
+* Everything less than 140 characters: [@JsKarma] on Twitter
+
 
 
 ## When should I use Karma?
@@ -69,14 +84,6 @@ See [installation](https://karma-runner.github.io/0.12/intro/installation.html).
 See [configuration](https://karma-runner.github.io/0.12/intro/configuration.html).
 
 
-## I still don't get it. Where can I get help?
-
-* [Docs]
-* [Mailing List]
-* [Issue Tracker]
-* [@JsKarma] on Twitter
-
-
 ## This is so great. I want to help.
 
 Please, see
@@ -112,4 +119,4 @@ use the awesome [Socket.io] library and [Node.js].
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
 [browsers]: https://karma-runner.github.io/0.12/config/browsers.html
-[Docs]: https://karma-runner.github.io
+[documentation]: https://karma-runner.github.io

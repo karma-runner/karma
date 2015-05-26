@@ -207,6 +207,22 @@ describe 'config', ->
       expect(config.basePath).to.equal resolveWinPath('./some')
       expect(config.urlRoot).to.equal '/' # default value
 
+    it 'should default unset options in client config', ->
+      config = e.parseConfig null, {client: {args: ['--test']}}
+
+      expect(config.client.useIframe).to.not.be.undefined
+      expect(config.client.captureConsole).to.not.be.undefined
+
+      config = e.parseConfig null, {client: {useIframe: true}}
+
+      expect(config.client.args).to.not.be.undefined
+      expect(config.client.captureConsole).to.not.be.undefined
+
+      config = e.parseConfig null, {client: {captureConsole: true}}
+
+      expect(config.client.useIframe).to.not.be.undefined
+      expect(config.client.args).to.not.be.undefined
+
 
   describe 'normalizeConfig', ->
 
