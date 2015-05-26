@@ -167,5 +167,4 @@ else
 fi
 
 # Clean up the credentials.
-npm config set _auth ""
 rm .git/credentials
