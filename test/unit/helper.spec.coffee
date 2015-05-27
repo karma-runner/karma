@@ -213,11 +213,6 @@ describe 'helper', ->
 
     done = null
 
-    # async helper
-    waitForDoneAnd = (resume) ->
-      waitsFor (-> done.callCount), 'done callback', 50
-      runs resume if resume
-
     fs = fsMock.create
       home:
         'some.js': fsMock.file()
