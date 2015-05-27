@@ -154,11 +154,6 @@ else
   git push $REMOTE :$TRAVIS_BRANCH
 fi
 
-
-# Authenticate NPM.
-npm config set email "karmarunnerbot@gmail.com"
-npm config set _auth $NPM_TOKEN
-
 if [ "$PUSH_TO_NPM" ]; then
   if [ "$REMOTE_BRANCH" = "$STABLE_BRANCH" ]; then
     npm publish --tag latest
@@ -172,5 +167,4 @@ else
 fi
 
 # Clean up the credentials.
-npm config set _auth ""
 rm .git/credentials

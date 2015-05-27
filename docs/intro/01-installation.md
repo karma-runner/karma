@@ -7,7 +7,6 @@ On Linux, we recommend using [NVM](https://github.com/creationix/nvm).
 
 Note: Karma works on the two latest stable versions of node. That is **0.10.x** and **0.12.x** at this point. Also works on iojs 2.x.x.
 
-
 ## Installing Karma and plugins
 
 The recommended approach is to install Karma (and all the plugins your project needs) locally in

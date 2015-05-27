@@ -1,3 +1,15 @@
+<a name"0.12.33"></a>
+### 0.12.33 (2015-05-26)
+
+
+#### Bug Fixes
+
+* catch exceptions from SourceMapConsumer ([5d42e643](https://github.com/karma-runner/karma/commit/5d42e643))
+* Safeguard IE against console.log ([0b5ff8f6](https://github.com/karma-runner/karma/commit/0b5ff8f6), closes [#1209](https://github.com/karma-runner/karma/issues/1209))
+* **config:** Default remaining client options if any are set ([632dd5e3](https://github.com/karma-runner/karma/commit/632dd5e3), closes [#961](https://github.com/karma-runner/karma/issues/961))
+* **init:** fix test-main.(js/coffee) generation ([d8521ef4](https://github.com/karma-runner/karma/commit/d8521ef4), closes [#1120](https://github.com/karma-runner/karma/issues/1120), [#896](https://github.com/karma-runner/karma/issues/896))
+
+
 <a name="0.12.31"></a>
 ### 0.12.31 (2015-01-02)
 
