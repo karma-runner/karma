@@ -7,7 +7,7 @@ var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT;
 
 // connect socket.io
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-var socket = io.connect('http://' + location.host, {
+var socket = io.connect(location.protocol + '//' + location.host, {
   'reconnection delay': 500,
   'reconnection limit': 2000,
   'resource': KARMA_URL_ROOT.substr(1) + 'socket.io',
