@@ -66,8 +66,8 @@ coreSteps = ->
           @lastRun.error = error
           done()
 
-        @child.stderr.on 'data', (chunk) ->
-          lastRun.stderr += chunk.toString()
+        @child.stderr.on 'data', (chunk) =>
+          @lastRun.stderr += chunk.toString()
 
         @child.stdout.on 'data', (chunk) =>
           @lastRun.stdout += chunk.toString()
