@@ -1,3 +1,12 @@
+<a name"0.12.35"></a>
+### 0.12.35 (2015-05-29)
+
+
+#### Bug Fixes
+
+* **server:** Start webserver and browsers after preprocessing completed ([e0d2d239](https://github.com/karma-runner/karma/commit/e0d2d239))
+
+
 <a name"0.12.34"></a>
 ### 0.12.34 (2015-05-29)
 
