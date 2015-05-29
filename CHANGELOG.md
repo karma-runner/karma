@@ -1,3 +1,19 @@
+<a name"0.12.34"></a>
+### 0.12.34 (2015-05-29)
+
+
+#### Bug Fixes
+
+* **cli:** Use `bin` field in package.json ([6823926f](https://github.com/karma-runner/karma/commit/6823926f), closes [#1351](https://github.com/karma-runner/karma/issues/1351))
+* **client:** dynamic protocol for socket.io ([c986eefe](https://github.com/karma-runner/karma/commit/c986eefe), closes [#1400](https://github.com/karma-runner/karma/issues/1400))
+* **deps:** Update dependencies ([b9a4ce98](https://github.com/karma-runner/karma/commit/b9a4ce98))
+
+
+#### Features
+
+* **runner:** Use favicon in static runner pages ([6cded4f8](https://github.com/karma-runner/karma/commit/6cded4f8))
+
+
 <a name"0.12.33"></a>
 ### 0.12.33 (2015-05-26)
 

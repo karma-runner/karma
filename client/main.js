@@ -6,7 +6,7 @@ var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT;
 
 
 // Connect to the server using socket.io http://socket.io
-var socket = io('http://' + location.host, {
+var socket = io(location.protocol + location.host, {
   reconnectionDelay: 500,
   reconnectionDelayMax: Infinity,
   timeout: 2000,

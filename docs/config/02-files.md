@@ -67,30 +67,41 @@ files: [
 ```
 
 ## Loading Assets
-By default all assets are served at `http://localhost:[PORT]/base/`, Example for loading images
+By default all assets are served at `http://localhost:[PORT]/base/`
+
+Example for loading images
 
 ```javascript
 files: [
-  {pattern: 'test/images/*.jpg', watched: false, included: false, served: true}
+  {pattern: "test/images/*.jpg", watched: false, included: false, served: true}
 ],
 ```
 
-in this case the image is accessed at `http://localhost:[PORT]/base/test/images/[MY IMAGE].jpg`
+The pattern is a glob which matches the specified image assets. Watched and included are not necessary as images are not tests. However they will need to be served to the browser.
 
-notice the **base** in the URL
+In this case an image would be accessed at `http://localhost:[PORT]/base/test/images/[MY IMAGE].jpg`
 
+Notice the **base** in the URL, it is a reference to your **basePath**. You do not need to replace or provide your own **base**.
 
-or in addition you can use a proxy
+In addition you can use a proxy
 
 ```javascript
 proxies: {
-  '/img/': 'http://localhost:8080/base/test/images/'
+  "/img/": "http://localhost:8080/base/test/images/"
 },
 ```
-now you can fetch images in 'test/images' at `http://localhost:8080/img/[MY IMAGE].jpg`
 
-just change **8080** to the port you use
+Now you can fetch images in `test/images` at `http://localhost:8080/img/[MY IMAGE].jpg`
 
+Change **8080** to the port you use
+
+You can also use proxies without specifying the protocol, hostname, and port
+
+```javascript
+proxies: {
+  "/img/": "/base/test/images/"
+},
+```
 
 
 [glob]: https://github.com/isaacs/node-glob
