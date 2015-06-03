@@ -213,6 +213,16 @@ Additional information can be found in [plugins].
 **Description:** Hostname to be used when capturing browsers.
 
 
+## capturePort
+**Type:** Number
+
+**Default:** `null`
+
+**Description:** Port to be used when capturing browsers
+
+If no `capturePort` set — `port` will be used.
+
+
 ## logLevel
 **Type:** Constant
 
