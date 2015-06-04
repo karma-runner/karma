@@ -174,3 +174,19 @@ describe 'middleware.source_files', ->
       done()
 
     callHandlerWith '/absolute/some/file.js'
+
+  it 'should not use cached content if doNotCache is set', (done) ->
+    cachedFile = new File('/src/some.js')
+    cachedFile.content = 'cached-content'
+    cachedFile.doNotCache = true
+
+    servedFiles [
+      cachedFile
+    ]
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, 'js-source'
+      done()
+
+    callHandlerWith '/absolute/src/some.js'
