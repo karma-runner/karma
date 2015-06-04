@@ -1,12 +1,15 @@
+http = require 'http'
+q = require 'q'
+mocks = require 'mocks'
+request = require 'supertest-as-promised'
+
+File = require('../../../lib/file_list').File
+Url = require('../../../lib/file_list').Url
+createServeFile = require('../../../lib/middleware/common').createServeFile
+createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
+
 describe 'middleware.source_files', ->
-  q = require 'q'
-
-  mocks = require 'mocks'
-  HttpResponseMock = mocks.http.ServerResponse
-  HttpRequestMock = mocks.http.ServerRequest
-
-  File = require('../../../lib/file_list').File
-  Url = require('../../../lib/file_list').Url
+  server = next = files = null
 
   fsMock = mocks.fs.create
     base:
@@ -18,149 +21,139 @@ describe 'middleware.source_files', ->
     'utf8ášč':
       'some.js': mocks.fs.file(0, 'utf8-file')
 
+  serveFile = createServeFile fsMock, null
 
-  serveFile = require('../../../lib/middleware/common').createServeFile fsMock, null
-  createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
+  createServer = (f, s, basePath) ->
+    handler = createSourceFilesMiddleware f.promise, s, basePath
+    http.createServer (req, res) ->
+      next = sinon.spy (err) ->
+        if err
+          res.statusCode = err.status || 500
+          res.end err.message
+        else
+          res.statusCode = 200
+          res.end JSON.stringify(req.body)
 
-  handler = filesDeferred = nextSpy = response = null
+      handler req, res, next
 
   beforeEach ->
-    nextSpy = sinon.spy()
-    response = new HttpResponseMock
-    filesDeferred = q.defer()
-    handler = createSourceFilesMiddleware filesDeferred.promise, serveFile, '/base/path'
+    files = q.defer()
+    server = createServer files, serveFile, '/base/path'
+
+  afterEach ->
+    next.reset()
 
   # helpers
-  includedFiles = (files) ->
-    filesDeferred.resolve {included: files, served: []}
+  includedFiles = (list) ->
+    files.resolve {included: list, served: []}
 
-  servedFiles = (files) ->
-    filesDeferred.resolve {included: [], served: files}
+  servedFiles = (list) ->
+    files.resolve {included: [], served: list}
 
-  callHandlerWith = (urlPath, next) ->
-    promise = handler new HttpRequestMock(urlPath), response, next or nextSpy
-    if promise and promise.done then promise.done()
-
-
-  it 'should serve absolute js source files ignoring timestamp', (done) ->
+  it 'should serve absolute js source files ignoring timestamp', () ->
     servedFiles [
       new File('/src/some.js')
     ]
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs 200, 'js-source'
-      done()
+    request(server)
+    .get('/absolute/src/some.js?123345')
+    .expect(200, 'js-source')
 
-    callHandlerWith '/absolute/src/some.js?123345'
-
-
-  it 'should serve js source files from base folder ignoring timestamp', (done) ->
+  it 'should serve js source files from base folder ignoring timestamp', () ->
     servedFiles [
       new File('/base/path/a.js')
     ]
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs 200, 'js-src-a'
-      done()
+    request(server)
+    .get('/base/a.js?123345')
+    .expect(200, 'js-src-a')
+    .then(() ->
+      expect(next).not.to.have.been.called
+    )
 
-    callHandlerWith '/base/a.js?123345'
-
-
-  it 'should send strict caching headers for js source files with sha', (done) ->
+  it 'should send strict caching headers for js source files with sha', () ->
     servedFiles [
       new File('/src/some.js')
     ]
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response._headers['Cache-Control']).to.deep.equal  ['public', 'max-age=31536000']
-      done()
+    request(server)
+    .get('/absolute/src/some.js?df43b8acf136389a8dd989bda397d1c9b4e048be')
+    .expect('Cache-Control', 'public, max-age=31536000')
+    .expect(200)
+    .then(() ->
+      expect(next).not.to.have.been.called
+    )
 
-    callHandlerWith '/absolute/src/some.js?df43b8acf136389a8dd989bda397d1c9b4e048be'
-
-
-  it 'should send strict caching headers for js source files with sha (in basePath)', (done) ->
+  it 'should send strict caching headers for js source files with sha (in basePath)', () ->
     servedFiles [
       new File('/base/path/a.js')
     ]
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response._headers['Cache-Control']).to.deep.equal  ['public', 'max-age=31536000']
-      done()
+    request(server)
+    .get('/base/a.js?df43b8acf136389a8dd989bda397d1c9b4e048be')
+    .expect('Cache-Control', 'public, max-age=31536000')
+    .expect(200)
 
-    callHandlerWith '/base/a.js?df43b8acf136389a8dd989bda397d1c9b4e048be'
-
-
-  it 'should send no-caching headers for js source files without timestamps', (done) ->
+  it 'should send no-caching headers for js source files without timestamps', () ->
     ZERO_DATE = (new Date 0).toString()
 
     servedFiles [
       new File('/src/some.js')
     ]
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response._headers['Cache-Control']).to.equal 'no-cache'
-      # idiotic IE8 needs more
-      expect(response._headers['Pragma']).to.equal 'no-cache'
-      expect(response._headers['Expires']).to.equal ZERO_DATE
-      done()
+    request(server)
+    .get('/absolute/src/some.js')
+    .expect('Cache-Control', 'no-cache')
+    # idiotic IE8 needs more
+    .expect('Pragma', 'no-cache')
+    .expect('Expires', ZERO_DATE)
+    .expect(200)
+    .then(() ->
+      expect(next).not.to.have.been.called
+    )
 
-    callHandlerWith '/absolute/src/some.js'
-
-
-  it 'should not serve files that are not in served', (done) ->
+  it 'should not serve files that are not in served', () ->
     servedFiles []
 
-    callHandlerWith '/absolute/non-existing.html', ->
-      expect(response).to.beNotServed()
-      done()
+    request(server)
+    .get('/absolute/non-existing.html')
+    .expect(200, '')
 
-
-  it 'should serve 404 if file is served but does not exist', (done) ->
+  it 'should serve 404 if file is served but does not exist', () ->
     servedFiles [
       new File('/non-existing.js')
     ]
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs 404, 'NOT FOUND'
-      done()
-
-    callHandlerWith '/absolute/non-existing.js'
+    request(server)
+    .get('/absolute/non-existing.js')
+    .expect(404, 'NOT FOUND')
 
 
-  it 'should serve js source file from base path containing utf8 chars', (done) ->
+  it 'should serve js source file from base path containing utf8 chars', () ->
     servedFiles [
       new File('/utf8ášč/some.js')
     ]
 
-    handler = createSourceFilesMiddleware filesDeferred.promise, serveFile, '/utf8ášč'
+    server = createServer files, serveFile, '/utf8ášč'
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response._body).to.equal 'utf8-file'
-      expect(response._status).to.equal 200
-      done()
+    request(server)
+    .get('/base/some.js')
+    .expect(200, 'utf8-file')
+    .then(() ->
+      expect(next).not.to.have.been.called
+    )
 
-    callHandlerWith '/base/some.js'
-
-  it 'should set content-type headers', (done) ->
+  it 'should set content-type headers', () ->
     servedFiles [
       new File('/base/path/index.html')
     ]
 
-    response.once 'end', ->
-      expect(response._headers['Content-Type']).to.equal 'text/html'
-      done()
+    request(server)
+    .get('/base/index.html')
+    .expect('Content-Type', 'text/html')
+    .expect(200)
 
-    callHandlerWith '/base/index.html'
-
-
-  it 'should use cached content if available', (done) ->
+  it 'should use cached content if available', () ->
     cachedFile = new File('/some/file.js')
     cachedFile.content = 'cached-content'
 
@@ -168,9 +161,9 @@ describe 'middleware.source_files', ->
       cachedFile
     ]
 
-    response.once 'end', ->
-      expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs 200, 'cached-content'
-      done()
-
-    callHandlerWith '/absolute/some/file.js'
+    request(server)
+    .get('/absolute/some/file.js')
+    .expect(200, 'cached-content')
+    .then(() ->
+      expect(next).not.to.have.been.called
+    )

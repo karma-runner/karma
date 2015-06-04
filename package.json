@@ -194,9 +194,10 @@
     "Jeff Lage <jefflage@me.com>"
   ],
   "dependencies": {
+    "body-parser": "^1.12.4",
     "chokidar": "^1.0.1",
     "colors": "^1.1.0",
-    "connect": "^2.29.2",
+    "connect": "^3.3.5",
     "di": "^0.0.1",
     "glob": "^5.0.6",
     "graceful-fs": "^3.0.6",
@@ -255,6 +256,8 @@
     "mocks": "^0.0.15",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0",
+    "supertest": "^1.0.1",
+    "supertest-as-promised": "^2.0.1",
     "timer-shim": "^0.3.0",
     "which": "^1.1.1"
   },
