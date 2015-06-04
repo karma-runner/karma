@@ -7,7 +7,7 @@
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers.
 
-> The main purpose of Karma is to make your TDD development easy,
+> The main purpose of Karma is to make your test-driven development easy,
 >  fast, and fun.
 
 
