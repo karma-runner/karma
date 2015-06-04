@@ -1,3 +1,13 @@
+<a name"0.12.36"></a>
+### 0.12.36 (2015-06-04)
+
+
+#### Bug Fixes
+
+* **launcher:** Continue with exit when SIGKILL fails ([1eaccb4c](https://github.com/karma-runner/karma/commit/1eaccb4c))
+* **preprocessor:** Lookup patterns once invoked ([00a27813](https://github.com/karma-runner/karma/commit/00a27813), closes [#1340](https://github.com/karma-runner/karma/issues/1340))
+
+
 <a name"0.12.35"></a>
 ### 0.12.35 (2015-05-29)
 
