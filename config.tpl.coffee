@@ -8,6 +8,10 @@ module.exports = (config) ->
     basePath: '%BASE_PATH%'
 
 
+    # Serve all JavaScript concatenated in one request.
+    concatenate: false
+
+
     # frameworks to use
     # available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: [%FRAMEWORKS%]
