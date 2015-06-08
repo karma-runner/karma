@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path, that will be used to resolve files and exclude
     basePath: '../..',
@@ -78,5 +78,5 @@ module.exports = function(config) {
       'karma-junit-reporter',
       'karma-commonjs'
     ]
-  });
-};
+  })
+}

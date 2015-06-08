@@ -61,7 +61,8 @@ module.exports = (grunt) ->
         '<%= files.server %>'
         '<%= files.grunt %>'
         '<%= files.scripts %>'
-        '<%= files.client %>'
+        '<%= files.client %>',
+        'test/**/*.js'
       ]
 
     # CoffeeLint options
