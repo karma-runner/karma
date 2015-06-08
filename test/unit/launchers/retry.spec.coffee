@@ -1,4 +1,5 @@
 describe 'launchers/retry.js', ->
+  _ = require('../../../lib/helper')._
   BaseLauncher = require '../../../lib/launchers/base'
   RetryLauncher = require '../../../lib/launchers/retry'
   EventEmitter = require('../../../lib/events').EventEmitter
@@ -23,7 +24,7 @@ describe 'launchers/retry.js', ->
     # simulate crash
     launcher._done 'crash'
 
-    scheduleNextTick ->
+    _.defer ->
       expect(launcher.start).to.have.been.called
       expect(spyOnBrowserProcessFailure).not.to.have.been.called
       done()
@@ -41,7 +42,7 @@ describe 'launchers/retry.js', ->
     # simulate first crash
     launcher._done 'crash'
 
-    scheduleNextTick ->
+    _.defer ->
       expect(launcher.start).to.have.been.called
       expect(spyOnBrowserProcessFailure).not.to.have.been.called
       launcher.start.reset()
@@ -49,18 +50,18 @@ describe 'launchers/retry.js', ->
       # simulate second crash
       launcher._done 'crash'
 
-    scheduleNextTick ->
-      expect(launcher.start).to.have.been.called
-      expect(spyOnBrowserProcessFailure).not.to.have.been.called
-      launcher.start.reset()
+      _.defer ->
+        expect(launcher.start).to.have.been.called
+        expect(spyOnBrowserProcessFailure).not.to.have.been.called
+        launcher.start.reset()
 
-      # simulate third crash
-      launcher._done 'crash'
+        # simulate third crash
+        launcher._done 'crash'
 
-    scheduleNextTick ->
-      expect(launcher.start).not.to.have.been.called
-      expect(spyOnBrowserProcessFailure).to.have.been.called
-      done()
+        _.defer ->
+          expect(launcher.start).not.to.have.been.called
+          expect(spyOnBrowserProcessFailure).to.have.been.called
+          done()
 
 
   it 'should not restart if killed normally', (done) ->
@@ -75,7 +76,7 @@ describe 'launchers/retry.js', ->
     # process just exited normally
     launcher._done()
 
-    scheduleNextTick ->
+    _.defer ->
       expect(launcher.start).not.to.have.been.called
       expect(spyOnBrowserProcessFailure).not.to.have.been.called
       expect(launcher.state).to.equal launcher.STATE_FINISHED

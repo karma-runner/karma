@@ -1,6 +1,6 @@
 request = require 'supertest-as-promised'
 di = require 'di'
-q = require 'q'
+Promise = require 'bluebird'
 mocks = require 'mocks'
 
 describe 'web-server', ->
@@ -27,7 +27,7 @@ describe 'web-server', ->
   customFileHandlers = server = emitter = null
 
   servedFiles = (files) ->
-    emitter.emit 'file_list_modified', q.resolve({included: [], served: files})
+    emitter.emit 'file_list_modified', Promise.resolve({included: [], served: files})
 
   beforeEach ->
     customFileHandlers = []

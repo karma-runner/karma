@@ -1,8 +1,7 @@
 http = require 'http'
-q = require 'q'
 mocks = require 'mocks'
 request = require 'supertest-as-promised'
-
+helper = require '../../../lib/helper'
 File = require('../../../lib/file_list').File
 Url = require('../../../lib/file_list').Url
 createServeFile = require('../../../lib/middleware/common').createServeFile
@@ -37,7 +36,7 @@ describe 'middleware.source_files', ->
       handler req, res, next
 
   beforeEach ->
-    files = q.defer()
+    files = helper.defer()
     server = createServer files, serveFile, '/base/path'
 
   afterEach ->
