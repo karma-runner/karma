@@ -2,7 +2,7 @@
 # lib/launcher.js module
 #==============================================================================
 describe 'launcher', ->
-  q = require 'q'
+  Promise = require 'bluebird'
   di = require 'di'
   events = require '../../lib/events'
   logger = require '../../lib/logger'
@@ -16,11 +16,12 @@ describe 'launcher', ->
 
   # promise mock
   stubPromise = (obj, method, stubAction) ->
-    deferred = q.defer()
+    promise = new Promise((resolve) ->
+      obj[method].resolve = resolve
+    )
     sinon.stub obj, method, ->
       stubAction() if stubAction
-      deferred.promise
-    obj[method].resolve = deferred.resolve
+      promise
 
 
   class FakeBrowser

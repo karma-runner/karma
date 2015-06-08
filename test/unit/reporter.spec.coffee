@@ -5,7 +5,8 @@ describe 'reporter', ->
   EventEmitter = require('events').EventEmitter
   File = require('../../lib/file_list').File
   loadFile = require('mocks').loadFile
-  q = require 'q'
+  Promise = require 'bluebird'
+  _ = require('../../lib/helper')._
   m = null
 
   beforeEach ->
@@ -91,9 +92,9 @@ describe 'reporter', ->
         servedFiles[0].sourceMap = 'SOURCE MAP a.js'
         servedFiles[1].sourceMap = 'SOURCE MAP b.js'
 
-        emitter.emit 'file_list_modified', q(served: servedFiles)
+        emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
 
-        scheduleNextTick ->
+        _.defer ->
           ERROR = 'at http://localhost:123/base/b.js:2:6'
           expect(formatError ERROR).to.equal 'at /some/base/b.js:2:6 <- /original/b.js:4:8\n'
           done()
@@ -104,13 +105,13 @@ describe 'reporter', ->
         servedFiles[0].sourceMap = 'SOURCE MAP a.js'
         servedFiles[1].sourceMap = 'SOURCE MAP b.js'
 
-        emitter.emit 'file_list_modified', q(served: servedFiles)
+        emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
 
-        scheduleNextTick ->
+        _.defer ->
           ERROR = 'at http://localhost:123/base/b.js:0:0'
           expect(formatError ERROR).to.equal 'at /some/base/b.js\n'
           done()
-          
+
       describe 'Windows', ->
         formatError = null
         servedFiles = null
@@ -121,17 +122,17 @@ describe 'reporter', ->
           servedFiles[0].sourceMap = 'SOURCE MAP b.js'
 
         it 'should correct rewrite stack traces without sha', (done) ->
-          emitter.emit 'file_list_modified', q(served: servedFiles)
+          emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
 
-          scheduleNextTick ->
+          _.defer ->
             ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js:2:6'
             expect(formatError ERROR).to.equal 'at C:/a/b/c.js:2:6 <- /original/b.js:4:8\n'
             done()
 
         it 'should correct rewrite stack traces with sha', (done) ->
-          emitter.emit 'file_list_modified', q(served: servedFiles)
+          emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
 
-          scheduleNextTick ->
+          _.defer ->
             ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js?da39a3ee5e6:2:6'
             expect(formatError ERROR).to.equal 'at C:/a/b/c.js:2:6 <- /original/b.js:4:8\n'
             done()

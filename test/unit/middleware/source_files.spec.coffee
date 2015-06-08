@@ -1,5 +1,5 @@
 describe 'middleware.source_files', ->
-  q = require 'q'
+  helper = require '../../../lib/helper'
 
   mocks = require 'mocks'
   HttpResponseMock = mocks.http.ServerResponse
@@ -27,7 +27,7 @@ describe 'middleware.source_files', ->
   beforeEach ->
     nextSpy = sinon.spy()
     response = new HttpResponseMock
-    filesDeferred = q.defer()
+    filesDeferred = helper.defer()
     handler = createSourceFilesMiddleware filesDeferred.promise, serveFile, '/base/path'
 
   # helpers
