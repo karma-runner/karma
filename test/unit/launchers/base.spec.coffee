@@ -1,4 +1,5 @@
 describe 'launchers/base.js', ->
+  _ = require('../../../lib/helper')._
   BaseLauncher = require '../../../lib/launchers/base'
   EventEmitter = require('../../../lib/events').EventEmitter
   launcher = emitter = null
@@ -45,7 +46,7 @@ describe 'launchers/base.js', ->
       launcher._done()
       spyOnKill.callArg 0
 
-      process.nextTick ->
+      _.defer ->
         expect(spyOnStart).to.have.been.calledWith 'http://host:9988/?id=fake-id'
         done()
 
@@ -68,7 +69,7 @@ describe 'launchers/base.js', ->
       # the first onDone will restart
       launcher._done 'crashed'
 
-      process.nextTick ->
+      _.defer ->
         expect(spyOnKill).to.not.have.been.called
         expect(spyOnStart).to.have.been.called
         expect(spyOnDone).to.have.been.called
@@ -162,7 +163,7 @@ describe 'launchers/base.js', ->
 
       expect(launcher.state).to.equal launcher.STATE_BEING_KILLED
 
-      process.nextTick ->
+      _.defer ->
         spyOnKill.finished = true
         spyOnKill.callArg 0
 
@@ -201,7 +202,7 @@ describe 'launchers/base.js', ->
       emitter.on 'browser_process_failure', spyOnBrowserProcessFailure
 
       launcher.on 'kill', (killDone) ->
-        process.nextTick ->
+        _.defer ->
           launcher._done 'crashed'
           killDone()
 

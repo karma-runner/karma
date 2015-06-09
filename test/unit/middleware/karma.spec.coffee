@@ -1,5 +1,5 @@
 describe 'middleware.karma', ->
-  q = require 'q'
+  helper = require '../../../lib/helper'
   constants = require '../../../lib/constants'
 
   mocks = require 'mocks'
@@ -30,7 +30,7 @@ describe 'middleware.karma', ->
     clientConfig = foo: 'bar'
     nextSpy = sinon.spy()
     response = new HttpResponseMock
-    filesDeferred = q.defer()
+    filesDeferred = helper.defer()
     serveFile = createServeFile fsMock, '/karma/static'
     handler = createKarmaMiddleware filesDeferred.promise, serveFile,
       '/base/path', '/__karma__/', clientConfig

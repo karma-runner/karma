@@ -1,6 +1,6 @@
 describe 'web-server', ->
   di = require 'di'
-  q = require 'q'
+  Promise = require 'bluebird'
   mocks = require 'mocks'
 
   HttpResponseMock = mocks.http.ServerResponse
@@ -31,7 +31,7 @@ describe 'web-server', ->
     server.emit 'request', new HttpRequestMock(path), response
 
   servedFiles = (files) ->
-    emitter.emit 'file_list_modified', q.resolve({included: [], served: files})
+    emitter.emit 'file_list_modified', Promise.resolve({included: [], served: files})
 
   beforeEach ->
     customFileHandlers = []

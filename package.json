@@ -194,6 +194,7 @@
     "Jeff Lage <jefflage@me.com>"
   ],
   "dependencies": {
+    "bluebird": "^2.9.27",
     "chokidar": "^1.0.1",
     "colors": "^1.1.0",
     "connect": "^2.29.2",
@@ -206,7 +207,6 @@
     "mime": "^1.3.4",
     "minimatch": "^2.0.7",
     "optimist": "^0.6.1",
-    "q": "^1.4.1",
     "rimraf": "^2.3.3",
     "socket.io": "0.9.16",
     "source-map": "^0.4.2",
