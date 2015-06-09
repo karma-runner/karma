@@ -1,6 +1,5 @@
 # Karma
-
-[![npm version](https://img.shields.io/npm/v/karma.svg?style=flat-square)](https://www.npmjs.com/package/karma) [![npm downloads](https://img.shields.io/npm/dm/karma.svg?style=flat-square)](https://www.npmjs.com/package/karma)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/karma-runner/karma) [![npm version](https://img.shields.io/npm/v/karma.svg?style=flat-square)](https://www.npmjs.com/package/karma) [![npm downloads](https://img.shields.io/npm/dm/karma.svg?style=flat-square)](https://www.npmjs.com/package/karma)
 
 [![Build Status](https://img.shields.io/travis/karma-runner/karma/master.svg?style=flat-square)](https://travis-ci.org/karma-runner/karma) [![Code Climate](https://img.shields.io/codeclimate/github/karma-runner/karma.svg?style=flat-square)](https://codeclimate.com/github/karma-runner/karma) [![Dependency Status](https://img.shields.io/david/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://img.shields.io/david/dev/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma#info=devDependencies)
 

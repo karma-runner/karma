@@ -1,8 +1,8 @@
-var Timer = require('timer-shim').Timer;
+var Timer = require('timer-shim').Timer
 
-module.exports = function() {
-  var timer = new Timer();
-  timer.pause();
+module.exports = function () {
+  var timer = new Timer()
+  timer.pause()
 
   return {
     setTimeout: timer.setTimeout,
@@ -10,6 +10,5 @@ module.exports = function() {
     setInterval: timer.setInterval,
     clearInterval: timer.clearInterval,
     wind: timer.wind
-  };
-};
-
+  }
+}

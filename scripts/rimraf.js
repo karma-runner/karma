@@ -1,14 +1,14 @@
 module.exports = rimraf
 rimraf.sync = rimrafSync
 
-var path = require("path")
-  , fs
+var path = require('path'),
+fs
 
 try {
   // optional dependency
-  fs = require("graceful-fs")
+  fs = require('graceful-fs')
 } catch (er) {
-  fs = require("fs")
+  fs = require('fs')
 }
 
 // for EMFILE handling
@@ -16,16 +16,16 @@ var timeout = 0
 exports.EMFILE_MAX = 1000
 exports.BUSYTRIES_MAX = 3
 
-var isWindows = (process.platform === "win32")
+var isWindows = (process.platform === 'win32')
 
 function rimraf (p, cb) {
-  if (!cb) throw new Error("No callback passed to rimraf()")
+  if (!cb) throw new Error('No callback passed to rimraf()')
 
   var busyTries = 0
   rimraf_(p, function CB (er) {
     if (er) {
-      if (er.code === "EBUSY" && busyTries < exports.BUSYTRIES_MAX) {
-        busyTries ++
+      if (er.code === 'EBUSY' && busyTries < exports.BUSYTRIES_MAX) {
+        busyTries++
         var time = busyTries * 100
         // try again, with the same exact callback as this one.
         return setTimeout(function () {
@@ -34,14 +34,14 @@ function rimraf (p, cb) {
       }
 
       // this one won't happen if graceful-fs is used.
-      if (er.code === "EMFILE" && timeout < exports.EMFILE_MAX) {
+      if (er.code === 'EMFILE' && timeout < exports.EMFILE_MAX) {
         return setTimeout(function () {
           rimraf_(p, CB)
-        }, timeout ++)
+        }, timeout++)
       }
 
       // already gone
-      if (er.code === "ENOENT") er = null
+      if (er.code === 'ENOENT') er = null
     }
 
     timeout = 0
@@ -63,11 +63,11 @@ function rimraf (p, cb) {
 function rimraf_ (p, cb) {
   fs.unlink(p, function (er) {
     if (er) {
-      if (er.code === "ENOENT")
+      if (er.code === 'ENOENT')
         return cb()
-      if (er.code === "EPERM")
+      if (er.code === 'EPERM')
         return (isWindows) ? fixWinEPERM(p, er, cb) : rmdir(p, er, cb)
-      if (er.code === "EISDIR")
+      if (er.code === 'EISDIR')
         return rmdir(p, er, cb)
     }
     return cb(er)
@@ -77,11 +77,11 @@ function rimraf_ (p, cb) {
 function fixWinEPERM (p, er, cb) {
   fs.chmod(p, 666, function (er2) {
     if (er2)
-      cb(er2.code === "ENOENT" ? null : er)
+      cb(er2.code === 'ENOENT' ? null : er)
     else
-      fs.stat(p, function(er3, stats) {
+      fs.stat(p, function (er3, stats) {
         if (er3)
-          cb(er3.code === "ENOENT" ? null : er)
+          cb(er3.code === 'ENOENT' ? null : er)
         else if (stats.isDirectory())
           rmdir(p, er, cb)
         else
@@ -94,14 +94,14 @@ function fixWinEPERMSync (p, er, cb) {
   try {
     fs.chmodSync(p, 666)
   } catch (er2) {
-    if (er2.code !== "ENOENT")
+    if (er2.code !== 'ENOENT')
       throw er
   }
 
   try {
     var stats = fs.statSync(p)
   } catch (er3) {
-    if (er3 !== "ENOENT")
+    if (er3 !== 'ENOENT')
       throw er
   }
 
@@ -116,16 +116,16 @@ function rmdir (p, originalEr, cb) {
   // if we guessed wrong, and it's not a directory, then
   // raise the original error.
   fs.rmdir(p, function (er) {
-    if (er && (er.code === "ENOTEMPTY" || er.code === "EEXIST"))
+    if (er && (er.code === 'ENOTEMPTY' || er.code === 'EEXIST'))
       rmkids(p, cb)
-    else if (er && er.code === "ENOTDIR")
+    else if (er && er.code === 'ENOTDIR')
       cb(originalEr)
     else
       cb(er)
   })
 }
 
-function rmkids(p, cb) {
+function rmkids (p, cb) {
   fs.readdir(p, function (er, files) {
     if (er)
       return cb(er)
@@ -153,11 +153,11 @@ function rimrafSync (p) {
   try {
     fs.unlinkSync(p)
   } catch (er) {
-    if (er.code === "ENOENT")
+    if (er.code === 'ENOENT')
       return
-    if (er.code === "EPERM")
+    if (er.code === 'EPERM')
       return isWindows ? fixWinEPERMSync(p, er) : rmdirSync(p, er)
-    if (er.code !== "EISDIR")
+    if (er.code !== 'EISDIR')
       throw er
     rmdirSync(p, er)
   }
@@ -167,11 +167,11 @@ function rmdirSync (p, originalEr) {
   try {
     fs.rmdirSync(p)
   } catch (er) {
-    if (er.code === "ENOENT")
+    if (er.code === 'ENOENT')
       return
-    if (er.code === "ENOTDIR")
+    if (er.code === 'ENOTDIR')
       throw originalEr
-    if (er.code === "ENOTEMPTY" || er.code === "EEXIST")
+    if (er.code === 'ENOTEMPTY' || er.code === 'EEXIST')
       rmkidsSync(p)
   }
 }

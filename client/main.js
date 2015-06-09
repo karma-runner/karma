@@ -1,9 +1,11 @@
-var Karma = require('./karma');
-var StatusUpdater = require('./updater');
-var util = require('./util');
+/* global io */
+/* eslint-disable no-new */
 
-var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT;
+var Karma = require('./karma')
+var StatusUpdater = require('./updater')
+var util = require('./util')
 
+var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT
 
 // Connect to the server using socket.io http://socket.io
 var socket = io(location.host, {
@@ -12,9 +14,9 @@ var socket = io(location.host, {
   timeout: 2000,
   path: '/' + KARMA_URL_ROOT.substr(1) + 'socket.io',
   'sync disconnect on unload': true
-});
+})
 
 // instantiate the updater of the view
-new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'));
+new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'))
 window.karma = new Karma(socket, util.elm('context'), window.open,
-	window.navigator, window.location);
+  window.navigator, window.location)
