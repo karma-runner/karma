@@ -64,6 +64,11 @@ describe 'Browser', ->
       browser = new Browser 'id', fullName, collection, emitter, socket
       expect(browser.toString()).to.equal 'Chrome 16.0.912 (Mac OS X 10.6.8)'
 
+    it 'should return verbatim user agent string for unrecognized browser', ->
+      fullName = 'NonexistentBot/1.2.3'
+      browser = new Browser 'id', fullName, collection, emitter, socket
+      expect(browser.toString()).to.equal 'NonexistentBot/1.2.3'
+
 
   #==========================================================================
   # Browser.onKarmaError
