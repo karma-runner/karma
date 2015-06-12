@@ -33,7 +33,6 @@ describe 'file_list', ->
       # we need at least 11 elements to trigger V8's quick sort
       '**':         ['/a.txt', '/b.txt', '/c.txt', '/a.txt', '/c.txt', '/b.txt', '/a.txt', '/c.txt',
                    '/a.txt', '/a.txt', '/c.txt']
-      'x:/Users/vojta/*.js': ['x:/Users/vojta/file.js', 'x:/Users/vojta/more.js']
 
     constructor: (@pattern, @opts) ->
       @found = pats[@pattern]
