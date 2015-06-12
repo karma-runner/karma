@@ -10,14 +10,36 @@ describe 'file_list', ->
   onFileListModifiedSpy = mocks_ = null
   m = list = emitter = fileListModifiedPromise = preprocessMock = null
 
-  mockGlob = mocks.glob.create
-    '/some/*.js': ['/some/a.js', '/some/b.js']
-    '*.txt':      ['/c.txt', '/a.txt', '/b.txt']
-    '*.js':       ['/folder', '/folder/x.js']
-    '/a.*':       ['/a.txt']
-    # we need at least 11 elements to trigger V8's quick sort
-    '**':         ['/a.txt', '/b.txt', '/c.txt', '/a.txt', '/c.txt', '/b.txt', '/a.txt', '/c.txt',
+  class Glob
+    statCache =
+      '/some/a.js':
+        mtime: new Date('2012-04-04')
+      '/some/b.js':
+        mtime: new Date('2012-05-05')
+      '/a.txt':
+        mtime: new Date('2015-06-08')
+      '/b.txt':
+        mtime: new Date('2015-06-08')
+      '/c.txt':
+        mtime: new Date('2015-06-08')
+      '/folder/x.js':
+        mtime: new Date('2015-06-08')
+
+    pats =
+      '/some/*.js': ['/some/a.js', '/some/b.js']
+      '*.txt':      ['/c.txt', '/a.txt', '/b.txt']
+      '*.js':       ['/folder/x.js']
+      '/a.*':       ['/a.txt']
+      # we need at least 11 elements to trigger V8's quick sort
+      '**':         ['/a.txt', '/b.txt', '/c.txt', '/a.txt', '/c.txt', '/b.txt', '/a.txt', '/c.txt',
                    '/a.txt', '/a.txt', '/c.txt']
+      'x:/Users/vojta/*.js': ['x:/Users/vojta/file.js', 'x:/Users/vojta/more.js']
+
+    constructor: (@pattern, @opts) ->
+      @found = pats[@pattern]
+      @statCache = statCache
+
+  mockGlob = Glob: Glob
 
   # TODO(vojta): create new fs, as we mutate the file stats now
   mockFs = mocks.fs.create
@@ -35,7 +57,6 @@ describe 'file_list', ->
 
   pathsFrom = (files) ->
     files.map (file) -> file.path
-
 
   findFile = (path, files) ->
     found = null
@@ -391,6 +412,7 @@ describe 'file_list', ->
 
       refreshListAndThen (files) ->
         # not touching the file, stat will return still the same
+        mockFs._touchFile '/some/b.js', '2012-05-05' # reset mtime from above test
         list.changeFile '/some/b.js', ->
           expect(onFileListModifiedSpy).not.to.have.been.called
           done()
@@ -660,23 +682,3 @@ describe 'file_list', ->
           clock.tick(1000)
 
       clock.tick()
-
-  #============================================================================
-  # Win Globbing
-  #============================================================================
-  describe 'createWinGlob', ->
-
-    it 'should path separator is slash', ->
-      mockGlob = (pattern, opts, done) ->
-        expect(pattern).to.equal 'x:/Users/vojta/*.js'
-        # for Travis test
-        results = [
-          path.join('x:', 'Users', 'vojta', 'file.js'),
-          path.join('x:', 'Users', 'vojta', 'more.js')
-        ]
-        done null, results
-
-      winGlob = m.createWinGlob mockGlob
-
-      winGlob 'x:/Users/vojta/*.js', {}, (err, results) ->
-        expect(results).to.deep.equal ['x:/Users/vojta/file.js', 'x:/Users/vojta/more.js']
