@@ -1,10 +1,9 @@
-describe 'web-server', ->
-  di = require 'di'
-  q = require 'q'
-  mocks = require 'mocks'
+request = require 'supertest-as-promised'
+di = require 'di'
+Promise = require 'bluebird'
+mocks = require 'mocks'
 
-  HttpResponseMock = mocks.http.ServerResponse
-  HttpRequestMock = mocks.http.ServerRequest
+describe 'web-server', ->
 
   File = require('../../lib/file_list').File
 
@@ -25,13 +24,10 @@ describe 'web-server', ->
   # this relies on the fact that none of these tests mutate fs
   m = mocks.loadFile __dirname + '/../../lib/web-server.js', _mocks, _globals
 
-  customFileHandlers = server = response = emitter = null
-
-  requestPath = (path) ->
-    server.emit 'request', new HttpRequestMock(path), response
+  customFileHandlers = server = emitter = null
 
   servedFiles = (files) ->
-    emitter.emit 'file_list_modified', q.resolve({included: [], served: files})
+    emitter.emit 'file_list_modified', Promise.resolve({included: [], served: files})
 
   beforeEach ->
     customFileHandlers = []
@@ -49,32 +45,20 @@ describe 'web-server', ->
 
     server = injector.invoke m.createWebServer
     servedFiles []
-    response = new HttpResponseMock
 
+  it 'should serve client.html', () ->
+    request(server)
+    .get('/')
+    .expect(200, 'CLIENT HTML')
 
-  it 'should serve client.html', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 200, 'CLIENT HTML'
-      done()
-
-    requestPath '/'
-
-  it 'should serve client.html with a absoluteURI request path ', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 200, 'CLIENT HTML'
-      done()
-    requestPath 'http://localhost:9876/'
-
-  it 'should serve source files', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 200, 'js-source'
-      done()
-
+  it 'should serve source files', () ->
     servedFiles [new File '/base/path/one.js']
-    requestPath '/base/one.js'
 
+    request(server)
+    .get('/base/one.js')
+    .expect(200, 'js-source')
 
-  it 'should load custom handlers', (done) ->
+  it 'should load custom handlers', () ->
     # TODO(vojta): change this, only keeping because karma-dart is relying on it
     customFileHandlers.push {
       urlRegex: /\/some\/weird/
@@ -83,16 +67,11 @@ describe 'web-server', ->
         response.end 'CONTENT'
     }
 
-    response.once 'end', ->
-      expect(response).to.beServedAs 222, 'CONTENT'
-      done()
+    request(server)
+    .get('/some/weird/url')
+    .expect(222, 'CONTENT')
 
-    requestPath '/some/weird/url'
-
-
-  it 'should serve 404 for non-existing files', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 404, 'NOT FOUND'
-      done()
-
-    requestPath '/non/existing.html'
+  it 'should serve 404 for non-existing files', () ->
+    request(server)
+    .get('/non/existing.html')
+    .expect(404)

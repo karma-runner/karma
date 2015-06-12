@@ -7,14 +7,13 @@ var util = require('./util')
 
 var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT
 
-// connect socket.io
-// https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-var socket = io.connect(location.protocol + '//' + location.host, {
-  'reconnection delay': 500,
-  'reconnection limit': 2000,
-  'resource': KARMA_URL_ROOT.substr(1) + 'socket.io',
-  'sync disconnect on unload': true,
-  'max reconnection attempts': Infinity
+// Connect to the server using socket.io http://socket.io
+var socket = io(location.host, {
+  reconnectionDelay: 500,
+  reconnectionDelayMax: Infinity,
+  timeout: 2000,
+  path: '/' + KARMA_URL_ROOT.substr(1) + 'socket.io',
+  'sync disconnect on unload': true
 })
 
 // instantiate the updater of the view
