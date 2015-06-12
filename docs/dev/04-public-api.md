@@ -29,3 +29,7 @@ runner.run({port: 9876}, function(exitCode) {
   process.exit(exitCode);
 });
 ```
+
+## Callback function notes
+
+- If there is an error, the error code will be provided as the second parameter to the error callback.

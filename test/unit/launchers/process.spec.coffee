@@ -70,8 +70,8 @@ describe 'launchers/process.js', ->
       emitter.on 'browser_process_failure', failureSpy
 
       launcher.start 'http://host:9876/'
-      mockSpawn._processes[0].emit 'error', {code: 'ENOENT'}
-      mockSpawn._processes[0].emit 'close', 1
+      mockSpawn._processes[0].emit 'karma_error', {code: 'ENOENT'}
+      mockSpawn._processes[0].emit 'exit', 1
       mockTempDir.remove.callArg 1
 
       scheduleNextTick ->
@@ -111,7 +111,7 @@ describe 'launchers/process.js', ->
       expect(mockSpawn._processes[0].kill).to.have.been.called
 
       # process exits
-      mockSpawn._processes[0].emit 'close', 0
+      mockSpawn._processes[0].emit 'exit', 0
       mockTempDir.remove.callArg 1
 
       killingLauncher.done ->
@@ -133,7 +133,7 @@ describe 'launchers/process.js', ->
 
       # expect killing browser
       expect(browserProcess.kill).to.have.been.called
-      browserProcess.emit 'close', 0
+      browserProcess.emit 'exit', 0
       mockTempDir.remove.callArg 1
       mockSpawn.reset()
 
@@ -158,7 +158,7 @@ describe 'launchers/process.js', ->
 
       # expect killing browser
       expect(browserProcess.kill).to.have.been.called
-      browserProcess.emit 'close', 0
+      browserProcess.emit 'exit', 0
       mockTempDir.remove.callArg 1
       mockTempDir.remove.reset()
 
@@ -174,7 +174,7 @@ describe 'launchers/process.js', ->
 
         # expect killing browser
         expect(browserProcess.kill).to.have.been.called
-        browserProcess.emit 'close', 0
+        browserProcess.emit 'exit', 0
         mockTempDir.remove.callArg 1
         mockTempDir.remove.reset()
 
@@ -190,7 +190,7 @@ describe 'launchers/process.js', ->
 
         # expect killing browser
         expect(browserProcess.kill).to.have.been.called
-        browserProcess.emit 'close', 0
+        browserProcess.emit 'exit', 0
         mockTempDir.remove.callArg 1
         mockTempDir.remove.reset()
 
@@ -211,7 +211,7 @@ describe 'launchers/process.js', ->
       mockSpawn.reset()
 
       # crash
-      browserProcess.emit 'close', 1
+      browserProcess.emit 'exit', 1
       mockTempDir.remove.callArg 1
       mockTempDir.remove.reset()
 
