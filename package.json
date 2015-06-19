@@ -201,7 +201,7 @@
     "connect": "^3.3.5",
     "di": "^0.0.1",
     "expand-braces": "^0.1.1",
-    "glob": "^5.0.6",
+    "glob": "^5.0.10",
     "graceful-fs": "^3.0.6",
     "http-proxy": "^0.10",
     "lodash": "^3.8.0",
