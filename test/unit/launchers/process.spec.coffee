@@ -1,5 +1,6 @@
 describe 'launchers/process.js', ->
   path = require 'path'
+  _ = require('../../../lib/helper')._
   BaseLauncher = require '../../../lib/launchers/base'
   RetryLauncher = require '../../../lib/launchers/retry'
   CaptureTimeoutLauncher = require '../../../lib/launchers/capture_timeout'
@@ -44,7 +45,7 @@ describe 'launchers/process.js', ->
     launcher.start 'http://host:9988/'
     launcher.kill()
 
-    scheduleNextTick ->
+    _.defer ->
       expect(mockTempDir.remove).to.have.been.called
       expect(mockTempDir.remove.args[0][0]).to.equal '/temp/karma-fake-id'
       done()
@@ -74,7 +75,7 @@ describe 'launchers/process.js', ->
       mockSpawn._processes[0].emit 'exit', 1
       mockTempDir.remove.callArg 1
 
-      scheduleNextTick ->
+      _.defer ->
         expect(launcher.state).to.equal launcher.STATE_FINISHED
         expect(failureSpy).to.have.been.called
         done()
@@ -137,7 +138,7 @@ describe 'launchers/process.js', ->
       mockTempDir.remove.callArg 1
       mockSpawn.reset()
 
-      scheduleNextTick ->
+      _.defer ->
         # expect re-starting
         expect(mockSpawn).to.have.been.calledWith BROWSER_PATH, ['http://localhost/?id=fake-id']
         expect(failureSpy).not.to.have.been.called
@@ -162,7 +163,7 @@ describe 'launchers/process.js', ->
       mockTempDir.remove.callArg 1
       mockTempDir.remove.reset()
 
-      scheduleNextTick ->
+      _.defer ->
         # expect re-starting
         expect(mockSpawn).to.have.been.calledWith BROWSER_PATH, ['http://localhost/?id=fake-id']
         browserProcess = mockSpawn._processes.shift()
@@ -178,26 +179,26 @@ describe 'launchers/process.js', ->
         mockTempDir.remove.callArg 1
         mockTempDir.remove.reset()
 
-      scheduleNextTick ->
-        # expect re-starting
-        expect(mockSpawn).to.have.been.calledWith BROWSER_PATH, ['http://localhost/?id=fake-id']
-        browserProcess = mockSpawn._processes.shift()
-        expect(failureSpy).not.to.have.been.called
-        mockSpawn.reset()
+        _.defer ->
+          # expect re-starting
+          expect(mockSpawn).to.have.been.calledWith BROWSER_PATH, ['http://localhost/?id=fake-id']
+          browserProcess = mockSpawn._processes.shift()
+          expect(failureSpy).not.to.have.been.called
+          mockSpawn.reset()
 
-        # timeout - third time
-        mockTimer.wind 201
+          # timeout - third time
+          mockTimer.wind 201
 
-        # expect killing browser
-        expect(browserProcess.kill).to.have.been.called
-        browserProcess.emit 'exit', 0
-        mockTempDir.remove.callArg 1
-        mockTempDir.remove.reset()
+          # expect killing browser
+          expect(browserProcess.kill).to.have.been.called
+          browserProcess.emit 'exit', 0
+          mockTempDir.remove.callArg 1
+          mockTempDir.remove.reset()
 
-      scheduleNextTick ->
-        expect(mockSpawn).to.not.have.been.called
-        expect(failureSpy).to.have.been.called
-        done()
+          _.defer ->
+            expect(mockSpawn).to.not.have.been.called
+            expect(failureSpy).to.have.been.called
+            done()
 
 
     # when the browser fails to start, it should restart
@@ -215,7 +216,7 @@ describe 'launchers/process.js', ->
       mockTempDir.remove.callArg 1
       mockTempDir.remove.reset()
 
-      scheduleNextTick ->
+      _.defer ->
         # expect re-starting
         expect(mockSpawn).to.have.been.calledWith BROWSER_PATH, ['http://localhost/?id=fake-id']
         browserProcess = mockSpawn._processes.shift()

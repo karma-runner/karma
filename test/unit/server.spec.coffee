@@ -10,7 +10,6 @@ describe 'server', ->
   BrowserCollection = require('../../lib/browser_collection')
   EventEmitter = require('events').EventEmitter
   loadFile = require('mocks').loadFile
-  q = require('q')
 
   m = mockConfig = browserCollection = emitter = injector = webServerOnError = null
   fileListOnResolve = fileListOnReject = mockInjector = mockLauncher = null

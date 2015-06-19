@@ -1,6 +1,4 @@
 describe 'middleware.strip_host', ->
-  q = require 'q'
-
   mocks = require 'mocks'
   HttpResponseMock = mocks.http.ServerResponse
   HttpRequestMock = mocks.http.ServerRequest
