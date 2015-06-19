@@ -94,10 +94,11 @@ describe 'reporter', ->
 
         emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
 
-        _.defer ->
+        _.defer -> _.delay ->
           ERROR = 'at http://localhost:123/base/b.js:2:6'
           expect(formatError ERROR).to.equal 'at /some/base/b.js:2:6 <- /original/b.js:4:8\n'
           done()
+        , 100
 
       it 'should fall back to non-source-map format if originalPositionFor throws', (done) ->
         formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
