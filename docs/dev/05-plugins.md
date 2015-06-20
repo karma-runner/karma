@@ -23,7 +23,7 @@ Karma can be extended through plugins. A plugin is essentially an NPM module. Ty
 - user NPM keywords `karma-plugin`, `karma-preprocessor`
 
 ## Crazier stuff
-Karma is assembled by Dependency Injection and a plugin is just an additional DI module (see [node-di] for more), that can be loaded by Karma. Therefore it can asks for pretty much any Karma component and interact with it. There are couple of plugins that do more interesting stuff like this, check out [karma-closure], [karma-intellij], [karma-dart].
+Karma is assembled by Dependency Injection and a plugin is just an additional DI module (see [node-di] for more), that can be loaded by Karma. Therefore it can ask for pretty much any Karma component and interact with it. There are couple of plugins that do more interesting stuff like this, check out [karma-closure], [karma-intellij], [karma-dart].
 
 
 [karma-jasmine]: https://github.com/karma-runner/karma-jasmine
