@@ -271,7 +271,7 @@
     "karma": "./bin/karma"
   },
   "engines": {
-    "node": ">=0.8 <=0.12 || >=1 <=2"
+    "node": ">=0.10 <=0.12 || >=1 <=2"
   },
   "version": "0.13.0-rc.4",
   "license": "MIT"
