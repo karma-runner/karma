@@ -271,6 +271,6 @@
   "engines": {
     "node": ">=0.8 <=0.12 || >=1 <=2"
   },
-  "version": "0.12.36",
+  "version": "0.12.37",
   "license": "MIT"
 }
