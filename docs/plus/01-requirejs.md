@@ -84,6 +84,34 @@ module.exports = function(config) {
 };
 ```
 
+The files property contains every file you want to be available to the
+Karma runner. By default a script tag will be created for the files,
+unless you use the `included: false` option.
+
+If you want a script tag to be added before requirejs (to load a amd 
+compatible script before requirejs) then you must add the requirejs
+and adapter script to the files list and remove requirejs from the
+frameworks list. This allows you to control the order. For instance
+to load `knockout.js` before requirejs...
+
+```
+  config.set({
+    frameworks: ['jasmine'],
+
+    files: [
+      'knockout.js',
+
+      'node_modules/requirejs/require.js',
+      'node_modules/karma-requirejs/lib/adapter.js',
+
+      {pattern: 'lib/**/*.js', included: false},
+      {pattern: 'src/**/*.js', included: false},
+      {pattern: 'test/**/*Spec.js', included: false},
+
+      'test/test-main.js'
+    ],
+```
+
 ## Configuring Require.js
 
 Just like any Require.js project, you need a main module to bootstrap
@@ -114,13 +142,16 @@ asynchronously as dependencies must be fetched before the tests are run.
 The `test/test-main.js` file ends up looking like this:
 
 ```javascript
-var allTestFiles = [];
-var TEST_REGEXP = /test\.js$/;
+var TEST_REGEXP = /(spec|test)\.js$/i;
 
+// Get a list of all the test files to include
 Object.keys(window.__karma__.files).forEach(function(file) {
   if (TEST_REGEXP.test(file)) {
     // Normalize paths to RequireJS module names.
-    allTestFiles.push(file);
+    // If you require sub-dependencies of test files to be loaded as-is (requiring file extension)
+    // then do not normalize the paths
+    var normalizedTestModule = file.replace(/^\/base\/|\.js$/g, '');
+    allTestFiles.push(normalizedTestModule);
   }
 });
 
@@ -156,9 +187,11 @@ everything in `define`, and inside we can use the regular test methods,
 such as `describe` and `it`. Example:
 
 ```javascript
-define(['app', 'jquery', 'underscore'], function(App, $, _) {
+define(['app', 'jquery', 'underscore', './test-helper'], function(App, $, _, testHelper) {
 
     describe('just checking', function() {
+    
+        testHelper.setup();
 
         it('works for app', function() {
             var el = $('<div></div>');

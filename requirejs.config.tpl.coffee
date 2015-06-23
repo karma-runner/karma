@@ -1,9 +1,14 @@
 allTestFiles = []
 TEST_REGEXP = /(spec|test)(\.coffee)?(\.js)?$/i
 
+# Get a list of all the test files to include
 Object.keys(window.__karma__.files).forEach (file) ->
-  # Normalize paths to RequireJS module names.
-  allTestFiles.push file  if TEST_REGEXP.test(file)
+
+  if TEST_REGEXP.test(file)
+    # Normalize paths to RequireJS module names.
+    # If you require sub-dependencies of test files to be loaded as-is (requiring file extension)
+    # then do not normalize the paths
+    allTestFiles.push file.replace(/^\/base\/|\.js$/g, '')
   return
 
 require.config

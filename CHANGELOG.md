@@ -1,3 +1,14 @@
+<a name"0.12.37"></a>
+### 0.12.37 (2015-06-24)
+
+
+#### Bug Fixes
+
+* **file_list:** follow symlinks ([ee267483](https://github.com/karma-runner/karma/commit/ee267483))
+* **init:** Make the requirejs config template normalize paths ([54dcce31](https://github.com/karma-runner/karma/commit/54dcce31))
+* **middleware:** Actually serve the favicon. ([f12db639](https://github.com/karma-runner/karma/commit/f12db639))
+
+
 <a name"0.12.36"></a>
 ### 0.12.36 (2015-06-04)
 
