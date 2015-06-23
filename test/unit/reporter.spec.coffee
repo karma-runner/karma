@@ -3,9 +3,8 @@
 #==============================================================================
 describe 'reporter', ->
   EventEmitter = require('events').EventEmitter
-  File = require('../../lib/file_list').File
+  File = require('../../lib/file')
   loadFile = require('mocks').loadFile
-  Promise = require 'bluebird'
   _ = require('../../lib/helper')._
   m = null
 
@@ -92,7 +91,7 @@ describe 'reporter', ->
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
-        emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
+        emitter.emit 'file_list_modified', served: servedFiles
 
         _.defer -> _.delay ->
           ERROR = 'at http://localhost:123/base/b.js:2:6'
@@ -106,7 +105,7 @@ describe 'reporter', ->
         servedFiles[0].sourceMap = 'SOURCE MAP a.js'
         servedFiles[1].sourceMap = 'SOURCE MAP b.js'
 
-        emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
+        emitter.emit 'file_list_modified', served: servedFiles
 
         _.defer ->
           ERROR = 'at http://localhost:123/base/b.js:0:0'
@@ -123,7 +122,7 @@ describe 'reporter', ->
           servedFiles[0].sourceMap = {content: 'SOURCE MAP b.js'}
 
         it 'should correct rewrite stack traces without sha', (done) ->
-          emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
+          emitter.emit 'file_list_modified', served: servedFiles
 
           _.defer ->
             ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js:2:6'
@@ -131,7 +130,7 @@ describe 'reporter', ->
             done()
 
         it 'should correct rewrite stack traces with sha', (done) ->
-          emitter.emit 'file_list_modified', Promise.resolve(served: servedFiles)
+          emitter.emit 'file_list_modified', served: servedFiles
 
           _.defer ->
             ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js?da39a3ee5e6:2:6'

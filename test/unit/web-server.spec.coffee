@@ -1,11 +1,13 @@
+require 'core-js'
 request = require 'supertest-as-promised'
 di = require 'di'
 Promise = require 'bluebird'
 mocks = require 'mocks'
+_ = require('../../lib/helper')._
 
 describe 'web-server', ->
 
-  File = require('../../lib/file_list').File
+  File = require('../../lib/file')
 
   EventEmitter = require('events').EventEmitter
 
@@ -27,7 +29,7 @@ describe 'web-server', ->
   customFileHandlers = server = emitter = null
 
   servedFiles = (files) ->
-    emitter.emit 'file_list_modified', Promise.resolve({included: [], served: files})
+    emitter.emit 'file_list_modified', {included: [], served: files}
 
   beforeEach ->
     customFileHandlers = []
@@ -44,21 +46,24 @@ describe 'web-server', ->
     }]
 
     server = injector.invoke m.createWebServer
-    servedFiles []
 
   it 'should serve client.html', () ->
+    servedFiles new Set()
+
     request(server)
     .get('/')
     .expect(200, 'CLIENT HTML')
 
   it 'should serve source files', () ->
-    servedFiles [new File '/base/path/one.js']
+    servedFiles new Set([new File '/base/path/one.js'])
 
     request(server)
     .get('/base/one.js')
     .expect(200, 'js-source')
 
   it 'should load custom handlers', () ->
+    servedFiles new Set()
+
     # TODO(vojta): change this, only keeping because karma-dart is relying on it
     customFileHandlers.push {
       urlRegex: /\/some\/weird/
@@ -72,6 +77,8 @@ describe 'web-server', ->
     .expect(222, 'CONTENT')
 
   it 'should serve 404 for non-existing files', () ->
+    servedFiles new Set()
+
     request(server)
     .get('/non/existing.html')
     .expect(404)

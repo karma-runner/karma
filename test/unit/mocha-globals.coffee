@@ -4,6 +4,8 @@ sinon = require 'sinon'
 chai = require 'chai'
 logger = require '../../lib/logger'
 
+require('bluebird').longStackTraces()
+
 # publish globals that all specs can use
 global.expect = chai.expect
 global.should = chai.should()

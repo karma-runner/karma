@@ -2,8 +2,8 @@ http = require 'http'
 mocks = require 'mocks'
 request = require 'supertest-as-promised'
 helper = require '../../../lib/helper'
-File = require('../../../lib/file_list').File
-Url = require('../../../lib/file_list').Url
+File = require('../../../lib/file')
+Url = require('../../../lib/url')
 createServeFile = require('../../../lib/middleware/common').createServeFile
 createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
 
