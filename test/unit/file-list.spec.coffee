@@ -44,14 +44,8 @@ mockFs = mocks.fs.create
   'c.txt': mocks.fs.file 0
   'a.js':  mocks.fs.file '2012-01-01'
 
-List = proxyquire('../../lib/file-list', {
-  helper: helper
-  fs: mockFs
-})
-
-
-describe 'FileList', ->
-  list = emitter = preprocess = patternList = mg = modified = null
+describe.only 'FileList', ->
+  List = list = emitter = preprocess = patternList = mg = modified = glob = null
 
   beforeEach ->
 
@@ -62,12 +56,14 @@ describe 'FileList', ->
       preprocess = sinon.spy((file, done) -> process.nextTick done)
       emitter = new EventEmitter()
 
-      sinon.stub(helper, 'glob', (pattern, opts) ->
-        Promise.resolve [patternList[pattern], mg]
-      )
+      glob = Glob: (pattern, opts) ->
+        {found: patternList[pattern], statCache: mg.statCache}
 
-    afterEach ->
-      helper.glob.restore()
+      List = proxyquire('../../lib/file-list', {
+        helper: helper
+        glob: glob
+        fs: mockFs
+      })
 
     it 'returns a flat array of served files', ->
       list = new List(
@@ -174,20 +170,24 @@ describe 'FileList', ->
     beforeEach ->
       preprocess = sinon.spy((file, done) -> process.nextTick done)
       emitter = new EventEmitter()
+
+      glob = Glob: (pattern, opts) ->
+        {found: patternList[pattern], statCache: mg.statCache}
+
+      List = proxyquire('../../lib/file-list', {
+        helper: helper
+        glob: glob
+        fs: mockFs
+      })
+
       list = new List(
         patterns('/some/*.js', '*.txt'),
         [],
         emitter,
         preprocess
       )
-      sinon.stub(helper, 'glob', (pattern, opts) ->
-        Promise.resolve [PATTERN_LIST[pattern], MG]
-      )
 
       list.refresh()
-
-    afterEach ->
-      helper.glob.restore()
 
     it 'returns false when no match is found', ->
       expect(list._exists('/some/s.js')).to.be.false
@@ -203,19 +203,22 @@ describe 'FileList', ->
       mg = _.cloneDeep(MG)
       preprocess = sinon.spy((file, done) -> process.nextTick done)
       emitter = new EventEmitter()
+
+      glob = Glob: (pattern, opts) ->
+        {found: patternList[pattern], statCache: mg.statCache}
+
+      List = proxyquire('../../lib/file-list', {
+        helper: helper
+        glob: glob
+        fs: mockFs
+      })
+
       list = new List(
         patterns('/some/*.js', '*.txt'),
         [],
         emitter,
         preprocess
       )
-
-      sinon.stub(helper, 'glob', (pattern, opts) ->
-        Promise.resolve [patternList[pattern], mg]
-      )
-
-    afterEach ->
-      helper.glob.restore()
 
     it 'resolves patterns', ->
       list.refresh().then (files) ->
@@ -326,19 +329,22 @@ describe 'FileList', ->
 
       preprocess = sinon.spy((file, done) -> process.nextTick done)
       emitter = new EventEmitter()
+
+      glob = Glob: (pattern, opts) ->
+        {found: patternList[pattern], statCache: mg.statCache}
+
+      List = proxyquire('../../lib/file-list', {
+        helper: helper
+        glob: glob
+        fs: mockFs
+      })
+
       list = new List(
         patterns('/some/*.js', '*.txt'),
         ['/secret/*.txt'],
         emitter,
         preprocess
       )
-
-      sinon.stub(helper, 'glob', (pattern, opts) ->
-        Promise.resolve [patternList[pattern], mg]
-      )
-
-    afterEach ->
-      helper.glob.restore()
 
     it 'does not add excluded files', ->
       list.refresh().then (before) ->
@@ -419,18 +425,22 @@ describe 'FileList', ->
 
       preprocess = sinon.spy((file, done) -> process.nextTick done)
       emitter = new EventEmitter()
-      sinon.stub(helper, 'glob', (pattern, opts) ->
-        Promise.resolve [patternList[pattern], mg]
-      )
+
+
+      glob = Glob: (pattern, opts) ->
+        {found: patternList[pattern], statCache: mg.statCache}
+
+      List = proxyquire('../../lib/file-list', {
+        helper: helper
+        glob: glob
+        fs: mockFs
+      })
 
       mockFs._touchFile '/some/a.js', '2012-04-04'
       mockFs._touchFile '/some/b.js', '2012-05-05'
 
       modified = sinon.stub()
       emitter.on 'file_list_modified', modified
-
-    afterEach ->
-      helper.glob.restore()
 
     it 'updates mtime and fires "file_list_modified"', ->
       # MATCH: /some/a.js, /some/b.js
@@ -484,15 +494,18 @@ describe 'FileList', ->
 
       preprocess = sinon.spy((file, done) -> process.nextTick done)
       emitter = new EventEmitter()
-      sinon.stub(helper, 'glob', (pattern, opts) ->
-        Promise.resolve [patternList[pattern], mg]
-      )
+
+      glob = Glob: (pattern, opts) ->
+        {found: patternList[pattern], statCache: mg.statCache}
+
+      List = proxyquire('../../lib/file-list', {
+        helper: helper
+        glob: glob
+        fs: mockFs
+      })
 
       modified = sinon.stub()
       emitter.on 'file_list_modified', modified
-
-    afterEach ->
-      helper.glob.restore()
 
     it 'removes the file from the list and fires "file_list_modified"', ->
       # MATCH: /some/a.js, /some/b.js, /a.txt
@@ -525,9 +538,9 @@ describe 'FileList', ->
 
       preprocess = sinon.spy((file, done) -> process.nextTick done)
       emitter = new EventEmitter()
-      sinon.stub(helper, 'glob', (pattern, opts) ->
-        Promise.resolve [patternList[pattern], mg]
-      )
+
+      glob = Glob: (pattern, opts) ->
+        {found: patternList[pattern], statCache: mg.statCache}
 
       modified = sinon.stub()
       emitter.on 'file_list_modified', modified
@@ -538,11 +551,11 @@ describe 'FileList', ->
       helper._ = _.runInContext()
       List = proxyquire('../../lib/file-list', {
         helper: helper
+        glob: glob
         fs: mockFs
       })
 
     afterEach ->
-      helper.glob.restore()
       clock.restore()
 
     it 'batches multiple changes within an interval', (done) ->
