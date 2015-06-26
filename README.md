@@ -12,6 +12,9 @@ _real_ browsers.
 
 ## Help and Support
 
+> For questions and support please use the mailing list or Gitter.
+> The issue tracker is for bug reports and feature discussions only.
+
 * Obligatory [documentation]
 * Quick questions:
 [![Gitter Chat](https://img.shields.io/badge/GITTER-join%20chat-green.svg?style=flat-square)](https://gitter.im/karma-runner/karma)
