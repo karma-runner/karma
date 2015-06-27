@@ -53,6 +53,10 @@ Here is a complete example showing the different options possible:
 ```javascript
 files: [
 
+  // Detailed pattern to include a file. Similarly other options can be used
+  { pattern: 'lib/angular.js', watched: false },
+  // Prefer to have watched false for library files. No need to watch them for changes
+
   // simple pattern to load the needed testfiles
   // equal to {pattern: 'test/unit/*.spec.js', watched: true, served: true, included: true}
   'test/unit/*.spec.js',
