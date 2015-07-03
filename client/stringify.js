@@ -1,3 +1,4 @@
+var serialize = require('dom-serialize')
 var instanceOf = require('./util').instanceOf
 
 var stringify = function stringify (obj, depth) {
@@ -37,6 +38,8 @@ var stringify = function stringify (obj, depth) {
         return '<!--' + obj.nodeValue + '-->'
       } else if (obj.outerHTML) {
         return obj.outerHTML
+      } else if (obj.tagName || obj.nodeName) {
+        return serialize(obj)
       } else {
         var constructor = 'Object'
         if (obj.constructor && typeof obj.constructor === 'function') {

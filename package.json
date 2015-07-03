@@ -205,6 +205,7 @@
     "connect": "^3.3.5",
     "core-js": "^0.9.17",
     "di": "^0.0.1",
+    "dom-serialize": "^2.2.0",
     "expand-braces": "^0.1.1",
     "glob": "^5.0.10",
     "graceful-fs": "^3.0.6",
