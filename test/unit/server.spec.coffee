@@ -120,6 +120,28 @@ describe 'server', ->
       expect(mockWebServer.listen).to.have.been.called
       expect(mockInjector.invoke).to.have.been.calledWith mockLauncher.launch, mockLauncher
 
+    it 'should return the event emitter', ->
+      emitter = m.start(mockInjector, mockConfig, mockLauncher, emitter, null, mockFileList,
+        mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
+
+      expect(emitter).not.to.be.null
+      expect(emitter).to.be.an.instanceof(EventEmitter)
+
+    it 'should emit a browsers_ready event once all the browsers are captured', ->
+      emitter = m.start(mockInjector, mockConfig, mockLauncher, emitter, null, mockFileList,
+        mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
+
+      browsersReady = sinon.spy()
+      emitter.on('browsers_ready', browsersReady)
+
+      mockLauncher.areAllCaptured = -> false
+      fileListOnResolve()
+      expect(browsersReady).not.to.have.been.called
+
+      mockLauncher.areAllCaptured = -> true
+      emitter.emit('browser_register', {})
+      expect(browsersReady).to.have.been.called
+
     it 'should try next port if already in use', ->
       m.start(mockInjector, mockConfig, mockLauncher, emitter, null, mockFileList,
         mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
