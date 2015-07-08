@@ -61,6 +61,12 @@ describe('stringify', function () {
     expect(stringify(div)).to.be.eql('<div>some <span>text</span></div>')
   })
 
+  it('should serialize DOMParser objects', function () {
+    var parser = new DOMParser()
+    var doc = parser.parseFromString('<test></test>', 'application/xml')
+    expect(stringify(doc)).to.be.eql('<test></test>')
+  })
+
   it('should serialize across iframes', function () {
     var div = document.createElement('div')
     expect(__karma__.stringify(div)).to.be.eql('<div></div>')
