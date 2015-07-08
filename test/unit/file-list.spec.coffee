@@ -44,7 +44,7 @@ mockFs = mocks.fs.create
   'c.txt': mocks.fs.file 0
   'a.js':  mocks.fs.file '2012-01-01'
 
-describe.only 'FileList', ->
+describe 'FileList', ->
   List = list = emitter = preprocess = patternList = mg = modified = glob = null
 
   beforeEach ->

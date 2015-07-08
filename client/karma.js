@@ -2,7 +2,6 @@ var stringify = require('./stringify')
 var constant = require('./constants')
 var util = require('./util')
 
-/* jshint unused: false */
 var Karma = function (socket, iframe, opener, navigator, location) {
   var hasError = false
   var startEmitted = false
