@@ -199,6 +199,28 @@ describe 'middleware.karma', ->
 
     callHandlerWith '/__karma__/context.html'
 
+  it 'should serve context.json with the correct paths for all files', (done) ->
+    includedFiles [
+      new MockFile('/some/abc/a.css', 'sha1')
+      new MockFile('/base/path/b.css', 'sha2')
+      new MockFile('/some/abc/c.html', 'sha3')
+      new MockFile('/base/path/d.html', 'sha4')
+    ]
+
+    response.once 'end', ->
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs 200, JSON.stringify {
+        files: [
+          '/__karma__/absolute/some/abc/a.css?sha1',
+          '/__karma__/base/b.css?sha2',
+          '/__karma__/absolute/some/abc/c.html?sha3',
+          '/__karma__/base/d.html?sha4'
+        ]
+      }
+      done()
+
+    callHandlerWith '/__karma__/context.json'
+
 
   it 'should not change urls', (done) ->
     includedFiles [
