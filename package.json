@@ -280,6 +280,6 @@
   "engines": {
     "node": ">=0.10 <=0.12 || >=1 <=2"
   },
-  "version": "0.13.0-rc.7",
+  "version": "0.13.0-rc.8",
   "license": "MIT"
 }
