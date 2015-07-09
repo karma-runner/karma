@@ -21,6 +21,7 @@ describe 'web-server', ->
     base:
       path:
         'one.js': mocks.fs.file(0, 'js-source')
+        'new.js': mocks.fs.file(0, 'new-js-source')
 
   # NOTE(vojta): only loading once, to speed things up
   # this relies on the fact that none of these tests mutate fs
@@ -60,6 +61,14 @@ describe 'web-server', ->
     request(server)
     .get('/base/one.js')
     .expect(200, 'js-source')
+
+  it 'should serve updated source files on file_list_modified', () ->
+    servedFiles new Set([new File '/base/path/one.js'])
+    servedFiles new Set([new File '/base/path/new.js'])
+
+    request(server)
+    .get('/base/new.js')
+    .expect(200, 'new-js-source')
 
   it 'should load custom handlers', () ->
     servedFiles new Set()
