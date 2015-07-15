@@ -4,6 +4,8 @@ sinon = require 'sinon'
 chai = require 'chai'
 logger = require '../../lib/logger'
 
+require('bluebird').longStackTraces()
+
 # publish globals that all specs can use
 global.expect = chai.expect
 global.should = chai.should()
@@ -12,6 +14,7 @@ global.sinon = sinon
 # chai plugins
 chai.use(require 'chai-as-promised')
 chai.use(require 'sinon-chai')
+chai.use(require 'chai-subset')
 
 beforeEach ->
   global.sinon = sinon.sandbox.create()

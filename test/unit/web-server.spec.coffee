@@ -1,12 +1,13 @@
+require 'core-js'
+request = require 'supertest-as-promised'
+di = require 'di'
+Promise = require 'bluebird'
+mocks = require 'mocks'
+_ = require('../../lib/helper')._
+
 describe 'web-server', ->
-  di = require 'di'
-  q = require 'q'
-  mocks = require 'mocks'
 
-  HttpResponseMock = mocks.http.ServerResponse
-  HttpRequestMock = mocks.http.ServerRequest
-
-  File = require('../../lib/file_list').File
+  File = require('../../lib/file')
 
   EventEmitter = require('events').EventEmitter
 
@@ -20,18 +21,16 @@ describe 'web-server', ->
     base:
       path:
         'one.js': mocks.fs.file(0, 'js-source')
+        'new.js': mocks.fs.file(0, 'new-js-source')
 
   # NOTE(vojta): only loading once, to speed things up
   # this relies on the fact that none of these tests mutate fs
   m = mocks.loadFile __dirname + '/../../lib/web-server.js', _mocks, _globals
 
-  customFileHandlers = server = response = emitter = null
-
-  requestPath = (path) ->
-    server.emit 'request', new HttpRequestMock(path), response
+  customFileHandlers = server = emitter = null
 
   servedFiles = (files) ->
-    emitter.emit 'file_list_modified', q.resolve({included: [], served: files})
+    emitter.emit 'file_list_modified', {included: [], served: files}
 
   beforeEach ->
     customFileHandlers = []
@@ -48,33 +47,32 @@ describe 'web-server', ->
     }]
 
     server = injector.invoke m.createWebServer
-    servedFiles []
-    response = new HttpResponseMock
 
+  it 'should serve client.html', () ->
+    servedFiles new Set()
 
-  it 'should serve client.html', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 200, 'CLIENT HTML'
-      done()
+    request(server)
+    .get('/')
+    .expect(200, 'CLIENT HTML')
 
-    requestPath '/'
+  it 'should serve source files', () ->
+    servedFiles new Set([new File '/base/path/one.js'])
 
-  it 'should serve client.html with a absoluteURI request path ', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 200, 'CLIENT HTML'
-      done()
-    requestPath 'http://localhost:9876/'
+    request(server)
+    .get('/base/one.js')
+    .expect(200, 'js-source')
 
-  it 'should serve source files', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 200, 'js-source'
-      done()
+  it 'should serve updated source files on file_list_modified', () ->
+    servedFiles new Set([new File '/base/path/one.js'])
+    servedFiles new Set([new File '/base/path/new.js'])
 
-    servedFiles [new File '/base/path/one.js']
-    requestPath '/base/one.js'
+    request(server)
+    .get('/base/new.js')
+    .expect(200, 'new-js-source')
 
+  it 'should load custom handlers', () ->
+    servedFiles new Set()
 
-  it 'should load custom handlers', (done) ->
     # TODO(vojta): change this, only keeping because karma-dart is relying on it
     customFileHandlers.push {
       urlRegex: /\/some\/weird/
@@ -83,16 +81,13 @@ describe 'web-server', ->
         response.end 'CONTENT'
     }
 
-    response.once 'end', ->
-      expect(response).to.beServedAs 222, 'CONTENT'
-      done()
+    request(server)
+    .get('/some/weird/url')
+    .expect(222, 'CONTENT')
 
-    requestPath '/some/weird/url'
+  it 'should serve 404 for non-existing files', () ->
+    servedFiles new Set()
 
-
-  it 'should serve 404 for non-existing files', (done) ->
-    response.once 'end', ->
-      expect(response).to.beServedAs 404, 'NOT FOUND'
-      done()
-
-    requestPath '/non/existing.html'
+    request(server)
+    .get('/non/existing.html')
+    .expect(404)

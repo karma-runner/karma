@@ -41,6 +41,11 @@ Each pattern is either a simple string or an object with four properties:
 * **Default.** `true`
 * **Description.** Should the files be served by Karma's webserver?
 
+### `nocache`
+* **Type.** Boolean
+* **Default.** `false`
+* **Description.** Should the files be served from disk on each request by Karma's webserver?
+
 
 ## Preprocessor transformations
 Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in
@@ -66,7 +71,10 @@ files: [
   {pattern: 'compiled/index.html', watched: false},
 
   // this file only gets watched and is otherwise ignored
-  {pattern: 'app/index.html', included: false, served: false}
+  {pattern: 'app/index.html', included: false, served: false},
+
+  // this file will be served on demand from disk and will be ignored by the watcher
+  {pattern: 'compiled/app.js.map', included: false, served: true, watched: false, nocache: true}
 ],
 ```
 
@@ -77,7 +85,7 @@ Example for loading images
 
 ```javascript
 files: [
-  {pattern: "test/images/*.jpg", watched: false, included: false, served: true}
+  {pattern: 'test/images/*.jpg', watched: false, included: false, served: true, nocache: false}
 ],
 ```
 

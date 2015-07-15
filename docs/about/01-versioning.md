@@ -1,12 +1,10 @@
-Karma uses [Semantic Versioning] with a little exception:
-- even versions (eg. `0.6.x`, `0.8.x`) are considered stable - no breaking changes or new features, only bug fixes will be pushed into this branch
-- odd versions (eg. `0.7.x`, `0.9.x`) are unstable - anything can happen ;-)
+Karma uses [Semantic Versioning]. We publish unstable versions as `rc` versions, e.g. the current stable could look like `0.12.36` and the unstable would be something like `0.13.0-rc.4`.
 
-Therefore, it is recommended that you rely on the latest stable (even) version, which will give you automatic bug fixes, but will not break your test setup:
+It is recommended that you rely on the latest stable version, which will give you automatic bug fixes, but will not break your test setup:
 ```javascript
 {
   "devDependencies": {
-    "karma": "~0.10"
+    "karma": "^0.12"
   }
 }
 ```

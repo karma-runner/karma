@@ -1,29 +1,23 @@
-# TODO(vojta):
-# single run
-'should run tests when all browsers captured'
-'should run tests when first browser captured if no browser configured'
-
 #==============================================================================
 # lib/server.js module
 #==============================================================================
-describe 'server', ->
-  BrowserCollection = require('../../lib/browser_collection')
-  EventEmitter = require('events').EventEmitter
-  loadFile = require('mocks').loadFile
-  q = require('q')
 
-  m = mockConfig = browserCollection = emitter = injector = webServerOnError = null
-  fileListOnResolve = fileListOnReject = mockInjector = mockLauncher = null
+Server = require('../../lib/server')
+BrowserCollection = require('../../lib/browser_collection')
+
+describe 'server', ->
+
+  server = mockConfig = browserCollection = injector = webServerOnError = null
+  fileListOnResolve = fileListOnReject = mockLauncher = null
   mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneSpy = null
 
   beforeEach ->
     browserCollection = new BrowserCollection
     doneSpy = sinon.spy()
-    emitter = new EventEmitter
 
     fileListOnResolve = fileListOnReject = null
 
-    m = loadFile __dirname + '/../../lib/server.js'
+    doneSpy = sinon.spy()
 
     mockConfig =
       frameworks: []
@@ -33,7 +27,12 @@ describe 'server', ->
       urlRoot: '/'
       browsers: ['fake']
       singleRun: true
+      logLevel: 'OFF'
       browserDisconnectTolerance: 0
+
+    server = new Server(mockConfig, doneSpy)
+
+    sinon.stub(server._injector, 'invoke').returns([])
 
     mockExecutor =
       schedule: ->
@@ -43,13 +42,6 @@ describe 'server', ->
         fileListOnResolve = onResolve
         fileListOnReject = onReject
       )
-
-    mockInjector =
-      get: ->
-      invoke: sinon.spy( -> [])
-      createChild: ->
-        instantiate: ->
-          init: ->
 
     mockLauncher =
       launch: ->
@@ -76,52 +68,54 @@ describe 'server', ->
 
     webServerOnError = null
 
+
+
   #============================================================================
-  # server.start()
+  # server._start()
   #============================================================================
-  describe 'start', ->
+  describe '_start', ->
     it 'should start the web server after all files have been preprocessed successfully', ->
-      m.start(mockInjector, mockConfig, mockLauncher, emitter, null, mockFileList,
+      server._start(mockConfig, mockLauncher, null, mockFileList,
         mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
 
       expect(mockFileList.refresh).to.have.been.called
       expect(fileListOnResolve).not.to.be.null
       expect(mockWebServer.listen).not.to.have.been.called
-      expect(mockInjector.invoke).not.to.have.been.calledWith mockLauncher.launch, mockLauncher
+      expect(server._injector.invoke).not.to.have.been.calledWith mockLauncher.launch, mockLauncher
 
       fileListOnResolve()
 
       expect(mockWebServer.listen).to.have.been.called
-      expect(mockInjector.invoke).to.have.been.calledWith mockLauncher.launch, mockLauncher
+      expect(server._injector.invoke).to.have.been.calledWith mockLauncher.launch, mockLauncher
 
     it 'should start the web server after all files have been preprocessed with an error', ->
-      m.start(mockInjector, mockConfig, mockLauncher, emitter, null, mockFileList,
+      server._start(mockConfig, mockLauncher, null, mockFileList,
         mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
 
       expect(mockFileList.refresh).to.have.been.called
       expect(fileListOnReject).not.to.be.null
       expect(mockWebServer.listen).not.to.have.been.called
-      expect(mockInjector.invoke).not.to.have.been.calledWith mockLauncher.launch, mockLauncher
+      expect(server._injector.invoke).not.to.have.been.calledWith mockLauncher.launch, mockLauncher
 
       fileListOnReject()
 
       expect(mockWebServer.listen).to.have.been.called
-      expect(mockInjector.invoke).to.have.been.calledWith mockLauncher.launch, mockLauncher
+      expect(server._injector.invoke).to.have.been.calledWith mockLauncher.launch, mockLauncher
 
     it 'should launch browsers after the web server has started', ->
-      m.start(mockInjector, mockConfig, mockLauncher, emitter, null, mockFileList,
+      server._start(mockConfig, mockLauncher, null, mockFileList,
         mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
 
       expect(mockWebServer.listen).not.to.have.been.called
-      expect(mockInjector.invoke).not.to.have.been.calledWith mockLauncher.launch, mockLauncher
+      expect(server._injector.invoke).not.to.have.been.calledWith mockLauncher.launch, mockLauncher
 
       fileListOnResolve()
 
       expect(mockWebServer.listen).to.have.been.called
-      expect(mockInjector.invoke).to.have.been.calledWith mockLauncher.launch, mockLauncher
+      expect(server._injector.invoke).to.have.been.calledWith mockLauncher.launch, mockLauncher
 
     it 'should try next port if already in use', ->
-      m.start(mockInjector, mockConfig, mockLauncher, emitter, null, mockFileList,
+      server._start(mockConfig, mockLauncher, null, mockFileList,
         mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
 
       expect(mockWebServer.listen).not.to.have.been.called
@@ -137,3 +131,37 @@ describe 'server', ->
 
       expect(mockWebServer.listen).to.have.been.calledWith(9877)
       expect(mockConfig.port).to.be.equal 9877
+
+    it 'should emit a browsers_ready event once all the browsers are captured', ->
+      server._start(mockConfig, mockLauncher, null, mockFileList,
+        mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
+
+      browsersReady = sinon.spy()
+      server.on('browsers_ready', browsersReady)
+
+      mockLauncher.areAllCaptured = -> false
+      fileListOnResolve()
+      expect(browsersReady).not.to.have.been.called
+
+      mockLauncher.areAllCaptured = -> true
+      server.emit('browser_register', {})
+      expect(browsersReady).to.have.been.called
+
+    it 'should emit a browser_register event for each browser added', ->
+      server._start(mockConfig, mockLauncher, null, mockFileList,
+        mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
+
+      browsersReady = sinon.spy()
+      server.on('browsers_ready', browsersReady)
+
+      mockLauncher.areAllCaptured = -> false
+      fileListOnResolve()
+      expect(browsersReady).not.to.have.been.called
+
+      mockLauncher.areAllCaptured = -> true
+      server.emit('browser_register', {})
+      expect(browsersReady).to.have.been.called
+
+  describe.skip 'singleRun', ->
+    it 'should run tests when all browsers captured', ->
+    it 'should run tests when first browser captured if no browser configured', ->

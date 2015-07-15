@@ -1,12 +1,10 @@
 describe 'middleware.strip_host', ->
-  q = require 'q'
-
   mocks = require 'mocks'
   HttpResponseMock = mocks.http.ServerResponse
   HttpRequestMock = mocks.http.ServerRequest
 
-  File = require('../../../lib/file_list').File
-  Url = require('../../../lib/file_list').Url
+  File = require('../../../lib/file')
+  Url = require('../../../lib/url')
 
   fsMock = mocks.fs.create
     base:

@@ -3,9 +3,9 @@
 #==============================================================================
 describe 'reporter', ->
   EventEmitter = require('events').EventEmitter
-  File = require('../../lib/file_list').File
+  File = require('../../lib/file')
   loadFile = require('mocks').loadFile
-  q = require 'q'
+  _ = require('../../lib/helper')._
   m = null
 
   beforeEach ->
@@ -76,7 +76,7 @@ describe 'reporter', ->
 
       class MockSourceMapConsumer
         constructor: (sourceMap) ->
-          @source = sourceMap.replace 'SOURCE MAP ', '/original/'
+          @source = sourceMap.content.replace 'SOURCE MAP ', '/original/'
         originalPositionFor: (position) ->
           if position.line == 0
             throw new TypeError('Line must be greater than or equal to 1, got 0')
@@ -88,15 +88,16 @@ describe 'reporter', ->
       it 'should rewrite stack traces', (done) ->
         formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
         servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = 'SOURCE MAP a.js'
-        servedFiles[1].sourceMap = 'SOURCE MAP b.js'
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
-        emitter.emit 'file_list_modified', q(served: servedFiles)
+        emitter.emit 'file_list_modified', served: servedFiles
 
-        scheduleNextTick ->
+        _.defer -> _.delay ->
           ERROR = 'at http://localhost:123/base/b.js:2:6'
           expect(formatError ERROR).to.equal 'at /some/base/b.js:2:6 <- /original/b.js:4:8\n'
           done()
+        , 100
 
       it 'should fall back to non-source-map format if originalPositionFor throws', (done) ->
         formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
@@ -104,13 +105,13 @@ describe 'reporter', ->
         servedFiles[0].sourceMap = 'SOURCE MAP a.js'
         servedFiles[1].sourceMap = 'SOURCE MAP b.js'
 
-        emitter.emit 'file_list_modified', q(served: servedFiles)
+        emitter.emit 'file_list_modified', served: servedFiles
 
-        scheduleNextTick ->
+        _.defer ->
           ERROR = 'at http://localhost:123/base/b.js:0:0'
           expect(formatError ERROR).to.equal 'at /some/base/b.js\n'
           done()
-          
+
       describe 'Windows', ->
         formatError = null
         servedFiles = null
@@ -118,20 +119,20 @@ describe 'reporter', ->
         beforeEach ->
           formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
           servedFiles = [new File('C:/a/b/c.js')]
-          servedFiles[0].sourceMap = 'SOURCE MAP b.js'
+          servedFiles[0].sourceMap = {content: 'SOURCE MAP b.js'}
 
         it 'should correct rewrite stack traces without sha', (done) ->
-          emitter.emit 'file_list_modified', q(served: servedFiles)
+          emitter.emit 'file_list_modified', served: servedFiles
 
-          scheduleNextTick ->
+          _.defer ->
             ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js:2:6'
             expect(formatError ERROR).to.equal 'at C:/a/b/c.js:2:6 <- /original/b.js:4:8\n'
             done()
 
         it 'should correct rewrite stack traces with sha', (done) ->
-          emitter.emit 'file_list_modified', q(served: servedFiles)
+          emitter.emit 'file_list_modified', served: servedFiles
 
-          scheduleNextTick ->
+          _.defer ->
             ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js?da39a3ee5e6:2:6'
             expect(formatError ERROR).to.equal 'at C:/a/b/c.js:2:6 <- /original/b.js:4:8\n'
             done()
