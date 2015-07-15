@@ -1,3 +1,57 @@
+<a name"0.13.0"></a>
+## 0.13.0 (2015-07-15)
+
+
+#### Bug Fixes
+
+* upgrade http-proxy module for bug fixes ([09c75fe1](https://github.com/karma-runner/karma/commit/09c75fe1))
+* **cli:** print UserAgent string verbatim if from an unknown browser ([9d972263](https://github.com/karma-runner/karma/commit/9d972263))
+* **client:**
+  * serialise DOM objects ([1f73be4f](https://github.com/karma-runner/karma/commit/1f73be4f), closes [#1106](https://github.com/karma-runner/karma/issues/1106))
+  * Update location detection for socket.io ([7a23fa57](https://github.com/karma-runner/karma/commit/7a23fa57))
+* **deps:** Upgrade connect 3. ([b490985c](https://github.com/karma-runner/karma/commit/b490985c))
+* **file-list:** Use correct find function ([4cfaae96](https://github.com/karma-runner/karma/commit/4cfaae96))
+* **helper:** Ensure browser detection is handled in the unkown case ([9328f67e](https://github.com/karma-runner/karma/commit/9328f67e))
+* **launchers:** Listen to the correct error event. ([45a69221](https://github.com/karma-runner/karma/commit/45a69221))
+* **web-server:** Correctly update filesPromise on files updated ([32eec8d7](https://github.com/karma-runner/karma/commit/32eec8d7))
+
+
+#### Features
+
+* Upgrade to socket.io 1.3 ([603872c9](https://github.com/karma-runner/karma/commit/603872c9), closes [#1220](https://github.com/karma-runner/karma/issues/1220))
+* allow frameworks to add preprocessors This changes the order in which things are ([f6f5eec3](https://github.com/karma-runner/karma/commit/f6f5eec3))
+* **config:** add nocache option for file patterns ([6ef7e7b1](https://github.com/karma-runner/karma/commit/6ef7e7b1))
+* **file-list:** Use glob.sync for better speed ([1b65cde4](https://github.com/karma-runner/karma/commit/1b65cde4))
+* **logger:**
+  * Add date/time stamp to log output ([a4b5cdde](https://github.com/karma-runner/karma/commit/a4b5cdde))
+* **reporter:** cache SourceMapConsumer ([fe6ed7e5](https://github.com/karma-runner/karma/commit/fe6ed7e5))
+* **runner:**
+  * serve context in JSON format for JS-only environments ([189feffd](https://github.com/karma-runner/karma/commit/189feffd))
+  * provide error code on 'ECONNREFUSED' callback ([439bddb1](https://github.com/karma-runner/karma/commit/439bddb1))
+* **server:** improve public api ([82cbbadd](https://github.com/karma-runner/karma/commit/82cbbadd), closes [#1037](https://github.com/karma-runner/karma/issues/1037), [#1482](https://github.com/karma-runner/karma/issues/1482), [#1467](https://github.com/karma-runner/karma/issues/1467))
+* **watcher:** Allow using braces in watcher ([e046379b](https://github.com/karma-runner/karma/commit/e046379b), closes [#1249](https://github.com/karma-runner/karma/issues/1249))
+* **web-server:** Serve all files under urlRoot ([1319b32d](https://github.com/karma-runner/karma/commit/1319b32d))
+
+
+#### Breaking Changes
+
+* The public api interface has changed to a constructor form. To upgrade
+  change
+  ```javascript
+  var server = require(‘karma’).server
+  server.start(config, done)
+  ```
+  to
+  ```javascript
+  var Server = require(‘karma’).Server
+  var server = new Server(config, done)
+  server.start()
+  ```
+  Closes #1037, #1482, #1467
+  ([82cbbadd](https://github.com/karma-runner/karma/commit/82cbbadd))
+
+
+
 <a name"0.12.37"></a>
 ### 0.12.37 (2015-06-24)
 
