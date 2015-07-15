@@ -16,7 +16,7 @@ Add `karma-teamcity-reporter` as a dependency to your project:
     npm i --save-dev karma-teamcity-reporter
 
 It is also a good idea to check that you have all karma npm dependencies listed in your
-`package.json` file (e.g. `karma-jasmine`, `karma-phantomja-launcher` and so on) to have them
+`package.json` file (e.g. `karma-jasmine`, `karma-phantomjs-launcher` and so on) to have them
 being installed during build.
 
 ## Create a new TeamCity build step
