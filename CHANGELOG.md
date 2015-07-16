@@ -1,3 +1,14 @@
+<a name"0.13.1"></a>
+### 0.13.1 (2015-07-16)
+
+
+#### Bug Fixes
+
+* **file-list:**
+  * Ensure files are sorted and unique ([9dc5f8bc](https://github.com/karma-runner/karma/commit/9dc5f8bc), closes [#1498](https://github.com/karma-runner/karma/issues/1498), [#1499](https://github.com/karma-runner/karma/issues/1499))
+  * Normalize glob patterns ([fb841a79](https://github.com/karma-runner/karma/commit/fb841a79), closes [#1494](https://github.com/karma-runner/karma/issues/1494))
+
+
 <a name"0.13.0"></a>
 ## 0.13.0 (2015-07-15)
 
