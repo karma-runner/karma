@@ -251,6 +251,24 @@ describe 'FileList', ->
         expect(file1.mtime).to.be.eql mg.statCache['/some/a.js'].mtime
         expect(file2.mtime).to.be.eql mg.statCache['/some/b.js'].mtime
 
+    it 'sets the mtime for relative patterns', ->
+      list = new List(
+        patterns('/some/world/../*.js', '*.txt'),
+        [],
+        emitter,
+        preprocess
+      )
+
+      list.refresh().then (files) ->
+        bucket = list.buckets.get('/some/world/../*.js')
+
+        file1 = findFile '/some/a.js', bucket
+        file2 = findFile '/some/b.js', bucket
+
+        expect(file1.mtime).to.be.eql mg.statCache['/some/a.js'].mtime
+        expect(file2.mtime).to.be.eql mg.statCache['/some/b.js'].mtime
+
+
     it 'ingores excluded files', ->
       list = new List(
         patterns('*.txt'),
