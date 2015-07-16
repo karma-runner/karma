@@ -268,6 +268,24 @@ describe 'FileList', ->
         expect(file1.mtime).to.be.eql mg.statCache['/some/a.js'].mtime
         expect(file2.mtime).to.be.eql mg.statCache['/some/b.js'].mtime
 
+    it 'should sort files within buckets and keep order of patterns (buckets)', ->
+      # /a.*       => /a.txt                   [MATCH in *.txt as well]
+      # /some/*.js => /some/a.js, /some/b.js   [/some/b.js EXCLUDED]
+      # *.txt      => /c.txt, a.txt, b.txt     [UNSORTED]
+      list = new List(
+        patterns('/a.*', '/some/*.js', '*.txt'),
+        ['**/b.js'],
+        emitter,
+        preprocess
+      )
+
+      list.refresh().then (files) ->
+        expect(pathsFrom files.served).to.deep.equal [
+          '/a.txt',
+          '/some/a.js',
+          '/b.txt',
+          '/c.txt'
+        ]
 
     it 'ingores excluded files', ->
       list = new List(
