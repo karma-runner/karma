@@ -1,3 +1,14 @@
+<a name"0.13.2"></a>
+### 0.13.2 (2015-07-17)
+
+
+#### Features
+
+* **cli:** Better CLI args validation ([73d31c2c](https://github.com/karma-runner/karma/commit/73d31c2c))
+* **preprocessor:** Instantiate preprocessors early to avoid race conditions ([8a9c8c73](https://github.com/karma-runner/karma/commit/8a9c8c73))
+* **server:** Add public api to force a file list refresh. ([b3c462a5](https://github.com/karma-runner/karma/commit/b3c462a5))
+
+
 <a name"0.13.1"></a>
 ### 0.13.1 (2015-07-16)
 
