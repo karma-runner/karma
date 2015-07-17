@@ -22,6 +22,14 @@ Equivalent of `karma start`.
 server.start()
 ```
 
+### **server.refreshFiles()**
+
+Trigger a file list refresh. Returns a promise.
+
+```javascript
+server.refresh()
+```
+
 ### Events
 
 The `server` object is an [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#events_class_events_eventemitter). You can simply listen to events like this:
