@@ -94,9 +94,8 @@ module.exports = function (grunt) {
         requires: ['build'],
         abortIfDirty: true,
         tag: function () {
-          var minor
-          minor = parseInt(grunt.config('pkg.version').split('.')[1], 10)
-          if (minor % 2) {
+          var version = grunt.config('pkg.version')
+          if (version.match(/rc/)) {
             return 'canary'
           } else {
             return 'latest'
