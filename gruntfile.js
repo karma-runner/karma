@@ -108,6 +108,30 @@ module.exports = function (grunt) {
         commitMessage: 'chore: update contributors'
       }
     },
+    conventionalChangelog: {
+      release: {
+        options: {
+          changelogOpts: {
+            preset: 'angular'
+          }
+        },
+        src: 'CHANGELOG.md'
+      },
+    },
+    conventionalGithubReleaser: {
+      release: {
+        options: {
+          auth: {
+            type: 'oauth',
+            token: process.env.GH_TOKEN
+          },
+          changelogOpts: {
+            preset: 'angular',
+            releaseCount: 0
+          }
+        }
+      }
+    },
     bump: {
       options: {
         updateConfigs: ['pkg'],
@@ -134,8 +158,9 @@ module.exports = function (grunt) {
       'npm-contributors',
       'bump:' + (type || 'patch') + ':bump-only',
       'build',
-      'changelog',
+      'conventionalChangelog',
       'bump-commit',
+      'conventionalGithubReleaser',
       'npm-publish'
     ])
   })
