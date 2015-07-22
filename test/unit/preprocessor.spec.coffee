@@ -14,6 +14,7 @@ describe 'preprocessor', ->
         'b.js': mocks.fs.file 0, 'content'
         'a.txt': mocks.fs.file 0, 'some-text'
         'photo.png': mocks.fs.file 0, 'binary'
+        'CAM_PHOTO.JPG': mocks.fs.file 0, 'binary'
 
     mocks_ =
       'graceful-fs': mockFs
@@ -190,6 +191,24 @@ describe 'preprocessor', ->
     pp = m.createPreprocessor {'**/*': ['fake']}, null, injector
 
     file = {originalPath: '/some/photo.png', path: 'path'}
+
+    pp file, (err) ->
+      expect(fakePreprocessor).not.to.have.been.called
+      expect(file.content).to.be.an.instanceof Buffer
+      done()
+
+
+  it 'should not preprocess binary files with capital letters in extension', (done) ->
+    fakePreprocessor = sinon.spy (content, file, done) ->
+      done null, content
+
+    injector = new di.Injector [{
+      'preprocessor:fake': ['factory', -> fakePreprocessor]
+    }]
+
+    pp = m.createPreprocessor {'**/*': ['fake']}, null, injector
+
+    file = {originalPath: '/some/CAM_PHOTO.JPG', path: 'path'}
 
     pp file, (err) ->
       expect(fakePreprocessor).not.to.have.been.called
