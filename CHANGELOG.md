@@ -1,3 +1,17 @@
+<a name"0.13.3"></a>
+### 0.13.3 (2015-07-22)
+
+
+#### Bug Fixes
+
+* restore backward compatibility for karma@0.13 ([648b357a](https://github.com/karma-runner/karma/commit/648b357a))
+
+
+#### Features
+
+* **preprocessor:** Capital letters in binary files extenstions ([1688689d](https://github.com/karma-runner/karma/commit/1688689d), closes [#1508](https://github.com/karma-runner/karma/issues/1508))
+
+
 <a name"0.13.2"></a>
 ### 0.13.2 (2015-07-17)
 
