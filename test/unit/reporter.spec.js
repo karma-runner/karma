@@ -98,6 +98,21 @@ describe('reporter', () => {
         }, 100))
       })
 
+      it('should rewrite relative url stack traces', done => {
+        formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
+        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+
+        emitter.emit('file_list_modified', {served: servedFiles})
+
+        _.defer(() => _.delay(() => {
+          var ERROR = 'at /base/b.js:2:6'
+          expect(formatError(ERROR)).to.equal('at /some/base/b.js:2:6 <- /original/b.js:4:8\n')
+          done()
+        }, 100))
+      })
+
       it('should fall back to non-source-map format if originalPositionFor throws', done => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
