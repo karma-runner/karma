@@ -10,6 +10,7 @@ describe 'middleware.runner', ->
   BrowserCollection = require '../../../lib/browser_collection'
   MultReporter = require('../../../lib/reporters/multi')
   createRunnerMiddleware = require('../../../lib/middleware/runner').create
+  Promise = require('bluebird')
 
   handler = nextSpy = response = mockReporter = capturedBrowsers = emitter = config = null
   fileListMock = executor = null
@@ -25,7 +26,7 @@ describe 'middleware.runner', ->
     emitter = new EventEmitter
     capturedBrowsers = new BrowserCollection emitter
     fileListMock =
-      refresh: -> null
+      refresh: -> Promise.resolve(null)
       addFile: -> null
       removeFile: -> null
       changeFile: -> null
@@ -49,8 +50,11 @@ describe 'middleware.runner', ->
 
     handler new HttpRequestMock('/__run__'), response, nextSpy
 
-    mockReporter.write 'result'
-    emitter.emit 'run_complete', capturedBrowsers, {exitCode: 0}
+    # Wrap this in a setTimeout so the fileListPromise has time to resolve.
+    setTimeout( ->
+      mockReporter.write 'result'
+      emitter.emit 'run_complete', capturedBrowsers, {exitCode: 0}
+    , 2)
 
 
   it 'should not run if there is no browser captured', (done) ->
@@ -141,6 +145,29 @@ describe 'middleware.runner', ->
       expect(executor.schedule).to.have.been.called
       done()
 
+  it 'should wait for refresh to finish if applicable before scheduling execution', (done) ->
+    capturedBrowsers.add new Browser
+    sinon.stub capturedBrowsers, 'areAllReady', -> true
+
+    resolve = null
+    fileListPromise = new Promise (_resolve, _reject) ->
+      resolve = _resolve
+    sinon.stub(fileListMock, 'refresh').returns fileListPromise
+    sinon.stub executor, 'schedule'
+
+    request = new HttpRequestMock '/__run__'
+    handler request, response, nextSpy
+
+    process.nextTick ->
+      expect(fileListMock.refresh).to.have.been.called
+      expect(executor.schedule).to.not.have.been.called
+
+      # Now try resolving the promise
+      resolve()
+      setTimeout(->
+        expect(executor.schedule).to.have.been.called
+        done()
+      , 2)
 
   it 'should not schedule execution if refreshing and autoWatch', (done) ->
     config.autoWatch = true
@@ -148,7 +175,7 @@ describe 'middleware.runner', ->
     capturedBrowsers.add new Browser
     sinon.stub capturedBrowsers, 'areAllReady', -> true
 
-    sinon.stub fileListMock, 'refresh'
+    sinon.stub(fileListMock, 'refresh').returns Promise.resolve(null)
     sinon.stub executor, 'schedule'
 
     handler new HttpRequestMock('/__run__'), response, nextSpy
