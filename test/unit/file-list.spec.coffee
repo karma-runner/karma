@@ -409,7 +409,6 @@ describe 'FileList', ->
       emitter.on 'file_list_modified', modified
 
       list.refresh().then ->
-        expect(modified).to.have.been.calledOnce
         modified.reset()
 
         list.addFile('/some/d.js').then ->
@@ -424,7 +423,6 @@ describe 'FileList', ->
       emitter.on 'file_list_modified', modified
 
       list.refresh().then ->
-        expect(modified).to.have.been.calledOnce
         modified.reset()
         preprocess.reset()
         sinon.spy mockFs, 'stat'
@@ -505,7 +503,7 @@ describe 'FileList', ->
       # MATCH: /some/a.js, /some/b.js, /a.txt
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
 
-      list.refresh().then (files) ->
+      list.refresh().then (files) -> Promise.delay(0).then ->
         # not touching the file, stat will return still the same
         modified.reset()
         list.changeFile('/some/b.js').then ->
@@ -554,7 +552,8 @@ describe 'FileList', ->
             '/some/b.js',
             '/a.txt'
           ]
-          expect(modified).to.have.been.calledOnce
+          Promise.delay(0).then ->
+            expect(modified).to.have.been.calledOnce
 
     it 'does not fire "file_list_modified" if the file is not in the list', ->
       # MATCH: /some/a.js, /some/b.js, /a.txt
@@ -585,17 +584,20 @@ describe 'FileList', ->
       # This hack is needed to ensure lodash is using the fake timers
       # from sinon
       helper._ = _.runInContext()
+      Promise.setScheduler (fn) -> fn()
+
       List = proxyquire('../../lib/file-list', {
         helper: helper
         glob: glob
-        fs: mockFs
+        fs: mockFs,
+        bluebird: Promise
       })
 
     afterEach ->
       clock.restore()
+      Promise.setScheduler (fn) -> process.nextTick(fn)
 
-    it 'batches multiple changes within an interval', (done) ->
-
+    it 'batches multiple changes within an interval', () ->
       # MATCH: /some/a.js, /some/b.js, /a.txt
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 1000)
 
@@ -610,15 +612,15 @@ describe 'FileList', ->
 
         clock.tick(999)
         expect(modified).to.not.have.been.called
-        emitter.once 'file_list_modified', (files) ->
-          expect(pathsFrom files.served).to.be.eql [
-            '/some/0.js',
-            '/some/b.js',
-            '/a.txt'
-          ]
-          done()
+        clock.tick(2)
+        expect(modified).to.have.been.calledOnce
+        files = modified.lastCall.args[0]
+        expect(pathsFrom files.served).to.be.eql [
+          '/some/0.js',
+          '/some/b.js',
+          '/a.txt'
+        ]
 
-        clock.tick(1001)
 
     it 'waits while file preprocessing, if the file was deleted and immediately added', (done) ->
       list = new List(patterns('/a.*'), [], emitter, preprocess, 1000)
@@ -626,14 +628,14 @@ describe 'FileList', ->
       list.refresh().then (files) ->
         preprocess.reset()
 
-        # Remove and then immediately add file to the bucket
-        list.removeFile '/a.txt'
-        list.addFile '/a.txt'
-
-        clock.tick(1000)
-
-        emitter.once 'file_list_modified', (files) ->
+        emitter.once 'file_list_modified', (files) -> _.defer ->
           expect(preprocess).to.have.been.calledOnce
           done()
 
-        clock.tick(1001)
+        # Remove and then immediately add file to the bucket
+        list.removeFile( '/a.txt')
+        list.addFile('/a.txt')
+
+        clock.tick(999)
+        expect(preprocess).to.not.have.been.called
+        clock.tick(2)
