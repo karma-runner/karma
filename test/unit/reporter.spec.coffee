@@ -30,7 +30,6 @@ describe 'reporter', ->
     it 'should handle empty message', ->
       expect(formatError null).to.equal '\n'
 
-
     it 'should remove domain from files', ->
       expect(formatError 'file http://localhost:8080/base/usr/a.js and ' +
                          'http://127.0.0.1:8080/base/home/b.js').
@@ -95,6 +94,20 @@ describe 'reporter', ->
 
         _.defer -> _.delay ->
           ERROR = 'at http://localhost:123/base/b.js:2:6'
+          expect(formatError ERROR).to.equal 'at /some/base/b.js:2:6 <- /original/b.js:4:8\n'
+          done()
+        , 100
+
+      it 'should rewrite relative url stack traces', (done) ->
+        formatError = m.createErrorFormatter '/some/base', emitter, MockSourceMapConsumer
+        servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+
+        emitter.emit 'file_list_modified', served: servedFiles
+
+        _.defer -> _.delay ->
+          ERROR = 'at /base/b.js:2:6'
           expect(formatError ERROR).to.equal 'at /some/base/b.js:2:6 <- /original/b.js:4:8\n'
           done()
         , 100
