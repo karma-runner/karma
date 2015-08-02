@@ -136,3 +136,36 @@ describe 'reporter', ->
             ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js?da39a3ee5e6:2:6'
             expect(formatError ERROR).to.equal 'at C:/a/b/c.js:2:6 <- /original/b.js:4:8\n'
             done()
+
+      describe 'Webpack', ->
+        formatError = null
+        servedFiles = null
+
+        beforeEach ->
+          formatError = m.createErrorFormatter '', emitter, MockSourceMapConsumer
+          servedFiles = [new File('/test/a.js')]
+          servedFiles[0].sourceMap = 'SOURCE MAP a.js'
+
+        it 'should correct rewrite stack traces without sha', (done) ->
+          emitter.emit 'file_list_modified', q(served: servedFiles)
+
+          scheduleNextTick ->
+            ERROR = 'at base/test/a.js:2:6'
+            expect(formatError ERROR).to.equal 'at /test/a.js:2:6 <- /original/a.js:4:8\n'
+            done()
+
+        it 'should correct rewrite stack traces with sha', (done) ->
+          emitter.emit 'file_list_modified', q(served: servedFiles)
+
+          scheduleNextTick ->
+            ERROR = 'at base/test/a.js?da39a3ee5e6:2:6'
+            expect(formatError ERROR).to.equal 'at /test/a.js:2:6 <- /original/a.js:4:8\n'
+            done()
+
+        it 'should correct rewrite stack traces with sha without column', (done) ->
+          emitter.emit 'file_list_modified', q(served: servedFiles)
+
+          scheduleNextTick ->
+            ERROR = 'at base/test/a.js?da39a3ee5e6:2'
+            expect(formatError ERROR).to.equal 'at /test/a.js:2:0 <- /original/a.js:4:2\n'
+            done()
