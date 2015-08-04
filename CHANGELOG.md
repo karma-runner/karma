@@ -1,3 +1,16 @@
+<a name="0.13.4"></a>
+## 0.13.4 (2015-08-04)
+
+
+### Bug Fixes
+
+* **client:** add ES5 shim ([14c30b7](https://github.com/karma-runner/karma/commit/14c30b7)), closes [#1529](https://github.com/karma-runner/karma/issues/1529)
+* **reporter:** Ensure errors use the source map. ([0407a22](https://github.com/karma-runner/karma/commit/0407a22)), closes [#1495](https://github.com/karma-runner/karma/issues/1495)
+* **runner:** Wait for file list refresh to finish before running ([94cddc0](https://github.com/karma-runner/karma/commit/94cddc0))
+* **server:** Update timers for limited execution environments ([9cfc1cd](https://github.com/karma-runner/karma/commit/9cfc1cd)), closes [#1519](https://github.com/karma-runner/karma/issues/1519)
+
+
+
 <a name"0.13.3"></a>
 ### 0.13.3 (2015-07-22)
 
