@@ -27,7 +27,7 @@ server.start()
 Trigger a file list refresh. Returns a promise.
 
 ```javascript
-server.refresh()
+server.refreshFiles()
 ```
 
 ### Events
