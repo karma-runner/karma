@@ -1,3 +1,18 @@
+<a name="0.13.5"></a>
+## 0.13.5 (2015-08-04)
+
+
+### Bug Fixes
+
+* **file-list:** Ensure autowatchDelay is working. ([655599a](https://github.com/karma-runner/karma/commit/655599a)), closes [#1520](https://github.com/karma-runner/karma/issues/1520)
+* **file-list:** use lodash find() ([3bd15a7](https://github.com/karma-runner/karma/commit/3bd15a7)), closes [#1533](https://github.com/karma-runner/karma/issues/1533)
+
+### Features
+
+* **web-server:** Allow running on https ([1696c78](https://github.com/karma-runner/karma/commit/1696c78))
+
+
+
 <a name="0.13.4"></a>
 ## 0.13.4 (2015-08-04)
 
