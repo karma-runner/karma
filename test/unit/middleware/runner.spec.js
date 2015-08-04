@@ -2,7 +2,6 @@ import path from 'path'
 import {EventEmitter} from 'events'
 import mocks from 'mocks'
 import {Promise} from 'bluebird'
-import _ from 'lodash'
 import Browser from '../../../lib/browser'
 import BrowserCollection from '../../../lib/browser_collection'
 import MultReporter from '../../../lib/reporters/multi'
@@ -21,7 +20,16 @@ describe('middleware.runner', () => {
   var handler
   var fileListMock
 
+  before(() => {
+    Promise.setScheduler(fn => fn())
+  })
+
+  after(() => {
+    Promise.setScheduler(fn => process.nextTick(fn))
+  })
+
   beforeEach(() => {
+
     mockReporter = {
       adapters: [],
       write (msg) {
@@ -46,8 +54,18 @@ describe('middleware.runner', () => {
     response = new HttpResponseMock()
     config = {client: {}, basePath: '/'}
 
-    handler = createRunnerMiddleware(emitter, fileListMock, capturedBrowsers,
-                                     new MultReporter([mockReporter]), executor, 'http:', 'localhost', 8877, '/', config)
+    handler = createRunnerMiddleware(
+      emitter,
+      fileListMock,
+      capturedBrowsers,
+      new MultReporter([mockReporter]),
+      executor,
+      'http:',
+      'localhost',
+      8877,
+      '/',
+      config
+    )
   })
 
   it('should trigger test run and stream the reporter', (done) => {
@@ -62,11 +80,8 @@ describe('middleware.runner', () => {
 
     handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
-    // Wrap this in a setTimeout so the fileListPromise has time to resolve.
-    _.delay(() => {
-      mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, {exitCode: 0})
-    })
+    mockReporter.write('result')
+    emitter.emit('run_complete', capturedBrowsers, {exitCode: 0})
   })
 
   it('should not run if there is no browser captured', (done) => {

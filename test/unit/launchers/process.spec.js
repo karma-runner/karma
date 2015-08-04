@@ -152,12 +152,12 @@ describe('launchers/process.js', () => {
       mockTempDir.remove.callArg(1)
       mockSpawn.reset()
 
-      _.defer(() => _.delay(() => {
+      _.defer(() => {
         // expect re-starting
         expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
         expect(failureSpy).not.to.have.been.called
         done()
-      }, 100))
+      })
     })
 
     it('start -> timeout -> 3xrestart -> failure', (done) => {

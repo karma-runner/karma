@@ -91,11 +91,11 @@ describe('reporter', () => {
 
         emitter.emit('file_list_modified', {served: servedFiles})
 
-        _.defer(() => _.delay(() => {
+        _.defer(() => {
           var ERROR = 'at http://localhost:123/base/b.js:2:6'
           expect(formatError(ERROR)).to.equal('at /some/base/b.js:2:6 <- /original/b.js:4:8\n')
           done()
-        }, 100))
+        })
       })
 
       it('should rewrite relative url stack traces', done => {
@@ -106,11 +106,11 @@ describe('reporter', () => {
 
         emitter.emit('file_list_modified', {served: servedFiles})
 
-        _.defer(() => _.delay(() => {
+        _.defer(() => {
           var ERROR = 'at /base/b.js:2:6'
           expect(formatError(ERROR)).to.equal('at /some/base/b.js:2:6 <- /original/b.js:4:8\n')
           done()
-        }, 100))
+        })
       })
 
       it('should fall back to non-source-map format if originalPositionFor throws', done => {
