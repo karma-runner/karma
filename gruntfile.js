@@ -115,8 +115,7 @@ module.exports = function (grunt) {
             token: process.env.GH_TOKEN
           },
           changelogOpts: {
-            preset: 'angular',
-            releaseCount: 0
+            preset: 'angular'
           }
         }
       }
@@ -129,7 +128,6 @@ module.exports = function (grunt) {
           'CHANGELOG.md'
         ],
         commitMessage: 'chore: release v%VERSION%',
-        push: false,
         prereleaseName: 'rc'
       }
     }
