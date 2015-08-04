@@ -213,6 +213,23 @@ Additional information can be found in [plugins].
 **Description:** Hostname to be used when capturing browsers.
 
 
+## httpsServerOptions
+**Type:** Object
+
+**Default:** `{}`
+
+**Description:** Options object to be used by Node's `https` class.
+
+Object description can be found in the [NodeJS.org API docs](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener)
+
+**Example:**
+```javascript
+httpsServerOptions: {
+  key: fs.readFileSync('server.key', 'utf8'),
+  cert: fs.readFileSync('server.crt', 'utf8')
+},
+```
+
 ## logLevel
 **Type:** Constant
 
@@ -282,6 +299,22 @@ but your interactive debugging does not.
 
 Click <a href="preprocessors.html">here</a> for more information.
 
+
+## protocol
+**Type:** String
+
+**Default:** `'http:'`
+
+**Possible Values:**
+
+* `http:`
+* `https:` 
+
+**Description:** Protocol used for running the Karma webserver.
+
+Determines the use of the Node `http` or `https` class.
+
+Note: Using `'https:'` requires you to specify `httpsServerOptions`.
 
 ## proxies
 **Type:** Object
