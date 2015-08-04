@@ -226,6 +226,28 @@ describe('config', () => {
       expect(config.client.useIframe).to.not.be.undefined
       expect(config.client.args).to.not.be.undefined
     })
+
+    it('should validate and format the protocol', () => {
+
+      var config = normalizeConfigWithDefaults({})
+      expect(config.protocol).to.equal('http:')
+
+      config = normalizeConfigWithDefaults({ protocol: 'http' })
+      expect(config.protocol).to.equal('http:')
+
+      config = normalizeConfigWithDefaults({ protocol: 'http:' })
+      expect(config.protocol).to.equal('http:')
+
+      config = normalizeConfigWithDefaults({ protocol: 'https' })
+      expect(config.protocol).to.equal('https:')
+
+      config = normalizeConfigWithDefaults({ protocol: 'https:' })
+      expect(config.protocol).to.equal('https:')
+
+      config = normalizeConfigWithDefaults({ protocol: 'unsupported:' })
+      expect(config.protocol).to.equal('http:')
+
+    })
   })
 
   describe('normalizeConfig', () => {

@@ -47,7 +47,7 @@ describe('middleware.runner', () => {
     config = {client: {}, basePath: '/'}
 
     handler = createRunnerMiddleware(emitter, fileListMock, capturedBrowsers,
-                                     new MultReporter([mockReporter]), executor, 'localhost', 8877, '/', config)
+                                     new MultReporter([mockReporter]), executor, 'http:', 'localhost', 8877, '/', config)
   })
 
   it('should trigger test run and stream the reporter', (done) => {
