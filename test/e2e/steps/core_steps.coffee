@@ -73,10 +73,11 @@ coreSteps = ->
           @lastRun.stdout += chunk.toString()
 
           cmd = "#{runtimePath} run #{configFile} #{additionalArgs}"
-          exec cmd, {cwd: baseDir}, (error, stdout) =>
-            @lastRun.error = error if error
-            done()
-
+          setTimeout =>
+            exec cmd, {cwd: baseDir}, (error, stdout) =>
+              @lastRun.error = error if error
+              done()
+          , 1000
       else
         execKarma (error, stdout, stderr) =>
           @lastRun.error = error if error
