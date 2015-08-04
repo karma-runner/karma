@@ -53,15 +53,20 @@ describe('launcher', () => {
     return ++lastGeneratedId
   }
 
+  before(() => {
+    Promise.setScheduler(fn => fn())
+  })
+
+  after(() => {
+    Promise.setScheduler(fn => process.nextTick(fn))
+  })
+
   beforeEach(() => {
     lastGeneratedId = 0
     FakeBrowser._instances = []
     ScriptBrowser._instances = []
   })
 
-  // ============================================================================
-  // launcher.Launcher
-  // ============================================================================
   describe('Launcher', () => {
     var emitter
     var l = emitter = null
