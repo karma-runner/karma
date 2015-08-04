@@ -1,0 +1,31 @@
+# Test against this version of Node.js
+environment:
+  matrix:
+    # node.js
+    - nodejs_version: "0.10"
+    - nodejs_version: "0.12"
+    # io.js
+    - nodejs_version: "2.5"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # Ensure the latest npm version
+  - npm install -g npm
+  # install modules
+  - npm install
+  - npm install -g grunt-cli
+  - rm -rf node_modules/karma
+  - cd node_modules && ln -nsf ../ karma && cd ../
+
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # run tests
+  - grunt
+
+# Don't actually build.
+build: off
