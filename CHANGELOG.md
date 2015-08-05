@@ -1,3 +1,15 @@
+<a name="0.13.7"></a>
+## 0.13.7 (2015-08-05)
+
+
+### Bug Fixes
+
+* **client:** Use supported shim path. ([184f12e](https://github.com/karma-runner/karma/commit/184f12e))
+* **file-list:** Use modified throttle instead of debounce ([cb2aafb](https://github.com/karma-runner/karma/commit/cb2aafb)), closes [#1545](https://github.com/karma-runner/karma/issues/1545)
+* **web-server:** Ensure `filesPromise` is always resolvable ([892fa89](https://github.com/karma-runner/karma/commit/892fa89)), closes [#1544](https://github.com/karma-runner/karma/issues/1544)
+
+
+
 <a name="0.13.6"></a>
 ## 0.13.6 (2015-08-05)
 
