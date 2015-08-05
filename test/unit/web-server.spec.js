@@ -47,7 +47,7 @@ describe('web-server', () => {
         config: ['value', {basePath: '/base/path', urlRoot: '/'}],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
-        fileList: ['value', null],
+        fileList: ['value', {files: {served: [], included: []}}],
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],
@@ -80,6 +80,19 @@ describe('web-server', () => {
       return request(server)
         .get('/base/new.js')
         .expect(200, 'new-js-source')
+    })
+
+    it('should serve no files when they are not available yet', () => {
+      return request(server)
+        .get('/base/new.js')
+        .expect(404)
+        .then(() => {
+          servedFiles(new Set([new File('/base/path/new.js')]))
+
+          return request(server)
+            .get('/base/new.js')
+            .expect(200, 'new-js-source')
+        })
     })
 
     it('should load custom handlers', () => {
@@ -125,7 +138,7 @@ describe('web-server', () => {
         config: ['value', {basePath: '/base/path', urlRoot: '/', protocol: 'https:', httpsServerOptions: credentials}],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
-        fileList: ['value', null],
+        fileList: ['value', {files: {served: [], included: []}}],
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],
