@@ -436,13 +436,14 @@ describe('FileList', () => {
     })
 
     it('fires "file_list_modified"', () => {
-      sinon.spy(list, '_emitModified')
+      var modified = sinon.stub()
+      emitter.on('file_list_modified', modified)
 
       return list.refresh().then(() => {
-        list._emitModified.reset()
+        modified.reset()
 
         return list.addFile('/some/d.js').then(() => {
-          expect(list._emitModified).to.have.been.calledOnce
+          expect(modified).to.have.been.calledOnce
         })
       })
     })
@@ -516,15 +517,15 @@ describe('FileList', () => {
     it('updates mtime and fires "file_list_modified"', () => {
       // MATCH: /some/a.js, /some/b.js
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
-
-      sinon.spy(list, '_emitModified')
+      var modified = sinon.stub()
+      emitter.on('file_list_modified', modified)
 
       return list.refresh().then(files => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
-        list._emitModified.reset()
+        modified.reset()
 
         return list.changeFile('/some/b.js').then(files => {
-          expect(list._emitModified).to.have.been.calledOnce
+          expect(modified).to.have.been.calledOnce
           expect(findFile('/some/b.js', files.served).mtime).to.be.eql(new Date('2020-01-01'))
         })
       })
@@ -534,14 +535,15 @@ describe('FileList', () => {
       // MATCH: /some/a.js
       list = new List(patterns('/some/*.js', '/a.*'), ['/some/b.js'], emitter, preprocess)
 
-      sinon.spy(list, '_emitModified')
+      var modified = sinon.stub()
+      emitter.on('file_list_modified', modified)
 
       return list.refresh().then(files => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
-        list._emitModified.reset()
+        modified.reset()
 
         return list.changeFile('/some/b.js').then(() => {
-          expect(list._emitModified).to.not.have.been.called
+          expect(modified).to.not.have.been.called
         })
       })
     })
@@ -551,13 +553,15 @@ describe('FileList', () => {
       // MATCH: /some/a.js, /some/b.js, /a.txt
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
 
-      sinon.spy(list, '_emitModified')
+      var modified = sinon.stub()
+      emitter.on('file_list_modified', modified)
 
       return list.refresh().then(files => {
         // not touching the file, stat will return still the same
-        list._emitModified.reset()
+        modified.reset()
+
         return list.changeFile('/some/b.js').then(() => {
-          expect(list._emitModified).not.to.have.been.called
+          expect(modified).not.to.have.been.called
         })
       })
     })
@@ -606,17 +610,18 @@ describe('FileList', () => {
       // MATCH: /some/a.js, /some/b.js, /a.txt
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
 
-      sinon.spy(list, '_emitModified')
+      var modified = sinon.stub()
+      emitter.on('file_list_modified', modified)
 
       return list.refresh().then(files => {
-        list._emitModified.reset()
+        modified.reset()
         return list.removeFile('/some/a.js')
       }).then(files => {
         expect(pathsFrom(files.served)).to.be.eql([
           '/some/b.js',
           '/a.txt'
         ])
-        expect(list._emitModified).to.have.been.calledOnce
+        expect(modified).to.have.been.calledOnce
       })
     })
 
