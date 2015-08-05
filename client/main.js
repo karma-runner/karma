@@ -1,7 +1,7 @@
 /* global io */
 /* eslint-disable no-new */
 
-require('core-js/modules/es5')
+require('core-js/es5')
 var Karma = require('./karma')
 var StatusUpdater = require('./updater')
 var util = require('./util')
