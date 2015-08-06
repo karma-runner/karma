@@ -1,3 +1,18 @@
+<a name="0.13.8"></a>
+## 0.13.8 (2015-08-06)
+
+
+### Bug Fixes
+
+* **middleware:** Inject `config.urlRoot`. ([569ca0e](https://github.com/karma-runner/karma/commit/569ca0e)), closes [#1516](https://github.com/karma-runner/karma/issues/1516)
+
+### Features
+
+* **static:** Support media queries ([94e7b50](https://github.com/karma-runner/karma/commit/94e7b50))
+* Add engine support for iojs@3. ([eb1c8d2](https://github.com/karma-runner/karma/commit/eb1c8d2))
+
+
+
 <a name="0.13.7"></a>
 ## 0.13.7 (2015-08-05)
 
