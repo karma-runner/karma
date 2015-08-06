@@ -22,3 +22,24 @@ Feature: Proxying
       .
       PhantomJS
       """
+
+  Scenario: URLRoot
+    Given a configuration with:
+      """
+      files = ['proxy/*.js'];
+      browsers = ['PhantomJS'];
+      plugins = [
+        'karma-jasmine',
+        'karma-phantomjs-launcher'
+      ];
+      urlRoot = '/__karma__';
+      proxies = {
+        '/foo.js': '/base/proxy/foo.js'
+      }
+      """
+    When I start Karma
+    Then it passes with:
+      """
+      .
+      PhantomJS
+      """
