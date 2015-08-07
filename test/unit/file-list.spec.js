@@ -243,7 +243,7 @@ describe('FileList', () => {
         fs: mockFs
       })
 
-      list = new List(patterns('/some/*.js', '*.txt'), [], emitter, preprocess)
+      list = new List(patterns('/some/*.js', '*.txt'), [], emitter, preprocess, 100)
     })
 
     it('resolves patterns', () => {
@@ -354,6 +354,20 @@ describe('FileList', () => {
       return list.refresh().catch(err => {
         expect(err.message).to.be.eql('failing')
       })
+    })
+
+    it('fires modified before resolving promise after subsequent calls', () => {
+      var modified = sinon.stub()
+      emitter.on('file_list_modified', modified)
+
+      return list.refresh().then(() => {
+        expect(modified).to.have.been.calledOnce
+      })
+        .then(() => {
+          list.refresh().then(() => {
+            expect(modified).to.have.been.calledTwice
+          })
+        })
     })
   })
 
