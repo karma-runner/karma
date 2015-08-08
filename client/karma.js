@@ -42,12 +42,12 @@ var Karma = function (socket, iframe, opener, navigator, location) {
 
     var getConsole = function (currentWindow) {
       return currentWindow.console || {
-          log: function () {},
-          info: function () {},
-          warn: function () {},
-          error: function () {},
-          debug: function () {}
-        }
+        log: function () {},
+        info: function () {},
+        warn: function () {},
+        error: function () {},
+        debug: function () {}
+      }
     }
 
     contextWindow.__karma__ = this
