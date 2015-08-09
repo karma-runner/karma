@@ -83,6 +83,9 @@ describe('reporter', () => {
         }
       }
 
+      MockSourceMapConsumer.GREATEST_LOWER_BOUND = 1
+      MockSourceMapConsumer.LEAST_UPPER_BOUND = 2
+
       it('should rewrite stack traces', done => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
@@ -94,6 +97,21 @@ describe('reporter', () => {
         _.defer(() => {
           var ERROR = 'at http://localhost:123/base/b.js:2:6'
           expect(formatError(ERROR)).to.equal('at /some/base/b.js:2:6 <- /original/b.js:4:8\n')
+          done()
+        })
+      })
+
+      it('should rewrite stack traces to the first column when no column is given', done => {
+        formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
+        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+
+        emitter.emit('file_list_modified', {served: servedFiles})
+
+        _.defer(() => {
+          var ERROR = 'at http://localhost:123/base/b.js:2'
+          expect(formatError(ERROR)).to.equal('at /some/base/b.js:2 <- /original/b.js:4:2\n')
           done()
         })
       })
