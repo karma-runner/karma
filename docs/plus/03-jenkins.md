@@ -14,7 +14,7 @@ You need the following tools installed on your Jenkins CI server:
 * Node
 * Karma
 
-Optional we highly suggest to install the following Jenkins plug-in:
+The following Jenkins plugin is optional, but the next guidelines are based on it:
 * [EnvInject] - it makes things easier under certain linux distributions and user permissions.
 
 ## Configure Karma
