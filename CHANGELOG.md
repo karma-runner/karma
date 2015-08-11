@@ -1,3 +1,14 @@
+<a name="0.13.9"></a>
+## 0.13.9 (2015-08-11)
+
+
+### Bug Fixes
+
+* **file-list:** refresh resolves before 'file_list_modified' event ([65f1eca](https://github.com/karma-runner/karma/commit/65f1eca)), closes [#1550](https://github.com/karma-runner/karma/issues/1550)
+* **reporter:** Enable sourcemaps for errors that without column # ([086a542](https://github.com/karma-runner/karma/commit/086a542))
+
+
+
 <a name="0.13.8"></a>
 ## 0.13.8 (2015-08-06)
 
