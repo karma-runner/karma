@@ -300,6 +300,16 @@ describe('config', () => {
       expect(config.preprocessors).not.to.have.property(resolveWinPath('*.coffee'))
       expect(config.preprocessors).to.have.property(resolveWinPath('/**/*.html'))
     })
+
+    it('should validate that the browser option is an array', () => {
+      var invalid = function () {
+        normalizeConfigWithDefaults({
+          browsers: 'Firefox'
+        })
+      }
+
+      expect(invalid).to.throw('Invalid configuration: browsers option must be an array')
+    })
   })
 
   describe('createPatternObject', () => {
