@@ -61,7 +61,7 @@ All the major browsers are supported, if you want to know more see the
 
 
 ## Troubleshooting
-See [FAQ](https://karma-runner.github.io/0.12/intro/faq.html).
+See [FAQ](https://karma-runner.github.io/latest/intro/faq.html).
 
 
 ## I want to use it. Where do I sign?
@@ -78,18 +78,18 @@ Every serious project has a screencast, so here is ours.  Just click
 
 ### Installation.
 
-See [installation](https://karma-runner.github.io/0.12/intro/installation.html).
+See [installation](https://karma-runner.github.io/latest/intro/installation.html).
 
 
 ### Using it.
 
-See [configuration](https://karma-runner.github.io/0.12/intro/configuration.html).
+See [configuration](https://karma-runner.github.io/latest/intro/configuration.html).
 
 
 ## This is so great. I want to help.
 
 Please, see
-[contributing](https://karma-runner.github.io/0.12/dev/contributing.html).
+[contributing](https://karma-runner.github.io/latest/dev/contributing.html).
 
 
 ## Why did you create this?
@@ -120,5 +120,5 @@ use the awesome [Socket.io] library and [Node.js].
 [RequireJS]: http://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
-[browsers]: https://karma-runner.github.io/0.12/config/browsers.html
+[browsers]: https://karma-runner.github.io/latest/config/browsers.html
 [documentation]: https://karma-runner.github.io
