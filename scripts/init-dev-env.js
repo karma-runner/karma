@@ -40,12 +40,10 @@ var installGruntCli = function (callback) {
     } else {
       callback()
     }
-
   })
 
   gcli.stdout.pipe(process.stdout)
   gcli.stderr.pipe(process.stderr)
-
 }
 
 var checkForGruntCli = function (callback) {
@@ -59,7 +57,6 @@ var checkForGruntCli = function (callback) {
       console.log(stdout)
       callback()
     }
-
   })
 }
 
@@ -88,7 +85,6 @@ var installDependencies = function () {
 
   install.stdout.pipe(process.stdout)
   install.stderr.pipe(process.stderr)
-
 }
 
 var runInit = function () {
@@ -96,7 +92,6 @@ var runInit = function () {
   checkForGruntCli(function cb () {
     installDependencies()
   })
-
 }
 
 if (isWin) {
@@ -108,7 +103,6 @@ if (isWin) {
       runInit()
     }
   })
-
 } else {
   runInit()
 }

@@ -29,7 +29,6 @@ describe('middleware.runner', () => {
   })
 
   beforeEach(() => {
-
     mockReporter = {
       adapters: [],
       write (msg) {

@@ -38,7 +38,7 @@ describe('config', () => {
       '/home/config4.js': wrapCfg({port: 123, autoWatch: true, basePath: '/abs/base'}),
       '/home/config6.js': wrapCfg({reporters: 'junit'}),
       '/home/config7.js': wrapCfg({browsers: ['Chrome', 'Firefox']}),
-      '/conf/invalid.js': () => {throw new SyntaxError('Unexpected token =')},
+      '/conf/invalid.js': () => { throw new SyntaxError('Unexpected token =') },
       '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
       '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
       '/conf/both.js': wrapCfg({files: ['one.js', 'two.js'], exclude: ['third.js']}),
@@ -228,7 +228,6 @@ describe('config', () => {
     })
 
     it('should validate and format the protocol', () => {
-
       var config = normalizeConfigWithDefaults({})
       expect(config.protocol).to.equal('http:')
 
@@ -246,7 +245,6 @@ describe('config', () => {
 
       config = normalizeConfigWithDefaults({ protocol: 'unsupported:' })
       expect(config.protocol).to.equal('http:')
-
     })
   })
 

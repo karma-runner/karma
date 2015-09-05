@@ -38,7 +38,6 @@ describe('web-server', () => {
   }
 
   describe('request', () => {
-
     beforeEach(() => {
       customFileHandlers = []
       emitter = new EventEmitter()
@@ -119,13 +118,10 @@ describe('web-server', () => {
         .get('/non/existing.html')
         .expect(404)
     })
-
   })
 
   describe('https', () => {
-
     beforeEach(() => {
-
       var credentials = {
         key: fs.readFileSync(__dirname + '/certificates/server.key'),
         cert: fs.readFileSync(__dirname + '/certificates/server.crt')
@@ -146,17 +142,13 @@ describe('web-server', () => {
       }])
 
       server = injector.invoke(m.createWebServer)
-
     })
 
     it('should be an instance of https.Server', () => {
-
       expect(server instanceof require('https').Server).to.equal(true)
-
     })
 
     it('should serve client.html', () => {
-
       servedFiles(new Set())
 
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
@@ -164,9 +156,6 @@ describe('web-server', () => {
       return request(server)
         .get('/')
         .expect(200, 'CLIENT HTML')
-
     })
-
   })
-
 })

@@ -2,7 +2,6 @@ import mocks from 'mocks'
 import path from 'path'
 
 describe('watcher', () => {
-
   var config = require('../../lib/config')
 
   var m = null

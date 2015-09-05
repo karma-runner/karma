@@ -44,7 +44,6 @@ chai.use((chai, utils) => {
       `expected response status to not be set, it was '#{response._status}'`)
     this.assert(response._body === null,
       `expected response body to not be set, it was '#{response._body}'`)
-
   })
 })
 
