@@ -38,6 +38,7 @@ describe('config', () => {
       '/home/config4.js': wrapCfg({port: 123, autoWatch: true, basePath: '/abs/base'}),
       '/home/config6.js': wrapCfg({reporters: 'junit'}),
       '/home/config7.js': wrapCfg({browsers: ['Chrome', 'Firefox']}),
+      '/home/config8.js': config => config.set({ files: config.suite === 'e2e' ? ['tests/e2e.spec.js'] : ['tests/unit.spec.js'] }),
       '/conf/invalid.js': () => { throw new SyntaxError('Unexpected token =') },
       '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
       '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
@@ -142,6 +143,14 @@ describe('config', () => {
       var config = e.parseConfig('/home/config7.js', {browsers: ['Safari']})
 
       expect(config.browsers).to.deep.equal(['Safari'])
+    })
+
+    it('should have access to cli options in the config file', () => {
+      var config = e.parseConfig('/home/config8.js', {suite: 'e2e'})
+      expect(patternsFrom(config.files)).to.deep.equal([resolveWinPath('/home/tests/e2e.spec.js')])
+
+      config = e.parseConfig('/home/config8.js', {})
+      expect(patternsFrom(config.files)).to.deep.equal([resolveWinPath('/home/tests/unit.spec.js')])
     })
 
     it('should resolve files and excludes to overriden basePath from cli', () => {
