@@ -25,7 +25,7 @@ The latest stable version from NPM (`npm install karma`). See [versioning] for m
 
 
 ### Which version of Node.js does Karma run with ?
-The three latest stable versions. That means `0.8`, `0.10` and `0.12` at this point. Also works on iojs `2.x.x`.
+Karma works on all LTS versions node in active maintenance state (see [LTS docs](https://github.com/nodejs/LTS/blob/master/README.md) for more info) as well as the latest stable version. That is **0.12.x** and **4.x** at this point. Additionally, Node **0.10** is currently supported.
 
 
 [mailing list]: https://groups.google.com/d/forum/karma-users

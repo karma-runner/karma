@@ -1,20 +1,26 @@
 sudo: false
 language: node_js
 node_js:
-  - "iojs-v3.2.0"
-  - "0.12"
   - "0.10"
-  - "4.0.0"
+  - "0.12"
+  - "4"
+
+# Node.js 4 is supported but an optional socket.io dependency doesn't work yet, causing
+# a lot of error messages on Travis. Travis then terminates the build because of excessive
+# logging. All tests pass locally on Node.js 4.
+# TODO remove this exception when https://github.com/socketio/socket.io/issues/2228 is fixed.
+matrix:
+  allow_failures:
+    - node_js: "4"
 
 env:
   global:
   - SAUCE_USERNAME: vojtajina
   - secure: "bRVY+hYZwMf1SqVnMyZRJTLD0gN1hLx9/MwO8MM/qBiu3YNjXy49XElfMdzMKN6cZeKTmhcnjmZonbJuI1PQ2t+utGkyjnlVLJ/OlWptreKLzIlcbt4hrdPoTcjmUTwDWq9Ex9cVoYX8AzCasETttpczp3P+s3+vmOUj8z25JyU="
 
-# Make sure we have new NPM.
+# Make sure we have a new npm on Node 0.10.
 before_install:
-  - '[ "${TRAVIS_NODE_VERSION}" != "0.8"  ] || npm install -g npm@1.4.28'
-  - npm install -g npm
+  - '[ "${TRAVIS_NODE_VERSION}" != "0.10" ] || npm install -g npm'
   - npm config set loglevel warn
 
 before_script:
