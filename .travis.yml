@@ -5,14 +5,6 @@ node_js:
   - "0.12"
   - "4"
 
-# Node.js 4 is supported but an optional socket.io dependency doesn't work yet, causing
-# a lot of error messages on Travis. Travis then terminates the build because of excessive
-# logging. All tests pass locally on Node.js 4.
-# TODO remove this exception when https://github.com/socketio/socket.io/issues/2228 is fixed.
-matrix:
-  allow_failures:
-    - node_js: "4"
-
 env:
   global:
   - SAUCE_USERNAME: vojtajina
