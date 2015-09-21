@@ -46,7 +46,7 @@ describe('init', () => {
 
   describe('processAnswers', () => {
     var answers = obj => {
-      obj = obj ? obj : {}
+      obj = obj || {}
       obj.files = obj.files || []
       obj.exclude = obj.exclude || []
       obj.browsers = obj.browsers || []
