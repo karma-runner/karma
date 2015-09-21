@@ -64,6 +64,16 @@ describe('reporter', () => {
       expect(formatError(ERROR)).to.equal('at /usr/path.js:2\n')
     })
 
+    it('should preserve absolute word', () => {
+      var ERROR = 'contains absolute'
+      expect(formatError(ERROR)).to.equal('contains absolute\n')
+    })
+
+    it('should preserve base word', () => {
+      var ERROR = 'contains base'
+      expect(formatError(ERROR)).to.equal('contains base\n')
+    })
+
     describe('source maps', () => {
       class MockSourceMapConsumer {
         constructor (sourceMap) {
