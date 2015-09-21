@@ -1,3 +1,17 @@
+<a name="0.13.10"></a>
+## 0.13.10 (2015-09-21)
+
+
+### Bug Fixes
+
+* **config:** Error when browers option isn't array ([b695460](https://github.com/karma-runner/karma/commit/b695460))
+
+### Features
+
+* **config:** Pass CLI arguments to `karma.config.js`. ([70cf903](https://github.com/karma-runner/karma/commit/70cf903)), closes [#1561](https://github.com/karma-runner/karma/issues/1561)
+
+
+
 <a name="0.13.9"></a>
 ## 0.13.9 (2015-08-11)
 
