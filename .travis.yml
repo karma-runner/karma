@@ -10,9 +10,9 @@ env:
   - SAUCE_USERNAME: vojtajina
   - secure: "bRVY+hYZwMf1SqVnMyZRJTLD0gN1hLx9/MwO8MM/qBiu3YNjXy49XElfMdzMKN6cZeKTmhcnjmZonbJuI1PQ2t+utGkyjnlVLJ/OlWptreKLzIlcbt4hrdPoTcjmUTwDWq9Ex9cVoYX8AzCasETttpczp3P+s3+vmOUj8z25JyU="
 
-# Make sure we have a new npm on Node 0.10.
+# Make sure we have a new npm@3
 before_install:
-  - '[ "${TRAVIS_NODE_VERSION}" != "0.10" ] || npm install -g npm'
+  - npm install -g npm
   - npm config set loglevel warn
 
 before_script:
