@@ -69,6 +69,14 @@ multiple changes into a single run so that the test runner doesn't try to start 
 tests more than it should. The configuration setting tells Karma how long to wait (in milliseconds) after any changes
 have occurred before starting the test process again.
 
+## restartOnFileChange
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** When Karma is watching the files for changes, it will delay a new run until
+the current run is finished. Enabling this setting will cancel the current run and start a new run
+immediately when a change is detected.
 
 ## basePath
 **Type:** String
