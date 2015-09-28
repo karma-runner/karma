@@ -16,8 +16,6 @@ _real_ browsers.
 > The issue tracker is for bug reports and feature discussions only.
 
 * Obligatory [documentation]
-* Quick questions:
-[![Gitter Chat](https://img.shields.io/badge/GITTER-join%20chat-green.svg?style=flat-square)](https://gitter.im/karma-runner/karma)
 * Longer questions: [Mailing List]
 * Bug reports [Issue Tracker]
 * Everything less than 140 characters: [@JsKarma] on Twitter
