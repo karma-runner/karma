@@ -175,6 +175,30 @@ documentation to see how (and if) it uses this value.
 **Description:** Enable or disable colors in the output (reporters and logs).
 
 
+## customHeaders
+**Type:** Array
+
+**Default:** `undefined`
+
+**Description** Custom HTTP headers that will be set upon serving files by Karma's web server.
+Custom headers are useful, especially with upcoming browser features like Service Workers.
+
+The `customHeaders` option allows you to set HTTP headers for files that match a regular expression.
+`customHeaders` is an array of `Objects` with properties as follows:
+
+* match: Regular expression string to match files
+* name: HTTP header name
+* value: HTTP header value
+
+**Example:**
+```javascript
+customHeaders: [{
+  match: '.*foo.html',
+  name: 'Service-Worker-Allowed',
+  value: '/'
+}]
+```
+
 ## exclude
 **Type:** Array
 
