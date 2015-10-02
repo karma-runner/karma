@@ -12,7 +12,7 @@ discussion list or [Stack Overflow][stackoverflow].
 
 ## Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by
-submitting and issue to our [GitHub Repository][github_newissue]. Even better you can submit a Pull Request
+submitting an issue to our [GitHub Repository][github_newissue]. Even better you can submit a Pull Request
 with a fix.
 
 [docs_contributing]: http://karma-runner.github.io/0.10/dev/contributing.html
