@@ -143,6 +143,7 @@ The `test/test-main.js` file ends up looking like this:
 
 ```javascript
 var TEST_REGEXP = /(spec|test)\.js$/i;
+var allTestFiles = [];
 
 // Get a list of all the test files to include
 Object.keys(window.__karma__.files).forEach(function(file) {
