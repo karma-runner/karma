@@ -62,4 +62,4 @@ Also, if necessary, build commands can be further [customized] at any time.
 [Node.js]: http://nodejs.org
 [PhantomJS]: http://phantomjs.org/
 [platform]: http://docs.semaphoreapp.com/version-information
-[customized]: http://docs.semaphoreapp.com/custom-build-commands
+[customized]: https://semaphoreci.com/docs/customizing-build-commands.html
