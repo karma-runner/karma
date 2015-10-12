@@ -239,6 +239,7 @@
     "http-proxy": "^1.11.1",
     "lodash": "^3.8.0",
     "log4js": "^0.6.25",
+    "memoizee": "^0.3.8",
     "mime": "^1.3.4",
     "minimatch": "^2.0.7",
     "optimist": "^0.6.1",
