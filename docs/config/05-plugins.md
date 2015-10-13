@@ -36,7 +36,7 @@ plugins: [
   'karma-chrome-launcher'
 
   // inlined plugins
-  {'framework:xyz', ['factory', factoryFn]},
+  {'framework:xyz': ['factory', factoryFn]},
   require('./plugin-required-from-config')
 ]
 ```
