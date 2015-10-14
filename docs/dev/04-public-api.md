@@ -51,7 +51,7 @@ A new browser was opened, but is not ready yet.
 **Arguments:**
 
 * `browser`: The browser instance
-* `error`: The error that occured
+* `error`: The error that occurred
 
 There was an error on this browser instance.
 
@@ -76,7 +76,7 @@ A test run has completed in this browser.
 
 * `browsers`: A collection of browser instances
 
-The list of browers has changed.
+The list of browsers has changed.
 
 #### `browsers_ready`
 
@@ -85,7 +85,7 @@ All browsers are ready for execution
 ### `run_start`
 **Arguments:**
 
-* `browsers`: A collection of browser instances on which tests are excuted
+* `browsers`: A collection of browser instances on which tests are executed
 
 A test run starts.
 
