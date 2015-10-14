@@ -49,6 +49,12 @@ describe('Karma', function () {
     expect(windowStub).to.have.been.calledWith('about:blank')
   })
 
+  it('should stop execution', function () {
+    sinon.spy(k, 'complete')
+    socket.emit('stop')
+    expect(k.complete).to.have.been.called
+  })
+
   it('should not start execution if any error during loading files', function () {
     k.error('syntax error', '/some/file.js', 11)
     k.loaded()

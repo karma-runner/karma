@@ -220,6 +220,9 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       window.console.clear()
     }
   })
+  socket.on('stop', function () {
+    this.complete()
+  }.bind(this))
 
   // report browser name, id
   socket.on('connect', function () {
