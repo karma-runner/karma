@@ -320,6 +320,6 @@
   "engines": {
     "node": "0.10 || 0.12 || 4"
   },
-  "version": "0.13.10",
+  "version": "0.13.11",
   "license": "MIT"
 }
