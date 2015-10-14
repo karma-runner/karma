@@ -280,6 +280,35 @@ httpsServerOptions: {
 **Description:** A list of log appenders to be used. See the documentation for [log4js] for more information.
 
 
+## middleware
+**Type:** Array
+
+**Default:** `[]`
+
+**Description:** List of names of additional middleware you want the karma server to use. Middleware will be used in the order listed.
+
+You must have installed the middleware via a plugin/framework (either inline or via NPM). Additional information can be found in [plugins].
+
+The plugin must provide an express/connect middleware function (details about this can be found in [the Express docs](http://expressjs.com/guide/using-middleware.html). An example of custom inline middleware is shown below.
+
+**Example:**
+```javascript
+var CustomMiddlewareFactory = function (config) {
+  return function (request, response, /* next */) {
+    response.writeHead(200)
+    return response.end("content!")
+  }
+}
+```
+
+```javascript
+middleware: ['custom']
+plugins: [
+  {'middleware:custom': ['factory', CustomMiddlewareFactory]}
+  ...
+]
+```
+
 ## plugins
 **Type:** Array
 

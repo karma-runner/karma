@@ -32,7 +32,7 @@ describe('web-server', () => {
   var m = mocks.loadFile(__dirname + '/../../lib/web-server.js', _mocks, _globals)
 
   var customFileHandlers = server = emitter = null
-
+  var middlewareActive = false
   var servedFiles = (files) => {
     emitter.emit('file_list_modified', {included: [], served: files})
   }
@@ -41,16 +41,31 @@ describe('web-server', () => {
     beforeEach(() => {
       customFileHandlers = []
       emitter = new EventEmitter()
+      var config = {
+        basePath: '/base/path',
+        urlRoot: '/',
+        middleware: ['custom'],
+        middlewareResponse: 'hello middleware!'
+      }
 
       var injector = new di.Injector([{
-        config: ['value', {basePath: '/base/path', urlRoot: '/'}],
+        config: ['value', config],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],
-        proxies: ['value', null]
+        proxies: ['value', null],
+        'middleware:custom': ['factory', function (config) {
+          return function (request, response, next) {
+            if (middlewareActive) {
+              response.writeHead(222)
+              return response.end(config.middlewareResponse)
+            }
+            next()
+          }
+        }]
       }])
 
       server = injector.invoke(m.createWebServer)
@@ -79,6 +94,25 @@ describe('web-server', () => {
       return request(server)
         .get('/base/new.js')
         .expect(200, 'new-js-source')
+    })
+
+    describe('middleware', () => {
+      beforeEach(() => {
+        servedFiles(new Set([new File('/base/path/one.js')]))
+        middlewareActive = true
+      })
+
+      it('should use injected middleware', () => {
+        return request(server)
+          .get('/base/other.js')
+          .expect(222, 'hello middleware!')
+      })
+
+      it('should inject middleware behind served files', () => {
+        return request(server)
+          .get('/base/one.js')
+          .expect(200, 'js-source')
+      })
     })
 
     it('should serve no files when they are not available yet', () => {
