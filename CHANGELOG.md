@@ -10,7 +10,6 @@
 
 * **config:** add restartOnFileChange option ([1082f35](https://github.com/karma-runner/karma/commit/1082f35))
 * **reporter:** Replace way-too-big memoizee with a trivial solution. ([d926fe3](https://github.com/karma-runner/karma/commit/d926fe3))
-* **reporter:** Replace way-too-big memoizee with a trivial solution. ([58340b1](https://github.com/karma-runner/karma/commit/58340b1))
 * **web-server:** add support for custom headers in files served ([4301bea](https://github.com/karma-runner/karma/commit/4301bea))
 * **web-server:** allow injection of custom middleware. ([2e963c3](https://github.com/karma-runner/karma/commit/2e963c3)), closes [#1612](https://github.com/karma-runner/karma/issues/1612)
 
