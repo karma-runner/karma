@@ -249,7 +249,7 @@
     "mime": "^1.3.4",
     "minimatch": "^2.0.7",
     "optimist": "^0.6.1",
-    "rimraf": "^2.3.3",
+    "rimraf": "^2.4.3",
     "socket.io": "^1.3.7",
     "source-map": "^0.4.4",
     "useragent": "^2.1.6"
