@@ -166,7 +166,7 @@ describe('middleware.proxy', () => {
     expect(parsedProxyConfig[0].proxy).to.exist
   })
 
-  it('should set defualt https port', () => {
+  it('should set default https port', () => {
     var proxy = {'/base/': 'https://localhost/'}
     var parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
@@ -178,6 +178,13 @@ describe('middleware.proxy', () => {
       https: true
     })
     expect(parsedProxyConfig[0].proxy).to.exist
+    expect(parsedProxyConfig[0].proxy).to.containSubset({
+      options: {
+        target: {
+          protocol: 'https:'
+        }
+      }
+    })
   })
 
   it('should handle proxy configs with paths', () => {
@@ -206,6 +213,13 @@ describe('middleware.proxy', () => {
       https: true
     })
     expect(parsedProxyConfig[0].proxy).to.exist
+    expect(parsedProxyConfig[0].proxy).to.containSubset({
+      options: {
+        target: {
+          protocol: 'https:'
+        }
+      }
+    })
   })
 
   it('should handle proxy configs with only basepaths', () => {
