@@ -24,6 +24,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
 
   var childWindow = null
   var navigateContextTo = function (url) {
+    reloadingContext = true
     if (self.config.useIframe === false) {
       if (childWindow === null || childWindow.closed === true) {
         // If this is the first time we are opening the window, or the window is closed
@@ -33,6 +34,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     } else {
       iframe.src = url
     }
+    reloadingContext = false
   }
 
   this.setupContext = function (contextWindow) {
@@ -105,7 +107,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   this.stringify = stringify
 
   var clearContext = function () {
-    reloadingContext = true
     navigateContextTo('about:blank')
   }
 
@@ -210,7 +211,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     // reset hasError and reload the iframe
     hasError = false
     startEmitted = false
-    reloadingContext = false
     self.config = cfg
     navigateContextTo(constant.CONTEXT_URL)
 
