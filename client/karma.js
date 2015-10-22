@@ -25,16 +25,20 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   var childWindow = null
   var navigateContextTo = function (url) {
     reloadingContext = true
+
     if (self.config.useIframe === false) {
       if (childWindow === null || childWindow.closed === true) {
         // If this is the first time we are opening the window, or the window is closed
         childWindow = opener('about:blank')
       }
       childWindow.location = url
+      reloadingContext = false
     } else {
       iframe.src = url
+      iframe.onLoad = function () {
+        reloadingContext = false
+      }
     }
-    reloadingContext = false
   }
 
   this.setupContext = function (contextWindow) {
