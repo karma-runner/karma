@@ -1,16 +1,10 @@
 <a name="0.13.13"></a>
-## [0.13.13](https://github.com/karma-runner/karma/compare/v0.13.11...v0.13.13) (2015-10-22)
+## [0.13.13](https://github.com/karma-runner/karma/compare/v0.13.12...v0.13.13) (2015-10-22)
 
 
 ### Bug Fixes
 
 * **client:** Wait for iframe to be loaded ([1631474](https://github.com/karma-runner/karma/commit/1631474)), closes [#1652](https://github.com/karma-runner/karma/issues/1652)
-* **proxy:** Pass protocol in target object to enable https requests ([142db90](https://github.com/karma-runner/karma/commit/142db90))
-
-### Features
-
-* **launcher:** Add concurrency limit ([1741deb](https://github.com/karma-runner/karma/commit/1741deb)), closes [#1465](https://github.com/karma-runner/karma/issues/1465)
-
 
 
 <a name="0.13.12"></a>
