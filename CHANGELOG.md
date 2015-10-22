@@ -1,3 +1,17 @@
+<a name="0.13.12"></a>
+## [0.13.12](https://github.com/karma-runner/karma/compare/v0.13.11...v0.13.12) (2015-10-22)
+
+
+### Bug Fixes
+
+* **proxy:** Pass protocol in target object to enable https requests ([142db90](https://github.com/karma-runner/karma/commit/142db90))
+
+### Features
+
+* **launcher:** Add concurrency limit ([1741deb](https://github.com/karma-runner/karma/commit/1741deb)), closes [#1465](https://github.com/karma-runner/karma/issues/1465)
+
+
+
 <a name="0.13.11"></a>
 ## 0.13.11 (2015-10-14)
 
