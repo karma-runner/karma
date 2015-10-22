@@ -115,7 +115,7 @@ to load `knockout.js` before requirejs...
 ## Configuring Require.js
 
 Just like any Require.js project, you need a main module to bootstrap
-your tests. We do this is `test/test-main.js`.
+your tests. We do this in `test/test-main.js`.
 
 ### Karma `/base` Directory
 
