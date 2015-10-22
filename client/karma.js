@@ -32,7 +32,9 @@ var Karma = function (socket, iframe, opener, navigator, location) {
         childWindow = opener('about:blank')
       }
       childWindow.location = url
-      reloadingContext = false
+      childWindow.onLoad = function () {
+        reloadingContext = false
+      }
     } else {
       iframe.src = url
       iframe.onLoad = function () {
