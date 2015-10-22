@@ -325,6 +325,6 @@
   "engines": {
     "node": "0.10 || 0.12 || 4"
   },
-  "version": "0.13.13",
+  "version": "0.13.14",
   "license": "MIT"
 }

@@ -1,3 +1,14 @@
+<a name="0.13.14"></a>
+## [0.13.14](https://github.com/karma-runner/karma/compare/v0.13.13...v0.13.14) (2015-10-22)
+
+
+### Bug Fixes
+
+* **client:** Revert back to old reloading detection ([f1c22d6](https://github.com/karma-runner/karma/commit/f1c22d6))
+* **client:** Wait for childwindow to load ([c1bb15a](https://github.com/karma-runner/karma/commit/c1bb15a))
+
+
+
 <a name="0.13.13"></a>
 ## [0.13.13](https://github.com/karma-runner/karma/compare/v0.13.12...v0.13.13) (2015-10-22)
 
