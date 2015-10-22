@@ -232,6 +232,7 @@
     "Jerry Reptak <jreptak@gmail.com>"
   ],
   "dependencies": {
+    "batch": "^0.5.3",
     "bluebird": "^2.9.27",
     "body-parser": "^1.12.4",
     "chokidar": "^1.0.1",

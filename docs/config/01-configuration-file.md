@@ -369,7 +369,7 @@ Click <a href="preprocessors.html">here</a> for more information.
 **Possible Values:**
 
 * `http:`
-* `https:` 
+* `https:`
 
 **Description:** Protocol used for running the Karma webserver.
 
@@ -478,6 +478,14 @@ iFrame and may need a new window to run.
 All of Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
 sometimes you might want to proxy a url that is already taken by Karma.
 
+## concurrency
+**Type:** Number
+
+**Default:** `Infinity`
+
+**Description:** How many browser Karma launches in parallel.
+
+Especially on sevices like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can sepcify how many browsers should be running at once at any given point in time.
 
 [plugins]: plugins.html
 [config/files]: files.html
