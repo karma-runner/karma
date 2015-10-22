@@ -299,7 +299,7 @@
     "karma-mocha": "*",
     "karma-ng-scenario": "*",
     "karma-phantomjs-launcher": "*",
-    "karma-qunit": "*",
+    "karma-qunit": "0.1.6",
     "karma-requirejs": "*",
     "karma-sauce-launcher": "*",
     "karma-script-launcher": "^0.1.0",
