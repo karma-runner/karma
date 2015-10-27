@@ -237,7 +237,7 @@
   ],
   "dependencies": {
     "batch": "^0.5.3",
-    "bluebird": "^2.9.27",
+    "bluebird": "^3.0.0",
     "body-parser": "^1.12.4",
     "chokidar": "^1.0.1",
     "colors": "^1.1.0",
