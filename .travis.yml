@@ -6,12 +6,6 @@ node_js:
   - "4"
   - "5"
 
-addons:
-  apt:
-    packages:
-    - build-essential
-    - g++
-
 env:
   global:
   - SAUCE_USERNAME: karmarunnerbot
@@ -22,7 +16,7 @@ env:
 # that's included in a Node version they use.
 before_install:
   - '[ "${TRAVIS_NODE_VERSION}" != "0.10" ] || npm install -g npm'
-  - npm config set loglevel warn
+  - npm config set loglevel silent
 
 before_script:
   - export DISPLAY=:99.0
