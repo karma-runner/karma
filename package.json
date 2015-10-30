@@ -323,7 +323,7 @@
     "karma": "./bin/karma"
   },
   "engines": {
-    "node": "0.10 || 0.12 || 4"
+    "node": "0.10 || 0.12 || 4 || 5"
   },
   "version": "0.13.14",
   "license": "MIT"
