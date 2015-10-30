@@ -4,15 +4,25 @@ node_js:
   - "0.10"
   - "0.12"
   - "4"
+  - "5"
+
+addons:
+  apt:
+   sources:
+   - ubuntu-toolchain-r-test
+   packages:
+   - g++-5
 
 env:
   global:
   - SAUCE_USERNAME: karmarunnerbot
   - secure: "bRVY+hYZwMf1SqVnMyZRJTLD0gN1hLx9/MwO8MM/qBiu3YNjXy49XElfMdzMKN6cZeKTmhcnjmZonbJuI1PQ2t+utGkyjnlVLJ/OlWptreKLzIlcbt4hrdPoTcjmUTwDWq9Ex9cVoYX8AzCasETttpczp3P+s3+vmOUj8z25JyU="
 
-# Make sure we have a new npm@3
+# Make sure we have a new npm on Node 0.10. npm >= 2 should work so by not updating them
+# here we have proper version coverage, especially that most people use the npm version
+# that's included in a Node version they use.
 before_install:
-  - npm install -g npm
+  - '[ "${TRAVIS_NODE_VERSION}" != "0.10" ] || npm install -g npm'
   - npm config set loglevel warn
 
 before_script:
