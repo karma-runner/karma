@@ -9,9 +9,9 @@ node_js:
 addons:
   apt:
    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-5
+   - ubuntu-toolchain-r-test
+   packages:
+   - g++-5
 
 env:
   global:
