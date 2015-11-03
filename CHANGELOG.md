@@ -1,3 +1,13 @@
+<a name="0.13.15"></a>
+## [0.13.15](https://github.com/karma-runner/karma/compare/v0.13.14...v0.13.15) (2015-11-03)
+
+
+### Bug Fixes
+
+* **eslint:** Fix formatting for the new ESLint 1.8.0 ([dc1bbab](https://github.com/karma-runner/karma/commit/dc1bbab))
+
+
+
 <a name="0.13.14"></a>
 ## [0.13.14](https://github.com/karma-runner/karma/compare/v0.13.13...v0.13.14) (2015-10-22)
 
