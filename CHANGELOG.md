@@ -222,19 +222,22 @@
 
 * The public api interface has changed to a constructor form. To upgrade
   change
+
   ```javascript
   var server = require(‘karma’).server
   server.start(config, done)
   ```
+
   to
+
   ```javascript
   var Server = require(‘karma’).Server
   var server = new Server(config, done)
   server.start()
   ```
+
   Closes #1037, #1482, #1467
   ([82cbbadd](https://github.com/karma-runner/karma/commit/82cbbadd))
-
 
 
 <a name"0.12.37"></a>
