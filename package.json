@@ -269,7 +269,7 @@
     "chai-as-promised": "^5.0.0",
     "chai-subset": "^1.0.1",
     "coffee-script": "^1.9.2",
-    "cucumber": "^0.8.1",
+    "cucumber": "^0.9.0",
     "eslint": "^1.0.0",
     "eslint-config-standard": "^4.0.0",
     "eslint-plugin-react": "^3.6.2",
