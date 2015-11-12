@@ -13,7 +13,10 @@ describe('preprocessor', () => {
         'b.js': mocks.fs.file(0, 'content'),
         'a.txt': mocks.fs.file(0, 'some-text'),
         'photo.png': mocks.fs.file(0, 'binary'),
-        'CAM_PHOTO.JPG': mocks.fs.file(0, 'binary')
+        'CAM_PHOTO.JPG': mocks.fs.file(0, 'binary'),
+        '.dir': {
+          'a.js': mocks.fs.file(0, 'content')
+        }
       }
     })
 
@@ -35,6 +38,25 @@ describe('preprocessor', () => {
     pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
 
     var file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp(file, () => {
+      expect(fakePreprocessor).to.have.been.called
+      expect(file.path).to.equal('path-preprocessed')
+      expect(file.content).to.equal('new-content')
+      done()
+    })
+  })
+
+  it('should match directories starting with a dot', done => {
+    var fakePreprocessor = sinon.spy((content, file, done) => {
+      file.path = file.path + '-preprocessed'
+      done(null, 'new-content')
+    })
+
+    var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}])
+    pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
+
+    var file = {originalPath: '/some/.dir/a.js', path: 'path'}
 
     pp(file, () => {
       expect(fakePreprocessor).to.have.been.called
