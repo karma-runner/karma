@@ -287,7 +287,7 @@
     "grunt-npm": "0.0.2",
     "jasmine-core": "^2.3.4",
     "karma-browserify": "^4.1.2",
-    "karma-browserstack-launcher": "0.1.6",
+    "karma-browserstack-launcher": "0.1.7",
     "karma-chrome-launcher": "*",
     "karma-coffee-preprocessor": "*",
     "karma-commonjs": "*",
