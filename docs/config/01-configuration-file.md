@@ -418,7 +418,7 @@ proxies: {
 
 **Default:** `true`
 
-**Description:** Whether or not Karma or any browsers should raise an error when an inavlid SSL certificate is found.
+**Description:** Whether or not Karma or any browsers should raise an error when an invalid SSL certificate is found.
 
 
 ## reportSlowerThan
