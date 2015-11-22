@@ -147,7 +147,7 @@ If, during test execution, Karma does not receive any message from a browser wit
   * `PhantomJS` (launcher comes installed with Karma)
   * `Firefox` (launcher requires karma-firefox-launcher plugin)
   * `Opera` (launcher requires karma-opera-launcher plugin)
-  * `Internet Explorer` (launcher requires karma-ie-launcher plugin)
+  * `IE` (launcher requires karma-ie-launcher plugin)
   * `Safari` (launcher requires karma-safari-launcher plugin)
 
 **Description:** A list of browsers to launch and capture. When Karma starts up, it will also start up each browser
