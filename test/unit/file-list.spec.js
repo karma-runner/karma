@@ -2,6 +2,7 @@ import Promise from 'bluebird'
 import {EventEmitter} from 'events'
 import mocks from 'mocks'
 import proxyquire from 'proxyquire'
+import pathLib from 'path'
 var helper = require('../../lib/helper')
 var _ = helper._
 
@@ -75,6 +76,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
+        path: pathLib.posix || pathLib/* for node 0.10 */,
         fs: mockFs
       })
     })
@@ -204,6 +206,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
+        path: pathLib.posix || pathLib/* for node 0.10 */,
         fs: mockFs
       })
 
@@ -240,6 +243,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
+        path: pathLib.posix || pathLib/* for node 0.10 */,
         fs: mockFs
       })
 
@@ -409,6 +413,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
+        path: pathLib.posix || pathLib/* for node 0.10 */,
         fs: mockFs
       })
 
@@ -521,6 +526,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
+        path: pathLib.posix || pathLib/* for node 0.10 */,
         fs: mockFs
       })
 
@@ -613,6 +619,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
+        path: pathLib.posix || pathLib/* for node 0.10 */,
         fs: mockFs
       })
 
@@ -681,6 +688,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         fs: mockFs,
+        path: pathLib.posix || pathLib/* for node 0.10 */,
         bluebird: Promise
       })
     })
