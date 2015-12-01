@@ -4,6 +4,7 @@ import request from 'supertest-as-promised'
 import di from 'di'
 import mocks from 'mocks'
 import fs from 'fs'
+import mime from 'mime'
 
 describe('web-server', () => {
   var server
@@ -45,7 +46,8 @@ describe('web-server', () => {
         basePath: '/base/path',
         urlRoot: '/',
         middleware: ['custom'],
-        middlewareResponse: 'hello middleware!'
+        middlewareResponse: 'hello middleware!',
+        mime: {'custom/custom': ['custom']}
       }
 
       var injector = new di.Injector([{
@@ -69,6 +71,14 @@ describe('web-server', () => {
       }])
 
       server = injector.invoke(m.createWebServer)
+    })
+
+    it('should setup mime', () => {
+      expect(mime.lookup('/my.custom')).to.equal('custom/custom')
+    })
+
+    it('should keep default mimes', () => {
+      expect(mime.lookup('/my.html')).to.equal('text/html')
     })
 
     it('should serve client.html', () => {
