@@ -110,7 +110,7 @@ describe('middleware.source_files', function () {
   })
 
   it('should send no-caching headers for js source files without timestamps', function () {
-    var ZERO_DATE = (new Date(0)).toString()
+    var ZERO_DATE = new RegExp(new Date(0).toString().substring(0, 33).replace(/\+/, '\\+'))
 
     servedFiles([
       new File('/src/some.js')
