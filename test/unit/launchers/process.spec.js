@@ -63,11 +63,30 @@ describe('launchers/process.js', () => {
   describe('_normalizeCommand', () => {
     it('should remove quotes from the cmd', () => {
       ProcessLauncher.call(launcher, null, mockTempDir)
-
       expect(launcher._normalizeCommand('"/bin/brow ser"')).to.equal(path.normalize('/bin/brow ser'))
       expect(launcher._normalizeCommand("'/bin/brow ser'")).to.equal
       path.normalize('/bin/brow ser')
       expect(launcher._normalizeCommand('`/bin/brow ser`')).to.equal(path.normalize('/bin/brow ser'))
+    })
+  })
+
+  describe('bin path from config', () => {
+    it('should get overriden binpath from $definition given as path', () => {
+      ProcessLauncher.call(launcher, mockSpawn, mockTempDir)
+      const binpath = 'my/test.exe'
+      launcher.$definition = {binpath}
+      var overriden = launcher._getCommand()
+      expect(overriden).to.equal(binpath)
+    })
+
+    it('should get overriden binpath from $definition given as environment variable', () => {
+      ProcessLauncher.call(launcher, mockSpawn, mockTempDir)
+      const binpath = 'my/test.exe'
+      const envname = '_MY_BIN_PATH_'
+      process.env[envname] = binpath
+      launcher.$definition = {binpath: `env:${envname}`}
+      var overriden = launcher._getCommand()
+      expect(overriden).to.equal(binpath)
     })
   })
 

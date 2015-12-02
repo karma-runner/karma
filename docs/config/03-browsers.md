@@ -82,6 +82,21 @@ customLaunchers: {
 Each plugin has some default paths where to find the browser binary on particular OS.
 You can override these settings by `<BROWSER>_BIN` ENV variable, or alternatively by creating a `symlink`.
 
+NEW: you can assign path to browser explicitly from config with `binpath` option:
+
+```javascript
+customLaunchers: {
+  special_chrome_instance: {
+    base: 'Chrome',
+    binpath : '/my/path/to/chrome.exe' // by defining full path to binary
+  },
+  special_firefox: {
+    base: 'Firefox',
+    binpath: 'env:MYFIREFOX' // by environment variable (use env: prefix for it)
+  }
+}
+```
+
 ### POSIX shells
 ```bash
 # Changing the path to the Chrome binary
