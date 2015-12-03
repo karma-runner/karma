@@ -384,11 +384,21 @@ Note: Using `'https:'` requires you to specify `httpsServerOptions`.
 
 **Description:** A map of path-proxy pairs.
 
+The proxy can be specified directly by the target url or path, or with an object to configure more options. The available options are:
+
+- `target` The target url or path (mandatory)
+- `changeOrigin` Whether or not the proxy should override the Host header using the host from the target (default `false`)
+
 **Example:**
 ```javascript
 proxies: {
-'/static': 'http://gstatic.com',
-'/web': 'http://localhost:9000'
+  '/static': 'http://gstatic.com',
+  '/web': 'http://localhost:9000',
+  '/img/': '/base/test/images/',
+  '/proxyfied': {
+    'target': 'http://myserver.localhost',
+    'changeOrigin': true
+  }
 },
 ```
 

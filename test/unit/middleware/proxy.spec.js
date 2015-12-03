@@ -152,7 +152,7 @@ describe('middleware.proxy', () => {
     expect(parsedProxyConfig[0].proxy).to.exist
   })
 
-  it('should set defualt http port', () => {
+  it('should set default http port', () => {
     var proxy = {'/base/': 'http://localhost/'}
     var parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
@@ -289,6 +289,22 @@ describe('middleware.proxy', () => {
       https: false
     })
     expect(parsedProxyConfig[1].proxy).to.exist
+  })
+
+  it('should accept object for proxy config', () => {
+    var proxy = {
+      '/base/': {target: 'http://localhost:8000/'}
+    }
+    var parsedProxyConfig = m.parseProxyConfig(proxy, {})
+    expect(parsedProxyConfig).to.have.length(1)
+    expect(parsedProxyConfig[0]).to.containSubset({
+      host: 'localhost',
+      port: '8000',
+      baseUrl: '/',
+      path: '/base/',
+      https: false
+    })
+    expect(parsedProxyConfig[0].proxy).to.exist
   })
 
   it('should handle empty proxy config', () => {
