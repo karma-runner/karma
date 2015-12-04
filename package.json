@@ -259,7 +259,7 @@
     "rimraf": "^2.3.3",
     "socket.io": "^1.3.7",
     "source-map": "^0.5.3",
-    "useragent": "^2.1.6"
+    "useragent": "^2.1.8"
   },
   "devDependencies": {
     "LiveScript": "^1.3.0",
