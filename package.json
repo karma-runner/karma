@@ -244,7 +244,7 @@
     "chokidar": "^1.4.1",
     "colors": "^1.1.0",
     "connect": "^3.3.5",
-    "core-js": "^1.2.2",
+    "core-js": "^2.0.0",
     "di": "^0.0.1",
     "dom-serialize": "^2.2.0",
     "expand-braces": "^0.1.1",
