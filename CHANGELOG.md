@@ -1,3 +1,21 @@
+<a name="0.13.16"></a>
+## [0.13.16](https://github.com/karma-runner/karma/compare/v0.13.15...v0.13.16) (2015-12-24)
+
+
+### Bug Fixes
+
+* **config:** corrects spelling in example config template ([9fafc60](https://github.com/karma-runner/karma/commit/9fafc60))
+* **middleware:** Correct spelling of middleware logger name ([9e9e7e6](https://github.com/karma-runner/karma/commit/9e9e7e6))
+* **preprocessor:** Directory names with dots ([4b5e094](https://github.com/karma-runner/karma/commit/4b5e094))
+* **test:** locale in Expire header ([db04cf0](https://github.com/karma-runner/karma/commit/db04cf0)), closes [#1741](https://github.com/karma-runner/karma/issues/1741)
+
+### Features
+
+* **proxy:** Allow proxies configuration to be an object ([ad94356](https://github.com/karma-runner/karma/commit/ad94356))
+* **proxy:** Allow to configure changeOrigin option of http-proxy ([ae05ea4](https://github.com/karma-runner/karma/commit/ae05ea4)), closes [#1729](https://github.com/karma-runner/karma/issues/1729)
+
+
+
 <a name="0.13.15"></a>
 ## [0.13.15](https://github.com/karma-runner/karma/compare/v0.13.14...v0.13.15) (2015-11-03)
 
