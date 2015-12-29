@@ -34,10 +34,10 @@ describe('middleware.karma', () => {
 
   var handler = serveFile = filesDeferred = nextSpy = response = null
 
-  var clientConfig;
+  var clientConfig
 
   beforeEach(() => {
-    clientConfig = {foo: 'bar'};
+    clientConfig = {foo: 'bar'}
     nextSpy = sinon.spy()
     response = new HttpResponseMock()
     filesDeferred = helper.defer()
@@ -169,7 +169,7 @@ describe('middleware.karma', () => {
 
   describe('given html5Mode is set to true in the config', function () {
     it('it should serve the context.html with a base tag', function (done) {
-      handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, true);
+      handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, true)
 
       includedFiles([])
 
@@ -180,12 +180,12 @@ describe('middleware.karma', () => {
       })
 
       callHandlerWith('/__karma__/context.html')
-    });
-  });
+    })
+  })
 
   describe('given html5Mode is set to false in the config', function () {
     it('it should not serve the context.html with %BASE_TAG% in the content', function (done) {
-      handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, false);
+      handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, false)
 
       includedFiles([])
 
@@ -196,8 +196,8 @@ describe('middleware.karma', () => {
       })
 
       callHandlerWith('/__karma__/context.html')
-    });
-  });
+    })
+  })
 
   it('should serve context.html with replaced link tags', (done) => {
     includedFiles([
