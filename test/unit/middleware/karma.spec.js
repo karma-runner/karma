@@ -184,7 +184,7 @@ describe('middleware.karma', () => {
   });
 
   describe('given the html5 mode is false', function () {
-    it('it should npt serve the context.html with %BASE_TAG% in the content', function (done) {
+    it('it should not serve the context.html with %BASE_TAG% in the content', function (done) {
       handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, false);
 
       includedFiles([])
