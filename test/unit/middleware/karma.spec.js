@@ -167,7 +167,7 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
-  describe('given the html5 mode is true', function () {
+  describe('given html5Mode is set to true in the config', function () {
     it('it should serve the context.html with a base tag', function (done) {
       handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, true);
 
@@ -183,7 +183,7 @@ describe('middleware.karma', () => {
     });
   });
 
-  describe('given the html5 mode is false', function () {
+  describe('given html5Mode is set to false in the config', function () {
     it('it should not serve the context.html with %BASE_TAG% in the content', function (done) {
       handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, false);
 
