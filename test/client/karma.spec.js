@@ -7,7 +7,7 @@ var Karma = require('../../client/karma')
 var MockSocket = require('./mocks').Socket
 
 describe('Karma', function () {
-  var socket, k, windowNavigator, windowLocation, windowStub, startSpy
+  var socket, k, windowNavigator, windowLocation, windowStub, startSpy, iframe
 
   var setTransportTo = function (transportName) {
     socket._setTransportNameTo(transportName)
@@ -16,11 +16,12 @@ describe('Karma', function () {
 
   beforeEach(function () {
     socket = new MockSocket()
+    iframe = {}
     windowNavigator = {}
     windowLocation = {search: ''}
     windowStub = sinon.stub().returns({})
 
-    k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation)
+    k = new Karma(socket, iframe, windowStub, windowNavigator, windowLocation)
     startSpy = sinon.spy(k, 'start')
   })
 
@@ -76,6 +77,12 @@ describe('Karma', function () {
   })
 
   it('should not set up context if there was an error', function () {
+    var config = {
+      clearContext: true
+    }
+
+    socket.emit('execute', config)
+
     var mockWindow = {}
 
     k.error('page reload')
@@ -84,6 +91,23 @@ describe('Karma', function () {
     expect(mockWindow.__karma__).to.not.exist
     expect(mockWindow.onbeforeunload).to.not.exist
     expect(mockWindow.onerror).to.not.exist
+  })
+
+  it('should setup context if there was error but clearContext config is false', function () {
+    var config = {
+      clearContext: false
+    }
+
+    socket.emit('execute', config)
+
+    var mockWindow = {}
+
+    k.error('page reload')
+    k.setupContext(mockWindow)
+
+    expect(mockWindow.__karma__).to.exist
+    expect(mockWindow.onbeforeunload).to.exist
+    expect(mockWindow.onerror).to.exist
   })
 
   it('should report navigator name', function () {
@@ -302,6 +326,36 @@ describe('Karma', function () {
       k.setupContext(mockWindow)
       mockWindow.console.log('hello')
       expect(k.log).to.not.have.been.called
+    })
+
+    it('should clear context window upon complete when clearContext config is true', function () {
+      var config = {
+        clearContext: true
+      }
+
+      socket.emit('execute', config)
+      var CURRENT_URL = iframe.src
+
+      k.complete()
+
+      clock.tick(1)
+
+      expect(iframe.src).to.not.be.eql(CURRENT_URL)
+    })
+
+    it('should not clear context window upon complete when clearContext config is false', function () {
+      var config = {
+        clearContext: false
+      }
+
+      socket.emit('execute', config)
+      var CURRENT_URL = iframe.src
+
+      k.complete()
+
+      clock.tick(1)
+
+      expect(iframe.src).to.be.eql(CURRENT_URL)
     })
   })
 })
