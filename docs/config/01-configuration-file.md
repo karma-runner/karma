@@ -461,6 +461,23 @@ Note: Just about all additional reporters in Karma (other than progress) require
 If `true`, Karma will start and capture all configured browsers, run tests and then exit with an exit code of `0` or `1` depending
 on whether all tests passed or any tests failed.
 
+## mime
+**Type:** Object
+
+**Default:** `{}`
+
+**Description:** Redefine default mapping from file extensions to MIME-type 
+
+Set property name to required MIME, provide Array of extensions (without dots) as it's value
+
+**Example:**
+```javascript
+mime: {
+   'text/x-typescript': ['ts','tsx']
+   'text/plain' : ['mytxt']
+}
+```
+
 
 ## transports
 **Type:** Array
