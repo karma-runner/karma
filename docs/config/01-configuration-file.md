@@ -7,6 +7,16 @@ Note: Most of the framework adapters, reporters, preprocessors and launchers nee
 
 
 The Karma configuration file can be written in JavaScript or CoffeeScript and is loaded as a regular Node.js module.
+
+Unless provided as argument, the Karma CLI will look for a configuration file at
+
+* `./karma.conf.js`
+* `./karma.conf.coffee`
+* `./.config/karma.conf.js`
+* `./.config/karma.conf.coffee`
+
+in that order.
+
 Within the configuration file, the configuration code is put together by setting `module.exports` to point to a function
 which accepts one argument: the configuration object.
 
