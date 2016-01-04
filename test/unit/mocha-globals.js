@@ -32,9 +32,9 @@ chai.use((chai, utils) => {
     var response = utils.flag(this, 'object')
 
     this.assert(response._status === expectedStatus,
-      `expected response status '#{response._status}' to be '#{expectedStatus}'`)
+      `expected response status '${response._status}' to be '${expectedStatus}'`)
     this.assert(response._body === expectedBody,
-      `expected response body '#{response._body}' to be '#{exp)ectedBody}'`)
+      `expected response body '${response._body}' to be '${expectedBody}'`)
   })
 
   chai.Assertion.addMethod('beNotServed', function () {

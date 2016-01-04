@@ -22,7 +22,7 @@ describe('middleware.karma', () => {
     karma: {
       static: {
         'client.html': mocks.fs.file(0, 'CLIENT HTML\n%X_UA_COMPATIBLE%%X_UA_COMPATIBLE_URL%'),
-        'context.html': mocks.fs.file(0, 'CONTEXT\n%SCRIPTS%'),
+        'context.html': mocks.fs.file(0, 'CONTEXT\n%BASE_TAG%%SCRIPTS%'),
         'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%\n%X_UA_COMPATIBLE%'),
         'karma.js': mocks.fs.file(0, 'root: %KARMA_URL_ROOT%, v: %KARMA_VERSION%')
       }
@@ -34,8 +34,10 @@ describe('middleware.karma', () => {
 
   var handler = serveFile = filesDeferred = nextSpy = response = null
 
+  var clientConfig
+
   beforeEach(() => {
-    var clientConfig = {foo: 'bar'}
+    clientConfig = {foo: 'bar'}
     nextSpy = sinon.spy()
     response = new HttpResponseMock()
     filesDeferred = helper.defer()
@@ -165,6 +167,38 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
+  describe('given html5Mode is set to true in the config', function () {
+    it('it should serve the context.html with a base tag', function (done) {
+      handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, true)
+
+      includedFiles([])
+
+      response.once('end', () => {
+        expect(nextSpy).not.to.have.been.called
+        expect(response).to.beServedAs(200, 'CONTEXT\n<base href="/__karma__/" />')
+        done()
+      })
+
+      callHandlerWith('/__karma__/context.html')
+    })
+  })
+
+  describe('given html5Mode is set to false in the config', function () {
+    it('it should not serve the context.html with %BASE_TAG% in the content', function (done) {
+      handler = createKarmaMiddleware(filesDeferred.promise, serveFile, '/base/path', '/__karma__/', clientConfig, false)
+
+      includedFiles([])
+
+      response.once('end', () => {
+        expect(nextSpy).not.to.have.been.called
+        expect(response).to.beServedAs(200, 'CONTEXT\n')
+        done()
+      })
+
+      callHandlerWith('/__karma__/context.html')
+    })
+  })
+
   it('should serve context.html with replaced link tags', (done) => {
     includedFiles([
       new MockFile('/first.css', 'sha007'),
@@ -276,6 +310,7 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__karma__/absolute/some/abc/a.js': 'sha_a',\n  '/__karma__/base/b.js': 'sha_b',\n  '/__karma__/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n};\n")
+      fsMock._touchFile('/karma/static/context.html', 0, 'CONTEXT\n%BASE_TAG%%SCRIPTS%')
       done()
     })
 
