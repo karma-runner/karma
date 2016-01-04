@@ -10,7 +10,6 @@ describe('plus', function () {
   })
 
   it('should disconnect', function (done) {
-    console.log(2)
     expect(2).toBe(2)
     socket().disconnect()
 
@@ -22,7 +21,6 @@ describe('plus', function () {
   })
 
   it('should re-connect', function (done) {
-    console.log(4)
     expect(4).toBe(4)
     socket().connect()
     // window.parent.socket.socket.connect()

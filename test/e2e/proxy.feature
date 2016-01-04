@@ -32,7 +32,7 @@ Feature: Proxying
         'karma-jasmine',
         'karma-phantomjs-launcher'
       ];
-      urlRoot = '/__karma__';
+      urlRoot = '/__karma__/';
       proxies = {
         '/foo.js': '/base/proxy/foo.js'
       }
