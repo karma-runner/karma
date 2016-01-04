@@ -505,6 +505,16 @@ iFrame and may need a new window to run.
 
 **Description:** Capture all console output and pipe it to the terminal.
 
+## client.clearContext
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** Clear the context window
+
+If true, Karma clears the context window upon the completion of running the tests. If false, Karma does not clear the context window
+upon  the completion of running the tests. Setting this to false is useful when embedding a Jasmine Spec Runner Template.
+
 ## urlRoot
 **Type:** String
 

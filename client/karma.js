@@ -36,7 +36,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   }
 
   this.setupContext = function (contextWindow) {
-    if (hasError) {
+    if (self.config.clearContext && hasError) {
       return
     }
 
@@ -149,11 +149,13 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       resultsBuffer = []
     }
 
-    // give the browser some time to breath, there could be a page reload, but because a bunch of
-    // tests could run in the same event loop, we wouldn't notice.
-    setTimeout(function () {
-      clearContext()
-    }, 0)
+    if (self.config.clearContext) {
+      // give the browser some time to breath, there could be a page reload, but because a bunch of
+      // tests could run in the same event loop, we wouldn't notice.
+      setTimeout(function () {
+        clearContext()
+      }, 0)
+    }
 
     socket.emit('complete', result || {}, function () {
       if (returnUrl) {
@@ -211,8 +213,9 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     // reset hasError and reload the iframe
     hasError = false
     startEmitted = false
-    reloadingContext = false
     self.config = cfg
+    // if not clearing context, reloadingContext always true to prevent beforeUnload error
+    reloadingContext = !self.config.clearContext
     navigateContextTo(constant.CONTEXT_URL)
 
     // clear the console before run
