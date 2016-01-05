@@ -1,3 +1,19 @@
+<a name="0.13.18"></a>
+## [0.13.18](https://github.com/karma-runner/karma/compare/v0.13.17...v0.13.18) (2016-01-05)
+
+
+### Bug Fixes
+
+* **preprocessor:** Improve handling of failed preprocessors ([e726d1c](https://github.com/karma-runner/karma/commit/e726d1c)), closes [#1521](https://github.com/karma-runner/karma/issues/1521)
+
+### Features
+
+* **cli:** Add .config/karma.conf.js to the default lookup path ([49bf1aa](https://github.com/karma-runner/karma/commit/49bf1aa)), closes [#1387](https://github.com/karma-runner/karma/issues/1387)
+* **config:** Add a clearContext config to prevent clearing of context. ([5fc8ee7](https://github.com/karma-runner/karma/commit/5fc8ee7))
+* **config:** mime config option support ([d562383](https://github.com/karma-runner/karma/commit/d562383)), closes [#1735](https://github.com/karma-runner/karma/issues/1735)
+
+
+
 <a name="0.13.17"></a>
 ## [0.13.17](https://github.com/karma-runner/karma/compare/v0.13.16...v0.13.17) (2016-01-04)
 
