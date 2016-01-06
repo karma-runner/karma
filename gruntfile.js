@@ -82,14 +82,7 @@ module.exports = function (grunt) {
       options: {
         requires: ['build'],
         abortIfDirty: true,
-        tag: function () {
-          var version = grunt.config('pkg.version')
-          if (version.match(/rc/)) {
-            return 'canary'
-          } else {
-            return 'latest'
-          }
-        }
+        tag: 'latest'
       }
     },
     'npm-contributors': {
