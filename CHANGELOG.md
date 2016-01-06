@@ -1,3 +1,13 @@
+<a name="0.13.19"></a>
+## [0.13.19](https://github.com/karma-runner/karma/compare/v0.13.18...v0.13.19) (2016-01-06)
+
+
+### Bug Fixes
+
+* **server:** Handle new socket.io internal format. ([3ab78d6](https://github.com/karma-runner/karma/commit/3ab78d6)), closes [#1782](https://github.com/karma-runner/karma/issues/1782)
+
+
+
 <a name="0.13.18"></a>
 ## [0.13.18](https://github.com/karma-runner/karma/compare/v0.13.17...v0.13.18) (2016-01-05)
 
