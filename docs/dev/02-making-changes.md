@@ -16,17 +16,15 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 * [Fork the repository] on GitHub.
 * Clone your fork.
   ```bash
-  $ git clone git@github.com:<your-username>/karma.git
+  $ git clone https://github.com/<your-username>/karma.git
   $ cd karma
-  ```
-* Init the workspace
-  ```bash
-  $ ./scripts/init-dev-env.js
   ```
 
 ## Testing and Building
 - Run the tests via:
   ```bash
+  $ npm test
+  # or if you have grunt-cli installed globally you can also
   $ grunt test:unit
   $ grunt test:e2e
   $ grunt test:client
@@ -37,15 +35,13 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 
 - Lint the code via:
   ```bash
-  $ grunt lint
+  $ npm run lint
   ```
 
 - Build the client code via:
   ```bash
-  $ grunt build
+  $ npm build
   ```
-
-The default task, just calling `grunt` will run `build lint test`.
 
 ## Changing the Code
 Checkout a new branch and name it accordingly to what you intend to do:

@@ -32,21 +32,6 @@ Please, make sure:
     - e.g. if the first commit is `fix(web-server): serve binary files` and a second commit is “fix unit tests broken in the previous commit”, you should squash them into a single commit.
   - It’s alright to ask the author of the pull request to fix any of the above.
 
-### There are two branches:
-- **master** is what gets automatically released into the "stable" channel (`npm install karma`).
-- **canary** is what gets automatically released into the "canary" channel (`npm install karma@canary`)
-
-If the PR is a bug fix or documentation change that is relevant to the current stable release (branch "master"), merge the PR into master.
-You can use the “green button” on GitHub.
-
-**No new features or breaking changes can go into the master branch.**
-
-Features or breaking changes should be merged into "canary" branch.
-So do bug fixes or documentation fixes that are only related to the canary release.
-
-An easy way to merge a pull request is to use the [fetch_pr] and [merge_pr] scripts.
-
-
 ## Ownership
 Every project has one or more owners (or “maintainers”), listed in `owners` field of the
 `package.json`. Typically, owners have push permissions.

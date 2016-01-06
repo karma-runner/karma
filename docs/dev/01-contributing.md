@@ -6,7 +6,7 @@ Here are some tips to get you started...
 
 ### Help others
 The best way to start contributing to any open source project is to help other people.
-You can answer questions on the [mailing list] or [Stack Overflow].
+You can answer questions on the [Gitter] or [Stack Overflow].
 Either find something you already know the answer for, or something you feel interested in and
 dig into it a little bit to find the answer.
 
@@ -48,7 +48,7 @@ Do you have any better ideas how to fix this problem? Let us know...
 Check out [Maintaining Karma]. Becoming a Karma maintainer is simple.
 You just do it. There is no test to pass ;-)
 
-[mailing list]: https://groups.google.com/forum/#!forum/karma-users
+[gitter]: https://gitter.im/karma-runner/karma
 [Stack Overflow]: http://stackoverflow.com/questions/tagged/karma-runner
 [`docs/`]: https://github.com/karma-runner/karma/tree/master/docs
 [Maintaining Karma]: ./maintaining.html

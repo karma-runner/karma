@@ -1,3 +1,49 @@
+var TRAVIS_WITHOUT_SAUCE = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
+
+var launchers = {
+  sl_chrome: {
+    base: 'SauceLabs',
+    browserName: 'chrome',
+    platform: 'Windows 7',
+    version: '47'
+  },
+  sl_firefox: {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: '43'
+  },
+  sl_safari: {
+    base: 'SauceLabs',
+    browserName: 'safari',
+    version: '9',
+    platform: 'OS X 10.11'
+  },
+  sl_ie_11: {
+    base: 'SauceLabs',
+    browserName: 'internet explorer',
+    platform: 'Windows 8.1',
+    version: '11'
+  },
+  sl_ie_10: {
+    base: 'SauceLabs',
+    browserName: 'internet explorer',
+    platform: 'Windows 7',
+    version: '10'
+  }
+}
+
+var browsers = []
+
+if (process.env.TRAVIS) {
+  if (TRAVIS_WITHOUT_SAUCE) {
+    browsers.push('Firefox')
+  } else {
+    browsers.concat(Object.keys(launchers))
+  }
+} else {
+  browsers.push('Chrome')
+}
+
 module.exports = function (config) {
   config.set({
     // base path, that will be used to resolve files and exclude
@@ -21,7 +67,7 @@ module.exports = function (config) {
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress'
     // CLI --reporters progress
-    reporters: ['progress', 'junit'],
+    reporters: ['progress', 'junit', 'saucelabs'],
 
     junitReporter: {
       // will be resolved to basePath (in the same way as files/exclude patterns)
@@ -54,11 +100,13 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
+    browsers: browsers,
+
+    customLaunchers: launchers,
 
     // If browser does not capture in given timeout [ms], kill it
     // CLI --capture-timeout 5000
-    captureTimeout: 20000,
+    captureTimeout: 50000,
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
@@ -73,7 +121,8 @@ module.exports = function (config) {
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-junit-reporter',
-      'karma-browserify'
+      'karma-browserify',
+      'karma-sauce-launcher'
     ]
   })
 }

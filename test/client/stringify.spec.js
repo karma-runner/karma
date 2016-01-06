@@ -23,8 +23,18 @@ describe('stringify', function () {
     function abc (a, b, c) { return 'whatever' }
     var def = function (d, e, f) { return 'whatever' }
 
-    expect(stringify(abc)).to.be.eql('function abc(a, b, c) { ... }')
-    expect(stringify(def)).to.be.eql('function (d, e, f) { ... }')
+    var abcString = stringify(abc)
+    var partsAbc = ['function', 'abc', '(a, b, c)', '{ ... }']
+    var partsDef = ['function', '(d, e, f)', '{ ... }']
+
+    partsAbc.forEach(function (part) {
+      expect(abcString).to.contain(part)
+    })
+
+    var defString = stringify(def)
+    partsDef.forEach(function (part) {
+      expect(defString).to.contain(part)
+    })
   })
 
   it('should serialize arrays', function () {
@@ -35,21 +45,21 @@ describe('stringify', function () {
     var obj
 
     obj = {a: 'a', b: 'b', c: null, d: true, e: false}
-    expect(stringify(obj)).to.be.eql("Object{a: 'a', b: 'b', c: null, d: true, e: false}")
+    expect(stringify(obj)).to.contain("{a: 'a', b: 'b', c: null, d: true, e: false}")
 
     function MyObj () {
       this.a = 'a'
     }
 
     obj = new MyObj()
-    expect(stringify(obj)).to.be.eql("MyObj{a: 'a'}")
+    expect(stringify(obj)).to.contain("{a: 'a'}")
 
     obj = {constructor: null}
-    expect(stringify(obj)).to.be.eql('Object{constructor: null}')
+    expect(stringify(obj)).to.contain('{constructor: null}')
 
     obj = Object.create(null)
     obj.a = 'a'
-    expect(stringify(obj)).to.be.eql("Object{a: 'a'}")
+    expect(stringify(obj)).to.contain("{a: 'a'}")
   })
 
   it('should serialize html', function () {

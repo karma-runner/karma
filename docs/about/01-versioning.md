@@ -1,22 +1,23 @@
-Karma uses [Semantic Versioning]. We publish unstable versions as `rc` versions, e.g. the current stable could look like `0.13.2` and the unstable would be something like `0.14.0-rc.1`.
+Karma uses [Semantic Versioning]. There are some special rules at the moment,
+as we have not yet released a `1.0.0`.
 
-It is recommended that you rely on the latest stable version, which will give you automatic bug fixes, but will not break your test setup:
+* Minor versions could introduce breaking changes.
+* Patch versions are expected to be compatible at all times.
+
+It is recommended that you add the following entry to your `package.json`
+file, either manually
 ```javascript
 {
   "devDependencies": {
-    "karma": "^0.13"
+    "karma": "^0.13.0"
   }
 }
 ```
 
-## Stable channel (branch `master`)
-```bash
-$ npm install karma
-```
+or by running
 
-## Canary channel (branch `canary`)
 ```bash
-$ npm install karma@canary
+$ npm --save-dev install karma
 ```
 
 [Semantic Versioning]: http://semver.org

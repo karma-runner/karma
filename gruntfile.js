@@ -75,21 +75,15 @@ module.exports = function (grunt) {
         '<%= files.grunt %>',
         '<%= files.scripts %>',
         '<%= files.client %>',
-        'test/**/*.js'
+        'test/**/*.js',
+        'gruntfile.js'
       ]
     },
     'npm-publish': {
       options: {
         requires: ['build'],
         abortIfDirty: true,
-        tag: function () {
-          var version = grunt.config('pkg.version')
-          if (version.match(/rc/)) {
-            return 'canary'
-          } else {
-            return 'latest'
-          }
-        }
+        tag: 'latest'
       }
     },
     'npm-contributors': {
@@ -105,7 +99,7 @@ module.exports = function (grunt) {
           }
         },
         src: 'CHANGELOG.md'
-      },
+      }
     },
     conventionalGithubReleaser: {
       release: {
