@@ -21,6 +21,8 @@ before_install:
   - g++-4.8 --version
 
 addons:
+  firefox:
+    "latest"
   apt:
     sources:
       - ubuntu-toolchain-r-test
@@ -34,7 +36,4 @@ before_script:
   - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
 
 script:
-  - npm run lint
-  - npm build
-  - npm test
-  - npm run test:integration
+  - npm run travis

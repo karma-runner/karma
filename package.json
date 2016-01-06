@@ -351,7 +351,8 @@
     "test": "grunt test",
     "build": "grunt build",
     "test:integration": "./scripts/integration-tests.sh",
-    "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../"
+    "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../",
+    "travis": "npm run lint && npm run build && npm test && npm run test:integration"
   },
   "config": {
     "ghooks": {
