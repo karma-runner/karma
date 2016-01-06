@@ -75,7 +75,8 @@ module.exports = function (grunt) {
         '<%= files.grunt %>',
         '<%= files.scripts %>',
         '<%= files.client %>',
-        'test/**/*.js'
+        'test/**/*.js',
+        'gruntfile.js'
       ]
     },
     'npm-publish': {
@@ -98,7 +99,7 @@ module.exports = function (grunt) {
           }
         },
         src: 'CHANGELOG.md'
-      },
+      }
     },
     conventionalGithubReleaser: {
       release: {

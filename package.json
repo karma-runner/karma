@@ -347,7 +347,7 @@
   "version": "0.13.19",
   "license": "MIT",
   "scripts": {
-    "lint": "grunt eslint",
+    "lint": "grunt lint",
     "test": "grunt test",
     "build": "grunt build",
     "test:integration": "./scripts/integration-tests.sh",
