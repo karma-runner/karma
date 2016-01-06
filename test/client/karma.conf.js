@@ -38,7 +38,7 @@ if (process.env.TRAVIS) {
   if (TRAVIS_WITHOUT_SAUCE) {
     browsers.push('Firefox')
   } else {
-    browsers.concat(Object.keys(launchers))
+    browsers = Object.keys(launchers)
   }
 } else {
   browsers.push('Chrome')
