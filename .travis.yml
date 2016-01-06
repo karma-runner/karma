@@ -30,13 +30,11 @@ addons:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - npm install -g grunt-cli
-  - rm -rf node_modules/karma
-  - cd node_modules && ln -nsf ../ karma && cd ../
+  - npm run init
   - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
 
 script:
-  - ./scripts/travis_run.sh
-
-after_success:
-  - ./scripts/presubmit.sh
+  - npm run lint
+  - npm build
+  - npm test
+  - npm run test:integration
