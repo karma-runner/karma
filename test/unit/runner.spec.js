@@ -12,14 +12,14 @@ describe('runner', () => {
     var EXIT = constant.EXIT_CODE
 
     it('should return 0 exit code if present in the buffer', () => {
-      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}0`))).to.equal(0)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}10`))).to.equal(0)
     })
 
     it('should null the exit code part of the buffer', () => {
-      var buffer = new Buffer(`some${EXIT}1`)
+      var buffer = new Buffer(`some${EXIT}01`)
       m.parseExitCode(buffer)
 
-      expect(buffer.toString()).to.equal('some\0\0\0\0\0\0')
+      expect(buffer.toString()).to.equal('some\0\0\0\0\0\0\0')
     })
 
     it('should not touch buffer without exit code and return default', () => {
@@ -41,8 +41,21 @@ describe('runner', () => {
     })
 
     it('should parse any single digit exit code', () => {
-      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}1`))).to.equal(1)
-      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}7`))).to.equal(7)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}01`))).to.equal(1)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}17`))).to.equal(7)
+    })
+
+    it('should return exit code 0 if failOnEmptyTestSuite is false and and non-empty int is 0', () => {
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}01`), undefined, false)).to.equal(0)
+    })
+
+    it('should return exit code if failOnEmptyTestSuite is true', () => {
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}00`), undefined, true)).to.equal(0)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}01`), undefined, true)).to.equal(1)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}07`), undefined, true)).to.equal(7)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}10`), undefined, true)).to.equal(0)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}11`), undefined, true)).to.equal(1)
+      expect(m.parseExitCode(new Buffer(`something\nfake${EXIT}17`), undefined, true)).to.equal(7)
     })
   })
 })
