@@ -73,7 +73,7 @@ describe('middleware.runner', () => {
 
     response.once('end', () => {
       expect(nextSpy).to.not.have.been.called
-      expect(response).to.beServedAs(200, 'result\x1FEXIT0')
+      expect(response).to.beServedAs(200, 'result\x1FEXIT10')
       done()
     })
 
@@ -81,6 +81,54 @@ describe('middleware.runner', () => {
 
     mockReporter.write('result')
     emitter.emit('run_complete', capturedBrowsers, {exitCode: 0})
+  })
+
+  it('should set the empty to 0 if empty results', (done) => {
+    capturedBrowsers.add(new Browser())
+    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+
+    response.once('end', () => {
+      expect(nextSpy).to.not.have.been.called
+      expect(response).to.beServedAs(200, 'result\x1FEXIT00')
+      done()
+    })
+
+    handler(new HttpRequestMock('/__run__'), response, nextSpy)
+
+    mockReporter.write('result')
+    emitter.emit('run_complete', capturedBrowsers, {exitCode: 0, success: 0, failed: 0})
+  })
+
+  it('should set the empty to 1 if successful tests', (done) => {
+    capturedBrowsers.add(new Browser())
+    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+
+    response.once('end', () => {
+      expect(nextSpy).to.not.have.been.called
+      expect(response).to.beServedAs(200, 'result\x1FEXIT10')
+      done()
+    })
+
+    handler(new HttpRequestMock('/__run__'), response, nextSpy)
+
+    mockReporter.write('result')
+    emitter.emit('run_complete', capturedBrowsers, {exitCode: 0, success: 3, failed: 0})
+  })
+
+  it('should set the empty to 1 if failed tests', (done) => {
+    capturedBrowsers.add(new Browser())
+    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+
+    response.once('end', () => {
+      expect(nextSpy).to.not.have.been.called
+      expect(response).to.beServedAs(200, 'result\x1FEXIT10')
+      done()
+    })
+
+    handler(new HttpRequestMock('/__run__'), response, nextSpy)
+
+    mockReporter.write('result')
+    emitter.emit('run_complete', capturedBrowsers, {exitCode: 0, success: 0, failed: 6})
   })
 
   it('should not run if there is no browser captured', (done) => {

@@ -224,6 +224,15 @@ customHeaders: [{
 
 **Description:** List of files/patterns to exclude from loaded files.
 
+## failOnEmptyTestSuite
+**Type:** Boolean
+
+**Default:** `true`
+
+**CLI:** `--fail-on-empty-test-suite`, `--no-fail-on-empty-test-suite`
+
+**Description:** Enable or disable failure on running empty test-suites. If disabled the program
+will return exit-code `0` and display a warning.
 
 ## files
 **Type:** Array
