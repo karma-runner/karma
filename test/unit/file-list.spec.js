@@ -36,11 +36,15 @@ var MG = {
   }
 }
 var mockFs = mocks.fs.create({
-  some: {'0.js': mocks.fs.file('2012-04-04'),
+  some: {
+    '0.js': mocks.fs.file('2012-04-04'),
     'a.js': mocks.fs.file('2012-04-04'),
     'b.js': mocks.fs.file('2012-05-05'),
-  'd.js': mocks.fs.file('2012-05-05')},
-  folder: {'x.js': mocks.fs.file(0)},
+    'd.js': mocks.fs.file('2012-05-05')
+  },
+  folder: {
+    'x.js': mocks.fs.file(0)
+  },
   'a.txt': mocks.fs.file(0),
   'b.txt': mocks.fs.file(0),
   'c.txt': mocks.fs.file(0),
@@ -77,7 +81,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         path: pathLib.posix || pathLib/* for node 0.10 */,
-        fs: mockFs
+        'graceful-fs': mockFs
       })
     })
 
@@ -207,7 +211,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         path: pathLib.posix || pathLib/* for node 0.10 */,
-        fs: mockFs
+        'graceful-fs': mockFs
       })
 
       list = new List(patterns('/some/*.js', '*.txt'), [], emitter, preprocess)
@@ -244,7 +248,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         path: pathLib.posix || pathLib/* for node 0.10 */,
-        fs: mockFs
+        'graceful-fs': mockFs
       })
 
       list = new List(patterns('/some/*.js', '*.txt'), [], emitter, preprocess, 100)
@@ -414,7 +418,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         path: pathLib.posix || pathLib/* for node 0.10 */,
-        fs: mockFs
+        'graceful-fs': mockFs
       })
 
       list = new List(patterns('/some/*.js', '*.txt'), ['/secret/*.txt'], emitter, preprocess)
@@ -527,7 +531,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         path: pathLib.posix || pathLib/* for node 0.10 */,
-        fs: mockFs
+        'graceful-fs': mockFs
       })
 
       mockFs._touchFile('/some/a.js', '2012-04-04')
@@ -620,7 +624,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         path: pathLib.posix || pathLib/* for node 0.10 */,
-        fs: mockFs
+        'graceful-fs': mockFs
       })
 
       modified = sinon.stub()
@@ -687,7 +691,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
-        fs: mockFs,
+        'graceful-fs': mockFs,
         path: pathLib.posix || pathLib/* for node 0.10 */,
         bluebird: Promise
       })

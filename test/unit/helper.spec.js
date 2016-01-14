@@ -217,7 +217,8 @@ describe('helper', () => {
     })
 
     // load file under test
-    var m = loadFile(__dirname + '/../../lib/helper.js', {fs: fs, lodash: require('lodash')})
+    var m = loadFile(__dirname + '/../../lib/helper.js', {'graceful-fs': fs, lodash: require('lodash')})
+
     var mkdirIfNotExists = m.exports.mkdirIfNotExists
 
     it('should not do anything, if dir already exists', done => {

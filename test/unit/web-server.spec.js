@@ -14,7 +14,7 @@ describe('web-server', () => {
   var _mocks = {}
   var _globals = {__dirname: '/karma/lib'}
 
-  _mocks.fs = mocks.fs.create({
+  _mocks['graceful-fs'] = mocks.fs.create({
     karma: {
       static: {
         'client.html': mocks.fs.file(0, 'CLIENT HTML')
