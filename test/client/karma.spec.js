@@ -339,9 +339,11 @@ describe('Karma', function () {
 
       k.complete()
 
-      clock.tick(20)
-
-      assert.notEqual(iframe.src, CURRENT_URL)
+      // clock.tick() does not work in IE 7
+      setTimeout(function () {
+        clock.tick(1)
+        assert.notEqual(iframe.src, CURRENT_URL)
+      }, 10)
     })
 
     it('should not clear context window upon complete when clearContext config is false', function () {

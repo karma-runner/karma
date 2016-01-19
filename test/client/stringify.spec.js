@@ -54,31 +54,38 @@ describe('stringify', function () {
     assert(stringify(obj).indexOf("{a: 'a'}") > -1)
 
     obj = {constructor: null}
-    assert(stringify(obj).indexOf('{constructor: null}') > -1)
+
+    // IE 7 serializes this to Object{}
+    var s = stringify(obj)
+    assert(s.indexOf('{constructor: null}') > -1 || s.indexOf('Object{}') > -1)
 
     obj = Object.create(null)
     obj.a = 'a'
+
     assert(stringify(obj).indexOf("{a: 'a'}") > -1)
   })
 
   it('should serialize html', function () {
     var div = document.createElement('div')
 
-    assert.deepEqual(stringify(div), '<div></div>')
+    assert.deepEqual(stringify(div).trim().toLowerCase(), '<div></div>')
 
     div.innerHTML = 'some <span>text</span>'
-    assert.deepEqual(stringify(div), '<div>some <span>text</span></div>')
+    assert.deepEqual(stringify(div).trim().toLowerCase(), '<div>some <span>text</span></div>')
   })
 
   it('should serialize DOMParser objects', function () {
-    var parser = new DOMParser()
-    var doc = parser.parseFromString('<test></test>', 'application/xml')
-    assert.deepEqual(stringify(doc), '<test></test>')
+    if (typeof DOMParser !== 'undefined') {
+      // Test only works in IE 9 and above
+      var parser = new DOMParser()
+      var doc = parser.parseFromString('<test></test>', 'application/xml')
+      assert.deepEqual(stringify(doc), '<test></test>')
+    }
   })
 
   it('should serialize across iframes', function () {
     var div = document.createElement('div')
-    assert.deepEqual(__karma__.stringify(div), '<div></div>')
+    assert.deepEqual(__karma__.stringify(div).trim().toLowerCase(), '<div></div>')
 
     assert.deepEqual(__karma__.stringify([1, 2]), '[1, 2]')
   })
