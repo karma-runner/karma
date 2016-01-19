@@ -64,21 +64,24 @@ describe('stringify', function () {
   it('should serialize html', function () {
     var div = document.createElement('div')
 
-    assert.deepEqual(stringify(div), '<div></div>')
+    assert.deepEqual(stringify(div).trim(), '<div></div>')
 
     div.innerHTML = 'some <span>text</span>'
     assert.deepEqual(stringify(div), '<div>some <span>text</span></div>')
   })
 
   it('should serialize DOMParser objects', function () {
-    var parser = new DOMParser()
-    var doc = parser.parseFromString('<test></test>', 'application/xml')
-    assert.deepEqual(stringify(doc), '<test></test>')
+    if (DOMParser) {
+      // Test only works in IE 9 and above
+      var parser = new DOMParser()
+      var doc = parser.parseFromString('<test></test>', 'application/xml')
+      assert.deepEqual(stringify(doc), '<test></test>')
+    }
   })
 
   it('should serialize across iframes', function () {
     var div = document.createElement('div')
-    assert.deepEqual(__karma__.stringify(div), '<div></div>')
+    assert.deepEqual(__karma__.stringify(div).trim(), '<div></div>')
 
     assert.deepEqual(__karma__.stringify([1, 2]), '[1, 2]')
   })
