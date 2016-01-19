@@ -10,6 +10,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
+  var displayName = queryParams.displayName
   var returnUrl = queryParams['return_url' + ''] || null
 
   var resultsBufferLimit = 50
@@ -233,11 +234,14 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     socket.io.engine.on('upgrade', function () {
       resultsBufferLimit = 1
     })
-
-    socket.emit('register', {
+    var info = {
       name: navigator.userAgent,
       id: browserId
-    })
+    }
+    if (displayName) {
+      info.displayName = displayName
+    }
+    socket.emit('register', info)
   })
 }
 

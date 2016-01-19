@@ -77,6 +77,20 @@ customLaunchers: {
 }
 ```
 
+A display name can be set for any custom launcher. If set, this name will be used for reporting instead of the
+user agent. E.g. defining
+
+```javascript
+customLaunchers: {
+  chrome_without_security: {
+    base: 'Chrome',
+    flags: ['--disable-web-security'],
+    displayName: 'Chrome w/o security'
+  }
+}
+```
+
+the browser will figure as `Chrome w/o security` in logs and reports.
 
 ## Correct path to browser binary
 Each plugin has some default paths where to find the browser binary on particular OS.
