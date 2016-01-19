@@ -475,7 +475,7 @@ on whether all tests passed or any tests failed.
 
 **Default:** `{}`
 
-**Description:** Redefine default mapping from file extensions to MIME-type 
+**Description:** Redefine default mapping from file extensions to MIME-type
 
 Set property name to required MIME, provide Array of extensions (without dots) as it's value
 
@@ -496,6 +496,13 @@ mime: {
 **Description:** An array of allowed transport methods between the browser and testing server. This configuration setting
 is handed off to [socket.io](http://socket.io/) (which manages the communication
 between browsers and the testing server).
+
+## forceJSONP
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** Force socket.io to use JSONP polling instead of XHR polling.
 
 ## client.useIframe
 **Type:** Boolean
