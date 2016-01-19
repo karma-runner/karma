@@ -1,7 +1,8 @@
+// shim all the things
+require('core-js/es5')
+global.JSON = require('json3')
 var sinon = require('sinon')
-var chai = require('chai')
-chai.use(require('sinon-chai'))
-var expect = chai.expect
+var assert = require('assert')
 
 var Karma = require('../../client/karma')
 var MockSocket = require('./mocks').Socket
@@ -31,10 +32,10 @@ describe('Karma', function () {
     }
 
     socket.emit('execute', config)
-    expect(startSpy).to.not.have.been.called
+    assert(!startSpy.called)
 
     k.loaded()
-    expect(startSpy).to.have.been.calledWith(config)
+    assert(startSpy.calledWith(config))
   })
 
   it('should open a new window when useIFrame is false', function () {
@@ -43,24 +44,24 @@ describe('Karma', function () {
     }
 
     socket.emit('execute', config)
-    expect(k.start).to.not.have.been.called
+    assert(!k.start.called)
 
     k.loaded()
-    expect(startSpy).to.have.been.calledWith(config)
-    expect(windowStub).to.have.been.calledWith('about:blank')
+    assert(startSpy.calledWith(config))
+    assert(windowStub.calledWith('about:blank'))
   })
 
   it('should stop execution', function () {
     sinon.spy(k, 'complete')
     socket.emit('stop')
-    expect(k.complete).to.have.been.called
+    assert(k.complete.called)
   })
 
   it('should not start execution if any error during loading files', function () {
     k.error('syntax error', '/some/file.js', 11)
     k.loaded()
     sinon.spy(k, 'start')
-    expect(startSpy).to.not.have.been.called
+    assert(!startSpy.called)
   })
 
   it('should remove reference to start even after syntax error', function () {
@@ -69,11 +70,11 @@ describe('Karma', function () {
     k.start = ADAPTER_START_FN
     k.error('syntax error', '/some/file.js', 11)
     k.loaded()
-    expect(k.start).to.not.be.eql(ADAPTER_START_FN)
+    assert.notEqual(k.start, ADAPTER_START_FN)
 
     k.start = ADAPTER_START_FN
     k.loaded()
-    expect(k.start).to.not.be.eql(ADAPTER_START_FN)
+    assert.notEqual(k.start, ADAPTER_START_FN)
   })
 
   it('should not set up context if there was an error', function () {
@@ -88,9 +89,9 @@ describe('Karma', function () {
     k.error('page reload')
     k.setupContext(mockWindow)
 
-    expect(mockWindow.__karma__).to.not.exist
-    expect(mockWindow.onbeforeunload).to.not.exist
-    expect(mockWindow.onerror).to.not.exist
+    assert(mockWindow.__karma__ == null)
+    assert(mockWindow.onbeforeunloadK == null)
+    assert(mockWindow.onerror == null)
   })
 
   it('should setup context if there was error but clearContext config is false', function () {
@@ -105,14 +106,14 @@ describe('Karma', function () {
     k.error('page reload')
     k.setupContext(mockWindow)
 
-    expect(mockWindow.__karma__).to.exist
-    expect(mockWindow.onbeforeunload).to.exist
-    expect(mockWindow.onerror).to.exist
+    assert(mockWindow.__karma__ != null)
+    assert(mockWindow.onbeforeunload != null)
+    assert(mockWindow.onerror != null)
   })
 
   it('should report navigator name', function () {
     var spyInfo = sinon.spy(function (info) {
-      expect(info.name).to.be.eql('Fake browser name')
+      assert(info.name === 'Fake browser name')
     })
 
     windowNavigator.userAgent = 'Fake browser name'
@@ -120,7 +121,7 @@ describe('Karma', function () {
     socket.on('register', spyInfo)
     socket.emit('connect')
 
-    expect(spyInfo).to.have.been.called
+    assert(spyInfo.called)
   })
 
   it('should report browser id', function () {
@@ -129,13 +130,13 @@ describe('Karma', function () {
     k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation)
 
     var spyInfo = sinon.spy(function (info) {
-      expect(info.id).to.be.eql('567')
+      assert(info.id === '567')
     })
 
     socket.on('register', spyInfo)
     socket.emit('connect')
 
-    expect(spyInfo).to.have.been.called
+    assert(spyInfo.called)
   })
 
   describe('result', function () {
@@ -150,11 +151,11 @@ describe('Karma', function () {
         k.result({id: i})
       }
 
-      expect(spyResult).to.not.have.been.called
+      assert(!spyResult.called)
 
       k.result('result', {id: 50})
-      expect(spyResult).to.have.been.called
-      expect(spyResult.args[0][0].length).to.be.eql(50)
+      assert(spyResult.called)
+      assert(spyResult.args[0][0].length === 50)
     })
 
     it('should buffer results when polling', function () {
@@ -169,8 +170,8 @@ describe('Karma', function () {
       }
 
       k.complete()
-      expect(spyResult).to.have.been.called
-      expect(spyResult.args[0][0].length).to.be.eql(40)
+      assert(spyResult.called)
+      assert(spyResult.args[0][0].length === 40)
     })
 
     it('should emit "start" with total specs count first', function () {
@@ -188,7 +189,7 @@ describe('Karma', function () {
 
       // adapter didn't call info({total: x})
       k.result()
-      expect(log).to.be.eql(['start', 'result'])
+      assert.deepEqual(log, ['start', 'result'])
     })
 
     it('should not emit "start" if already done by the adapter', function () {
@@ -209,8 +210,8 @@ describe('Karma', function () {
 
       k.info({total: 321})
       k.result()
-      expect(log).to.be.eql(['start', 'result'])
-      expect(spyStart).to.have.been.calledWith({total: 321})
+      assert.deepEqual(log, ['start', 'result'])
+      assert(spyStart.calledWith({total: 321}))
     })
   })
 
@@ -226,7 +227,7 @@ describe('Karma', function () {
 
       k.setupContext(mockWindow)
       mockWindow.alert('What?')
-      expect(k.log).to.have.been.calledWith('alert', ['What?'])
+      assert(k.log.calledWith('alert', ['What?']))
     })
   })
 
@@ -235,16 +236,16 @@ describe('Karma', function () {
       k.store('a', 10)
       k.store('b', [1, 2, 3])
 
-      expect(k.store('a')).to.be.eql(10)
-      expect(k.store('b')).to.be.eql([1, 2, 3])
+      assert.equal(k.store('a'), 10)
+      assert.deepEqual(k.store('b'), [1, 2, 3])
     })
 
     it('should clone arrays to avoid memory leaks', function () {
       var array = [1, 2, 3, 4, 5]
 
       k.store('one.array', array)
-      expect(k.store('one.array')).to.be.eql(array)
-      expect(k.store('one.array')).to.be.eql(array)
+      assert.deepEqual(k.store('one.array'), array)
+      assert.deepEqual(k.store('one.array'), array)
     })
   })
 
@@ -270,10 +271,10 @@ describe('Karma', function () {
         k.result({id: i})
       }
 
-      expect(spyResult).to.not.have.been.called
+      assert(!spyResult.called)
 
       k.complete()
-      expect(spyResult).to.have.been.called
+      assert(spyResult.called)
     })
 
     it('should navigate the client to return_url if specified', function (done) {
@@ -291,7 +292,7 @@ describe('Karma', function () {
 
       clock.tick(500)
       setTimeout(function () {
-        expect(windowLocation.href).to.be.eql('http://return.com')
+        assert(windowLocation.href === 'http://return.com')
         done()
       }, 5)
       clock.tick(10)
@@ -309,8 +310,8 @@ describe('Karma', function () {
 
       k.setupContext(mockWindow)
       mockWindow.console.log('What?')
-      expect(k.log).to.have.been.calledWith('log')
-      expect(k.log.args[0][1][0]).to.be.eql('What?')
+      assert(k.log.calledWith('log'))
+      assert(k.log.args[0][1][0] === 'What?')
     })
 
     it('should not patch the console if captureConsole is false', function () {
@@ -325,7 +326,7 @@ describe('Karma', function () {
 
       k.setupContext(mockWindow)
       mockWindow.console.log('hello')
-      expect(k.log).to.not.have.been.called
+      assert(!k.log.called)
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
@@ -338,9 +339,9 @@ describe('Karma', function () {
 
       k.complete()
 
-      clock.tick(1)
+      clock.tick(20)
 
-      expect(iframe.src).to.not.be.eql(CURRENT_URL)
+      assert.notEqual(iframe.src, CURRENT_URL)
     })
 
     it('should not clear context window upon complete when clearContext config is false', function () {
@@ -355,7 +356,7 @@ describe('Karma', function () {
 
       clock.tick(1)
 
-      expect(iframe.src).to.be.eql(CURRENT_URL)
+      assert.equal(iframe.src, CURRENT_URL)
     })
   })
 })

@@ -1,22 +1,21 @@
 /* global __karma__ */
-var chai = require('chai')
-var expect = chai.expect
+var assert = require('assert')
 
 var stringify = require('../../client/stringify')
 
 describe('stringify', function () {
   it('should serialize string', function () {
-    expect(stringify('aaa')).to.be.eql("'aaa'")
+    assert.deepEqual(stringify('aaa'), "'aaa'")
   })
 
   it('should serialize booleans', function () {
-    expect(stringify(true)).to.be.eql('true')
-    expect(stringify(false)).to.be.eql('false')
+    assert.deepEqual(stringify(true), 'true')
+    assert.deepEqual(stringify(false), 'false')
   })
 
   it('should serialize null and undefined', function () {
-    expect(stringify(null)).to.be.eql('null')
-    expect(stringify()).to.be.eql('undefined')
+    assert.deepEqual(stringify(null), 'null')
+    assert.deepEqual(stringify(), 'undefined')
   })
 
   it('should serialize functions', function () {
@@ -28,59 +27,59 @@ describe('stringify', function () {
     var partsDef = ['function', '(d, e, f)', '{ ... }']
 
     partsAbc.forEach(function (part) {
-      expect(abcString).to.contain(part)
+      assert(abcString.indexOf(part) > -1)
     })
 
     var defString = stringify(def)
     partsDef.forEach(function (part) {
-      expect(defString).to.contain(part)
+      assert(defString.indexOf(part) > -1)
     })
   })
 
   it('should serialize arrays', function () {
-    expect(stringify(['a', 'b', null, true, false])).to.be.eql("['a', 'b', null, true, false]")
+    assert.deepEqual(stringify(['a', 'b', null, true, false]), "['a', 'b', null, true, false]")
   })
 
   it('should serialize objects', function () {
     var obj
 
     obj = {a: 'a', b: 'b', c: null, d: true, e: false}
-    expect(stringify(obj)).to.contain("{a: 'a', b: 'b', c: null, d: true, e: false}")
+    assert(stringify(obj).indexOf("{a: 'a', b: 'b', c: null, d: true, e: false}") > -1)
 
     function MyObj () {
       this.a = 'a'
     }
 
     obj = new MyObj()
-    expect(stringify(obj)).to.contain("{a: 'a'}")
+    assert(stringify(obj).indexOf("{a: 'a'}") > -1)
 
     obj = {constructor: null}
-    expect(stringify(obj)).to.contain('{constructor: null}')
+    assert(stringify(obj).indexOf('{constructor: null}') > -1)
 
     obj = Object.create(null)
     obj.a = 'a'
-    expect(stringify(obj)).to.contain("{a: 'a'}")
+    assert(stringify(obj).indexOf("{a: 'a'}") > -1)
   })
 
   it('should serialize html', function () {
     var div = document.createElement('div')
 
-    expect(stringify(div)).to.be.eql('<div></div>')
+    assert.deepEqual(stringify(div), '<div></div>')
 
     div.innerHTML = 'some <span>text</span>'
-    expect(stringify(div)).to.be.eql('<div>some <span>text</span></div>')
+    assert.deepEqual(stringify(div), '<div>some <span>text</span></div>')
   })
 
   it('should serialize DOMParser objects', function () {
     var parser = new DOMParser()
     var doc = parser.parseFromString('<test></test>', 'application/xml')
-    expect(stringify(doc)).to.be.eql('<test></test>')
+    assert.deepEqual(stringify(doc), '<test></test>')
   })
 
   it('should serialize across iframes', function () {
     var div = document.createElement('div')
-    expect(__karma__.stringify(div)).to.be.eql('<div></div>')
+    assert.deepEqual(__karma__.stringify(div), '<div></div>')
 
-    expect(__karma__.stringify([1, 2])).to.be.eql('[1, 2]')
+    assert.deepEqual(__karma__.stringify([1, 2]), '[1, 2]')
   })
 })
