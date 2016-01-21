@@ -79,14 +79,6 @@ multiple changes into a single run so that the test runner doesn't try to start 
 tests more than it should. The configuration setting tells Karma how long to wait (in milliseconds) after any changes
 have occurred before starting the test process again.
 
-## restartOnFileChange
-**Type:** Boolean
-
-**Default:** `false`
-
-**Description:** When Karma is watching the files for changes, it will delay a new run until
-the current run is finished. Enabling this setting will cancel the current run and start a new run
-immediately when a change is detected.
 
 ## basePath
 **Type:** String
@@ -183,6 +175,36 @@ The `client.args` option allows you to set this value for actions other than `ru
 How this value is used is up to your test adapter - you should check your adapter's
 documentation to see how (and if) it uses this value.
 
+
+## client.useIframe
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** Run the tests inside an iFrame or a new window
+
+If true, Karma runs the tests inside an iFrame. If false, Karma runs the tests in a new window. Some tests may not run in an
+iFrame and may need a new window to run.
+
+
+## client.captureConsole
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** Capture all console output and pipe it to the terminal.
+
+
+## client.clearContext
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** Clear the context window
+
+If true, Karma clears the context window upon the completion of running the tests. If false, Karma does not clear the context window
+upon  the completion of running the tests. Setting this to false is useful when embedding a Jasmine Spec Runner Template.
+
 ## colors
 **Type:** Boolean
 
@@ -191,6 +213,16 @@ documentation to see how (and if) it uses this value.
 **CLI:** `--colors`, `--no-colors`
 
 **Description:** Enable or disable colors in the output (reporters and logs).
+
+
+## concurrency
+**Type:** Number
+
+**Default:** `Infinity`
+
+**Description:** How many browser Karma launches in parallel.
+
+Especially on sevices like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can sepcify how many browsers should be running at once at any given point in time.
 
 
 ## customHeaders
@@ -336,6 +368,25 @@ plugins: [
 ]
 ```
 
+
+## mime
+**Type:** Object
+
+**Default:** `{}`
+
+**Description:** Redefine default mapping from file extensions to MIME-type
+
+Set property name to required MIME, provide Array of extensions (without dots) as it's value
+
+**Example:**
+```javascript
+mime: {
+   'text/x-typescript': ['ts','tsx']
+   'text/plain' : ['mytxt']
+}
+```
+
+
 ## plugins
 **Type:** Array
 
@@ -395,6 +446,7 @@ Click <a href="preprocessors.html">here</a> for more information.
 Determines the use of the Node `http` or `https` class.
 
 Note: Using `'https:'` requires you to specify `httpsServerOptions`.
+
 
 ## proxies
 **Type:** Object
@@ -458,6 +510,24 @@ Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be 
 Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
 
 
+## restartOnFileChange
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** When Karma is watching the files for changes, it will delay a new run until
+the current run is finished. Enabling this setting will cancel the current run and start a new run
+immediately when a change is detected.
+
+
+## retryLimit
+**Type:** Number
+
+**Default:** 2
+
+**Description:** When a browser crashes, karma will try to relaunch. This defines how many times karma should relaunch
+a browser before giving up.
+
 ## singleRun
 **Type:** Boolean
 
@@ -470,22 +540,6 @@ Note: Just about all additional reporters in Karma (other than progress) require
 If `true`, Karma will start and capture all configured browsers, run tests and then exit with an exit code of `0` or `1` depending
 on whether all tests passed or any tests failed.
 
-## mime
-**Type:** Object
-
-**Default:** `{}`
-
-**Description:** Redefine default mapping from file extensions to MIME-type 
-
-Set property name to required MIME, provide Array of extensions (without dots) as it's value
-
-**Example:**
-```javascript
-mime: {
-   'text/x-typescript': ['ts','tsx']
-   'text/plain' : ['mytxt']
-}
-```
 
 
 ## transports
@@ -497,32 +551,6 @@ mime: {
 is handed off to [socket.io](http://socket.io/) (which manages the communication
 between browsers and the testing server).
 
-## client.useIframe
-**Type:** Boolean
-
-**Default:** `true`
-
-**Description:** Run the tests inside an iFrame or a new window
-
-If true, Karma runs the tests inside an iFrame. If false, Karma runs the tests in a new window. Some tests may not run in an
-iFrame and may need a new window to run.
-
-## client.captureConsole
-**Type:** Boolean
-
-**Default:** `true`
-
-**Description:** Capture all console output and pipe it to the terminal.
-
-## client.clearContext
-**Type:** Boolean
-
-**Default:** `true`
-
-**Description:** Clear the context window
-
-If true, Karma clears the context window upon the completion of running the tests. If false, Karma does not clear the context window
-upon  the completion of running the tests. Setting this to false is useful when embedding a Jasmine Spec Runner Template.
 
 ## urlRoot
 **Type:** String
@@ -534,14 +562,6 @@ upon  the completion of running the tests. Setting this to false is useful when 
 All of Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
 sometimes you might want to proxy a url that is already taken by Karma.
 
-## concurrency
-**Type:** Number
-
-**Default:** `Infinity`
-
-**Description:** How many browser Karma launches in parallel.
-
-Especially on sevices like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can sepcify how many browsers should be running at once at any given point in time.
 
 [plugins]: plugins.html
 [config/files]: files.html
