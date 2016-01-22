@@ -29,7 +29,31 @@ var launchers = {
     browserName: 'internet explorer',
     platform: 'Windows 7',
     version: '10'
-  }
+  },
+  sl_ie_9: {
+    base: 'SauceLabs',
+    browserName: 'internet explorer',
+    platform: 'Windows 7',
+    version: '9'
+  },
+  sl_ie_8: {
+    base: 'SauceLabs',
+    browserName: 'internet explorer',
+    platform: 'Windows XP',
+    version: '8'
+  },
+  sl_ie_7: {
+    base: 'SauceLabs',
+    browserName: 'internet explorer',
+    platform: 'Windows XP',
+    version: '7'
+  }// ,
+  // sl_ie_6: {
+  //   base: 'SauceLabs',
+  //   browserName: 'internet explorer',
+  //   platform: 'Windows XP',
+  //   version: '6'
+  // }
 }
 
 var browsers = []
@@ -123,6 +147,10 @@ module.exports = function (config) {
       'karma-junit-reporter',
       'karma-browserify',
       'karma-sauce-launcher'
-    ]
+    ],
+
+    concurrency: 3,
+
+    forceJSONP: true
   })
 }

@@ -303,6 +303,7 @@
     "grunt-mocha-test": "^0.12.7",
     "grunt-npm": "0.0.2",
     "jasmine-core": "^2.3.4",
+    "json3": "^3.3.2",
     "karma-browserify": "^4.1.2",
     "karma-browserstack-launcher": "0.1.9",
     "karma-chrome-launcher": "*",
