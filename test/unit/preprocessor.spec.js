@@ -6,14 +6,17 @@ describe('preprocessor', () => {
   var m
   var mockFs
 
+  // mimic first few bytes of a pdf file
+  var binarydata = new Buffer([0x25, 0x50, 0x44, 0x66, 0x46, 0x00])
+
   beforeEach(() => {
     mockFs = mocks.fs.create({
       some: {
         'a.js': mocks.fs.file(0, 'content'),
         'b.js': mocks.fs.file(0, 'content'),
         'a.txt': mocks.fs.file(0, 'some-text'),
-        'photo.png': mocks.fs.file(0, 'binary'),
-        'CAM_PHOTO.JPG': mocks.fs.file(0, 'binary'),
+        'photo.png': mocks.fs.file(0, binarydata),
+        'CAM_PHOTO.JPG': mocks.fs.file(0, binarydata),
         '.dir': {
           'a.js': mocks.fs.file(0, 'content')
         }
