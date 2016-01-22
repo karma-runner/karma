@@ -38,7 +38,7 @@ Now running `npm test` within your project will run your tests with Karma.
 
 ## Add Your Project to Semaphore
 
-Follow the process as shown in the [screencast] on the Semaphore homepage.
+Follow the process as shown in the [screencast] on the Semaphore docs.
 
 After the analysis is finished, ignore the Ruby version Semaphore has set
 for you, choose to customize your build commands and use these:
@@ -55,11 +55,11 @@ during your builds.
 Also, if necessary, build commands can be further [customized] at any time.
 
 
-[screencast]: https://semaphoreapp.com/
-[Semaphore]: https://semaphoreapp.com
-[integrates]: https://semaphoreapp.com/features
+[screencast]: https://semaphoreci.com/docs/adding-github-bitbucket-project-to-semaphore.html
+[Semaphore]: https://semaphoreci.com
+[integrates]: https://semaphoreci.com/project_timeline
 [Github]: https://github.com/
 [Node.js]: http://nodejs.org
 [PhantomJS]: http://phantomjs.org/
-[platform]: http://docs.semaphoreapp.com/version-information
-[customized]: http://docs.semaphoreapp.com/custom-build-commands
+[platform]: https://semaphoreci.com/docs/supported-stack.html
+[customized]: https://semaphoreci.com/docs/customizing-build-commands.html
