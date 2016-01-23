@@ -14,10 +14,19 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 
 * Make sure you have a [GitHub account](https://github.com/signup/free).
 * [Fork the repository] on GitHub.
-* Clone your fork.
+* Clone your fork
   ```bash
   $ git clone https://github.com/<your-username>/karma.git
   $ cd karma
+  ```
+* Install for development. Use a recent npm version, ignore peerdep warnings
+  ```bash
+  $ npm install
+  $ rm -rf node_modules/karma
+  $ cd node_modules
+  $ ln -s ../ karma
+  $ cd ../
+  $ grunt browserify
   ```
 
 ## Testing and Building
