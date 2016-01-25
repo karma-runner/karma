@@ -264,7 +264,7 @@
     "expand-braces": "^0.1.1",
     "glob": "^6.0.3",
     "graceful-fs": "^4.1.2",
-    "http-proxy": "^1.11.1",
+    "http-proxy": "^1.12.1",
     "isbinaryfile": "^3.0.0",
     "lodash": "^3.8.0",
     "log4js": "^0.6.28",
