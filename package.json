@@ -336,7 +336,7 @@
     "supertest-as-promised": "^2.0.2",
     "timer-shim": "^0.3.0",
     "validate-commit-msg": "^1.1.1",
-    "which": "^1.1.1"
+    "which": "^1.2.2"
   },
   "main": "./lib/index",
   "bin": {
