@@ -121,7 +121,7 @@ module.exports = function coreSteps () {
       actualOutput = lines.join('\n')
     }
 
-    if (actualOutput.indexOf(expectedOutput) === 0) {
+    if (actualOutput.indexOf(expectedOutput) >= 0) {
       return callback()
     }
 
