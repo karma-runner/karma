@@ -15,19 +15,18 @@ module.exports = function coreSteps () {
   var cleansingNeeded = true
   var additionalArgs = []
 
-  var cleanseIfNeeded = (function (_this) {
-    return function () {
-      if (cleansingNeeded) {
-        try {
-          rimraf.sync(tmpDir)
-        } catch (e) {}
-
-        cleansingNeeded = false
-
-        return cleansingNeeded
+  var cleanseIfNeeded = function () {
+    if (cleansingNeeded) {
+      try {
+        rimraf.sync(tmpDir)
+      } catch (e) {
       }
+
+      cleansingNeeded = false
+
+      return cleansingNeeded
     }
-  })(this)
+  }
 
   this.Given(/^a configuration with:$/, function (fileContent, callback) {
     cleanseIfNeeded()
@@ -40,7 +39,7 @@ module.exports = function coreSteps () {
     return callback()
   })
 
-  this.When(/^I (run|runOut|start|init) Karma$/, function (command, callback) {
+  this.When(/^I start a server in background/, function (callback) {
     this.writeConfigFile(tmpDir, tmpConfigFile, (function (_this) {
       return function (err, hash) {
         if (err) {
@@ -49,8 +48,30 @@ module.exports = function coreSteps () {
 
         var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
         var runtimePath = path.join(baseDir, 'bin', 'karma')
+        _this.child = spawn('' + runtimePath, ['start', '--log-level', 'debug', configFile])
+        _this.child.stdout.on('data', function () {
+          callback()
+          callback = function () {
+          }
+        })
+        _this.child.on('exit', function (exitCode) {
+          _this.childExitCode = exitCode
+        })
+      }
+    })(this))
+  })
+
+  this.When(/^I (run|runOut|start|init|stop) Karma( with log-level ([a-z]+))?$/, function (command, withLogLevel, level, callback) {
+    this.writeConfigFile(tmpDir, tmpConfigFile, (function (_this) {
+      return function (err, hash) {
+        if (err) {
+          return callback.fail(new Error(err))
+        }
+        level = withLogLevel === undefined ? 'warn' : level
+        var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+        var runtimePath = path.join(baseDir, 'bin', 'karma')
         var execKarma = function (done) {
-          var cmd = runtimePath + ' ' + command + ' --log-level warn ' + configFile + ' ' + additionalArgs
+          var cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
 
           return exec(cmd, {
             cwd: baseDir
@@ -107,11 +128,10 @@ module.exports = function coreSteps () {
     })(this))
   })
 
-  this.Then(/^it passes with( no debug)?:$/, {timeout: 10 * 1000}, function (noDebug, expectedOutput, callback) {
-    noDebug = noDebug === ' no debug'
+  this.Then(/^it passes with( no debug| like)?:$/, {timeout: 10 * 1000}, function (mode, expectedOutput, callback) {
+    var noDebug = mode === ' no debug'
+    var like = mode === ' like'
     var actualOutput = this.lastRun.stdout.toString()
-    var actualError = this.lastRun.error
-    var actualStderr = this.lastRun.stderr.toString()
     var lines
 
     if (noDebug) {
@@ -120,12 +140,15 @@ module.exports = function coreSteps () {
       })
       actualOutput = lines.join('\n')
     }
+    if (like && actualOutput.indexOf(expectedOutput) >= 0) {
+      return callback()
+    }
 
     if (actualOutput.indexOf(expectedOutput) === 0) {
       return callback()
     }
 
-    if (actualError || actualStderr) {
+    if (actualOutput) {
       return callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + actualOutput))
     }
 
@@ -158,5 +181,13 @@ module.exports = function coreSteps () {
     if (actualError || actualStderr) {
       callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + actualOutput))
     }
+  })
+
+  this.Then(/^The server is dead( with exit code ([0-9]+))?$/, function (withExitCode, code, callback) {
+    setTimeout((function (_this) {
+      if (_this.childExitCode === undefined) return callback(new Error('Server has not exited.'))
+      if (code === undefined || parseInt(code, 10) === _this.childExitCode) return callback()
+      callback(new Error('Exit-code mismatch'))
+    })(this), 1000)
   })
 }

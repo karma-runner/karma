@@ -249,6 +249,18 @@ customHeaders: [{
 }]
 ```
 
+
+## detached
+**Type:** Boolean
+
+**Default:** `false`
+
+**CLI:** `--detached`
+
+**Description:** When true, this will start the karma server in another process, writing no output to the console.
+The server can be stopped using the `karma stop` command.
+
+
 ## exclude
 **Type:** Array
 
