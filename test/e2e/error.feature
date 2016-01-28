@@ -16,5 +16,5 @@ Feature: Error Display
     When I start Karma
     Then it fails with:
       """
-      SyntaxError: Parse error
+      SyntaxError: Parser error
       """
