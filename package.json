@@ -317,7 +317,7 @@
     "karma-live-preprocessor": "*",
     "karma-mocha": "0.2.1",
     "karma-ng-scenario": "*",
-    "karma-phantomjs-launcher": "*",
+    "karma-phantomjs-launcher": "1.0.0",
     "karma-qunit": "*",
     "karma-requirejs": "*",
     "karma-sauce-launcher": "*",
