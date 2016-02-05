@@ -40,6 +40,13 @@ server.on('browser_register', function (browser) {
 })
 ```
 
+### `listening`
+**Arguments:**
+
+* `port`: Port number
+
+Begin accepting connections on the specified port.
+
 ### `browser_register`
 **Arguments:**
 
