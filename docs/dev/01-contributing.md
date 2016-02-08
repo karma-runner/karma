@@ -1,5 +1,7 @@
 pageTitle: Contributing to Karma
 
+**Working on your first Pull Request?** You can learn how from this *free* series
+[How to Contribute to an Open Source Project on GitHub](egghead_series)
 
 You wanna contribute to Karma? That is truly great!
 Here are some tips to get you started...
@@ -52,3 +54,4 @@ You just do it. There is no test to pass ;-)
 [Stack Overflow]: http://stackoverflow.com/questions/tagged/karma-runner
 [`docs/`]: https://github.com/karma-runner/karma/tree/master/docs
 [Maintaining Karma]: ./maintaining.html
+[egghead_series]: https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github
