@@ -250,7 +250,7 @@ describe('middleware.karma', () => {
   })
 
   it('should send non-caching headers for context.html', (done) => {
-    var ZERO_DATE = (new Date(0)).toString()
+    var ZERO_DATE = (new Date(0)).toUTCString()
 
     includedFiles([])
 
