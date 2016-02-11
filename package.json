@@ -299,7 +299,7 @@
     "grunt-conventional-changelog": "^5.0.0",
     "grunt-conventional-github-releaser": "^0.5.0",
     "grunt-cucumberjs": "^0.8.7",
-    "grunt-eslint": "^17.0.0",
+    "grunt-eslint": "^17.3.2",
     "grunt-mocha-test": "^0.12.7",
     "grunt-npm": "0.0.2",
     "jasmine-core": "^2.3.4",
