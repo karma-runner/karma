@@ -296,7 +296,7 @@
     "grunt-bump": "^0.6.0",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-conventional-changelog": "^5.0.0",
+    "grunt-conventional-changelog": "^6.0.0",
     "grunt-conventional-github-releaser": "^0.5.0",
     "grunt-cucumberjs": "^0.8.7",
     "grunt-eslint": "^17.0.0",
