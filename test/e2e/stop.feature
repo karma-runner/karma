@@ -42,3 +42,21 @@ Feature: Stop karma
     """
     Server stopped.
     """
+
+
+  Scenario: A server can be stopped programically
+    Given a configuration with:
+      """
+      files = ['basic/plus.js', 'basic/test.js'];
+      browsers = ['PhantomJS'];
+      plugins = [
+        'karma-jasmine',
+        'karma-phantomjs-launcher'
+      ];
+      singleRun = false;
+      logLevel = 'error';
+      """
+    When I start a server in background
+    And I stop a server programmatically
+    Then The server is dead with exit code 0
+    And The stopper is dead with exit code 0

@@ -5,6 +5,7 @@ module.exports = function coreSteps () {
   var exec = ref.exec
   var spawn = ref.spawn
   var rimraf = require('rimraf')
+  var stopper = require('../../../lib/stopper')
 
   this.World = require('../support/world').World
   require('../support/after_hooks').call(this)
@@ -39,13 +40,22 @@ module.exports = function coreSteps () {
     return callback()
   })
 
+  this.When(/^I stop a server programmatically/, function (callback) {
+    var _this = this
+    setTimeout(function () {
+      stopper.stop(_this.configFile, function (exitCode) {
+        _this.stopperExitCode = exitCode
+      })
+      callback()
+    }, 1000)
+  })
+
   this.When(/^I start a server in background/, function (callback) {
     this.writeConfigFile(tmpDir, tmpConfigFile, (function (_this) {
       return function (err, hash) {
         if (err) {
           return callback.fail(new Error(err))
         }
-
         var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
         var runtimePath = path.join(baseDir, 'bin', 'karma')
         _this.child = spawn('' + runtimePath, ['start', '--log-level', 'debug', configFile])
@@ -173,7 +183,6 @@ module.exports = function coreSteps () {
     var actualOutput = this.lastRun.stdout.toString()
     var actualError = this.lastRun.error
     var actualStderr = this.lastRun.stderr.toString()
-
     if (actualOutput.match(new RegExp(expectedOutput))) {
       return callback()
     }
@@ -183,11 +192,15 @@ module.exports = function coreSteps () {
     }
   })
 
-  this.Then(/^The server is dead( with exit code ([0-9]+))?$/, function (withExitCode, code, callback) {
-    setTimeout((function (_this) {
-      if (_this.childExitCode === undefined) return callback(new Error('Server has not exited.'))
-      if (code === undefined || parseInt(code, 10) === _this.childExitCode) return callback()
-      callback(new Error('Exit-code mismatch'))
-    })(this), 1000)
-  })
+  this.Then(/^The (server|stopper) is dead( with exit code ([0-9]+))?$/,
+    function (stopperOrServer, withExitCode, code, callback) {
+      var server = stopperOrServer === 'server'
+      var _this = this
+      setTimeout(function () {
+        var actualExitCode = server ? _this.childExitCode : _this.stopperExitCode
+        if (actualExitCode === undefined) return callback(new Error('Server has not exited.'))
+        if (code === undefined || parseInt(code, 10) === actualExitCode) return callback()
+        callback(new Error('Exit-code mismatch'))
+      }, 1000)
+    })
 }
