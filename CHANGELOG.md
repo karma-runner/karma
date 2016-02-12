@@ -1,3 +1,13 @@
+<a name="0.13.21"></a>
+## [0.13.21](https://github.com/karma-runner/karma/compare/v0.13.20...v0.13.21) (2016-02-12)
+
+
+### Reverts
+
+* "Merge pull request #1791 from budde377/feature-adding-no-colors-to-run-command" ([96ebdc4](https://github.com/karma-runner/karma/commit/96ebdc4)), closes [#1894](https://github.com/karma-runner/karma/issues/1894) [#1895](https://github.com/karma-runner/karma/issues/1895)
+
+
+
 <a name="0.13.20"></a>
 ## [0.13.20](https://github.com/karma-runner/karma/compare/v0.13.19...v0.13.20) (2016-02-12)
 
