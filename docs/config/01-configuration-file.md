@@ -275,6 +275,12 @@ will return exit-code `0` and display a warning.
 
 See [config/files] for more information.
 
+## forceJSONP
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** Force socket.io to use JSONP polling instead of XHR polling.
 
 ## frameworks
 **Type:** Array

@@ -1,41 +1,68 @@
-var TRAVIS_WITHOUT_SAUCE = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
+var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
 
 var launchers = {
-  sl_chrome: {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    platform: 'Windows 7',
-    version: '47'
+  bs_chrome: {
+    base: 'BrowserStack',
+    browser: 'chrome',
+    os: 'Windows',
+    os_version: '10'
   },
-  sl_firefox: {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: '43'
+  bs_firefox: {
+    base: 'BrowserStack',
+    browser: 'firefox',
+    os: 'Windows',
+    os_version: '10'
   },
-  sl_safari: {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    version: '9',
-    platform: 'OS X 10.11'
+  bs_safari: {
+    base: 'BrowserStack',
+    browser: 'safari',
+    browser_version: '9.0',
+    os_version: 'El Capitan',
+    os: 'OS X'
   },
-  sl_ie_11: {
-    base: 'SauceLabs',
-    browserName: 'internet explorer',
-    platform: 'Windows 8.1',
-    version: '11'
+  bs_ie_11: {
+    base: 'BrowserStack',
+    browser: 'ie',
+    browser_version: '11.0',
+    os: 'Windows',
+    os_version: '10'
   },
-  sl_ie_10: {
-    base: 'SauceLabs',
-    browserName: 'internet explorer',
-    platform: 'Windows 7',
-    version: '10'
+  bs_ie_10: {
+    base: 'BrowserStack',
+    browser: 'ie',
+    browser_version: '10.0',
+    os: 'Windows',
+    os_version: '8'
+  },
+  bs_ie_9: {
+    base: 'BrowserStack',
+    browser: 'ie',
+    browser_version: '9.0',
+    os: 'Windows',
+    os_version: '7'
   }
+  // TODO: Figure out why these fail on browserstack
+  // ,
+  // bs_ie_8: {
+  //   base: 'BrowserStack',
+  //   browser: 'ie',
+  //   browser_version: '8.0',
+  //   os: 'Windows',
+  //   os_version: '7'
+  // },
+  // bs_ie_7: {
+  //   base: 'BrowserStack',
+  //   browser: 'ie',
+  //   browser_version: '7.0',
+  //   os: 'Windows',
+  //   os_version: 'XP'
+  // }
 }
 
 var browsers = []
 
 if (process.env.TRAVIS) {
-  if (TRAVIS_WITHOUT_SAUCE) {
+  if (TRAVIS_WITHOUT_BS) {
     browsers.push('Firefox')
   } else {
     browsers = Object.keys(launchers)
@@ -67,7 +94,7 @@ module.exports = function (config) {
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress'
     // CLI --reporters progress
-    reporters: ['progress', 'junit', 'saucelabs'],
+    reporters: ['progress', 'junit'],
 
     junitReporter: {
       // will be resolved to basePath (in the same way as files/exclude patterns)
@@ -122,7 +149,15 @@ module.exports = function (config) {
       'karma-firefox-launcher',
       'karma-junit-reporter',
       'karma-browserify',
-      'karma-sauce-launcher'
-    ]
+      'karma-browserstack-launcher'
+    ],
+
+    concurrency: 3,
+
+    forceJSONP: true,
+
+    browserStack: {
+      project: 'Karma'
+    }
   })
 }
