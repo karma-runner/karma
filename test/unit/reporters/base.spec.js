@@ -16,7 +16,7 @@ describe('reporter', function () {
 
     beforeEach(function () {
       adapter = sinon.spy()
-      reporter = new m.BaseReporter(null, null, false, adapter)
+      reporter = new m.BaseReporter(null, null, adapter)
       return reporter
     })
 
@@ -27,34 +27,6 @@ describe('reporter', function () {
       reporter.write('some')
       expect(adapter).to.have.been.calledWith('some')
       return expect(anotherAdapter).to.have.been.calledWith('some')
-    })
-
-    it('should omit adapters not using the right color', function () {
-      var anotherAdapter = sinon.spy()
-      anotherAdapter.colors = true
-      reporter.adapters.push(anotherAdapter)
-      reporter.write('some')
-      expect(adapter).to.have.been.calledWith('some')
-      return expect(anotherAdapter).to.not.have.been.called
-    })
-
-    it('should not call non-colored adapters when wrong default setting', function () {
-      var reporter = new m.BaseReporter(null, null, true, adapter)
-      var anotherAdapter = sinon.spy()
-      reporter.adapters.push(anotherAdapter)
-      reporter.write('some')
-      expect(adapter).to.not.have.been.called
-      return expect(anotherAdapter).to.not.have.been.called
-    })
-
-    it('should call colored adapters regardless of default setting', function () {
-      var reporter = new m.BaseReporter(null, null, true, adapter)
-      var anotherAdapter = sinon.spy()
-      reporter.adapters.push(anotherAdapter)
-      adapter.colors = false
-      reporter.write('some')
-      expect(adapter).to.have.been.calledWith('some')
-      return expect(anotherAdapter).to.not.have.been.called
     })
 
     it('should format', function () {
