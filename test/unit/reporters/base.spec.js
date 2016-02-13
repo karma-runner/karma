@@ -31,6 +31,7 @@ describe('reporter', function () {
     it('should omit adapters not using the right color', function () {
       var anotherAdapter = sinon.spy()
       anotherAdapter.colors = true
+      reporter.EXCLUSIVELY_USE_COLORS = false
       reporter.adapters.push(anotherAdapter)
       reporter.write('some')
       expect(adapter).to.have.been.calledWith('some')
@@ -41,6 +42,7 @@ describe('reporter', function () {
       var reporter = new m.BaseReporter(null, null, true, adapter)
       var anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
+      reporter.EXCLUSIVELY_USE_COLORS = false
       reporter.write('some')
       expect(adapter).to.not.have.been.called
       return expect(anotherAdapter).to.not.have.been.called
@@ -50,10 +52,20 @@ describe('reporter', function () {
       var reporter = new m.BaseReporter(null, null, true, adapter)
       var anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
+      reporter.EXCLUSIVELY_USE_COLORS = false
       adapter.colors = false
       reporter.write('some')
       expect(adapter).to.have.been.calledWith('some')
       return expect(anotherAdapter).to.not.have.been.called
+    })
+
+    it('should call all adapters if EXCLUSIVELY_USE_COLORS is undefined', function () {
+      var anotherAdapter = sinon.spy()
+      anotherAdapter.colors = true
+      reporter.adapters.push(anotherAdapter)
+      reporter.write('some')
+      expect(adapter).to.have.been.calledWith('some')
+      expect(anotherAdapter).to.have.been.calledWith('some')
     })
 
     it('should format', function () {
