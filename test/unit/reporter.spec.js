@@ -144,8 +144,8 @@ describe('reporter', () => {
       it('should fall back to non-source-map format if originalPositionFor throws', done => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = 'SOURCE MAP a.js'
-        servedFiles[1].sourceMap = 'SOURCE MAP b.js'
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
         emitter.emit('file_list_modified', {served: servedFiles})
 
