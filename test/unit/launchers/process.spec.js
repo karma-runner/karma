@@ -31,7 +31,7 @@ describe('launchers/process.js', () => {
     mockSpawn._processes = []
 
     mockTempDir = {
-      getPath: suffix => `/temp${suffix}`,
+      getPath: (suffix) => `/temp${suffix}`,
       create: sinon.spy(),
       remove: sinon.spy()
     }

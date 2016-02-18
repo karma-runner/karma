@@ -1,3 +1,4 @@
+import path from 'path'
 var httpMock = require('mocks').http
 var loadFile = require('mocks').loadFile
 
@@ -7,7 +8,7 @@ describe('middleware.proxy', () => {
   var nextSpy
   var type
 
-  var m = loadFile(__dirname + '/../../../lib/middleware/proxy.js')
+  var m = loadFile(path.join(__dirname, '/../../../lib/middleware/proxy.js'))
 
   var mockProxies = [{
     path: '/proxy',

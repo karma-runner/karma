@@ -1,12 +1,11 @@
-// ==============================================================================
-// lib/reporters/Base.js module
-// ==============================================================================
+import path from 'path'
+
 describe('reporter', function () {
   var loadFile = require('mocks').loadFile
   var m = null
 
   beforeEach(function () {
-    m = loadFile(__dirname + '/../../../lib/reporters/base.js')
+    m = loadFile(path.join(__dirname, '/../../../lib/reporters/base.js'))
     return m
   })
 

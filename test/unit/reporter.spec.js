@@ -1,13 +1,14 @@
 import {EventEmitter} from 'events'
 import File from '../../lib/file'
 import {loadFile} from 'mocks'
+import path from 'path'
 var _ = require('../../lib/helper')._
 
 describe('reporter', () => {
   var m
 
   beforeEach(() => {
-    m = loadFile(__dirname + '/../../lib/reporter.js')
+    m = loadFile(path.join(__dirname, '/../../lib/reporter.js'))
   })
 
   // ==============================================================================
@@ -103,7 +104,7 @@ describe('reporter', () => {
       MockSourceMapConsumer.GREATEST_LOWER_BOUND = 1
       MockSourceMapConsumer.LEAST_UPPER_BOUND = 2
 
-      it('should rewrite stack traces', done => {
+      it('should rewrite stack traces', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -118,7 +119,7 @@ describe('reporter', () => {
         })
       })
 
-      it('should rewrite stack traces to the first column when no column is given', done => {
+      it('should rewrite stack traces to the first column when no column is given', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -133,7 +134,7 @@ describe('reporter', () => {
         })
       })
 
-      it('should rewrite relative url stack traces', done => {
+      it('should rewrite relative url stack traces', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -148,7 +149,7 @@ describe('reporter', () => {
         })
       })
 
-      it('should fall back to non-source-map format if originalPositionFor throws', done => {
+      it('should fall back to non-source-map format if originalPositionFor throws', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -163,7 +164,7 @@ describe('reporter', () => {
         })
       })
 
-      it('should not try to use source maps when no line is given', done => {
+      it('should not try to use source maps when no line is given', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -189,7 +190,7 @@ describe('reporter', () => {
           servedFiles[0].sourceMap = {content: 'SOURCE MAP b.js'}
         })
 
-        it('should correct rewrite stack traces without sha', done => {
+        it('should correct rewrite stack traces without sha', (done) => {
           emitter.emit('file_list_modified', {served: servedFiles})
 
           _.defer(() => {
@@ -199,7 +200,7 @@ describe('reporter', () => {
           })
         })
 
-        it('should correct rewrite stack traces with sha', done => {
+        it('should correct rewrite stack traces with sha', (done) => {
           emitter.emit('file_list_modified', {served: servedFiles})
 
           _.defer(() => {

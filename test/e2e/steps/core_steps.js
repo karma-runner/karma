@@ -9,7 +9,7 @@ module.exports = function coreSteps () {
   this.World = require('../support/world').World
   require('../support/after_hooks').call(this)
 
-  var baseDir = fs.realpathSync(__dirname + '/../../..')
+  var baseDir = fs.realpathSync(path.join(__dirname, '/../../..'))
   var tmpDir = path.join(baseDir, 'tmp', 'sandbox')
   var tmpConfigFile = 'karma.conf.js'
   var cleansingNeeded = true

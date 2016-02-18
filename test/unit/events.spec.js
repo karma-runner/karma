@@ -64,13 +64,13 @@ describe('events', () => {
         emitter.bind(object)
       })
 
-      it('should resolve the promise once all listeners are done', done => {
+      it('should resolve the promise once all listeners are done', (done) => {
         var callbacks = []
         var eventDone = sinon.spy()
 
-        emitter.on('a', d => d())
-        emitter.on('a', d => callbacks.push(d))
-        emitter.on('a', d => callbacks.push(d))
+        emitter.on('a', (d) => d())
+        emitter.on('a', (d) => callbacks.push(d))
+        emitter.on('a', (d) => callbacks.push(d))
 
         var promise = emitter.emitAsync('a')
 
@@ -86,7 +86,7 @@ describe('events', () => {
         })
       })
 
-      it('should resolve asynchronously when no listener', done => {
+      it('should resolve asynchronously when no listener', (done) => {
         var spyDone = sinon.spy(done)
         emitter.emitAsync('whatever').then(spyDone)
         expect(spyDone).to.not.have.been.called

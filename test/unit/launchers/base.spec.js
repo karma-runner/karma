@@ -31,7 +31,7 @@ describe('launchers/base.js', () => {
   })
 
   describe('restart', () => {
-    it('should kill running browser and start with previous url', done => {
+    it('should kill running browser and start with previous url', (done) => {
       var spyOnStart = sinon.spy()
       var spyOnKill = sinon.spy()
       launcher.on('start', spyOnStart)
@@ -54,7 +54,7 @@ describe('launchers/base.js', () => {
       })
     })
 
-    it('should start when already finished (crashed)', done => {
+    it('should start when already finished (crashed)', (done) => {
       var spyOnStart = sinon.spy()
       var spyOnKill = sinon.spy()
       var spyOnDone = sinon.spy()
@@ -80,7 +80,7 @@ describe('launchers/base.js', () => {
       })
     })
 
-    it('should not restart when being force killed', done => {
+    it('should not restart when being force killed', (done) => {
       var spyOnStart = sinon.spy()
       var spyOnKill = sinon.spy()
       launcher.on('start', spyOnStart)
@@ -105,7 +105,7 @@ describe('launchers/base.js', () => {
   })
 
   describe('kill', () => {
-    it('should manage state', done => {
+    it('should manage state', (done) => {
       var onceKilled = launcher.kill()
       expect(launcher.state).to.equal(launcher.STATE_BEING_KILLED)
 
@@ -115,7 +115,7 @@ describe('launchers/base.js', () => {
       })
     })
 
-    it('should fire "kill" and wait for all listeners to finish', done => {
+    it('should fire "kill" and wait for all listeners to finish', (done) => {
       var spyOnKill1 = sinon.spy()
       var spyOnKill2 = sinon.spy()
       var spyKillDone = sinon.spy(done)
@@ -135,7 +135,7 @@ describe('launchers/base.js', () => {
       spyOnKill2.callArg(0)
     }) // the second listener is done
 
-    it('should not fire "kill" if already killed', done => {
+    it('should not fire "kill" if already killed', (done) => {
       var spyOnKill = sinon.spy()
       launcher.on('kill', spyOnKill)
 
@@ -151,7 +151,7 @@ describe('launchers/base.js', () => {
       spyOnKill.callArg(0)
     })
 
-    it('should not fire "kill" if already being killed, but wait for all listeners', done => {
+    it('should not fire "kill" if already being killed, but wait for all listeners', (done) => {
       var spyOnKill = sinon.spy()
       launcher.on('kill', spyOnKill)
 
@@ -182,8 +182,8 @@ describe('launchers/base.js', () => {
       firstKilling.done(() => secondKilling.done(() => done()))
     })
 
-    it('should not kill already crashed browser', done => {
-      var spyOnKill = sinon.spy(killDone => killDone())
+    it('should not kill already crashed browser', (done) => {
+      var spyOnKill = sinon.spy((killDone) => killDone())
       launcher.on('kill', spyOnKill)
 
       launcher._done('crash')
@@ -195,7 +195,7 @@ describe('launchers/base.js', () => {
   })
 
   describe('forceKill', () => {
-    it('should cancel restart', done => {
+    it('should cancel restart', (done) => {
       var spyOnStart = sinon.spy()
       launcher.on('start', spyOnStart)
 
@@ -210,11 +210,11 @@ describe('launchers/base.js', () => {
       })
     })
 
-    it('should not fire "browser_process_failure" even if browser crashes', done => {
+    it('should not fire "browser_process_failure" even if browser crashes', (done) => {
       var spyOnBrowserProcessFailure = sinon.spy()
       emitter.on('browser_process_failure', spyOnBrowserProcessFailure)
 
-      launcher.on('kill', killDone => {
+      launcher.on('kill', (killDone) => {
         _.defer(() => {
           launcher._done('crashed')
           killDone()

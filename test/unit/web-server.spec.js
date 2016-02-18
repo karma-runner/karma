@@ -5,6 +5,7 @@ import di from 'di'
 import mocks from 'mocks'
 import fs from 'fs'
 import mime from 'mime'
+import path from 'path'
 
 describe('web-server', () => {
   var server
@@ -30,8 +31,7 @@ describe('web-server', () => {
 
   // NOTE(vojta): only loading once, to speed things up
   // this relies on the fact that none of these tests mutate fs
-  var m = mocks.loadFile(__dirname + '/../../lib/web-server.js', _mocks, _globals)
-
+  var m = mocks.loadFile(path.join(__dirname, '/../../lib/web-server.js'), _mocks, _globals)
   var customFileHandlers = server = emitter = null
   var middlewareActive = false
   var servedFiles = (files) => {
@@ -167,8 +167,8 @@ describe('web-server', () => {
   describe('https', () => {
     beforeEach(() => {
       var credentials = {
-        key: fs.readFileSync(__dirname + '/certificates/server.key'),
-        cert: fs.readFileSync(__dirname + '/certificates/server.crt')
+        key: fs.readFileSync(path.join(__dirname, '/certificates/server.key')),
+        cert: fs.readFileSync(path.join(__dirname, '/certificates/server.crt'))
       }
 
       customFileHandlers = []

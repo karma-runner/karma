@@ -1,5 +1,6 @@
 import mocks from 'mocks'
 import di from 'di'
+import path from 'path'
 
 describe('preprocessor', () => {
   var pp
@@ -28,10 +29,10 @@ describe('preprocessor', () => {
       minimatch: require('minimatch')
     }
 
-    m = mocks.loadFile(__dirname + '/../../lib/preprocessor.js', mocks_)
+    m = mocks.loadFile(path.join(__dirname, '/../../lib/preprocessor.js'), mocks_)
   })
 
-  it('should preprocess matching file', done => {
+  it('should preprocess matching file', (done) => {
     var fakePreprocessor = sinon.spy((content, file, done) => {
       file.path = file.path + '-preprocessed'
       done(null, 'new-content')
@@ -50,7 +51,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should match directories starting with a dot', done => {
+  it('should match directories starting with a dot', (done) => {
     var fakePreprocessor = sinon.spy((content, file, done) => {
       file.path = file.path + '-preprocessed'
       done(null, 'new-content')
@@ -69,7 +70,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should check patterns after creation when invoked', done => {
+  it('should check patterns after creation when invoked', (done) => {
     var fakePreprocessor = sinon.spy((content, file, done) => {
       file.path = file.path + '-preprocessed'
       done(null, 'new-content')
@@ -91,7 +92,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should ignore not matching file', done => {
+  it('should ignore not matching file', (done) => {
     var fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, '')
     })
@@ -107,7 +108,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should apply all preprocessors', done => {
+  it('should apply all preprocessors', (done) => {
     var fakePreprocessor1 = sinon.spy((content, file, done) => {
       file.path = file.path + '-p1'
       done(null, content + '-c1')
@@ -136,7 +137,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should compute SHA', done => {
+  it('should compute SHA', (done) => {
     pp = m.createPreprocessor({}, null, new di.Injector([]))
     var file = {originalPath: '/some/a.js', path: 'path'}
 
@@ -158,7 +159,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should compute SHA from content returned by a processor', done => {
+  it('should compute SHA from content returned by a processor', (done) => {
     var fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content + '-processed')
     })
@@ -184,7 +185,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should return error if any preprocessor fails', done => {
+  it('should return error if any preprocessor fails', (done) => {
     var failingPreprocessor = sinon.spy((content, file, done) => {
       done(new Error('Some error'), null)
     })
@@ -197,13 +198,13 @@ describe('preprocessor', () => {
 
     var file = {originalPath: '/some/a.js', path: 'path'}
 
-    pp(file, err => {
+    pp(file, (err) => {
       expect(err).to.exist
       done()
     })
   })
 
-  it('should stop preprocessing after an error', done => {
+  it('should stop preprocessing after an error', (done) => {
     var failingPreprocessor = sinon.spy((content, file, done) => {
       done(new Error('Some error'), null)
     })
@@ -227,7 +228,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should not preprocess binary files', done => {
+  it('should not preprocess binary files', (done) => {
     var fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content)
     })
@@ -240,7 +241,7 @@ describe('preprocessor', () => {
 
     var file = {originalPath: '/some/photo.png', path: 'path'}
 
-    pp(file, err => {
+    pp(file, (err) => {
       if (err) throw err
 
       expect(fakePreprocessor).not.to.have.been.called
@@ -262,7 +263,7 @@ describe('preprocessor', () => {
 
     var file = {originalPath: '/some/CAM_PHOTO.JPG', path: 'path'}
 
-    pp(file, err => {
+    pp(file, (err) => {
       if (err) throw err
 
       expect(fakePreprocessor).not.to.have.been.called
