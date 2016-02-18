@@ -273,10 +273,20 @@ describe('FileList', () => {
 
       var p1 = list.refresh().then(checkResult)
       patternList['/some/*.js'].push('/some/c.js')
-      mg.statCache['/some/c.js'] = {mtime: new Date()}
+      mg.statCache['/some/c.js'] = {mtime: new Date(Date.now() + 5000)}
       var p2 = list.refresh().then(checkResult)
+      var called = false
+      var callback = (data) => {
+        expect(called).to.be.false
+        expect(data.served[0].mtime.toString()).to.not.equal(data.served[2].mtime.toString())
+        expect(data.served[0].mtime.toString()).to.equal(data.served[1].mtime.toString())
+        called = true
+      }
+      list._emitter.on('file_list_modified', callback)
 
-      return Promise.all([p1, p2])
+      return Promise.all([p1, p2]).then(() => {
+        list._emitter.removeListener('file_list_modified', callback)
+      })
     })
 
     it('sets the mtime for all files', () => {
