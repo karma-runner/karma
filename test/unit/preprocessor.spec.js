@@ -271,4 +271,54 @@ describe('preprocessor', () => {
       done()
     })
   })
+
+  it('should merge lists of preprocessors', (done) => {
+    var callOrder = []
+    var fakePreprocessorA = sinon.spy((content, file, done) => {
+      callOrder.push('a')
+      done(null, content)
+    })
+    var fakePreprocessorB = sinon.spy((content, file, done) => {
+      callOrder.push('b')
+      done(null, content)
+    })
+    var fakePreprocessorC = sinon.spy((content, file, done) => {
+      callOrder.push('c')
+      done(null, content)
+    })
+    var fakePreprocessorD = sinon.spy((content, file, done) => {
+      callOrder.push('d')
+      done(null, content)
+    })
+
+    var injector = new di.Injector([{
+      'preprocessor:fakeA': ['factory', () => fakePreprocessorA],
+      'preprocessor:fakeB': ['factory', () => fakePreprocessorB],
+      'preprocessor:fakeC': ['factory', () => fakePreprocessorC],
+      'preprocessor:fakeD': ['factory', () => fakePreprocessorD]
+    }])
+
+    pp = m.createPreprocessor({
+      '/*/a.js': ['fakeA', 'fakeB'],
+      '/some/*': ['fakeB', 'fakeC'],
+      '/some/a.js': ['fakeD']
+    }, null, injector)
+
+    var file = {originalPath: '/some/a.js', path: 'path'}
+
+    pp(file, (err) => {
+      if (err) throw err
+
+      expect(fakePreprocessorA).to.have.been.called
+      expect(fakePreprocessorB).to.have.been.called
+      expect(fakePreprocessorC).to.have.been.called
+      expect(fakePreprocessorD).to.have.been.called
+
+      expect(callOrder.indexOf('d')).not.to.equal(-1)
+      expect(callOrder.filter((letter) => {
+        return letter !== 'd'
+      })).to.eql(['a', 'b', 'c'])
+      done()
+    })
+  })
 })
