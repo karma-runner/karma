@@ -266,6 +266,7 @@
     "body-parser": "^1.12.4",
     "chokidar": "^1.4.1",
     "colors": "^1.1.0",
+    "combine-lists": "^1.0.0",
     "connect": "^3.3.5",
     "core-js": "^2.1.0",
     "di": "^0.0.1",
