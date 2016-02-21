@@ -154,7 +154,7 @@ module.exports = function coreSteps () {
       return callback()
     }
 
-    if (actualOutput.indexOf(expectedOutput) >= 0) {
+    if (actualOutput.indexOf(expectedOutput) === 0) {
       return callback()
     }
 
