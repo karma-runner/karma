@@ -13,14 +13,14 @@ If you do not already have a `package.json` in your project root,
 create one now. This will both document your configuration and
 make it easy to run your tests. Here's an example:
 
-```javascript
+```json
 // ...snip...
-'devDependencies': {
-  'karma': '~0.10'
+"devDependencies": {
+  "karma": "~0.10"
 },
 // ...snip...
-'scripts': {
-   'test': './node_modules/.bin/karma start --single-run --browsers PhantomJS'
+"scripts": {
+   "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
 }
 // ...snip...
 ```
@@ -28,9 +28,9 @@ make it easy to run your tests. Here's an example:
 Another option is to use Firefox as your test browser. To do this, change
 the last part to:
 
-```javascript
-'scripts': {
-   'test': './node_modules/.bin/karma start --single-run --browsers Firefox'
+```json
+"scripts": {
+   "test": "./node_modules/.bin/karma start --single-run --browsers Firefox"
 }
 ```
 
