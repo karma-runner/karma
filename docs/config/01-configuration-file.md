@@ -222,7 +222,7 @@ upon  the completion of running the tests. Setting this to false is useful when 
 
 **Description:** How many browser Karma launches in parallel.
 
-Especially on sevices like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can sepcify how many browsers should be running at once at any given point in time.
+Especially on services like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can specify how many browsers should be running at once at any given point in time.
 
 
 ## customHeaders
