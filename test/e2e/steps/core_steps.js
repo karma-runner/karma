@@ -201,6 +201,6 @@ module.exports = function coreSteps () {
         if (actualExitCode === undefined) return callback(new Error('Server has not exited.'))
         if (code === undefined || parseInt(code, 10) === actualExitCode) return callback()
         callback(new Error('Exit-code mismatch'))
-      }, 1000)
+      }, 4000)
     })
 }
