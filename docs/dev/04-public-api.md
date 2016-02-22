@@ -118,6 +118,22 @@ runner.run({port: 9876}, function(exitCode) {
 })
 ```
 
+## karma.stopper
+
+### **stopper.stop(options, [callback=process.exit])**
+
+This function will signal a running server to stop.  Equivalent of `karma stop`.  
+
+```javascript
+var stopper = require('karma').stopper
+runner.stop({port: 9876}, function(exitCode) {
+  if (exitCode === 0) {
+    console.log('Server stop as initiated')
+  }
+  process.exit(exitCode)
+})
+```
+
 ## Callback function notes
 
 - If there is an error, the error code will be provided as the second parameter to the error callback.
