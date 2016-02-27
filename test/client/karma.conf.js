@@ -70,6 +70,7 @@ if (process.env.TRAVIS) {
 } else {
   browsers.push('Chrome')
 }
+browsers.push('Firefox')
 
 module.exports = function (config) {
   config.set({
@@ -155,6 +156,9 @@ module.exports = function (config) {
     concurrency: 3,
 
     forceJSONP: true,
+
+    // Specify JavaScript version for Firefox browser (for now)
+    jsVersion: 1.8,
 
     browserStack: {
       project: 'Karma'
