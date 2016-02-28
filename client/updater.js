@@ -21,7 +21,7 @@ var StatusUpdater = function (socket, titleElement, bannerElement, browsersEleme
 
   socket.on('connect', updateBanner('connected'))
   socket.on('disconnect', updateBanner('disconnected'))
-  socket.on('reconnecting', updateBanner('reconnecting in $ ms...'))
+  socket.on('reconnecting', updateBanner('reconnecting in $ seconds...'))
   socket.on('reconnect', updateBanner('connected'))
   socket.on('reconnect_failed', updateBanner('failed to reconnect'))
   socket.on('info', updateBrowsersInfo)
