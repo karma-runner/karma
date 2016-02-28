@@ -53,5 +53,5 @@ You just do it. There is no test to pass ;-)
 [gitter]: https://gitter.im/karma-runner/karma
 [Stack Overflow]: http://stackoverflow.com/questions/tagged/karma-runner
 [`docs/`]: https://github.com/karma-runner/karma/tree/master/docs
-[Maintaining Karma]: ./03-maintaining.html
+[Maintaining Karma]: ./maintaining.html
 [How to Contribute to an Open Source Project on GitHub]: https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github
