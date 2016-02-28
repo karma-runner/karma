@@ -1,9 +1,11 @@
+import path from 'path'
+
 describe('helper', () => {
   var helper = require('../../lib/helper')
 
   describe('browserFullNameToShort', () => {
     // helper function
-    var expecting = name => expect(helper.browserFullNameToShort(name))
+    var expecting = (name) => expect(helper.browserFullNameToShort(name))
 
     it('should parse iOS', () => {
       expecting(
@@ -217,15 +219,15 @@ describe('helper', () => {
     })
 
     // load file under test
-    var m = loadFile(__dirname + '/../../lib/helper.js', {'graceful-fs': fs, lodash: require('lodash')})
+    var m = loadFile(path.join(__dirname, '/../../lib/helper.js'), {'graceful-fs': fs, lodash: require('lodash')})
 
     var mkdirIfNotExists = m.exports.mkdirIfNotExists
 
-    it('should not do anything, if dir already exists', done => {
+    it('should not do anything, if dir already exists', (done) => {
       mkdirIfNotExists('/home', done)
     })
 
-    it('should create directory if it does not exist', done => {
+    it('should create directory if it does not exist', (done) => {
       mkdirIfNotExists('/home/new', () => {
         var stat = fs.statSync('/home/new')
         expect(stat).to.exist
@@ -234,7 +236,7 @@ describe('helper', () => {
       })
     })
 
-    it('should create even parent directories if it does not exist', done => {
+    it('should create even parent directories if it does not exist', (done) => {
       mkdirIfNotExists('/home/new/parent/child', () => {
         var stat = fs.statSync('/home/new/parent/child')
         expect(stat).to.exist

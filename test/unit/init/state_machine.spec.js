@@ -27,7 +27,7 @@ describe('init/StateMachine', () => {
       {id: 'other'}
     ]
 
-    done = sinon.spy(answers => {
+    done = sinon.spy((answers) => {
       expect(answers.framework).to.equal('jasmine')
       expect(answers.other).to.equal('abc')
     })
@@ -43,7 +43,7 @@ describe('init/StateMachine', () => {
       {id: 'browsers', multiple: true}
     ]
 
-    done = sinon.spy(answers => {
+    done = sinon.spy((answers) => {
       expect(answers.browsers).to.deep.equal(['Chrome', 'Safari'])
     })
 
@@ -59,7 +59,7 @@ describe('init/StateMachine', () => {
       {id: 'browsers', multiple: true}
     ]
 
-    done = sinon.spy(answers => {
+    done = sinon.spy((answers) => {
       expect(answers.browsers).to.deep.equal(['Chrome'])
     })
 
@@ -74,7 +74,7 @@ describe('init/StateMachine', () => {
       {id: 'empty', multiple: true}
     ]
 
-    done = sinon.spy(answers => {
+    done = sinon.spy((answers) => {
       expect(answers.empty).to.deep.equal([])
     })
 
@@ -97,14 +97,14 @@ describe('init/StateMachine', () => {
   })
 
   it('should allow conditional answers', () => {
-    var ifTrue = sinon.spy(answers => {
+    var ifTrue = sinon.spy((answers) => {
       return answers.first === 'true'
     })
-    var ifFalse = sinon.spy(answers => {
+    var ifFalse = sinon.spy((answers) => {
       return answers.first === 'false'
     })
 
-    done = sinon.spy(answers => {
+    done = sinon.spy((answers) => {
       expect(answers.first).to.equal('true')
       expect(answers.onlyIfTrue).to.equal('something')
       expect(answers.onlyIfFalse).to.not.exist
@@ -124,7 +124,7 @@ describe('init/StateMachine', () => {
   })
 
   it('should parse booleans', () => {
-    done = sinon.spy(answers => {
+    done = sinon.spy((answers) => {
       expect(answers.yes).to.equal(true)
       expect(answers.no).to.equal(false)
     })
@@ -142,7 +142,7 @@ describe('init/StateMachine', () => {
   })
 
   it('should parse booleans before validation', () => {
-    var validator = sinon.spy(value => {
+    var validator = sinon.spy((value) => {
       expect(typeof value).to.equal('boolean')
     })
 

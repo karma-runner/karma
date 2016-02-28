@@ -40,6 +40,13 @@ server.on('browser_register', function (browser) {
 })
 ```
 
+### `listening`
+**Arguments:**
+
+* `port`: Port number
+
+Begin accepting connections on the specified port.
+
 ### `browser_register`
 **Arguments:**
 
@@ -107,6 +114,22 @@ Equivalent of `karma run`.
 var runner = require('karma').runner
 runner.run({port: 9876}, function(exitCode) {
   console.log('Karma has exited with ' + exitCode)
+  process.exit(exitCode)
+})
+```
+
+## karma.stopper
+
+### **stopper.stop(options, [callback=process.exit])**
+
+This function will signal a running server to stop.  Equivalent of `karma stop`.  
+
+```javascript
+var stopper = require('karma').stopper
+runner.stop({port: 9876}, function(exitCode) {
+  if (exitCode === 0) {
+    console.log('Server stop as initiated')
+  }
   process.exit(exitCode)
 })
 ```

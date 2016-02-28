@@ -32,18 +32,18 @@ chai.use((chai, utils) => {
     var response = utils.flag(this, 'object')
 
     this.assert(response._status === expectedStatus,
-      `expected response status '#{response._status}' to be '#{expectedStatus}'`)
+      `expected response status '${response._status}' to be '${expectedStatus}'`)
     this.assert(response._body === expectedBody,
-      `expected response body '#{response._body}' to be '#{expectedBody}'`)
+      `expected response body '${response._body}' to be '${expectedBody}'`)
   })
 
   chai.Assertion.addMethod('beNotServed', function () {
     var response = utils.flag(this, 'object')
 
     this.assert(response._status === null,
-      `expected response status to not be set, it was '#{response._status}'`)
+      `expected response status to not be set, it was '${response._status}'`)
     this.assert(response._body === null,
-      `expected response body to not be set, it was '#{response._body}'`)
+      `expected response body to not be set, it was '${response._body}'`)
   })
 })
 
@@ -55,7 +55,7 @@ var nextTickCallback = () => {
 
   if (nextTickQueue.length) process.nextTick(nextTickCallback)
 }
-global.scheduleNextTick = action => {
+global.scheduleNextTick = (action) => {
   nextTickQueue.push(action)
 
   if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
@@ -66,12 +66,12 @@ var nextCallback = () => {
   nextQueue.shift()()
 }
 
-global.scheduleNextTick = action => {
+global.scheduleNextTick = (action) => {
   nextTickQueue.push(action)
 
   if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
 }
-global.scheduleNext = action => {
+global.scheduleNext = (action) => {
   nextQueue.push(action)
 }
 

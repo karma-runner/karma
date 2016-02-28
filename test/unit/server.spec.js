@@ -149,6 +149,19 @@ describe('server', () => {
       expect(mockConfig.port).to.be.equal(9877)
     })
 
+    it('should emit a listening event once server begin accepting connections', () => {
+      server._start(mockConfig, mockLauncher, null, mockFileList, mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
+
+      var listening = sinon.spy()
+      server.on('listening', listening)
+
+      expect(listening).not.to.have.been.called
+
+      fileListOnResolve()
+
+      expect(listening).to.have.been.calledWith(9876)
+    })
+
     it('should emit a browsers_ready event once all the browsers are captured', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, mockWebServer, browserCollection, mockSocketServer, mockExecutor, doneSpy)
 

@@ -8,7 +8,7 @@ describe('watcher', () => {
 
   beforeEach(() => {
     var mocks_ = {chokidar: mocks.chokidar}
-    m = mocks.loadFile(__dirname + '/../../lib/watcher.js', mocks_)
+    m = mocks.loadFile(path.join(__dirname, '/../../lib/watcher.js'), mocks_)
   })
 
   describe('baseDirFromPattern', () => {

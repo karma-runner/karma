@@ -8,9 +8,9 @@ describe('config', () => {
   var e
   var mocks
 
-  var resolveWinPath = p => helper.normalizeWinPath(path.resolve(p))
+  var resolveWinPath = (p) => helper.normalizeWinPath(path.resolve(p))
 
-  var normalizeConfigWithDefaults = cfg => {
+  var normalizeConfigWithDefaults = (cfg) => {
     if (!cfg.urlRoot) cfg.urlRoot = ''
     if (!cfg.files) cfg.files = []
     if (!cfg.exclude) cfg.exclude = []
@@ -22,10 +22,10 @@ describe('config', () => {
   }
 
   // extract only pattern properties from list of pattern objects
-  var patternsFrom = list => list.map(pattern => pattern.pattern)
+  var patternsFrom = (list) => list.map((pattern) => pattern.pattern)
 
   var wrapCfg = function (cfg) {
-    return config => config.set(cfg)
+    return (config) => config.set(cfg)
   }
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('config', () => {
       '/home/config4.js': wrapCfg({port: 123, autoWatch: true, basePath: '/abs/base'}),
       '/home/config6.js': wrapCfg({reporters: 'junit'}),
       '/home/config7.js': wrapCfg({browsers: ['Chrome', 'Firefox']}),
-      '/home/config8.js': config => config.set({ files: config.suite === 'e2e' ? ['tests/e2e.spec.js'] : ['tests/unit.spec.js'] }),
+      '/home/config8.js': (config) => config.set({ files: config.suite === 'e2e' ? ['tests/e2e.spec.js'] : ['tests/unit.spec.js'] }),
       '/conf/invalid.js': () => { throw new SyntaxError('Unexpected token =') },
       '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
       '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
@@ -47,7 +47,7 @@ describe('config', () => {
     }
 
     // load file under test
-    m = loadFile(__dirname + '/../../lib/config.js', mocks, {
+    m = loadFile(path.join(__dirname, '/../../lib/config.js'), mocks, {
       global: {},
       process: mocks.process,
       require (path) {
@@ -261,7 +261,9 @@ describe('config', () => {
     it('should convert patterns to objects and set defaults', () => {
       var config = normalizeConfigWithDefaults({
         basePath: '/base',
-        files: ['a/*.js', {pattern: 'b.js', watched: false, included: false}, {pattern: 'c.js'}]
+        files: ['a/*.js', {pattern: 'b.js', watched: false, included: false}, {pattern: 'c.js'}],
+        customContextFile: 'context.html',
+        customDebugFile: 'debug.html'
       })
 
       expect(config.files.length).to.equal(3)
@@ -283,6 +285,9 @@ describe('config', () => {
       expect(file.included).to.equal(true)
       expect(file.served).to.equal(true)
       expect(file.watched).to.equal(true)
+
+      expect(config.customContextFile).to.equal(resolveWinPath('/base/context.html'))
+      expect(config.customDebugFile).to.equal(resolveWinPath('/base/debug.html'))
     })
 
     it('should normalize preprocessors to an array', () => {
@@ -360,7 +365,7 @@ describe('config', () => {
   describe('custom', () => {
     var di = require('di')
 
-    var forwardArgsFactory = args => args
+    var forwardArgsFactory = (args) => args
 
     var baseModule = {
       'preprocessor:base': ['type', forwardArgsFactory],

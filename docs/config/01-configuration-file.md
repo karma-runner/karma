@@ -222,7 +222,23 @@ upon  the completion of running the tests. Setting this to false is useful when 
 
 **Description:** How many browser Karma launches in parallel.
 
-Especially on sevices like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can sepcify how many browsers should be running at once at any given point in time.
+Especially on services like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can specify how many browsers should be running at once at any given point in time.
+
+
+## customContextFile
+**Type:** string
+
+**Default:** `null`
+
+**Description:** If `null` (default), uses karma's own `context.html` file.
+
+
+## customDebugFile
+**Type:** string
+
+**Default:** `null`
+
+**Description:** If `null` (default), uses karma's own `debug.html` file.
 
 
 ## customHeaders
@@ -248,6 +264,18 @@ customHeaders: [{
   value: '/'
 }]
 ```
+
+
+## detached
+**Type:** Boolean
+
+**Default:** `false`
+
+**CLI:** `--detached`
+
+**Description:** When true, this will start the karma server in another process, writing no output to the console.
+The server can be stopped using the `karma stop` command.
+
 
 ## exclude
 **Type:** Array
@@ -275,6 +303,12 @@ will return exit-code `0` and display a warning.
 
 See [config/files] for more information.
 
+## forceJSONP
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** Force socket.io to use JSONP polling instead of XHR polling.
 
 ## frameworks
 **Type:** Array

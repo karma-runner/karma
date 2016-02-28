@@ -38,11 +38,11 @@ describe('launchers/capture_timeout.js', () => {
     expect(launcher.kill).not.to.have.been.called
   })
 
-  it('should clear timeout between restarts', done => {
+  it('should clear timeout between restarts', (done) => {
     CaptureTimeoutLauncher.call(launcher, timer, 10)
 
     // simulate process finished
-    launcher.on('kill', onKillDone => {
+    launcher.on('kill', (onKillDone) => {
       launcher._done()
       onKillDone()
     })

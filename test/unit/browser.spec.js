@@ -46,7 +46,7 @@ describe('Browser', () => {
       browser.init()
 
       expect(collection.length).to.equal(1)
-      collection.forEach(browserInCollection => {
+      collection.forEach((browserInCollection) => {
         expect(browserInCollection).to.equal(browser)
       })
     })

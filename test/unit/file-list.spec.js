@@ -10,14 +10,14 @@ var from = require('core-js/library/fn/array/from')
 var config = require('../../lib/config')
 
 // create an array of pattern objects from given strings
-var patterns = (...strings) => strings.map(str => new config.Pattern(str))
+var patterns = (...strings) => strings.map((str) => new config.Pattern(str))
 
 function pathsFrom (files) {
   return _.pluck(from(files), 'path')
 }
 
 function findFile (path, files) {
-  return from(files).find(file => file.path === path)
+  return from(files).find((file) => file.path === path)
 }
 
 var PATTERN_LIST = {
@@ -255,7 +255,7 @@ describe('FileList', () => {
     })
 
     it('resolves patterns', () => {
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         expect(list.buckets.size).to.equal(2)
 
         var first = pathsFrom(list.buckets.get('/some/*.js'))
@@ -267,20 +267,30 @@ describe('FileList', () => {
     })
 
     it('cancels refreshs', () => {
-      var checkResult = files => {
+      var checkResult = (files) => {
         expect(_.pluck(files.served, 'path')).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
       }
 
       var p1 = list.refresh().then(checkResult)
       patternList['/some/*.js'].push('/some/c.js')
-      mg.statCache['/some/c.js'] = {mtime: new Date()}
+      mg.statCache['/some/c.js'] = {mtime: new Date(Date.now() + 5000)}
       var p2 = list.refresh().then(checkResult)
+      var called = false
+      var callback = (data) => {
+        expect(called).to.be.false
+        expect(data.served[0].mtime.toString()).to.not.equal(data.served[2].mtime.toString())
+        expect(data.served[0].mtime.toString()).to.equal(data.served[1].mtime.toString())
+        called = true
+      }
+      list._emitter.on('file_list_modified', callback)
 
-      return Promise.all([p1, p2])
+      return Promise.all([p1, p2]).then(() => {
+        list._emitter.removeListener('file_list_modified', callback)
+      })
     })
 
     it('sets the mtime for all files', () => {
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         var bucket = list.buckets.get('/some/*.js')
 
         var file1 = findFile('/some/a.js', bucket)
@@ -294,7 +304,7 @@ describe('FileList', () => {
     it('sets the mtime for relative patterns', () => {
       list = new List(patterns('/some/world/../*.js', '*.txt'), [], emitter, preprocess)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         var bucket = list.buckets.get('/some/world/../*.js')
 
         var file1 = findFile('/some/a.js', bucket)
@@ -306,12 +316,12 @@ describe('FileList', () => {
     })
 
     it('should sort files within buckets and keep order of patterns (buckets)', () => {
-      // /a.*       => /a.txt                   [MATCH in *.txt as well]
-      // /some/*.js => /some/a.js, /some/b.js   [/some/b.js EXCLUDED]
-      // *.txt      => /c.txt, a.txt, b.txt     [UNSORTED]
+      // /(a.*      ) => /a.txt                   [MATCH in *.txt as well]
+      // /some/*.(js) => /some/a.js, /some/b.js   [/some/b.js EXCLUDED]
+      // *.(txt     ) => /c.txt, a.txt, b.txt     [UNSORTED]
       list = new List(patterns('/a.*', '/some/*.js', '*.txt'), ['**/b.js'], emitter, preprocess)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         expect(pathsFrom(files.served)).to.deep.equal([
           '/a.txt',
           '/some/a.js',
@@ -324,7 +334,7 @@ describe('FileList', () => {
     it('ingores excluded files', () => {
       list = new List(patterns('*.txt'), ['/a.*', '**/b.txt'], emitter, preprocess)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         var bucket = pathsFrom(list.buckets.get('*.txt'))
 
         expect(bucket).to.contain('/c.txt')
@@ -337,7 +347,7 @@ describe('FileList', () => {
       list = new List(patterns('http://some.com'), [], emitter, preprocess)
 
       return list.refresh()
-        .then(files => {
+        .then((files) => {
           var bucket = list.buckets.get('http://some.com')
           var file = findFile('http://some.com', bucket)
 
@@ -347,7 +357,7 @@ describe('FileList', () => {
     })
 
     it('preprocesses all files', () => {
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         expect(preprocess.callCount).to.be.eql(5)
       })
     })
@@ -359,7 +369,7 @@ describe('FileList', () => {
 
       list = new List(patterns('/some/*.js'), [], emitter, preprocess)
 
-      return list.refresh().catch(err => {
+      return list.refresh().catch((err) => {
         expect(err.message).to.be.eql('failing')
       })
     })
@@ -425,32 +435,32 @@ describe('FileList', () => {
     })
 
     it('does not add excluded files', () => {
-      return list.refresh().then(before => {
-        return list.addFile('/secret/hello.txt').then(files => {
+      return list.refresh().then((before) => {
+        return list.addFile('/secret/hello.txt').then((files) => {
           expect(files.served).to.be.eql(before.served)
         })
       })
     })
 
     it('does not add already existing files', () => {
-      return list.refresh().then(before => {
-        return list.addFile('/some/a.js').then(files => {
+      return list.refresh().then((before) => {
+        return list.addFile('/some/a.js').then((files) => {
           expect(files.served).to.be.eql(before.served)
         })
       })
     })
 
     it('does not add unmatching files', () => {
-      return list.refresh().then(before => {
-        return list.addFile('/some/a.ex').then(files => {
+      return list.refresh().then((before) => {
+        return list.addFile('/some/a.ex').then((files) => {
           expect(files.served).to.be.eql(before.served)
         })
       })
     })
 
     it('adds the file to the correct bucket', () => {
-      return list.refresh().then(before => {
-        return list.addFile('/some/d.js').then(files => {
+      return list.refresh().then((before) => {
+        return list.addFile('/some/d.js').then((files) => {
           expect(pathsFrom(files.served)).to.contain('/some/d.js')
           var bucket = list.buckets.get('/some/*.js')
           expect(pathsFrom(bucket)).to.contain('/some/d.js')
@@ -493,7 +503,7 @@ describe('FileList', () => {
       list = new List(patterns('/a.*'), [], emitter, preprocess)
 
       return list.refresh().then(() => {
-        return list.addFile('/a.js').then(files => {
+        return list.addFile('/a.js').then((files) => {
           expect(findFile('/a.js', files.served).mtime).to.eql(new Date('2012-01-01'))
         })
       })
@@ -502,7 +512,7 @@ describe('FileList', () => {
     it('preprocesses the added file', () => {
       // MATCH: /a.txt
       list = new List(patterns('/a.*'), [], emitter, preprocess)
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         preprocess.reset()
         return list.addFile('/a.js').then(() => {
           expect(preprocess).to.have.been.calledOnce
@@ -544,11 +554,11 @@ describe('FileList', () => {
       var modified = sinon.stub()
       emitter.on('file_list_modified', modified)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
         modified.reset()
 
-        return list.changeFile('/some/b.js').then(files => {
+        return list.changeFile('/some/b.js').then((files) => {
           expect(modified).to.have.been.calledOnce
           expect(findFile('/some/b.js', files.served).mtime).to.be.eql(new Date('2020-01-01'))
         })
@@ -562,7 +572,7 @@ describe('FileList', () => {
       var modified = sinon.stub()
       emitter.on('file_list_modified', modified)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
         modified.reset()
 
@@ -580,7 +590,7 @@ describe('FileList', () => {
       var modified = sinon.stub()
       emitter.on('file_list_modified', modified)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         // not touching the file, stat will return still the same
         modified.reset()
 
@@ -594,7 +604,7 @@ describe('FileList', () => {
       // MATCH: /some/a.js, /some/b.js
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         preprocess.reset()
         mockFs._touchFile('/some/a.js', '2020-01-01')
         return list.changeFile('/some/a.js').then(() => {
@@ -638,10 +648,10 @@ describe('FileList', () => {
       var modified = sinon.stub()
       emitter.on('file_list_modified', modified)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         modified.reset()
         return list.removeFile('/some/a.js')
-      }).then(files => {
+      }).then((files) => {
         expect(pathsFrom(files.served)).to.be.eql([
           '/some/b.js',
           '/a.txt'
@@ -654,7 +664,7 @@ describe('FileList', () => {
       // MATCH: /some/a.js, /some/b.js, /a.txt
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         modified.reset()
         return list.removeFile('/a.js').then(() => {
           expect(modified).to.not.have.been.called
@@ -669,7 +679,7 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler(fn => fn())
+      Promise.setScheduler((fn) => fn())
 
       preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
@@ -699,14 +709,14 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler(fn => process.nextTick(fn))
+      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('batches multiple changes within an interval', () => {
       // MATCH: /some/a.js, /some/b.js, /a.txt
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         modified.reset()
         mockFs._touchFile('/some/b.js', '2020-01-01')
         list.changeFile('/some/b.js')
@@ -730,10 +740,10 @@ describe('FileList', () => {
       })
     })
 
-    it('waits while file preprocessing, if the file was deleted and immediately added', done => {
+    it('waits while file preprocessing, if the file was deleted and immediately added', (done) => {
       list = new List(patterns('/a.*'), [], emitter, preprocess, 100)
 
-      return list.refresh().then(files => {
+      return list.refresh().then((files) => {
         preprocess.reset()
         modified.reset()
 

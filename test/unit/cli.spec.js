@@ -23,7 +23,7 @@ describe('cli', () => {
     }
   }
 
-  var setCWD = cwd => {
+  var setCWD = (cwd) => {
     currentCwd = cwd
     fsMock._setCWD(cwd)
   }
@@ -40,7 +40,7 @@ describe('cli', () => {
     mockery.console = {error: sinon.spy()}
 
     // load file under test
-    m = loadFile(__dirname + '/../../lib/cli.js', mockery, {
+    m = loadFile(path.join(__dirname, '/../../lib/cli.js'), mockery, {
       global: {},
       console: mockery.console,
       process: mockery.process,

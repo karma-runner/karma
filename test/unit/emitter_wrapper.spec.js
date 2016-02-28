@@ -7,13 +7,13 @@ describe('emitter_wrapper', () => {
 
   beforeEach(() => {
     emitter = new EventEmitter()
-    emitter.aMethod = e => true
+    emitter.aMethod = (e) => true
     emitter.on('anEvent', emitter.aMethod)
     wrapped = new EmitterWrapper(emitter)
   })
 
   describe('addListener', () => {
-    var aListener = e => true
+    var aListener = (e) => true
 
     it('should add a listener to the wrapped emitter', () => {
       wrapped.addListener('anEvent', aListener)
@@ -26,7 +26,7 @@ describe('emitter_wrapper', () => {
   })
 
   describe('removeAllListeners', () => {
-    var aListener = e => true
+    var aListener = (e) => true
 
     beforeEach(() => {
       wrapped.addListener('anEvent', aListener)
@@ -43,7 +43,7 @@ describe('emitter_wrapper', () => {
     })
 
     it('should remove only matching listeners when called with an event name', () => {
-      var anotherListener = e => true
+      var anotherListener = (e) => true
       wrapped.addListener('anotherEvent', anotherListener)
       wrapped.removeAllListeners('anEvent')
       expect(emitter.listeners('anEvent')).not.to.contain(aListener)

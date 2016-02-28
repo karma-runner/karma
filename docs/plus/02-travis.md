@@ -24,14 +24,14 @@ If you do not already have a `package.json` in your project root
 create one now. Travis runs `npm test` to trigger your tests so this
 is where you tell Travis how to run your tests.
 
-```javascript
+```json
 // ...snip...
-'devDependencies': {
-  'karma': '~0.12'
+"devDependencies": {
+  "karma": "~0.12"
 },
 // ...snip...
-'scripts': {
-   'test': 'karma start --single-run --browsers PhantomJS'
+"scripts": {
+   "test": "karma start --single-run --browsers PhantomJS"
 }
 // ...snip...
 ```

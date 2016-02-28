@@ -6,7 +6,7 @@ import createMockTimer from './mocks/timer'
 
 // promise mock
 var stubPromise = (obj, method, stubAction) => {
-  var promise = new Promise(resolve => {
+  var promise = new Promise((resolve) => {
     obj[method].resolve = resolve
   })
 
@@ -54,11 +54,11 @@ describe('launcher', () => {
   }
 
   before(() => {
-    Promise.setScheduler(fn => fn())
+    Promise.setScheduler((fn) => fn())
   })
 
   after(() => {
-    Promise.setScheduler(fn => process.nextTick(fn))
+    Promise.setScheduler((fn) => process.nextTick(fn))
   })
 
   beforeEach(() => {
@@ -147,7 +147,7 @@ describe('launcher', () => {
     })
 
     describe('kill', () => {
-      it('should kill browser with given id', done => {
+      it('should kill browser with given id', (done) => {
         l.launch(['Fake'], 'http:', 'localhost', 1234, '/', 1)
         var browser = FakeBrowser._instances.pop()
 
@@ -157,7 +157,7 @@ describe('launcher', () => {
         browser.forceKill.resolve()
       })
 
-      it('should return false if browser does not exist, but still resolve the callback', done => {
+      it('should return false if browser does not exist, but still resolve the callback', (done) => {
         l.launch(['Fake'], 'http:', 'localhost', 1234, '/', 1)
         var browser = FakeBrowser._instances.pop()
 
@@ -166,7 +166,7 @@ describe('launcher', () => {
         expect(browser.forceKill).not.to.have.been.called
       })
 
-      it('should not require a callback', done => {
+      it('should not require a callback', (done) => {
         l.launch(['Fake'], 'http:', 'localhost', 1234, '/', 1)
         FakeBrowser._instances.pop()
 
@@ -214,7 +214,7 @@ describe('launcher', () => {
         })
       })
 
-      it('should call callback even if no browsers lanunched', done => {
+      it('should call callback even if no browsers lanunched', (done) => {
         l.killAll(done)
       })
     })
@@ -234,7 +234,7 @@ describe('launcher', () => {
     })
 
     describe('onExit', () => {
-      it('should kill all browsers', done => {
+      it('should kill all browsers', (done) => {
         l.launch(['Fake', 'Fake'], 'http:', 'localhost', 1234, '/', 1)
 
         emitter.emitAsync('exit').then(done)

@@ -1,13 +1,14 @@
 import {EventEmitter} from 'events'
 import File from '../../lib/file'
 import {loadFile} from 'mocks'
+import path from 'path'
 var _ = require('../../lib/helper')._
 
 describe('reporter', () => {
   var m
 
   beforeEach(() => {
-    m = loadFile(__dirname + '/../../lib/reporter.js')
+    m = loadFile(path.join(__dirname, '/../../lib/reporter.js'))
   })
 
   // ==============================================================================
@@ -75,12 +76,15 @@ describe('reporter', () => {
     })
 
     describe('source maps', () => {
+      var originalPositionForCallCount = 0
+
       class MockSourceMapConsumer {
         constructor (sourceMap) {
           this.source = sourceMap.content.replace('SOURCE MAP ', '/original/')
         }
 
         originalPositionFor (position) {
+          originalPositionForCallCount++
           if (position.line === 0) {
             throw new TypeError('Line must be greater than or equal to 1, got 0')
           }
@@ -93,10 +97,14 @@ describe('reporter', () => {
         }
       }
 
+      beforeEach(() => {
+        originalPositionForCallCount = 0
+      })
+
       MockSourceMapConsumer.GREATEST_LOWER_BOUND = 1
       MockSourceMapConsumer.LEAST_UPPER_BOUND = 2
 
-      it('should rewrite stack traces', done => {
+      it('should rewrite stack traces', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -111,7 +119,7 @@ describe('reporter', () => {
         })
       })
 
-      it('should rewrite stack traces to the first column when no column is given', done => {
+      it('should rewrite stack traces to the first column when no column is given', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -126,7 +134,7 @@ describe('reporter', () => {
         })
       })
 
-      it('should rewrite relative url stack traces', done => {
+      it('should rewrite relative url stack traces', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
@@ -141,17 +149,33 @@ describe('reporter', () => {
         })
       })
 
-      it('should fall back to non-source-map format if originalPositionFor throws', done => {
+      it('should fall back to non-source-map format if originalPositionFor throws', (done) => {
         formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = 'SOURCE MAP a.js'
-        servedFiles[1].sourceMap = 'SOURCE MAP b.js'
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
         emitter.emit('file_list_modified', {served: servedFiles})
 
         _.defer(() => {
           var ERROR = 'at http://localhost:123/base/b.js:0:0'
           expect(formatError(ERROR)).to.equal('at /some/base/b.js\n')
+          done()
+        })
+      })
+
+      it('should not try to use source maps when no line is given', (done) => {
+        formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
+        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+
+        emitter.emit('file_list_modified', {served: servedFiles})
+
+        _.defer(() => {
+          var ERROR = 'at http://localhost:123/base/b.js'
+          expect(formatError(ERROR)).to.equal('at /some/base/b.js\n')
+          expect(originalPositionForCallCount).to.equal(0)
           done()
         })
       })
@@ -166,7 +190,7 @@ describe('reporter', () => {
           servedFiles[0].sourceMap = {content: 'SOURCE MAP b.js'}
         })
 
-        it('should correct rewrite stack traces without sha', done => {
+        it('should correct rewrite stack traces without sha', (done) => {
           emitter.emit('file_list_modified', {served: servedFiles})
 
           _.defer(() => {
@@ -176,7 +200,7 @@ describe('reporter', () => {
           })
         })
 
-        it('should correct rewrite stack traces with sha', done => {
+        it('should correct rewrite stack traces with sha', (done) => {
           emitter.emit('file_list_modified', {served: servedFiles})
 
           _.defer(() => {

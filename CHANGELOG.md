@@ -1,3 +1,37 @@
+<a name="0.13.21"></a>
+## [0.13.21](https://github.com/karma-runner/karma/compare/v0.13.20...v0.13.21) (2016-02-12)
+
+
+### Reverts
+
+* "Merge pull request #1791 from budde377/feature-adding-no-colors-to-run-command" ([96ebdc4](https://github.com/karma-runner/karma/commit/96ebdc4)), closes [#1894](https://github.com/karma-runner/karma/issues/1894) [#1895](https://github.com/karma-runner/karma/issues/1895)
+
+
+
+<a name="0.13.20"></a>
+## [0.13.20](https://github.com/karma-runner/karma/compare/v0.13.19...v0.13.20) (2016-02-12)
+
+
+### Bug Fixes
+
+* **runner:** Remove null characters from terminal output ([3481500](https://github.com/karma-runner/karma/commit/3481500)), closes [#1343](https://github.com/karma-runner/karma/issues/1343)
+* invalid characters in the headers on Node 5.6.0 ([152337d](https://github.com/karma-runner/karma/commit/152337d))
+* Remove inadvertently added dependency to mock-fs ([ad5f6b5](https://github.com/karma-runner/karma/commit/ad5f6b5))
+* Switch all requires from fs to graceful-fs ([1e21aaa](https://github.com/karma-runner/karma/commit/1e21aaa))
+* Upgrade socket.io to 1.4.5 ([2f51a9f](https://github.com/karma-runner/karma/commit/2f51a9f))
+
+### Features
+
+* Allow custom browser names ([60ba85f](https://github.com/karma-runner/karma/commit/60ba85f))
+* Do not fail on empty test suite ([8004763](https://github.com/karma-runner/karma/commit/8004763)), closes [#926](https://github.com/karma-runner/karma/issues/926)
+* **config:** Add `forceJSONP` option ([8627d67](https://github.com/karma-runner/karma/commit/8627d67))
+* **launcher:** Enable specification of retry-limit ([cc5547c](https://github.com/karma-runner/karma/commit/cc5547c)), closes [#1126](https://github.com/karma-runner/karma/issues/1126)
+* **logging:** Add colors and log-level options to run-command ([2d29165](https://github.com/karma-runner/karma/commit/2d29165))
+* **logging:** Send color option to server ([486c4f3](https://github.com/karma-runner/karma/commit/486c4f3))
+* **web-server:** Use isbinaryfile for binary file detection ([f938a8e](https://github.com/karma-runner/karma/commit/f938a8e)), closes [#1070](https://github.com/karma-runner/karma/issues/1070)
+
+
+
 <a name="0.13.19"></a>
 ## [0.13.19](https://github.com/karma-runner/karma/compare/v0.13.18...v0.13.19) (2016-01-06)
 

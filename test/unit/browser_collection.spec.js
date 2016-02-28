@@ -74,14 +74,14 @@ describe('BrowserCollection', () => {
 
     beforeEach(() => {
       browsers = [new Browser(), new Browser(), new Browser()]
-      browsers.forEach(browser => {
+      browsers.forEach((browser) => {
         collection.add(browser)
       })
     })
 
     it('should set all browsers state to executing', () => {
       collection.setAllToExecuting()
-      browsers.forEach(browser => {
+      browsers.forEach((browser) => {
         expect(browser.isReady()).to.equal(false)
         expect(browser.state).to.equal(Browser.STATE_EXECUTING)
       })
@@ -100,7 +100,7 @@ describe('BrowserCollection', () => {
 
     beforeEach(() => {
       browsers = [new Browser(), new Browser(), new Browser()]
-      browsers.forEach(browser => {
+      browsers.forEach((browser) => {
         browser.state = Browser.STATE_READY
         collection.add(browser)
       })
@@ -237,7 +237,7 @@ describe('BrowserCollection', () => {
       browsers[1].lastResult.disconnected = true
 
       collection.clearResults()
-      browsers.forEach(browser => {
+      browsers.forEach((browser) => {
         expect(browser.lastResult.success).to.equal(0)
         expect(browser.lastResult.failed).to.equal(0)
         expect(browser.lastResult.skipped).to.equal(0)
@@ -266,7 +266,7 @@ describe('BrowserCollection', () => {
       var browsers = [new Browser(1), new Browser(2), new Browser(3)]
       browsers.forEach(collection.add)
 
-      var mappedIds = collection.map(browser => browser.id)
+      var mappedIds = collection.map((browser) => browser.id)
 
       expect(mappedIds).to.deep.equal([1, 2, 3])
     })

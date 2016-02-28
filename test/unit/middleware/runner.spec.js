@@ -21,18 +21,18 @@ describe('middleware.runner', () => {
   var fileListMock
 
   before(() => {
-    Promise.setScheduler(fn => fn())
+    Promise.setScheduler((fn) => fn())
   })
 
   after(() => {
-    Promise.setScheduler(fn => process.nextTick(fn))
+    Promise.setScheduler((fn) => process.nextTick(fn))
   })
 
   beforeEach(() => {
     mockReporter = {
       adapters: [],
       write (msg) {
-        return this.adapters.forEach(adapter => adapter(msg))
+        return this.adapters.forEach((adapter) => adapter(msg))
       }
     }
 
@@ -204,9 +204,9 @@ describe('middleware.runner', () => {
     capturedBrowsers.add(new Browser())
     sinon.stub(capturedBrowsers, 'areAllReady', () => true)
 
-    var resolve = null
-    var fileListPromise = new Promise((_resolve, _reject) => {
-      resolve = _resolve
+    var res = null
+    var fileListPromise = new Promise((resolve, reject) => {
+      res = resolve
     })
     sinon.stub(fileListMock, 'refresh').returns(fileListPromise)
     sinon.stub(executor, 'schedule')
@@ -219,7 +219,7 @@ describe('middleware.runner', () => {
       expect(executor.schedule).to.not.have.been.called
 
       // Now try resolving the promise
-      resolve()
+      res()
       setTimeout(() => {
         expect(executor.schedule).to.have.been.called
         done()

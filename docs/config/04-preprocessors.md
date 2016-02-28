@@ -93,3 +93,50 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 [custom plugins]: ../dev/plugins.html
 [plugins]: plugins.html
 [issue788]: https://github.com/karma-runner/karma/issues/788
+
+## Order of execution
+
+If a file matches only one key in the preprocessors config object, then karma
+will execute the preprocessors over that file in the order they are listed in
+the corresponding array.  So for instance if the config object is:
+
+```js
+preprocessors: {
+  '*.js': ['a', 'b']
+}
+```
+
+Then karma will execute `'a'` before executing `'b'`.
+
+If a file matches multiple keys, karma will do its best to execute the
+preprocessors in a reasonable order.  So if you have:
+
+```js
+preprocessors: {
+  '*.js': ['a', 'b'],
+  'a.*': ['b', 'c']
+}
+```
+
+then for `a.js`, karma will run `'a'` then `'b'` then `'c'`.  If two lists
+contradict eachother, like:
+
+```js
+preprocessors: {
+  '*.js': ['a', 'b'],
+  'a.*': ['b', 'a']
+}
+```
+
+then karma will arbitrarily pick one list to prioritize over the other.  In a
+case like:
+
+```js
+preprocessors: {
+  '*.js': ['a', 'b', 'c'],
+  'a.*': ['c', 'b', 'd']
+}
+```
+
+Then `'a'` will definitely be run first, `'d'` will definitely be run last, but
+it's arbitrarily if karma will run `'b'` before `'c'` or vice versa.
