@@ -51,9 +51,7 @@ But hey, give it a shot first, it's really awesome to run your tests on every sa
 
 
 ## NPM complaining
-In some cases NPM can run into dependency tree issues during the migration process. If you are faced
-with an "unsatisfied peer dependency" error, removing all of the packages (`rm -rf ./node_modules`) and installing
-them again should clear up the issue.
+In some cases, NPM can run into dependency tree issues during the migration process. If you are faced with an "unsatisfied peer dependency" error, removing all of the packages (`rm -rf ./node_modules`) and installing them again should clear up the issue.
 
 If you have any other issues, please ask on the [mailing list].
 

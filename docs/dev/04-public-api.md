@@ -60,7 +60,7 @@ A new browser was opened, but is not ready yet.
 * `browser`: The browser instance
 * `error`: The error that occurred
 
-There was an error on this browser instance.
+There was an error in this browser instance.
 
 ### `browser_start`
 **Arguments:**
@@ -108,7 +108,7 @@ A test run was completed.
 
 ### **runner.run(options, [callback=process.exit])**
 
-Equivalent of `karma run`.
+The equivalent of `karma run`.
 
 ```javascript
 var runner = require('karma').runner
@@ -122,7 +122,7 @@ runner.run({port: 9876}, function(exitCode) {
 
 ### **stopper.stop(options, [callback=process.exit])**
 
-This function will signal a running server to stop.  Equivalent of `karma stop`.  
+This function will signal a running server to stop.  The equivalent of `karma stop`.  
 
 ```javascript
 var stopper = require('karma').stopper

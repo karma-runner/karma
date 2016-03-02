@@ -89,13 +89,13 @@ files: [
 ],
 ```
 
-The pattern is a glob which matches the specified image assets. Watched and included are not necessary as images are not tests. However they will need to be served to the browser.
+The pattern is a glob which matches the specified image assets. Watched and included are not necessary as images are not tests. However, they will need to be served to the browser.
 
 In this case an image would be accessed at `http://localhost:[PORT]/base/test/images/[MY IMAGE].jpg`
 
 Notice the **base** in the URL, it is a reference to your **basePath**. You do not need to replace or provide your own **base**.
 
-In addition you can use a proxy
+In addition, you can use a proxy
 
 ```javascript
 proxies: {

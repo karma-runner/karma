@@ -38,11 +38,11 @@ Every project has one or more owners (or “maintainers”), listed in `owners` 
 
 Being a maintainer of one plugin doesn’t mean you can’t contribute to some other plugins.
 In fact, you can be a maintainer of multiple projects. The main point is to have people who are
-familiar with the codebase and therefore can better decide what is a good change or not.
+familiar with the codebase and therefore can better decide what a good change is or not.
 
 
 ## Becoming a maintainer
-If you are interest in becoming a Karma maintainer, start by triaging issues, reviewing pull
+If you are interested in becoming a Karma maintainer, start by triaging issues, reviewing pull
 requests and stop by at [gitter/karma-runner]. Once we see you are helping, we will give you push
 permissions. Being a maintainer is not an obligation. You can help when you have time and be less
 active when you don’t. If you get a new job and get busy, that’s alright.

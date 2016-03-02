@@ -2,7 +2,7 @@ showInMenu: false
 
 ## The reasons for these conventions:
 - automatic generating of the changelog
-- simple navigation through git history (eg. ignoring style changes)
+- simple navigation through git history (e.g. ignoring style changes)
 
 ## Format of the commit message:
 ```bash
@@ -15,7 +15,7 @@ showInMenu: false
 
 
 ## Message subject (first line)
-First line cannot be longer than 70 characters, second line is always blank and
+The first line cannot be longer than 70 characters, the second line is always blank and
 other lines should be wrapped at 80 characters. The type and scope should
 always be lowercase as shown below.
 
@@ -39,7 +39,7 @@ always be lowercase as shown below.
 * proxy
 * etc.
 
-The `<scope>` can be empty (eg. if the change is a global or difficult
+The `<scope>` can be empty (e.g. if the change is a global or difficult
 to assign to a single component), in which case the parentheses are
 omitted. In smaller projects such as Karma plugins, the `<scope>` is empty.
 
@@ -61,7 +61,7 @@ Closed issues should be listed on a separate line in the footer prefixed with "C
 ```bash
 Closes #234
 ```
-or in case of multiple issues:
+or in the case of multiple issues:
 ```bash
 Closes #123, #245, #992
 ```
