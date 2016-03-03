@@ -87,7 +87,7 @@ have occurred before starting the test process again.
 
 **Description:** The root path location that will be used to resolve all relative
 paths defined in `files` and `exclude`. If the `basePath` configuration is a
-relative path then it will be resolved to the `__dirname` of the configuration file.
+relative path, then it will be resolved to the `__dirname` of the configuration file.
 
 
 ## browserDisconnectTimeout
@@ -97,8 +97,8 @@ relative path then it will be resolved to the `__dirname` of the configuration f
 
 **Description:** How long does Karma wait for a browser to reconnect (in ms).
 
-With a flaky connection it is pretty common that the browser disconnects, but the actual test execution is still running
-without any problems. Karma does not treat a disconnection as immediate failure and will wait `browserDisconnectTimeout` (ms).
+With a flaky connection, it is pretty common that the browser disconnects, but the actual test execution is still running
+without any problems. Karma does not treat a disconnection as an immediate failure and will wait for `browserDisconnectTimeout` (ms).
 If the browser reconnects during that time, everything is fine.
 
 
@@ -110,7 +110,7 @@ If the browser reconnects during that time, everything is fine.
 **Description:** The number of disconnections tolerated.
 
 The `disconnectTolerance` value represents the maximum number of tries a browser will attempt in the case of a disconnection.
-Usually any disconnection is considered a failure, but this option allows you to define a tolerance level when there is
+Usually, any disconnection is considered a failure, but this option allows you to define a tolerance level when there is
 a flaky network link between the Karma server and the browsers.
 
 
@@ -121,8 +121,7 @@ a flaky network link between the Karma server and the browsers.
 
 **Description:** How long will Karma wait for a message from a browser before disconnecting from it (in ms).
 
-If, during test execution, Karma does not receive any message from a browser within `browserNoActivityTimeout`
-(ms), it will disconnect from the browser.
+If, during test execution, Karma does not receive any message from a browser within `browserNoActivityTimeout`(ms), it will disconnect from the browser.
 
 
 ## browsers
@@ -172,8 +171,7 @@ it again and, after three attempts to capture it, Karma will give up.
 are passed through to the test adapter as `karma.config.args` (an array of strings).
 The `client.args` option allows you to set this value for actions other than `run`.
 
-How this value is used is up to your test adapter - you should check your adapter's
-documentation to see how (and if) it uses this value.
+How this value is used is up to your test adapter - you should check your adapter's documentation to see how (and if) it uses this value.
 
 
 ## client.useIframe
@@ -203,7 +201,7 @@ iFrame and may need a new window to run.
 **Description:** Clear the context window
 
 If true, Karma clears the context window upon the completion of running the tests. If false, Karma does not clear the context window
-upon  the completion of running the tests. Setting this to false is useful when embedding a Jasmine Spec Runner Template.
+upon the completion of running the tests. Setting this to false is useful when embedding a Jasmine Spec Runner Template.
 
 ## colors
 **Type:** Boolean
@@ -220,9 +218,9 @@ upon  the completion of running the tests. Setting this to false is useful when 
 
 **Default:** `Infinity`
 
-**Description:** How many browser Karma launches in parallel.
+**Description:** How many browsers Karma launches in parallel.
 
-Especially on services like SauceLabs and Browserstack it makes sense to only launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration you can specify how many browsers should be running at once at any given point in time.
+Especially on services like SauceLabs and Browserstack, it makes sense only to launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration, you can specify how many browsers should be running at once at any given point in time.
 
 
 ## customContextFile
@@ -240,6 +238,21 @@ Especially on services like SauceLabs and Browserstack it makes sense to only la
 
 **Description:** If `null` (default), uses karma's own `debug.html` file.
 
+
+## customContextFile
+**Type:** string
+
+**Default:** `null`
+
+**Description:** If `null` (default), uses karma's own `context.html` file.
+
+
+## customDebugFile
+**Type:** string
+
+**Default:** `null`
+
+**Description:** If `null` (default), uses karma's own `debug.html` file.
 
 ## customHeaders
 **Type:** Array

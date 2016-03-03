@@ -9,34 +9,34 @@ The configuration file can be generated using `karma init`:
 ```bash
 $ karma init my.conf.js
 
-Which testing framework do you want to use ?
+Which testing framework do you want to use?
 Press tab to list possible options. Enter to move to the next question.
 > jasmine
 
-Do you want to use Require.js ?
+Do you want to use Require.js?
 This will add Require.js plugin.
 Press tab to list possible options. Enter to move to the next question.
 > no
 
-Do you want to capture a browser automatically ?
+Do you want to capture a browser automatically?
 Press tab to list possible options. Enter empty string to move to the next question.
 > Chrome
 > Firefox
 >
 
-What is the location of your source and test files ?
+What is the location of your source and test files?
 You can use glob patterns, eg. "js/*.js" or "test/**/*Spec.js".
 Press Enter to move to the next question.
 > *.js
 > test/**/*.js
 >
 
-Should any of the files included by the previous patterns be excluded ?
+Should any of the files included by the previous patterns be excluded?
 You can use glob patterns, eg. "**/*.swp".
 Press Enter to move to the next question.
 >
 
-Do you want Karma to watch all the files and run the tests on change ?
+Do you want Karma to watch all the files and run the tests on change?
 Press tab to list possible options.
 > yes
 
@@ -46,7 +46,7 @@ Config file generated at "/Users/vojta/Code/karma/my.conf.js".
 The configuration file can be written in CoffeeScript as well.
 In fact, if you execute `karma init` with a `*.coffee` extension such as `karma init karma.conf.coffee`, it will generate a CoffeeScript file.
 
-Of course, you can write the config file by hand or copy paste it from another project ;-)
+Of course, you can write the config file by hand or copy-paste it from another project ;-)
 
 ## Starting Karma
 When starting Karma, the configuration file path can be passed in as the first argument.

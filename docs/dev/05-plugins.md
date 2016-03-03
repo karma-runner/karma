@@ -23,7 +23,7 @@ Karma can be extended through plugins. A plugin is essentially an NPM module. Ty
 - user NPM keywords `karma-plugin`, `karma-preprocessor`
 
 ## Crazier stuff
-Karma is assembled by Dependency Injection and a plugin is just an additional DI module (see [node-di] for more), that can be loaded by Karma. Therefore it can ask for pretty much any Karma component and interact with it. There are couple of plugins that do more interesting stuff like this, check out [karma-closure], [karma-intellij], [karma-dart].
+Karma is assembled by Dependency Injection and a plugin is just an additional DI module (see [node-di] for more), that can be loaded by Karma. Therefore, it can ask for pretty much any Karma component and interact with it. There are a couple of plugins that do more interesting stuff like this, check out [karma-closure], [karma-intellij], [karma-dart].
 
 
 [karma-jasmine]: https://github.com/karma-runner/karma-jasmine
@@ -43,7 +43,7 @@ Karma is assembled by Dependency Injection and a plugin is just an additional DI
 
 ## Karma Framework API
 
-Karma Framework connect existing testing libraries to Karma's API, so that their
+Karma Framework connects existing testing libraries to Karma's API, so that their
 results can be displayed in a browser and sent back to the server.
 
 Karma frameworks _must_ implement a `window.__karma__.start` method that Karma will
@@ -53,7 +53,7 @@ to send results back to karma:
 * `.result` a single test has finished
 * `.complete` the client completed execution of all the tests
 * `.error` an error happened in the client
-* `.info` other data (eg. number of tests or debugging messages)
+* `.info` other data (e.g. number of tests or debugging messages)
 
 Most commonly you'll use the `result` method to send individual test success or failure
 statuses. The method takes an object of the form:

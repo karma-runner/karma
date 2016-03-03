@@ -49,7 +49,7 @@ npm test
 ```
 
 That's it - proceed to your first build. In case you're using Firefox as
-your test browser, Semaphore will automatically run it in a virtual screen
+your test browser, Semaphore will automatically run it on a virtual screen
 during your builds.
 
 Also, if necessary, build commands can be further [customized] at any time.

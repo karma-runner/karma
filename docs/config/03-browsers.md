@@ -1,4 +1,4 @@
-Capturing browsers on your own can be a tedious and time consuming task,
+Capturing browsers on your own can be a tedious and time-consuming task,
 so Karma can automate this for you. Simply add the browsers you would like to
 capture into the configuration file:
 
@@ -38,7 +38,7 @@ module.exports = function(config) {
 };
 ```
 
-Also keep in mind that the `browsers` configuration setting is empty by default.
+Also, keep in mind that the `browsers` configuration setting is empty by default.
 
 Of course, you can write [custom plugins] too!
 
@@ -53,7 +53,7 @@ as the machine running Karma (or using a local tunnel).
 
 
 ## Configured launchers
-Some of the launchers can be also configured:
+Some of the launchers can also be configured:
 
 ```javascript
 sauceLabs: {
@@ -126,9 +126,7 @@ browsers: ['/usr/local/bin/custom-browser.sh'],
 // from cli
 karma start --browsers /usr/local/bin/custom-browser.sh
 ```
-The browser scripts need to take one argument, which is the URL with the ID
-parameter to be used to connect to the server. The supplied ID is used
-by the server to keep track of which specific browser is captured.
+The browser scripts need to take one argument, which is the URL with the ID-parameter to be used to connect to the server. The supplied ID is used by the server to keep track of which specific browser is captured.
 
 
 
