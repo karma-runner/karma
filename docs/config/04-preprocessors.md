@@ -18,7 +18,7 @@ Note: Most of the preprocessors need to be loaded as [plugins].
 ## Available Preprocessors
 - [coffee]
 - [html2js]
-  - Note any .html files listed in the files section must be referenced at run time as `window.__html__['template.html']`. [Learn more](html2js).
+  - Note any .html files listed in the files section must be referenced at run time as `window.__html__['template.html']`. [Learn more](https://github.com/karma-runner/karma-html2js-preprocessor#how-does-it-work-).
   - If this preprocessor is disabled, included .html files will need `base/` added to beginning of their path reference. See [discussion in issue 788][issue788].
 - [coverage]
 - [ng-html2js]
