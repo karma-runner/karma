@@ -321,7 +321,7 @@
     "karma-chrome-launcher": "*",
     "karma-coffee-preprocessor": "*",
     "karma-commonjs": "*",
-    "karma-coverage": "*",
+    "karma-coverage": "0.5.4",
     "karma-firefox-launcher": "*",
     "karma-growl-reporter": "*",
     "karma-html2js-preprocessor": "*",
