@@ -272,7 +272,7 @@
     "di": "^0.0.1",
     "dom-serialize": "^2.2.0",
     "expand-braces": "^0.1.1",
-    "glob": "^7.0.0",
+    "glob": "^7.0.1",
     "graceful-fs": "^4.1.2",
     "http-proxy": "^1.13.0",
     "isbinaryfile": "^3.0.0",
