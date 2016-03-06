@@ -349,7 +349,7 @@
     "supertest": "^1.0.1",
     "supertest-as-promised": "^3.0.0",
     "timer-shim": "^0.3.0",
-    "validate-commit-msg": "^2.0.0",
+    "validate-commit-msg": "^2.3.1",
     "which": "^1.1.1"
   },
   "main": "./lib/index",
