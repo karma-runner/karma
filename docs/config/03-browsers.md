@@ -11,14 +11,14 @@ Then, Karma will take care of auto-capturing these browsers, as well as killing 
 Note: Most of the browser launchers need to be loaded as [plugins].
 
 ## Available browser launchers
-- [Chrome and Chrome Canary] (install karma-chrome-launcher)
-- [Firefox] (install karma-firefox-launcher first)
-- [Safari] (install karma-safari-launcher first)
-- [PhantomJS] (install karma-phantomjs-launcher)
-- [Opera] (install karma-opera-launcher first)
-- [IE] (install karma-ie-launcher first)
-- [SauceLabs] (install karma-sauce-launcher)
-- [BrowserStack] (install karma-browserstack-launcher)
+- [Chrome and Chrome Canary](https://www.npmjs.com/package/karma-chrome-launcher)
+- [Firefox](https://www.npmjs.com/package/karma-firefox-launcher)
+- [Safari](https://www.npmjs.com/package/karma-safari-launcher)
+- [PhantomJS](https://www.npmjs.com/package/karma-phantomjs-launcher)
+- [Opera](https://www.npmjs.com/package/karma-opera-launcher)
+- [IE](https://www.npmjs.com/package/karma-ie-launcher)
+- [SauceLabs](https://www.npmjs.com/package/karma-saucelabs-launcher)
+- [BrowserStack](https://www.npmjs.com/package/karma-browserstack-launcher)
 - [many more](https://www.npmjs.org/browse/keyword/karma-launcher)
 
 Here's an example of how to add Firefox to your testing suite:
