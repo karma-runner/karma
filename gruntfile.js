@@ -46,7 +46,8 @@ module.exports = function (grunt) {
     cucumberjs: {
       options: {
         steps: 'test/e2e/steps',
-        format: 'progress'
+        format: 'progress',
+        require: 'test/e2e/support/env.js'
       },
       all: 'test/e2e/*.feature',
       current: {
