@@ -98,9 +98,5 @@ Feature: Basic Testrunner
       """
     And it fails with like:
       """
-      Cannot load browser "NonExistingBrowser": it is not registered! Perhaps you are missing some plugin\?
-      """
-    And it fails with like:
-      """
-      Found 3 load errors
+      Found 2 load errors
       """
