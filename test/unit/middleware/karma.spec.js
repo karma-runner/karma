@@ -34,13 +34,31 @@ describe('middleware.karma', () => {
 
   var handler = serveFile = filesDeferred = nextSpy = response = null
 
+  var clientConfig = {foo: 'bar'}
+  var injector = {
+    get (val) {
+      switch (val) {
+        case 'config.client':
+          return clientConfig
+        default:
+          return null
+      }
+    }
+  }
+
   beforeEach(() => {
-    var clientConfig = {foo: 'bar'}
     nextSpy = sinon.spy()
     response = new HttpResponseMock()
     filesDeferred = helper.defer()
     serveFile = createServeFile(fsMock, '/karma/static')
-    handler = createKarmaMiddleware(filesDeferred.promise, serveFile, null, '/base/path', '/__karma__/', clientConfig)
+    handler = createKarmaMiddleware(
+      filesDeferred.promise,
+      serveFile,
+      null,
+      injector,
+      '/base/path',
+      '/__karma__/'
+    )
   })
 
   // helpers
@@ -92,7 +110,14 @@ describe('middleware.karma', () => {
   })
 
   it('should serve client.html', (done) => {
-    handler = createKarmaMiddleware(null, serveFile, null, '/base', '/')
+    handler = createKarmaMiddleware(
+      null,
+      serveFile,
+      null,
+      injector,
+      '/base',
+      '/'
+    )
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -104,7 +129,14 @@ describe('middleware.karma', () => {
   })
 
   it('should serve /?id=xxx', (done) => {
-    handler = createKarmaMiddleware(null, serveFile, null, '/base', '/')
+    handler = createKarmaMiddleware(
+      null,
+      serveFile,
+      null,
+      injector,
+      '/base',
+      '/'
+    )
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -116,7 +148,14 @@ describe('middleware.karma', () => {
   })
 
   it('should serve /?x-ua-compatible with replaced values', (done) => {
-    handler = createKarmaMiddleware(null, serveFile, null, '/base', '/')
+    handler = createKarmaMiddleware(
+      null,
+      serveFile,
+      null,
+      injector,
+      '/base',
+      '/'
+    )
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -350,5 +389,48 @@ describe('middleware.karma', () => {
       expect(response).to.beNotServed()
       done()
     })
+  })
+
+  it('should update handle updated configs', (done) => {
+    let i = 0
+    handler = createKarmaMiddleware(
+      filesDeferred.promise,
+      serveFile,
+      null,
+      {
+        get (val) {
+          if (val === 'config.client') {
+            i++
+            if (i === 1) {
+              return {foo: 'bar'}
+            } else {
+              return {foo: 'baz'}
+            }
+          } else {
+            return null
+          }
+        }
+      },
+      '/base/path',
+      '/__karma__/'
+    )
+
+    includedFiles([
+      new MockFile('/first.js')
+    ])
+    fsMock._touchFile('/karma/static/debug.html', 1, '%CLIENT_CONFIG%')
+
+    response.once('end', () => {
+      expect(response).to.beServedAs(200, 'window.__karma__.config = {"foo":"bar"};\n')
+
+      response = new HttpResponseMock()
+      callHandlerWith('/__karma__/debug.html')
+      response.once('end', () => {
+        expect(response).to.beServedAs(200, 'window.__karma__.config = {"foo":"baz"};\n')
+        done()
+      })
+    })
+
+    callHandlerWith('/__karma__/debug.html')
   })
 })
