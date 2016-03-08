@@ -359,7 +359,7 @@
   "engines": {
     "node": "0.10 || 0.12 || 4 || 5"
   },
-  "version": "0.13.21",
+  "version": "0.13.22",
   "license": "MIT",
   "scripts": {
     "lint": "grunt lint",
