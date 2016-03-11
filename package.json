@@ -303,7 +303,7 @@
     "ghooks": "^1.0.3",
     "grunt": "^0.4",
     "grunt-auto-release": "^0.0.6",
-    "grunt-browserify": "^4.0.1",
+    "grunt-browserify": "^5.0.0",
     "grunt-bump": "^0.7.0",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
