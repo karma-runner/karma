@@ -22,6 +22,7 @@ function findFile (path, files) {
 
 var PATTERN_LIST = {
   '/some/*.js': ['/some/a.js', '/some/b.js'],
+  '/some/a.js': ['/some/a.js'],
   '*.txt': ['/c.txt', '/a.txt', '/b.txt'],
   '/a.*': ['/a.txt']
 }
@@ -139,6 +140,7 @@ describe('FileList', () => {
     it('returns a flat array of included files', () => {
       var files = [
         new config.Pattern('/a.*', true, false), // included: false
+        new config.Pattern('/some/a.js', true, false), // included: false
         new config.Pattern('/some/*.js') // included: true
       ]
 
@@ -146,8 +148,8 @@ describe('FileList', () => {
 
       return list.refresh().then(() => {
         expect(pathsFrom(list.files.included)).not.to.contain('/a.txt')
+        expect(pathsFrom(list.files.included)).not.to.contain('/some/a.js')
         expect(pathsFrom(list.files.included)).to.deep.equal([
-          '/some/a.js',
           '/some/b.js'
         ])
       })
