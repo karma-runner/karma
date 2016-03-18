@@ -122,3 +122,5 @@ use the awesome [Socket.io] library and [Node.js].
 
 [browsers]: https://karma-runner.github.io/latest/config/browsers.html
 [documentation]: https://karma-runner.github.io
+
+I love karma!
