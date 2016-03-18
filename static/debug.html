@@ -36,7 +36,12 @@ just for immediate execution, without reporting to Karma server.
         window.console.log(msg + result.suite.join(' ') + ' ' + result.description);
 
         for (var i = 0; i < result.log.length; i++) {
-          window.console.error(result.log[i]);
+          //throwing error without loosing stack trace
+          (function (err) {
+            setTimeout(function() {
+              throw err;
+            });
+          })(result.log[i])
         }
       } : function() {},
       loaded: function() {
