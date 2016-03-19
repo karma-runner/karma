@@ -1,0 +1,29 @@
+version: "{build}"
+
+environment:
+  matrix:
+    - nodejs_version: "0.12"
+    - nodejs_version: "4"
+    - nodejs_version: "5"
+
+matrix:
+  fast_finish: true
+
+install:
+  # Install Node.js
+  - ps: Install-Product node $env:nodejs_version
+
+  # Output our current versions for debugging
+  - node --version
+  - npm --version
+
+  # Install our package dependencies
+  - npm install
+
+  # Install our current directory as a dependency of itself
+  - npm run init:windows
+
+test_script:
+  - npm run appveyor
+
+build: off
