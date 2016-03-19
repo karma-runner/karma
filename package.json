@@ -361,8 +361,11 @@
     "lint": "grunt lint",
     "test": "grunt test",
     "build": "grunt build",
+    "test:appveyor": "grunt test-appveyor",
     "test:integration": "./scripts/integration-tests.sh",
     "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../",
+    "init:windows": "cd .. && xcopy karma __karma /E /I && move /Y __karma karma\\node_modules\\karma && cd karma",
+    "appveyor": "npm run lint && npm run build && npm run test:appveyor",
     "travis": "npm run lint && npm run build && npm test && npm run test:integration"
   },
   "config": {
