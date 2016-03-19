@@ -11,9 +11,6 @@ describe('reporter', () => {
     m = loadFile(path.join(__dirname, '/../../lib/reporter.js'))
   })
 
-  // ==============================================================================
-  // formatError() [PRIVATE]
-  // ==============================================================================
   describe('formatError', () => {
     var emitter
     var formatError = emitter = null
@@ -29,6 +26,22 @@ describe('reporter', () => {
 
     it('should handle empty message', () => {
       expect(formatError(null)).to.equal('\n')
+    })
+
+    it('should handle arbitrary error objects', () => {
+      expect(
+        formatError({hello: 'world'})
+      ).to.equal(
+        JSON.stringify({hello: 'world'}) + '\n'
+      )
+    })
+
+    it('should handle error objects', () => {
+      expect(
+        formatError(new Error('fail'))
+      ).to.equal(
+        'fail\n'
+      )
     })
 
     it('should remove domain from files', () => {
