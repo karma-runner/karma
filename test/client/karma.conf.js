@@ -156,6 +156,8 @@ module.exports = function (config) {
 
     forceJSONP: true,
 
+    jsVersion: 0,
+
     browserStack: {
       project: 'Karma'
     }

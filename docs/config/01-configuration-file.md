@@ -610,6 +610,18 @@ All of Karma's urls get prefixed with the `urlRoot`. This is helpful when using 
 sometimes you might want to proxy a url that is already taken by Karma.
 
 
+## jsVersion
+**Type:** Number
+
+**Default:** `0`
+
+**Description:** The JavaScript version to use in the Firefox browser.
+
+If `> 0`, Karma will add a JavaScript version tag to the included JavaScript files.
+
+Note: This will only be applied to the Firefox browser. It is currently the only browser that supports the version tag.
+
+
 [plugins]: plugins.html
 [config/files]: files.html
 [config/browsers]: browsers.html
