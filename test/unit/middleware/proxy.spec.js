@@ -253,6 +253,36 @@ describe('middleware.proxy', () => {
     expect(parsedProxyConfig[0].proxy).to.exist
   })
 
+  it('should parse right port of proxy target', () => {
+    var proxy = { '/w': 'http://krinkle.dev/w' }
+    var config = {port: 9877, hostname: 'localhost'}
+    var parsedProxyConfig = m.parseProxyConfig(proxy, config)
+    expect(parsedProxyConfig).to.have.length(1)
+    expect(parsedProxyConfig[0]).to.containSubset({
+      host: 'krinkle.dev',
+      port: '80',
+      baseUrl: '/w',
+      path: '/w',
+      https: false
+    })
+    expect(parsedProxyConfig[0].proxy).to.exist
+  })
+
+  it('should parse right port of proxy target w. https', () => {
+    var proxy = { '/w': 'https://krinkle.dev/w' }
+    var config = {port: 9877, hostname: 'localhost'}
+    var parsedProxyConfig = m.parseProxyConfig(proxy, config)
+    expect(parsedProxyConfig).to.have.length(1)
+    expect(parsedProxyConfig[0]).to.containSubset({
+      host: 'krinkle.dev',
+      port: '443',
+      baseUrl: '/w',
+      path: '/w',
+      https: true
+    })
+    expect(parsedProxyConfig[0].proxy).to.exist
+  })
+
   it('should normalize proxy url', () => {
     var proxy = {'/base/': 'http://localhost:8000/proxy/test'}
     var parsedProxyConfig = m.parseProxyConfig(proxy, {})
