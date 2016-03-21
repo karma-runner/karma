@@ -17,6 +17,10 @@ var stringify = function stringify (obj, depth) {
       return 'undefined'
     case 'function':
       return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }')
+    case 'symbol':
+      if(typeof Symbol !== 'undefined'){
+        return Symbol.keyFor(obj) || 'local-symbol'
+      }
     case 'boolean':
       return obj ? 'true' : 'false'
     case 'object':
