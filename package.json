@@ -292,7 +292,7 @@
     "babel": "^5.6.23",
     "chai": "^3.3.0",
     "chai-as-promised": "^5.0.0",
-    "chai-subset": "^1.0.1",
+    "chai-subset": "^1.2.2",
     "coffee-script": "^1.9.2",
     "cucumber": "^0.9.1",
     "eslint": "^2.3.0",
