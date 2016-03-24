@@ -580,7 +580,7 @@ a browser before giving up.
 
 **Default:** `false`
 
-**CLI:** `--single-run`, `no-single-run`
+**CLI:** `--single-run`, `--no-single-run`
 
 **Description:** Continuous Integration mode.
 
