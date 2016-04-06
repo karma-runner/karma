@@ -15,11 +15,7 @@ env:
   - node_js: "5"
     env: VALIDATE_COMMIT_MSG=TRUE
 
-# Make sure we have a new npm on Node 0.10. npm >= 2 should work so by not updating them
-# here we have proper version coverage, especially that most people use the npm version
-# that's included in a Node version they use.
 before_install:
-  - '[ "${TRAVIS_NODE_VERSION}" != "0.10" ] || npm install -g npm'
   - npm config set loglevel warn
   - g++-4.8 --version
 
