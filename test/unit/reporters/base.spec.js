@@ -15,7 +15,7 @@ describe('reporter', function () {
 
     beforeEach(function () {
       adapter = sinon.spy()
-      reporter = new m.BaseReporter(null, null, false, adapter)
+      reporter = new m.BaseReporter(null, null, false, {terminal: true}, adapter)
       return reporter
     })
 
@@ -39,7 +39,7 @@ describe('reporter', function () {
     })
 
     it('should not call non-colored adapters when wrong default setting', function () {
-      var reporter = new m.BaseReporter(null, null, true, adapter)
+      var reporter = new m.BaseReporter(null, null, true, {}, adapter)
       var anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
       reporter.EXCLUSIVELY_USE_COLORS = false
@@ -49,7 +49,7 @@ describe('reporter', function () {
     })
 
     it('should call colored adapters regardless of default setting', function () {
-      var reporter = new m.BaseReporter(null, null, true, adapter)
+      var reporter = new m.BaseReporter(null, null, true, {}, adapter)
       var anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
       reporter.EXCLUSIVELY_USE_COLORS = false

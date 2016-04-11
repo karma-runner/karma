@@ -203,4 +203,13 @@ module.exports = function coreSteps () {
         callback(new Error('Exit-code mismatch'))
       }, 4000)
     })
+
+  this.Then(/^the file at (.+) contains:$/,
+    function (filePath, expectedOutput, callback) {
+      var data = fs.readFileSync(filePath, {encoding: 'UTF-8'})
+      if (data.match(expectedOutput)) {
+        return callback()
+      }
+      callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + data))
+    })
 }
