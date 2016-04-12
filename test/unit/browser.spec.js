@@ -394,9 +394,13 @@ describe('Browser', () => {
       socket.emit('result', {success: true, suite: [], log: []})
       socket.emit('disconnect', 'socket.io reason')
 
+      var spyBrowserError = sinon.spy()
+      emitter.on('browser_error', spyBrowserError)
+
       timer.wind(10)
       expect(browser.lastResult.disconnected).to.equal(true)
       expect(spy).to.have.been.calledWith(browser)
+      expect(spyBrowserError).to.have.been.called
     })
 
     it('restarting a disconnected browser', () => {
