@@ -102,6 +102,31 @@ without any problems. Karma does not treat a disconnection as an immediate failu
 If the browser reconnects during that time, everything is fine.
 
 
+## browserConsoleLogOptions
+**Type:** Object
+
+**Default:** `{level: "debug", format: "%b %T: %m", terminal: true}`
+
+**Description:** Configure how the browser console is logged with the following
+properties, all of which are optional:
+
+```javascript
+{
+  level:  string,
+  format: string,
+  path:   string,
+  terminal: boolean
+}
+```
+
+
+Here the `level` is the desired log-level, where level `log` always is logged. The format
+is a string where `%b`, `%t`, `%T`, and `%m` are replaced with the browser string,
+log type in lower-case, log type in uppercase, and log message, respectively. This format will
+only effect the output file. `path` is the output-path of the output-file, and `terminal` indicates
+if the log should be written in the terminal, or not.
+
+
 ## browserDisconnectTolerance
 **Type:** Number
 
@@ -580,7 +605,7 @@ a browser before giving up.
 
 **Default:** `false`
 
-**CLI:** `--single-run`, `no-single-run`
+**CLI:** `--single-run`, `--no-single-run`
 
 **Description:** Continuous Integration mode.
 
