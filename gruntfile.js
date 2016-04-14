@@ -76,6 +76,8 @@ module.exports = function (grunt) {
         '<%= files.grunt %>',
         '<%= files.scripts %>',
         '<%= files.client %>',
+        'static/context.js',
+        'static/debug.js',
         'test/**/*.js',
         'gruntfile.js'
       ]
