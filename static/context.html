@@ -15,14 +15,11 @@ Reloaded before every execution run.
        to have already been created so they can insert their magic into it. For example, if loaded
        before body, Angular Scenario test framework fails to find the body and crashes and burns in
        an epic manner. -->
+  <script src="context.js"></script>
   <script type="text/javascript">
-    // sets window.__karma__ and overrides console and error handling
-    // Use window.opener if this was opened by someone else - in a new window
-    if (window.opener) {
-      window.opener.karma.setupContext(window);
-    } else {
-      window.parent.karma.setupContext(window);
-    }
+    // Configure our Karma and set up bindings
+    %CLIENT_CONFIG%
+    window.__karma__.setupContext(window);
 
     // All served files with the latest timestamps
     %MAPPINGS%
