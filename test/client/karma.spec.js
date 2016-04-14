@@ -231,24 +231,6 @@ describe('Karma', function () {
     })
   })
 
-  describe('store', function () {
-    it('should be getter/setter', function () {
-      k.store('a', 10)
-      k.store('b', [1, 2, 3])
-
-      assert.equal(k.store('a'), 10)
-      assert.deepEqual(k.store('b'), [1, 2, 3])
-    })
-
-    it('should clone arrays to avoid memory leaks', function () {
-      var array = [1, 2, 3, 4, 5]
-
-      k.store('one.array', array)
-      assert.deepEqual(k.store('one.array'), array)
-      assert.deepEqual(k.store('one.array'), array)
-    })
-  })
-
   describe('complete', function () {
     var clock
 

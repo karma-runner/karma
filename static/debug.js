@@ -5,7 +5,6 @@ window.__karma__.info = function (info) {
 window.__karma__.complete = function () {
   if (window.console) window.console.log('Skipped ' + this.skipped + ' tests')
 }
-window.__karma__.store = function () {}
 window.__karma__.skipped = 0
 window.__karma__.result = window.console ? function (result) {
   if (result.skipped) {

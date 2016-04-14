@@ -6,7 +6,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   var hasError = false
   var startEmitted = false
   var reloadingContext = false
-  var store = {}
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -188,22 +187,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
 
     // remove reference to child iframe
     this.start = UNIMPLEMENTED_START
-  }
-
-  this.store = function (key, value) {
-    if (util.isUndefined(value)) {
-      return store[key]
-    }
-
-    if (util.instanceOf(value, 'Array')) {
-      var s = store[key] = []
-      for (var i = 0; i < value.length; i++) {
-        s.push(value[i])
-      }
-    } else {
-      // TODO(vojta): clone objects + deep
-      store[key] = value
-    }
   }
 
   // supposed to be overriden by the context
