@@ -1,7 +1,7 @@
 /* global __karma__ */
 var assert = require('assert')
 
-var stringify = require('../../client/stringify')
+var stringify = require('../../common/stringify')
 
 describe('stringify', function () {
   it('should serialize string', function () {

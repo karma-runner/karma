@@ -5,13 +5,16 @@ module.exports = function (grunt) {
     files: {
       server: ['lib/**/*.js'],
       client: ['client/**/*.js'],
+      common: ['common/**/*.js'],
+      context: ['context/**/*.js'],
       grunt: ['grunt.js', 'tasks/*.js'],
       scripts: ['scripts/init-dev-env.js']
     },
     browserify: {
       client: {
         files: {
-          'static/karma.js': ['client/main.js']
+          'static/karma.js': ['client/main.js'],
+          'static/context.js': ['context/main.js']
         }
       }
     },
@@ -76,7 +79,8 @@ module.exports = function (grunt) {
         '<%= files.grunt %>',
         '<%= files.scripts %>',
         '<%= files.client %>',
-        'static/context.js',
+        '<%= files.common %>',
+        '<%= files.context %>',
         'static/debug.js',
         'test/**/*.js',
         'gruntfile.js'
