@@ -304,7 +304,7 @@
     "grunt": "^0.4",
     "grunt-auto-release": "^0.0.6",
     "grunt-browserify": "^5.0.0",
-    "grunt-bump": "^0.7.0",
+    "grunt-bump": "^0.7.2",
     "grunt-cli": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-conventional-changelog": "^6.0.1",
