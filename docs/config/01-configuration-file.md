@@ -264,21 +264,6 @@ Especially on services like SauceLabs and Browserstack, it makes sense only to l
 **Description:** If `null` (default), uses karma's own `debug.html` file.
 
 
-## customContextFile
-**Type:** string
-
-**Default:** `null`
-
-**Description:** If `null` (default), uses karma's own `context.html` file.
-
-
-## customDebugFile
-**Type:** string
-
-**Default:** `null`
-
-**Description:** If `null` (default), uses karma's own `debug.html` file.
-
 ## customHeaders
 **Type:** Array
 
