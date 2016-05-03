@@ -333,7 +333,7 @@
     "karma-ng-scenario": "*",
     "karma-phantomjs-launcher": "*",
     "karma-qunit": "*",
-    "karma-requirejs": "*",
+    "karma-requirejs": "1.0.0",
     "karma-sauce-launcher": "*",
     "karma-script-launcher": "^0.2.0",
     "load-grunt-tasks": "^3.1.0",
