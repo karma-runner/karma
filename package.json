@@ -320,7 +320,7 @@
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "*",
     "karma-coffee-preprocessor": "*",
-    "karma-commonjs": "*",
+    "karma-commonjs": "1.0.0",
     "karma-coverage": "*",
     "karma-firefox-launcher": "*",
     "karma-growl-reporter": "*",
