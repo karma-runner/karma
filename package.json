@@ -319,7 +319,7 @@
     "karma-browserstack-launcher": "^0.1.10",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "*",
-    "karma-coffee-preprocessor": "*",
+    "karma-coffee-preprocessor": "1.0.0",
     "karma-commonjs": "*",
     "karma-coverage": "*",
     "karma-firefox-launcher": "*",
