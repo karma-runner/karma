@@ -335,7 +335,7 @@
     "karma-qunit": "*",
     "karma-requirejs": "*",
     "karma-sauce-launcher": "*",
-    "karma-script-launcher": "^0.2.0",
+    "karma-script-launcher": "^1.0.0",
     "load-grunt-tasks": "^3.1.0",
     "mkdirp": "^0.5.0",
     "mocha": "^2.4.1",
