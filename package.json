@@ -323,7 +323,7 @@
     "karma-commonjs": "*",
     "karma-coverage": "*",
     "karma-firefox-launcher": "*",
-    "karma-growl-reporter": "*",
+    "karma-growl-reporter": "1.0.0",
     "karma-html2js-preprocessor": "*",
     "karma-jasmine": "~0.3.5",
     "karma-junit-reporter": "*",
