@@ -19,6 +19,7 @@ env:
 before_install:
   - npm config set loglevel warn
   - g++-4.8 --version
+  - npm install -g npm
 
 addons:
   firefox:
