@@ -5,6 +5,7 @@ environment:
     - nodejs_version: "0.12"
     - nodejs_version: "4"
     - nodejs_version: "5"
+    - nodejs_version: "6"
 
 matrix:
   fast_finish: true
@@ -12,6 +13,9 @@ matrix:
 install:
   # Install Node.js
   - ps: Install-Product node $env:nodejs_version
+
+  # Upgrade npm
+  - npm install -g npm
 
   # Output our current versions for debugging
   - node --version
