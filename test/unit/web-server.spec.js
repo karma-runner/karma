@@ -33,6 +33,7 @@ describe('web-server', () => {
   // this relies on the fact that none of these tests mutate fs
   var m = mocks.loadFile(path.join(__dirname, '/../../lib/web-server.js'), _mocks, _globals)
   var customFileHandlers = server = emitter = null
+  var beforeMiddlewareActive = false
   var middlewareActive = false
   var servedFiles = (files) => {
     emitter.emit('file_list_modified', {included: [], served: files})
@@ -45,6 +46,7 @@ describe('web-server', () => {
       var config = {
         basePath: '/base/path',
         urlRoot: '/',
+        beforeMiddleware: ['beforeCustom'],
         middleware: ['custom'],
         middlewareResponse: 'hello middleware!',
         mime: {'custom/custom': ['custom']}
@@ -59,6 +61,15 @@ describe('web-server', () => {
         reporter: ['value', null],
         executor: ['value', null],
         proxies: ['value', null],
+        'middleware:beforeCustom': ['factory', function (config) {
+          return function (request, response, next) {
+            if (beforeMiddlewareActive) {
+              response.writeHead(223)
+              return response.end('hello from before middleware!')
+            }
+            next()
+          }
+        }],
         'middleware:custom': ['factory', function (config) {
           return function (request, response, next) {
             if (middlewareActive) {
@@ -106,10 +117,37 @@ describe('web-server', () => {
         .expect(200, 'new-js-source')
     })
 
+    describe('beforeMiddleware', () => {
+      beforeEach(() => {
+        servedFiles(new Set([new File('/base/path/one.js')]))
+        beforeMiddlewareActive = true
+      })
+
+      afterEach(() => {
+        beforeMiddlewareActive = false
+      })
+
+      it('should use injected middleware', () => {
+        return request(server)
+          .get('/base/other.js')
+          .expect(223, 'hello from before middleware!')
+      })
+
+      it('should inject middleware before served files', () => {
+        return request(server)
+          .get('/base/one.js')
+          .expect(223, 'hello from before middleware!')
+      })
+    })
+
     describe('middleware', () => {
       beforeEach(() => {
         servedFiles(new Set([new File('/base/path/one.js')]))
         middlewareActive = true
+      })
+
+      afterEach(() => {
+        middlewareActive = false
       })
 
       it('should use injected middleware', () => {
