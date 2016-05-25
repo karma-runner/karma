@@ -45,18 +45,18 @@ describe('reporter', () => {
     })
 
     it('should remove domain from files', () => {
-      expect(formatError('file http://localhost:8080/base/usr/a.js and http://127.0.0.1:8080/base/home/b.js')).to.be.equal('file /usr/a.js and /home/b.js\n')
+      expect(formatError('file http://localhost:8080/base/usr/a.js and http://127.0.0.1:8080/absolute/home/b.js')).to.be.equal('file usr/a.js and /home/b.js\n')
     })
 
     // TODO(vojta): enable once we serve source under urlRoot
     it.skip('should handle non default karma service folders', () => {
       formatError = m.createErrorFormatter('', '/_karma_/')
-      expect(formatError('file http://localhost:8080/_karma_/base/usr/a.js and http://127.0.0.1:8080/_karma_/base/home/b.js')).to.be.equal('file /usr/a.js and /home/b.js\n')
+      expect(formatError('file http://localhost:8080/_karma_/base/usr/a.js and http://127.0.0.1:8080/_karma_/base/home/b.js')).to.be.equal('file usr/a.js and home/b.js\n')
     })
 
     it('should remove shas', () => {
       var ERROR = 'file http://localhost:8080/base/usr/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9 and http://127.0.0.1:8080/absolute/home/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
-      expect(formatError(ERROR)).to.be.equal('file /usr/file.js and /home/file.js\n')
+      expect(formatError(ERROR)).to.be.equal('file usr/file.js and /home/file.js\n')
     })
 
     it('should indent all lines', () => {
@@ -65,7 +65,7 @@ describe('reporter', () => {
 
     it('should restore base paths', () => {
       formatError = m.createErrorFormatter('/some/base', emitter)
-      expect(formatError('at http://localhost:123/base/a.js?123')).to.equal('at /some/base/a.js\n')
+      expect(formatError('at http://localhost:123/base/a.js?123')).to.equal('at a.js\n')
     })
 
     it('should restore absolute paths', () => {
@@ -90,10 +90,11 @@ describe('reporter', () => {
 
     describe('source maps', () => {
       var originalPositionForCallCount = 0
+      var sourceMappingPath = null
 
       class MockSourceMapConsumer {
         constructor (sourceMap) {
-          this.source = sourceMap.content.replace('SOURCE MAP ', '/original/')
+          this.source = sourceMap.content.replace('SOURCE MAP ', sourceMappingPath)
         }
 
         originalPositionFor (position) {
@@ -112,6 +113,7 @@ describe('reporter', () => {
 
       beforeEach(() => {
         originalPositionForCallCount = 0
+        sourceMappingPath = '/original/'
       })
 
       MockSourceMapConsumer.GREATEST_LOWER_BOUND = 1
@@ -127,7 +129,7 @@ describe('reporter', () => {
 
         _.defer(() => {
           var ERROR = 'at http://localhost:123/base/b.js:2:6'
-          expect(formatError(ERROR)).to.equal('at /some/base/b.js:2:6 <- /original/b.js:4:8\n')
+          expect(formatError(ERROR)).to.equal('at /original/b.js:4:8 <- b.js:2:6\n')
           done()
         })
       })
@@ -142,7 +144,7 @@ describe('reporter', () => {
 
         _.defer(() => {
           var ERROR = 'at http://localhost:123/base/b.js:2'
-          expect(formatError(ERROR)).to.equal('at /some/base/b.js:2 <- /original/b.js:4:2\n')
+          expect(formatError(ERROR)).to.equal('at /original/b.js:4:2 <- b.js:2\n')
           done()
         })
       })
@@ -157,7 +159,22 @@ describe('reporter', () => {
 
         _.defer(() => {
           var ERROR = 'at /base/b.js:2:6'
-          expect(formatError(ERROR)).to.equal('at /some/base/b.js:2:6 <- /original/b.js:4:8\n')
+          expect(formatError(ERROR)).to.equal('at /original/b.js:4:8 <- b.js:2:6\n')
+          done()
+        })
+      })
+
+      it('should resolve relative urls from source maps', (done) => {
+        sourceMappingPath = 'original/' // Note: relative path.
+        formatError = m.createErrorFormatter('/some/base', emitter, MockSourceMapConsumer)
+        var servedFiles = [new File('/some/base/path/a.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.fancyjs'}
+
+        emitter.emit('file_list_modified', {served: servedFiles})
+
+        _.defer(() => {
+          var ERROR = 'at /base/path/a.js:2:6'
+          expect(formatError(ERROR)).to.equal('at path/original/a.fancyjs:4:8 <- path/a.js:2:6\n')
           done()
         })
       })
@@ -172,7 +189,7 @@ describe('reporter', () => {
 
         _.defer(() => {
           var ERROR = 'at http://localhost:123/base/b.js:0:0'
-          expect(formatError(ERROR)).to.equal('at /some/base/b.js\n')
+          expect(formatError(ERROR)).to.equal('at b.js\n')
           done()
         })
       })
@@ -187,7 +204,7 @@ describe('reporter', () => {
 
         _.defer(() => {
           var ERROR = 'at http://localhost:123/base/b.js'
-          expect(formatError(ERROR)).to.equal('at /some/base/b.js\n')
+          expect(formatError(ERROR)).to.equal('at b.js\n')
           expect(originalPositionForCallCount).to.equal(0)
           done()
         })
@@ -208,7 +225,7 @@ describe('reporter', () => {
 
           _.defer(() => {
             var ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js:2:6'
-            expect(formatError(ERROR)).to.equal('at C:/a/b/c.js:2:6 <- /original/b.js:4:8\n')
+            expect(formatError(ERROR)).to.equal('at c:/original/b.js:4:8 <- C:/a/b/c.js:2:6\n')
             done()
           })
         })
@@ -218,7 +235,7 @@ describe('reporter', () => {
 
           _.defer(() => {
             var ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js?da39a3ee5e6:2:6'
-            expect(formatError(ERROR)).to.equal('at C:/a/b/c.js:2:6 <- /original/b.js:4:8\n')
+            expect(formatError(ERROR)).to.equal('at c:/original/b.js:4:8 <- C:/a/b/c.js:2:6\n')
             done()
           })
         })
