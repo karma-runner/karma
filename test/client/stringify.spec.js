@@ -89,4 +89,8 @@ describe('stringify', function () {
 
     assert.deepEqual(__karma__.stringify([1, 2]), '[1, 2]')
   })
+
+  it('should stringify object with property tagName as Object', function () {
+    assert(stringify({tagName: 'a'}).indexOf("{tagName: 'a'}") > -1)
+  })
 })
