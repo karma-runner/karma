@@ -309,7 +309,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-conventional-changelog": "^6.0.1",
     "grunt-conventional-github-releaser": "^1.0.0",
-    "grunt-cucumberjs": "^0.9.1",
+    "grunt-cucumberjs": "^0.10.1",
     "grunt-eslint": "^18.0.0",
     "grunt-mocha-test": "^0.12.7",
     "grunt-npm": "0.0.2",
