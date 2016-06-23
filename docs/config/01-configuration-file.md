@@ -264,21 +264,6 @@ Especially on services like SauceLabs and Browserstack, it makes sense only to l
 **Description:** If `null` (default), uses karma's own `debug.html` file.
 
 
-## customContextFile
-**Type:** string
-
-**Default:** `null`
-
-**Description:** If `null` (default), uses karma's own `context.html` file.
-
-
-## customDebugFile
-**Type:** string
-
-**Default:** `null`
-
-**Description:** If `null` (default), uses karma's own `debug.html` file.
-
 ## customHeaders
 **Type:** Array
 
@@ -457,6 +442,14 @@ mime: {
    'text/plain' : ['mytxt']
 }
 ```
+
+
+## beforeMiddleware
+**Type:** Array
+
+**Default:** `[]`
+
+**Description:** This is the same as middleware except that these middleware will be run before karma's own middleware.
 
 
 ## plugins

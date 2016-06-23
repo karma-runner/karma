@@ -1,3 +1,66 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/karma-runner/karma/compare/v0.13.22...v1.0.0) (2016-06-23)
+
+
+### Bug Fixes
+
+* **ci:** Repaired AppVeyor for Node.js[@0](https://github.com/0).12 ([cbfd98c](https://github.com/karma-runner/karma/commit/cbfd98c))
+* **client:** does not throws an error for non DOM object that has `tagName` property ([ba55afb](https://github.com/karma-runner/karma/commit/ba55afb)), closes [#2139](https://github.com/karma-runner/karma/issues/2139)
+* **files:** Ignore included:false pattern ([db42a7f](https://github.com/karma-runner/karma/commit/db42a7f)), closes [#1530](https://github.com/karma-runner/karma/issues/1530)
+* **helper:** Patched replaceWinPath from choking on `null` values ([caa4d21](https://github.com/karma-runner/karma/commit/caa4d21))
+* **karma:** Escape quotes for file names. This fixes issue [#1876](https://github.com/karma-runner/karma/issues/1876). ([9dff3f3](https://github.com/karma-runner/karma/commit/9dff3f3)), closes [#1876](https://github.com/karma-runner/karma/issues/1876) [#1876](https://github.com/karma-runner/karma/issues/1876)
+* **launcher:** Allow dynamic browser launches ([2b7d703](https://github.com/karma-runner/karma/commit/2b7d703))
+* **launcher:** send sigkill on timeout when force killing ([c615c1f](https://github.com/karma-runner/karma/commit/c615c1f))
+* **proxy:** Port mixup and infinite loop ([05616a2](https://github.com/karma-runner/karma/commit/05616a2)), closes [#1987](https://github.com/karma-runner/karma/issues/1987)
+* **reporter:** Better handling of non string error ([82f1c12](https://github.com/karma-runner/karma/commit/82f1c12))
+* **reporter:** Disable source maps for URLs without line number ([2080221](https://github.com/karma-runner/karma/commit/2080221)), closes [#1274](https://github.com/karma-runner/karma/issues/1274)
+* Change timing on test ([0cb6204](https://github.com/karma-runner/karma/commit/0cb6204))
+* Setting default value for config in runner and stopper ([414db89](https://github.com/karma-runner/karma/commit/414db89))
+* **reporters:** Fix results not being reported ([6303566](https://github.com/karma-runner/karma/commit/6303566))
+* **reporters:** Throwing error without loosing stack trace ([8a515ae](https://github.com/karma-runner/karma/commit/8a515ae))
+* **runner:** Merge config.client.args with client.args provided by run ([91de383](https://github.com/karma-runner/karma/commit/91de383)), closes [#1746](https://github.com/karma-runner/karma/issues/1746)
+* **updater:** Fix time unit on screen display from 'ms' to 'seconds'. ([f39dd04](https://github.com/karma-runner/karma/commit/f39dd04))
+* **web-server:** Restart disconnected browser in non-singleRun mode. ([f6587dc](https://github.com/karma-runner/karma/commit/f6587dc))
+* **web-server:** Update config on every request ([8ef475f](https://github.com/karma-runner/karma/commit/8ef475f)), closes [#1972](https://github.com/karma-runner/karma/issues/1972)
+
+
+### Code Refactoring
+
+* **context:** Future-proofed context.html and debug.html for modularity ([43f6a1a](https://github.com/karma-runner/karma/commit/43f6a1a))
+
+
+### Features
+
+* **browser:** Emit a browser error when a disconnect occurs. ([e36ba6c](https://github.com/karma-runner/karma/commit/e36ba6c))
+* **config:** Add configuration for adding javascript version. ([0239c75](https://github.com/karma-runner/karma/commit/0239c75)), closes [#1719](https://github.com/karma-runner/karma/issues/1719)
+* **config:** Allow custom context and debug files, with feature test and some specs. ([225c0e5](https://github.com/karma-runner/karma/commit/225c0e5))
+* **file-list:** Upgrade bluebird to v.3 ([f5c252f](https://github.com/karma-runner/karma/commit/f5c252f))
+* **logging:** Add colors and log-level options to run-command ([9d4e234](https://github.com/karma-runner/karma/commit/9d4e234))
+* **logging:** Add logging-setup function ([d14bd62](https://github.com/karma-runner/karma/commit/d14bd62))
+* **logging:** Send color option to server ([287d0db](https://github.com/karma-runner/karma/commit/287d0db))
+* **preprocessors:** if a file matches multiple preprocessor patterns, intelligently merge the list of preprocessors, deduping and trying to preserve the order ([59642a6](https://github.com/karma-runner/karma/commit/59642a6))
+* **reporter:** improve source map handling and reporting. ([cf0be47](https://github.com/karma-runner/karma/commit/cf0be47))
+* **reporters:** Look for color-reporter ([fd9262d](https://github.com/karma-runner/karma/commit/fd9262d))
+* **server:** add 'listening' event with port number ([82cd0df](https://github.com/karma-runner/karma/commit/82cd0df))
+* Add `stopper` to the public API ([3d4fa00](https://github.com/karma-runner/karma/commit/3d4fa00))
+* Add possibility to stop a karma server ([66ae80b](https://github.com/karma-runner/karma/commit/66ae80b))
+* add support for node 6 ([0b8dc2c](https://github.com/karma-runner/karma/commit/0b8dc2c))
+* adding support for before middleware ([51b4206](https://github.com/karma-runner/karma/commit/51b4206))
+* **stopper:** Enable programically detached server ([f10fd81](https://github.com/karma-runner/karma/commit/f10fd81))
+* Fail on launcher-, reporter-, plugin-, or preprocessor-load errors. ([fca930e](https://github.com/karma-runner/karma/commit/fca930e)), closes [#855](https://github.com/karma-runner/karma/issues/855)
+* upgrade dependencies to their latest versions ([08242a0](https://github.com/karma-runner/karma/commit/08242a0))
+
+
+### BREAKING CHANGES
+
+* context: Our `context.html` and `debug.html` structures have changed to lean on `context.js` and `debug.js`.
+This is in preparation for deeper `context.js` changes in #1984.
+
+As a result, all `customContextFile` and `customDebugFile` options much update their format
+to match this new format.
+
+
+
 <a name="0.13.22"></a>
 ## [0.13.22](https://github.com/karma-runner/karma/compare/v0.13.21...v0.13.22) (2016-03-08)
 
