@@ -459,6 +459,14 @@ mime: {
 ```
 
 
+## beforeMiddleware
+**Type:** Array
+
+**Default:** `[]`
+
+**Description:** This is the same as middleware except that these middleware will be run before karma's own middleware.
+
+
 ## plugins
 **Type:** Array
 
