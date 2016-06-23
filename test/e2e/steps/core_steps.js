@@ -12,7 +12,7 @@ module.exports = function coreSteps () {
 
   var baseDir = fs.realpathSync(path.join(__dirname, '/../../..'))
   var tmpDir = path.join(baseDir, 'tmp', 'sandbox')
-  var tmpConfigFile = 'karma.conf.js'
+  var tmpConfigFile = 'karma'
   var cleansingNeeded = true
   var additionalArgs = []
 
@@ -33,6 +33,13 @@ module.exports = function coreSteps () {
     cleanseIfNeeded()
     this.addConfigContent(fileContent)
     return callback()
+  })
+
+  this.Given(/^a raw configuration with extension "([^"]*)":$/, function (ext, fileContent, callback) {
+    cleanseIfNeeded()
+    console.log(ext)
+    this.addRawConfigContent(fileContent, ext)
+    callback()
   })
 
   this.Given(/^command line arguments of: "([^"]*)"$/, function (args, callback) {
@@ -56,7 +63,9 @@ module.exports = function coreSteps () {
         if (err) {
           return callback.fail(new Error(err))
         }
-        var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+        var configFile = path.join(tmpDir, [
+          hash, tmpConfigFile, _this.configExt
+        ].join('.'))
         var runtimePath = path.join(baseDir, 'bin', 'karma')
         _this.child = spawn('' + runtimePath, ['start', '--log-level', 'debug', configFile])
         _this.child.stdout.on('data', function () {
@@ -78,7 +87,9 @@ module.exports = function coreSteps () {
           return callback.fail(new Error(err))
         }
         level = withLogLevel === undefined ? 'warn' : level
-        var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+        var configFile = path.join(tmpDir, [
+          hash, tmpConfigFile, _this.configExt
+        ].join('.'))
         var runtimePath = path.join(baseDir, 'bin', 'karma')
         var execKarma = function (done) {
           var cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
@@ -161,7 +172,7 @@ module.exports = function coreSteps () {
     if (actualOutput) {
       return callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + actualOutput))
     }
-
+    console.log(actualOutput, expectedOutput, this.lastRun.stderr.toString())
     callback(new Error('Failed all comparissons'))
   })
 

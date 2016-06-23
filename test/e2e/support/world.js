@@ -8,6 +8,8 @@ var _ = require('lodash')
 exports.World = function World () {
   this.template = _.template('module.exports = function (config) {\n  config.set(\n    <%= content %>\n  );\n};')
 
+  this.configExt = 'js'
+  this.raw = false
   this.configFile = {
     singleRun: true,
     reporters: ['dots'],
@@ -22,7 +24,19 @@ exports.World = function World () {
       if (content == null) {
         content = ''
       }
-      return vm.runInNewContext(content, _this.configFile)
+      _this.raw = false
+      vm.runInNewContext(content, _this.configFile)
+    }
+  })(this)
+
+  this.addRawConfigContent = (function (_this) {
+    return function (content, ext) {
+      if (content == null) {
+        content = ''
+      }
+      _this.raw = true
+      _this.configExt = ext
+      _this.configFile = content
     }
   })(this)
 
@@ -35,9 +49,10 @@ exports.World = function World () {
         }
 
         delete _this.configFile.__dirname
-        content = _this.generateJS(_this.configFile)
+        content = _this.raw ? _this.configFile : _this.generateJS(_this.configFile)
         hash = hasher('md5').update(content + Math.random()).digest('hex')
-        fs.writeFile(path.join(dir, hash + '.' + file), content, function (err) {
+        var name = [hash, file, _this.configExt].join('.')
+        fs.writeFile(path.join(dir, name), content, function (err) {
           done(err, hash)
         })
       })
