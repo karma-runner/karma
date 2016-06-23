@@ -19,5 +19,4 @@ Feature: Passing Options
     Then it passes with no debug:
       """
       .
-      PhantomJS
       """
