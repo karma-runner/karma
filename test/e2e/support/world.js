@@ -14,7 +14,10 @@ exports.World = function World () {
     frameworks: ['jasmine'],
     basePath: __dirname,
     colors: false,
-    __dirname: __dirname
+    __dirname: __dirname,
+    _resolve: function (name) {
+      return path.resolve(__dirname, '..', 'support', name)
+    }
   }
 
   this.addConfigContent = (function (_this) {
