@@ -5,6 +5,7 @@ import {Promise} from 'bluebird'
 import Browser from '../../../lib/browser'
 import BrowserCollection from '../../../lib/browser_collection'
 import MultReporter from '../../../lib/reporters/multi'
+var _ = require('lodash')
 var createRunnerMiddleware = require('../../../lib/middleware/runner').create
 var HttpResponseMock = mocks.http.ServerResponse
 var HttpRequestMock = mocks.http.ServerRequest
@@ -144,26 +145,99 @@ describe('middleware.runner', () => {
     handler(new HttpRequestMock('/__run__'), response, nextSpy)
   })
 
-  it('should parse body and set client.args', (done) => {
-    capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+  var clientArgsRuns = [
+    {
+      desc: 'should parse body and set client.args',
+      expected: ['arg1', 'arg2'],
+      rawMessage: '{"args": ["arg1", "arg2"]}'
+    },
+    {
+      desc: 'should set array client args passed by run when there are no existing client.args',
+      expected: ['my_args'],
+      rawMessage: '{"args": ["my_args"]}'
+    },
+    {
+      desc: 'should set object client args passed by run when there are no existing client.args',
+      expected: {arg2: 'fig', arg3: 'chocolate'},
+      rawMessage: '{"args": {"arg2": "fig", "arg3": "chocolate"}}'
+    },
+    {
+      desc: 'should overwrite empty array client.args when run passes an array for client.args',
+      expected: ['user_arg1'],
+      rawMessage: '{"args": ["user_arg1"]}',
+      existingConfig: []
+    },
+    {
+      desc: 'should overwrite empty array client.args when run passes an object for client.args',
+      expected: {arg2: 'figs', arg3: 'chocolates'},
+      rawMessage: '{"args": {"arg2": "figs", "arg3": "chocolates"}}',
+      existingConfig: []
+    },
+    {
+      desc: 'should overwrite empty object client.args when run passes an array for client.args',
+      expected: ['user_arg'],
+      rawMessage: '{"args": ["user_arg"]}',
+      existingConfig: {}
+    },
+    {
+      desc: 'should not overwrite existing array client.args when run passes an empty array for client.args',
+      expected: ['user_arg'],
+      rawMessage: '{"args": []}',
+      existingConfig: ['user_arg']
+    },
+    {
+      desc: 'should not overwrite existing array client.args when run passes an empty object for client.args',
+      expected: ['user_arg'],
+      rawMessage: '{"args": {}}',
+      existingConfig: ['user_arg']
+    },
+    {
+      desc: 'should not overwrite existing array client.args when run passes no client.args',
+      expected: ['user_arg'],
+      rawMessage: '{}',
+      existingConfig: ['user_arg']
+    },
+    {
+      desc: 'should merge existing client.args with client.args passed by run',
+      expected: {arg1: 'cherry', arg2: 'fig', arg3: 'chocolate'},
+      rawMessage: '{"args": {"arg2": "fig", "arg3": "chocolate"}}',
+      existingConfig: {arg1: 'cherry', arg2: 'mango'}
+    },
+    {
+      desc: 'should merge empty client.args with client.args passed by run',
+      expected: {arg2: 'fig', arg3: 'chocolate'},
+      rawMessage: '{"args": {"arg2": "fig", "arg3": "chocolate"}}',
+      existingConfig: {}
+    }
+  ]
 
-    emitter.once('run_start', () => {
-      expect(config.client.args).to.deep.equal(['arg1', 'arg2'])
-      done()
+  describe('', function () {
+    clientArgsRuns.forEach(function (run) {
+      it(run.desc, (done) => {
+        capturedBrowsers.add(new Browser())
+        sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+        if (run.existingConfig) {
+          config = _.merge(config, {client: {args: run.existingConfig}})
+        }
+
+        emitter.once('run_start', () => {
+          expect(config.client.args).to.deep.equal(run.expected)
+          done()
+        })
+
+        var RAW_MESSAGE = run.rawMessage
+
+        var request = new HttpRequestMock('/__run__', {
+          'content-type': 'application/json',
+          'content-length': RAW_MESSAGE.length
+        })
+
+        handler(request, response, nextSpy)
+
+        request.emit('data', RAW_MESSAGE)
+        request.emit('end')
+      })
     })
-
-    var RAW_MESSAGE = '{"args": ["arg1", "arg2"]}'
-
-    var request = new HttpRequestMock('/__run__', {
-      'content-type': 'application/json',
-      'content-length': RAW_MESSAGE.length
-    })
-
-    handler(request, response, nextSpy)
-
-    request.emit('data', RAW_MESSAGE)
-    request.emit('end')
   })
 
   it('should refresh explicit files if specified', (done) => {
