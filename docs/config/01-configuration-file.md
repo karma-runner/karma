@@ -524,6 +524,7 @@ The proxy can be specified directly by the target url or path, or with an object
 
 - `target` The target url or path (mandatory)
 - `changeOrigin` Whether or not the proxy should override the Host header using the host from the target (default `false`)
+- `useEnvironmentProxy` Whether or not to use the `http_proxy` or `https_proxy` environment variable when proxying the target (default `true`)
 
 **Example:**
 ```javascript
