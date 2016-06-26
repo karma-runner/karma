@@ -1,9 +1,8 @@
-var stringify = require('./stringify')
+var stringify = require('../common/stringify')
 var constant = require('./constants')
-var util = require('./util')
+var util = require('../common/util')
 
 var Karma = function (socket, iframe, opener, navigator, location) {
-  var hasError = false
   var startEmitted = false
   var reloadingContext = false
   var self = this
@@ -22,73 +21,47 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   // registry anymore.
   this.socket = socket
 
+  // Set up postMessage bindings for current window
+  // DEV: These are to allow windows in separate processes execute local tasks
+  //   Electron is one of these environments
+  if (window.addEventListener) {
+    window.addEventListener('message', function handleMessage (evt) {
+      // Resolve the origin of our message
+      var origin = evt.origin || evt.originalEvent.origin
+
+      // If the message isn't from our host, then reject it
+      if (origin !== window.location.origin) {
+        return
+      }
+
+      // Take action based on the message type
+      var method = evt.data.method
+      if (!self[method]) {
+        self.error('Received `postMessage` for "' + method + '" but the method doesn\'t exist')
+        return
+      }
+      self[method].apply(self, evt.data.arguments)
+    }, false)
+  }
+
   var childWindow = null
   var navigateContextTo = function (url) {
     if (self.config.useIframe === false) {
-      if (childWindow === null || childWindow.closed === true) {
-        // If this is the first time we are opening the window, or the window is closed
-        childWindow = opener('about:blank')
+      // If there is a window already open, then close it
+      // DEV: In some environments (e.g. Electron), we don't have setter access for location
+      if (childWindow !== null && childWindow.closed !== true) {
+        childWindow.close()
       }
-      childWindow.location = url
+      childWindow = opener(url)
     } else {
       iframe.src = url
     }
   }
 
-  this.setupContext = function (contextWindow) {
-    if (self.config.clearContext && hasError) {
-      return
-    }
-
-    var getConsole = function (currentWindow) {
-      return currentWindow.console || {
-        log: function () {},
-        info: function () {},
-        warn: function () {},
-        error: function () {},
-        debug: function () {}
-      }
-    }
-
-    contextWindow.__karma__ = this
-
-    // This causes memory leak in Chrome (17.0.963.66)
-    contextWindow.onerror = function () {
-      return contextWindow.__karma__.error.apply(contextWindow.__karma__, arguments)
-    }
-
-    contextWindow.onbeforeunload = function (e, b) {
-      if (!reloadingContext) {
-        // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
-        contextWindow.__karma__.error('Some of your tests did a full page reload!')
-      }
-    }
-
-    if (self.config.captureConsole) {
-      // patch the console
-      var localConsole = contextWindow.console = getConsole(contextWindow)
-      var logMethods = ['log', 'info', 'warn', 'error', 'debug']
-      var patchConsoleMethod = function (method) {
-        var orig = localConsole[method]
-        if (!orig) {
-          return
-        }
-        localConsole[method] = function () {
-          self.log(method, arguments)
-          return Function.prototype.apply.call(orig, localConsole, arguments)
-        }
-      }
-      for (var i = 0; i < logMethods.length; i++) {
-        patchConsoleMethod(logMethods[i])
-      }
-    }
-
-    contextWindow.dump = function () {
-      self.log('dump', arguments)
-    }
-
-    contextWindow.alert = function (msg) {
-      self.log('alert', [msg])
+  this.onbeforeunload = function () {
+    if (!reloadingContext) {
+      // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
+      self.error('Some of your tests did a full page reload!')
     }
   }
 
@@ -113,7 +86,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   // error during js file loading (most likely syntax error)
   // we are not going to execute at all
   this.error = function (msg, url, line) {
-    hasError = true
     var message = msg
 
     if (url) {
@@ -174,28 +146,8 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     }
   }
 
-  var UNIMPLEMENTED_START = function () {
-    this.error('You need to include some adapter that implements __karma__.start method!')
-  }
-
-  // all files loaded, let's start the execution
-  this.loaded = function () {
-    // has error -> cancel
-    if (!hasError) {
-      this.start(this.config)
-    }
-
-    // remove reference to child iframe
-    this.start = UNIMPLEMENTED_START
-  }
-
-  // supposed to be overriden by the context
-  // TODO(vojta): support multiple callbacks (queue)
-  this.start = UNIMPLEMENTED_START
-
   socket.on('execute', function (cfg) {
-    // reset hasError and reload the iframe
-    hasError = false
+    // reset startEmitted and reload the iframe
     startEmitted = false
     self.config = cfg
     // if not clearing context, reloadingContext always true to prevent beforeUnload error
