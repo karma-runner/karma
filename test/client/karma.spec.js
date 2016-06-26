@@ -4,11 +4,12 @@ global.JSON = require('json3')
 var sinon = require('sinon')
 var assert = require('assert')
 
-var Karma = require('../../client/karma')
+var ClientKarma = require('../../client/karma')
+var ContextKarma = require('../../context/karma')
 var MockSocket = require('./mocks').Socket
 
 describe('Karma', function () {
-  var socket, k, windowNavigator, windowLocation, windowStub, startSpy, iframe
+  var socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
 
   var setTransportTo = function (transportName) {
     socket._setTransportNameTo(transportName)
@@ -22,33 +23,38 @@ describe('Karma', function () {
     windowLocation = {search: ''}
     windowStub = sinon.stub().returns({})
 
-    k = new Karma(socket, iframe, windowStub, windowNavigator, windowLocation)
-    startSpy = sinon.spy(k, 'start')
+    k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation)
+    clientWindow = {
+      karma: k
+    }
+    ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
+    ck.config = {}
+    startSpy = sinon.spy(ck, 'start')
   })
 
   it('should start execution when all files loaded and pass config', function () {
-    var config = {
+    var config = ck.config = {
       useIframe: true
     }
 
     socket.emit('execute', config)
     assert(!startSpy.called)
 
-    k.loaded()
+    ck.loaded()
     assert(startSpy.calledWith(config))
   })
 
   it('should open a new window when useIFrame is false', function () {
-    var config = {
+    var config = ck.config = {
       useIframe: false
     }
 
     socket.emit('execute', config)
-    assert(!k.start.called)
+    assert(!ck.start.called)
 
-    k.loaded()
+    ck.loaded()
     assert(startSpy.calledWith(config))
-    assert(windowStub.calledWith('about:blank'))
+    assert(windowStub.calledWith('context.html'))
   })
 
   it('should stop execution', function () {
@@ -58,27 +64,27 @@ describe('Karma', function () {
   })
 
   it('should not start execution if any error during loading files', function () {
-    k.error('syntax error', '/some/file.js', 11)
-    k.loaded()
-    sinon.spy(k, 'start')
+    ck.error('syntax error', '/some/file.js', 11)
+    ck.loaded()
+    sinon.spy(ck, 'start')
     assert(!startSpy.called)
   })
 
   it('should remove reference to start even after syntax error', function () {
     var ADAPTER_START_FN = function () {}
 
-    k.start = ADAPTER_START_FN
-    k.error('syntax error', '/some/file.js', 11)
-    k.loaded()
-    assert.notEqual(k.start, ADAPTER_START_FN)
+    ck.start = ADAPTER_START_FN
+    ck.error('syntax error', '/some/file.js', 11)
+    ck.loaded()
+    assert.notEqual(ck.start, ADAPTER_START_FN)
 
-    k.start = ADAPTER_START_FN
-    k.loaded()
+    ck.start = ADAPTER_START_FN
+    ck.loaded()
     assert.notEqual(k.start, ADAPTER_START_FN)
   })
 
   it('should not set up context if there was an error', function () {
-    var config = {
+    var config = ck.config = {
       clearContext: true
     }
 
@@ -86,16 +92,15 @@ describe('Karma', function () {
 
     var mockWindow = {}
 
-    k.error('page reload')
-    k.setupContext(mockWindow)
+    ck.error('page reload')
+    ck.setupContext(mockWindow)
 
-    assert(mockWindow.__karma__ == null)
-    assert(mockWindow.onbeforeunloadK == null)
+    assert(mockWindow.onbeforeunload == null)
     assert(mockWindow.onerror == null)
   })
 
   it('should setup context if there was error but clearContext config is false', function () {
-    var config = {
+    var config = ck.config = {
       clearContext: false
     }
 
@@ -103,12 +108,30 @@ describe('Karma', function () {
 
     var mockWindow = {}
 
-    k.error('page reload')
-    k.setupContext(mockWindow)
+    ck.error('page reload')
+    ck.setupContext(mockWindow)
 
-    assert(mockWindow.__karma__ != null)
     assert(mockWindow.onbeforeunload != null)
     assert(mockWindow.onerror != null)
+  })
+
+  it('should error out if a script attempted to reload the browser after setup', function () {
+    // Perform setup
+    var config = ck.config = {
+      clearContext: true
+    }
+    socket.emit('execute', config)
+    var mockWindow = {}
+    ck.setupContext(mockWindow)
+
+    // Spy on our error handler
+    sinon.spy(k, 'error')
+
+    // Emulate an unload event
+    mockWindow.onbeforeunload()
+
+    // Assert our spy was called
+    assert(k.error.calledWith('Some of your tests did a full page reload!'))
   })
 
   it('should report navigator name', function () {
@@ -127,7 +150,7 @@ describe('Karma', function () {
   it('should report browser id', function () {
     windowLocation.search = '?id=567'
     socket = new MockSocket()
-    k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation)
+    k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
 
     var spyInfo = sinon.spy(function (info) {
       assert(info.id === '567')
@@ -148,12 +171,12 @@ describe('Karma', function () {
 
       // emit 49 results
       for (var i = 1; i < 50; i++) {
-        k.result({id: i})
+        ck.result({id: i})
       }
 
       assert(!spyResult.called)
 
-      k.result('result', {id: 50})
+      ck.result('result', {id: 50})
       assert(spyResult.called)
       assert(spyResult.args[0][0].length === 50)
     })
@@ -166,10 +189,10 @@ describe('Karma', function () {
 
       // emit 40 results
       for (var i = 1; i <= 40; i++) {
-        k.result({id: i})
+        ck.result({id: i})
       }
 
-      k.complete()
+      ck.complete()
       assert(spyResult.called)
       assert(spyResult.args[0][0].length === 40)
     })
@@ -188,7 +211,7 @@ describe('Karma', function () {
       setTransportTo('websocket')
 
       // adapter didn't call info({total: x})
-      k.result()
+      ck.result()
       assert.deepEqual(log, ['start', 'result'])
     })
 
@@ -208,8 +231,8 @@ describe('Karma', function () {
 
       setTransportTo('websocket')
 
-      k.info({total: 321})
-      k.result()
+      ck.info({total: 321})
+      ck.result()
       assert.deepEqual(log, ['start', 'result'])
       assert(spyStart.calledWith({total: 321}))
     })
@@ -217,7 +240,7 @@ describe('Karma', function () {
 
   describe('setupContext', function () {
     it('should capture alert', function () {
-      sinon.spy(k, 'log')
+      sinon.spy(ck, 'log')
 
       var mockWindow = {
         alert: function () {
@@ -225,9 +248,9 @@ describe('Karma', function () {
         }
       }
 
-      k.setupContext(mockWindow)
+      ck.setupContext(mockWindow)
       mockWindow.alert('What?')
-      assert(k.log.calledWith('alert', ['What?']))
+      assert(ck.log.calledWith('alert', ['What?']))
     })
   })
 
@@ -250,19 +273,22 @@ describe('Karma', function () {
 
       // emit 40 results
       for (var i = 0; i < 40; i++) {
-        k.result({id: i})
+        ck.result({id: i})
       }
 
       assert(!spyResult.called)
 
-      k.complete()
+      ck.complete()
       assert(spyResult.called)
     })
 
     it('should navigate the client to return_url if specified', function (done) {
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
-      k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation)
+      k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
+      clientWindow = {karma: k}
+      ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
+      ck.config = {}
 
       sinon.spy(socket, 'disconnect')
 
@@ -270,7 +296,7 @@ describe('Karma', function () {
         ack()
       })
 
-      k.complete()
+      ck.complete()
 
       clock.tick(500)
       setTimeout(function () {
@@ -281,8 +307,8 @@ describe('Karma', function () {
     })
 
     it('should patch the console if captureConsole is true', function () {
-      sinon.spy(k, 'log')
-      k.config.captureConsole = true
+      sinon.spy(ck, 'log')
+      ck.config.captureConsole = true
 
       var mockWindow = {
         console: {
@@ -290,15 +316,15 @@ describe('Karma', function () {
         }
       }
 
-      k.setupContext(mockWindow)
+      ck.setupContext(mockWindow)
       mockWindow.console.log('What?')
-      assert(k.log.calledWith('log'))
-      assert(k.log.args[0][1][0] === 'What?')
+      assert(ck.log.calledWith('log'))
+      assert(ck.log.args[0][1][0] === 'What?')
     })
 
     it('should not patch the console if captureConsole is false', function () {
-      sinon.spy(k, 'log')
-      k.config.captureConsole = false
+      sinon.spy(ck, 'log')
+      ck.config.captureConsole = false
 
       var mockWindow = {
         console: {
@@ -306,20 +332,20 @@ describe('Karma', function () {
         }
       }
 
-      k.setupContext(mockWindow)
+      ck.setupContext(mockWindow)
       mockWindow.console.log('hello')
-      assert(!k.log.called)
+      assert(!ck.log.called)
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
-      var config = {
+      var config = ck.config = {
         clearContext: true
       }
 
       socket.emit('execute', config)
       var CURRENT_URL = iframe.src
 
-      k.complete()
+      ck.complete()
 
       // clock.tick() does not work in IE 7
       setTimeout(function () {
@@ -329,14 +355,14 @@ describe('Karma', function () {
     })
 
     it('should not clear context window upon complete when clearContext config is false', function () {
-      var config = {
+      var config = ck.config = {
         clearContext: false
       }
 
       socket.emit('execute', config)
       var CURRENT_URL = iframe.src
 
-      k.complete()
+      ck.complete()
 
       clock.tick(1)
 
