@@ -351,7 +351,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-junit-reporter": "*",
     "karma-live-preprocessor": "*",
-    "karma-mocha": "^1.0.1",
+    "karma-mocha": "^1.1.0",
     "karma-mocha-reporter": "^2.0.0",
     "karma-ng-scenario": "*",
     "karma-phantomjs-launcher": "*",
