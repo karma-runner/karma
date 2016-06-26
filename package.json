@@ -355,7 +355,7 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-ng-scenario": "*",
     "karma-phantomjs-launcher": "*",
-    "karma-qunit": "*",
+    "karma-qunit": "1.1.0",
     "karma-requirejs": "*",
     "karma-sauce-launcher": "*",
     "karma-script-launcher": "^1.0.0",
