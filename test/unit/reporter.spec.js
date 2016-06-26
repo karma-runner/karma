@@ -1,8 +1,9 @@
 import {EventEmitter} from 'events'
-import File from '../../lib/file'
 import {loadFile} from 'mocks'
 import path from 'path'
-var _ = require('../../lib/helper')._
+import _ from 'lodash'
+
+import File from '../../lib/file'
 
 describe('reporter', () => {
   var m

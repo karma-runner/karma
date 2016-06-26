@@ -1,4 +1,5 @@
-var _ = require('../../../lib/helper')._
+import _ from 'lodash'
+
 import BaseLauncher from '../../../lib/launchers/base'
 import {EventEmitter} from '../../../lib/events'
 

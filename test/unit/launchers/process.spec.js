@@ -1,5 +1,6 @@
 import path from 'path'
-var _ = require('../../../lib/helper')._
+import _ from 'lodash'
+
 import BaseLauncher from '../../../lib/launchers/base'
 import RetryLauncher from '../../../lib/launchers/retry'
 import CaptureTimeoutLauncher from '../../../lib/launchers/capture_timeout'
