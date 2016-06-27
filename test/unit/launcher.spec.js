@@ -123,6 +123,48 @@ describe('launcher', () => {
         })
       })
 
+      describe('with upstream proxy settings', () => {
+        beforeEach(() => {
+          emitter = new events.EventEmitter()
+          server = {'loadErrors': []}
+          config = {
+            captureTimeout: 0,
+            protocol: 'http:',
+            hostname: 'localhost',
+            port: 1234,
+            urlRoot: '/root/',
+            upstreamProxy: {
+              path: '/__proxy__/',
+              hostname: 'proxy',
+              port: '5678',
+              protocol: 'https:'
+            }
+          }
+
+          var injector = new di.Injector([{
+            'launcher:Fake': ['type', FakeBrowser],
+            'launcher:Script': ['type', ScriptBrowser],
+            'server': ['value', server],
+            'emitter': ['value', emitter],
+            'config': ['value', config],
+            'timer': ['factory', createMockTimer]
+          }])
+          l = new launcher.Launcher(server, emitter, injector)
+        })
+
+        it('should inject and start all browsers', (done) => {
+          l.launch(['Fake'], 1)
+
+          var browser = FakeBrowser._instances.pop()
+          l.jobs.on('end', () => {
+            expect(browser.start).to.have.been.calledWith('https://proxy:5678/__proxy__/root/')
+            expect(browser.id).to.equal(lastGeneratedId)
+            expect(browser.name).to.equal('Fake')
+            done()
+          })
+        })
+      })
+
       it('should not start when server has load errors', (done) => {
         server.loadErrors = ['error']
         l.launch(['Fake'], 1)

@@ -647,6 +647,44 @@ is handed off to [socket.io](http://socket.io/) (which manages the communication
 between browsers and the testing server).
 
 
+## upstreamProxy
+**Type:** Object
+
+**Default:** `undefined`
+
+**Description:** For use when the Karma server needs to be run behind a proxy that changes the base url, etc
+
+If set then the following fields will be defined and can be overriden:
+
+### path
+**Type:** String
+
+**Default:** `'/'`
+
+**Description:** Will be prepended to the base url when launching browsers and prepended to internal urls as loaded by the browsers
+
+### port
+**Type:** Number
+
+**Default:** `9875`
+
+**Description:** Will be used as the port when launching browsers
+
+### hostname
+**Type:** String
+
+**Default:** `'localhost'`
+
+**Description:** Will be used as the hostname when launching browsers
+
+### protocol
+**Type:** String
+
+**Default:** `'http:'`
+
+**Description:** Will be used as the protocol when launching browsers
+
+
 ## urlRoot
 **Type:** String
 

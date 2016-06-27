@@ -71,69 +71,81 @@ module.exports = function coreSteps () {
     })(this))
   })
 
-  this.When(/^I (run|runOut|start|init|stop) Karma( with log-level ([a-z]+))?$/, function (command, withLogLevel, level, callback) {
-    this.writeConfigFile(tmpDir, tmpConfigFile, (function (_this) {
-      return function (err, hash) {
+  this.When(/^I (run|runOut|start|init|stop) Karma( with log-level ([a-z]+))?( behind a proxy on port ([0-9]*) that prepends '([^']*)' to the base path)?$/, function (command, withLogLevel, level, behindProxy, proxyPort, proxyPath, callback) {
+    var startProxy = function (done) {
+      if (behindProxy) {
+        this.proxy.start(proxyPort, proxyPath, done)
+      } else {
+        done()
+      }
+    }
+    startProxy.call(this, (function (_this) {
+      return function (err) {
         if (err) {
-          return callback.fail(new Error(err))
+          return callback.fail(err)
         }
-        level = withLogLevel === undefined ? 'warn' : level
-        var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
-        var runtimePath = path.join(baseDir, 'bin', 'karma')
-        var execKarma = function (done) {
-          var cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
-
-          return exec(cmd, {
-            cwd: baseDir
-          }, done)
-        }
-        var runOut = command === 'runOut'
-        if (command === 'run' || command === 'runOut') {
-          _this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
-          var done = function () {
-            cleansingNeeded = true
-            _this.child && _this.child.kill()
-            callback()
+        _this.writeConfigFile(tmpDir, tmpConfigFile, function (err, hash) {
+          if (err) {
+            return callback.fail(new Error(err))
           }
+          level = withLogLevel === undefined ? 'warn' : level
+          var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+          var runtimePath = path.join(baseDir, 'bin', 'karma')
+          var execKarma = function (done) {
+            var cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
 
-          _this.child.on('error', function (error) {
-            _this.lastRun.error = error
-            done()
-          })
-
-          _this.child.stderr.on('data', function (chunk) {
-            _this.lastRun.stderr += chunk.toString()
-          })
-
-          _this.child.stdout.on('data', function (chunk) {
-            _this.lastRun.stdout += chunk.toString()
-            var cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
-
-            setTimeout(function () {
-              exec(cmd, {
-                cwd: baseDir
-              }, function (error, stdout) {
-                if (error) {
-                  _this.lastRun.error = error
-                }
-                if (runOut) {
-                  _this.lastRun.stdout = stdout
-                }
-                done()
-              })
-            }, 1000)
-          })
-        } else {
-          execKarma(function (error, stdout, stderr) {
-            if (error) {
-              _this.lastRun.error = error
+            return exec(cmd, {
+              cwd: baseDir
+            }, done)
+          }
+          var runOut = command === 'runOut'
+          if (command === 'run' || command === 'runOut') {
+            _this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
+            var done = function () {
+              cleansingNeeded = true
+              _this.child && _this.child.kill()
+              callback()
             }
-            _this.lastRun.stdout = stdout
-            _this.lastRun.stderr = stderr
-            cleansingNeeded = true
-            callback()
-          })
-        }
+
+            _this.child.on('error', function (error) {
+              _this.lastRun.error = error
+              done()
+            })
+
+            _this.child.stderr.on('data', function (chunk) {
+              _this.lastRun.stderr += chunk.toString()
+            })
+
+            _this.child.stdout.on('data', function (chunk) {
+              _this.lastRun.stdout += chunk.toString()
+              var cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
+
+              setTimeout(function () {
+                exec(cmd, {
+                  cwd: baseDir
+                }, function (error, stdout) {
+                  if (error) {
+                    _this.lastRun.error = error
+                  }
+                  if (runOut) {
+                    _this.lastRun.stdout = stdout
+                  }
+                  done()
+                })
+              }, 1000)
+            })
+          } else {
+            execKarma(function (error, stdout, stderr) {
+              if (error) {
+                _this.lastRun.error = error
+              }
+              _this.lastRun.stdout = stdout
+              _this.lastRun.stderr = stderr
+              cleansingNeeded = true
+              callback()
+            })
+          }
+        })
       }
     })(this))
   })

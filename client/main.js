@@ -5,15 +5,17 @@ require('core-js/es5')
 var Karma = require('./karma')
 var StatusUpdater = require('./updater')
 var util = require('../common/util')
+var constants = require('./constants')
 
-var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT
+var KARMA_URL_ROOT = constants.KARMA_URL_ROOT
+var KARMA_PROXY_PATH = constants.KARMA_PROXY_PATH
 
 // Connect to the server using socket.io http://socket.io
 var socket = io(location.host, {
   reconnectionDelay: 500,
   reconnectionDelayMax: Infinity,
   timeout: 2000,
-  path: '/' + KARMA_URL_ROOT.substr(1) + 'socket.io',
+  path: KARMA_PROXY_PATH + KARMA_URL_ROOT.substr(1) + 'socket.io',
   'sync disconnect on unload': true
 })
 
