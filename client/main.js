@@ -4,7 +4,7 @@
 require('core-js/es5')
 var Karma = require('./karma')
 var StatusUpdater = require('./updater')
-var util = require('./util')
+var util = require('../common/util')
 
 var KARMA_URL_ROOT = require('./constants').KARMA_URL_ROOT
 

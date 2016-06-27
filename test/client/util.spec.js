@@ -1,6 +1,6 @@
 var assert = require('assert')
 
-var util = require('../../client/util')
+var util = require('../../common/util')
 
 describe('util', function () {
   it('parseQueryParams', function () {

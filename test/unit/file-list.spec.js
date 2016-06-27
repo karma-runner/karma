@@ -3,11 +3,11 @@ import {EventEmitter} from 'events'
 import mocks from 'mocks'
 import proxyquire from 'proxyquire'
 import pathLib from 'path'
-var helper = require('../../lib/helper')
-var _ = helper._
+import _ from 'lodash'
+import from from 'core-js/library/fn/array/from'
 
-var from = require('core-js/library/fn/array/from')
-var config = require('../../lib/config')
+import helper from '../../lib/helper'
+import config from '../../lib/config'
 
 // create an array of pattern objects from given strings
 var patterns = (...strings) => strings.map((str) => new config.Pattern(str))
@@ -697,8 +697,8 @@ describe('FileList', () => {
       clock = sinon.useFakeTimers()
       // This hack is needed to ensure lodash is using the fake timers
       // from sinon
-      helper._ = _.runInContext()
       List = proxyquire('../../lib/file-list', {
+        lodash: _.runInContext(),
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,

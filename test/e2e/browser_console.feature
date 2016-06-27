@@ -3,6 +3,43 @@ Feature: Browser Console Configuration
   As a person who wants to write great tests
   I want to be able to customize how the browser console is logged.
 
+  Scenario: Execute logging program with defaults
+    Given a configuration with:
+      """
+      files = ['browser-console/log.js', 'browser-console/test.js'];
+      browsers = ['PhantomJS'];
+      plugins = [
+        'karma-jasmine',
+        'karma-phantomjs-launcher'
+      ];
+      """
+    When I start Karma
+    Then it passes with like:
+      """
+      LOG: 'foo'
+      """
+    Then it passes with like:
+      """
+      DEBUG: 'bar'
+      """
+    Then it passes with like:
+      """
+      INFO: 'baz'
+      """
+    Then it passes with like:
+      """
+      WARN: 'foobar'
+      """
+    Then it passes with like:
+      """
+      ERROR: 'barbaz'
+      """
+    Then it passes with like:
+      """
+      SUCCESS
+      """
+
+
   Scenario: Execute logging program
     Given a configuration with:
       """
@@ -15,7 +52,7 @@ Feature: Browser Console Configuration
       browserConsoleLogOptions = {
         path: 'console.log',
         format: '%t:%m'
-     };
+      };
       """
     When I start Karma
     Then the file at console.log contains:

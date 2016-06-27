@@ -1,3 +1,19 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/karma-runner/karma/compare/v1.0.0...v1.1.0) (2016-06-26)
+
+
+### Bug Fixes
+
+* **deps:** freeze socket.io version ([73e300d](https://github.com/karma-runner/karma/commit/73e300d))
+* **server:** log browser messages to the terminal ([d1f924c](https://github.com/karma-runner/karma/commit/d1f924c)), closes [#2187](https://github.com/karma-runner/karma/issues/2187)
+
+
+### Features
+
+* Allow frameworks to inject middleware ([d972f3d](https://github.com/karma-runner/karma/commit/d972f3d))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/karma-runner/karma/compare/v0.13.22...v1.0.0) (2016-06-23)
 
