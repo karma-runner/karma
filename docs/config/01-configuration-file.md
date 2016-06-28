@@ -370,6 +370,15 @@ httpsServerOptions: {
 },
 ```
 
+## launcherUrl
+**Type:** String
+
+**Default:** `undefined`
+
+**Description:** override the url used when capturing browsers. Useful if the Karma server is sitting behind a proxy. If not set then the url will be constructed from the `protocol`, `hostname`, `port` and `urlRoot` config options as usual.
+
+NB. This should always be a directory url and as such a trailing slash will be appended internally if not already present.
+
 ## logLevel
 **Type:** Constant
 

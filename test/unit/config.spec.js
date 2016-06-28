@@ -165,6 +165,17 @@ describe('config', () => {
       ])
     })
 
+    it('should normalize launcherUrl config if present', () => {
+      var config = normalizeConfigWithDefaults({})
+      expect(config.launcherUrl).to.be.undefined
+
+      config = normalizeConfigWithDefaults({launcherUrl: 'http://test:1234/test'})
+      expect(config.launcherUrl).to.equal('http://test:1234/test/')
+
+      config = normalizeConfigWithDefaults({launcherUrl: 'http://test:1234/test/'})
+      expect(config.launcherUrl).to.equal('http://test:1234/test/')
+    })
+
     it('should normalize urlRoot config', () => {
       var config = normalizeConfigWithDefaults({urlRoot: ''})
       expect(config.urlRoot).to.equal('/')
