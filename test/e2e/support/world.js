@@ -6,6 +6,8 @@ var mkdirp = require('mkdirp')
 var _ = require('lodash')
 
 exports.World = function World () {
+  this.proxy = require('./proxy')
+
   this.template = _.template('module.exports = function (config) {\n  config.set(\n    <%= content %>\n  );\n};')
 
   this.configFile = {

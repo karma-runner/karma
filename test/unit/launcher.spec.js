@@ -156,6 +156,43 @@ describe('launcher', () => {
           done()
         })
       })
+
+      describe('with a launcherUrl override in the config', () => {
+        beforeEach(() => {
+          emitter = new events.EventEmitter()
+          server = {'loadErrors': []}
+          config = {
+            captureTimeout: 0,
+            protocol: 'http:',
+            hostname: 'localhost',
+            port: 1234,
+            urlRoot: '/root/',
+            launcherUrl: 'https://proxy:5678/proxy/'
+          }
+
+          var injector = new di.Injector([{
+            'launcher:Fake': ['type', FakeBrowser],
+            'launcher:Script': ['type', ScriptBrowser],
+            'server': ['value', server],
+            'emitter': ['value', emitter],
+            'config': ['value', config],
+            'timer': ['factory', createMockTimer]
+          }])
+          l = new launcher.Launcher(server, emitter, injector)
+        })
+
+        it('should inject and start all browsers', (done) => {
+          l.launch(['Fake'], 1)
+
+          var browser = FakeBrowser._instances.pop()
+          l.jobs.on('end', () => {
+            expect(browser.start).to.have.been.calledWith('https://proxy:5678/proxy/')
+            expect(browser.id).to.equal(lastGeneratedId)
+            expect(browser.name).to.equal('Fake')
+            done()
+          })
+        })
+      })
     })
 
     describe('restart', () => {
