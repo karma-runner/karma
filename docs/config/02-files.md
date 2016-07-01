@@ -126,7 +126,15 @@ proxies: {
 },
 ```
 
+## Webserver features
+
+* [Range requests][].
+* In-memory caching of files.
+* Watching for updates in the files.
+* Proxies to alter file paths.
+
 
 [glob]: https://github.com/isaacs/node-glob
 [preprocessors]: preprocessors.html
 [minimatch]: https://github.com/isaacs/minimatch
+[Range requests]: https://en.wikipedia.org/wiki/Byte_serving
