@@ -12,8 +12,10 @@ Unless provided as argument, the Karma CLI will look for a configuration file at
 
 * `./karma.conf.js`
 * `./karma.conf.coffee`
+* `./karma.conf.ts`
 * `./.config/karma.conf.js`
 * `./.config/karma.conf.coffee`
+* `./.config/karma.conf.ts`
 
 in that order.
 
@@ -38,6 +40,17 @@ module.exports = (config) ->
     basePath: '../..'
     frameworks: ['jasmine']
     # ...
+```
+
+```typescript
+# karma.conf.ts
+module.exports = (config) => {
+  config.set({
+    basePath: '../..',
+    frameworks: ['jasmine'],
+    //...
+  });
+}
 ```
 
 ## File Patterns
