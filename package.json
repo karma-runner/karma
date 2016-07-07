@@ -387,7 +387,7 @@
   "engines": {
     "node": "0.10 || 0.12 || 4 || 5 || 6"
   },
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "scripts": {
     "lint": "grunt lint",
