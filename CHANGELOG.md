@@ -1,3 +1,22 @@
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/karma-runner/karma/compare/v1.1.0...v1.1.1) (2016-07-07)
+
+
+### Bug Fixes
+
+* **executor:** ensure run_complete is emitted last ([9c894f9](https://github.com/karma-runner/karma/commit/9c894f9)), closes [#2210](https://github.com/karma-runner/karma/issues/2210)
+* **reporter:** inject correct config option ([80bd726](https://github.com/karma-runner/karma/commit/80bd726))
+* **reporter:** remove console.log ([b4e3694](https://github.com/karma-runner/karma/commit/b4e3694))
+* Add crossorigin attribute to script HTML tags ([5690ffe](https://github.com/karma-runner/karma/commit/5690ffe))
+
+
+### Features
+
+* deprecate helper._ ([5c6b151](https://github.com/karma-runner/karma/commit/5c6b151))
+* **config:** add support for TypeScript ([6445310](https://github.com/karma-runner/karma/commit/6445310))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/karma-runner/karma/compare/v1.0.0...v1.1.0) (2016-06-26)
 
