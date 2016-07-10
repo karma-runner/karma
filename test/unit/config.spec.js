@@ -39,6 +39,7 @@ describe('config', () => {
       '/home/config6.js': wrapCfg({reporters: 'junit'}),
       '/home/config7.js': wrapCfg({browsers: ['Chrome', 'Firefox']}),
       '/home/config8.js': (config) => config.set({ files: config.suite === 'e2e' ? ['tests/e2e.spec.js'] : ['tests/unit.spec.js'] }),
+      '/home/config9.js': wrapCfg({client: {useIframe: false}}),
       '/conf/invalid.js': () => { throw new SyntaxError('Unexpected token =') },
       '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
       '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
@@ -138,11 +139,19 @@ describe('config', () => {
       expect(config.basePath).to.equal(resolveWinPath('/abs/base'))
     })
 
-    it('should override config with cli options, but not deep merge', () => {
+    it('should override config with cli options if the config property is an array', () => {
       // regression https://github.com/karma-runner/karma/issues/283
       var config = e.parseConfig('/home/config7.js', {browsers: ['Safari']})
 
       expect(config.browsers).to.deep.equal(['Safari'])
+    })
+
+    it('should merge config with cli options if the config property is an object', () => {
+      // regression https://github.com/karma-runner/grunt-karma/issues/165
+      var config = e.parseConfig('/home/config9.js', {client: {captureConsole: false}})
+
+      expect(config.client.useIframe).to.equal(false)
+      expect(config.client.captureConsole).to.equal(false)
     })
 
     it('should have access to cli options in the config file', () => {
