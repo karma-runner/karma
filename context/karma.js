@@ -130,7 +130,7 @@ ContextKarma.getDirectCallParentKarmaMethod = function (parentWindow) {
 }
 ContextKarma.getPostMessageCallParentKarmaMethod = function (parentWindow) {
   return function postMessageCallParentKarmaMethod (method, args) {
-    parentWindow.postMessage({method: method, arguments: args}, window.location.origin)
+    parentWindow.postMessage({__karmaMethod: method, __karmaArguments: args}, window.location.origin)
   }
 }
 

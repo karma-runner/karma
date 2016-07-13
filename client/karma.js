@@ -35,12 +35,14 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       }
 
       // Take action based on the message type
-      var method = evt.data.method
-      if (!self[method]) {
-        self.error('Received `postMessage` for "' + method + '" but the method doesn\'t exist')
-        return
+      var method = evt.data.__karmaMethod
+      if (method) {
+        if (!self[method]) {
+          self.error('Received `postMessage` for "' + method + '" but the method doesn\'t exist')
+          return
+        }
+        self[method].apply(self, evt.data.__karmaArguments)
       }
-      self[method].apply(self, evt.data.arguments)
     }, false)
   }
 
