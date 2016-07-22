@@ -307,7 +307,7 @@
     "minimatch": "^3.0.0",
     "optimist": "^0.6.1",
     "qjobs": "^1.1.4",
-    "rimraf": "^2.3.3",
+    "rimraf": "^2.5.4",
     "socket.io": "1.4.7",
     "source-map": "^0.5.3",
     "tmp": "0.0.28",
