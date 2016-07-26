@@ -1,3 +1,17 @@
+<a name="1.1.2"></a>
+## [1.1.2](https://github.com/karma-runner/karma/compare/v1.1.1...v1.1.2) (2016-07-26)
+
+
+### Bug Fixes
+
+* Merge config child nodes on config.set() ([65b688a](https://github.com/karma-runner/karma/commit/65b688a))
+* **context:** Updated postMessage listener to stop validating non-Karma messages ([306e565](https://github.com/karma-runner/karma/commit/306e565))
+* **docs:** fix stopper.stop wrong variable name. closes [#2244](https://github.com/karma-runner/karma/issues/2244) ([0745a00](https://github.com/karma-runner/karma/commit/0745a00)), closes [#2244](https://github.com/karma-runner/karma/issues/2244)
+* **file-list:** ensure patterns are comparable ([4d1bf3e](https://github.com/karma-runner/karma/commit/4d1bf3e)), closes [#2194](https://github.com/karma-runner/karma/issues/2194)
+* **middleware:** fix WARN log when passing undefined error handler to promise.then ([20b87de](https://github.com/karma-runner/karma/commit/20b87de)), closes [#2227](https://github.com/karma-runner/karma/issues/2227)
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/karma-runner/karma/compare/v1.1.0...v1.1.1) (2016-07-07)
 
