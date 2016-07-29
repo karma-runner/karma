@@ -375,7 +375,7 @@
     "proxyquire": "^1.5.0",
     "qunitjs": "^1.21.0",
     "requirejs": "^2.1.20",
-    "sinon": "^1.17.2",
+    "sinon": "^1.17.5",
     "sinon-chai": "^2.7.0",
     "supertest": "^2.0.0",
     "supertest-as-promised": "^3.0.0",
