@@ -23,6 +23,9 @@ describe('middleware.source_files', function () {
     },
     'utf8ášč': {
       'some.js': mocks.fs.file(0, 'utf8-file')
+    },
+    'jenkins%2Fbranch': {
+      'some.js': mocks.fs.file(0, 'utf8-file')
     }
   })
 
@@ -202,6 +205,22 @@ describe('middleware.source_files', function () {
 
     return request(server)
       .get('/base/some.js')
+      .expect(200, 'utf8-file')
+      .then(function () {
+        return expect(next).not.to.have.been.called
+      }
+    )
+  })
+
+  it('should serve js source file from paths containing HTML URL encoded chars', function () {
+    servedFiles([
+      new File('/jenkins%2Fbranch/some.js')
+    ])
+
+    server = createServer(files, serveFile, '')
+
+    return request(server)
+      .get('/base/jenkins%2Fbranch/some.js')
       .expect(200, 'utf8-file')
       .then(function () {
         return expect(next).not.to.have.been.called
