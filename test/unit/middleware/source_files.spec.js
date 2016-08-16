@@ -81,7 +81,7 @@ describe('middleware.source_files', function () {
       return request(server)
         .get('/absolute/src/some.js')
         .set('Range', 'bytes=3-')
-        .expect('Content-Range', 'bytes 3-9/9')
+        .expect('Content-Range', 'bytes 3-8/9')
         .expect(206, 'source')
     })
 
@@ -89,7 +89,7 @@ describe('middleware.source_files', function () {
       return request(server)
         .get('/absolute/src/some.js')
         .set('Range', 'bytes=-5')
-        .expect('Content-Range', 'bytes 4-9/9')
+        .expect('Content-Range', 'bytes 4-8/9')
         .expect(206, 'ource')
     })
 
