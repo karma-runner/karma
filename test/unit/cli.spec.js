@@ -133,6 +133,18 @@ describe('cli', () => {
       expect(mockery.process.exit).to.have.been.calledWith(1)
     })
 
+    it('should parse format-error into a function', () => {
+      // root export
+      var options = processArgs(['--format-error', '../../test/unit/fixtures/format-error-root'])
+      var formatErrorRoot = require('../../test/unit/fixtures/format-error-root')
+      expect(options.formatError).to.equal(formatErrorRoot)
+
+      // property export
+      options = processArgs(['--format-error', '../../test/unit/fixtures/format-error-property'])
+      var formatErrorProperty = require('../../test/unit/fixtures/format-error-property').formatError
+      expect(options.formatError).to.equal(formatErrorProperty)
+    })
+
     it('should parse browsers into an array', () => {
       var options = processArgs(['--browsers', 'Chrome,ChromeCanary,Firefox'])
       expect(options.browsers).to.deep.equal(['Chrome', 'ChromeCanary', 'Firefox'])
