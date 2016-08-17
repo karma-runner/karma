@@ -1,3 +1,24 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/karma-runner/karma/compare/v1.1.1...v1.2.0) (2016-08-11)
+
+
+### Bug Fixes
+
+* **context:** Updated postMessage listener to stop validating non-Karma messages ([306e565](https://github.com/karma-runner/karma/commit/306e565))
+* **docs:** fix stopper.stop wrong variable name. closes [#2244](https://github.com/karma-runner/karma/issues/2244) ([0745a00](https://github.com/karma-runner/karma/commit/0745a00)), closes [#2244](https://github.com/karma-runner/karma/issues/2244)
+* **file-list:** ensure patterns are comparable ([4d1bf3e](https://github.com/karma-runner/karma/commit/4d1bf3e)), closes [#2194](https://github.com/karma-runner/karma/issues/2194)
+* **middleware:** fix WARN log when passing undefined error handler to promise.then ([20b87de](https://github.com/karma-runner/karma/commit/20b87de)), closes [#2227](https://github.com/karma-runner/karma/issues/2227)
+* call .resume to prevent browser output streams filling up ([107cd02](https://github.com/karma-runner/karma/commit/107cd02))
+* Merge config child nodes on config.set() ([65b688a](https://github.com/karma-runner/karma/commit/65b688a))
+* **web-server:** Allow karma to run in project which path contains HTML URL encoded characters. Karma fails on Jenkins when it checks out branches containing '/' as it converts it to '%2F'. Fixes  errors seen on [#1751](https://github.com/karma-runner/karma/issues/1751), [#61](https://github.com/karma-runner/karma/issues/61). ([da1930f](https://github.com/karma-runner/karma/commit/da1930f)), closes [#1751](https://github.com/karma-runner/karma/issues/1751) [#61](https://github.com/karma-runner/karma/issues/61)
+
+
+### Features
+
+* **web-server:** Allow Range headers in web server. ([a567b6f](https://github.com/karma-runner/karma/commit/a567b6f)), closes [#2140](https://github.com/karma-runner/karma/issues/2140)
+
+
+
 <a name="1.1.2"></a>
 ## [1.1.2](https://github.com/karma-runner/karma/compare/v1.1.1...v1.1.2) (2016-07-26)
 
