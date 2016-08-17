@@ -313,7 +313,7 @@
     "mime": "^1.3.4",
     "minimatch": "^3.0.0",
     "optimist": "^0.6.1",
-    "qjobs": "^1.1.4",
+    "qjobs": "^1.1.5",
     "range-parser": "^1.2.0",
     "rimraf": "^2.3.3",
     "socket.io": "1.4.7",
