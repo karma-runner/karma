@@ -1,8 +1,8 @@
-### Expected behavior
+### Expected behaviour
 
-### Actual behavior
+### Actual behaviour
 
-### Enviroment Details
+### Environment Details
 
 - Karma version (output of `karma --version`):
 - Relevant part of your `karma.config.js` file
