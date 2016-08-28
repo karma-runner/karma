@@ -331,6 +331,16 @@ describe('config', () => {
 
       expect(invalid).to.throw('Invalid configuration: browsers option must be an array')
     })
+
+    it('should validate that the formatError option is a function', () => {
+      var invalid = function () {
+        normalizeConfigWithDefaults({
+          formatError: 'lodash/identity'
+        })
+      }
+
+      expect(invalid).to.throw('Invalid configuration: formatError option must be a function.')
+    })
   })
 
   describe('createPatternObject', () => {
