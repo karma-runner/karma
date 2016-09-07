@@ -743,7 +743,7 @@ describe('FileList', () => {
     it('waits while file preprocessing, if the file was deleted and immediately added', (done) => {
       list = new List(patterns('/a.*'), [], emitter, preprocess, 100)
 
-      return list.refresh().then((files) => {
+      list.refresh().then((files) => {
         preprocess.reset()
         modified.reset()
 
