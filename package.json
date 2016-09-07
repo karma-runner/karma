@@ -349,7 +349,7 @@
     "grunt-eslint": "^18.0.0",
     "grunt-mocha-test": "^0.12.7",
     "grunt-npm": "0.0.2",
-    "jasmine-core": "^2.3.4",
+    "jasmine-core": "^2.5.0",
     "json3": "^3.3.2",
     "karma-browserify": "^5.0.1",
     "karma-browserstack-launcher": "^1.0.0",
