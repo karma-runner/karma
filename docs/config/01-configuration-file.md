@@ -588,6 +588,23 @@ Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be 
 Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
 
 
+## formatError
+**Type:** Function
+
+**Default:** `undefined`
+
+**CLI:** `--format-error ./path/to/formatFunction.js`
+
+**Arguments:**
+  
+  * `msg` - The entire assertion error and stack trace as a string. 
+
+**Returns:** A new error message string.
+
+**Description:** Format assertion errors and stack traces.  Useful for removing vendors and compiled sources.
+
+The CLI option should be a path to a file that exports the format function.  This can be a function exported at the root of the module or an export named `formatError`.
+
 ## restartOnFileChange
 **Type:** Boolean
 
