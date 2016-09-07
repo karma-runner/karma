@@ -1,7 +1,10 @@
 sudo: false
 language: node_js
 node_js:
-  - 6
+  - "0.10"
+  - "0.12"
+  - 4
+  - 5
 
 env:
   global:
@@ -14,10 +17,6 @@ matrix:
   include:
     - node_js: 6
       env: VALIDATE_COMMIT_MSG=TRUE LINT=TRUE
-    - node_js: 5
-    - node_js: 4
-    - node_js: "0.12"
-    - node_js: "0.10"
 
 before_install:
   - npm config set loglevel warn
