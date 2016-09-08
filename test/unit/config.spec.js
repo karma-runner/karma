@@ -12,6 +12,7 @@ describe('config', () => {
 
   var normalizeConfigWithDefaults = (cfg) => {
     if (!cfg.urlRoot) cfg.urlRoot = ''
+    if (!cfg.proxyPath) cfg.proxyPath = ''
     if (!cfg.files) cfg.files = []
     if (!cfg.exclude) cfg.exclude = []
     if (!cfg.junitReporter) cfg.junitReporter = {}
@@ -186,6 +187,35 @@ describe('config', () => {
 
       config = normalizeConfigWithDefaults({urlRoot: 'some/thing'})
       expect(config.urlRoot).to.equal('/some/thing/')
+    })
+
+    it('should normalize upstream proxy config', () => {
+      var config = normalizeConfigWithDefaults({})
+      expect(config.upstreamProxy).to.be.undefined
+
+      config = normalizeConfigWithDefaults({upstreamProxy: {}})
+      expect(config.upstreamProxy.path).to.equal('/')
+      expect(config.upstreamProxy.hostname).to.equal('localhost')
+      expect(config.upstreamProxy.port).to.equal(9875)
+      expect(config.upstreamProxy.protocol).to.equal('http:')
+
+      config = normalizeConfigWithDefaults({upstreamProxy: {protocol: 'http'}})
+      expect(config.upstreamProxy.protocol).to.equal('http:')
+
+      config = normalizeConfigWithDefaults({upstreamProxy: {protocol: 'https'}})
+      expect(config.upstreamProxy.protocol).to.equal('https:')
+
+      config = normalizeConfigWithDefaults({upstreamProxy: {protocol: 'unknown'}})
+      expect(config.upstreamProxy.protocol).to.equal('http:')
+
+      config = normalizeConfigWithDefaults({upstreamProxy: {path: '/a/b'}})
+      expect(config.upstreamProxy.path).to.equal('/a/b/')
+
+      config = normalizeConfigWithDefaults({upstreamProxy: {path: 'a/'}})
+      expect(config.upstreamProxy.path).to.equal('/a/')
+
+      config = normalizeConfigWithDefaults({upstreamProxy: {path: 'some/thing'}})
+      expect(config.upstreamProxy.path).to.equal('/some/thing/')
     })
 
     it('should change autoWatch to false if singleRun', () => {
