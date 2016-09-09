@@ -1,3 +1,20 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/karma-runner/karma/compare/v1.2.0...v1.3.0) (2016-09-09)
+
+
+### Bug Fixes
+
+* **launcher:** exclude concurrent browser on launcher restart ([96f8f14](https://github.com/karma-runner/karma/commit/96f8f14)), closes [#2280](https://github.com/karma-runner/karma/issues/2280)
+* **middleware:** ensure Range headers adhere more closely to RFC 2616 ([8b1b4b1](https://github.com/karma-runner/karma/commit/8b1b4b1)), closes [#2310](https://github.com/karma-runner/karma/issues/2310)
+
+
+### Features
+
+* **reporter:** add config formatError function  ([98a4fbf](https://github.com/karma-runner/karma/commit/98a4fbf)), closes [#2119](https://github.com/karma-runner/karma/issues/2119)
+* upstreamProxy config option to deal with proxies that adjust the base path, etc ([55755e4](https://github.com/karma-runner/karma/commit/55755e4))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/karma-runner/karma/compare/v1.1.1...v1.2.0) (2016-08-11)
 
