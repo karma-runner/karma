@@ -34,12 +34,16 @@ describe('middleware.karma', () => {
 
   var handler = serveFile = filesDeferred = nextSpy = response = null
 
-  var clientConfig = {foo: 'bar'}
+  var clientConfig = {
+    foo: 'bar'
+  }
   var injector = {
     get (val) {
       switch (val) {
         case 'config.client':
           return clientConfig
+        case 'config.crossOriginAttribute':
+          return true
         default:
           return null
       }
