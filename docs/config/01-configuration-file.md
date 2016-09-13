@@ -167,7 +167,7 @@ If, during test execution, Karma does not receive any message from a browser wit
 
 **Default:**  `[]`
 
-**CLI:** `--browsers Chrome,Firefox`
+**CLI:** `--browsers Chrome,Firefox`, `--no-browsers`
 
 **Possible Values:**
 
@@ -184,7 +184,9 @@ which is placed within this setting. Once Karma is shut down, it will shut down 
 browsers as well. You can capture any browser manually by opening the browser and visiting the URL where
 the Karma web server is listening (by default it is `http://localhost:9876/`).
 
-See [config/browsers] for more information. Additional launchers can be defined through [plugins].
+See [config/browsers] for more information. Additional launchers can be defined through [plugins]. Use the
+`--no-browsers` command line option to override the value of this setting specified in the configuration file
+with an empty list.
 
 
 ## captureTimeout
