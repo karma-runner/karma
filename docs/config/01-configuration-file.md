@@ -262,6 +262,15 @@ upon the completion of running the tests. Setting this to false is useful when e
 
 Especially on services like SauceLabs and Browserstack, it makes sense only to launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration, you can specify how many browsers should be running at once at any given point in time.
 
+## crossOriginAttribute
+
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** When true, this will append the crossorigin attribute to generated script tags, which enables better error reporting for JavaScript files served from a different origin.
+Disable this when you need to load external scripts that are served without the necessary `Access-Control-Allow-Origin` header.
+
 
 ## customContextFile
 **Type:** string
@@ -598,8 +607,8 @@ Note: Just about all additional reporters in Karma (other than progress) require
 **CLI:** `--format-error ./path/to/formatFunction.js`
 
 **Arguments:**
-  
-  * `msg` - The entire assertion error and stack trace as a string. 
+
+  * `msg` - The entire assertion error and stack trace as a string.
 
 **Returns:** A new error message string.
 
