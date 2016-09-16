@@ -351,7 +351,7 @@
     "grunt-conventional-github-releaser": "^1.0.0",
     "grunt-cucumberjs": "^0.10.2",
     "grunt-eslint": "^18.0.0",
-    "grunt-mocha-test": "^0.12.7",
+    "grunt-mocha-test": "^0.13.0",
     "grunt-npm": "0.0.2",
     "jasmine-core": "^2.3.4",
     "json3": "^3.3.2",
