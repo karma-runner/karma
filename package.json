@@ -322,7 +322,7 @@
     "rimraf": "^2.3.3",
     "socket.io": "1.4.7",
     "source-map": "^0.5.3",
-    "tmp": "0.0.28",
+    "tmp": "0.0.29",
     "useragent": "^2.1.9"
   },
   "devDependencies": {
