@@ -92,7 +92,7 @@ module.exports = function (config) {
     },
 
     // use dots reporter, as travis terminal does not support escaping sequences
-    // possible values: 'dots', 'progress'
+    // possible values: 'dots', 'progress', 'plain'
     // CLI --reporters progress
     reporters: ['progress', 'junit'],
 
