@@ -167,7 +167,7 @@ If, during test execution, Karma does not receive any message from a browser wit
 
 **Default:**  `[]`
 
-**CLI:** `--browsers Chrome,Firefox`
+**CLI:** `--browsers Chrome,Firefox`, `--no-browsers`
 
 **Possible Values:**
 
@@ -184,7 +184,9 @@ which is placed within this setting. Once Karma is shut down, it will shut down 
 browsers as well. You can capture any browser manually by opening the browser and visiting the URL where
 the Karma web server is listening (by default it is `http://localhost:9876/`).
 
-See [config/browsers] for more information. Additional launchers can be defined through [plugins].
+See [config/browsers] for more information. Additional launchers can be defined through [plugins]. Use the
+`--no-browsers` command line option to override the value of this setting specified in the configuration file
+with an empty list.
 
 
 ## captureTimeout
@@ -259,6 +261,15 @@ upon the completion of running the tests. Setting this to false is useful when e
 **Description:** How many browsers Karma launches in parallel.
 
 Especially on services like SauceLabs and Browserstack, it makes sense only to launch a limited amount of browsers at once, and only start more when those have finished. Using this configuration, you can specify how many browsers should be running at once at any given point in time.
+
+## crossOriginAttribute
+
+**Type:** Boolean
+
+**Default:** `true`
+
+**Description:** When true, this will append the crossorigin attribute to generated script tags, which enables better error reporting for JavaScript files served from a different origin.
+Disable this when you need to load external scripts that are served without the necessary `Access-Control-Allow-Origin` header.
 
 
 ## customContextFile
@@ -588,6 +599,23 @@ Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be 
 Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
 
 
+## formatError
+**Type:** Function
+
+**Default:** `undefined`
+
+**CLI:** `--format-error ./path/to/formatFunction.js`
+
+**Arguments:**
+
+  * `msg` - The entire assertion error and stack trace as a string.
+
+**Returns:** A new error message string.
+
+**Description:** Format assertion errors and stack traces.  Useful for removing vendors and compiled sources.
+
+The CLI option should be a path to a file that exports the format function.  This can be a function exported at the root of the module or an export named `formatError`.
+
 ## restartOnFileChange
 **Type:** Boolean
 
@@ -628,6 +656,44 @@ on whether all tests passed or any tests failed.
 **Description:** An array of allowed transport methods between the browser and testing server. This configuration setting
 is handed off to [socket.io](http://socket.io/) (which manages the communication
 between browsers and the testing server).
+
+
+## upstreamProxy
+**Type:** Object
+
+**Default:** `undefined`
+
+**Description:** For use when the Karma server needs to be run behind a proxy that changes the base url, etc
+
+If set then the following fields will be defined and can be overriden:
+
+### path
+**Type:** String
+
+**Default:** `'/'`
+
+**Description:** Will be prepended to the base url when launching browsers and prepended to internal urls as loaded by the browsers
+
+### port
+**Type:** Number
+
+**Default:** `9875`
+
+**Description:** Will be used as the port when launching browsers
+
+### hostname
+**Type:** String
+
+**Default:** `'localhost'`
+
+**Description:** Will be used as the hostname when launching browsers
+
+### protocol
+**Type:** String
+
+**Default:** `'http:'`
+
+**Description:** Will be used as the protocol when launching browsers
 
 
 ## urlRoot

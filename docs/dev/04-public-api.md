@@ -126,7 +126,7 @@ This function will signal a running server to stop.  The equivalent of `karma st
 
 ```javascript
 var stopper = require('karma').stopper
-runner.stop({port: 9876}, function(exitCode) {
+stopper.stop({port: 9876}, function(exitCode) {
   if (exitCode === 0) {
     console.log('Server stop as initiated')
   }

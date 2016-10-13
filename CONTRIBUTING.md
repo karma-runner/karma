@@ -16,7 +16,7 @@ submitting an issue to our [GitHub Repository][github_newissue]. Even better you
 with a fix.
 
 **Working on your first Pull Request?** You can learn how from this *free* series
-[How to Contribute to an Open Source Project on GitHub](egghead_series)
+[How to Contribute to an Open Source Project on GitHub][egghead_series]
 
 [docs_contributing]: http://karma-runner.github.io/0.13/dev/contributing.html
 [gitter]: https://gitter.im/karma-runner/karma

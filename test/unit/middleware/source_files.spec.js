@@ -23,6 +23,9 @@ describe('middleware.source_files', function () {
     },
     'utf8ášč': {
       'some.js': mocks.fs.file(0, 'utf8-file')
+    },
+    'jenkins%2Fbranch': {
+      'some.js': mocks.fs.file(0, 'utf8-file')
     }
   })
 
@@ -58,6 +61,52 @@ describe('middleware.source_files', function () {
   var servedFiles = function (list) {
     return files.resolve({included: [], served: list})
   }
+
+  describe('Range headers', function () {
+    beforeEach(function () {
+      servedFiles([
+        new File('/src/some.js')
+      ])
+    })
+
+    it('allows single explicit ranges', function () {
+      return request(server)
+        .get('/absolute/src/some.js')
+        .set('Range', 'bytes=3-6')
+        .expect('Content-Range', 'bytes 3-6/9')
+        .expect(206, 'sour')
+    })
+
+    it('allows single range with no end', function () {
+      return request(server)
+        .get('/absolute/src/some.js')
+        .set('Range', 'bytes=3-')
+        .expect('Content-Range', 'bytes 3-8/9')
+        .expect(206, 'source')
+    })
+
+    it('allows single range with suffix', function () {
+      return request(server)
+        .get('/absolute/src/some.js')
+        .set('Range', 'bytes=-5')
+        .expect('Content-Range', 'bytes 4-8/9')
+        .expect(206, 'ource')
+    })
+
+    it('doesn\'t support multiple ranges', function () {
+      return request(server)
+        .get('/absolute/src/some.js')
+        .set('Range', 'bytes=0-2,-3')
+        .expect(416, '')
+    })
+
+    it('will return 416', function () {
+      return request(server)
+        .get('/absolute/src/some.js')
+        .set('Range', 'bytes=20-')
+        .expect(416, '')
+    })
+  })
 
   it('should serve absolute js source files ignoring timestamp', function () {
     servedFiles([
@@ -156,6 +205,22 @@ describe('middleware.source_files', function () {
 
     return request(server)
       .get('/base/some.js')
+      .expect(200, 'utf8-file')
+      .then(function () {
+        return expect(next).not.to.have.been.called
+      }
+    )
+  })
+
+  it('should serve js source file from paths containing HTML URL encoded chars', function () {
+    servedFiles([
+      new File('/jenkins%2Fbranch/some.js')
+    ])
+
+    server = createServer(files, serveFile, '')
+
+    return request(server)
+      .get('/base/jenkins%2Fbranch/some.js')
       .expect(200, 'utf8-file')
       .then(function () {
         return expect(next).not.to.have.been.called
