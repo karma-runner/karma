@@ -240,4 +240,35 @@ describe('web-server', () => {
         .expect(200, 'CLIENT HTML')
     })
   })
+
+  describe('http2', () => {
+    var http2 = require('http2')
+
+    beforeEach(() => {
+      var credentials = {
+        key: fs.readFileSync(path.join(__dirname, '/certificates/server.key')),
+        cert: fs.readFileSync(path.join(__dirname, '/certificates/server.crt'))
+      }
+
+      customFileHandlers = []
+      emitter = new EventEmitter()
+
+      var injector = new di.Injector([{
+        config: ['value', {basePath: '/base/path', urlRoot: '/', httpModule: http2, protocol: 'https:', httpsServerOptions: credentials}],
+        customFileHandlers: ['value', customFileHandlers],
+        emitter: ['value', emitter],
+        fileList: ['value', {files: {served: [], included: []}}],
+        capturedBrowsers: ['value', null],
+        reporter: ['value', null],
+        executor: ['value', null],
+        proxies: ['value', null]
+      }])
+
+      server = injector.invoke(m.createWebServer)
+    })
+
+    it('should be an instance of httpModule provided in config', () => {
+      expect(server instanceof http2.Server).to.equal(true)
+    })
+  })
 })
