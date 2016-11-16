@@ -1,4 +1,4 @@
-Capturing browsers on your own can be a tedious and time-consuming task.However, Karma can automate this for you. Simply add the browsers you would like to capture into the [configuration file].
+Capturing browsers on your own can be a tedious and time-consuming task. However, Karma can automate this for you. Simply add the browsers you would like to capture into the [configuration file].
 
 ```javascript
 browsers: ['Chrome']
