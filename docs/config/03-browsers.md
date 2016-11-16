@@ -1,12 +1,10 @@
-Capturing browsers on your own can be a tedious and time-consuming task,
-so Karma can automate this for you. Simply add the browsers you would like to
-capture into the configuration file:
+Capturing browsers on your own can be a tedious and time-consuming task. However, Karma can automate this for you. Simply add the browsers you would like to capture into the [configuration file].
 
 ```javascript
 browsers: ['Chrome']
 ```
 
-Then, Karma will take care of auto-capturing these browsers, as well as killing them.
+Then, Karma will take care of auto-capturing these browsers, as well as killing them after the job is over.
 
 Note: Most of the browser launchers need to be loaded as [plugins].
 
@@ -16,7 +14,7 @@ Note: Most of the browser launchers need to be loaded as [plugins].
 - [Safari](https://www.npmjs.com/package/karma-safari-launcher)
 - [PhantomJS](https://www.npmjs.com/package/karma-phantomjs-launcher)
 - [Opera](https://www.npmjs.com/package/karma-opera-launcher)
-- [IE](https://www.npmjs.com/package/karma-ie-launcher)
+- [Internet Explorer](https://www.npmjs.com/package/karma-ie-launcher)
 - [SauceLabs](https://www.npmjs.com/package/karma-saucelabs-launcher)
 - [BrowserStack](https://www.npmjs.com/package/karma-browserstack-launcher)
 - [many more](https://www.npmjs.org/browse/keyword/karma-launcher)
@@ -28,7 +26,7 @@ Here's an example of how to add Firefox to your testing suite:
 $ npm install karma-firefox-launcher --save-dev
 ```
 
-And then inside your configuration file...
+And then, inside your configuration file, add the browser name in `browsers` array.
 
 ```javascript
 module.exports = function(config) {
@@ -78,7 +76,7 @@ customLaunchers: {
 ```
 
 A display name can be set for any custom launcher. If set, this name will be used for reporting instead of the
-user agent. E.g. defining
+user agent. Here is a code snippet example explaining how to set a display name for a custom launcher.
 
 ```javascript
 customLaunchers: {
@@ -90,7 +88,7 @@ customLaunchers: {
 }
 ```
 
-the browser will figure as `Chrome w/o security` in logs and reports.
+If the definition is as above, the browser will be displayed as `Chrome w/o security` in logs and reports.
 
 ## Correct path to browser binary
 Each plugin has some default paths where to find the browser binary on particular OS.
@@ -140,3 +138,4 @@ The browser scripts need to take one argument, which is the URL with the ID-para
 [BrowserStack]: https://github.com/karma-runner/karma-browserstack-launcher
 [custom plugins]: ../dev/plugins.html
 [plugins]: plugins.html
+[configuration file]: configuration-file.html
