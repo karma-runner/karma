@@ -245,6 +245,21 @@ describe('reporter', () => {
         })
       })
 
+      it('should not try to match domains with spaces', (done) => {
+        formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+
+        emitter.emit('file_list_modified', {served: servedFiles})
+
+        _.defer(() => {
+          var ERROR = '"http://localhost:9876"\n at /base/b.js:2:6'
+          expect(formatError(ERROR)).to.equal('"http://localhost:9876"\n at /original/b.js:4:8 <- b.js:2:6\n')
+          done()
+        })
+      })
+
       describe('Windows', () => {
         formatError = null
         var servedFiles = null
