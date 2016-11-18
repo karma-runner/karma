@@ -11,9 +11,9 @@
  * - setting propert caching headers
  */
 
-var path = require('path')
-var util = require('util')
-var url = require('url')
+import path = require('path')
+import util = require('util')
+import url = require('url')
 var useragent = require('useragent')
 
 var log = require('../logger').create('middleware:karma')
@@ -74,7 +74,7 @@ var isFirefox = function (req) {
   return firefox
 }
 
-var createKarmaMiddleware = function (
+export function create(
   filesPromise,
   serveStaticFile,
   serveFile,
@@ -239,7 +239,7 @@ var createKarmaMiddleware = function (
   }
 }
 
-createKarmaMiddleware.$inject = [
+create.$inject = [
   'filesPromise',
   'serveStaticFile',
   'serveFile',
@@ -248,6 +248,3 @@ createKarmaMiddleware.$inject = [
   'config.urlRoot',
   'config.upstreamProxy'
 ]
-
-// PUBLIC API
-exports.create = createKarmaMiddleware

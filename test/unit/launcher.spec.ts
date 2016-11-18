@@ -1,11 +1,13 @@
-import Promise from 'bluebird'
-import di from 'di'
-import events from '../../lib/events'
-import launcher from '../../lib/launcher'
-import createMockTimer from './mocks/timer'
+import * as Promise from 'bluebird'
+import * as di from 'di'
+import * as events from '../../lib/events'
+import createMockTimer = require('./mocks/timer')
+import {Launcher} from '../../lib/launcher'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 // promise mock
-var stubPromise = (obj, method, stubAction) => {
+var stubPromise = (obj, method, stubAction?) => {
   var promise = new Promise((resolve) => {
     obj[method].resolve = resolve
   })
@@ -18,6 +20,15 @@ var stubPromise = (obj, method, stubAction) => {
 }
 
 class FakeBrowser {
+  private id
+  private name
+  private DEFAULT_CMD
+  private ENV_CMD
+  static _instances
+  private STATE_BEING_CAPTURED
+  private state
+  private _done
+
   constructor (id, name, baseBrowserDecorator) {
     this.id = id
     this.name = name
@@ -40,6 +51,15 @@ class FakeBrowser {
 }
 
 class ScriptBrowser {
+  private id
+  private name
+  private DEFAULT_CMD
+  private ENV_CMD
+  static _instances
+  private STATE_BEING_CAPTURED
+  private state
+  private _done
+
   constructor (id, name, baseBrowserDecorator) {
     this.id = id
     this.name = name
@@ -64,7 +84,7 @@ class ScriptBrowser {
 describe('launcher', () => {
   // mock out id generator
   var lastGeneratedId = null
-  launcher.Launcher.generateId = () => {
+  Launcher.generateId = () => {
     return ++lastGeneratedId
   }
 
@@ -89,7 +109,7 @@ describe('launcher', () => {
     var l
 
     beforeEach(() => {
-      emitter = new events.EventEmitter()
+      emitter = new events.KarmaEventEmitter()
       server = {'loadErrors': []}
       config = {
         captureTimeout: 0,
@@ -107,7 +127,7 @@ describe('launcher', () => {
         'config': ['value', config],
         'timer': ['factory', createMockTimer]
       }])
-      l = new launcher.Launcher(server, emitter, injector)
+      l = new Launcher(server, emitter, injector)
     })
 
     describe('launch', () => {
@@ -125,7 +145,7 @@ describe('launcher', () => {
 
       describe('with upstream proxy settings', () => {
         beforeEach(() => {
-          emitter = new events.EventEmitter()
+          emitter = new events.KarmaEventEmitter()
           server = {'loadErrors': []}
           config = {
             captureTimeout: 0,
@@ -149,7 +169,7 @@ describe('launcher', () => {
             'config': ['value', config],
             'timer': ['factory', createMockTimer]
           }])
-          l = new launcher.Launcher(server, emitter, injector)
+          l = new Launcher(server, emitter, injector)
         })
 
         it('should inject and start all browsers', (done) => {

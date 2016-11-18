@@ -1,4 +1,6 @@
-import mocks from 'mocks'
+import * as mocks from 'mocks'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('middleware.strip_host', function () {
   var nextSpy

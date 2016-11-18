@@ -1,28 +1,32 @@
-var BaseReporter = require('./base')
+import {BaseReporter} from './base'
 
-var ProgressReporter = function (formatError, reportSlow, useColors, browserConsoleLogOptions) {
-  BaseReporter.call(this, formatError, reportSlow, useColors, browserConsoleLogOptions)
+export class ProgressReporter extends BaseReporter {
+  private _isRendered
 
-  this.EXCLUSIVELY_USE_COLORS = false
+  constructor(formatError, reportSlow, useColors, browserConsoleLogOptions) {
+    super(formatError, reportSlow, useColors, browserConsoleLogOptions)
 
-  this.writeCommonMsg = function (msg) {
+    this.EXCLUSIVELY_USE_COLORS = false
+  }
+
+  writeCommonMsg = (msg) => {
     this.write(this._remove() + msg + this._render())
   }
 
-  this.specSuccess = function () {
+  specSuccess = () => {
     this.write(this._refresh())
   }
 
-  this.onBrowserComplete = function () {
+  onBrowserComplete = () => {
     this.write(this._refresh())
   }
 
-  this.onRunStart = function () {
+  onRunStart = () => {
     this._browsers = []
     this._isRendered = false
   }
 
-  this.onBrowserStart = function (browser) {
+  onBrowserStart = (browser) => {
     this._browsers.push(browser)
 
     if (this._isRendered) {
@@ -32,7 +36,7 @@ var ProgressReporter = function (formatError, reportSlow, useColors, browserCons
     this.write(this._refresh())
   }
 
-  this._remove = function () {
+  _remove() {
     if (!this._isRendered) {
       return ''
     }
@@ -47,16 +51,13 @@ var ProgressReporter = function (formatError, reportSlow, useColors, browserCons
     return cmd
   }
 
-  this._render = function () {
+  _render() {
     this._isRendered = true
 
     return this._browsers.map(this.renderBrowser).join('\n') + '\n'
   }
 
-  this._refresh = function () {
+  _refresh() {
     return this._remove() + this._render()
   }
 }
-
-// PUBLISH
-module.exports = ProgressReporter

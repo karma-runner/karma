@@ -1,10 +1,11 @@
-var fs = require('graceful-fs')
-var crypto = require('crypto')
-var mm = require('minimatch')
+import fs = require('graceful-fs')
+import crypto = require('crypto')
+import mm = require('minimatch')
 var isBinaryFile = require('isbinaryfile')
 var combineLists = require('combine-lists')
 
-var log = require('./logger').create('preprocess')
+import {create} from './logger'
+var log = create('preprocess')
 
 var sha1 = function (data) {
   var hash = crypto.createHash('sha1')
@@ -12,7 +13,7 @@ var sha1 = function (data) {
   return hash.digest('hex')
 }
 
-var createNextProcessor = function (preprocessors, file, done) {
+function createNextProcessor(preprocessors, file, done) {
   return function nextPreprocessor (error, content) {
     // normalize B-C
     if (arguments.length === 1 && typeof error === 'string') {
@@ -37,7 +38,7 @@ var createNextProcessor = function (preprocessors, file, done) {
   }
 }
 
-var createPreprocessor = function (config, basePath, injector) {
+export function createPreprocessor(config, basePath, injector) {
   var alreadyDisplayedErrors = {}
   var instances = {}
   var patterns = Object.keys(config)
@@ -125,5 +126,3 @@ var createPreprocessor = function (config, basePath, injector) {
   }
 }
 createPreprocessor.$inject = ['config.preprocessors', 'config.basePath', 'injector']
-
-exports.createPreprocessor = createPreprocessor

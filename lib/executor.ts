@@ -1,60 +1,62 @@
-var log = require('./logger').create()
+import {create} from './logger'
+import {ConfigOptions} from './config-options'
+import {BrowserCollection} from './browser_collection'
+var log = create()
 
-var Executor = function (capturedBrowsers, config, emitter) {
-  var self = this
-  var executionScheduled = false
-  var pendingCount = 0
-  var runningBrowsers
+export class Executor {
+  socketIoSockets
 
-  var schedule = function () {
+  constructor(private capturedBrowsers: BrowserCollection, private config: ConfigOptions, private emitter) {
+    // bind all the events
+    emitter.bind(this)
+  }
+
+  private executionScheduled = false
+  private pendingCount = 0
+  private runningBrowsers
+
+  schedule = () => {
     var nonReady = []
 
-    if (!capturedBrowsers.length) {
-      log.warn('No captured browser, open %s//%s:%s%s', config.protocol, config.hostname,
-        config.port, config.urlRoot)
+    if (!this.capturedBrowsers.length) {
+      log.warn('No captured browser, open %s//%s:%s%s', this.config.protocol, this.config.hostname,
+        this.config.port, this.config.urlRoot)
       return false
     }
 
-    if (capturedBrowsers.areAllReady(nonReady)) {
+    if (this.capturedBrowsers.areAllReady(nonReady)) {
       log.debug('All browsers are ready, executing')
-      log.debug('Captured %s browsers', capturedBrowsers.length)
-      executionScheduled = false
-      capturedBrowsers.clearResults()
-      capturedBrowsers.setAllToExecuting()
-      pendingCount = capturedBrowsers.length
-      runningBrowsers = capturedBrowsers.clone()
-      emitter.emit('run_start', runningBrowsers)
-      self.socketIoSockets.emit('execute', config.client)
+      log.debug('Captured %s browsers', this.capturedBrowsers.length)
+      this.executionScheduled = false
+      this.capturedBrowsers.clearResults()
+      this.capturedBrowsers.setAllToExecuting()
+      this.pendingCount = this.capturedBrowsers.length
+      this.runningBrowsers = this.capturedBrowsers.clone()
+      this.emitter.emit('run_start', this.runningBrowsers)
+      this.socketIoSockets.emit('execute', this.config.client)
       return true
     }
 
     log.info('Delaying execution, these browsers are not ready: ' + nonReady.join(', '))
-    executionScheduled = true
+    this.executionScheduled = true
     return false
   }
 
-  this.schedule = schedule
-
-  this.onRunComplete = function () {
-    if (executionScheduled) {
-      schedule()
+  onRunComplete = () => {
+    if (this.executionScheduled) {
+      this.schedule()
     }
   }
 
-  this.onBrowserComplete = function () {
-    pendingCount--
+  onBrowserComplete = () => {
+    this.pendingCount--
 
-    if (!pendingCount) {
+    if (!this.pendingCount) {
       // Ensure run_complete is emitted in the next tick
       // so it is never emitted before browser_complete
-      setTimeout(function () {
-        emitter.emit('run_complete', runningBrowsers, runningBrowsers.getResults())
+      setTimeout(() => {
+        this.emitter.emit('run_complete', this.runningBrowsers, this.runningBrowsers.getResults())
       }, 0)
     }
   }
-
-  // bind all the events
-  emitter.bind(this)
 }
-
-module.exports = Executor

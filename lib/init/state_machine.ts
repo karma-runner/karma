@@ -1,31 +1,33 @@
-var util = require('util')
-var EventEmitter = require('events').EventEmitter
+import util = require('util')
+import {EventEmitter} from 'events'
 
-var StateMachine = function (rli, colors) {
-  var questions
-  var currentQuestion
-  var answers
-  var currentOptions
-  var currentOptionsPointer
-  var currentQuestionId
-  var done
-
-  EventEmitter.call(this)
-
-  var showPrompt = function () {
-    rli.write(colors.ANSWER)
-    rli.prompt()
+export class StateMachine extends EventEmitter {
+  constructor(private rli, private colors) {
+    super()
   }
 
-  this.onKeypress = function (key) {
-    if (!currentOptions || !key) {
+  private questions
+  private currentQuestion
+  private answers
+  private currentOptions
+  private currentOptionsPointer
+  private currentQuestionId
+  private done
+
+  private showPrompt() {
+    this.rli.write(this.colors.ANSWER)
+    this.rli.prompt()
+  }
+
+  onKeypress(key) {
+    if (!this.currentOptions || !key) {
       return
     }
 
     if (key.name === 'tab' || key.name === 'right' || key.name === 'down') {
       this.suggestNextOption()
     } else if (key.name === 'left' || key.name === 'up') {
-      currentOptionsPointer = currentOptionsPointer + currentOptions.length - 2
+      this.currentOptionsPointer = this.currentOptionsPointer + this.currentOptions.length - 2
       this.suggestNextOption()
     }
 
@@ -34,32 +36,32 @@ var StateMachine = function (rli, colors) {
     }
   }
 
-  this.suggestNextOption = function () {
-    if (!currentOptions) {
+  suggestNextOption() {
+    if (!this.currentOptions) {
       return
     }
 
-    currentOptionsPointer = (currentOptionsPointer + 1) % currentOptions.length
-    rli._deleteLineLeft()
-    rli._deleteLineRight()
-    rli.write(currentOptions[currentOptionsPointer])
+    this.currentOptionsPointer = (this.currentOptionsPointer + 1) % this.currentOptions.length
+    this.rli._deleteLineLeft()
+    this.rli._deleteLineRight()
+    this.rli.write(this.currentOptions[this.currentOptionsPointer])
   }
 
-  this.kill = function () {
-    currentOptions = null
-    currentQuestionId = null
-    rli.write('\n' + colors.RESET + '\n')
-    rli.close()
+  kill() {
+    this.currentOptions = null
+    this.currentQuestionId = null
+    this.rli.write('\n' + this.colors.RESET + '\n')
+    this.rli.close()
   }
 
-  this.onLine = function (line) {
-    if (currentQuestionId) {
-      rli.write(colors.RESET)
-      line = line.trim().replace(colors.ANSWER, '').replace(colors.RESET, '')
+  onLine(line) {
+    if (this.currentQuestionId) {
+      this.rli.write(this.colors.RESET)
+      line = line.trim().replace(this.colors.ANSWER, '').replace(this.colors.RESET, '')
 
-      if (currentOptions) {
-        currentOptionsPointer = currentOptions.indexOf(line)
-        if (currentOptionsPointer === -1) {
+      if (this.currentOptions) {
+        this.currentOptionsPointer = this.currentOptions.indexOf(line)
+        if (this.currentOptionsPointer === -1) {
           return
         }
       }
@@ -68,74 +70,70 @@ var StateMachine = function (rli, colors) {
         line = null
       }
 
-      if (currentQuestion.boolean) {
+      if (this.currentQuestion.boolean) {
         line = (line === 'yes' || line === 'true' || line === 'on')
       }
 
-      if (line !== null && currentQuestion.validate) {
-        currentQuestion.validate(line)
+      if (line !== null && this.currentQuestion.validate) {
+        this.currentQuestion.validate(line)
       }
 
-      if (currentQuestion.multiple) {
-        answers[currentQuestionId] = answers[currentQuestionId] || []
+      if (this.currentQuestion.multiple) {
+        this.answers[this.currentQuestionId] = this.answers[this.currentQuestionId] || []
         if (line !== null) {
-          answers[currentQuestionId].push(line)
-          showPrompt()
+          this.answers[this.currentQuestionId].push(line)
+          this.showPrompt()
 
-          if (currentOptions) {
-            currentOptions.splice(currentOptionsPointer, 1)
-            currentOptionsPointer = -1
+          if (this.currentOptions) {
+            this.currentOptions.splice(this.currentOptionsPointer, 1)
+            this.currentOptionsPointer = -1
           }
         } else {
           this.nextQuestion()
         }
       } else {
-        answers[currentQuestionId] = line
+        this.answers[this.currentQuestionId] = line
         this.nextQuestion()
       }
     }
   }
 
-  this.nextQuestion = function () {
-    currentQuestion = questions.shift()
+  nextQuestion() {
+    this.currentQuestion = this.questions.shift()
 
-    while (currentQuestion && currentQuestion.condition && !currentQuestion.condition(answers)) {
-      currentQuestion = questions.shift()
+    while (this.currentQuestion && this.currentQuestion.condition && !this.currentQuestion.condition(this.answers)) {
+      this.currentQuestion = this.questions.shift()
     }
 
-    this.emit('next_question', currentQuestion)
+    this.emit('next_question', this.currentQuestion)
 
-    if (currentQuestion) {
-      currentQuestionId = null
+    if (this.currentQuestion) {
+      this.currentQuestionId = null
 
-      rli.write('\n' + colors.question(currentQuestion.question) + '\n')
-      rli.write(currentQuestion.hint + '\n')
-      showPrompt()
+      this.rli.write('\n' + this.colors.question(this.currentQuestion.question) + '\n')
+      this.rli.write(this.currentQuestion.hint + '\n')
+      this.showPrompt()
 
-      currentOptions = currentQuestion.options || null
-      currentOptionsPointer = -1
-      currentQuestionId = currentQuestion.id
+      this.currentOptions = this.currentQuestion.options || null
+      this.currentOptionsPointer = -1
+      this.currentQuestionId = this.currentQuestion.id
 
       this.suggestNextOption()
     } else {
-      currentQuestionId = null
-      currentOptions = null
+      this.currentQuestionId = null
+      this.currentOptions = null
 
       // end
       this.kill()
-      done(answers)
+      this.done(this.answers)
     }
   }
 
-  this.process = function (_questions, _done) {
-    questions = _questions
-    answers = {}
-    done = _done
+  process(_questions, _done) {
+    this.questions = _questions
+    this.answers = {}
+    this.done = _done
 
     this.nextQuestion()
   }
 }
-
-util.inherits(StateMachine, EventEmitter)
-
-module.exports = StateMachine

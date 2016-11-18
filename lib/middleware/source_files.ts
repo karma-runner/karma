@@ -1,14 +1,14 @@
 var from = require('core-js/library/fn/array/from')
-var querystring = require('querystring')
-var _ = require('lodash')
+import querystring = require('querystring')
+import _ = require('lodash')
 
-var common = require('./common')
-var logger = require('../logger')
+import common = require('./common')
+import logger = require('../logger')
 var log = logger.create('middleware:source-files')
 
 // Files is a Set
 var findByPath = function (files, path) {
-  return _.find(from(files), function (file) {
+  return _.find(from(files), function (file: any) {
     return file.path === path
   })
 }
@@ -22,7 +22,7 @@ var composeUrl = function (url, basePath, urlRoot, mustEscape) {
 }
 
 // Source Files middleware is responsible for serving all the source files under the test.
-var createSourceFilesMiddleware = function (filesPromise, serveFile, basePath, urlRoot) {
+export function create(filesPromise, serveFile, basePath?, urlRoot?) {
   return function (request, response, next) {
     var requestedFilePath = composeUrl(request.url, basePath, urlRoot, true)
     // When a path contains HTML-encoded characters (e.g %2F used by Jenkins for branches with /)
@@ -58,9 +58,6 @@ var createSourceFilesMiddleware = function (filesPromise, serveFile, basePath, u
   }
 }
 
-createSourceFilesMiddleware.$inject = [
+create.$inject = [
   'filesPromise', 'serveFile', 'config.basePath', 'config.urlRoot'
 ]
-
-// PUBLIC API
-exports.create = createSourceFilesMiddleware

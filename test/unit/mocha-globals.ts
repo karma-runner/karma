@@ -1,13 +1,13 @@
-var sinon = require('sinon')
-var chai = require('chai')
-var logger = require('../../lib/logger')
+import chai = require('chai')
+import logger = require('../../lib/logger')
+import * as sinon from 'sinon'
 
-require('bluebird').longStackTraces()
+require('bluebird').longStackTraces();
 
 // publish globals that all specs can use
-global.expect = chai.expect
-global.should = chai.should()
-global.sinon = sinon
+(<any>global).expect = chai.expect;
+(<any>global).should = chai.should();
+(<any>global).sinon = sinon;
 
 // chai plugins
 chai.use(require('chai-as-promised'))
@@ -15,7 +15,7 @@ chai.use(require('sinon-chai'))
 chai.use(require('chai-subset'))
 
 beforeEach(() => {
-  global.sinon = sinon.sandbox.create()
+  (<any>global).sinon = sinon.sandbox.create()
 
   // set logger to log INFO, but do not append to console
   // so that we can assert logs by logger.on('info', ...)
@@ -23,7 +23,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  global.sinon.restore()
+  (<any>global).sinon.restore()
 })
 
 // TODO(vojta): move to helpers or something
@@ -55,7 +55,7 @@ var nextTickCallback = () => {
 
   if (nextTickQueue.length) process.nextTick(nextTickCallback)
 }
-global.scheduleNextTick = (action) => {
+(<any>global).scheduleNextTick = (action) => {
   nextTickQueue.push(action)
 
   if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
@@ -66,16 +66,16 @@ var nextCallback = () => {
   nextQueue.shift()()
 }
 
-global.scheduleNextTick = (action) => {
+(<any>global).scheduleNextTick = (action) => {
   nextTickQueue.push(action)
 
   if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
 }
-global.scheduleNext = (action) => {
+(<any>global).scheduleNext = (action) => {
   nextQueue.push(action)
 }
 
-global.next = nextCallback
+(<any>global).next = nextCallback
 
 beforeEach(() => {
   nextTickQueue.length = 0

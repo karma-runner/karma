@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "noImplicitAny": false
+  },
+  "exclude": ["config.tpl.ts", "node_modules"]
+}

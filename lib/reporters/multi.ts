@@ -1,18 +1,17 @@
-var helper = require('../helper')
+import helper = require('../helper')
 
-var MultiReporter = function (reporters) {
-  this.addAdapter = function (adapter) {
-    reporters.forEach(function (reporter) {
+export class MultiReporter {
+  constructor(private reporters) {
+  }
+  addAdapter(adapter) {
+    this.reporters.forEach((reporter) => {
       reporter.adapters.push(adapter)
     })
   }
 
-  this.removeAdapter = function (adapter) {
-    reporters.forEach(function (reporter) {
+  removeAdapter(adapter) {
+    this.reporters.forEach((reporter) => {
       helper.arrayRemove(reporter.adapters, adapter)
     })
   }
 }
-
-// PUBLISH
-module.exports = MultiReporter

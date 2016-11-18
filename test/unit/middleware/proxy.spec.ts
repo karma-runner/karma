@@ -1,6 +1,7 @@
-import path from 'path'
-var httpMock = require('mocks').http
-var loadFile = require('mocks').loadFile
+import * as path from 'path'
+import {http as httpMock, loadFile} from 'mocks'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('middleware.proxy', () => {
   var requestedUrl

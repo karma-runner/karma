@@ -1,6 +1,8 @@
-import BaseLauncher from '../../../lib/launchers/base'
-import CaptureTimeoutLauncher from '../../../lib/launchers/capture_timeout'
-import createMockTimer from '../mocks/timer'
+import {BaseLauncher} from '../../../lib/launchers/base'
+import {CaptureTimeoutLauncher} from '../../../lib/launchers/capture_timeout'
+import createMockTimer = require('../mocks/timer')
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('launchers/capture_timeout.js', () => {
   var timer

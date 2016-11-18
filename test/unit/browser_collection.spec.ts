@@ -1,13 +1,16 @@
+import {BrowserCollection} from '../../lib/browser_collection'
+import {Browser} from '../../lib/browser'
+import e = require('../../lib/events')
+import {expect} from 'chai'
+import * as sinon from 'sinon'
+
 describe('BrowserCollection', () => {
   var emitter
-  var e = require('../../lib/events')
-  var Collection = require('../../lib/browser_collection')
-  var Browser = require('../../lib/browser')
   var collection = emitter = null
 
   beforeEach(() => {
-    emitter = new e.EventEmitter()
-    collection = new Collection(emitter)
+    emitter = new e.KarmaEventEmitter()
+    collection = new BrowserCollection(emitter)
   })
 
   describe('add', () => {

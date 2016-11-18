@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+export = function (grunt) {
   /**
    * Initialize development environment for Karma
    *

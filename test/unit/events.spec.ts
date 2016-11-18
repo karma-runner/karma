@@ -1,10 +1,12 @@
-var e = require('../../lib/events')
+import {KarmaEventEmitter, bindAll, bufferEvents} from '../../lib/events'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('events', () => {
   var emitter
 
   beforeEach(() => {
-    emitter = new e.EventEmitter()
+    emitter = new KarmaEventEmitter()
   })
 
   describe('EventEmitter', () => {
@@ -96,9 +98,9 @@ describe('events', () => {
 
   describe('bindAll', () => {
     it('should take emitter as second argument', () => {
-      var object = sinon.stub({onFoo: () => {}})
+      var object: any = sinon.stub({onFoo: () => {}})
 
-      e.bindAll(object, emitter)
+      bindAll(object, emitter)
       emitter.emit('foo')
       emitter.emit('bar')
 
@@ -106,9 +108,9 @@ describe('events', () => {
     })
 
     it('should append "context" to event arguments', () => {
-      var object = sinon.stub({onFoo: () => {}})
+      var object: any = sinon.stub({onFoo: () => {}})
 
-      e.bindAll(object, emitter)
+      bindAll(object, emitter)
       emitter.emit('foo', 'event-argument')
 
       expect(object.onFoo).to.have.been.calledWith('event-argument', emitter)
@@ -118,7 +120,7 @@ describe('events', () => {
   describe('bufferEvents', () => {
     it('should reply all events', () => {
       var spy = sinon.spy()
-      var replyEvents = e.bufferEvents(emitter, ['foo', 'bar'])
+      var replyEvents = bufferEvents(emitter, ['foo', 'bar'])
 
       emitter.emit('foo', 'foo-1')
       emitter.emit('bar', 'bar-2')
@@ -136,7 +138,7 @@ describe('events', () => {
 
     it('should not buffer after reply()', () => {
       var spy = sinon.spy()
-      var replyEvents = e.bufferEvents(emitter, ['foo', 'bar'])
+      var replyEvents = bufferEvents(emitter, ['foo', 'bar'])
       replyEvents()
 
       emitter.emit('foo', 'foo-1')
@@ -147,7 +149,7 @@ describe('events', () => {
       emitter.on('bar', spy)
 
       replyEvents()
-      expect(spy).to.not.have.been.caleed
+      expect(spy).to.not.have.been.called
     })
 
     it('should work with overriden "emit" method', () => {
@@ -158,7 +160,7 @@ describe('events', () => {
       emitter.emit = () => null
 
       var spy = sinon.spy()
-      var replyEvents = e.bufferEvents(emitter, ['foo'])
+      var replyEvents = bufferEvents(emitter, ['foo'])
 
       originalEmit.apply(emitter, ['foo', 'whatever'])
 

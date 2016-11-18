@@ -1,49 +1,50 @@
-var EXECUTING = require('./browser').STATE_EXECUTING
-var Result = require('./browser_result')
+import {Browser} from './browser'
+var EXECUTING = Browser.STATE_EXECUTING
+import {Result} from './browser_result'
 
-var Collection = function (emitter, browsers) {
-  browsers = browsers || []
-
-  this.add = function (browser) {
-    browsers.push(browser)
-    emitter.emit('browsers_change', this)
+export class BrowserCollection {
+  constructor(private emitter?,
+              private browsers = []) {
   }
 
-  this.remove = function (browser) {
-    var index = browsers.indexOf(browser)
+  add = (browser) => {
+    this.browsers.push(browser)
+    this.emitter.emit('browsers_change', this)
+  }
+
+  remove(browser) {
+    var index = this.browsers.indexOf(browser)
 
     if (index === -1) {
       return false
     }
 
-    browsers.splice(index, 1)
-    emitter.emit('browsers_change', this)
+    this.browsers.splice(index, 1)
+    this.emitter.emit('browsers_change', this)
 
     return true
   }
 
-  this.getById = function (browserId) {
-    for (var i = 0; i < browsers.length; i++) {
-      if (browsers[i].id === browserId) {
-        return browsers[i]
+  getById(browserId) {
+    for (var i = 0; i < this.browsers.length; i++) {
+      if (this.browsers[i].id === browserId) {
+        return this.browsers[i]
       }
     }
 
     return null
   }
 
-  this.setAllToExecuting = function () {
-    browsers.forEach(function (browser) {
-      browser.state = EXECUTING
-    })
+  setAllToExecuting() {
+    this.browsers.forEach(browser => browser.state = EXECUTING)
 
-    emitter.emit('browsers_change', this)
+    this.emitter.emit('browsers_change', this)
   }
 
-  this.areAllReady = function (nonReadyList) {
+  areAllReady(nonReadyList) {
     nonReadyList = nonReadyList || []
 
-    browsers.forEach(function (browser) {
+    this.browsers.forEach(browser => {
       if (!browser.isReady()) {
         nonReadyList.push(browser)
       }
@@ -52,14 +53,12 @@ var Collection = function (emitter, browsers) {
     return nonReadyList.length === 0
   }
 
-  this.serialize = function () {
-    return browsers.map(function (browser) {
-      return browser.serialize()
-    })
+  serialize() {
+    return this.browsers.map(browser => browser.serialize())
   }
 
-  this.getResults = function () {
-    var results = browsers.reduce(function (previous, current) {
+  getResults() {
+    var results = this.browsers.reduce(function (previous, current) {
       previous.success += current.lastResult.success
       previous.failed += current.lastResult.failed
       previous.error = previous.error || current.lastResult.error
@@ -74,32 +73,27 @@ var Collection = function (emitter, browsers) {
   }
 
   // TODO(vojta): can we remove this? (we clear the results per browser in onBrowserStart)
-  this.clearResults = function () {
-    browsers.forEach(function (browser) {
-      browser.lastResult = new Result()
-    })
+  clearResults() {
+    this.browsers.forEach(browser => browser.lastResult = new Result())
   }
 
-  this.clone = function () {
-    return new Collection(emitter, browsers.slice())
+  clone() {
+    return new BrowserCollection(this.emitter, this.browsers.slice())
   }
 
   // Array APIs
-  this.map = function (callback, context) {
-    return browsers.map(callback, context)
+  map(callback, context) {
+    return this.browsers.map(callback, context)
   }
 
-  this.forEach = function (callback, context) {
-    return browsers.forEach(callback, context)
+  forEach(callback, context) {
+    return this.browsers.forEach(callback, context)
   }
 
   // this.length
-  Object.defineProperty(this, 'length', {
-    get: function () {
-      return browsers.length
-    }
-  })
-}
-Collection.$inject = ['emitter']
+  get length() {
+    return this.browsers.length
+  }
 
-module.exports = Collection
+  static $inject = ['emitter']
+}

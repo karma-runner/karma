@@ -1,4 +1,6 @@
-import path from 'path'
+import * as path from 'path'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('reporter', function () {
   var loadFile = require('mocks').loadFile
@@ -29,7 +31,7 @@ describe('reporter', function () {
     })
 
     it('should omit adapters not using the right color', function () {
-      var anotherAdapter = sinon.spy()
+      var anotherAdapter: any = sinon.spy()
       anotherAdapter.colors = true
       reporter.EXCLUSIVELY_USE_COLORS = false
       reporter.adapters.push(anotherAdapter)
@@ -60,7 +62,7 @@ describe('reporter', function () {
     })
 
     it('should call all adapters if EXCLUSIVELY_USE_COLORS is undefined', function () {
-      var anotherAdapter = sinon.spy()
+      var anotherAdapter: any = sinon.spy()
       anotherAdapter.colors = true
       reporter.adapters.push(anotherAdapter)
       reporter.write('some')

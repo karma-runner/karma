@@ -1,22 +1,26 @@
-var Promise = require('bluebird')
+import Promise = require('bluebird')
 var Jobs = require('qjobs')
 
-var helper = require('./helper')
-var log = require('./logger').create('launcher')
+import helper = require('./helper')
+import {create} from './logger'
+var log = create('launcher')
 
-var baseDecorator = require('./launchers/base').decoratorFactory
-var captureTimeoutDecorator = require('./launchers/capture_timeout').decoratorFactory
-var retryDecorator = require('./launchers/retry').decoratorFactory
-var processDecorator = require('./launchers/process').decoratorFactory
+import {BaseLauncher} from './launchers/base'
+import {CaptureTimeoutLauncher} from './launchers/capture_timeout';
+import {ProcessLauncher} from './launchers/process';
+import {RetryLauncher} from './launchers/retry';
+
+var baseDecorator = BaseLauncher.decoratorFactory
+var captureTimeoutDecorator = CaptureTimeoutLauncher.decoratorFactory
+var retryDecorator = RetryLauncher.decoratorFactory
+var processDecorator = ProcessLauncher.decoratorFactory
 
 // TODO(vojta): remove once nobody uses it
-var baseBrowserDecoratorFactory = function (
-  baseLauncherDecorator,
-  captureTimeoutLauncherDecorator,
-  retryLauncherDecorator,
-  processLauncherDecorator
-) {
-  return function (launcher) {
+function baseBrowserDecoratorFactory(baseLauncherDecorator,
+                                     captureTimeoutLauncherDecorator,
+                                     retryLauncherDecorator,
+                                     processLauncherDecorator) {
+  return launcher => {
     baseLauncherDecorator(launcher)
     captureTimeoutLauncherDecorator(launcher)
     retryLauncherDecorator(launcher)
@@ -24,24 +28,44 @@ var baseBrowserDecoratorFactory = function (
   }
 }
 
-var Launcher = function (server, emitter, injector) {
-  this._browsers = []
-  var lastStartTime
-  var self = this
+export class Launcher {
+  private jobs
 
-  var getBrowserById = function (id) {
-    for (var i = 0; i < self._browsers.length; i++) {
-      if (self._browsers[i].id === id) {
-        return self._browsers[i]
+  constructor(private server, private emitter, private injector) {
+
+    this.launch.$inject = [
+      'config.browsers',
+      'config.concurrency'
+    ];
+
+    this.launchSingle.$inject = [
+      'config.protocol',
+      'config.hostname',
+      'config.port',
+      'config.urlRoot',
+      'config.upstreamProxy'
+    ];
+
+    // register events
+    emitter.on('exit', this.killAll)
+  }
+
+  private _browsers: Array<any> = []
+  private lastStartTime
+
+  private getBrowserById(id) {
+    // return this._browsers.find(browser => browser.id === id)
+    for (var i = 0; i < this._browsers.length; i++) {
+      if (this._browsers[i].id === id) {
+        return this._browsers[i]
       }
     }
 
     return null
   }
 
-  this.launchSingle = function (protocol, hostname, port, urlRoot, upstreamProxy) {
-    var self = this
-    return function (name) {
+  launchSingle(protocol, hostname, port, urlRoot, upstreamProxy) {
+    return (name) => {
       if (upstreamProxy) {
         protocol = upstreamProxy.protocol
         hostname = upstreamProxy.hostname
@@ -66,7 +90,7 @@ var Launcher = function (server, emitter, injector) {
       }
 
       try {
-        var browser = injector.createChild([locals], ['launcher:' + name]).get('launcher:' + name)
+        var browser = this.injector.createChild([locals], ['launcher:' + name]).get('launcher:' + name)
       } catch (e) {
         if (e.message.indexOf('No provider for "launcher:' + name + '"') !== -1) {
           log.error('Cannot load browser "%s": it is not registered! ' +
@@ -75,7 +99,7 @@ var Launcher = function (server, emitter, injector) {
           log.error('Cannot load browser "%s"!\n  ' + e.stack, name)
         }
 
-        emitter.emit('load_error', 'launcher', name)
+        this.emitter.emit('load_error', 'launcher', name)
         return
       }
 
@@ -96,7 +120,7 @@ var Launcher = function (server, emitter, injector) {
         }
       }
 
-      self.jobs.add(function (args, done) {
+      this.jobs.add(function (args, done) {
         log.info('Starting browser %s', helper.isDefined(browser.displayName) ? browser.displayName : browser.name)
 
         browser.on('browser_process_failure', function () {
@@ -114,12 +138,12 @@ var Launcher = function (server, emitter, injector) {
         browser.start(url)
       }, [])
 
-      self.jobs.run()
-      self._browsers.push(browser)
+      this.jobs.run()
+      this._browsers.push(browser)
     }
   }
 
-  this.launch = function (names, concurrency) {
+  launch(names, concurrency) {
     log.info(
       'Launching browser%s %s with %s',
       names.length > 1 ? 's' : '',
@@ -128,12 +152,11 @@ var Launcher = function (server, emitter, injector) {
     )
     this.jobs = new Jobs({maxConcurrency: concurrency})
 
-    var self = this
-    lastStartTime = Date.now()
+    this.lastStartTime = Date.now()
 
-    if (server.loadErrors.length === 0) {
-      names.forEach(function (name) {
-        injector.invoke(self.launchSingle, self)(name)
+    if (this.server.loadErrors.length === 0) {
+      names.forEach((name) => {
+        this.injector.invoke(this.launchSingle, this)(name)
       })
     } else {
       // Empty task to ensure `end` is emitted
@@ -152,25 +175,13 @@ var Launcher = function (server, emitter, injector) {
 
     this.jobs.run()
 
-    return self._browsers
+    return this._browsers
   }
 
-  this.launch.$inject = [
-    'config.browsers',
-    'config.concurrency'
-  ]
-
-  this.launchSingle.$inject = [
-    'config.protocol',
-    'config.hostname',
-    'config.port',
-    'config.urlRoot',
-    'config.upstreamProxy'
-  ]
-
-  this.kill = function (id, callback) {
-    var browser = getBrowserById(id)
-    callback = callback || function () {}
+  kill(id, callback) {
+    var browser = this.getBrowserById(id)
+    callback = callback || function () {
+      }
 
     if (!browser) {
       process.nextTick(callback)
@@ -181,8 +192,8 @@ var Launcher = function (server, emitter, injector) {
     return true
   }
 
-  this.restart = function (id) {
-    var browser = getBrowserById(id)
+  restart(id) {
+    var browser = this.getBrowserById(id)
 
     if (!browser) {
       return false
@@ -192,7 +203,7 @@ var Launcher = function (server, emitter, injector) {
     return true
   }
 
-  this.killAll = function (callback) {
+  killAll = (callback) => {
     log.debug('Disconnecting all browsers')
 
     var remaining = 0
@@ -203,41 +214,35 @@ var Launcher = function (server, emitter, injector) {
       }
     }
 
-    if (!self._browsers.length) {
+    if (!this._browsers.length) {
       return process.nextTick(callback)
     }
 
-    self._browsers.forEach(function (browser) {
+    this._browsers.forEach(function (browser) {
       remaining++
       browser.forceKill().then(finish)
     })
   }
 
-  this.areAllCaptured = function () {
-    return !self._browsers.some(function (browser) {
+  areAllCaptured() {
+    return !this._browsers.some(function (browser) {
       return !browser.isCaptured()
     })
   }
 
-  this.markCaptured = function (id) {
-    self._browsers.forEach(function (browser) {
+  markCaptured(id) {
+    this._browsers.forEach(browser => {
       if (browser.id === id) {
         browser.markCaptured()
         log.debug('%s (id %s) captured in %d secs', browser.name, browser.id,
-          (Date.now() - lastStartTime) / 1000)
+          (Date.now() - this.lastStartTime) / 1000)
       }
     })
   }
 
-  // register events
-  emitter.on('exit', this.killAll)
+  static $inject = ['server', 'emitter', 'injector']
+
+  static generateId(): any {
+    return '' + Math.floor(Math.random() * 100000000)
+  }
 }
-
-Launcher.$inject = ['server', 'emitter', 'injector']
-
-Launcher.generateId = function () {
-  return '' + Math.floor(Math.random() * 100000000)
-}
-
-// PUBLISH
-exports.Launcher = Launcher

@@ -1,14 +1,16 @@
-import cli from '../../lib/cli'
-import optimist from 'optimist'
-import path from 'path'
-import constant from '../../lib/constants'
-import mocks from 'mocks'
+import cli = require('../../lib/cli')
+import * as optimist from 'optimist'
+import * as path from 'path'
+import * as constant from '../../lib/constants'
+import mocks = require('mocks')
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 var loadFile = mocks.loadFile
 
 describe('cli', () => {
   var m
   var e
-  var mockery
+  var mockery: any
 
   var fsMock = mocks.fs.create({
     cwd: {'karma.conf.js': true},
@@ -29,7 +31,7 @@ describe('cli', () => {
     fsMock._setCWD(cwd)
   }
 
-  var processArgs = (args, opts) => {
+  var processArgs = (args, opts?) => {
     var argv = optimist.parse(args)
     return e.processArgs(argv, opts || {}, fsMock, pathMock)
   }

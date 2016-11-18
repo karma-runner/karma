@@ -1,6 +1,6 @@
-var url = require('url')
+import url = require('url')
 var httpProxy = require('http-proxy')
-var _ = require('lodash')
+import * as _ from 'lodash'
 
 var log = require('../logger').create('proxy')
 
@@ -13,7 +13,7 @@ var parseProxyConfig = function (proxies, config) {
     return []
   }
 
-  return _.sortBy(_.map(proxies, function (proxyConfiguration, proxyPath) {
+  return _.sortBy(_.map(proxies, function (proxyConfiguration: any, proxyPath: any) {
     if (typeof proxyConfiguration === 'string') {
       proxyConfiguration = {target: proxyConfiguration}
     }
@@ -91,15 +91,15 @@ var parseProxyConfig = function (proxies, config) {
  */
 var createProxyHandler = function (proxies, urlRoot) {
   if (!proxies.length) {
-    var nullProxy = function createNullProxy (request, response, next) {
+    var nullProxy: any = function createNullProxy (request, response, next) {
       return next()
     }
     nullProxy.upgrade = function upgradeNullProxy () {}
     return nullProxy
   }
 
-  var middleware = function createProxy (request, response, next) {
-    var proxyRecord = _.find(proxies, function (p) {
+  var middleware: any = function createProxy (request, response, next) {
+    var proxyRecord: any = _.find(proxies, function (p: any) {
       return request.url.indexOf(p.path) === 0
     })
 
@@ -119,7 +119,7 @@ var createProxyHandler = function (proxies, urlRoot) {
       return
     }
 
-    var proxyRecord = _.find(proxies, function (p) {
+    var proxyRecord = _.find(proxies, function (p: any) {
       return request.url.indexOf(p.path) === 0
     })
 
@@ -136,6 +136,6 @@ var createProxyHandler = function (proxies, urlRoot) {
   return middleware
 }
 
-exports.create = function (/* config */config, /* config.proxies */proxies) {
+export function create(/* config */config, /* config.proxies */proxies) {
   return createProxyHandler(parseProxyConfig(proxies, config), config.urlRoot)
 }

@@ -1,31 +1,33 @@
-function EmitterWrapper (emitter) {
-  this.listeners = {}
-  this.emitter = emitter
-}
+export class EmitterWrapper {
+  private listeners
 
-EmitterWrapper.prototype.addListener = EmitterWrapper.prototype.on = function (event, listener) {
-  this.emitter.addListener(event, listener)
-
-  if (!this.listeners.hasOwnProperty(event)) {
-    this.listeners[event] = []
+  constructor(public emitter) {
+    this.listeners = {}
   }
 
-  this.listeners[event].push(listener)
+  on(event, listener) {
+    this.emitter.addListener(event, listener)
 
-  return this
-}
+    if (!this.listeners.hasOwnProperty(event)) {
+      this.listeners[event] = []
+    }
 
-EmitterWrapper.prototype.removeAllListeners = function (event) {
-  var events = event ? [event] : Object.keys(this.listeners)
-  var self = this
-  events.forEach(function (event) {
-    self.listeners[event].forEach(function (listener) {
-      self.emitter.removeListener(event, listener)
+    this.listeners[event].push(listener)
+
+    return this
+  }
+
+  addListener = this.on
+
+  removeAllListeners(event?) {
+    var events = event ? [event] : Object.keys(this.listeners)
+    events.forEach(event => {
+      this.listeners[event].forEach(listener =>
+        this.emitter.removeListener(event, listener)
+      )
+      delete this.listeners[event]
     })
-    delete self.listeners[event]
-  })
 
-  return this
+    return this
+  }
 }
-
-module.exports = EmitterWrapper

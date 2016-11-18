@@ -1,11 +1,10 @@
-var DotsReporter = require('./dots')
-var BaseColorReporter = require('./base_color')
+import {DotsReporter} from './dots'
+import {BaseColorReporter} from './base_color'
 
-var DotsColorReporter = function (formatError, reportSlow, useColors, browserConsoleLogOptions) {
-  DotsReporter.call(this, formatError, reportSlow, useColors, browserConsoleLogOptions)
-  BaseColorReporter.call(this)
-  this.EXCLUSIVELY_USE_COLORS = true
+export class DotsColorReporter extends DotsReporter {
+  constructor(formatError, reportSlow, useColors, browserConsoleLogOptions) {
+    super(formatError, reportSlow, useColors, browserConsoleLogOptions)
+    BaseColorReporter.call(this)
+    this.EXCLUSIVELY_USE_COLORS = true
+  }
 }
-
-// PUBLISH
-module.exports = DotsColorReporter

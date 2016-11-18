@@ -1,6 +1,6 @@
-var assert = require('assert')
+import assert = require('assert')
 
-var util = require('../../common/util')
+import util = require('../../common/util')
 
 describe('util', function () {
   it('parseQueryParams', function () {

@@ -1,12 +1,15 @@
-var path = require('path')
-var optimist = require('optimist')
-var fs = require('graceful-fs')
+import path = require('path')
+import optimist = require('optimist')
+import fs = require('graceful-fs')
 
-var Server = require('./server')
-var helper = require('./helper')
-var constant = require('./constants')
+import {Server} from './server'
+import helper = require('./helper')
+import constant = require('./constants')
+import {init} from './init'
+import {completion} from './completion'
+import {stop} from './stopper'
 
-var processArgs = function (argv, options, fs, path) {
+export function processArgs(argv: {help: boolean, version: boolean, _: any[]}, options, fs, path) {
   if (argv.help) {
     console.log(optimist.help())
     process.exit(0)
@@ -124,7 +127,7 @@ var processArgs = function (argv, options, fs, path) {
   return options
 }
 
-var parseClientArgs = function (argv) {
+export function  parseClientArgs(argv) {
   // extract any args after '--' as clientArgs
   var clientArgs = []
   argv = argv.slice(2)
@@ -136,7 +139,7 @@ var parseClientArgs = function (argv) {
 }
 
 // return only args that occur before `--`
-var argsBeforeDoubleDash = function (argv) {
+export function  argsBeforeDoubleDash(argv) {
   var idx = argv.indexOf('--')
 
   return idx === -1 ? argv : argv.slice(0, idx)
@@ -231,7 +234,7 @@ var describeCompletion = function () {
 
 exports.process = function () {
   var argv = optimist.parse(argsBeforeDoubleDash(process.argv.slice(2)))
-  var options = {
+  var options: any = {
     cmd: argv._.shift()
   }
 
@@ -272,7 +275,7 @@ exports.process = function () {
   return processArgs(argv, options, fs, path)
 }
 
-exports.run = function () {
+export function run() {
   var config = exports.process()
 
   switch (config.cmd) {
@@ -283,18 +286,13 @@ exports.run = function () {
       require('./runner').run(config)
       break
     case 'stop':
-      require('./stopper').stop(config)
+      stop(config)
       break
     case 'init':
-      require('./init').init(config)
+      init(config)
       break
     case 'completion':
-      require('./completion').completion(config)
+      completion()
       break
   }
 }
-
-// just for testing
-exports.processArgs = processArgs
-exports.parseClientArgs = parseClientArgs
-exports.argsBeforeDoubleDash = argsBeforeDoubleDash

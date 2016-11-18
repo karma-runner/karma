@@ -1,53 +1,62 @@
-var path = require('path')
+import path = require('path')
 
-var logger = require('./logger')
+import logger = require('./logger')
 var log = logger.create('config')
-var helper = require('./helper')
-var constant = require('./constants')
+import helper = require('./helper')
+import constant = require('./constants')
 
-var _ = require('lodash')
+import _ = require('lodash')
+import {ConfigOptions} from './config-options'
 
 var COFFEE_SCRIPT_AVAILABLE = false
 var LIVE_SCRIPT_AVAILABLE = false
 var TYPE_SCRIPT_AVAILABLE = false
 
 // Coffee is required here to enable config files written in coffee-script.
-// It's not directly used in this file.
+// It's not directly used in file.
 try {
   require('coffee-script').register()
   COFFEE_SCRIPT_AVAILABLE = true
-} catch (e) {}
+} catch (e) {
+}
 
 // LiveScript is required here to enable config files written in LiveScript.
-// It's not directly used in this file.
+// It's not directly used in file.
 try {
   require('LiveScript')
   LIVE_SCRIPT_AVAILABLE = true
-} catch (e) {}
+} catch (e) {
+}
 
 try {
   require('ts-node').register()
   TYPE_SCRIPT_AVAILABLE = true
-} catch (e) {}
-
-var Pattern = function (pattern, served, included, watched, nocache) {
-  this.pattern = pattern
-  this.served = helper.isDefined(served) ? served : true
-  this.included = helper.isDefined(included) ? included : true
-  this.watched = helper.isDefined(watched) ? watched : true
-  this.nocache = helper.isDefined(nocache) ? nocache : false
-  this.weight = helper.mmPatternWeight(pattern)
+} catch (e) {
 }
 
-Pattern.prototype.compare = function (other) {
-  return helper.mmComparePatternWeights(this.weight, other.weight)
+export class Pattern {
+  weight
+
+  constructor(public pattern,
+              public served = true,
+              public included = true,
+              public watched = true,
+              public nocache = false) {
+    this.weight = helper.mmPatternWeight(pattern)
+  }
+
+  compare(other) {
+    return helper.mmComparePatternWeights(this.weight, other.weight)
+  }
 }
 
-var UrlPattern = function (url) {
-  Pattern.call(this, url, false, true, false, false)
+class UrlPattern extends Pattern {
+  constructor(url) {
+    super(url, false, true, false, false)
+  }
 }
 
-var createPatternObject = function (pattern) {
+export function createPatternObject(pattern) {
   if (pattern && helper.isString(pattern)) {
     return helper.isUrlAbsolute(pattern) ? new UrlPattern(pattern) : new Pattern(pattern)
   }
@@ -57,11 +66,11 @@ var createPatternObject = function (pattern) {
       return helper.isUrlAbsolute(pattern.pattern)
         ? new UrlPattern(pattern.pattern)
         : new Pattern(
-          pattern.pattern,
-          pattern.served,
-          pattern.included,
-          pattern.watched,
-          pattern.nocache)
+        pattern.pattern,
+        pattern.served,
+        pattern.included,
+        pattern.watched,
+        pattern.nocache)
     }
 
     log.warn('Invalid pattern %s!\n\tObject is missing "pattern" property.', pattern)
@@ -258,17 +267,17 @@ var normalizeConfig = function (config, configFilePath) {
   return config
 }
 
-var Config = function () {
-  var config = this
+export class Config {
 
-  this.LOG_DISABLE = constant.LOG_DISABLE
-  this.LOG_ERROR = constant.LOG_ERROR
-  this.LOG_WARN = constant.LOG_WARN
-  this.LOG_INFO = constant.LOG_INFO
-  this.LOG_DEBUG = constant.LOG_DEBUG
+  LOG_DISABLE = constant.LOG_DISABLE
+  LOG_ERROR = constant.LOG_ERROR
+  LOG_WARN = constant.LOG_WARN
+  LOG_INFO = constant.LOG_INFO
+  LOG_DEBUG = constant.LOG_DEBUG
 
-  this.set = function (newConfig) {
-    _.merge(config, newConfig, function (obj, src) {
+
+  set(newConfig) {
+    _.merge(this, newConfig, function (obj, src) {
       // Overwrite arrays to keep consistent with #283
       if (_.isArray(src)) {
         return src
@@ -277,55 +286,56 @@ var Config = function () {
   }
 
   // DEFAULT CONFIG
-  this.frameworks = []
-  this.protocol = 'http:'
-  this.port = constant.DEFAULT_PORT
-  this.hostname = constant.DEFAULT_HOSTNAME
-  this.httpsServerConfig = {}
-  this.basePath = ''
-  this.files = []
-  this.browserConsoleLogOptions = {
+  frameworks = []
+  protocol = 'http:'
+  port = constant.DEFAULT_PORT
+  hostname = constant.DEFAULT_HOSTNAME
+  httpsServerConfig = {}
+  basePath = ''
+  files = []
+  browserConsoleLogOptions = {
     level: 'debug',
     format: '%b %T: %m',
     terminal: true
   }
-  this.customContextFile = null
-  this.customDebugFile = null
-  this.exclude = []
-  this.logLevel = constant.LOG_INFO
-  this.colors = true
-  this.autoWatch = true
-  this.autoWatchBatchDelay = 250
-  this.restartOnFileChange = false
-  this.usePolling = process.platform === 'darwin' || process.platform === 'linux'
-  this.reporters = ['progress']
-  this.singleRun = false
-  this.browsers = []
-  this.captureTimeout = 60000
-  this.proxies = {}
-  this.proxyValidateSSL = true
-  this.preprocessors = {}
-  this.urlRoot = '/'
-  this.upstreamProxy = undefined
-  this.reportSlowerThan = 0
-  this.loggers = [constant.CONSOLE_APPENDER]
-  this.transports = ['polling', 'websocket']
-  this.forceJSONP = false
-  this.plugins = ['karma-*']
-  this.defaultClient = this.client = {
+  customContextFile = null
+  customDebugFile = null
+  exclude = []
+  logLevel = constant.LOG_INFO
+  colors = true
+  autoWatch = true
+  autoWatchBatchDelay = 250
+  restartOnFileChange = false
+  usePolling = process.platform === 'darwin' || process.platform === 'linux'
+  reporters = ['progress']
+  singleRun = false
+  browsers = []
+  captureTimeout = 60000
+  proxies = {}
+  proxyValidateSSL = true
+  preprocessors = {}
+  urlRoot = '/'
+  upstreamProxy = undefined
+  reportSlowerThan = 0
+  loggers = [constant.CONSOLE_APPENDER]
+  transports = ['polling', 'websocket']
+  forceJSONP = false
+  plugins = ['karma-*']
+  client = {
     args: [],
     useIframe: true,
     captureConsole: true,
     clearContext: true
   }
-  this.browserDisconnectTimeout = 2000
-  this.browserDisconnectTolerance = 0
-  this.browserNoActivityTimeout = 10000
-  this.concurrency = Infinity
-  this.failOnEmptyTestSuite = true
-  this.retryLimit = 2
-  this.detached = false
-  this.crossOriginAttribute = true
+  defaultClient = this.client
+  browserDisconnectTimeout = 2000
+  browserDisconnectTolerance = 0
+  browserNoActivityTimeout = 10000
+  concurrency = Infinity
+  failOnEmptyTestSuite = true
+  retryLimit = 2
+  detached = false
+  crossOriginAttribute = true
 }
 
 var CONFIG_SYNTAX_HELP = '  module.exports = function(config) {\n' +
@@ -334,7 +344,7 @@ var CONFIG_SYNTAX_HELP = '  module.exports = function(config) {\n' +
   '    });\n' +
   '  };\n'
 
-var parseConfig = function (configFilePath, cliOptions) {
+export function parseConfig(configFilePath: string, cliOptions: ConfigOptions) {
   var configModule
   if (configFilePath) {
     log.debug('Loading config %s', configFilePath)
@@ -368,7 +378,8 @@ var parseConfig = function (configFilePath, cliOptions) {
   } else {
     log.debug('No config file specified.')
     // if no config file path is passed, we define a dummy config module.
-    configModule = function () {}
+    configModule = function () {
+    }
   }
 
   var config = new Config()
@@ -389,9 +400,3 @@ var parseConfig = function (configFilePath, cliOptions) {
 
   return normalizeConfig(config, configFilePath)
 }
-
-// PUBLIC API
-exports.parseConfig = parseConfig
-exports.Pattern = Pattern
-exports.createPatternObject = createPatternObject
-exports.Config = Config

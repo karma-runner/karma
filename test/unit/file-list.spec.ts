@@ -1,13 +1,15 @@
-import Promise from 'bluebird'
+import * as Promise from 'bluebird'
 import {EventEmitter} from 'events'
-import mocks from 'mocks'
-import proxyquire from 'proxyquire'
-import pathLib from 'path'
-import _ from 'lodash'
-import from from 'core-js/library/fn/array/from'
+import * as mocks from 'mocks'
+import * as proxyquire from 'proxyquire'
+import * as pathLib from 'path'
+import * as _ from 'lodash'
+import * as from from 'core-js/library/fn/array/from'
 
-import helper from '../../lib/helper'
-import config from '../../lib/config'
+import * as helper from '../../lib/helper'
+import * as config from '../../lib/config'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 // create an array of pattern objects from given strings
 var patterns = (...strings) => strings.map((str) => new config.Pattern(str))
@@ -16,8 +18,8 @@ function pathsFrom (files) {
   return _.pluck(from(files), 'path')
 }
 
-function findFile (path, files) {
-  return from(files).find((file) => file.path === path)
+function findFile (path, files): any {
+  return from(files).find((file: any) => file.path === path)
 }
 
 var PATTERN_LIST = {

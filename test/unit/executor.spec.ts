@@ -1,7 +1,9 @@
-var Browser = require('../../lib/browser')
-var BrowserCollection = require('../../lib/browser_collection')
-var EventEmitter = require('../../lib/events').EventEmitter
-var Executor = require('../../lib/executor')
+import {Browser} from '../../lib/browser'
+import {BrowserCollection} from '../../lib/browser_collection'
+import {KarmaEventEmitter as EventEmitter} from '../../lib/events'
+import {Executor} from '../../lib/executor'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('executor', () => {
   var emitter

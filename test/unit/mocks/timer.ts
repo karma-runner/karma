@@ -1,6 +1,6 @@
 import {Timer} from 'timer-shim'
 
-module.exports = function () {
+export = function () {
   var timer = new Timer()
   timer.pause()
 

@@ -1,15 +1,23 @@
-var Result = function () {
-  var startTime = Date.now()
+export class Result {
+  skipped = 0
+  failed = 0
+  success = 0
+  totalTime = 0
+  error = false
+  total = 0
+  netTime = 0
+  disconnected = false
 
-  this.total = this.skipped = this.failed = this.success = 0
-  this.netTime = this.totalTime = 0
-  this.disconnected = this.error = false
+  private startTime = Date.now()
 
-  this.totalTimeEnd = function () {
-    this.totalTime = Date.now() - startTime
+  constructor() {
   }
 
-  this.add = function (result) {
+  totalTimeEnd() {
+    this.totalTime = Date.now() - this.startTime
+  }
+
+  add(result) {
     if (result.skipped) {
       this.skipped++
     } else if (result.success) {
@@ -21,5 +29,3 @@ var Result = function () {
     this.netTime += result.time
   }
 }
-
-module.exports = Result

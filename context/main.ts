@@ -1,5 +1,5 @@
 // Load in our dependencies
-var ContextKarma = require('./karma')
+import {ContextKarma} from './karma'
 
 // Resolve our parent window
 var parentWindow = window.opener || window.parent
@@ -18,4 +18,4 @@ if (!haveParentAccess) {
 }
 
 // Define a window-scoped Karma
-window.__karma__ = new ContextKarma(callParentKarmaMethod)
+(<any>window).__karma__ = new ContextKarma(callParentKarmaMethod)

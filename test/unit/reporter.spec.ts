@@ -1,10 +1,11 @@
 import {EventEmitter} from 'events'
 import {loadFile} from 'mocks'
-import path from 'path'
-import _ from 'lodash'
-import sinon from 'sinon'
+import * as path from 'path'
+import * as _ from 'lodash'
+import * as sinon from 'sinon'
+import {expect} from 'chai'
 
-import File from '../../lib/file'
+import {File} from '../../lib/file'
 
 describe('reporter', () => {
   var m
@@ -128,6 +129,10 @@ describe('reporter', () => {
       var sourceMappingPath = null
 
       class MockSourceMapConsumer {
+        static GREATEST_LOWER_BOUND
+        static LEAST_UPPER_BOUND
+        source;
+
         constructor (sourceMap) {
           this.source = sourceMap.content.replace('SOURCE MAP ', sourceMappingPath)
         }
@@ -156,7 +161,7 @@ describe('reporter', () => {
 
       it('should rewrite stack traces', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
-        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        var servedFiles: any[] = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
@@ -171,7 +176,7 @@ describe('reporter', () => {
 
       it('should rewrite stack traces to the first column when no column is given', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
-        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        var servedFiles: any[] = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
@@ -186,7 +191,7 @@ describe('reporter', () => {
 
       it('should rewrite relative url stack traces', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
-        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        var servedFiles: any[] = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
@@ -202,7 +207,7 @@ describe('reporter', () => {
       it('should resolve relative urls from source maps', (done) => {
         sourceMappingPath = 'original/' // Note: relative path.
         formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
-        var servedFiles = [new File('/some/base/path/a.js')]
+        var servedFiles: any[] = [new File('/some/base/path/a.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.fancyjs'}
 
         emitter.emit('file_list_modified', {served: servedFiles})
@@ -216,7 +221,7 @@ describe('reporter', () => {
 
       it('should fall back to non-source-map format if originalPositionFor throws', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
-        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        var servedFiles: any[] = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 
@@ -231,7 +236,7 @@ describe('reporter', () => {
 
       it('should not try to use source maps when no line is given', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
-        var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        var servedFiles: any[] = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 

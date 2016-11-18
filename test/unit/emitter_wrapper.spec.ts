@@ -1,8 +1,9 @@
-import EmitterWrapper from '../../lib/emitter_wrapper'
+import {EmitterWrapper} from '../../lib/emitter_wrapper'
 import {EventEmitter} from 'events'
+import {expect} from 'chai'
 
 describe('emitter_wrapper', () => {
-  var emitter
+  var emitter: any
   var wrapped
 
   beforeEach(() => {

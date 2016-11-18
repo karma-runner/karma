@@ -1,7 +1,8 @@
-var events = require('events')
-var util = require('util')
+import {EventEmitter as EventEmitter1} from 'events'
+import events = require('events')
+import util = require('util')
 
-var helper = require('./helper')
+import helper = require('./helper')
 
 var bindAllEvents = function (object, context) {
   context = context || this
@@ -21,7 +22,7 @@ var bindAllEvents = function (object, context) {
   }
 }
 
-var bufferEvents = function (emitter, eventsToBuffer) {
+export var bufferEvents = function (emitter, eventsToBuffer) {
   var listeners = []
   var eventsToReply = []
   var genericListener = function () {
@@ -46,7 +47,7 @@ var bufferEvents = function (emitter, eventsToBuffer) {
 
     // reply
     eventsToReply.forEach(function (args) {
-      events.EventEmitter.prototype.emit.apply(emitter, args)
+      EventEmitter1.prototype.emit.apply(emitter, args)
     })
 
     // free-up
@@ -55,10 +56,14 @@ var bufferEvents = function (emitter, eventsToBuffer) {
 }
 
 // TODO(vojta): log.debug all events
-var EventEmitter = function () {
-  this.bind = bindAllEvents
+export class KarmaEventEmitter extends EventEmitter1 {
+  bind = bindAllEvents
 
-  this.emitAsync = function (name) {
+  constructor() {
+    super()
+  }
+
+  emitAsync = (name) => {
     // TODO(vojta): allow passing args
     // TODO(vojta): ignore/throw if listener call done() multiple times
     var pending = this.listeners(name).length
@@ -79,9 +84,5 @@ var EventEmitter = function () {
   }
 }
 
-util.inherits(EventEmitter, events.EventEmitter)
-
 // PUBLISH
-exports.EventEmitter = EventEmitter
-exports.bindAll = bindAllEvents
-exports.bufferEvents = bufferEvents
+export var bindAll = bindAllEvents

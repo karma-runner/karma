@@ -1,5 +1,8 @@
+import {Result} from '../../lib/browser_result'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
+
 describe('BrowserResult', () => {
-  var Result = require('../../lib/browser_result')
   var result = null
 
   var successResultFromBrowser = {
@@ -21,17 +24,17 @@ describe('BrowserResult', () => {
   }
 
   beforeEach(() => {
-    sinon.stub(Date, 'now')
-    Date.now.returns(123)
+    sinon.stub(Date, 'now');
+    (<any>Date.now).returns(123)
     result = new Result()
   })
 
   afterEach(() => {
-    Date.now.restore()
+    (<any>Date.now).restore()
   })
 
   it('should compute totalTime', () => {
-    Date.now.returns(223)
+    (<any>Date.now).returns(223);
     result.totalTimeEnd()
     expect(result.totalTime).to.equal(223 - 123)
   })

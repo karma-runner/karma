@@ -1,20 +1,20 @@
-var fs = require('graceful-fs')
-var path = require('path')
-var _ = require('lodash')
+import fs = require('graceful-fs')
+import path = require('path')
+import _ = require('lodash')
 var useragent = require('useragent')
-var Promise = require('bluebird')
+import Promise = require('bluebird')
 var mm = require('minimatch')
 
-exports.browserFullNameToShort = function (fullName) {
+export function browserFullNameToShort(fullName) {
   var agent = useragent.parse(fullName)
   var isKnown = agent.family !== 'Other' && agent.os.family !== 'Other'
   return isKnown ? agent.toAgent() + ' (' + agent.os + ')' : fullName
 }
 
-exports.isDefined = function (value) {
+export function isDefined(value?) {
   return !_.isUndefined(value)
 }
-var parser = function (pattern, out) {
+function parser(pattern, out) {
   if (pattern.length === 0) return out
   var p = /^(\[[^\]]*\]|[\*\+@\?]\((.+?)\))/g
   var matches = p.exec(pattern)
@@ -53,7 +53,7 @@ var compareWeightObject = function (w1, w2) {
   )
 }
 
-exports.mmPatternWeight = function (pattern) {
+export function mmPatternWeight(pattern) {
   var m = new mm.Minimatch(pattern)
   if (!m.globParts) return [0, 0, 0, 0, 0, 0]
   var result = m.globParts.reduce(function (prev, p) {
@@ -67,7 +67,7 @@ exports.mmPatternWeight = function (pattern) {
   return [result.glob_sets, result.glob_star, result.star, result.ext_glob, result.range, result.optional]
 }
 
-exports.mmComparePatternWeights = function (weight1, weight2) {
+export function mmComparePatternWeights(weight1, weight2) {
   var n1, n2, diff
   n1 = weight1[0]
   n2 = weight2[0]
@@ -76,32 +76,32 @@ exports.mmComparePatternWeights = function (weight1, weight2) {
   return weight1.length > 1 ? exports.mmComparePatternWeights(weight1.slice(1), weight2.slice(1)) : 0
 }
 
-exports.isFunction = _.isFunction
-exports.isString = _.isString
-exports.isObject = _.isObject
-exports.isArray = _.isArray
+export var isFunction = _.isFunction
+export var isString = _.isString
+export var isObject = _.isObject
+export var isArray = _.isArray
 
 var ABS_URL = /^https?:\/\//
-exports.isUrlAbsolute = function (url) {
+export function isUrlAbsolute(url) {
   return ABS_URL.test(url)
 }
 
-exports.camelToSnake = function (camelCase) {
+export function camelToSnake(camelCase) {
   return camelCase.replace(/[A-Z]/g, function (match, pos) {
     return (pos > 0 ? '_' : '') + match.toLowerCase()
   })
 }
 
-exports.ucFirst = function (word) {
+export function ucFirst(word) {
   return word.charAt(0).toUpperCase() + word.substr(1)
 }
 
-exports.dashToCamel = function (dash) {
+export function dashToCamel(dash) {
   var words = dash.split('-')
   return words.shift() + words.map(exports.ucFirst).join('')
 }
 
-exports.arrayRemove = function (collection, item) {
+export function arrayRemove(collection, item) {
   var idx = collection.indexOf(item)
 
   if (idx !== -1) {
@@ -112,13 +112,13 @@ exports.arrayRemove = function (collection, item) {
   return false
 }
 
-exports.merge = function () {
-  var args = Array.prototype.slice.call(arguments, 0)
+export function merge(..._arguments) {
+  var args = Array.prototype.slice.call(_arguments, 0)
   args.unshift({})
   return _.merge.apply({}, args)
 }
 
-exports.formatTimeInterval = function (time) {
+export function formatTimeInterval(time) {
   var mins = Math.floor(time / 60000)
   var secs = (time - mins * 60000) / 1000
   var str = secs + (secs === 1 ? ' sec' : ' secs')
@@ -134,9 +134,9 @@ var replaceWinPath = function (path) {
   return _.isString(path) ? path.replace(/\\/g, '/') : path
 }
 
-exports.normalizeWinPath = process.platform === 'win32' ? replaceWinPath : _.identity
+export var normalizeWinPath = process.platform === 'win32' ? replaceWinPath : _.identity
 
-exports.mkdirIfNotExists = function mkdir (directory, done) {
+export var mkdirIfNotExists = function mkdir (directory, done) {
   // TODO(vojta): handle if it's a file
   /* eslint-disable handle-callback-err */
   fs.stat(directory, function (err, stat) {
@@ -151,7 +151,7 @@ exports.mkdirIfNotExists = function mkdir (directory, done) {
   /* eslint-enable handle-callback-err */
 }
 
-exports.defer = function () {
+export function defer() {
   var resolve
   var reject
   var promise = new Promise(function () {

@@ -1,10 +1,10 @@
-var http = require('http')
+import http = require('http')
 
-var cfg = require('./config')
-var logger = require('./logger')
-var helper = require('./helper')
+import cfg = require('./config')
+import logger = require('./logger')
+import helper = require('./helper')
 
-exports.stop = function (config, done) {
+export function stop(config, done?) {
   config = config || {}
   logger.setupFromConfig(config)
   done = helper.isFunction(done) ? done : process.exit
@@ -31,7 +31,7 @@ exports.stop = function (config, done) {
     done(0)
   })
 
-  request.on('error', function (e) {
+  request.on('error', function (e: any) {
     if (e.code === 'ECONNREFUSED') {
       log.error('There is no server listening on port %d', options.port)
       done(1, e.code)

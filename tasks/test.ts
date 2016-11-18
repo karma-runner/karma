@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+export = function (grunt) {
   /**
    * Run tests
    *

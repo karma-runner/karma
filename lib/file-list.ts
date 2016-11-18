@@ -7,20 +7,21 @@
 // Dependencies
 // ------------
 
-require('core-js')
+import 'core-js'
 var from = require('core-js/library/fn/array/from')
 var Promise = require('bluebird')
 var mm = require('minimatch')
 var Glob = require('glob').Glob
 var fs = Promise.promisifyAll(require('graceful-fs'))
-var pathLib = require('path')
+import pathLib = require('path')
 var _ = require('lodash')
 
-var File = require('./file')
-var Url = require('./url')
-var helper = require('./helper')
-var log = require('./logger').create('watcher')
-var createPatternObject = require('./config').createPatternObject
+import {File} from './file'
+import {Url} from './url'
+import helper = require('./helper')
+import {create} from './logger'
+var log = create('watcher')
+import {createPatternObject} from './config'
 
 // Constants
 // ---------
@@ -49,39 +50,40 @@ function byPath (a, b) {
 // emitter       - EventEmitter
 // preprocess    - Function
 // batchInterval - Number
-var List = function (patterns, excludes, emitter, preprocess, batchInterval) {
-  // Store options
-  this._patterns = patterns
-  this._excludes = excludes
-  this._emitter = emitter
-  this._preprocess = Promise.promisify(preprocess)
-  this._batchInterval = batchInterval
+export = class List {
+  private _preprocess
+  private _refreshing
+  private buckets
 
-  // The actual list of files
-  this.buckets = new Map()
+  constructor(private _patterns, private _excludes, private _emitter, preprocess, private _batchInterval) {
+    // Store options
+    this._preprocess = Promise.promisify(preprocess)
 
-  // Internal tracker if we are refreshing.
-  // When a refresh is triggered this gets set
-  // to the promise that `this._refresh` returns.
-  // So we know we are refreshing when this promise
-  // is still pending, and we are done when it's either
-  // resolved or rejected.
-  this._refreshing = Promise.resolve()
+    // The actual list of files
+    // ts:disable-next-line
+    this.buckets = new Map()
 
-  var self = this
+    // Internal tracker if we are refreshing.
+    // When a refresh is triggered this gets set
+    // to the promise that `this._refresh` returns.
+    // So we know we are refreshing when this promise
+    // is still pending, and we are done when it's either
+    // resolved or rejected.
+    this._refreshing = Promise.resolve()
+
+  }
 
   // Emit the `file_list_modified` event.
   // This function is throttled to the value of `batchInterval`
   // to avoid spamming the listener.
-  function emit () {
-    self._emitter.emit('file_list_modified', self.files)
+  private emit() {
+    this._emitter.emit('file_list_modified', this.files)
   }
-  var throttledEmit = _.throttle(emit, self._batchInterval, {leading: false})
-  self._emitModified = function (immediate) {
-    immediate ? emit() : throttledEmit()
-  }
-}
 
+  private throttledEmit = _.throttle(this.emit, this._batchInterval, {leading: false})
+  private _emitModified(immediate?) {
+    immediate ? this.emit() : this.throttledEmit()
+  }
 // Private Interface
 // -----------------
 
@@ -91,22 +93,22 @@ var List = function (patterns, excludes, emitter, preprocess, batchInterval) {
 //
 // Returns `undefined` if no match, otherwise the matching
 // pattern.
-List.prototype._isExcluded = function (path) {
-  return _.find(this._excludes, function (pattern) {
-    return mm(path, pattern)
-  })
-}
+  _isExcluded(path) {
+    return _.find(this._excludes, function (pattern) {
+      return mm(path, pattern)
+    })
+  }
 
 // Find the matching include pattern for the given path.
 //
 // path - String
 //
 // Returns the match or `undefined` if none found.
-List.prototype._isIncluded = function (path) {
-  return _.find(this._patterns, function (pattern) {
-    return mm(path, pattern.pattern)
-  })
-}
+  _isIncluded(path) {
+    return _.find(this._patterns, function (pattern: any) {
+      return mm(path, pattern.pattern)
+    })
+  }
 
 // Find the given path in the bucket corresponding
 // to the given pattern.
@@ -115,105 +117,104 @@ List.prototype._isIncluded = function (path) {
 // pattern - Object
 //
 // Returns a File or undefined
-List.prototype._findFile = function (path, pattern) {
-  if (!path || !pattern) return
-  if (!this.buckets.has(pattern.pattern)) return
+  _findFile(path, pattern) {
+    if (!path || !pattern) return
+    if (!this.buckets.has(pattern.pattern)) return
 
-  return _.find(from(this.buckets.get(pattern.pattern)), function (file) {
-    return file.originalPath === path
-  })
-}
+    return _.find(from(this.buckets.get(pattern.pattern)), function (file: any) {
+      return file.originalPath === path
+    })
+  }
 
 // Is the given path already in the files list.
 //
 // path - String
 //
 // Returns a boolean.
-List.prototype._exists = function (path) {
-  var self = this
+  _exists(path) {
+    var self = this
 
-  var patterns = this._patterns.filter(function (pattern) {
-    return mm(path, pattern.pattern)
-  })
+    var patterns = this._patterns.filter(function (pattern) {
+      return mm(path, pattern.pattern)
+    })
 
-  return !!_.find(patterns, function (pattern) {
-    return self._findFile(path, pattern)
-  })
-}
+    return !!_.find(patterns, function (pattern) {
+      return self._findFile(path, pattern)
+    })
+  }
 
 // Check if we are currently refreshing
-List.prototype._isRefreshing = function () {
-  return this._refreshing.isPending()
-}
+  _isRefreshing() {
+    return this._refreshing.isPending()
+  }
 
 // Do the actual work of refreshing
-List.prototype._refresh = function () {
-  var self = this
-  var buckets = this.buckets
+  _refresh() {
+    var self = this
+    var buckets = this.buckets
 
-  var promise = Promise.map(this._patterns, function (patternObject) {
-    var pattern = patternObject.pattern
+    var promise = Promise.map(this._patterns, function (patternObject) {
+      var pattern = patternObject.pattern
 
-    if (helper.isUrlAbsolute(pattern)) {
-      buckets.set(pattern, new Set([new Url(pattern)]))
-      return Promise.resolve()
-    }
-
-    var mg = new Glob(pathLib.normalize(pattern), GLOB_OPTS)
-    var files = mg.found
-    buckets.set(pattern, new Set())
-
-    if (_.isEmpty(files)) {
-      log.warn('Pattern "%s" does not match any file.', pattern)
-      return
-    }
-
-    return Promise.map(files, function (path) {
-      if (self._isExcluded(path)) {
-        log.debug('Excluded file "%s"', path)
+      if (helper.isUrlAbsolute(pattern)) {
+        buckets.set(pattern, new Set([new Url(pattern)]))
         return Promise.resolve()
       }
 
-      var mtime = mg.statCache[path].mtime
-      var doNotCache = patternObject.nocache
-      var file = new File(path, mtime, doNotCache)
-
-      if (file.doNotCache) {
-        log.debug('Not preprocessing "%s" due to nocache')
-        return Promise.resolve(file)
-      }
-
-      return self._preprocess(file).then(function () {
-        return file
-      })
-    })
-    .then(function (files) {
-      files = _.compact(files)
+      var mg = new Glob(pathLib.normalize(pattern), GLOB_OPTS)
+      var files = mg.found
+      buckets.set(pattern, new Set())
 
       if (_.isEmpty(files)) {
-        log.warn('All files matched by "%s" were excluded.', pattern)
-      } else {
-        buckets.set(pattern, new Set(files))
+        log.warn('Pattern "%s" does not match any file.', pattern)
+        return
       }
-    })
-  })
-  .then(function () {
-    if (self._refreshing !== promise) {
-      return self._refreshing
-    }
-    self.buckets = buckets
-    self._emitModified(true)
-    return self.files
-  })
 
-  return promise
-}
+      return Promise.map(files, function (path) {
+        if (self._isExcluded(path)) {
+          log.debug('Excluded file "%s"', path)
+          return Promise.resolve()
+        }
+
+        var mtime = mg.statCache[path].mtime
+        var doNotCache = patternObject.nocache
+        var file = new File(path, mtime, doNotCache)
+
+        if (file.doNotCache) {
+          log.debug('Not preprocessing "%s" due to nocache')
+          return Promise.resolve(file)
+        }
+
+        return self._preprocess(file).then(function () {
+          return file
+        })
+      })
+        .then(function (files) {
+          files = _.compact(files)
+
+          if (_.isEmpty(files)) {
+            log.warn('All files matched by "%s" were excluded.', pattern)
+          } else {
+            buckets.set(pattern, new Set(files))
+          }
+        })
+    })
+      .then(function () {
+        if (self._refreshing !== promise) {
+          return self._refreshing
+        }
+        self.buckets = buckets
+        self._emitModified(true)
+        return self.files
+      })
+
+    return promise
+  }
 
 // Public Interface
 // ----------------
 
-Object.defineProperty(List.prototype, 'files', {
-  get: function () {
+  get files() {
     var self = this
     var uniqueFlat = function (list) {
       return _.uniq(_.flatten(list), 'path')
@@ -226,7 +227,7 @@ Object.defineProperty(List.prototype, 'files', {
     var served = this._patterns.filter(function (pattern) {
       return pattern.served
     })
-    .map(expandPattern)
+      .map(expandPattern)
 
     var lookup = {}
     var included = {}
@@ -256,16 +257,15 @@ Object.defineProperty(List.prototype, 'files', {
       included: _.values(included)
     }
   }
-})
 
 // Reglob all patterns to update the list.
 //
 // Returns a promise that is resolved when the refresh
 // is completed.
-List.prototype.refresh = function () {
-  this._refreshing = this._refresh()
-  return this._refreshing
-}
+  refresh() {
+    this._refreshing = this._refresh()
+    return this._refreshing
+  }
 
 // Set new patterns and excludes and update
 // the list accordingly
@@ -275,14 +275,14 @@ List.prototype.refresh = function () {
 //
 // Returns a promise that is resolved when the refresh
 // is completed.
-List.prototype.reload = function (patterns, excludes) {
-  this._patterns = patterns
-  this._excludes = excludes
+  reload(patterns, excludes) {
+    this._patterns = patterns
+    this._excludes = excludes
 
-  // Wait until the current refresh is done and then do a
-  // refresh to ensure a refresh actually happens
-  return this.refresh()
-}
+    // Wait until the current refresh is done and then do a
+    // refresh to ensure a refresh actually happens
+    return this.refresh()
+  }
 
 // Add a new file from the list.
 // This is called by the watcher
@@ -291,45 +291,45 @@ List.prototype.reload = function (patterns, excludes) {
 //
 // Returns a promise that is resolved when the update
 // is completed.
-List.prototype.addFile = function (path) {
-  var self = this
+  addFile(path) {
+    var self = this
 
-  // Ensure we are not adding a file that should be excluded
-  var excluded = this._isExcluded(path)
-  if (excluded) {
-    log.debug('Add file "%s" ignored. Excluded by "%s".', path, excluded)
+    // Ensure we are not adding a file that should be excluded
+    var excluded = this._isExcluded(path)
+    if (excluded) {
+      log.debug('Add file "%s" ignored. Excluded by "%s".', path, excluded)
 
-    return Promise.resolve(this.files)
+      return Promise.resolve(this.files)
+    }
+
+    var pattern = this._isIncluded(path)
+
+    if (!pattern) {
+      log.debug('Add file "%s" ignored. Does not match any pattern.', path)
+      return Promise.resolve(this.files)
+    }
+
+    if (this._exists(path)) {
+      log.debug('Add file "%s" ignored. Already in the list.', path)
+      return Promise.resolve(this.files)
+    }
+
+    var file = new File(path)
+    this.buckets.get(pattern.pattern).add(file)
+
+    return Promise.all([
+      fs.statAsync(path),
+      this._refreshing
+    ]).spread(function (stat) {
+      file.mtime = stat.mtime
+      return self._preprocess(file)
+    })
+      .then(() => {
+        log.info('Added file "%s".', path)
+        this._emitModified()
+        return self.files
+      })
   }
-
-  var pattern = this._isIncluded(path)
-
-  if (!pattern) {
-    log.debug('Add file "%s" ignored. Does not match any pattern.', path)
-    return Promise.resolve(this.files)
-  }
-
-  if (this._exists(path)) {
-    log.debug('Add file "%s" ignored. Already in the list.', path)
-    return Promise.resolve(this.files)
-  }
-
-  var file = new File(path)
-  this.buckets.get(pattern.pattern).add(file)
-
-  return Promise.all([
-    fs.statAsync(path),
-    this._refreshing
-  ]).spread(function (stat) {
-    file.mtime = stat.mtime
-    return self._preprocess(file)
-  })
-  .then(function () {
-    log.info('Added file "%s".', path)
-    self._emitModified()
-    return self.files
-  })
-}
 
 // Update the `mtime` of a file.
 // This is called by the watcher
@@ -338,35 +338,35 @@ List.prototype.addFile = function (path) {
 //
 // Returns a promise that is resolved when the update
 // is completed.
-List.prototype.changeFile = function (path) {
-  var self = this
+  changeFile(path) {
+    var self = this
 
-  var pattern = this._isIncluded(path)
-  var file = this._findFile(path, pattern)
+    var pattern = this._isIncluded(path)
+    var file = this._findFile(path, pattern)
 
-  if (!pattern || !file) {
-    log.debug('Changed file "%s" ignored. Does not match any file in the list.', path)
-    return Promise.resolve(this.files)
+    if (!pattern || !file) {
+      log.debug('Changed file "%s" ignored. Does not match any file in the list.', path)
+      return Promise.resolve(this.files)
+    }
+
+    return Promise.all([
+      fs.statAsync(path),
+      this._refreshing
+    ]).spread(function (stat) {
+      if (stat.mtime <= file.mtime) throw new Promise.CancellationError()
+
+      file.mtime = stat.mtime
+      return self._preprocess(file)
+    })
+      .then(function () {
+        log.info('Changed file "%s".', path)
+        self._emitModified()
+        return self.files
+      })
+      .catch(Promise.CancellationError, function () {
+        return self.files
+      })
   }
-
-  return Promise.all([
-    fs.statAsync(path),
-    this._refreshing
-  ]).spread(function (stat) {
-    if (stat.mtime <= file.mtime) throw new Promise.CancellationError()
-
-    file.mtime = stat.mtime
-    return self._preprocess(file)
-  })
-  .then(function () {
-    log.info('Changed file "%s".', path)
-    self._emitModified()
-    return self.files
-  })
-  .catch(Promise.CancellationError, function () {
-    return self.files
-  })
-}
 
 // Remove a file from the list.
 // This is called by the watcher
@@ -375,29 +375,27 @@ List.prototype.changeFile = function (path) {
 //
 // Returns a promise that is resolved when the update
 // is completed.
-List.prototype.removeFile = function (path) {
-  var self = this
+  removeFile(path) {
+    var self = this
 
-  return Promise.try(function () {
-    var pattern = self._isIncluded(path)
-    var file = self._findFile(path, pattern)
+    return Promise.try(function () {
+      var pattern = self._isIncluded(path)
+      var file = self._findFile(path, pattern)
 
-    if (!pattern || !file) {
-      log.debug('Removed file "%s" ignored. Does not match any file in the list.', path)
+      if (!pattern || !file) {
+        log.debug('Removed file "%s" ignored. Does not match any file in the list.', path)
+        return self.files
+      }
+
+      self.buckets.get(pattern.pattern).delete(file)
+
+      log.info('Removed file "%s".', path)
+      self._emitModified()
       return self.files
-    }
+    })
+  }
 
-    self.buckets.get(pattern.pattern).delete(file)
-
-    log.info('Removed file "%s".', path)
-    self._emitModified()
-    return self.files
-  })
+  // Inject dependencies
+  static $inject = ['config.files', 'config.exclude', 'emitter', 'preprocess',
+    'config.autoWatchBatchDelay']
 }
-
-// Inject dependencies
-List.$inject = ['config.files', 'config.exclude', 'emitter', 'preprocess',
-  'config.autoWatchBatchDelay']
-
-// PUBLIC
-module.exports = List

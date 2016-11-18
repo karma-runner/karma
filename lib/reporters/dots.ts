@@ -1,20 +1,24 @@
-var BaseReporter = require('./base')
+import {BaseReporter} from './base'
 
-var DotsReporter = function (formatError, reportSlow, useColors, browserConsoleLogOptions) {
-  BaseReporter.call(this, formatError, reportSlow, useColors, browserConsoleLogOptions)
+export class DotsReporter extends BaseReporter {
+  private _dotsCount
 
-  var DOTS_WRAP = 80
-  this.EXCLUSIVELY_USE_COLORS = false
-  this.onRunStart = function () {
+  constructor(formatError, reportSlow, useColors, browserConsoleLogOptions) {
+    super(formatError, reportSlow, useColors, browserConsoleLogOptions)
+  }
+
+  private DOTS_WRAP = 80
+  EXCLUSIVELY_USE_COLORS = false
+  onRunStart = () => {
     this._browsers = []
     this._dotsCount = 0
   }
 
-  this.onBrowserStart = function (browser) {
+  onBrowserStart = (browser) => {
     this._browsers.push(browser)
   }
 
-  this.writeCommonMsg = function (msg) {
+  writeCommonMsg = (msg) => {
     if (this._dotsCount) {
       this._dotsCount = 0
       msg = '\n' + msg
@@ -23,16 +27,16 @@ var DotsReporter = function (formatError, reportSlow, useColors, browserConsoleL
     this.write(msg)
   }
 
-  this.specSuccess = function () {
-    this._dotsCount = (this._dotsCount + 1) % DOTS_WRAP
+  specSuccess = () => {
+    this._dotsCount = (this._dotsCount + 1) % this.DOTS_WRAP
     this.write(this._dotsCount ? '.' : '.\n')
   }
 
-  this.onBrowserComplete = function (browser) {
+  onBrowserComplete = (browser) => {
     this.writeCommonMsg(this.renderBrowser(browser) + '\n')
   }
 
-  this.onRunComplete = function (browsers, results) {
+  onRunComplete = (browsers, results) => {
     if (browsers.length > 1 && !results.disconnected && !results.error) {
       if (!results.failed) {
         this.write(this.TOTAL_SUCCESS, results.success)
@@ -42,6 +46,3 @@ var DotsReporter = function (formatError, reportSlow, useColors, browserConsoleL
     }
   }
 }
-
-// PUBLISH
-module.exports = DotsReporter

@@ -4,7 +4,7 @@ var isNode = function (obj) {
   return (obj.tagName || obj.nodeName) && obj.nodeType
 }
 
-var stringify = function stringify (obj, depth) {
+export function stringify (obj?, depth?) {
   if (depth === 0) {
     return '...'
   }
@@ -70,5 +70,3 @@ var stringify = function stringify (obj, depth) {
       return obj
   }
 }
-
-module.exports = stringify

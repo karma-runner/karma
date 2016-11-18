@@ -1,12 +1,14 @@
-import path from 'path'
-import _ from 'lodash'
+import * as path from 'path'
+import * as _ from 'lodash'
 
-import BaseLauncher from '../../../lib/launchers/base'
-import RetryLauncher from '../../../lib/launchers/retry'
-import CaptureTimeoutLauncher from '../../../lib/launchers/capture_timeout'
-import ProcessLauncher from '../../../lib/launchers/process'
-import {EventEmitter} from '../../../lib/events'
-import createMockTimer from '../mocks/timer'
+import {BaseLauncher} from '../../../lib/launchers/base'
+import {RetryLauncher} from '../../../lib/launchers/retry'
+import {CaptureTimeoutLauncher} from '../../../lib/launchers/capture_timeout'
+import {ProcessLauncher} from '../../../lib/launchers/process'
+import {KarmaEventEmitter} from '../../../lib/events'
+import createMockTimer = require('../mocks/timer')
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('launchers/process.js', () => {
   var emitter
@@ -17,12 +19,12 @@ describe('launchers/process.js', () => {
   var BROWSER_PATH = path.normalize('/usr/bin/browser')
 
   beforeEach(() => {
-    emitter = new EventEmitter()
+    emitter = new KarmaEventEmitter()
     launcher = new BaseLauncher('fake-id', emitter)
 
     mockSpawn = sinon.spy(function (cmd, args) {
-      var process = new EventEmitter()
-      process.stderr = new EventEmitter()
+      var process: any = new KarmaEventEmitter()
+      process.stderr = new KarmaEventEmitter()
       process.kill = sinon.spy()
       process.exitCode = null
       mockSpawn._processes.push(process)

@@ -1,14 +1,16 @@
-import path from 'path'
+import * as path from 'path'
 import {EventEmitter} from 'events'
-import mocks from 'mocks'
-import {Promise} from 'bluebird'
-import Browser from '../../../lib/browser'
-import BrowserCollection from '../../../lib/browser_collection'
-import MultReporter from '../../../lib/reporters/multi'
-var _ = require('lodash')
-var createRunnerMiddleware = require('../../../lib/middleware/runner').create
-var HttpResponseMock = mocks.http.ServerResponse
-var HttpRequestMock = mocks.http.ServerRequest
+import {http} from 'mocks'
+import Promise = require('bluebird')
+import {Browser} from '../../../lib/browser'
+import {BrowserCollection as BrowserCollection} from '../../../lib/browser_collection'
+import {MultiReporter} from '../../../lib/reporters/multi'
+import _ = require('lodash')
+import {create as createRunnerMiddleware} from '../../../lib/middleware/runner'
+var HttpResponseMock = http.ServerResponse
+var HttpRequestMock = http.ServerRequest
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('middleware.runner', () => {
   var nextSpy
@@ -58,7 +60,7 @@ describe('middleware.runner', () => {
       emitter,
       fileListMock,
       capturedBrowsers,
-      new MultReporter([mockReporter]),
+      new MultiReporter([mockReporter]),
       executor,
       'http:',
       'localhost',
@@ -212,7 +214,7 @@ describe('middleware.runner', () => {
   ]
 
   describe('', function () {
-    clientArgsRuns.forEach(function (run) {
+    clientArgsRuns.forEach(function (run: any) {
       it(run.desc, (done) => {
         capturedBrowsers.add(new Browser())
         sinon.stub(capturedBrowsers, 'areAllReady', () => true)

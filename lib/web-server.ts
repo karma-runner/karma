@@ -1,21 +1,21 @@
-var fs = require('graceful-fs')
-var http = require('http')
-var https = require('https')
-var path = require('path')
-var connect = require('connect')
-var Promise = require('bluebird')
+import fs = require('graceful-fs')
+import http = require('http')
+import https = require('https')
+import path = require('path')
+import connect = require('connect')
+import Promise = require('bluebird')
 
-var common = require('./middleware/common')
-var runnerMiddleware = require('./middleware/runner')
-var stopperMiddleware = require('./middleware/stopper')
-var stripHostMiddleware = require('./middleware/strip_host')
-var karmaMiddleware = require('./middleware/karma')
-var sourceFilesMiddleware = require('./middleware/source_files')
-var proxyMiddleware = require('./middleware/proxy')
+import common = require('./middleware/common')
+import runnerMiddleware = require('./middleware/runner')
+import stopperMiddleware = require('./middleware/stopper')
+import stripHostMiddleware = require('./middleware/strip_host')
+import karmaMiddleware = require('./middleware/karma')
+import sourceFilesMiddleware = require('./middleware/source_files')
+import proxyMiddleware = require('./middleware/proxy')
 
 var log = require('./logger').create('web-server')
 
-var createCustomHandler = function (customFileHandlers, /* config.basePath */ basePath) {
+var createCustomHandler:any = function (customFileHandlers, /* config.basePath */ basePath) {
   return function (request, response, next) {
     for (var i = 0; i < customFileHandlers.length; i++) {
       if (customFileHandlers[i].urlRegex.test(request.url)) {
@@ -85,7 +85,7 @@ var createWebServer = function (injector, emitter, fileList) {
     common.serve404(response, request.url)
   })
 
-  var serverClass = http
+  var serverClass: any = http
   var serverArguments = [handler]
 
   if (config.protocol === 'https:') {
@@ -108,4 +108,4 @@ var createWebServer = function (injector, emitter, fileList) {
 }
 
 // PUBLIC API
-exports.create = createWebServer
+export var create = createWebServer

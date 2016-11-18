@@ -1,8 +1,8 @@
-var helper = require('./helper')
-var events = require('./events')
-var logger = require('./logger')
+import helper = require('./helper')
+import events = require('./events')
+import logger = require('./logger')
 
-var Result = require('./browser_result')
+import {Result} from './browser_result'
 
 // The browser is ready to execute tests.
 var READY = 1
@@ -19,115 +19,124 @@ var EXECUTING_DISCONNECTED = 4
 // The browser got permanently disconnected (being removed from the collection and destroyed).
 var DISCONNECTED = 5
 
-var Browser = function (id, fullName, /* capturedBrowsers */ collection, emitter, socket, timer,
-  /* config.browserDisconnectTimeout */ disconnectDelay,
-  /* config.browserNoActivityTimeout */ noActivityTimeout) {
-  var name = helper.browserFullNameToShort(fullName)
-  var log = logger.create(name)
-  var activeSockets = [socket]
-  var activeSocketsIds = function () {
-    return activeSockets.map(function (s) {
+export class Browser {
+  name = helper.browserFullNameToShort(this.fullName)
+  private log = logger.create(this.name)
+  state
+  lastResult
+  disconnectsCount
+
+  constructor(public id?,
+              public fullName?,
+              /* capturedBrowsers */ private collection?,
+              private emitter?,
+              private socket?,
+              private timer?,
+              /* config.browserDisconnectTimeout */ private disconnectDelay?,
+              /* config.browserNoActivityTimeout */ private noActivityTimeout?) {
+    this.state = READY
+    this.lastResult = new Result()
+    this.disconnectsCount = 0
+  }
+
+  private activeSockets = [this.socket]
+  private activeSocketsIds() {
+    return this.activeSockets.map(function (s) {
       return s.id
     }).join(', ')
   }
 
-  var self = this
-  var pendingDisconnect
-  var disconnect = function (reason) {
-    self.state = DISCONNECTED
-    self.disconnectsCount++
-    log.warn('Disconnected (%d times)' + (reason || ''), self.disconnectsCount)
-    emitter.emit('browser_error', self, 'Disconnected' + reason)
-    collection.remove(self)
+  private pendingDisconnect
+  private disconnect(reason?) {
+    this.state = DISCONNECTED
+    this.disconnectsCount++
+    this.log.warn('Disconnected (%d times)' + (reason || ''), this.disconnectsCount)
+    this.emitter.emit('browser_error', this, 'Disconnected' + reason)
+    this.collection.remove(this)
   }
 
-  var noActivityTimeoutId
-  var refreshNoActivityTimeout = noActivityTimeout ? function () {
-    clearNoActivityTimeout()
-    noActivityTimeoutId = timer.setTimeout(function () {
-      self.lastResult.totalTimeEnd()
-      self.lastResult.disconnected = true
-      disconnect(', because no message in ' + noActivityTimeout + ' ms.')
-      emitter.emit('browser_complete', self)
-    }, noActivityTimeout)
-  } : function () {}
+  private noActivityTimeoutId
+  private refreshNoActivityTimeout = this.noActivityTimeout ? () => {
+    this.clearNoActivityTimeout()
+    this.noActivityTimeoutId = this.timer.setTimeout(() => {
+      this.lastResult.totalTimeEnd()
+      this.lastResult.disconnected = true
+      this.disconnect(', because no message in ' + this.noActivityTimeout + ' ms.')
+      this.emitter.emit('browser_complete', this)
+    }, this.noActivityTimeout)
+  } : () => {
+  }
 
-  var clearNoActivityTimeout = noActivityTimeout ? function () {
-    if (noActivityTimeoutId) {
-      timer.clearTimeout(noActivityTimeoutId)
-      noActivityTimeoutId = null
+  private clearNoActivityTimeout = this.noActivityTimeout ? () => {
+    if (this.noActivityTimeoutId) {
+      this.timer.clearTimeout(this.noActivityTimeoutId)
+      this.noActivityTimeoutId = null
     }
-  } : function () {}
+  } : () => {
+  }
 
-  this.id = id
-  this.fullName = fullName
-  this.name = name
-  this.state = READY
-  this.lastResult = new Result()
-  this.disconnectsCount = 0
+  init() {
+    this.collection.add(this)
 
-  this.init = function () {
-    collection.add(this)
+    events.bindAll(this, this.socket)
 
-    events.bindAll(this, socket)
-
-    log.info('Connected on socket %s with id %s', socket.id, id)
+    this.log.info('Connected on socket %s with id %s', this.socket.id, this.id)
 
     // TODO(vojta): move to collection
-    emitter.emit('browsers_change', collection)
+    this.emitter.emit('browsers_change', this.collection)
 
-    emitter.emit('browser_register', this)
+    this.emitter.emit('browser_register', this)
   }
 
-  this.isReady = function () {
+  isReady() {
     return this.state === READY
   }
 
-  this.toString = function () {
+  toString() {
     return this.name
   }
 
-  this.onKarmaError = function (error) {
+  onKarmaError(error) {
     if (this.isReady()) {
       return
     }
 
     this.lastResult.error = true
-    emitter.emit('browser_error', this, error)
+    this.emitter.emit('browser_error', this, error)
 
-    refreshNoActivityTimeout()
+    this.refreshNoActivityTimeout()
   }
 
-  this.onInfo = function (info) {
+  onInfo(info) {
     if (this.isReady()) {
       return
     }
 
     // TODO(vojta): remove
     if (helper.isDefined(info.dump)) {
-      emitter.emit('browser_log', this, info.dump, 'dump')
+      this.emitter.emit('browser_log', this, info.dump, 'dump')
     }
 
     if (helper.isDefined(info.log)) {
-      emitter.emit('browser_log', this, info.log, info.type)
+      this.emitter.emit('browser_log', this, info.log, info.type)
     }
 
-    refreshNoActivityTimeout()
+    this.refreshNoActivityTimeout()
   }
 
-  this.onStart = function (info) {
+  onStart(info) {
     this.lastResult = new Result()
     this.lastResult.total = info.total
 
     if (info.total === null) {
-      log.warn('Adapter did not report total number of specs.')
+      this.log.warn('Adapter did not report total number of specs.')
     }
 
-    emitter.emit('browser_start', this, info)
-    refreshNoActivityTimeout()
+    this.emitter.emit('browser_start', this, info)
+    this.refreshNoActivityTimeout()
   }
 
-  this.onComplete = function (result) {
+  onComplete(result) {
     if (this.isReady()) {
       return
     }
@@ -139,70 +148,68 @@ var Browser = function (id, fullName, /* capturedBrowsers */ collection, emitter
       this.lastResult.error = true
     }
 
-    emitter.emit('browsers_change', collection)
-    emitter.emit('browser_complete', this, result)
+    this.emitter.emit('browsers_change', this.collection)
+    this.emitter.emit('browser_complete', this, result)
 
-    clearNoActivityTimeout()
+    this.clearNoActivityTimeout()
   }
 
-  this.onDisconnect = function (_, disconnectedSocket) {
-    activeSockets.splice(activeSockets.indexOf(disconnectedSocket), 1)
+  onDisconnect(_, disconnectedSocket) {
+    this.activeSockets.splice(this.activeSockets.indexOf(disconnectedSocket), 1)
 
-    if (activeSockets.length) {
-      log.debug('Disconnected %s, still have %s', disconnectedSocket.id, activeSocketsIds())
+    if (this.activeSockets.length) {
+      this.log.debug('Disconnected %s, still have %s', disconnectedSocket.id, this.activeSocketsIds())
       return
     }
 
     if (this.state === READY) {
-      disconnect()
+      this.disconnect()
     } else if (this.state === EXECUTING) {
-      log.debug('Disconnected during run, waiting %sms for reconnecting.', disconnectDelay)
+      this.log.debug('Disconnected during run, waiting %sms for reconnecting.', this.disconnectDelay)
       this.state = EXECUTING_DISCONNECTED
 
-      pendingDisconnect = timer.setTimeout(function () {
-        self.lastResult.totalTimeEnd()
-        self.lastResult.disconnected = true
-        disconnect()
-        emitter.emit('browser_complete', self)
-      }, disconnectDelay)
+      this.pendingDisconnect = this.timer.setTimeout(() => {
+        this.lastResult.totalTimeEnd()
+        this.lastResult.disconnected = true
+        this.disconnect()
+        this.emitter.emit('browser_complete', this)
+      }, this.disconnectDelay)
 
-      clearNoActivityTimeout()
+      this.clearNoActivityTimeout()
     }
   }
 
-  this.reconnect = function (newSocket) {
+  reconnect(newSocket) {
     if (this.state === EXECUTING_DISCONNECTED) {
       this.state = EXECUTING
-      log.debug('Reconnected on %s.', newSocket.id)
+      this.log.debug('Reconnected on %s.', newSocket.id)
     } else if (this.state === EXECUTING || this.state === READY) {
-      log.debug('New connection %s (already have %s)', newSocket.id, activeSocketsIds())
+      this.log.debug('New connection %s (already have %s)', newSocket.id, this.activeSocketsIds())
     } else if (this.state === DISCONNECTED) {
       this.state = READY
-      log.info('Connected on socket %s with id %s', newSocket.id, this.id)
-      collection.add(this)
+      this.log.info('Connected on socket %s with id %s', newSocket.id, this.id)
+      this.collection.add(this)
 
       // TODO(vojta): move to collection
-      emitter.emit('browsers_change', collection)
+      this.emitter.emit('browsers_change', this.collection)
 
-      emitter.emit('browser_register', this)
+      this.emitter.emit('browser_register', this)
     }
 
-    var exists = activeSockets.some(function (s) {
-      return s.id === newSocket.id
-    })
+    var exists = this.activeSockets.some(s => s.id === newSocket.id)
     if (!exists) {
-      activeSockets.push(newSocket)
+      this.activeSockets.push(newSocket)
       events.bindAll(this, newSocket)
     }
 
-    if (pendingDisconnect) {
-      timer.clearTimeout(pendingDisconnect)
+    if (this.pendingDisconnect) {
+      this.timer.clearTimeout(this.pendingDisconnect)
     }
 
-    refreshNoActivityTimeout()
+    this.refreshNoActivityTimeout()
   }
 
-  this.onResult = function (result) {
+  onResult(result) {
     if (result.length) {
       return result.forEach(this.onResult, this)
     }
@@ -214,11 +221,11 @@ var Browser = function (id, fullName, /* capturedBrowsers */ collection, emitter
 
     this.lastResult.add(result)
 
-    emitter.emit('spec_complete', this, result)
-    refreshNoActivityTimeout()
+    this.emitter.emit('spec_complete', this, result)
+    this.refreshNoActivityTimeout()
   }
 
-  this.serialize = function () {
+  serialize() {
     return {
       id: this.id,
       name: this.name,
@@ -226,20 +233,18 @@ var Browser = function (id, fullName, /* capturedBrowsers */ collection, emitter
     }
   }
 
-  this.execute = function (config) {
-    activeSockets.forEach(function (socket) {
+  execute(config) {
+    this.activeSockets.forEach(function (socket) {
       socket.emit('execute', config)
     })
 
     this.state = EXECUTING
-    refreshNoActivityTimeout()
+    this.refreshNoActivityTimeout()
   }
+
+  static STATE_READY = READY
+  static STATE_EXECUTING = EXECUTING
+  static STATE_READY_DISCONNECTED = READY_DISCONNECTED
+  static STATE_EXECUTING_DISCONNECTED = EXECUTING_DISCONNECTED
+  static STATE_DISCONNECTED = DISCONNECTED
 }
-
-Browser.STATE_READY = READY
-Browser.STATE_EXECUTING = EXECUTING
-Browser.STATE_READY_DISCONNECTED = READY_DISCONNECTED
-Browser.STATE_EXECUTING_DISCONNECTED = EXECUTING_DISCONNECTED
-Browser.STATE_DISCONNECTED = DISCONNECTED
-
-module.exports = Browser

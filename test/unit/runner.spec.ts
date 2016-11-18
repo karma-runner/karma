@@ -1,6 +1,8 @@
 import {loadFile} from 'mocks'
-import constant from '../../lib/constants'
-import path from 'path'
+import * as constant from '../../lib/constants'
+import * as path from 'path'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('runner', () => {
   var m

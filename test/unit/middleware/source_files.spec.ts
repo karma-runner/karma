@@ -1,10 +1,12 @@
-import http from 'http'
-import mocks from 'mocks'
-import request from 'supertest-as-promised'
-import helper from '../../../lib/helper'
-import File from '../../../lib/file'
+import * as http from 'http'
+import * as mocks from 'mocks'
+import * as request from 'supertest-as-promised'
+import * as helper from '../../../lib/helper'
+import {File} from '../../../lib/file'
 import {createServeFile} from '../../../lib/middleware/common'
-var createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
+import {create as createSourceFilesMiddleware} from '../../../lib/middleware/source_files'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('middleware.source_files', function () {
   var next
@@ -240,7 +242,7 @@ describe('middleware.source_files', function () {
   })
 
   it('should use cached content if available', function () {
-    var cachedFile = new File('/some/file.js')
+    var cachedFile: any = new File('/some/file.js')
     cachedFile.content = 'cached-content'
 
     servedFiles([
@@ -257,7 +259,7 @@ describe('middleware.source_files', function () {
   })
 
   return it('should not use cached content if doNotCache is set', function () {
-    var cachedFile = new File('/src/some.js')
+    var cachedFile: any = new File('/src/some.js')
     cachedFile.content = 'cached-content'
     cachedFile.doNotCache = true
 

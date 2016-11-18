@@ -1,4 +1,6 @@
-import formatters from '../../../lib/init/formatters'
+import formatters = require('../../../lib/init/formatters')
+import {expect} from 'chai'
+
 describe('init/formatters', () => {
   var formatter
 
@@ -8,7 +10,7 @@ describe('init/formatters', () => {
     })
 
     describe('formatAnswers', () => {
-      var createAnswers = function (ans = {}) {
+      var createAnswers = function (ans: any = {}) {
         ans.frameworks = ans.frameworks || []
         ans.files = ans.files || []
         ans.onlyServedFiles = ans.onlyServedFiles || []

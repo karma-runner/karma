@@ -4,16 +4,16 @@
  * It basically triggers a test run and streams stdout back.
  */
 
-var _ = require('lodash')
-var path = require('path')
-var helper = require('../helper')
+import _ = require('lodash')
+import path = require('path')
+import helper = require('../helper')
 var log = require('../logger').create()
-var constant = require('../constants')
+import constant = require('../constants')
 var json = require('body-parser').json()
 
 // TODO(vojta): disable when single-run mode
-var createRunnerMiddleware = function (emitter, fileList, capturedBrowsers, reporter, executor,
-  /* config.protocol */ protocol, /* config.hostname */ hostname, /* config.port */
+export function create(emitter, fileList, capturedBrowsers, reporter, executor,
+                            /* config.protocol */ protocol, /* config.hostname */ hostname, /* config.port */
   port, /* config.urlRoot */ urlRoot, config) {
   return function (request, response, next) {
     if (request.url !== '/__run__' && request.url !== urlRoot + 'run') {
@@ -98,8 +98,5 @@ var createRunnerMiddleware = function (emitter, fileList, capturedBrowsers, repo
   }
 }
 
-createRunnerMiddleware.$inject = ['emitter', 'fileList', 'capturedBrowsers', 'reporter', 'executor',
+create.$inject = ['emitter', 'fileList', 'capturedBrowsers', 'reporter', 'executor',
   'config.protocol', 'config.hostname', 'config.port', 'config.urlRoot', 'config']
-
-// PUBLIC API
-exports.create = createRunnerMiddleware

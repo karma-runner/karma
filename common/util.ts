@@ -1,24 +1,24 @@
-exports.instanceOf = function (value, constructorName) {
+export function instanceOf(value, constructorName) {
   return Object.prototype.toString.apply(value) === '[object ' + constructorName + ']'
 }
 
-exports.elm = function (id) {
+export function elm(id) {
   return document.getElementById(id)
 }
 
-exports.generateId = function (prefix) {
+export function generateId(prefix) {
   return prefix + Math.floor(Math.random() * 10000)
 }
 
-exports.isUndefined = function (value) {
+export function isUndefined(value) {
   return typeof value === 'undefined'
 }
 
-exports.isDefined = function (value) {
+export function isDefined(value) {
   return !exports.isUndefined(value)
 }
 
-exports.parseQueryParams = function (locationSearch) {
+export function parseQueryParams(locationSearch): any {
   var params = {}
   var pairs = locationSearch.substr(1).split('&')
   var keyValue

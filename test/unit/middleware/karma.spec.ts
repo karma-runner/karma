@@ -1,8 +1,10 @@
-import helper from '../../../lib/helper'
-import constants from '../../../lib/constants'
-import File from '../../../lib/file'
-import Url from '../../../lib/url'
-import mocks from 'mocks'
+import * as helper from '../../../lib/helper'
+import * as constants from '../../../lib/constants'
+import {File} from '../../../lib/file'
+import {Url} from '../../../lib/url'
+import * as mocks from 'mocks'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 var HttpResponseMock = mocks.http.ServerResponse
 var HttpRequestMock = mocks.http.ServerRequest
@@ -13,7 +15,7 @@ describe('middleware.karma', () => {
   var nextSpy
   var response
 
-  var MockFile = function (path, sha) {
+  var MockFile = function (path, sha?) {
     File.call(this, path)
     this.sha = sha || 'sha-default'
   }
@@ -38,7 +40,7 @@ describe('middleware.karma', () => {
     foo: 'bar'
   }
   var injector = {
-    get (val) {
+    get (val): any {
       switch (val) {
         case 'config.client':
           return clientConfig
@@ -81,7 +83,7 @@ describe('middleware.karma', () => {
     return req
   }
 
-  var callHandlerWith = function (urlPath, next) {
+  var callHandlerWith = function (urlPath, next?) {
     var promise = handler(normalizedHttpRequest(urlPath), response, next || nextSpy)
     if (promise && promise.done) promise.done()
   }

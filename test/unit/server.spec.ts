@@ -1,5 +1,7 @@
-import Server from '../../lib/server'
-import BrowserCollection from '../../lib/browser_collection'
+import {Server} from '../../lib/server'
+import {BrowserCollection as BrowserCollection} from '../../lib/browser_collection'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('server', () => {
   var mockConfig

@@ -4,7 +4,7 @@
 
 var log = require('../logger').create('middleware:stopper')
 
-var createStopperMiddleware = function (urlRoot) {
+export function create(urlRoot) {
   return function (request, response, next) {
     if (request.url !== urlRoot + 'stop') return next()
     response.writeHead(200)
@@ -14,5 +14,4 @@ var createStopperMiddleware = function (urlRoot) {
   }
 }
 
-createStopperMiddleware.$inject = ['config.urlRoot']
-exports.create = createStopperMiddleware
+create.$inject = ['config.urlRoot']

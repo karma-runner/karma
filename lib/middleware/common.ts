@@ -3,12 +3,12 @@
  */
 
 var mime = require('mime')
-var _ = require('lodash')
+import _ = require('lodash')
 var parseRange = require('range-parser')
 
 var log = require('../logger').create('web-server')
 
-var PromiseContainer = function () {
+export function PromiseContainer() {
   var promise
 
   this.then = function (success, error) {
@@ -21,13 +21,13 @@ var PromiseContainer = function () {
   }
 }
 
-var serve404 = function (response, path) {
+export function serve404(response, path) {
   log.warn('404: ' + path)
   response.writeHead(404)
   return response.end('NOT FOUND')
 }
 
-var createServeFile = function (fs, directory, config) {
+export function createServeFile(fs, directory, config?) {
   var cache = Object.create(null)
 
   return function (filepath, rangeHeader, response, transform, content, doNotCache) {
@@ -128,17 +128,17 @@ var createServeFile = function (fs, directory, config) {
   }
 }
 
-var setNoCacheHeaders = function (response) {
+export function setNoCacheHeaders(response) {
   response.setHeader('Cache-Control', 'no-cache')
   response.setHeader('Pragma', 'no-cache')
   response.setHeader('Expires', (new Date(0)).toUTCString())
 }
 
-var setHeavyCacheHeaders = function (response) {
+export function setHeavyCacheHeaders(response) {
   response.setHeader('Cache-Control', 'public, max-age=31536000')
 }
 
-var initializeMimeTypes = function (config) {
+export function initializeMimeTypes(config) {
   if (config && config.mime) {
     _.forEach(config.mime, function (value, key) {
       var map = {}
@@ -147,11 +147,3 @@ var initializeMimeTypes = function (config) {
     })
   }
 }
-
-// PUBLIC API
-exports.PromiseContainer = PromiseContainer
-exports.createServeFile = createServeFile
-exports.setNoCacheHeaders = setNoCacheHeaders
-exports.setHeavyCacheHeaders = setHeavyCacheHeaders
-exports.initializeMimeTypes = initializeMimeTypes
-exports.serve404 = serve404

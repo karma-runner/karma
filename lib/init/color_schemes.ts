@@ -24,5 +24,5 @@ var COLORS_OFF = {
   }
 }
 
-exports.ON = COLORS_ON
-exports.OFF = COLORS_OFF
+export var ON = COLORS_ON
+export var OFF = COLORS_OFF

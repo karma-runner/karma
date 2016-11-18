@@ -1,12 +1,13 @@
-var fs = require('graceful-fs')
-var path = require('path')
+import fs = require('graceful-fs')
+import path = require('path')
 
-var helper = require('./helper')
-var log = require('./logger').create('plugin')
+import helper = require('./helper')
+import {create} from './logger'
+var log = create('plugin')
 
 var IGNORED_PACKAGES = ['karma-cli', 'karma-runner.github.com']
 
-exports.resolve = function (plugins, emitter) {
+export function resolve(plugins, emitter) {
   var modules = []
 
   var requirePlugin = function (name) {

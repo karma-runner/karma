@@ -3,14 +3,14 @@
 //
 // Url object used for tracking files in `file-list.js`
 
-var Url = function (path) {
-  this.path = path
-  this.isUrl = true
-}
+export class Url {
 
-Url.prototype.toString = function () {
-  return this.path
-}
+  isUrl = true
 
-// PUBLIC
-module.exports = Url
+  constructor(public path) {
+  }
+
+  toString() {
+    return this.path
+  }
+}

@@ -1,12 +1,12 @@
-var http = require('http')
+import http = require('http')
 
-var constant = require('./constants')
-var helper = require('./helper')
-var cfg = require('./config')
-var logger = require('./logger')
-var log = logger.create('runner')
+import constant = require('./constants')
+import helper = require('./helper')
+import cfg = require('./config')
+import {create, setupFromConfig} from './logger'
+var log = create('runner')
 
-var parseExitCode = function (buffer, defaultCode, failOnEmptyTestSuite) {
+function parseExitCode(buffer, defaultCode, failOnEmptyTestSuite) {
   var tailPos = buffer.length - Buffer.byteLength(constant.EXIT_CODE) - 2
 
   if (tailPos < 0) {
@@ -30,10 +30,9 @@ var parseExitCode = function (buffer, defaultCode, failOnEmptyTestSuite) {
 }
 
 // TODO(vojta): read config file (port, host, urlRoot)
-exports.run = function (config, done) {
-  config = config || {}
+export function run(config: any = {}, done) {
 
-  logger.setupFromConfig(config)
+  setupFromConfig(config)
 
   done = helper.isFunction(done) ? done : process.exit
   config = cfg.parseConfig(config.configFile, config)
@@ -49,19 +48,17 @@ exports.run = function (config, done) {
     }
   }
 
-  var request = http.request(options, function (response) {
-    response.on('data', function (buffer) {
+  var request = http.request(options, response => {
+    response.on('data', buffer => {
       var parsedResult = parseExitCode(buffer, exitCode, config.failOnEmptyTestSuite)
       exitCode = parsedResult.exitCode
       process.stdout.write(parsedResult.buffer)
     })
 
-    response.on('end', function () {
-      done(exitCode)
-    })
+    response.on('end', () => done(exitCode))
   })
 
-  request.on('error', function (e) {
+  request.on('error', (e: any)=> {
     if (e.code === 'ECONNREFUSED') {
       log.error('There is no server listening on port %d', options.port)
       done(1, e.code)

@@ -1,12 +1,14 @@
-var loadFile = require('mocks').loadFile
-import path from 'path'
-var helper = require('../../lib/helper')
-var logger = require('../../lib/logger.js')
+import {loadFile} from 'mocks'
+import * as path from 'path'
+import helper = require('../../lib/helper')
+import logger = require('../../lib/logger')
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('config', () => {
   var m
   var e
-  var mocks
+  var mocks: any
 
   var resolveWinPath = (p) => helper.normalizeWinPath(path.resolve(p))
 

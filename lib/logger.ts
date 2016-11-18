@@ -4,9 +4,9 @@
 
 // ### Helpers and Setup
 
-var log4js = require('log4js')
-var helper = require('./helper')
-var constant = require('./constants')
+import log4js = require('log4js')
+import helper = require('./helper')
+import constant = require('./constants')
 
 // #### Public Functions
 
@@ -20,7 +20,7 @@ var constant = require('./constants')
 // * `appenders`: *Array* This will be passed as appenders to log4js
 //   to allow for fine grained configuration of log4js. For more information
 //   see https://github.com/nomiddlename/log4js-node.
-var setup = function (level, colors, appenders) {
+export function setup(level, colors, appenders) {
   // Turn color on/off on the console appenders with pattern layout
   var pattern = colors ? constant.COLOR_PATTERN : constant.NO_COLOR_PATTERN
 
@@ -52,7 +52,7 @@ var setup = function (level, colors, appenders) {
 // * `appenders`: *Array* This will be passed as appenders to log4js
 //   to allow for fine grained configuration of log4js. For more information
 //   see https://github.com/nomiddlename/log4js-node.
-var setupFromConfig = function (config, appenders) {
+export function setupFromConfig(config, appenders?) {
   var useColors = true
   var logLevel = constant.LOG_INFO
 
@@ -71,16 +71,10 @@ var setupFromConfig = function (config, appenders) {
 //   If the `name = 'socket.io'` this will create a special wrapper
 //   to be used as a logger for socket.io.
 // * `level`, which defaults to the global level.
-var create = function (name, level) {
+export function create(name?, level?) {
   var logger = log4js.getLogger(name || 'karma')
   if (helper.isDefined(level)) {
     logger.setLevel(level)
   }
   return logger
 }
-
-// #### Publish
-
-exports.create = create
-exports.setup = setup
-exports.setupFromConfig = setupFromConfig

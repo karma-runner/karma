@@ -1,19 +1,26 @@
-var util = require('util')
+import util = require('util')
 
-var helper = require('../helper')
+import helper = require('../helper')
 
-var BaseReporter = function (formatError, reportSlow, useColors, browserConsoleLogOptions, adapter) {
-  this.adapters = [adapter || process.stdout.write.bind(process.stdout)]
+export class BaseReporter {
+  private adapters
+  _browsers
 
-  this.onRunStart = function () {
+  constructor(private formatError, private reportSlow, private useColors, private browserConsoleLogOptions, adapter?) {
+    this.adapters = [adapter || process.stdout.write.bind(process.stdout)]
+
+    this.renderBrowser = this.renderBrowser.bind(this)
+  }
+
+  onRunStart = () => {
     this._browsers = []
   }
 
-  this.onBrowserStart = function (browser) {
+  onBrowserStart = (browser) => {
     this._browsers.push(browser)
   }
 
-  this.renderBrowser = function (browser) {
+  renderBrowser = (browser) => {
     var results = browser.lastResult
     var totalExecuted = results.success + results.failed
     var msg = util.format('%s: Executed %d of %d', browser, totalExecuted, results.total)
@@ -42,14 +49,12 @@ var BaseReporter = function (formatError, reportSlow, useColors, browserConsoleL
     return msg
   }
 
-  this.renderBrowser = this.renderBrowser.bind(this)
-
-  this.write = function () {
-    var msg = util.format.apply(null, Array.prototype.slice.call(arguments))
+  write = (..._arguments) => {
+    var msg = util.format.apply(null, Array.prototype.slice.call(_arguments))
     var self = this
-    this.adapters.forEach(function (adapter) {
+    this.adapters.forEach((adapter) => {
       if (!helper.isDefined(adapter.colors)) {
-        adapter.colors = useColors
+        adapter.colors = this.useColors
       }
       if (!helper.isDefined(self.EXCLUSIVELY_USE_COLORS) || adapter.colors === self.EXCLUSIVELY_USE_COLORS) {
         return adapter(msg)
@@ -57,14 +62,14 @@ var BaseReporter = function (formatError, reportSlow, useColors, browserConsoleL
     })
   }
 
-  this.writeCommonMsg = this.write
+  writeCommonMsg = this.write
 
-  this.onBrowserError = function (browser, error) {
-    this.writeCommonMsg(util.format(this.ERROR, browser) + formatError(error, '  '))
+  onBrowserError = (browser, error) => {
+    this.writeCommonMsg(util.format(this.ERROR, browser) + this.formatError(error, '  '))
   }
 
-  this.onBrowserLog = function (browser, log, type) {
-    if (!browserConsoleLogOptions || !browserConsoleLogOptions.terminal) return
+  onBrowserLog = (browser, log, type) => {
+    if (!this.browserConsoleLogOptions || !this.browserConsoleLogOptions.terminal) return
     if (!helper.isString(log)) {
       // TODO(vojta): change util to new syntax (config object)
       log = util.inspect(log, false, undefined, this.USE_COLORS)
@@ -76,7 +81,7 @@ var BaseReporter = function (formatError, reportSlow, useColors, browserConsoleL
     }
   }
 
-  this.onSpecComplete = function (browser, result) {
+  onSpecComplete = (browser, result) => {
     if (result.skipped) {
       this.specSkipped(browser, result)
     } else if (result.success) {
@@ -85,7 +90,7 @@ var BaseReporter = function (formatError, reportSlow, useColors, browserConsoleL
       this.specFailure(browser, result)
     }
 
-    if (reportSlow && result.time > reportSlow) {
+    if (this.reportSlow && result.time > this.reportSlow) {
       var specName = result.suite.join(' ') + ' ' + result.description
       var time = helper.formatTimeInterval(result.time)
 
@@ -93,21 +98,23 @@ var BaseReporter = function (formatError, reportSlow, useColors, browserConsoleL
     }
   }
 
-  this.specSuccess = this.specSkipped = function () {
+  specSkipped = (browser, result) => {
   }
 
-  this.specFailure = function (browser, result) {
+  specSuccess = this.specSkipped
+
+  specFailure = (browser, result) => {
     var specName = result.suite.join(' ') + ' ' + result.description
     var msg = util.format(this.SPEC_FAILURE, browser, specName)
 
-    result.log.forEach(function (log) {
-      msg += formatError(log, '\t')
+    result.log.forEach((log) => {
+      msg += this.formatError(log, '\t')
     })
 
     this.writeCommonMsg(msg)
   }
 
-  this.onRunComplete = function (browsers, results) {
+  onRunComplete = (browsers, results) => {
     if (browsers.length > 1 && !results.error && !results.disconnected) {
       if (!results.failed) {
         this.write(this.TOTAL_SUCCESS, results.success)
@@ -117,28 +124,26 @@ var BaseReporter = function (formatError, reportSlow, useColors, browserConsoleL
     }
   }
 
-  this.USE_COLORS = false
-  this.EXCLUSIVELY_USE_COLORS = undefined
-  this.LOG_SINGLE_BROWSER = '%s: %s\n'
-  this.LOG_MULTI_BROWSER = '%s %s: %s\n'
+  USE_COLORS = false
+  EXCLUSIVELY_USE_COLORS = undefined
+  LOG_SINGLE_BROWSER = '%s: %s\n'
+  LOG_MULTI_BROWSER = '%s %s: %s\n'
 
-  this.SPEC_FAILURE = '%s %s FAILED' + '\n'
-  this.SPEC_SLOW = '%s SLOW %s: %s\n'
-  this.ERROR = '%s ERROR\n'
+  SPEC_FAILURE = '%s %s FAILED' + '\n'
+  SPEC_SLOW = '%s SLOW %s: %s\n'
+  ERROR = '%s ERROR\n'
 
-  this.FINISHED_ERROR = ' ERROR'
-  this.FINISHED_SUCCESS = ' SUCCESS'
-  this.FINISHED_DISCONNECTED = ' DISCONNECTED'
+  FINISHED_ERROR = ' ERROR'
+  FINISHED_SUCCESS = ' SUCCESS'
+  FINISHED_DISCONNECTED = ' DISCONNECTED'
 
-  this.X_FAILED = ' (%d FAILED)'
+  X_FAILED = ' (%d FAILED)'
 
-  this.TOTAL_SUCCESS = 'TOTAL: %d SUCCESS\n'
-  this.TOTAL_FAILED = 'TOTAL: %d FAILED, %d SUCCESS\n'
-}
+  TOTAL_SUCCESS = 'TOTAL: %d SUCCESS\n'
+  TOTAL_FAILED = 'TOTAL: %d FAILED, %d SUCCESS\n'
 
-BaseReporter.decoratorFactory = function (formatError, reportSlow, useColors, browserConsoleLogOptions) {
-  return function (self) {
-    BaseReporter.call(self, formatError, reportSlow, useColors, browserConsoleLogOptions)
+  static decoratorFactory(formatError, reportSlow, useColors, browserConsoleLogOptions) {
+    return self => BaseReporter.call(self, formatError, reportSlow, useColors, browserConsoleLogOptions)
   }
 }
 
@@ -148,6 +153,3 @@ BaseReporter.decoratorFactory.$inject = [
   'config.colors',
   'config.browserConsoleLogOptions'
 ]
-
-// PUBLISH
-module.exports = BaseReporter

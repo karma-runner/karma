@@ -4,9 +4,9 @@ global.JSON = require('json3')
 var sinon = require('sinon')
 var assert = require('assert')
 
-var ClientKarma = require('../../client/karma')
-var ContextKarma = require('../../context/karma')
-var MockSocket = require('./mocks').Socket
+var ClientKarma = require('../../client/karma').Karma
+var ContextKarma = require('../../context/karma').ContextKarma
+var MockSocket = require('./mocks').MockSocket
 
 describe('Karma', function () {
   var socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
@@ -90,7 +90,7 @@ describe('Karma', function () {
 
     socket.emit('execute', config)
 
-    var mockWindow = {}
+    var mockWindow: any = {}
 
     ck.error('page reload')
     ck.setupContext(mockWindow)
@@ -106,7 +106,7 @@ describe('Karma', function () {
 
     socket.emit('execute', config)
 
-    var mockWindow = {}
+    var mockWindow: any = {}
 
     ck.error('page reload')
     ck.setupContext(mockWindow)
@@ -121,7 +121,7 @@ describe('Karma', function () {
       clearContext: true
     }
     socket.emit('execute', config)
-    var mockWindow = {}
+    var mockWindow: any = {}
     ck.setupContext(mockWindow)
 
     // Spy on our error handler
@@ -243,7 +243,7 @@ describe('Karma', function () {
       sinon.spy(ck, 'log')
 
       var mockWindow = {
-        alert: function () {
+        alert: function (msg?) {
           throw new Error('Alert was not patched!')
         }
       }
@@ -312,7 +312,7 @@ describe('Karma', function () {
 
       var mockWindow = {
         console: {
-          log: function () {}
+          log: function (msg?) {}
         }
       }
 
@@ -328,7 +328,7 @@ describe('Karma', function () {
 
       var mockWindow = {
         console: {
-          log: function () {}
+          log: function (msg?) {}
         }
       }
 

@@ -1,17 +1,20 @@
+import {Browser} from '../../lib/browser'
+import {BrowserCollection} from '../../lib/browser_collection'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
+
 describe('Browser', () => {
   var collection
   var emitter
   var socket
   var e = require('../../lib/events')
-  var Browser = require('../../lib/browser')
-  var Collection = require('../../lib/browser_collection')
   var createMockTimer = require('./mocks/timer')
 
   var browser = collection = emitter = socket = null
   var socketId = 0
 
   var mkSocket = () => {
-    var s = new e.EventEmitter()
+    var s = new e.KarmaEventEmitter()
     socketId = socketId + 1
     s.id = socketId
     return s
@@ -19,8 +22,8 @@ describe('Browser', () => {
 
   beforeEach(() => {
     socket = mkSocket()
-    emitter = new e.EventEmitter()
-    collection = new Collection(emitter)
+    emitter = new e.KarmaEventEmitter()
+    collection = new BrowserCollection(emitter)
   })
 
   it('should set fullName and name', () => {
@@ -143,13 +146,13 @@ describe('Browser', () => {
 
   describe('onComplete', () => {
     beforeEach(() => {
-      sinon.stub(Date, 'now')
-      Date.now.returns(12345)
+      sinon.stub(Date, 'now');
+      (<any>Date.now).returns(12345)
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
     })
 
     afterEach(() => {
-      Date.now.restore()
+      (<any>Date.now).restore()
     })
 
     it('should set isReady to true', () => {
@@ -178,7 +181,7 @@ describe('Browser', () => {
     })
 
     it('should set totalTime', () => {
-      Date.now.returns(12347) // the default spy return 12345
+      (<any>Date.now).returns(12347) // the default spy return 12345
 
       browser.state = Browser.STATE_EXECUTING
       browser.onComplete()

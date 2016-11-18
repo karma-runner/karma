@@ -1,6 +1,6 @@
-var fs = require('graceful-fs')
-var util = require('util')
-var path = require('path')
+import fs = require('graceful-fs')
+import util = require('util')
+import path = require('path')
 
 var JS_TEMPLATE_PATH = path.join(__dirname, '/../../config.tpl.js')
 var COFFEE_TEMPLATE_PATH = path.join(__dirname, '/../../config.tpl.coffee')
@@ -126,12 +126,12 @@ var TypeFormatter = function () {
   this.TEMPLATE_FILE_PATH = TYPE_TEMPLATE_PATH
 }
 
-exports.JavaScript = JavaScriptFormatter
-exports.Coffee = CoffeeFormatter
-exports.Live = LiveFormatter
-exports.Type = TypeFormatter
+export var JavaScript = JavaScriptFormatter
+export var Coffee = CoffeeFormatter
+export var Live = LiveFormatter
+export var Type = TypeFormatter
 
-exports.createForPath = function (path) {
+export function createForPath(path) {
   if (isCoffeeFile(path)) {
     return new CoffeeFormatter()
   }

@@ -41,7 +41,7 @@ var parseEnv = function (argv, env) {
   }
 }
 
-var opositeWord = function (word) {
+export function opositeWord(word) {
   if (word.charAt(0) !== '-') {
     return null
   }
@@ -49,9 +49,9 @@ var opositeWord = function (word) {
   return word.substr(0, 5) === '--no-' ? '--' + word.substr(5) : '--no-' + word.substr(2)
 }
 
-var sendCompletionNoOptions = function () {}
+var sendCompletionNoOptions = function (env?) {}
 
-var sendCompletion = function (possibleWords, env) {
+export function sendCompletion(possibleWords, env) {
   var regexp = new RegExp('^' + env.last)
   var filteredWords = possibleWords.filter(function (word) {
     return regexp.test(word) && env.words.indexOf(word) === -1 &&
@@ -89,7 +89,7 @@ var sendCompletionConfirmLast = function (env) {
   console.log(env.last)
 }
 
-var complete = function (env) {
+export function complete(env) {
   if (env.count === 1) {
     if (env.words[0].charAt(0) === '-') {
       return sendCompletion(['--help', '--version'], env)
@@ -124,7 +124,7 @@ var complete = function (env) {
   return sendCompletion(Object.keys(cmdOptions), env)
 }
 
-var completion = function () {
+export function completion() {
   if (process.argv[3] === '--') {
     return complete(parseEnv(process.argv, process.env))
   }
@@ -154,11 +154,3 @@ var completion = function () {
     })
   })
 }
-
-// PUBLIC API
-exports.completion = completion
-
-// for testing
-exports.opositeWord = opositeWord
-exports.sendCompletion = sendCompletion
-exports.complete = complete

@@ -1,4 +1,6 @@
-import StateMachine from '../../../lib/init/state_machine'
+import {StateMachine} from '../../../lib/init/state_machine'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('init/StateMachine', () => {
   var done

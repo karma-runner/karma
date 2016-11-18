@@ -295,9 +295,36 @@
     "Joe Lencioni <joe.lencioni@brigade.com>",
     "Johannes Gorset <jgorset@gmail.com>",
     "Jon Bretman <jon.bretman@gmail.com>",
-    "Jonathan ES Lin <ernsheong@gmail.com>"
+    "Jonathan ES Lin <ernsheong@gmail.com>",
+    "Luis Vargas <luisvargastijerino@gmail.com>"
   ],
   "dependencies": {
+    "@types/angular": "^1.5.20",
+    "@types/bluebird": "^3.0.35",
+    "@types/body-parser": "^0.0.33",
+    "@types/chokidar": "^1.4.29",
+    "@types/colors": "^0.6.33",
+    "@types/connect": "^3.4.30",
+    "@types/core-js": "^0.9.34",
+    "@types/express": "^4.0.33",
+    "@types/express-serve-static-core": "^4.0.39",
+    "@types/glob": "^5.0.30",
+    "@types/graceful-fs": "^2.0.29",
+    "@types/lodash": "^4.14.39",
+    "@types/log4js": "^0.0.32",
+    "@types/mime": "^0.0.29",
+    "@types/minimatch": "^2.0.29",
+    "@types/optimist": "^0.0.29",
+    "@types/proxyquire": "^1.3.27",
+    "@types/rimraf": "^0.0.28",
+    "@types/serve-static": "^1.7.31",
+    "@types/socket.io": "^1.4.27",
+    "@types/socket.io-client": "^1.4.28",
+    "@types/source-map": "^0.5.0",
+    "@types/superagent": "^2.0.35",
+    "@types/supertest": "^1.1.31",
+    "@types/supertest-as-promised": "^2.0.32",
+    "@types/tmp": "^0.0.31",
     "bluebird": "^3.3.0",
     "body-parser": "^1.12.4",
     "chokidar": "^1.4.1",
@@ -326,6 +353,9 @@
     "useragent": "^2.1.9"
   },
   "devDependencies": {
+    "@types/mocha": "^2.2.33",
+    "@types/sinon": "^1.16.31",
+    "@types/sinon-chai": "^2.7.27",
     "LiveScript": "^1.3.0",
     "babel": "^6.5.2",
     "babel-preset-es2015": "^6.9.0",
@@ -353,6 +383,7 @@
     "grunt-eslint": "^18.0.0",
     "grunt-mocha-test": "^0.12.7",
     "grunt-npm": "0.0.2",
+    "grunt-tslint": "^3.2.1",
     "http2": "^3.3.6",
     "jasmine-core": "^2.3.4",
     "json3": "^3.3.2",
@@ -390,17 +421,19 @@
     "supertest": "^2.0.0",
     "supertest-as-promised": "^3.0.0",
     "timer-shim": "^0.3.0",
+    "tslint": "^3.15.1",
+    "typescript": "^2.0.9",
     "validate-commit-msg": "^2.4.1",
     "which": "^1.1.1"
   },
-  "main": "./lib/index",
+  "main": "./index",
   "bin": {
     "karma": "./bin/karma"
   },
   "engines": {
-    "node": "0.10 || 0.12 || 4 || 5 || 6"
+    "node": "0.10 || 0.12 || 4 || 5 || 6 || 7"
   },
-  "version": "1.3.0",
+  "version": "1.3.1",
   "license": "MIT",
   "scripts": {
     "lint": "grunt lint",
@@ -413,7 +446,9 @@
     "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../",
     "init:windows": "(IF EXIST node_modules\\karma (rmdir node_modules\\karma /S /q)) && npm run link",
     "appveyor": "npm run lint && npm run build && npm run test:appveyor",
-    "travis": "npm run lint && npm run build && npm test && npm run test:integration"
+    "travis": "npm run lint && npm run build && npm test && npm run test:integration",
+    "postinstall": "tsc",
+    "prepublish": "tsc && grunt build"
   },
   "config": {
     "ghooks": {

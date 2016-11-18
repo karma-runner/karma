@@ -1,6 +1,4 @@
-module.exports = {
-  VERSION: '%KARMA_VERSION%',
-  KARMA_URL_ROOT: '%KARMA_URL_ROOT%',
-  KARMA_PROXY_PATH: '%KARMA_PROXY_PATH%',
-  CONTEXT_URL: 'context.html'
-}
+export var VERSION = '%KARMA_VERSION%'
+export var KARMA_URL_ROOT = '%KARMA_URL_ROOT%'
+export var KARMA_PROXY_PATH = '%KARMA_PROXY_PATH%'
+export var CONTEXT_URL = 'context.html'

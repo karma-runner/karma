@@ -1,16 +1,17 @@
-require('core-js')
+import 'core-js'
 import {EventEmitter} from 'events'
-import request from 'supertest-as-promised'
-import di from 'di'
-import mocks from 'mocks'
-import fs from 'fs'
-import mime from 'mime'
-import path from 'path'
+import * as request from 'supertest-as-promised'
+import * as di from 'di'
+import * as mocks from 'mocks'
+import * as fs from 'fs'
+import * as mime from 'mime'
+import * as path from 'path'
+import {File} from '../../lib/file'
+import {expect} from 'chai'
 
 describe('web-server', () => {
   var server
   var emitter
-  var File = require('../../lib/file')
 
   var _mocks = {}
   var _globals = {__dirname: '/karma/lib'}

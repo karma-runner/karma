@@ -1,5 +1,6 @@
-import mocks from 'mocks'
-import path from 'path'
+import * as mocks from 'mocks'
+import * as path from 'path'
+import {expect} from 'chai'
 
 describe('watcher', () => {
   var config = require('../../lib/config')

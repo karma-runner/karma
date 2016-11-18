@@ -1,4 +1,8 @@
-import path from 'path'
+import * as path from 'path'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
+import {StateMachine} from '../../lib/init/state_machine';
+
 describe('init', () => {
   var loadFile = require('mocks').loadFile
   var m = null
@@ -79,7 +83,7 @@ describe('init', () => {
     var formatter
     var vm = require('vm')
 
-    var StateMachine = require('../../lib/init/state_machine')
+    // var StateMachine = require('../../lib/init/state_machine')
     var JavaScriptFormatter = require('../../lib/init/formatters').JavaScript
     var DefaultKarmaConfig = require('../../lib/config').Config
 
@@ -98,7 +102,7 @@ describe('init', () => {
     var machine = formatter = null
 
     var evaluateConfigCode = (code) => {
-      var sandbox = {module: {}}
+      var sandbox = {module: <any>{}}
       vm.runInNewContext(code, sandbox)
       var config = new DefaultKarmaConfig()
       sandbox.module.exports(config)

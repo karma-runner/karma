@@ -8,6 +8,7 @@ docs
 client
 logo
 integration-tests
+node_modules
 
 TODO.md
 CONTRIBUTING.md

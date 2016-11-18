@@ -71,7 +71,7 @@ if (process.env.TRAVIS) {
   browsers.push('Chrome')
 }
 
-module.exports = function (config) {
+export = function (config) {
   config.set({
     // base path, that will be used to resolve files and exclude
     basePath: '../..',

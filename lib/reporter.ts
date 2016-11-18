@@ -1,12 +1,18 @@
-var util = require('util')
-var resolve = require('url').resolve
-var SourceMapConsumer = require('source-map').SourceMapConsumer
-var WeakMap = require('core-js/es6/weak-map')
-var _ = require('lodash')
+import util = require('util')
+import {resolve} from 'url'
+import {SourceMapConsumer} from 'source-map'
+import WeakMap = require('core-js/es6/weak-map')
+import _ = require('lodash')
 
-var log = require('./logger').create('reporter')
-var MultiReporter = require('./reporters/multi')
-var baseReporterDecoratorFactory = require('./reporters/base').decoratorFactory
+import {create} from './logger'
+import {MultiReporter} from './reporters/multi'
+import {DotsReporter} from './reporters/dots';
+import {ProgressReporter} from './reporters/progress';
+import {ProgressColorReporter} from './reporters/progress_color';
+import {DotsColorReporter} from './reporters/dots_color';
+import {BaseReporter} from './reporters/base';
+var baseReporterDecoratorFactory = BaseReporter.decoratorFactory
+var log = create('reporter')
 
 var createErrorFormatter = function (config, emitter, SourceMapConsumer) {
   var basePath = config.basePath
@@ -33,15 +39,15 @@ var createErrorFormatter = function (config, emitter, SourceMapConsumer) {
     '(\\:(\\d+))?' + // column
     '', 'g')
 
-  var getSourceMapConsumer = (function () {
+  var getSourceMapConsumer: any = (() => {
     var cache = new WeakMap()
-    return function (sourceMap) {
+    return sourceMap => {
       if (!cache.has(sourceMap)) {
         cache.set(sourceMap, new SourceMapConsumer(sourceMap))
       }
       return cache.get(sourceMap)
     }
-  }())
+  })()
 
   return function (input, indentation) {
     indentation = _.isString(indentation) ? indentation : ''
@@ -102,15 +108,16 @@ var createErrorFormatter = function (config, emitter, SourceMapConsumer) {
   }
 }
 
-var createReporters = function (names, config, emitter, injector) {
+export function createReporters(names, config, emitter, injector) {
   var errorFormatter = createErrorFormatter(config, emitter, SourceMapConsumer)
   var reporters = []
 
   // TODO(vojta): instantiate all reporters through DI
   names.forEach(function (name) {
     if (['dots', 'progress'].indexOf(name) !== -1) {
-      var Cls = require('./reporters/' + name)
-      var ClsColor = require('./reporters/' + name + '_color')
+      var isDots = name === 'dots';
+      var Cls = isDots ? DotsReporter : ProgressReporter
+      var ClsColor = isDots ? DotsColorReporter : ProgressColorReporter
       reporters.push(new Cls(errorFormatter, config.reportSlowerThan, config.colors, config.browserConsoleLogOptions))
       return reporters.push(new ClsColor(errorFormatter, config.reportSlowerThan, config.colors, config.browserConsoleLogOptions))
     }
@@ -159,6 +166,3 @@ createReporters.$inject = [
   'emitter',
   'injector'
 ]
-
-// PUBLISH
-exports.createReporters = createReporters

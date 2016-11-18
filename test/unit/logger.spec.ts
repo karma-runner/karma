@@ -1,5 +1,6 @@
 import {loadFile} from 'mocks'
-import path from 'path'
+import * as path from 'path'
+import {expect} from 'chai'
 
 describe('logger', () => {
   var m

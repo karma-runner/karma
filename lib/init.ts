@@ -1,17 +1,17 @@
-var readline = require('readline')
-var path = require('path')
-var glob = require('glob')
-var mm = require('minimatch')
-var exec = require('child_process').exec
+import readline = require('readline')
+import path = require('path')
+import glob = require('glob')
+import mm = require('minimatch')
+import {exec} from 'child_process'
 
-var helper = require('./helper')
-var logger = require('./logger')
+import helper = require('./helper')
+import logger = require('./logger')
 
 var log = logger.create('init')
 
-var StateMachine = require('./init/state_machine')
-var COLOR_SCHEME = require('./init/color_schemes')
-var formatters = require('./init/formatters')
+import {StateMachine} from './init/state_machine'
+import COLOR_SCHEME = require('./init/color_schemes')
+import formatters = require('./init/formatters')
 
 // TODO(vojta): coverage
 // TODO(vojta): html preprocessors
@@ -209,7 +209,7 @@ var processAnswers = function (answers, basePath, testMainFile) {
   return processedAnswers
 }
 
-exports.init = function (config) {
+export function init(config) {
   logger.setupFromConfig(config)
 
   var colorScheme = COLOR_SCHEME.ON

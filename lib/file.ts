@@ -6,28 +6,29 @@
 // Dependencies
 // ------------
 
-var _ = require('lodash')
+import _ = require('lodash')
 
 // Constructor
-var File = function (path, mtime, doNotCache) {
-  // used for serving (processed path, eg some/file.coffee -> some/file.coffee.js)
-  this.path = path
+export class File {
+  originalPath
+  contentPath
+  isUrl
+  sourceMap
 
-  // original absolute path, id of the file
-  this.originalPath = path
+  constructor(public path, public mtime?, public doNotCache = false) {
+    // used for serving (processed path, eg some/file.coffee -> some/file.coffee.js)
 
-  // where the content is stored (processed)
-  this.contentPath = path
+    // original absolute path, id of the file
+    this.originalPath = path
 
-  this.mtime = mtime
-  this.isUrl = false
+    // where the content is stored (processed)
+    this.contentPath = path
 
-  this.doNotCache = _.isUndefined(doNotCache) ? false : doNotCache
+    this.isUrl = false
+
+  }
+
+  toString() {
+    return this.path
+  }
 }
-
-File.prototype.toString = function () {
-  return this.path
-}
-
-// PUBLIC
-module.exports = File

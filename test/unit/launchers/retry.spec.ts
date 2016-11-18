@@ -1,15 +1,17 @@
-import _ from 'lodash'
+import * as _ from 'lodash'
 
-import BaseLauncher from '../../../lib/launchers/base'
-import RetryLauncher from '../../../lib/launchers/retry'
-import {EventEmitter} from '../../../lib/events'
+import {BaseLauncher} from '../../../lib/launchers/base'
+import {RetryLauncher} from '../../../lib/launchers/retry'
+import {KarmaEventEmitter} from '../../../lib/events'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 
 describe('launchers/retry.js', () => {
   var emitter
   var launcher
 
   beforeEach(() => {
-    emitter = new EventEmitter()
+    emitter = new KarmaEventEmitter()
     launcher = new BaseLauncher('fake-id', emitter)
   })
 

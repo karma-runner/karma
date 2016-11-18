@@ -1,26 +1,26 @@
 var fs = require('graceful-fs')
-var path = require('path')
+import path = require('path')
 
-var pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '/../package.json')).toString())
+var pkg = require('../package.json')
 
-exports.VERSION = pkg.version
+export const VERSION = pkg.version
 
-exports.DEFAULT_PORT = process.env.PORT || 9876
-exports.DEFAULT_HOSTNAME = process.env.IP || 'localhost'
+export const DEFAULT_PORT = process.env.PORT || 9876
+export const DEFAULT_HOSTNAME = process.env.IP || 'localhost'
 
 // log levels
-exports.LOG_DISABLE = 'OFF'
-exports.LOG_ERROR = 'ERROR'
-exports.LOG_WARN = 'WARN'
-exports.LOG_INFO = 'INFO'
-exports.LOG_DEBUG = 'DEBUG'
+export const LOG_DISABLE = 'OFF'
+export const LOG_ERROR = 'ERROR'
+export const LOG_WARN = 'WARN'
+export const LOG_INFO = 'INFO'
+export const LOG_DEBUG = 'DEBUG'
 
 // Default patterns for the pattern layout.
-exports.COLOR_PATTERN = '%[%d{DATE}:%p [%c]: %]%m'
-exports.NO_COLOR_PATTERN = '%d{DATE}:%p [%c]: %m'
+export const COLOR_PATTERN = '%[%d{DATE}:%p [%c]: %]%m'
+export const NO_COLOR_PATTERN = '%d{DATE}:%p [%c]: %m'
 
 // Default console appender
-exports.CONSOLE_APPENDER = {
+export const CONSOLE_APPENDER = {
   type: 'console',
   layout: {
     type: 'pattern',
@@ -28,4 +28,4 @@ exports.CONSOLE_APPENDER = {
   }
 }
 
-exports.EXIT_CODE = '\x1FEXIT'
+export const EXIT_CODE = '\x1FEXIT'

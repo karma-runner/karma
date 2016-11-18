@@ -1,8 +1,8 @@
 var chokidar = require('chokidar')
-var mm = require('minimatch')
+import mm = require('minimatch')
 var expandBraces = require('expand-braces')
 
-var helper = require('./helper')
+import helper = require('./helper')
 var log = require('./logger').create('watcher')
 
 var DIR_SEP = require('path').sep
@@ -78,7 +78,7 @@ var getWatchedPatterns = function (patternObjects) {
   })
 }
 
-exports.watch = function (patterns, excludes, fileList, usePolling, emitter) {
+export function watch(patterns, excludes, fileList, usePolling, emitter) {
   var watchedPatterns = getWatchedPatterns(patterns)
   var options = {
     usePolling: usePolling,
@@ -114,5 +114,5 @@ exports.watch = function (patterns, excludes, fileList, usePolling, emitter) {
   return chokidarWatcher
 }
 
-exports.watch.$inject = ['config.files', 'config.exclude', 'fileList', 'config.usePolling',
+watch.$inject = ['config.files', 'config.exclude', 'fileList', 'config.usePolling',
   'emitter']

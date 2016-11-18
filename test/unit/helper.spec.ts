@@ -1,7 +1,8 @@
-import path from 'path'
+import * as path from 'path'
+import helper = require('../../lib/helper')
+import {expect} from 'chai'
 
 describe('helper', () => {
-  var helper = require('../../lib/helper')
 
   describe('browserFullNameToShort', () => {
     // helper function

@@ -1,16 +1,16 @@
-var Emitter = function () {
-  var listeners = {}
+class Emitter {
+  private listeners = {}
 
-  this.on = function (event, fn) {
-    if (!listeners[event]) {
-      listeners[event] = []
+  on(event, fn) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = []
     }
 
-    listeners[event].push(fn)
+    this.listeners[event].push(fn)
   }
 
-  this.emit = function (event) {
-    var eventListeners = listeners[event]
+  emit(event) {
+    var eventListeners = this.listeners[event]
 
     if (!eventListeners) return
 
@@ -22,31 +22,28 @@ var Emitter = function () {
   }
 }
 
-var MockSocket = function () {
-  Emitter.call(this)
+export class MockSocket extends Emitter {
 
-  this.socket = {transport: {name: 'websocket'}}
+  socket = {transport: {name: 'websocket'}}
 
-  var transportName = 'websocket'
+  transportName = 'websocket'
 
-  this.io = {
+  io = {
     engine: {
-      on: function (event, cb) {
-        if (event === 'upgrade' && transportName === 'websocket') {
+      on: (event, cb) => {
+        if (event === 'upgrade' && this.transportName === 'websocket') {
           cb()
         }
       }
     }
   }
 
-  this.disconnect = function () {
+  disconnect = () => {
     this.emit('disconnect')
   }
 
   // MOCK API
-  this._setTransportNameTo = function (name) {
-    transportName = name
+  _setTransportNameTo = (name) => {
+    this.transportName = name
   }
 }
-
-exports.Socket = MockSocket
