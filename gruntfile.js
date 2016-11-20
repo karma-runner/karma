@@ -3,11 +3,11 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     pkgFile: 'package.json',
     files: {
-      server: ['lib/**/*.js'],
-      client: ['client/**/*.js'],
-      common: ['common/**/*.js'],
-      context: ['context/**/*.js'],
-      grunt: ['grunt.js', 'tasks/*.js'],
+      server: ['lib/**/*.ts'],
+      client: ['client/**/*.ts'],
+      common: ['common/**/*.ts'],
+      context: ['context/**/*.ts'],
+      grunt: ['grunt.js'],
       scripts: ['scripts/init-dev-env.js']
     },
     browserify: {
@@ -73,15 +73,23 @@ module.exports = function (grunt) {
         quiet: true
       },
       target: [
-        '<%= files.server %>',
         '<%= files.grunt %>',
+        'static/debug.js',
+        'gruntfile.js'
+      ]
+    },
+    tslint: {
+      options: {
+        quiet: true
+      },
+      target: [
+        'test/**/*.ts',
         '<%= files.scripts %>',
         '<%= files.client %>',
+        '<%= files.server %>',
         '<%= files.common %>',
         '<%= files.context %>',
-        'static/debug.js',
-        'test/**/*.js',
-        'gruntfile.js'
+        'tasks/*.ts'
       ]
     },
     'npm-publish': {
@@ -137,7 +145,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', ['browserify:client'])
   grunt.registerTask('default', ['build', 'test', 'lint'])
-  grunt.registerTask('lint', ['eslint'])
+  grunt.registerTask('lint', ['tslint', 'eslint'])
   grunt.registerTask('test-appveyor', ['test:unit', 'test:client'])
 
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function (type) {

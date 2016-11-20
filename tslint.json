@@ -1,0 +1,4 @@
+{
+  "member-access": [false, "check-accessor"],
+  "semicolon": [true, "never"]
+}
