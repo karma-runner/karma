@@ -583,7 +583,7 @@ This is disabled by default (since the default value is 0).
 ## reporters
 **Type:** Array
 
-**Default:** `['plain']`
+**Default:** `['progress']`
 
 **CLI:** `--reporters progress,growl`
 
