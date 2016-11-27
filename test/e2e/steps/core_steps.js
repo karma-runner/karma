@@ -158,7 +158,7 @@ module.exports = function coreSteps () {
 
     if (noDebug) {
       lines = actualOutput.split('\n').filter(function (line) {
-        return !line.match(/\[DEBUG\]/)
+        return !line.match(/\[DEBUG]/)
       })
       actualOutput = lines.join('\n')
     }

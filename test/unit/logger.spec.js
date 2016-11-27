@@ -15,7 +15,11 @@ describe('logger', () => {
         filename: 'test/unit/test.log'
       }])
 
-      expect(m.log4js.appenders).to.have.keys(['console', 'file'])
+      expect(m.log4js.appenders).to.have.keys([
+        'console',
+        'file',
+        'stdout'
+      ])
     })
   })
 })

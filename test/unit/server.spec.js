@@ -23,16 +23,17 @@ describe('server', () => {
 
     doneSpy = sinon.spy()
 
-    mockConfig =
-      {frameworks: [],
-        port: 9876,
-        autoWatch: true,
-        hostname: 'localhost',
-        urlRoot: '/',
-        browsers: ['fake'],
-        singleRun: true,
-        logLevel: 'OFF',
-      browserDisconnectTolerance: 0}
+    mockConfig = {
+      frameworks: [],
+      port: 9876,
+      autoWatch: true,
+      hostname: 'localhost',
+      urlRoot: '/',
+      browsers: ['fake'],
+      singleRun: true,
+      logLevel: 'OFF',
+      browserDisconnectTolerance: 0
+    }
 
     server = new Server(mockConfig, doneSpy)
 
