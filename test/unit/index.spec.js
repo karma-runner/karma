@@ -4,6 +4,6 @@ describe('index', () => {
   var index = require('../../lib/index')
 
   it('should expose the `config` object', () => {
-    expect(index.config).toBe(cfg)
+    expect(index.config.parseConfig).to.be.eq(cfg.parseConfig)
   })
 })
