@@ -81,7 +81,7 @@ describe('server', () => {
         callback && callback()
       }),
       removeAllListeners: () => {},
-      close: () => {}
+      close: sinon.spy(callback => callback && callback())
     }
 
     sinon.stub(server._injector, 'get')
@@ -194,6 +194,22 @@ describe('server', () => {
       mockLauncher.areAllCaptured = () => true
       server.emit('browser_register', {})
       expect(browsersReady).to.have.been.called
+    })
+
+    it('should exit with error exit code on load errors', (done) => {
+      mockProcess(process)
+
+      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+        expect(exitCode).to.have.equal(1)
+        done()
+      })
+
+      server.loadErrors.push(['TestError', 'Test'])
+      fileListOnResolve()
+
+      function mockProcess (process) {
+        sinon.stub(process, 'kill', (pid, ev) => process.emit(ev))
+      }
     })
   })
 
