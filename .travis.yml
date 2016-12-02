@@ -1,20 +1,21 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
   - 4
   - 5
-  - 6
+  - 7
 
 env:
   global:
   - SAUCE_USERNAME: karmarunnerbot
   - secure: "bRVY+hYZwMf1SqVnMyZRJTLD0gN1hLx9/MwO8MM/qBiu3YNjXy49XElfMdzMKN6cZeKTmhcnjmZonbJuI1PQ2t+utGkyjnlVLJ/OlWptreKLzIlcbt4hrdPoTcjmUTwDWq9Ex9cVoYX8AzCasETttpczp3P+s3+vmOUj8z25JyU="
   - CXX=g++-4.8
+
+matrix:
+  fast_finish: true
   include:
-  - node_js: "5"
-    env: VALIDATE_COMMIT_MSG=TRUE
+    - node_js: 6
+      env: VALIDATE_COMMIT_MSG=TRUE LINT=TRUE
 
 before_install:
   - npm config set loglevel warn
@@ -38,3 +39,4 @@ before_script:
 
 script:
   - 'if [ "${VALIDATE_COMMIT_MSG}" != "TRUE" ]; then npm run travis; else ./scripts/validate-commit-msg.sh "${TRAVIS_COMMIT}"; fi'
+  - 'if [ "${LINT == "TRUE"}"]; then npm run lint; fi'
