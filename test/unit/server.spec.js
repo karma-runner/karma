@@ -77,7 +77,14 @@ describe('server', () => {
           webServerOnError = handler
         }
       },
-      listen: sinon.spy((port, callback) => {
+      listen: sinon.spy((port, arg2, arg3) => {
+        var callback = null
+        if (typeof (arg2) === 'function') {
+          callback = arg2
+        } else
+        if (typeof (arg3) === 'function') {
+          callback = arg3
+        }
         callback && callback()
       }),
       removeAllListeners: () => {},

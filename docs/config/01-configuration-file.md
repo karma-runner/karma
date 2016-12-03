@@ -368,6 +368,12 @@ Please note just about all frameworks in Karma require an additional plugin/fram
 
 Additional information can be found in [plugins].
 
+## listenAddress
+**Type:** String
+
+**Default:** `'0.0.0.0' or LISTEN_ADDR`
+
+**Description:** Address that the server will listen on. Change to 'localhost' to only listen to the loopback, or '::' to listen on all IPv6 interfaces
 
 ## hostname
 **Type:** String
