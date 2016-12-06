@@ -79,10 +79,9 @@ describe('server', () => {
       },
       listen: sinon.spy((port, arg2, arg3) => {
         var callback = null
-        if (typeof (arg2) === 'function') {
+        if (typeof arg2 === 'function') {
           callback = arg2
-        } else
-        if (typeof (arg3) === 'function') {
+        } else if (typeof arg3 === 'function') {
           callback = arg3
         }
         callback && callback()
