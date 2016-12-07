@@ -148,6 +148,56 @@ const path = require('path');
 const karmaConfig = cfg.parseConfig(path.resolve('./karma.conf.js'), { port: 1337 } ); 
 ```
 
+## karma.constants
+
+### **constants.VERSION**
+
+The current version of karma
+
+### **constants.DEFAULT_PORT**
+
+The default port used for the karma server
+
+### **constants.DEFAULT_HOSTNAME**
+
+The default hostname used for the karma server
+
+### **constants.LOG_DISABLE**
+
+The value for disabling logs
+
+### **constants.LOG_ERROR**
+
+The value for the log `error` level
+
+### **constants.LOG_WARN**
+
+The value for the log `warn` level
+
+### **constants.LOG_INFO**
+
+The value for the log `info` level
+
+### **constants.LOG_DEBUG**
+
+The value for the log `debug` level
+
+### **constants.COLOR_PATTERN**
+
+The default color pattern for log output
+
+### **constants.NO_COLOR_PATTERN**
+
+The default pattern for log output without color
+
+### **constants.CONSOLE_APPENDER**
+
+The default console appender
+
+### **constants.EXIT_CODE**
+
+The exit code
+
 ## Callback function notes
 
 - If there is an error, the error code will be provided as the second parameter to the error callback.
