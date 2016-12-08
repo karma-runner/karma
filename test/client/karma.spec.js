@@ -252,6 +252,38 @@ describe('Karma', function () {
       mockWindow.alert('What?')
       assert(ck.log.calledWith('alert', ['What?']))
     })
+
+    it('should capture confirm', function () {
+      sinon.spy(ck, 'log')
+      var confirmCalled = false
+
+      var mockWindow = {
+        confirm: function () {
+          confirmCalled = true
+        }
+      }
+
+      ck.setupContext(mockWindow)
+      mockWindow.confirm('What?')
+      assert(ck.log.calledWith('confirm', ['What?']))
+      assert.equal(confirmCalled, true)
+    })
+
+    it('should capture prompt', function () {
+      sinon.spy(ck, 'log')
+      var promptCalled = false
+
+      var mockWindow = {
+        prompt: function () {
+          promptCalled = true
+        }
+      }
+
+      ck.setupContext(mockWindow)
+      mockWindow.prompt('What is your favorite color?', 'blue')
+      assert(ck.log.calledWith('prompt', ['What is your favorite color?', 'blue']))
+      assert.equal(promptCalled, true)
+    })
   })
 
   describe('complete', function () {
