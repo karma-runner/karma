@@ -27,6 +27,7 @@ describe('server', () => {
       {frameworks: [],
         port: 9876,
         autoWatch: true,
+        listenAddress: '127.0.0.1',
         hostname: 'localhost',
         urlRoot: '/',
         browsers: ['fake'],
@@ -77,7 +78,13 @@ describe('server', () => {
           webServerOnError = handler
         }
       },
-      listen: sinon.spy((port, callback) => {
+      listen: sinon.spy((port, arg2, arg3) => {
+        var callback = null
+        if (typeof arg2 === 'function') {
+          callback = arg2
+        } else if (typeof arg3 === 'function') {
+          callback = arg3
+        }
         callback && callback()
       }),
       removeAllListeners: () => {},
@@ -133,6 +140,20 @@ describe('server', () => {
 
       expect(mockWebServer.listen).to.have.been.called
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
+    })
+
+    it('should listen on the listenAddress in the config', () => {
+      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+
+      expect(mockWebServer.listen).not.to.have.been.called
+      expect(webServerOnError).not.to.be.null
+
+      expect(mockConfig.listenAddress).to.be.equal('127.0.0.1')
+
+      fileListOnResolve()
+
+      expect(mockWebServer.listen).to.have.been.calledWith(9876, '127.0.0.1')
+      expect(mockConfig.listenAddress).to.be.equal('127.0.0.1')
     })
 
     it('should try next port if already in use', () => {
