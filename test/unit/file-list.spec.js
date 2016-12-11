@@ -743,7 +743,7 @@ describe('FileList', () => {
     it('waits while file preprocessing, if the file was deleted and immediately added', (done) => {
       list = new List(patterns('/a.*'), [], emitter, preprocess, 100)
 
-      return list.refresh().then((files) => {
+      list.refresh().then((files) => {
         preprocess.reset()
         modified.reset()
 
@@ -755,12 +755,18 @@ describe('FileList', () => {
 
         expect(preprocess).to.not.have.been.called
 
+        let called = false
+
         emitter.once('file_list_modified', () => _.defer(() => {
+          called = true
           expect(preprocess).to.have.been.calledOnce
           done()
         }))
 
         clock.tick(2)
+        if (!called) {
+          throw new Error('"file_list_modified" was not emitted')
+        }
       })
     })
   })
