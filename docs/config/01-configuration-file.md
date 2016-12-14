@@ -409,11 +409,11 @@ httpsServerOptions: {
 
 **Possible values:**
 
-  * `config.LOG_DISABLE`
-  * `config.LOG_ERROR`
-  * `config.LOG_WARN`
-  * `config.LOG_INFO`
-  * `config.LOG_DEBUG`
+  * `config.OFF`
+  * `config.ERROR`
+  * `config.WARN`
+  * `config.INFO`
+  * `config.DEBUG`
 
 **Description:** Level of logging.
 
