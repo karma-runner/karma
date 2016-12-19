@@ -336,7 +336,7 @@
     "chai-subset": "^1.2.2",
     "coffee-script": "^1.12.1",
     "cucumber": "^1.2.0",
-    "eslint": "^2.3.0",
+    "eslint": "^3.5.0",
     "eslint-config-standard": "^5.1.0",
     "eslint-plugin-promise": "^1.0.8",
     "eslint-plugin-react": "^5.1.1",
