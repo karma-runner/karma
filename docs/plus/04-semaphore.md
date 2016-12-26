@@ -1,11 +1,11 @@
 pageTitle: Semaphore CI
 menuTitle: Semaphore CI
 
-[Semaphore] is a popular continuous integration service for
-Ruby developers that [integrates] with [GitHub]. It also includes
-[Node.js], [PhantomJS] and headless Firefox in its [platform],
-making it fit for testing JavaScript applications as well.
-This article assumes you already have a Semaphore account.
+[Semaphore] is a popular continuous integration service that
+supports a [wide range of programming languages]. Up-to-date 
+versions of [Firefox], [PhantomJS] and [Node.js] make it a good 
+testing ground for JavaScript applications. This article assumes 
+you already have a Semaphore account.
 
 ## Configure Your Project
 
@@ -57,9 +57,9 @@ Also, if necessary, build commands can be further [customized] at any time.
 
 [screencast]: https://semaphoreci.com/docs/adding-github-bitbucket-project-to-semaphore.html
 [Semaphore]: https://semaphoreci.com
-[integrates]: https://semaphoreci.com/project_timeline
-[Github]: https://github.com/
-[Node.js]: http://nodejs.org
-[PhantomJS]: http://phantomjs.org/
+[wide range of programming languages]: https://semaphoreci.com/docs/supported-stack.html
+[Firefox]: https://semaphoreci.com/docs/firefox.html
+[PhantomJS]: https://semaphoreci.com/docs/phantomjs.html
+[Node.js]: https://semaphoreci.com/docs/languages/javascript/javascript-support-on-semaphore.html
 [platform]: https://semaphoreci.com/docs/supported-stack.html
 [customized]: https://semaphoreci.com/docs/customizing-build-commands.html
