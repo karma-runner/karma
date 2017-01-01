@@ -13,6 +13,7 @@ Note: Most of the browser launchers need to be loaded as [plugins].
 - [Firefox](https://www.npmjs.com/package/karma-firefox-launcher)
 - [Safari](https://www.npmjs.com/package/karma-safari-launcher)
 - [PhantomJS](https://www.npmjs.com/package/karma-phantomjs-launcher)
+- [JSDOM](https://www.npmjs.com/package/karma-jsdom-launcher)
 - [Opera](https://www.npmjs.com/package/karma-opera-launcher)
 - [Internet Explorer](https://www.npmjs.com/package/karma-ie-launcher)
 - [SauceLabs](https://www.npmjs.com/package/karma-saucelabs-launcher)
@@ -130,6 +131,7 @@ The browser scripts need to take one argument, which is the URL with the ID-para
 
 [Chrome and Chrome Canary]: https://github.com/karma-runner/karma-chrome-launcher
 [PhantomJS]: https://github.com/karma-runner/karma-phantomjs-launcher
+[JSDOM]: https://github.com/badeball/karma-jsdom-launcher
 [Firefox]: https://github.com/karma-runner/karma-firefox-launcher
 [Safari]: https://github.com/karma-runner/karma-safari-launcher
 [IE]: https://github.com/karma-runner/karma-ie-launcher
