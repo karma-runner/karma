@@ -389,7 +389,7 @@
     "sinon": "^1.17.5",
     "sinon-chai": "^2.7.0",
     "supertest": "^2.0.0",
-    "supertest-as-promised": "^3.0.0",
+    "supertest-as-promised": "^4.0.0",
     "timer-shim": "^0.3.0",
     "validate-commit-msg": "^2.4.1",
     "which": "^1.1.1"
