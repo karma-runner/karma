@@ -323,7 +323,7 @@
     "safe-buffer": "^5.0.1",
     "socket.io": "1.7.2",
     "source-map": "^0.5.3",
-    "tmp": "0.0.28",
+    "tmp": "0.0.31",
     "useragent": "^2.1.9"
   },
   "devDependencies": {
