@@ -136,7 +136,7 @@ stopper.stop({port: 9876}, function(exitCode) {
 
 ## karma.config.parseConfig([configFilePath], [cliOptions])
 
-This function will load given config file and returns a filled config object. 
+This function will load given config file and returns a filled config object.
 This can be useful if you want to integrate karma into another tool and want to load
 the karma config while honoring the karma defaults. For example, the [stryker-karma-runner](https://github.com/stryker-mutator/stryker-karma-runner)
 uses this to load your karma configuration and use that in the stryker configuration.
@@ -145,7 +145,7 @@ uses this to load your karma configuration and use that in the stryker configura
 const cfg = require('karma').config;
 const path = require('path');
 // Read karma.conf.js, but override port with 1337
-const karmaConfig = cfg.parseConfig(path.resolve('./karma.conf.js'), { port: 1337 } ); 
+const karmaConfig = cfg.parseConfig(path.resolve('./karma.conf.js'), { port: 1337 } );
 ```
 
 ## karma.constants
@@ -181,6 +181,10 @@ The value for the log `info` level
 ### **constants.LOG_DEBUG**
 
 The value for the log `debug` level
+
+### **constants.LOG_PRIORITIES**
+
+An array of log levels in descending order, i.e. `LOG_DISABLE`, `LOG_ERROR`, `LOG_WARN`, `LOG_INFO`, and `LOG_DEBUG`
 
 ### **constants.COLOR_PATTERN**
 

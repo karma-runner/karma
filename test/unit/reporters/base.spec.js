@@ -83,6 +83,18 @@ describe('reporter', function () {
       return expect(writeSpy).to.have.been.calledWith('LOG: Message\n')
     })
 
+    it('should not log if lower priority than browserConsoleLogOptions.level', function () {
+      var reporter = new m.BaseReporter(null, null, true, {
+        browserConsoleLogOptions: {level: 'ERROR'}
+      }, adapter)
+      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+
+      reporter._browsers = ['Chrome']
+      reporter.onBrowserLog('Chrome', 'Message', 'LOG')
+
+      return writeSpy.should.have.not.been.called
+    })
+
     return it('should format log messages correctly for multi browsers', function () {
       var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
