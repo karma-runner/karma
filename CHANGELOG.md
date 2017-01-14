@@ -1,3 +1,29 @@
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/karma-runner/karma/compare/v1.3.0...v1.4.0) (2017-01-14)
+
+
+### Bug Fixes
+
+* **browser:** filter browser logging by level  ([35965d9](https://github.com/karma-runner/karma/commit/35965d9)), closes [#2228](https://github.com/karma-runner/karma/issues/2228)
+* **cli:** restore shell completion in the npm package ([f56b5a5](https://github.com/karma-runner/karma/commit/f56b5a5)), closes [#2351](https://github.com/karma-runner/karma/issues/2351)
+* **config:** add crossOriginAttribute config option ([1e465b1](https://github.com/karma-runner/karma/commit/1e465b1))
+* **middleware:** update `Buffer` usage ([3d94b8c](https://github.com/karma-runner/karma/commit/3d94b8c))
+* **reporter:** do not allow URL domains to span new lines ([2c13404](https://github.com/karma-runner/karma/commit/2c13404))
+* **reporter:** strip only hostname/port ([fbbeccf](https://github.com/karma-runner/karma/commit/fbbeccf)), closes [#2209](https://github.com/karma-runner/karma/issues/2209)
+* **reporters:**  cannot read property map of undefined  ([305df2c](https://github.com/karma-runner/karma/commit/305df2c)), closes [#1662](https://github.com/karma-runner/karma/issues/1662)
+* **server:** exit with code 1 when failing due to missing browser ([86e2ef2](https://github.com/karma-runner/karma/commit/86e2ef2)), closes [#2403](https://github.com/karma-runner/karma/issues/2403)
+
+
+### Features
+
+* **api:** add constants to the public api ([ee10977](https://github.com/karma-runner/karma/commit/ee10977)), closes [#2361](https://github.com/karma-runner/karma/issues/2361)
+* **api:** expose `config.parseConfig` on the public api ([7d2c1ae](https://github.com/karma-runner/karma/commit/7d2c1ae))
+* **client:** capture confirm & prompt  ([3a618b3](https://github.com/karma-runner/karma/commit/3a618b3)), closes [#694](https://github.com/karma-runner/karma/issues/694)
+* **server:** add listen address option so that IPv6 and loopback interfaces can be used ([8e5bee6](https://github.com/karma-runner/karma/commit/8e5bee6)), closes [#2477](https://github.com/karma-runner/karma/issues/2477)
+* **web-server:** allow overriding of default http module ([1e7514d](https://github.com/karma-runner/karma/commit/1e7514d)), closes [#2424](https://github.com/karma-runner/karma/issues/2424)
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/karma-runner/karma/compare/v1.2.0...v1.3.0) (2016-09-09)
 
