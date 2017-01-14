@@ -20,7 +20,7 @@ describe('reporter', () => {
 
     beforeEach(() => {
       emitter = new EventEmitter()
-      formatError = m.createErrorFormatter({ basePath: '' }, emitter)
+      formatError = m.createErrorFormatter({ basePath: '', hostname: 'localhost', port: 8080 }, emitter)
       sandbox = sinon.sandbox.create()
     })
 
@@ -79,19 +79,19 @@ describe('reporter', () => {
       )
     })
 
-    it('should remove domain from files', () => {
-      expect(formatError('file http://localhost:8080/base/usr/a.js and http://127.0.0.1:8080/absolute/home/b.js')).to.be.equal('file usr/a.js and /home/b.js\n')
+    it('should remove specified hostname from files', () => {
+      expect(formatError('file http://localhost:8080/base/usr/a.js and http://127.0.0.1:8080/absolute/home/b.js')).to.be.equal('file usr/a.js and http://127.0.0.1:8080/home/b.js\n')
     })
 
     // TODO(vojta): enable once we serve source under urlRoot
     it.skip('should handle non default karma service folders', () => {
       formatError = m.createErrorFormatter({ basePath: '' }, '/_karma_/')
-      expect(formatError('file http://localhost:8080/_karma_/base/usr/a.js and http://127.0.0.1:8080/_karma_/base/home/b.js')).to.be.equal('file usr/a.js and home/b.js\n')
+      expect(formatError('file http://localhost:8080/_karma_/base/usr/a.js and http://localhost:8080/_karma_/base/home/b.js')).to.be.equal('file usr/a.js and home/b.js\n')
     })
 
     it('should remove shas', () => {
       var ERROR = 'file http://localhost:8080/base/usr/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9 and http://127.0.0.1:8080/absolute/home/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
-      expect(formatError(ERROR)).to.be.equal('file usr/file.js and /home/file.js\n')
+      expect(formatError(ERROR)).to.be.equal('file usr/file.js and http://127.0.0.1:8080/home/file.js\n')
     })
 
     it('should indent all lines', () => {
@@ -99,17 +99,17 @@ describe('reporter', () => {
     })
 
     it('should restore base paths', () => {
-      formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter)
+      formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter)
       expect(formatError('at http://localhost:123/base/a.js?123')).to.equal('at a.js\n')
     })
 
     it('should restore absolute paths', () => {
-      var ERROR = 'at http://local:1233/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
+      var ERROR = 'at http://localhost:8080/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
       expect(formatError(ERROR)).to.equal('at /usr/path.js\n')
     })
 
     it('should preserve line numbers', () => {
-      var ERROR = 'at http://local:1233/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9:2'
+      var ERROR = 'at http://localhost:8080/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9:2'
       expect(formatError(ERROR)).to.equal('at /usr/path.js:2\n')
     })
 
@@ -155,7 +155,7 @@ describe('reporter', () => {
       MockSourceMapConsumer.LEAST_UPPER_BOUND = 2
 
       it('should rewrite stack traces', (done) => {
-        formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+        formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
@@ -170,7 +170,7 @@ describe('reporter', () => {
       })
 
       it('should rewrite stack traces to the first column when no column is given', (done) => {
-        formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+        formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
@@ -185,7 +185,7 @@ describe('reporter', () => {
       })
 
       it('should rewrite relative url stack traces', (done) => {
-        formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+        formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
@@ -215,7 +215,7 @@ describe('reporter', () => {
       })
 
       it('should fall back to non-source-map format if originalPositionFor throws', (done) => {
-        formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+        formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
@@ -230,7 +230,7 @@ describe('reporter', () => {
       })
 
       it('should not try to use source maps when no line is given', (done) => {
-        formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+        formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
@@ -246,7 +246,7 @@ describe('reporter', () => {
       })
 
       it('should not try to match domains with spaces', (done) => {
-        formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+        formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 9876 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
@@ -265,7 +265,7 @@ describe('reporter', () => {
         var servedFiles = null
 
         beforeEach(() => {
-          formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
+          formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
           servedFiles = [new File('C:/a/b/c.js')]
           servedFiles[0].sourceMap = {content: 'SOURCE MAP b.js'}
         })
