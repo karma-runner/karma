@@ -45,7 +45,8 @@ describe('config', () => {
       '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
       '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
       '/conf/both.js': wrapCfg({files: ['one.js', 'two.js'], exclude: ['third.js']}),
-      '/conf/coffee.coffee': wrapCfg({files: ['one.js', 'two.js']})
+      '/conf/coffee.coffee': wrapCfg({files: ['one.js', 'two.js']}),
+      '/conf/default-export.js': {default: wrapCfg({files: ['one.js', 'two.js']})}
     }
 
     // load file under test
@@ -293,6 +294,11 @@ describe('config', () => {
 
       config = normalizeConfigWithDefaults({ protocol: 'unsupported:' })
       expect(config.protocol).to.equal('http:')
+    })
+
+    it('should allow the config to be set of the default export', () => {
+      var config = e.parseConfig('/conf/default-export.js', {})
+      expect(config.autoWatch).to.equal(true)
     })
   })
 
