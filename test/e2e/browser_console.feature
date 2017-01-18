@@ -54,7 +54,8 @@ Feature: Browser Console Configuration
       ];
       browserConsoleLogOptions = {
         path: 'console.log',
-        format: '%t:%m'
+        format: '%t:%m',
+        level: 'log'
       };
       """
     When I start Karma
@@ -78,7 +79,8 @@ Feature: Browser Console Configuration
       ];
       browserConsoleLogOptions = {
         path: 'console.log',
-        format: '%t:%T:%m'
+        format: '%t:%T:%m',
+        level: 'log'
       };
       """
     When I start Karma
