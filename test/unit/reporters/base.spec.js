@@ -83,9 +83,45 @@ describe('reporter', function () {
       return expect(writeSpy).to.have.been.calledWith('LOG: Message\n')
     })
 
-    it('should not log if lower priority than browserConsoleLogOptions.level', function () {
+    it('should not log if lower priority than browserConsoleLogOptions "error"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
-        browserConsoleLogOptions: {level: 'ERROR'}
+        browserConsoleLogOptions: {level: 'error'}
+      }, adapter)
+      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+
+      reporter._browsers = ['Chrome']
+      reporter.onBrowserLog('Chrome', 'Message', 'WARN')
+
+      return writeSpy.should.have.not.been.called
+    })
+    
+    it('should not log if lower priority than browserConsoleLogOptions "warn"', function () {
+      var reporter = new m.BaseReporter(null, null, true, {
+        browserConsoleLogOptions: {level: 'warn'}
+      }, adapter)
+      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+
+      reporter._browsers = ['Chrome']
+      reporter.onBrowserLog('Chrome', 'Message', 'INFO')
+
+      return writeSpy.should.have.not.been.called
+    })
+    
+    it('should not log if lower priority than browserConsoleLogOptions "info"', function () {
+      var reporter = new m.BaseReporter(null, null, true, {
+        browserConsoleLogOptions: {level: 'info'}
+      }, adapter)
+      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+
+      reporter._browsers = ['Chrome']
+      reporter.onBrowserLog('Chrome', 'Message', 'DEBUG')
+
+      return writeSpy.should.have.not.been.called
+    })    
+
+    it('should not log if lower priority than browserConsoleLogOptions "debug"', function () {
+      var reporter = new m.BaseReporter(null, null, true, {
+        browserConsoleLogOptions: {level: 'debug'}
       }, adapter)
       var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
