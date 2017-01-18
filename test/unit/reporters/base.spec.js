@@ -94,7 +94,7 @@ describe('reporter', function () {
 
       return writeSpy.should.have.not.been.called
     })
-    
+
     it('should not log if lower priority than browserConsoleLogOptions "warn"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
         browserConsoleLogOptions: {level: 'warn'}
@@ -106,7 +106,7 @@ describe('reporter', function () {
 
       return writeSpy.should.have.not.been.called
     })
-    
+
     it('should not log if lower priority than browserConsoleLogOptions "info"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
         browserConsoleLogOptions: {level: 'info'}
@@ -117,7 +117,7 @@ describe('reporter', function () {
       reporter.onBrowserLog('Chrome', 'Message', 'DEBUG')
 
       return writeSpy.should.have.not.been.called
-    })    
+    })
 
     it('should not log if lower priority than browserConsoleLogOptions "debug"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
