@@ -135,7 +135,7 @@ describe('launchers/process.js', () => {
       })
     })
 
-    // when the browser fails to get captured in given timeout, it should restart
+    // when the browser fails to get captured in default timeout, it should restart
     it('start -> timeout -> restart', (done) => {
       // start
       launcher.start('http://localhost/')
@@ -243,6 +243,57 @@ describe('launchers/process.js', () => {
         expect(failureSpy).not.to.have.been.called
         done()
       })
+    })
+  })
+
+  // higher level tests - process kill timeout
+  describe('process-kill-timeout', () => {
+    var failureSpy
+    var mockTimer = null
+
+    beforeEach(() => {
+      mockTimer = createMockTimer()
+      CaptureTimeoutLauncher.call(launcher, mockTimer, 100)
+      ProcessLauncher.call(launcher, mockSpawn, mockTempDir, mockTimer, 300)
+      RetryLauncher.call(launcher, 2)
+
+      launcher._getCommand = () => BROWSER_PATH
+
+      failureSpy = sinon.spy()
+      emitter.on('browser_process_failure', failureSpy)
+    })
+
+    // when the browser fails to get captured in default timeout, it should restart
+    it('start -> capture_timeout -> kill -> process_kill_timeout -> sigkill', () => {
+      // start
+      launcher.start('http://localhost/')
+
+      // expect starting the process
+      expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
+      var browserProcess = mockSpawn._processes.shift()
+
+      // timeout
+      mockTimer.wind(101)
+
+      // expect killing browser
+      expect(browserProcess.kill).to.have.been.called
+
+      // processKillTimeout not reached yet
+      mockTimer.wind(299)
+
+      // SIGKILL not called yet
+      expect(browserProcess.kill.withArgs('SIGKILL')).not.to.have.been.called
+
+      // processKillTimeout
+      mockTimer.wind(301)
+
+      // expect killing with SIGKILL
+      expect(browserProcess.kill.withArgs('SIGKILL')).to.have.been.called
+
+      browserProcess.emit('exit', 0)
+      mockTempDir.remove.callArg(1)
+      mockTempDir.remove.reset()
+      mockSpawn.reset()
     })
   })
 })
