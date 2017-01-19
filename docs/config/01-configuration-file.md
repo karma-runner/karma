@@ -200,6 +200,7 @@ The `captureTimeout` value represents the maximum boot-up time allowed for a bro
 If any browser does not get captured within the timeout, Karma will kill it and try to launch
 it again and, after three attempts to capture it, Karma will give up.
 
+
 ## client.args
 **Type:** Array
 
@@ -505,6 +506,16 @@ See [plugins] for more information.
 **Description:** The port where the web server will be listening.
 
 
+## processKillTimeout
+**Type:** Number
+
+**Default:** `2000`
+
+**Description:** How long will Karma wait for browser process to terminate before sending a SIGKILL signal.
+
+If, after test execution or after Karma attempts to kill the browser, browser is not killed within `processKillTimeout`(ms), Karma will send a SIGKILL signal to attempt to kill the browser forcefully.
+
+
 ## preprocessors
 **Type:** Object
 
@@ -704,6 +715,8 @@ If set then the following fields will be defined and can be overriden:
 **Default:** `'localhost'`
 
 **Description:** Will be used as the hostname when launching browsers
+
+
 
 ### protocol
 **Type:** String
