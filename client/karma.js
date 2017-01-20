@@ -49,12 +49,31 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   var childWindow = null
   var navigateContextTo = function (url) {
     if (self.config.useIframe === false) {
-      // If there is a window already open, then close it
-      // DEV: In some environments (e.g. Electron), we don't have setter access for location
-      if (childWindow !== null && childWindow.closed !== true) {
-        childWindow.close()
+      // run in new window
+      if (self.config.runInParent === false) {
+        // If there is a window already open, then close it
+        // DEV: In some environments (e.g. Electron), we don't have setter access for location
+        if (childWindow !== null && childWindow.closed !== true) {
+          childWindow.close()
+        }
+        childWindow = opener(url)
+      // run context on parent element and dynamically loading scripts
+      } else if (url !== 'about:blank') {
+        var loadScript = function (idx) {
+          if (idx < window.__karma__.scriptUrls.length) {
+            var ele = document.createElement('script')
+            ele.src = window.__karma__.scriptUrls[idx]
+            ele.onload = function () {
+              loadScript(idx + 1)
+            }
+            document.body.appendChild(ele)
+          } else {
+            window.__karma__.loaded()
+          }
+        }
+        loadScript(0)
       }
-      childWindow = opener(url)
+    // run in iframe
     } else {
       iframe.src = url
     }

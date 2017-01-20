@@ -46,7 +46,8 @@ describe('Karma', function () {
 
   it('should open a new window when useIFrame is false', function () {
     var config = ck.config = {
-      useIframe: false
+      useIframe: false,
+      runInParent: false
     }
 
     socket.emit('execute', config)

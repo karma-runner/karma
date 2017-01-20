@@ -2,6 +2,9 @@ var VERSION = require('./constants').VERSION
 
 var StatusUpdater = function (socket, titleElement, bannerElement, browsersElement) {
   var updateBrowsersInfo = function (browsers) {
+    if (!browsersElement) {
+      return
+    }
     var items = []
     var status
     for (var i = 0; i < browsers.length; i++) {
@@ -13,6 +16,9 @@ var StatusUpdater = function (socket, titleElement, bannerElement, browsersEleme
 
   var updateBanner = function (status) {
     return function (param) {
+      if (!titleElement || !bannerElement) {
+        return
+      }
       var paramStatus = param ? status.replace('$', param) : status
       titleElement.innerHTML = 'Karma v' + VERSION + ' - ' + paramStatus
       bannerElement.className = status === 'connected' ? 'online' : 'offline'
