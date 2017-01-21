@@ -224,6 +224,14 @@ How this value is used is up to your test adapter - you should check your adapte
 If true, Karma runs the tests inside an iFrame. If false, Karma runs the tests in a new window. Some tests may not run in an
 iFrame and may need a new window to run.
 
+## client.runInParent
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** Run the tests on the same window as the client, without using iframe or a new window
+
+If true, Karma runs the tests inside the original window without using iframe. It will load the test scripts dynamically.
 
 ## client.captureConsole
 **Type:** Boolean
