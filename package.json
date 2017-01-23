@@ -364,7 +364,7 @@
     "grunt-mocha-test": "^0.12.7",
     "grunt-npm": "0.0.2",
     "http2": "^3.3.6",
-    "husky": "^0.12.0",
+    "husky": "^0.13.1",
     "jasmine-core": "^2.3.4",
     "json3": "^3.3.2",
     "karma-browserify": "^5.0.1",
