@@ -1,3 +1,20 @@
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/karma-runner/karma/compare/v1.4.0...v1.4.1) (2017-01-29)
+
+
+### Bug Fixes
+
+* **runner:** Make process kill timeout configurable ([ffaa054](https://github.com/karma-runner/karma/commit/ffaa054)), closes [#2447](https://github.com/karma-runner/karma/issues/2447)
+* **runner:** Make process kill timeout configurable - Fix Build ([a128e5c](https://github.com/karma-runner/karma/commit/a128e5c)), closes [#2447](https://github.com/karma-runner/karma/issues/2447)
+* **runner:** Test process kill timeout config ([99a1d48](https://github.com/karma-runner/karma/commit/99a1d48)), closes [#2447](https://github.com/karma-runner/karma/issues/2447)
+
+
+### Features
+
+* **config:** allow config to be a default export ([9976dce](https://github.com/karma-runner/karma/commit/9976dce))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/karma-runner/karma/compare/v1.3.0...v1.4.0) (2017-01-14)
 
