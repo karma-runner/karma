@@ -342,6 +342,7 @@
     "LiveScript": "^1.3.0",
     "babel": "^6.5.2",
     "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es3": "^1.0.1",
     "babel-register": "^6.9.0",
     "chai": "^3.3.0",
     "chai-as-promised": "^5.0.0",
