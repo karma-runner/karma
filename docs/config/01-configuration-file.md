@@ -296,6 +296,14 @@ Disable this when you need to load external scripts that are served without the 
 **Description:** If `null` (default), uses karma's own `debug.html` file.
 
 
+## customClientContextFile
+**Type:** string
+
+**Default:** `null`
+
+**Description:** If `null` (default), uses karma's own `client_with_context.html` file (which is used when client.runInParent set to true).
+
+
 ## customHeaders
 **Type:** Array
 
