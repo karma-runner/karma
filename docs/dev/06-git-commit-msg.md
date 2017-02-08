@@ -13,6 +13,16 @@ showInMenu: false
 <footer>
 ```
 
+## Example commit message:
+
+```bash
+fix(middleware): ensure Range headers adhere more closely to RFC 2616
+
+Added one new dependency, use `range-parser` (Express dependency) to compute
+range. It is more well-tested in the wild.
+
+Fixes #2310
+```
 
 ## Message subject (first line)
 The first line cannot be longer than 70 characters, the second line is always blank and
