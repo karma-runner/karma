@@ -89,8 +89,9 @@ These are all of the available configuration options.
 
 **Description:** When Karma is watching the files for changes, it tries to batch
 multiple changes into a single run so that the test runner doesn't try to start and restart running
-tests more than it should. The configuration setting tells Karma how long to wait (in milliseconds) after any changes
-have occurred before starting the test process again.
+tests more than it should, or restart while build files are not in a consistent state. The configuration setting
+tells Karma how long to wait (in milliseconds) from the last file change before starting
+the test process again, resetting the timer each time a file changes (i.e. [debouncing](https://davidwalsh.name/javascript-debounce-function)).
 
 
 ## basePath
