@@ -43,7 +43,7 @@ module.exports = (config) ->
 ```
 
 ```typescript
-# karma.conf.ts
+// karma.conf.ts
 module.exports = (config) => {
   config.set({
     basePath: '../..',
