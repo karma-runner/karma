@@ -311,7 +311,7 @@
   ],
   "dependencies": {
     "bluebird": "^3.3.0",
-    "body-parser": "^1.12.4",
+    "body-parser": "^1.16.1",
     "chokidar": "^1.4.1",
     "colors": "^1.1.0",
     "combine-lists": "^1.0.0",
