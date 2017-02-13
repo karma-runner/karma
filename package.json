@@ -310,7 +310,7 @@
     "Julian Connor <julian.connor@venmo.com>"
   ],
   "dependencies": {
-    "bluebird": "^3.3.0",
+    "bluebird": "^3.4.4",
     "body-parser": "^1.12.4",
     "chokidar": "^1.4.1",
     "colors": "^1.1.0",
