@@ -403,7 +403,7 @@
     "supertest": "^3.0.0",
     "supertest-as-promised": "^3.0.0",
     "timer-shim": "^0.3.0",
-    "validate-commit-msg": "^2.4.1",
+    "validate-commit-msg": "^2.9.0",
     "which": "^1.1.1"
   },
   "main": "./lib/index",
