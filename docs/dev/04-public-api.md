@@ -85,7 +85,7 @@ A test run has completed in this browser.
 
 The list of browsers has changed.
 
-#### `browsers_ready`
+### `browsers_ready`
 
 All browsers are ready for execution
 
