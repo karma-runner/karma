@@ -6,7 +6,7 @@ is by using the `karma init` command. This page lists all of the available confi
 Note: Most of the framework adapters, reporters, preprocessors and launchers needs to be loaded as [plugins].
 
 
-The Karma configuration file can be written in JavaScript or CoffeeScript and is loaded as a regular Node.js module.
+The Karma configuration file can be written in JavaScript, CoffeeScript, or TypeScript and is loaded as a regular Node.js module.
 
 Unless provided as argument, the Karma CLI will look for a configuration file at
 
