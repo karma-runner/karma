@@ -11,7 +11,10 @@ Feature: Browser Console Configuration
       plugins = [
         'karma-jasmine',
         'karma-phantomjs-launcher'
-      ];
+      ],
+      browserConsoleLogOptions = {
+        level: 'log'
+      };
       """
     When I start Karma
     Then it passes with like:
