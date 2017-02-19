@@ -1,6 +1,6 @@
 import http from 'http'
 import mocks from 'mocks'
-import request from 'supertest-as-promised'
+import request from 'supertest'
 import helper from '../../../lib/helper'
 import File from '../../../lib/file'
 import {createServeFile} from '../../../lib/middleware/common'
