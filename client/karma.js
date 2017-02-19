@@ -118,17 +118,32 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     return false
   }
 
-  this.result = function (result) {
+  this.result = function (originalResult) {
+    var convertedResult = {}
+
+    // Convert all array-like objects to real arrays.
+    for (var propertyName in originalResult) {
+      if (originalResult.hasOwnProperty(propertyName)) {
+        var propertyValue = originalResult[propertyName]
+
+        if (Object.prototype.toString.call(propertyValue) === '[object Array]') {
+          convertedResult[propertyName] = Array.prototype.slice.call(propertyValue)
+        } else {
+          convertedResult[propertyName] = propertyValue
+        }
+      }
+    }
+
     if (!startEmitted) {
       socket.emit('start', {total: null})
       startEmitted = true
     }
 
     if (resultsBufferLimit === 1) {
-      return socket.emit('result', result)
+      return socket.emit('result', convertedResult)
     }
 
-    resultsBuffer.push(result)
+    resultsBuffer.push(convertedResult)
 
     if (resultsBuffer.length === resultsBufferLimit) {
       socket.emit('result', resultsBuffer)
