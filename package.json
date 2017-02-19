@@ -362,7 +362,6 @@
     "grunt-conventional-changelog": "^6.0.1",
     "grunt-conventional-github-releaser": "^1.0.0",
     "grunt-cucumberjs": "^0.10.2",
-    "grunt-eslint": "^18.0.0",
     "grunt-mocha-test": "^0.13.2",
     "grunt-npm": "0.0.2",
     "http2": "^3.3.6",
@@ -415,7 +414,7 @@
   "version": "1.4.1",
   "license": "MIT",
   "scripts": {
-    "lint": "grunt lint",
+    "lint": "eslint client/**/*.js common/**/*.js context/**/*.js gruntfile.js wallaby.js lib/**/*.js test/**/*.js static/debug.js",
     "test": "grunt test",
     "build": "grunt build",
     "test:appveyor": "grunt test-appveyor",
