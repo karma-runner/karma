@@ -49,7 +49,11 @@ describe('web-server', () => {
         beforeMiddleware: ['beforeCustom'],
         middleware: ['custom'],
         middlewareResponse: 'hello middleware!',
-        mime: {'custom/custom': ['custom']}
+        mime: {'custom/custom': ['custom']},
+        client: {
+          useIframe: true,
+          useSingleWindow: false
+        }
       }
 
       var injector = new di.Injector([{
@@ -213,7 +217,8 @@ describe('web-server', () => {
       emitter = new EventEmitter()
 
       var injector = new di.Injector([{
-        config: ['value', {basePath: '/base/path', urlRoot: '/', protocol: 'https:', httpsServerOptions: credentials}],
+        config: ['value', {basePath: '/base/path', urlRoot: '/', protocol: 'https:', httpsServerOptions: credentials,
+        client: {useIframe: true, useSingleWindow: false}}],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],

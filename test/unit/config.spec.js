@@ -308,7 +308,8 @@ describe('config', () => {
         basePath: '/base',
         files: ['a/*.js', {pattern: 'b.js', watched: false, included: false}, {pattern: 'c.js'}],
         customContextFile: 'context.html',
-        customDebugFile: 'debug.html'
+        customDebugFile: 'debug.html',
+        customClientContextFile: 'client_with_context.html'
       })
 
       expect(config.files.length).to.equal(3)
@@ -333,6 +334,7 @@ describe('config', () => {
 
       expect(config.customContextFile).to.equal(resolveWinPath('/base/context.html'))
       expect(config.customDebugFile).to.equal(resolveWinPath('/base/debug.html'))
+      expect(config.customClientContextFile).to.equal(resolveWinPath('/base/client_with_context.html'))
     })
 
     it('should normalize preprocessors to an array', () => {
