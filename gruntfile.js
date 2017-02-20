@@ -137,7 +137,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', ['browserify:client'])
   grunt.registerTask('default', ['build', 'test', 'lint'])
-  grunt.registerTask('lint', ['eslint'])
   grunt.registerTask('test-appveyor', ['test:unit', 'test:client'])
 
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function (type) {

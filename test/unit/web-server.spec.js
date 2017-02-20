@@ -1,6 +1,6 @@
 require('core-js')
 import {EventEmitter} from 'events'
-import request from 'supertest-as-promised'
+import request from 'supertest'
 import di from 'di'
 import mocks from 'mocks'
 import fs from 'fs'
@@ -217,8 +217,13 @@ describe('web-server', () => {
       emitter = new EventEmitter()
 
       var injector = new di.Injector([{
-        config: ['value', {basePath: '/base/path', urlRoot: '/', protocol: 'https:', httpsServerOptions: credentials,
-        client: {useIframe: true, useSingleWindow: false}}],
+        config: ['value', {
+          basePath: '/base/path',
+          urlRoot: '/',
+          protocol: 'https:',
+          httpsServerOptions: credentials,
+          client: {useIframe: true, useSingleWindow: false}
+        }],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],

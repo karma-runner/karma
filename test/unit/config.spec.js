@@ -340,8 +340,10 @@ describe('config', () => {
     it('should normalize preprocessors to an array', () => {
       var config = normalizeConfigWithDefaults({
         basePath: '',
-        preprocessors: {'/*.coffee': 'coffee',
-        '/*.html': 'html2js'}
+        preprocessors: {
+          '/*.coffee': 'coffee',
+          '/*.html': 'html2js'
+        }
       })
 
       expect(config.preprocessors[resolveWinPath('/*.coffee')]).to.deep.equal(['coffee'])
@@ -351,8 +353,10 @@ describe('config', () => {
     it('should resolve relative preprocessor patterns', () => {
       var config = normalizeConfigWithDefaults({
         basePath: '/some/base',
-        preprocessors: {'*.coffee': 'coffee',
-        '/**/*.html': 'html2js'}
+        preprocessors: {
+          '*.coffee': 'coffee',
+          '/**/*.html': 'html2js'
+        }
       })
 
       expect(config.preprocessors).to.have.property(resolveWinPath('/some/base/*.coffee'))
