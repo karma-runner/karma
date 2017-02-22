@@ -18,7 +18,7 @@ showInMenu: false
 ```bash
 fix(middleware): ensure Range headers adhere more closely to RFC 2616
 
-Added one new dependency, use `range-parser` (Express dependency) to compute
+Add one new dependency, use `range-parser` (Express dependency) to compute
 range. It is more well-tested in the wild.
 
 Fixes #2310
