@@ -19,7 +19,18 @@ var stringify = function stringify (obj, depth) {
     case 'undefined':
       return 'undefined'
     case 'function':
-      return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }')
+      try {
+        // function abc(a, b, c) { /* code goes here */ }
+        //   -> function abc(a, b, c) { ... }
+        return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }')
+      } catch (err) {
+        if (err instanceof TypeError) {
+          // Proxy(function abc(...) { ... })
+          return 'Proxy(function ' + (obj.name || '') + '(...) { ... })'
+        } else {
+          throw err
+        }
+      }
     case 'boolean':
       return obj ? 'true' : 'false'
     case 'object':
