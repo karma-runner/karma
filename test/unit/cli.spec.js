@@ -1,7 +1,7 @@
 import cli from '../../lib/cli'
 import optimist from 'optimist'
 import path from 'path'
-import constant from '../../lib/constants'
+import * as constant from '../../lib/constants'
 import mocks from 'mocks'
 var loadFile = mocks.loadFile
 

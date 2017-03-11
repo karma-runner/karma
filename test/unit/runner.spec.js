@@ -1,5 +1,5 @@
 import {loadFile} from 'mocks'
-import constant from '../../lib/constants'
+import * as constant from '../../lib/constants'
 import path from 'path'
 
 describe('runner', () => {
