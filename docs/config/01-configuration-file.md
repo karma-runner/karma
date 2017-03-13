@@ -3,7 +3,7 @@ In order to serve you well, Karma needs to know about your project in order to t
 and this is done via a configuration file. The easiest way to generate an initial configuration file
 is by using the `karma init` command. This page lists all of the available configuration options.
 
-Note: Most of the framework adapters, reporters, preprocessors and launchers needs to be loaded as [plugins].
+Note: Most of the framework adapters, reporters, preprocessors and launchers need to be loaded as [plugins].
 
 
 The Karma configuration file can be written in JavaScript, CoffeeScript, or TypeScript and is loaded as a regular Node.js module.
