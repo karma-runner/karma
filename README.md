@@ -42,7 +42,7 @@ _real_ browsers.
 ## But I still want to use \_insert testing library\_
 
 Karma is not a testing framework, nor an assertion library.
-Karma just launches a HTTP server, and generates the test runner HTML file you probably already know from your favourite testing framework.
+Karma just launches an HTTP server, and generates the test runner HTML file you probably already know from your favourite testing framework.
 So for testing purposes you can use pretty much anything you like. There are already plugins for most of the common testing frameworks:
 
 * [Jasmine]
