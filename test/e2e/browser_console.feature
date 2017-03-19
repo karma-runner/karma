@@ -53,12 +53,12 @@ Feature: Browser Console Configuration
         'karma-phantomjs-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'console.log',
+        path: 'test/e2e/console.log',
         format: '%t:%m'
       };
       """
     When I start Karma
-    Then the file at console.log contains:
+    Then the file at test/e2e/console.log contains:
       """
       log:'foo'
       debug:'bar'
@@ -77,12 +77,12 @@ Feature: Browser Console Configuration
         'karma-phantomjs-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'console.log',
+        path: 'test/e2e/console.log',
         format: '%t:%T:%m'
       };
       """
     When I start Karma
-    Then the file at console.log contains:
+    Then the file at test/e2e/console.log contains:
       """
       log:LOG:'foo'
       debug:DEBUG:'bar'
@@ -101,13 +101,13 @@ Feature: Browser Console Configuration
         'karma-phantomjs-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'console.log',
+        path: 'test/e2e/console.log',
         format: '%t:%T:%m',
         level: 'warn'
       };
       """
     When I start Karma
-    Then the file at console.log contains:
+    Then the file at test/e2e/console.log contains:
       """
       log:LOG:'foo'
       warn:WARN:'foobar'
@@ -124,12 +124,12 @@ Feature: Browser Console Configuration
         'karma-phantomjs-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'console.log',
+        path: 'test/e2e/console.log',
         format: '%b'
       };
       """
     When I start Karma
-    Then the file at console.log contains:
+    Then the file at test/e2e/console.log contains:
       """
       Phantom
       """
@@ -144,7 +144,7 @@ Feature: Browser Console Configuration
         'karma-phantomjs-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'console.log',
+        path: 'test/e2e/console.log',
         format: '%b',
         terminal: false
       };
