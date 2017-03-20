@@ -1,5 +1,5 @@
 import helper from '../../../lib/helper'
-import constants from '../../../lib/constants'
+import * as constants from '../../../lib/constants'
 import File from '../../../lib/file'
 import Url from '../../../lib/url'
 import mocks from 'mocks'

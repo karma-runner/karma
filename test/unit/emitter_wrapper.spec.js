@@ -1,4 +1,4 @@
-import EmitterWrapper from '../../lib/emitter_wrapper'
+import {EmitterWrapper} from '../../lib/emitter_wrapper'
 import {EventEmitter} from 'events'
 
 describe('emitter_wrapper', () => {

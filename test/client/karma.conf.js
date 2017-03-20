@@ -91,6 +91,11 @@ module.exports = function (config) {
       'test/client/*.js': ['browserify']
     },
 
+    browserify: {
+      debug: true,
+      transform: [ 'babelify' ]
+    },
+
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress'
     // CLI --reporters progress
