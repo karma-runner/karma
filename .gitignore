@@ -8,6 +8,7 @@ tmp/*
 docs/_build
 *.swp
 *.swo
+test/e2e/console.log
 test/e2e/coverage/coverage
 test/e2e/coverageQunit/coverage
 test/e2e/coverageRequirejs/coverage
