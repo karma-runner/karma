@@ -261,13 +261,15 @@ describe('Karma', function () {
       var mockWindow = {
         confirm: function () {
           confirmCalled = true
+          return true
         }
       }
 
       ck.setupContext(mockWindow)
-      mockWindow.confirm('What?')
+      var confirmResult = mockWindow.confirm('What?')
       assert(ck.log.calledWith('confirm', ['What?']))
       assert.equal(confirmCalled, true)
+      assert.equal(confirmResult, true)
     })
 
     it('should capture prompt', function () {
@@ -277,13 +279,15 @@ describe('Karma', function () {
       var mockWindow = {
         prompt: function () {
           promptCalled = true
+          return 'user-input'
         }
       }
 
       ck.setupContext(mockWindow)
-      mockWindow.prompt('What is your favorite color?', 'blue')
+      var promptResult = mockWindow.prompt('What is your favorite color?', 'blue')
       assert(ck.log.calledWith('prompt', ['What is your favorite color?', 'blue']))
       assert.equal(promptCalled, true)
+      assert.equal(promptResult, 'user-input')
     })
   })
 

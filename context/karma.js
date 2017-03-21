@@ -89,12 +89,12 @@ var ContextKarma = function (callParentKarmaMethod) {
 
     contextWindow.confirm = function (msg) {
       self.log('confirm', [msg])
-      _confirm(msg)
+      return _confirm(msg)
     }
 
     contextWindow.prompt = function (msg, defaultVal) {
       self.log('prompt', [msg, defaultVal])
-      _prompt(msg, defaultVal)
+      return _prompt(msg, defaultVal)
     }
 
     // If we want to overload our console, then do it
