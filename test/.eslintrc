@@ -6,5 +6,8 @@
     "expect": true,
     "sinon": true,
     "scheduleNextTick": true
+  },
+  "rules": {
+    "no-unused-expressions": "off"
   }
 }
