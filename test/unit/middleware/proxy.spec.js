@@ -338,6 +338,15 @@ describe('middleware.proxy', () => {
     expect(parsedProxyConfig[0].proxy).to.exist
   })
 
+  it('should bind proxy event', () => {
+    var proxy = {'/base/': 'http://localhost:8000/'}
+    var config = {proxyReq: function proxyReq() {}, proxyRes: function proxyRes() {}}
+    var parsedProxyConfig = m.parseProxyConfig(proxy, config)
+    expect(parsedProxyConfig).to.have.length(1)
+    expect(parsedProxyConfig[0].proxy.listeners('proxyReq', true)).to.equal(true)
+    expect(parsedProxyConfig[0].proxy.listeners('proxyRes', true)).to.equal(true)
+  })
+
   it('should handle empty proxy config', () => {
     expect(m.parseProxyConfig({})).to.deep.equal([])
   })

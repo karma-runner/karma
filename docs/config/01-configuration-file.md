@@ -702,6 +702,43 @@ is handed off to [socket.io](http://socket.io/) (which manages the communication
 between browsers and the testing server).
 
 
+## proxyReq
+**Type:** Function
+
+**Default:** `undefined`
+
+**Description:** Called when requesting Proxy.
+
+Details about this can be found in the [node-http-proxy](https://github.com/nodejitsu/node-http-proxy). An example of overwriting the HTTP header is shown below.
+
+**Example:**
+```javascript
+proxyReq: function(proxyReq, req, res, options) {
+  proxyReq.setHeader('Referer', 'https://www.example.com/');
+}
+```
+
+## proxyRes
+**Type:** Function
+
+**Default:** `undefined`
+
+**Description:** Called when respnsing Proxy.
+
+Details about this can be found in the [node-http-proxy](https://github.com/nodejitsu/node-http-proxy). An example of overwriting the HTTP header is shown below.
+
+**Example:**
+```javascript
+proxyRes: function(proxyRes, req, res) {
+  if (proxyRes.headers['set-cookie']) {
+    proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map(function (cookie) {
+      return cookie.replace(/\s*secure;?/i, '');
+    })
+  }
+}
+```
+
+
 ## upstreamProxy
 **Type:** Object
 
