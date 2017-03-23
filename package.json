@@ -410,7 +410,7 @@
     "supertest": "^3.0.0",
     "timer-shim": "^0.3.0",
     "validate-commit-msg": "^2.11.1",
-    "which": "^1.1.1"
+    "which": "^1.2.14"
   },
   "main": "./lib/index",
   "bin": {
