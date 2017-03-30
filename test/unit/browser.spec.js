@@ -106,6 +106,16 @@ describe('Browser', () => {
       expect(spy).to.have.been.calledWith(browser, 'something', 'info')
     })
 
+    it('should emit "browser_info"', () => {
+      var spy = sinon.spy()
+      var infoData = {}
+      emitter.on('browser_info', spy)
+
+      browser.state = Browser.STATE_EXECUTING
+      browser.onInfo(infoData)
+      expect(spy).to.have.been.calledWith(browser, infoData)
+    })
+
     it('should ignore if browser not executing', () => {
       var spy = sinon.spy()
       emitter.on('browser_dump', spy)
