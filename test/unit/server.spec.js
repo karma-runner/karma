@@ -234,9 +234,4 @@ describe('server', () => {
       }
     })
   })
-
-  describe.skip('singleRun', () => {
-    it('should run tests when all browsers captured', () => {})
-    it('should run tests when first browser captured if no browser configured', () => {})
-  })
 })
