@@ -48,11 +48,11 @@ describe('reporter', () => {
       expect(spy.firstCall.args[0]).to.equal(ERROR)
     })
 
-    it('should display the error returned by config.formatError', () => {
+    it('should display the exact error returned by config.formatError', () => {
       var formattedError = 'A new error'
       formatError = m.createErrorFormatter({ basePath: '', formatError: () => formattedError }, emitter)
 
-      expect(formatError('Something', '\t')).to.equal(formattedError + '\n')
+      expect(formatError('Something', '\t')).to.equal(formattedError)
     })
 
     it('should indent', () => {

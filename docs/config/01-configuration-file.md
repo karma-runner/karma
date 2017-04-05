@@ -652,11 +652,11 @@ Note: Just about all additional reporters in Karma (other than progress) require
 
 **Arguments:**
 
-  * `msg` - The entire assertion error and stack trace as a string.
+  * `msg` - A single line of the assertion error and stack trace (called for each line).
 
-**Returns:** A new error message string.
+**Returns:** A new error message line.
 
-**Description:** Format assertion errors and stack traces.  Useful for removing vendors and compiled sources.
+**Description:** Format assertion errors and stack traces.  Useful for removing vendors and compiled sources.  Return an empty line `''` to remove it.
 
 The CLI option should be a path to a file that exports the format function.  This can be a function exported at the root of the module or an export named `formatError`.
 
