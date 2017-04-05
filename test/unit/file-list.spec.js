@@ -766,18 +766,12 @@ describe('FileList', () => {
 
         expect(preprocess).to.not.have.been.called
 
-        let called = false
-
         emitter.once('file_list_modified', () => _.defer(() => {
-          called = true
           expect(preprocess).to.have.been.calledOnce
           done()
         }))
 
         clock.tick(2)
-        if (!called) {
-          throw new Error('"file_list_modified" was not emitted')
-        }
       })
     })
   })
