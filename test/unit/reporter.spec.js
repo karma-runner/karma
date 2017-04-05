@@ -83,12 +83,6 @@ describe('reporter', () => {
       expect(formatError('file http://localhost:8080/base/usr/a.js and http://127.0.0.1:8080/absolute/home/b.js')).to.be.equal('file usr/a.js and http://127.0.0.1:8080/home/b.js\n')
     })
 
-    // TODO(vojta): enable once we serve source under urlRoot
-    it.skip('should handle non default karma service folders', () => {
-      formatError = m.createErrorFormatter({ basePath: '' }, '/_karma_/')
-      expect(formatError('file http://localhost:8080/_karma_/base/usr/a.js and http://localhost:8080/_karma_/base/home/b.js')).to.be.equal('file usr/a.js and home/b.js\n')
-    })
-
     it('should remove shas', () => {
       var ERROR = 'file http://localhost:8080/base/usr/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9 and http://127.0.0.1:8080/absolute/home/file.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
       expect(formatError(ERROR)).to.be.equal('file usr/file.js and http://127.0.0.1:8080/home/file.js\n')
