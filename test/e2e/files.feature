@@ -38,10 +38,14 @@ Feature: Including files
       ];
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
       .
       PhantomJS
+      """
+    And it passes with like:
+      """
+      files/log_foo.js" were excluded or matched by prior matchers.
       """
 
   Scenario: Execute a test excluding an explicitly included file in another order
@@ -59,10 +63,14 @@ Feature: Including files
       ];
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
       .
       PhantomJS
+      """
+    And it passes with like:
+      """
+      files/log_foo.js" were excluded or matched by prior matchers.
       """
 
   Scenario: Execute a test excluding an file included with brackets patterns
@@ -80,10 +88,14 @@ Feature: Including files
       ];
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
       .
       PhantomJS
+      """
+    And it passes with like:
+      """
+      files/{log,bug}_foo.js" were excluded or matched by prior matchers.
       """
 
   Scenario: Execute a test excluding an file included with wildcard
@@ -101,10 +113,14 @@ Feature: Including files
       ];
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
       .
       PhantomJS
+      """
+    And it passes with like:
+      """
+      files/*.js" were excluded or matched by prior matchers.
       """
 
   Scenario: Execute a test excluding an file included with glob-star
@@ -122,12 +138,15 @@ Feature: Including files
       ];
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
       .
       PhantomJS
       """
-
+    And it passes with like:
+      """
+      files/**" were excluded or matched by prior matchers.
+      """
 
   Scenario: Execute a test excluding an file included with ext. glob patterns
     Given a configuration with:
@@ -145,9 +164,12 @@ Feature: Including files
       ];
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
       .
       PhantomJS
       """
-
+    And it passes with like:
+      """
+      files/{log,bug}_foo.js" were excluded or matched by prior matchers.
+      """

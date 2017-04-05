@@ -266,6 +266,17 @@ describe('FileList', () => {
       })
     })
 
+    it('uses the file from the first matcher if two matchers match the same file', () => {
+      list = new List(patterns('/a.*', '*.txt'), [], emitter, preprocess, 100)
+      return list.refresh().then(() => {
+        var first = pathsFrom(list.buckets.get('/a.*'))
+        var second = pathsFrom(list.buckets.get('*.txt'))
+
+        expect(first).to.contain('/a.txt')
+        expect(second).not.to.contain('/a.txt')
+      })
+    })
+
     it('cancels refreshs', () => {
       var checkResult = (files) => {
         expect(_.pluck(files.served, 'path')).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
