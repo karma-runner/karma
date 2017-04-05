@@ -1,3 +1,23 @@
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/karma-runner/karma/compare/v1.5.0...v1.6.0) (2017-04-05)
+
+
+### Bug Fixes
+
+* **client:** add proxy support to stringify ([be10116](https://github.com/karma-runner/karma/commit/be10116))
+* **file-list:** always use file from first matcher ([74bfdf3](https://github.com/karma-runner/karma/commit/74bfdf3))
+* **middleware:** does not work with mootools ([#2591](https://github.com/karma-runner/karma/issues/2591)) ([2685e13](https://github.com/karma-runner/karma/commit/2685e13))
+* **reporter:** keep users exact formatError result ([17c2c43](https://github.com/karma-runner/karma/commit/17c2c43))
+
+
+### Features
+
+* **browser:** add browser_info event ([09ac7d7](https://github.com/karma-runner/karma/commit/09ac7d7)), closes [#2192](https://github.com/karma-runner/karma/issues/2192)
+* **launcher:** output stderr for failing launchers ([7d33398](https://github.com/karma-runner/karma/commit/7d33398))
+* **proxy:** add proxy events to config  ([f5d99fb](https://github.com/karma-runner/karma/commit/f5d99fb))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/karma-runner/karma/compare/v1.4.1...v1.5.0) (2017-02-20)
 
