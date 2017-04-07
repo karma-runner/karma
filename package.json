@@ -396,7 +396,7 @@
     "karma-junit-reporter": "*",
     "karma-live-preprocessor": "*",
     "karma-mocha": "^1.0.1",
-    "karma-mocha-reporter": "^2.0.0",
+    "karma-mocha-reporter": "^2.2.2",
     "karma-ng-scenario": "*",
     "karma-phantomjs-launcher": "*",
     "karma-qunit": "*",
