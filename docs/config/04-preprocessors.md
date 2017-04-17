@@ -87,8 +87,9 @@ return `false` and the preprocessor would not be executed on the CoffeeScript fi
 [files]: files.html
 [minimatch]: https://github.com/isaacs/minimatch
 [coffee]: https://github.com/karma-runner/karma-coffee-preprocessor
-[html2js]: https://github.com/karma-runner/karma-html2js-preprocessor
+[html2js]: https://github.com/karma-runner/karma-html2js-preprocessor#how-does-it-work-
 [ng-html2js]: https://github.com/karma-runner/karma-ng-html2js-preprocessor
+
 [coverage]: https://github.com/karma-runner/karma-coverage
 [custom plugins]: ../dev/plugins.html
 [plugins]: plugins.html
