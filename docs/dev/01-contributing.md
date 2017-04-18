@@ -6,6 +6,9 @@ pageTitle: Contributing to Karma
 You want to contribute to Karma? That is truly great!
 Here are some tips to get you started...
 
+**Working on your first Pull Request?** You can learn how from this *free* series
+[How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
 ### Help others
 The best way to start contributing to any open source project is to help other people.
 You can answer questions on the [Gitter] or [Stack Overflow].
