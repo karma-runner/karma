@@ -385,7 +385,7 @@
     "karma-browserify": "^5.0.1",
     "karma-browserstack-launcher": "^1.0.0",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "*",
+    "karma-chrome-launcher": "1.0.1",
     "karma-coffee-preprocessor": "*",
     "karma-commonjs": "*",
     "karma-coverage": "*",
