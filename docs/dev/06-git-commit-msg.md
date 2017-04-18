@@ -53,6 +53,10 @@ The `<scope>` can be empty (e.g. if the change is a global or difficult
 to assign to a single component), in which case the parentheses are
 omitted. In smaller projects such as Karma plugins, the `<scope>` is empty.
 
+The scope part is useful to know which part of your project is impacted by
+the change but it can be difficult to know what can be put in it.
+It would then be useful to list the scopes that your project have in your
+README.
 
 ## Message body
 * uses the imperative, present tense: “change” not “changed” nor “changes”
