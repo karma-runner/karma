@@ -22,6 +22,7 @@ describe('launchers/process.js', () => {
 
     mockSpawn = sinon.spy(function (cmd, args) {
       var process = new EventEmitter()
+      process.stdout = new EventEmitter()
       process.stderr = new EventEmitter()
       process.kill = sinon.spy()
       process.exitCode = null
@@ -137,6 +138,9 @@ describe('launchers/process.js', () => {
 
     // when the browser fails to get captured in default timeout, it should restart
     it('start -> timeout -> restart', (done) => {
+      var stdOutSpy = sinon.spy(launcher, '_onStdout')
+      var stdErrSpy = sinon.spy(launcher, '_onStderr')
+
       // start
       launcher.start('http://localhost/')
 
@@ -144,8 +148,19 @@ describe('launchers/process.js', () => {
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
       var browserProcess = mockSpawn._processes.shift()
 
+      var expectedStdoutString = 'starting...'
+      var expectedStderrString = 'Oops...there was a problem'
+      browserProcess.stdout.emit('data', expectedStdoutString)
+      browserProcess.stderr.emit('data', expectedStderrString)
+
       // timeout
       mockTimer.wind(101)
+
+      // We must've caught some output
+      expect(stdOutSpy).to.have.been.called
+      expect(stdErrSpy).to.have.been.called
+
+      stdOutSpy.calledWith(expectedStdoutString)
 
       // expect killing browser
       expect(browserProcess.kill).to.have.been.called
