@@ -393,7 +393,7 @@
     "karma-growl-reporter": "*",
     "karma-html2js-preprocessor": "*",
     "karma-jasmine": "^1.0.2",
-    "karma-junit-reporter": "*",
+    "karma-junit-reporter": "1.1.0",
     "karma-live-preprocessor": "*",
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.0",
