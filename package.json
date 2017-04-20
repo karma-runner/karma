@@ -391,7 +391,7 @@
     "karma-coverage": "*",
     "karma-firefox-launcher": "*",
     "karma-growl-reporter": "*",
-    "karma-html2js-preprocessor": "*",
+    "karma-html2js-preprocessor": "1.1.0",
     "karma-jasmine": "^1.0.2",
     "karma-junit-reporter": "*",
     "karma-live-preprocessor": "*",
