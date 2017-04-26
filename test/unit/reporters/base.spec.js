@@ -85,7 +85,8 @@ describe('reporter', function () {
 
     it('should not log if lower priority than browserConsoleLogOptions "error"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
-        browserConsoleLogOptions: {level: 'error'}
+        level: 'error',
+        terminal: true
       }, adapter)
       var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
@@ -97,7 +98,8 @@ describe('reporter', function () {
 
     it('should not log if lower priority than browserConsoleLogOptions "warn"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
-        browserConsoleLogOptions: {level: 'warn'}
+        level: 'warn',
+        terminal: true
       }, adapter)
       var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
@@ -109,7 +111,8 @@ describe('reporter', function () {
 
     it('should not log if lower priority than browserConsoleLogOptions "info"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
-        browserConsoleLogOptions: {level: 'info'}
+        level: 'info',
+        terminal: true
       }, adapter)
       var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
@@ -121,7 +124,8 @@ describe('reporter', function () {
 
     it('should not log if lower priority than browserConsoleLogOptions "debug"', function () {
       var reporter = new m.BaseReporter(null, null, true, {
-        browserConsoleLogOptions: {level: 'debug'}
+        level: 'debug',
+        terminal: true
       }, adapter)
       var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
