@@ -14,6 +14,8 @@ var server = new Server({port: 9876}, function(exitCode) {
 })
 ```
 
+Notice the capital 'S' on  `require('karma').Server`.
+
 ### **server.start()**
 
 Equivalent of `karma start`.
