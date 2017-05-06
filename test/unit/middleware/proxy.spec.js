@@ -340,7 +340,10 @@ describe('middleware.proxy', () => {
 
   it('should bind proxy event', () => {
     var proxy = {'/base/': 'http://localhost:8000/'}
-    var config = {proxyReq: function proxyReq() {}, proxyRes: function proxyRes() {}}
+    var config = {
+      proxyReq: function proxyReq () {},
+      proxyRes: function proxyRes () {}
+    }
     var parsedProxyConfig = m.parseProxyConfig(proxy, config)
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0].proxy.listeners('proxyReq', true)).to.equal(true)
