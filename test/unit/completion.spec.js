@@ -15,7 +15,7 @@ describe('completion', () => {
   }
 
   beforeEach(() => {
-    sinon.stub(console, 'log', (msg) => completion.push(msg))
+    sinon.stub(console, 'log').callsFake((msg) => completion.push(msg))
     completion = []
   })
 

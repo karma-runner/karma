@@ -9,7 +9,7 @@ describe('preprocessor', () => {
   var mockFs
   var emitterSetting
   // mimic first few bytes of a pdf file
-  var binarydata = new Buffer([0x25, 0x50, 0x44, 0x66, 0x46, 0x00])
+  var binarydata = new Buffer([0x25, 0x50, 0x44, 0x66, 0x46, 0x00]) // eslint-disable-line node/no-deprecated-api
 
   beforeEach(() => {
     mockFs = mocks.fs.create({

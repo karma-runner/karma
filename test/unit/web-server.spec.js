@@ -1,4 +1,4 @@
-require('core-js')
+import 'core-js'
 import {EventEmitter} from 'events'
 import request from 'supertest'
 import di from 'di'

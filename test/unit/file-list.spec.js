@@ -13,7 +13,7 @@ import config from '../../lib/config'
 var patterns = (...strings) => strings.map((str) => new config.Pattern(str))
 
 function pathsFrom (files) {
-  return _.pluck(from(files), 'path')
+  return _.map(from(files), 'path')
 }
 
 function findFile (path, files) {
@@ -279,7 +279,7 @@ describe('FileList', () => {
 
     it('cancels refreshs', () => {
       var checkResult = (files) => {
-        expect(_.pluck(files.served, 'path')).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
+        expect(_.map(files.served, 'path')).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
       }
 
       var p1 = list.refresh().then(checkResult)
@@ -900,7 +900,7 @@ describe('FileList', () => {
       })
     })
 
-    it('waits while file preprocessing, if the file was deleted and immediately added', (done) => {
+    it('waits while file preprocessing, if the file was deleted and immediately added', () => {
       list = new List(patterns('/a.*'), [], emitter, preprocess, 100)
 
       list.refresh().then((files) => {
@@ -915,12 +915,25 @@ describe('FileList', () => {
 
         expect(preprocess).to.not.have.been.called
 
-        emitter.once('file_list_modified', () => _.defer(() => {
-          expect(preprocess).to.have.been.calledOnce
-          done()
-        }))
+        var promise = new Promise((resolve) => {
+          emitter.once('file_list_modified', () => _.defer(() => {
+            resolve()
+          }))
+        })
 
         clock.tick(2)
+
+        return promise
+          .then(() => {
+            return new Promise((resolve) => {
+              _.defer(() => {
+                resolve()
+              })
+            })
+          })
+          .then(() => {
+            expect(preprocess).to.have.been.calledOnce
+          })
       })
     })
   })
