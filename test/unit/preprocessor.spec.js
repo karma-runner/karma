@@ -261,19 +261,19 @@ describe('preprocessor', () => {
       thirdCallback('error')
     })
 
-    it('should tbrow after 3 retries', (done) => {
+    it('should abort after 3 retries', (done) => {
       var injector = new di.Injector([{}, emitterSetting])
 
       var pp = m.createPreprocessor({'**/*.js': []}, null, injector)
 
-      pp(file, () => { })
+      pp(file, () => {
+        done()
+      })
 
       getReadFileCallback(0)('error')
       getReadFileCallback(1)('error')
       getReadFileCallback(2)('error')
-
-      expect(() => getReadFileCallback(0)('error')).to.throw('error')
-      done()
+      getReadFileCallback(3)('error')
     })
   })
 
