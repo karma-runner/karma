@@ -383,7 +383,7 @@
     "grunt-npm": "0.0.2",
     "http2": "^3.3.6",
     "husky": "^0.13.1",
-    "jasmine-core": "^2.3.4",
+    "jasmine-core": "^2.6.2",
     "json3": "^3.3.2",
     "karma-browserify": "^5.0.1",
     "karma-browserstack-launcher": "^1.0.0",
