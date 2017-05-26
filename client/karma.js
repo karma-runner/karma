@@ -61,6 +61,14 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       } else if (url !== 'about:blank') {
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
+
+	       var getSrc = window.__karma__.scriptUrls[idx];
+	       Array.prototype.slice.call(document.scripts).forEach(function(a){
+	         if(a.getAttribute('src') === getSrc) {
+				 a.parentElement.removeChild(a);
+			 };
+	       });			  
+
             var ele = document.createElement('script')
             ele.src = window.__karma__.scriptUrls[idx]
             ele.onload = function () {
