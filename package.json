@@ -363,7 +363,7 @@
     "chai-as-promised": "^6.0.0",
     "chai-subset": "^1.2.2",
     "coffee-script": "^1.12.4",
-    "cucumber": "^1.2.0",
+    "cucumber": "^2.1.0",
     "eslint": "^3.15.0",
     "eslint-config-standard": "^7.0.0",
     "eslint-plugin-promise": "^3.4.2",
