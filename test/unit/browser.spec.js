@@ -204,6 +204,23 @@ describe('Browser', () => {
     })
   })
 
+  describe('onCoverageComplete', () => {
+    beforeEach(() => {
+      sinon.stub(Date, 'now')
+      Date.now.returns(12345)
+      browser = new Browser('fake-id', 'full name', collection, emitter, socket)
+    })
+
+    it('should fire "coverage_complete" event', () => {
+      var spy = sinon.spy()
+      var coverageResult = { path: 'path/to/coverage' }
+      emitter.on('coverage_complete', spy)
+
+      browser.onCoverageComplete(coverageResult)
+      expect(spy).to.have.been.calledWith(browser, coverageResult)
+    })
+  })
+
   describe('onDisconnect', () => {
     var timer = null
 
