@@ -357,7 +357,7 @@
   "devDependencies": {
     "LiveScript": "^1.3.0",
     "babel": "^6.23.0",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.23.0",
     "chai": "^3.3.0",
     "chai-as-promised": "^6.0.0",
