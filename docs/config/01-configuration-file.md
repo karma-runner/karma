@@ -636,6 +636,7 @@ This is disabled by default (since the default value is 0).
 
   * `dots`
   * `progress`
+  * `spec`
 
 **Description:** A list of reporters to use.
 

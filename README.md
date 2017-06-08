@@ -10,19 +10,6 @@ _real_ browsers.
 >  fast, and fun.
 
 
-## Help and Support
-
-> For questions and support please use the mailing list or Gitter.
-> The issue tracker is for bug reports and feature discussions only.
-
-* Obligatory [documentation]
-* Quick questions:
-[![Gitter Chat](https://img.shields.io/badge/GITTER-join%20chat-green.svg?style=flat-square)](https://gitter.im/karma-runner/karma)
-* Longer questions: [Mailing List]
-* Bug reports [Issue Tracker]
-* Everything less than 140 characters: [@JsKarma] on Twitter
-
-
 
 ## When should I use Karma?
 
@@ -39,7 +26,7 @@ _real_ browsers.
 * You want to use [RequireJS] for your source files.
 
 
-## But I still want to use \_insert testing library\_
+## I want to use \_insert testing library\_
 
 Karma is not a testing framework, nor an assertion library.
 Karma just launches an HTTP server, and generates the test runner HTML file you probably already know from your favourite testing framework.
@@ -86,15 +73,9 @@ See [installation](https://karma-runner.github.io/latest/intro/installation.html
 See [configuration](https://karma-runner.github.io/latest/intro/configuration.html).
 
 
-## This is so great. I want to help.
-
-Please, see
-[contributing](https://karma-runner.github.io/latest/dev/contributing.html).
-
-
 ## Why did you create this?
 
-Throughout the development of [AngularJS], we've been using [JSTD] for
+Throughout the development of [AngularJS] and [Angular], we've been using [JSTD] for
 testing. I really think that JSTD is a great idea. Unfortunately, we
 had many problems with JSTD, so we decided to write our own test
 runner based on the same idea. We wanted a simple tool just for
@@ -102,11 +83,25 @@ executing JavaScript tests that is both stable and fast. That's why we
 use the awesome [Socket.io] library and [Node.js].
 
 
-## My boss wants a license. So where is it?
+## Help and Support
+
+> For questions and support please use the mailing list or Gitter.
+> The issue tracker is for bug reports and feature discussions only.
+
+* Obligatory [documentation]
+* Quick questions:
+[![Gitter Chat](https://img.shields.io/badge/GITTER-join%20chat-green.svg?style=flat-square)](https://gitter.im/karma-runner/karma)
+* Longer questions: [Mailing List]
+* Bug reports [Issue Tracker]
+* Everything less than 140 characters: [@JsKarma] on Twitter
+* I want to help.  Please, see[contributing](https://karma-runner.github.io/latest/dev/contributing.html).
+
+
+## License
 [MIT License](./LICENSE)
 
-
 [AngularJS]: https://angularjs.org/
+[Angular]: https://angular.io/
 [JSTD]: https://code.google.com/p/js-test-driver/
 [Socket.io]: http://socket.io/
 [Node.js]: http://nodejs.org/
