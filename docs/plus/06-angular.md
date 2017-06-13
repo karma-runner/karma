@@ -69,7 +69,7 @@ config.set({
 
 ## Coverage
 
-Coverage requires input from Webpack because it is transpiled with [Intrumenter] loader.
+Coverage requires input from Webpack because it is transpiled with [Instrumenter] loader.
 
 The ```exclude: ``` line excludes .spec or test files from the coverage report.
 
