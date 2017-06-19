@@ -196,11 +196,25 @@ describe('Browser', () => {
       expect(browser.lastResult.totalTime).to.equal(2)
     })
 
-    it('should error the result if zero tests executed', () => {
-      browser.state = Browser.STATE_EXECUTING
-      browser.onComplete()
+    describe('on zero tests executed', () => {
+      var initBrowser = (opts) =>
+        new Browser('fake-id', 'full name', collection, emitter, socket, 0, 0, 0, opts.failOnEmptyTestSuite)
 
-      expect(browser.lastResult.error).to.equal(true)
+      it('should error the result by default', () => {
+        browser = initBrowser({failOnEmptyTestSuite: true})
+        browser.state = Browser.STATE_EXECUTING
+        browser.onComplete()
+
+        expect(browser.lastResult.error).to.equal(true)
+      })
+
+      it('should not error the result if "failOnEmptyTestSuite" option is disabled', () => {
+        browser = initBrowser({failOnEmptyTestSuite: false})
+        browser.state = Browser.STATE_EXECUTING
+        browser.onComplete()
+
+        expect(browser.lastResult.error).to.equal(false)
+      })
     })
   })
 
