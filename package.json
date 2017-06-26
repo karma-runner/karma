@@ -368,7 +368,7 @@
     "eslint-config-standard": "^7.0.0",
     "eslint-plugin-promise": "^3.4.2",
     "eslint-plugin-react": "^6.10.0",
-    "eslint-plugin-standard": "^2.0.1",
+    "eslint-plugin-standard": "^3.0.0",
     "grunt": "^1.0.0",
     "grunt-auto-release": "^0.0.7",
     "grunt-browserify": "^5.0.0",
