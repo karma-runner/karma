@@ -233,7 +233,7 @@ iFrame and may need a new window to run.
 
 **Description:** Run the tests on the same window as the client, without using iframe or a new window
 
-If true, Karma runs the tests inside the original window without using iframe. It will load the test scripts dynamically.
+If true, Karma runs the tests inside the original window without using iframe. It will load the test scripts dynamically. If false, watching of files won't work as the server will terminate immediately on test code completion.
 
 ## client.captureConsole
 **Type:** Boolean
