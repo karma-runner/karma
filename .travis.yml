@@ -4,6 +4,7 @@ node_js:
   - 4
   - 5
   - 7
+  - 8
 
 env:
   global:
