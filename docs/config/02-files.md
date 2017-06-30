@@ -72,6 +72,11 @@ includes the file content in the page, used, for example, to test components com
 * **Default.** `false`
 * **Description.** Should the files be served from disk on each request by Karma's webserver?
 
+### `appendsha`
+* **Type.** Boolean
+* **Default.** `true`
+* **Description.** Should the files be served with a query string of the file's SHA?
+
 
 ## Preprocessor transformations
 Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in
@@ -101,6 +106,9 @@ files: [
 
   // this file will be served on demand from disk and will be ignored by the watcher
   {pattern: 'compiled/app.js.map', included: false, served: true, watched: false, nocache: true}
+
+  // these files will be included without a cache-busting query string appended to them
+  {pattern: 'compiled/app.js.map', included: true, served: true, appendsha: false}
 ],
 ```
 

@@ -24,6 +24,14 @@ describe('middleware.karma', () => {
     }
   }
 
+  class MockFileNoAppendSha extends File {
+    constructor (path, sha, type, content) {
+      super(path, undefined, undefined, type, false)
+      this.sha = sha || 'sha-default'
+      this.content = content
+    }
+  }
+
   const fsMock = mocks.fs.create({
     karma: {
       static: {
@@ -295,6 +303,36 @@ describe('middleware.karma', () => {
     callHandlerWith('/context.html')
   })
 
+  it('should serve context.html with the correct path for the script tags without SHAs if the option is specified', (done) => {
+    includedFiles([
+      new MockFileNoAppendSha('/some/abc/a.js', 'sha'),
+      new MockFileNoAppendSha('/base/path/b.js', 'shaaa')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/some/abc/a.js" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/base/b.js" crossorigin="anonymous"></script>')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
+  it('should serve context.html with the correct path for link tags without SHAs if the option is specified', (done) => {
+    includedFiles([
+      new MockFileNoAppendSha('/some/abc/a.css', 'sha1'),
+      new MockFileNoAppendSha('/some/abc/b.html', 'sha2')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/a.css" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/some/abc/b.html" rel="import">')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
   it('should serve context.json with the correct paths for all files', (done) => {
     includedFiles([
       new MockFile('/some/abc/a.css', 'sha1'),
@@ -388,7 +426,7 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
-  it('should serve debug.html with replaced script tags without timestamps', (done) => {
+  it('should serve debug.html with replaced script tags without SHAs', (done) => {
     includedFiles([
       new MockFile('/first.js'),
       new MockFile('/base/path/b.js')
@@ -403,7 +441,7 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/debug.html')
   })
 
-  it('should serve debug.html with replaced link tags without timestamps', (done) => {
+  it('should serve debug.html with replaced link tags without SHAs', (done) => {
     includedFiles([
       new MockFile('/first.css'),
       new MockFile('/base/path/b.css'),

@@ -142,6 +142,27 @@ describe('FileList', () => {
       })
     })
 
+    it('marks append SHA files', () => {
+      var files = [
+        new config.Pattern('/a.*'), // appendsha: true
+        new config.Pattern('/some/*.js', true, true, true, true, 'js', false) // appendsha: false
+      ]
+
+      list = new List(files, [], emitter, preprocess)
+
+      return list.refresh().then(() => {
+        expect(pathsFrom(list.files.served)).to.deep.equal([
+          '/a.txt',
+          '/some/a.js',
+          '/some/b.js'
+        ])
+        expect(preprocess).to.have.been.calledOnce
+        expect(list.files.served[0].appendSha).to.be.true
+        expect(list.files.served[1].appendSha).to.be.false
+        expect(list.files.served[2].appendSha).to.be.false
+      })
+    })
+
     it('returns a flat array of included files', () => {
       const files = [
         new config.Pattern('/a.*', true, false), // included: false
