@@ -8,9 +8,11 @@ The **muteCommonMsg** param is added.
 **Description:** Configure for which _reporters_ the common messages are disabled/muted
 
 ```javascript
-muteCommonMsg: {
-  dots: true,
-  coverageistanbul: true
+browserConsoleLogOptions: {
+  muteCommonMsg: {
+    dots: true,
+    coverageistanbul: true
+  }
 }
 ```
 
