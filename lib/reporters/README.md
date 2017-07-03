@@ -17,6 +17,6 @@ browserConsoleLogOptions: {
 ```
 
 :exclamation: :exclamation: :exclamation:  
-> The responders' names will lose the **-** character.
+> The responders' names will lose the "**-**" character.
 >
 > coverage-istanbul => coverageistanbul
