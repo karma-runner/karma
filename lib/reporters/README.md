@@ -10,11 +10,6 @@ The **muteCommonMsg** param is added.
 ```javascript
 muteCommonMsg: {
   dots: true,
-  coverageistanbul: true
+  coverage-istanbul: true
 }
 ```
-
-:exclamation: :exclamation: :exclamation:  
-> The responders' names will lose the **-** character.
->
-> coverage-istanbul => coverageistanbul
