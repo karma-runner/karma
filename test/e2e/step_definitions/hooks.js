@@ -1,5 +1,7 @@
-module.exports = function afterHooks () {
-  this.After(function (scenario, callback) {
+var {defineSupportCode} = require('cucumber')
+
+defineSupportCode(function ({After}) {
+  After(function (scenario, callback) {
     var running = this.child != null && typeof this.child.kill === 'function'
 
     if (running) {
@@ -10,4 +12,4 @@ module.exports = function afterHooks () {
     // stop the proxy if it was started
     this.proxy.stop(callback)
   })
-}
+})
