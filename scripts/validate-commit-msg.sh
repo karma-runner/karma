@@ -19,14 +19,20 @@ if [ -z "$COMMIT_REV" ]; then
   exit 1
 fi
 
+
 # Resolve our file for output
 # DEV: We use `.git` to avoid cluttering the working directory
 GIT_DIR="$(git rev-parse --git-dir)"
-TARGET_FILE="$GIT_DIR/VALIDATE_COMMIT_MSG"
+TARGET_FILENAME=VALIDATE_COMMIT_MSG
+TARGET_FILE="$GIT_DIR/$TARGET_FILENAME"
 
+echo "Retrieving relevant commit message for $COMMIT_REV"
 # Output our log message to a file
 # DEV: We use `--no-merges` to skip merge commits introduced by GitHub
 git log --no-merges --format=format:"%s" -n 1 "$COMMIT_REV" > "$TARGET_FILE"
 
+echo "Validating contents of $TARGET_FILE"
+cat "$TARGET_FILE"
+
 # Validate our message
-./node_modules/.bin/validate-commit-msg "$TARGET_FILE"
+./node_modules/.bin/validate-commit-msg "$TARGET_FILENAME"
