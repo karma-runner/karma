@@ -33,6 +33,14 @@ Trigger a file list refresh. Returns a promise.
 server.refreshFiles()
 ```
 
+### **server.refreshFile(path)**
+
+Trigger a file refresh. Returns a promise.
+
+```javascript
+server.refreshFile('src/js/module-dep.js')
+```
+
 ### Events
 
 The `server` object is an [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#events_class_events_eventemitter). You can simply listen to events like this:
