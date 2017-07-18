@@ -632,6 +632,23 @@ describe('FileList', () => {
       })
     })
 
+    it('fire "file_list_modified" if force is true even if mtime has not changed', () => {
+      // MATCH: /some/a.js, /some/b.js, /a.txt
+      list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
+
+      var modified = sinon.stub()
+      emitter.on('file_list_modified', modified)
+
+      return list.refresh().then((files) => {
+        // not touching the file, stat will return still the same
+        modified.reset()
+
+        return list.changeFile('/some/b.js', true).then(() => {
+          expect(modified).to.have.been.calledOnce
+        })
+      })
+    })
+
     it('does not fire "file_list_modified" if mtime has not changed', () => {
       // chokidar on fucking windows sometimes fires event multiple times
       // MATCH: /some/a.js, /some/b.js, /a.txt
