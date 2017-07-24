@@ -333,7 +333,7 @@
     "combine-lists": "^1.0.0",
     "connect": "^3.6.0",
     "core-js": "^2.2.0",
-    "di": "^0.0.1",
+    "deckar01-di": "^0.0.2",
     "dom-serialize": "^2.2.0",
     "expand-braces": "^0.1.1",
     "glob": "^7.1.1",

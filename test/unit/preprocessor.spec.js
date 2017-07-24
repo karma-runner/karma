@@ -1,5 +1,5 @@
 import mocks from 'mocks'
-import di from 'di'
+import di from 'deckar01-di'
 import path from 'path'
 import events from '../../lib/events'
 

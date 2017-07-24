@@ -1,7 +1,7 @@
 import 'core-js'
 import {EventEmitter} from 'events'
 import request from 'supertest'
-import di from 'di'
+import di from 'deckar01-di'
 import mocks from 'mocks'
 import fs from 'fs'
 import mime from 'mime'

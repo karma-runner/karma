@@ -1,5 +1,5 @@
 import Promise from 'bluebird'
-import di from 'di'
+import di from 'deckar01-di'
 import events from '../../lib/events'
 import launcher from '../../lib/launcher'
 import createMockTimer from './mocks/timer'

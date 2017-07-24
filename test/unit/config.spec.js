@@ -424,7 +424,7 @@ describe('config', () => {
   })
 
   describe('custom', () => {
-    var di = require('di')
+    var di = require('deckar01-di')
 
     var forwardArgsFactory = (args) => args
 
