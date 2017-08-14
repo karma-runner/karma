@@ -127,6 +127,14 @@ describe('Browser', () => {
       expect(browser.lastResult.total).to.equal(0)
       expect(spy).not.to.have.been.called
     })
+
+    it('should update the number of tests', () => {
+      browser.state = Browser.STATE_EXECUTING
+      browser.onStart({total: 20})
+      browser.onInfo({total: 30})
+
+      expect(browser.lastResult.total).to.equal(30)
+    })
   })
 
   describe('onStart', () => {
