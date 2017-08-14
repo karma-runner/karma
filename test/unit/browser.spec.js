@@ -129,11 +129,16 @@ describe('Browser', () => {
     })
 
     it('should update the number of tests', () => {
+      var spy = sinon.spy()
+      emitter.on('browser_info', spy)
+      emitter.on('browser_log', spy)
+
       browser.state = Browser.STATE_EXECUTING
       browser.onStart({total: 20})
       browser.onInfo({total: 30})
 
       expect(browser.lastResult.total).to.equal(30)
+      expect(spy).not.to.have.been.called
     })
   })
 
