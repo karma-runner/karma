@@ -46,9 +46,9 @@ module.exports = function (grunt) {
     },
     cucumberjs: {
       options: {
-        steps: 'test/e2e/steps',
+        steps: 'test/e2e/step_definitions',
         format: 'progress',
-        require: 'test/e2e/support/env.js'
+        require: ['test/e2e/support/env.js', 'test/e2e/support/world.js']
       },
       all: 'test/e2e/*.feature',
       current: {
@@ -64,7 +64,7 @@ module.exports = function (grunt) {
           src: 'test/e2e/*.feature'
         },
         options: {
-          tags: '~@not-jenkins'
+          tags: 'not @not-jenkins'
         }
       }
     },
