@@ -104,13 +104,36 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     navigateContextTo('about:blank')
   }
 
-  // error during js file loading (most likely syntax error)
-  // we are not going to execute at all
-  this.error = function (msg, url, line) {
-    var message = msg
+  function getLocation (url, lineno, colno) {
+    var location = ''
 
-    if (url) {
-      message = msg + '\nat ' + url + (line ? ':' + line : '')
+    if (url !== undefined) {
+      location += url
+    }
+
+    if (lineno !== undefined) {
+      location += ':' + lineno
+    }
+
+    if (colno !== undefined) {
+      location += ':' + colno
+    }
+
+    return location
+  }
+
+  // error during js file loading (most likely syntax error)
+  // we are not going to execute at all. `window.onerror` callback.
+  this.error = function (messageOrEvent, source, lineno, colno, error) {
+    var message = messageOrEvent
+    var location = getLocation(source, lineno, colno)
+
+    if (location !== '') {
+      message += '\nat ' + location
+    }
+
+    if (error) {
+      message += '\n\n' + error.stack
     }
 
     socket.emit('karma_error', message)
