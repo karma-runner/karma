@@ -18,7 +18,7 @@ window.__karma__.result = window.console ? function (result) {
     // Throwing error without losing stack trace
     (function (err) {
       setTimeout(function () {
-        throw err
+        window.console.error(err)
       })
     })(result.log[i])
   }
