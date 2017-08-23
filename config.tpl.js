@@ -18,7 +18,7 @@ module.exports = function(config) {
     ],
 
 
-    // list of files to exclude
+    // list of files / patterns to exclude
     exclude: [%EXCLUDE%
     ],
 

@@ -18,7 +18,7 @@ module.exports = (config) ->
     ]
 
 
-    # list of files to exclude
+    # list of files / patterns to exclude
     exclude: [%EXCLUDE%
     ]
 
