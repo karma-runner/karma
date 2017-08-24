@@ -349,7 +349,7 @@
     "range-parser": "^1.2.0",
     "rimraf": "^2.6.0",
     "safe-buffer": "^5.0.1",
-    "socket.io": "1.7.4",
+    "socket.io": "2.0.3",
     "source-map": "^0.5.3",
     "tmp": "0.0.31",
     "useragent": "^2.1.12"
