@@ -1,3 +1,13 @@
+<a name="1.7.1"></a>
+## [1.7.1](https://github.com/karma-runner/karma/compare/v1.7.0...v1.7.1) (2017-08-30)
+
+
+### Features
+
+* **deps:** add support for node[@8](https://github.com/8) ([ea32194](https://github.com/karma-runner/karma/commit/ea32194)), closes [#2754](https://github.com/karma-runner/karma/issues/2754)
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/karma-runner/karma/compare/v1.6.0...v1.7.0) (2017-05-06)
 
