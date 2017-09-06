@@ -20,7 +20,7 @@ matrix:
 before_install:
   - npm config set loglevel warn
   - g++-4.8 --version
-  - if [[ "`node --version`" = v0* ]] || [[ "`node --version`" = v4* ]]; then npm install -g npm@latest-3; fi
+  - if [[ "`node --version`" = v4* ]]; then npm install -g npm@latest-3; fi
 
 addons:
   firefox:

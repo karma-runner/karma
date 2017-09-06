@@ -80,7 +80,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         'graceful-fs': mockFs
       })
     })
@@ -210,7 +210,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         'graceful-fs': mockFs
       })
 
@@ -247,7 +247,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         'graceful-fs': mockFs
       })
 
@@ -446,7 +446,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         bluebird: Promise
       })
 
@@ -573,7 +573,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         bluebird: Promise
       })
 
@@ -680,7 +680,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         bluebird: Promise
       })
 
@@ -764,7 +764,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         bluebird: Promise
       })
     })
