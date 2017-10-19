@@ -70,7 +70,7 @@ describe('middleware.runner', () => {
 
   it('should trigger test run and stream the reporter', (done) => {
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
     response.once('end', () => {
       expect(nextSpy).to.not.have.been.called
@@ -86,7 +86,7 @@ describe('middleware.runner', () => {
 
   it('should set the empty to 0 if empty results', (done) => {
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
     response.once('end', () => {
       expect(nextSpy).to.not.have.been.called
@@ -102,7 +102,7 @@ describe('middleware.runner', () => {
 
   it('should set the empty to 1 if successful tests', (done) => {
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
     response.once('end', () => {
       expect(nextSpy).to.not.have.been.called
@@ -118,7 +118,7 @@ describe('middleware.runner', () => {
 
   it('should set the empty to 1 if failed tests', (done) => {
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
     response.once('end', () => {
       expect(nextSpy).to.not.have.been.called
@@ -215,7 +215,7 @@ describe('middleware.runner', () => {
     clientArgsRuns.forEach(function (run) {
       it(run.desc, (done) => {
         capturedBrowsers.add(new Browser())
-        sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+        sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
         if (run.existingConfig) {
           config = _.merge(config, {client: {args: run.existingConfig}})
         }
@@ -242,7 +242,7 @@ describe('middleware.runner', () => {
 
   it('should refresh explicit files if specified', (done) => {
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
     sinon.stub(fileListMock, 'refresh')
     sinon.stub(fileListMock, 'addFile')
     sinon.stub(fileListMock, 'changeFile')
@@ -276,7 +276,7 @@ describe('middleware.runner', () => {
 
   it('should wait for refresh to finish if applicable before scheduling execution', (done) => {
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
     var res = null
     var fileListPromise = new Promise((resolve, reject) => {
@@ -303,7 +303,7 @@ describe('middleware.runner', () => {
 
   it('should schedule execution if no refresh', (done) => {
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
     sinon.spy(fileListMock, 'refresh')
     sinon.stub(executor, 'schedule')
@@ -331,7 +331,7 @@ describe('middleware.runner', () => {
     config.autoWatch = true
 
     capturedBrowsers.add(new Browser())
-    sinon.stub(capturedBrowsers, 'areAllReady', () => true)
+    sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
     sinon.spy(fileListMock, 'refresh')
     sinon.stub(executor, 'schedule')

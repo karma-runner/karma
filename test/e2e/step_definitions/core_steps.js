@@ -1,4 +1,6 @@
-module.exports = function coreSteps () {
+var {defineSupportCode} = require('cucumber')
+
+defineSupportCode(function ({defineParameterType, Given, Then, When}) {
   var fs = require('fs')
   var path = require('path')
   var ref = require('child_process')
@@ -6,9 +8,6 @@ module.exports = function coreSteps () {
   var spawn = ref.spawn
   var rimraf = require('rimraf')
   var stopper = require('../../../lib/stopper')
-
-  this.World = require('../support/world').World
-  require('../support/after_hooks').call(this)
 
   var baseDir = fs.realpathSync(path.join(__dirname, '/../../..'))
   var tmpDir = path.join(baseDir, 'tmp', 'sandbox')
@@ -29,18 +28,18 @@ module.exports = function coreSteps () {
     }
   }
 
-  this.Given(/^a configuration with:$/, function (fileContent, callback) {
+  Given('a configuration with:', function (fileContent, callback) {
     cleanseIfNeeded()
     this.addConfigContent(fileContent)
     return callback()
   })
 
-  this.Given(/^command line arguments of: "([^"]*)"$/, function (args, callback) {
+  Given('command line arguments of: {stringInDoubleQuotes}', function (args, callback) {
     additionalArgs = args
     return callback()
   })
 
-  this.When(/^I stop a server programmatically/, function (callback) {
+  When('I stop a server programmatically', function (callback) {
     var _this = this
     setTimeout(function () {
       stopper.stop(_this.configFile, function (exitCode) {
@@ -50,7 +49,7 @@ module.exports = function coreSteps () {
     }, 1000)
   })
 
-  this.When(/^I start a server in background/, function (callback) {
+  When('I start a server in background', function (callback) {
     this.writeConfigFile(tmpDir, tmpConfigFile, (function (_this) {
       return function (err, hash) {
         if (err) {
@@ -71,9 +70,9 @@ module.exports = function coreSteps () {
     })(this))
   })
 
-  this.When(/^I (run|runOut|start|init|stop) Karma( with log-level ([a-z]+))?( behind a proxy on port ([0-9]*) that prepends '([^']*)' to the base path)?$/, function (command, withLogLevel, level, behindProxy, proxyPort, proxyPath, callback) {
+  When("I {run|runOut|start|init|stop} Karma( with log-level {string})( behind a proxy on port {int} that prepends '{string}' to the base path)", function (command, level, proxyPort, proxyPath, callback) {
     var startProxy = function (done) {
-      if (behindProxy) {
+      if (proxyPort) {
         this.proxy.start(proxyPort, proxyPath, done)
       } else {
         done()
@@ -88,7 +87,7 @@ module.exports = function coreSteps () {
           if (err) {
             return callback.fail(new Error(err))
           }
-          level = withLogLevel === undefined ? 'warn' : level
+          level = level || 'warn'
           var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
           var runtimePath = path.join(baseDir, 'bin', 'karma')
           var execKarma = function (done) {
@@ -150,9 +149,9 @@ module.exports = function coreSteps () {
     })(this))
   })
 
-  this.Then(/^it passes with( no debug| like)?:$/, {timeout: 10 * 1000}, function (mode, expectedOutput, callback) {
-    var noDebug = mode === ' no debug'
-    var like = mode === ' like'
+  Then('it passes with( {no debug|like}):', {timeout: 10 * 1000}, function (mode, expectedOutput, callback) {
+    var noDebug = mode === 'no debug'
+    var like = mode === 'like'
     var actualOutput = this.lastRun.stdout.toString()
     var lines
 
@@ -177,7 +176,7 @@ module.exports = function coreSteps () {
     callback(new Error('Failed all comparissons'))
   })
 
-  this.Then(/^it fails with:$/, function (expectedOutput, callback) {
+  Then('it fails with:', function (expectedOutput, callback) {
     var actualOutput = this.lastRun.stdout.toString()
     var actualError = this.lastRun.error
     var actualStderr = this.lastRun.stderr.toString()
@@ -191,7 +190,7 @@ module.exports = function coreSteps () {
     }
   })
 
-  this.Then(/^it fails with like:$/, function (expectedOutput, callback) {
+  Then('it fails with like:', function (expectedOutput, callback) {
     var actualOutput = this.lastRun.stdout.toString()
     var actualError = this.lastRun.error
     var actualStderr = this.lastRun.stderr.toString()
@@ -204,8 +203,8 @@ module.exports = function coreSteps () {
     }
   })
 
-  this.Then(/^The (server|stopper) is dead( with exit code ([0-9]+))?$/,
-    function (stopperOrServer, withExitCode, code, callback) {
+  Then('The {server|stopper} is dead( with exit code {int})',
+    function (stopperOrServer, code, callback) {
       var server = stopperOrServer === 'server'
       var _this = this
       setTimeout(function () {
@@ -216,7 +215,7 @@ module.exports = function coreSteps () {
       }, 4000)
     })
 
-  this.Then(/^the file at (.+) contains:$/,
+  Then('the file at {string} contains:',
     function (filePath, expectedOutput, callback) {
       var data = fs.readFileSync(filePath, {encoding: 'UTF-8'})
       if (data.match(expectedOutput)) {
@@ -224,4 +223,4 @@ module.exports = function coreSteps () {
       }
       callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + data))
     })
-}
+})

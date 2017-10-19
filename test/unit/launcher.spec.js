@@ -10,7 +10,7 @@ var stubPromise = (obj, method, stubAction) => {
     obj[method].resolve = resolve
   })
 
-  sinon.stub(obj, method, () => {
+  sinon.stub(obj, method).callsFake(() => {
     if (stubAction) stubAction()
 
     return promise
@@ -30,7 +30,7 @@ class FakeBrowser {
 
     baseBrowserDecorator(this)
     FakeBrowser._instances.push(this)
-    sinon.stub(this, 'start', () => {
+    sinon.stub(this, 'start').callsFake(() => {
       this.state = this.STATE_BEING_CAPTURED
       this._done()
     })
@@ -52,7 +52,7 @@ class ScriptBrowser {
 
     baseBrowserDecorator(this)
     ScriptBrowser._instances.push(this)
-    sinon.stub(this, 'start', () => {
+    sinon.stub(this, 'start').callsFake(() => {
       this.state = this.STATE_BEING_CAPTURED
       this._done()
     })

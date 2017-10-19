@@ -230,7 +230,7 @@ describe('server', () => {
       fileListOnResolve()
 
       function mockProcess (process) {
-        sinon.stub(process, 'kill', (pid, ev) => process.emit(ev))
+        sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
       }
     })
   })

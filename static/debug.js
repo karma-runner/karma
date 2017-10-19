@@ -15,10 +15,10 @@ window.__karma__.result = window.console ? function (result) {
   window.console.log(msg + result.suite.join(' ') + ' ' + result.description)
 
   for (var i = 0; i < result.log.length; i++) {
-    // Throwing error without losing stack trace
+    // Printing error without losing stack trace
     (function (err) {
       setTimeout(function () {
-        throw err
+        window.console.error(err)
       })
     })(result.log[i])
   }

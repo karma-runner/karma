@@ -13,7 +13,7 @@ import config from '../../lib/config'
 var patterns = (...strings) => strings.map((str) => new config.Pattern(str))
 
 function pathsFrom (files) {
-  return _.pluck(from(files), 'path')
+  return _.map(from(files), 'path')
 }
 
 function findFile (path, files) {
@@ -80,7 +80,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         'graceful-fs': mockFs
       })
     })
@@ -210,7 +210,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         'graceful-fs': mockFs
       })
 
@@ -247,7 +247,7 @@ describe('FileList', () => {
       List = proxyquire('../../lib/file-list', {
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         'graceful-fs': mockFs
       })
 
@@ -279,7 +279,7 @@ describe('FileList', () => {
 
     it('cancels refreshs', () => {
       var checkResult = (files) => {
-        expect(_.pluck(files.served, 'path')).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
+        expect(_.map(files.served, 'path')).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
       }
 
       var p1 = list.refresh().then(checkResult)
@@ -422,6 +422,8 @@ describe('FileList', () => {
   })
 
   describe('addFile', () => {
+    var clock = null
+
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
@@ -435,14 +437,25 @@ describe('FileList', () => {
           statCache: mg.statCache
         })
       }
+
+      clock = sinon.useFakeTimers()
+      // This hack is needed to ensure lodash is using the fake timers
+      // from sinon
       List = proxyquire('../../lib/file-list', {
+        lodash: _.runInContext(),
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
-        'graceful-fs': mockFs
+        'graceful-fs': mockFs,
+        path: pathLib.posix,
+        bluebird: Promise
       })
 
-      list = new List(patterns('/some/*.js', '*.txt'), ['/secret/*.txt'], emitter, preprocess)
+      list = new List(patterns('/some/*.js', '*.txt'), ['/secret/*.txt'], emitter, preprocess, 100)
+    })
+
+    afterEach(() => {
+      clock.restore()
+      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('does not add excluded files', () => {
@@ -487,6 +500,7 @@ describe('FileList', () => {
         modified.reset()
 
         return list.addFile('/some/d.js').then(() => {
+          clock.tick(101)
           expect(modified).to.have.been.calledOnce
         })
       })
@@ -534,9 +548,12 @@ describe('FileList', () => {
   })
 
   describe('changeFile', () => {
+    var clock = null
+
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
+      Promise.setScheduler((fn) => fn())
 
       preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
@@ -548,20 +565,30 @@ describe('FileList', () => {
         })
       }
 
+      clock = sinon.useFakeTimers()
+      // This hack is needed to ensure lodash is using the fake timers
+      // from sinon
       List = proxyquire('../../lib/file-list', {
+        lodash: _.runInContext(),
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
-        'graceful-fs': mockFs
+        'graceful-fs': mockFs,
+        path: pathLib.posix,
+        bluebird: Promise
       })
 
       mockFs._touchFile('/some/a.js', '2012-04-04')
       mockFs._touchFile('/some/b.js', '2012-05-05')
     })
 
+    afterEach(() => {
+      clock.restore()
+      Promise.setScheduler((fn) => process.nextTick(fn))
+    })
+
     it('updates mtime and fires "file_list_modified"', () => {
       // MATCH: /some/a.js, /some/b.js
-      list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
+      list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
       var modified = sinon.stub()
       emitter.on('file_list_modified', modified)
 
@@ -570,6 +597,7 @@ describe('FileList', () => {
         modified.reset()
 
         return list.changeFile('/some/b.js').then((files) => {
+          clock.tick(101)
           expect(modified).to.have.been.calledOnce
           expect(findFile('/some/b.js', files.served).mtime).to.be.eql(new Date('2020-01-01'))
         })
@@ -627,9 +655,12 @@ describe('FileList', () => {
   })
 
   describe('removeFile', () => {
+    var clock = null
+
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
+      Promise.setScheduler((fn) => fn())
 
       preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
@@ -641,20 +672,30 @@ describe('FileList', () => {
         })
       }
 
+      clock = sinon.useFakeTimers()
+      // This hack is needed to ensure lodash is using the fake timers
+      // from sinon
       List = proxyquire('../../lib/file-list', {
+        lodash: _.runInContext(),
         helper: helper,
         glob: glob,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
-        'graceful-fs': mockFs
+        'graceful-fs': mockFs,
+        path: pathLib.posix,
+        bluebird: Promise
       })
 
       modified = sinon.stub()
       emitter.on('file_list_modified', modified)
     })
 
+    afterEach(() => {
+      clock.restore()
+      Promise.setScheduler((fn) => process.nextTick(fn))
+    })
+
     it('removes the file from the list and fires "file_list_modified"', () => {
       // MATCH: /some/a.js, /some/b.js, /a.txt
-      list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
+      list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
 
       var modified = sinon.stub()
       emitter.on('file_list_modified', modified)
@@ -667,6 +708,7 @@ describe('FileList', () => {
           '/some/b.js',
           '/a.txt'
         ])
+        clock.tick(101)
         expect(modified).to.have.been.calledOnce
       })
     })
@@ -685,6 +727,15 @@ describe('FileList', () => {
   })
 
   describe('batch interval', () => {
+    // IMPORTANT: When writing tests for debouncing behaviour, you must wait for the promise
+    // returned by list.changeFile or list.addFile. list.removeFile calls self._emitModified()
+    // in a different manner and doesn't *need* to be waited on. If you use this behaviour
+    // in your tests it can can lead to very confusing results when they are modified or
+    // extended.
+    //
+    // Rule of thumb: Always wait on the promises returned by list.addFile, list.changeFile,
+    // and list.removeFile.
+
     var clock = null
 
     beforeEach(() => {
@@ -713,7 +764,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix || pathLib/* for node 0.10 */,
+        path: pathLib.posix,
         bluebird: Promise
       })
     })
@@ -723,7 +774,97 @@ describe('FileList', () => {
       Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
-    it('batches multiple changes within an interval', () => {
+    it('debounces calls to emitModified', () => {
+      list = new List(patterns(), [], emitter, preprocess, 100)
+
+      return list.refresh().then(() => {
+        modified.reset()
+        list._emitModified()
+        clock.tick(99)
+        expect(modified).to.not.have.been.called
+        list._emitModified()
+        clock.tick(2)
+        expect(modified).to.not.have.been.called
+        clock.tick(97)
+        expect(modified).to.not.have.been.called
+        clock.tick(2)
+        expect(modified).to.have.been.calledOnce
+        clock.tick(1000)
+        expect(modified).to.have.been.calledOnce
+        list._emitModified()
+        clock.tick(99)
+        expect(modified).to.have.been.calledOnce
+        clock.tick(2)
+        expect(modified).to.have.been.calledTwice
+      })
+    })
+
+    it('debounces a single file change', () => {
+      list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
+
+      return list.refresh().then((files) => {
+        modified.reset()
+        // Even with no changes, all these files are served
+        list.addFile('/some/0.js').then(() => {
+          clock.tick(99)
+          expect(modified).to.not.have.been.called
+
+          clock.tick(2)
+          expect(modified).to.have.been.calledOnce
+
+          files = modified.lastCall.args[0]
+          expect(pathsFrom(files.served)).to.be.eql([
+            '/some/0.js',
+            '/some/a.js',
+            '/some/b.js',
+            '/a.txt'
+          ])
+        })
+      })
+    })
+
+    it('debounces several changes to a file', () => {
+      list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
+
+      return list.refresh().then((files) => {
+        modified.reset()
+        list.addFile('/some/0.js').then(() => {
+          clock.tick(99)
+          expect(modified).to.not.have.been.called
+
+          // Modify file, must change mtime too, or change is ignored
+          mockFs._touchFile('/some/0.js', '2020-01-01')
+          list.changeFile('/some/0.js').then(() => {
+            // Ensure that the debounce timer was reset
+            clock.tick(2)
+            expect(modified).to.not.have.been.called
+
+            // Ensure that debounce timer fires after 100ms
+            clock.tick(99)
+            expect(modified).to.have.been.calledOnce
+
+            // Make sure there aren't any lingering debounce calls
+            clock.tick(1000)
+
+            // Modify file (one hour later mtime)
+            expect(modified).to.have.been.calledOnce
+            mockFs._touchFile('/some/0.js', '2020-01-02')
+            list.changeFile('/some/0.js').then(() => {
+              clock.tick(99)
+              expect(modified).to.have.been.calledOnce
+              clock.tick(2)
+              expect(modified).to.have.been.calledTwice
+
+              // Make sure there aren't any lingering calls
+              clock.tick(1000)
+              expect(modified).to.have.been.calledTwice
+            })
+          })
+        })
+      })
+    })
+
+    it('debounces multiple changes until there is quiescence', () => {
       // MATCH: /some/a.js, /some/b.js, /a.txt
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
 
@@ -734,24 +875,32 @@ describe('FileList', () => {
         list.removeFile('/some/a.js') // /some/b.js, /a.txt
         list.removeFile('/a.txt')     // /some/b.js
         list.addFile('/a.txt')        // /some/b.js, /a.txt
-        list.addFile('/some/0.js')    // /some/0.js, /some/b.js, /a.txt
+        list.addFile('/some/0.js').then(() => {     // /some/0.js, /some/b.js, /a.txt
+          clock.tick(99)
+          expect(modified).to.not.have.been.called
+          mockFs._touchFile('/a.txt', '2020-01-01')
+          list.changeFile('/a.txt').then(() => {
+            clock.tick(2)
+            expect(modified).to.not.have.been.called
 
-        clock.tick(99)
-        expect(modified).to.not.have.been.called
+            clock.tick(100)
+            expect(modified).to.have.been.calledOnce
 
-        clock.tick(2)
-        expect(modified).to.have.been.calledOnce
+            clock.tick(1000)
+            expect(modified).to.have.been.calledOnce
 
-        files = modified.lastCall.args[0]
-        expect(pathsFrom(files.served)).to.be.eql([
-          '/some/0.js',
-          '/some/b.js',
-          '/a.txt'
-        ])
+            files = modified.lastCall.args[0]
+            expect(pathsFrom(files.served)).to.be.eql([
+              '/some/0.js',
+              '/some/b.js',
+              '/a.txt'
+            ])
+          })
+        })
       })
     })
 
-    it('waits while file preprocessing, if the file was deleted and immediately added', (done) => {
+    it('waits while file preprocessing, if the file was deleted and immediately added', () => {
       list = new List(patterns('/a.*'), [], emitter, preprocess, 100)
 
       list.refresh().then((files) => {
@@ -766,12 +915,25 @@ describe('FileList', () => {
 
         expect(preprocess).to.not.have.been.called
 
-        emitter.once('file_list_modified', () => _.defer(() => {
-          expect(preprocess).to.have.been.calledOnce
-          done()
-        }))
+        var promise = new Promise((resolve) => {
+          emitter.once('file_list_modified', () => _.defer(() => {
+            resolve()
+          }))
+        })
 
         clock.tick(2)
+
+        return promise
+          .then(() => {
+            return new Promise((resolve) => {
+              _.defer(() => {
+                resolve()
+              })
+            })
+          })
+          .then(() => {
+            expect(preprocess).to.have.been.calledOnce
+          })
       })
     })
   })

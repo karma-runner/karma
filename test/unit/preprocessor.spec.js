@@ -9,7 +9,7 @@ describe('preprocessor', () => {
   var mockFs
   var emitterSetting
   // mimic first few bytes of a pdf file
-  var binarydata = new Buffer([0x25, 0x50, 0x44, 0x66, 0x46, 0x00])
+  var binarydata = new Buffer([0x25, 0x50, 0x44, 0x66, 0x46, 0x00]) // eslint-disable-line node/no-deprecated-api
 
   beforeEach(() => {
     mockFs = mocks.fs.create({
@@ -225,6 +225,54 @@ describe('preprocessor', () => {
 
     pp(file, () => {
       expect(fakePreprocessor).not.to.have.been.called
+      done()
+    })
+  })
+
+  describe('when fs.readFile fails', () => {
+    var file = {originalPath: '/some/a.js', path: 'path'}
+    var getReadFileCallback = (nthCall) => {
+      return mockFs.readFile.args[nthCall][1]
+    }
+
+    beforeEach(() => {
+      sinon.stub(mockFs, 'readFile')
+    })
+
+    it('should retry up to 3 times', (done) => {
+      var fakePreprocessor = sinon.spy((content, file, done) => {
+        done(null, content)
+      })
+
+      var injector = new di.Injector([{
+        'preprocessor:fake': ['factory', () => fakePreprocessor]
+      }, emitterSetting])
+
+      var pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
+
+      pp(file, () => {
+        expect(fakePreprocessor).to.have.been.called
+        done()
+      })
+      getReadFileCallback(0)('error')
+      getReadFileCallback(1)('error')
+      var thirdCallback = getReadFileCallback(2)
+      mockFs.readFile.restore()
+      thirdCallback('error')
+    })
+
+    it('should tbrow after 3 retries', (done) => {
+      var injector = new di.Injector([{}, emitterSetting])
+
+      var pp = m.createPreprocessor({'**/*.js': []}, null, injector)
+
+      pp(file, () => { })
+
+      getReadFileCallback(0)('error')
+      getReadFileCallback(1)('error')
+      getReadFileCallback(2)('error')
+
+      expect(() => getReadFileCallback(0)('error')).to.throw('error')
       done()
     })
   })
