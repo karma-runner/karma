@@ -13,8 +13,8 @@ describe('middleware.karma', () => {
   var nextSpy
   var response
 
-  var MockFile = function (path, sha) {
-    File.call(this, path)
+  var MockFile = function (path, sha, type) {
+    File.call(this, path, undefined, undefined, type)
     this.sha = sha || 'sha-default'
   }
 
@@ -212,12 +212,14 @@ describe('middleware.karma', () => {
   it('should serve context.html with replaced link tags', (done) => {
     includedFiles([
       new MockFile('/first.css', 'sha007'),
-      new MockFile('/second.html', 'sha678')
+      new MockFile('/second.html', 'sha678'),
+      new MockFile('/third', 'sha111', 'css'),
+      new MockFile('/fourth', 'sha222', 'html')
     ])
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css?sha007" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html?sha678" rel="import">')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css?sha007" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html?sha678" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third?sha111" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/fourth?sha222" rel="import">')
       done()
     })
 
@@ -244,12 +246,16 @@ describe('middleware.karma', () => {
       new MockFile('/some/abc/a.css', 'sha1'),
       new MockFile('/base/path/b.css', 'sha2'),
       new MockFile('/some/abc/c.html', 'sha3'),
-      new MockFile('/base/path/d.html', 'sha4')
+      new MockFile('/base/path/d.html', 'sha4'),
+      new MockFile('/some/abc/e', 'sha5', 'css'),
+      new MockFile('/base/path/f', 'sha6', 'css'),
+      new MockFile('/some/abc/g', 'sha7', 'html'),
+      new MockFile('/base/path/h', 'sha8', 'html')
     ])
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/a.css?sha1" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css?sha2" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/some/abc/c.html?sha3" rel="import">\n<link href="/__proxy__/__karma__/base/d.html?sha4" rel="import">')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/a.css?sha1" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css?sha2" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/some/abc/c.html?sha3" rel="import">\n<link href="/__proxy__/__karma__/base/d.html?sha4" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/e?sha5" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/f?sha6" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/some/abc/g?sha7" rel="import">\n<link href="/__proxy__/__karma__/base/h?sha8" rel="import">')
       done()
     })
 
@@ -261,7 +267,11 @@ describe('middleware.karma', () => {
       new MockFile('/some/abc/a.css', 'sha1'),
       new MockFile('/base/path/b.css', 'sha2'),
       new MockFile('/some/abc/c.html', 'sha3'),
-      new MockFile('/base/path/d.html', 'sha4')
+      new MockFile('/base/path/d.html', 'sha4'),
+      new MockFile('/some/abc/e', 'sha5', 'css'),
+      new MockFile('/base/path/f', 'sha6', 'css'),
+      new MockFile('/some/abc/g', 'sha7', 'html'),
+      new MockFile('/base/path/h', 'sha8', 'html')
     ])
 
     response.once('end', () => {
@@ -271,7 +281,11 @@ describe('middleware.karma', () => {
           '/__proxy__/__karma__/absolute/some/abc/a.css?sha1',
           '/__proxy__/__karma__/base/b.css?sha2',
           '/__proxy__/__karma__/absolute/some/abc/c.html?sha3',
-          '/__proxy__/__karma__/base/d.html?sha4'
+          '/__proxy__/__karma__/base/d.html?sha4',
+          '/__proxy__/__karma__/absolute/some/abc/e?sha5',
+          '/__proxy__/__karma__/base/f?sha6',
+          '/__proxy__/__karma__/absolute/some/abc/g?sha7',
+          '/__proxy__/__karma__/base/h?sha8'
         ]
       }))
       done()
@@ -361,12 +375,16 @@ describe('middleware.karma', () => {
       new MockFile('/first.css'),
       new MockFile('/base/path/b.css'),
       new MockFile('/second.html'),
-      new MockFile('/base/path/d.html')
+      new MockFile('/base/path/d.html'),
+      new MockFile('/third', null, 'css'),
+      new MockFile('/base/path/f', null, 'css'),
+      new MockFile('/fourth', null, 'html'),
+      new MockFile('/base/path/g', null, 'html')
     ])
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'DEBUG\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html" rel="import">\n<link href="/__proxy__/__karma__/base/d.html" rel="import">')
+      expect(response).to.beServedAs(200, 'DEBUG\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html" rel="import">\n<link href="/__proxy__/__karma__/base/d.html" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/f" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/fourth" rel="import">\n<link href="/__proxy__/__karma__/base/g" rel="import">')
       done()
     })
 
