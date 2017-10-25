@@ -252,7 +252,7 @@ describe('web-server', () => {
   })
 
   describe('http2', () => {
-    var http2 = require('http2')
+    var http2 = require('http2/')
 
     beforeEach(() => {
       var credentials = {
