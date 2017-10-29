@@ -84,13 +84,15 @@ describe('config', () => {
         expect(config).to.be.instanceof(m.Config)
 
         config.set({
-          basePath: '/tmp/example'
+          autoWatch: false,
+          basePath: path.resolve('.')
         })
       })
 
       var other = new m.Config()
       other.set({
-        basePath: '/tmp/example'
+        autoWatch: false,
+        basePath: path.resolve('.')
       })
 
       expect(keepdata(config)).to.deep.equal(keepdata(other))

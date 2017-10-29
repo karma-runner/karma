@@ -153,12 +153,17 @@ const karmaConfig = cfg.parseConfig(path.resolve('./karma.conf.js'), { port: 133
 ## karma.config.directConfig([callback=function() {}])
 
 This function allows inline configuration in code. This way you can avoid tracking
-or trusting an extra config file, all while honoring the karma defaults. This is
+or trusting an extra config file, all while honoring karma defaults. This is
 also useful for custom integrations where the rest of the toolchain is managed
 programmatically.
 
 Calling `directConfig()` without any arguments is equivalent to creating
 a new config object with default karma options.
+
+Note that the `basePath` configuration option should be set in this
+case, because Karma does not know how to locate your project otherwise.
+As a rule of thumb, set `basePath` to the *absolute path* where you
+would otherwise leave a config file.
 
 ```javascript
 const cfg = require('karma').config;
