@@ -1,6 +1,6 @@
 ## Overview
 In order to serve you well, Karma needs to know about your project in order to test it
-and this is done via a configuration file. The easiest way to generate an initial configuration file
+and this is normally done via a configuration file. The easiest way to generate an initial configuration file
 is by using the `karma init` command. This page lists all of the available configuration options.
 
 Note: Most of the framework adapters, reporters, preprocessors and launchers need to be loaded as [plugins].

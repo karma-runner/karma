@@ -67,6 +67,44 @@ describe('config', () => {
     e = m.exports
   })
 
+  describe('directConfig', () => {
+    // Shallow-strip functions that would complicate deep equal checks.
+    var keepdata = function (o) {
+      return Object.keys(o).reduce((p, k) => {
+        if (typeof o[k] !== 'function') {
+          p[k] = o[k]
+        }
+
+        return p
+      }, {})
+    }
+
+    it('should allow programmatic configuration', () => {
+      var config = e.directConfig((config) => {
+        expect(config).to.be.instanceof(m.Config)
+
+        config.set({
+          basePath: '/tmp/example'
+        })
+      })
+
+      var other = new m.Config()
+      other.set({
+        basePath: '/tmp/example'
+      })
+
+      expect(keepdata(config)).to.deep.equal(keepdata(other))
+    })
+
+    it('should respect defaults', () => {
+      var config = e.directConfig()
+      var other = m.normalizeConfig(new m.Config())
+
+      expect(Object.keys(config)).to.have.length.above(0)
+      expect(keepdata(config)).to.deep.equal(keepdata(other))
+    })
+  })
+
   describe('parseConfig', () => {
     var logSpy
 

@@ -1,5 +1,5 @@
 In order to serve you well, Karma needs to know about your project in order to test it
-and this is done via a configuration file. This page explains how to create such a configuration file.
+and this is normally done via a configuration file. This page explains how to create such a configuration file.
 
 See [configuration file docs] for more information about the syntax and all the available options.
 
