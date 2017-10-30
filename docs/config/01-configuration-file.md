@@ -425,7 +425,7 @@ httpsServerOptions: {
 
 **CLI:** `--log-level debug`
 
-**Possible values:**
+**Possible Values:**
 
   * `config.LOG_DISABLE`
   * `config.LOG_ERROR`
@@ -578,7 +578,7 @@ Note: Using `'https:'` requires you to specify `httpsServerOptions`.
 
 **Description:** Module used for Karma webserver.
 
-Uses the provided module instead of node's built in `http` or `https` module. The module loaded here must exactly match the interface of node's http module. This can be useful for loading in a module like `node-http2` to allow for http2 support. 
+Uses the provided module instead of node's built in `http` or `https` module. The module loaded here must exactly match the interface of node's http module. This can be useful for loading in a module like `node-http2` to allow for http2 support.
 
 Note: if you're using this to enable `http2` you must also set the `protocol` to `https:` and specify certificates as http2 can only run of https.
 
