@@ -47,19 +47,20 @@ Karma Framework connects existing testing libraries to Karma's API, so that thei
 results can be displayed in a browser and sent back to the server.
 
 Karma frameworks _must_ implement a `window.__karma__.start` method that Karma will
-call to start test execution. This function is called with an object that has methods
-to send results back to karma:
+call to start test execution. Once this function is called, the `window.__karma__`
+object will contain the following methods which you can use to send results back to 
+karma:
 
-* `.result` a single test has finished
-* `.complete` the client completed execution of all the tests
-* `.error` an error happened in the client
-* `.info` other data (e.g. number of tests or debugging messages)
+* `window.__karma__.result(result: Result)` a single test has finished
+* `window.__karma__.complete({order, coverage})` the client completed execution of all the tests
+* `window.__karma__.error(message: String)` an error happened in the client
+* `window.__karma__.info({total: Int, specs: SpecNames})` other data (e.g. number of tests or debugging messages)
 
 Most commonly you'll use the `result` method to send individual test success or failure
-statuses. The method takes an object of the form:
+statuses. The object the method expects to receive should be in the form:
 
 ```js
-{
+type Result = {
     // test id
     id: String,
 
@@ -76,5 +77,10 @@ statuses. The method takes an object of the form:
     success: Boolean, // pass / fail
 
     skipped: Boolean // skipped / ran
+}
+
+type SpecNames = {
+    '_': Array[String],
+    [$subSpec]: SpecNames
 }
 ```
