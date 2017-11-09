@@ -14,7 +14,7 @@ var KARMA_PROXY_PATH = constants.KARMA_PROXY_PATH
 var socket = io(location.host, {
   reconnectionDelay: 500,
   reconnectionDelayMax: Infinity,
-  timeout: 2000,
+  timeout: 20000,
   path: KARMA_PROXY_PATH + KARMA_URL_ROOT.substr(1) + 'socket.io',
   'sync disconnect on unload': true
 })
