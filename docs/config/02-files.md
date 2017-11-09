@@ -46,17 +46,17 @@ Each pattern is either a simple string or an object with four properties:
 * **Description.** Should the files be included in the browser using
     `<script>` tag? Use `false` if you want to load them manually, eg.
     using [Require.js](../plus/requirejs.html).
-
+    
     If a file is covered by multiple patterns with different `include` properties, the most specific pattern takes
     precedence over the other.
-
-    The specificity of the pattern is defined as a six-tuple, where larger tuple implies lesser specificity:
+    
+    The specificity of the pattern is defined as a six-tuple, where larger tuple implies lesser specificity: 
     *(n<sub>glob parts</sub>, n<sub>glob star</sub>, n<sub>star</sub>, n<sub>ext glob</sub>, n<sub>range</sub>, n<sub>optional</sub>)*.
-    Tuples are compared lexicographically.
-
-    The *n<sub>glob parts</sub>* is the number of patterns after the bracket sections are expanded. E.g. the
+    Tuples are compared lexicographically. 
+    
+    The *n<sub>glob parts</sub>* is the number of patterns after the bracket sections are expanded. E.g. the 
     the pattern *{0...9}* will yield *n<sub>glob parts</sub>=10*. The rest of the tuple is decided as the least
-    specific of each expanded pattern.
+    specific of each expanded pattern. 
 
 ### `served`
 * **Type.** Boolean
