@@ -33,7 +33,7 @@ Each pattern is either a simple string or an object with four properties:
   * `html`
   * `js`
   * `dart`
-  * `esModule`
+  * `module`
 
 ### `watched`
 * **Type.** Boolean
