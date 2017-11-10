@@ -9,6 +9,7 @@ TODO:
 
 If you are thinking about making Karma better, or you just want to hack on it, that’s great!
 Here are some tips on how to set up a Karma workspace and how to send a good pull request.
++**Please note we enforce [commit message conventions].**
 
 ## Setting up the Workspace
 
