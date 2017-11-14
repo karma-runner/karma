@@ -1,7 +1,5 @@
 node_modules
 npm-debug.log
-static/context.js
-static/karma.js
 .idea/*
 *.iml
 tmp/*
