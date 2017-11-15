@@ -16,7 +16,7 @@ install:
   - ps: Install-Product node $env:nodejs_version
 
   # Upgrade npm
-  - npm install -g npm
+  - npm install -g npm@5.3
 
   # Output our current versions for debugging
   - node --version
