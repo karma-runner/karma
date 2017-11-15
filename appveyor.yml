@@ -16,14 +16,14 @@ install:
   - ps: Install-Product node $env:nodejs_version
 
   # Upgrade npm
-  - appveyor-retry npm install -g npm@5.3
+  - npm install -g npm@5.3
 
   # Output our current versions for debugging
   - node --version
   - npm --version
 
   # Install our package dependencies
-  - npm install
+  - appveyor-retry npm install
 
   # Install our current directory as a dependency of itself
   - npm run init:windows
