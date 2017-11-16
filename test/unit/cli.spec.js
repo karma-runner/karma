@@ -183,6 +183,18 @@ describe('cli', () => {
       expect(options.addedFiles).to.deep.equal(['a1.js', 'a2.js'])
       expect(options.changedFiles).to.deep.equal(['ch1.js', 'ch2.js'])
     })
+
+    it('should error on args with underscores', () => {
+      var expectedException
+      try {
+        var options = processArgs(['--no_browsers'])
+        expectedException = 'Should have thrown but got ' + options
+      } catch (e) {
+        expectedException = e
+      } finally {
+        expect(expectedException + '').to.equal('Error: Bad argument: no_browsers did you mean no-browsers')
+      }
+    })
   })
 
   describe('parseClientArgs', () => {
