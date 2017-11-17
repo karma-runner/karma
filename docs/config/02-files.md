@@ -52,6 +52,11 @@ Each pattern is either a simple string or an object with four properties:
 * **Default.** `true`
 * **Description.** Should the files be served by Karma's webserver?
 
+### `esModule`
+* **Type.** Boolean
+* **Default.** `false`
+* **Description.** Should the files be loaded as ECMAScript modules?
+
 ### `nocache`
 * **Type.** Boolean
 * **Default.** `false`
