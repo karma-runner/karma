@@ -71,8 +71,7 @@ describe('config', () => {
     var logSpy
 
     beforeEach(() => {
-      logSpy = sinon.spy()
-      logger.create('config').on('log', logSpy)
+      logSpy = sinon.spy(logger.create('config'), 'error')
     })
 
     it('should resolve relative basePath to config directory', () => {
@@ -114,9 +113,8 @@ describe('config', () => {
       e.parseConfig('/conf/not-exist.js', {})
 
       expect(logSpy).to.have.been.called
-      var event = logSpy.lastCall.args[0]
-      expect(event.level.toString()).to.be.equal('ERROR')
-      expect(event.data).to.be.deep.equal(['File %s does not exist!', '/conf/not-exist.js'])
+      var event = logSpy.lastCall.args
+      expect(event).to.be.deep.equal(['File %s does not exist!', '/conf/not-exist.js'])
       expect(mocks.process.exit).to.have.been.calledWith(1)
     })
 
@@ -124,9 +122,8 @@ describe('config', () => {
       e.parseConfig('/conf/invalid.js', {})
 
       expect(logSpy).to.have.been.called
-      var event = logSpy.lastCall.args[0]
-      expect(event.level.toString()).to.be.equal('ERROR')
-      expect(event.data).to.be.deep.equal([
+      var event = logSpy.lastCall.args
+      expect(event).to.be.deep.equal([
         'Error in config file!\n',
         new SyntaxError('Unexpected token =')
       ])
