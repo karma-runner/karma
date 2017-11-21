@@ -24,6 +24,17 @@ Each pattern is either a simple string or an object with four properties:
 * **No Default.**
 * **Description.** The pattern to use for matching. This property is mandatory.
 
+### `type`
+* **Type.** String
+* **Default.** Will attempt to determine type based on file extension. If that fails, defaults to `js`.
+* **Description.** Choose the type to use when including a file.
+* **Possible Values:**
+  * `css`
+  * `html`
+  * `js`
+  * `dart`
+  * `module`
+
 ### `watched`
 * **Type.** Boolean
 * **Default.** `true`
