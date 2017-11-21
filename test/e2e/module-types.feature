@@ -3,23 +3,33 @@ Feature: ES Modules
   As a person who wants to write great tests
   I want to use different script types with Karma.
 
-  Scenario: Simple middleware
+  Scenario: Globbing modules, with both .js and .mjs extensions
     Given a configuration with:
       """
       files = [
-        { pattern: 'modules/plus.js', esModule: false },
-        { pattern: 'modules/minus.mjs', esModule: true },
-        'modules/test.js'
+        { pattern: 'modules/**/*.js', type: 'module' },
+        { pattern: 'modules/**/*.mjs', type: 'module' },
       ];
-      browsers = ['Firefox'];
+      // Chrome fails on Travis, so we must use Firefox (which means we must
+      // manually enable modules).
+      customLaunchers = {
+        FirefoxWithModules: {
+          base: 'Firefox',
+          prefs: {
+            'dom.moduleScripts.enabled': true
+          }
+        }
+      };
+      browsers = ['FirefoxWithModules'];
+      frameworks = ['mocha', 'chai'];
       plugins = [
-        'karma-jasmine',
+        'karma-mocha',
+        'karma-chai',
         'karma-firefox-launcher'
       ];
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
-      ..
-      Firefox
+      Executed 4 of 4 SUCCESS
       """

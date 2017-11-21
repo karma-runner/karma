@@ -2,10 +2,10 @@ import { plus } from '../plus.js'
 
 describe('plus', function () {
   it('should pass', function () {
-    expect(true).toBe(true)
+    expect(true).to.be.true
   })
 
   it('should work', function () {
-    expect(plus(1, 2)).toBe(3)
+    expect(plus(1, 2)).to.equal(3)
   })
 })
