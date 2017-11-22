@@ -104,7 +104,7 @@ describe('FileList', () => {
 
     it('returns only served files', () => {
       var files = [
-        new config.Pattern('/a.*', true),        // served: true
+        new config.Pattern('/a.*', true), // served: true
         new config.Pattern('/some/*.js', false) // served: false
       ]
 
@@ -117,7 +117,7 @@ describe('FileList', () => {
 
     it('marks no cache files', () => {
       var files = [
-        new config.Pattern('/a.*'),        // nocach: false
+        new config.Pattern('/a.*'), // nocach: false
         new config.Pattern('/some/*.js', true, true, true, true) // nocache: true
       ]
 
@@ -363,8 +363,7 @@ describe('FileList', () => {
           var file = findFile('http://some.com', bucket)
 
           expect(file).to.have.property('isUrl', true)
-        }
-      )
+        })
     })
 
     it('preprocesses all files', () => {
@@ -416,8 +415,7 @@ describe('FileList', () => {
       ])
         .then(() => {
           expect(list._refresh).to.have.been.calledTwice
-        }
-      )
+        })
     })
   })
 
@@ -873,9 +871,10 @@ describe('FileList', () => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
         list.changeFile('/some/b.js')
         list.removeFile('/some/a.js') // /some/b.js, /a.txt
-        list.removeFile('/a.txt')     // /some/b.js
-        list.addFile('/a.txt')        // /some/b.js, /a.txt
-        list.addFile('/some/0.js').then(() => {     // /some/0.js, /some/b.js, /a.txt
+        list.removeFile('/a.txt') // /some/b.js
+        list.addFile('/a.txt') // /some/b.js, /a.txt
+        list.addFile('/some/0.js').then(() => {
+          // /some/0.js, /some/b.js, /a.txt
           clock.tick(99)
           expect(modified).to.not.have.been.called
           mockFs._touchFile('/a.txt', '2020-01-01')

@@ -123,10 +123,8 @@ describe('config', () => {
 
       expect(logSpy).to.have.been.called
       var event = logSpy.lastCall.args
-      expect(event).to.be.deep.equal([
-        'Error in config file!\n',
-        new SyntaxError('Unexpected token =')
-      ])
+      expect(event[0]).to.eql('Error in config file!\n')
+      expect(event[1].message).to.eql('Unexpected token =')
       expect(mocks.process.exit).to.have.been.calledWith(1)
     })
 
@@ -445,7 +443,7 @@ describe('config', () => {
       var injector = new di.Injector([baseModule].concat(config.plugins))
       var injectedArgs = injector.get('launcher:custom')
 
-      expect(injectedArgs).to.be.defined
+      expect(injectedArgs).to.exist
       expect(injectedArgs.first).to.equal(123)
       expect(injectedArgs.whatever).to.equal('aaa')
     })
@@ -464,7 +462,7 @@ describe('config', () => {
       var injector = new di.Injector([baseModule].concat(config.plugins))
       var injectedArgs = injector.get('preprocessor:custom')
 
-      expect(injectedArgs).to.be.defined
+      expect(injectedArgs).to.exist
       expect(injectedArgs.second).to.equal(123)
       expect(injectedArgs.whatever).to.equal('bbb')
     })
@@ -483,7 +481,7 @@ describe('config', () => {
       var injector = new di.Injector([baseModule].concat(config.plugins))
       var injectedArgs = injector.get('reporter:custom')
 
-      expect(injectedArgs).to.be.defined
+      expect(injectedArgs).to.exist
       expect(injectedArgs.third).to.equal(123)
       expect(injectedArgs.whatever).to.equal('ccc')
     })

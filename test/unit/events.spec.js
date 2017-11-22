@@ -147,7 +147,7 @@ describe('events', () => {
       emitter.on('bar', spy)
 
       replyEvents()
-      expect(spy).to.not.have.been.caleed
+      expect(spy).to.not.have.been.called
     })
 
     it('should work with overriden "emit" method', () => {
