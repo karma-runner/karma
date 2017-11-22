@@ -28,13 +28,94 @@ defineSupportCode(function ({defineParameterType, Given, Then, When}) {
     }
   }
 
+  function execKarma (command, level, proxyPort, proxyPath, callback) {
+    level = level || 'warn'
+
+    var startProxy = (done) => {
+      if (proxyPort) {
+        this.proxy.start(proxyPort, proxyPath, done)
+      } else {
+        done()
+      }
+    }
+
+    startProxy((err) => {
+      if (err) {
+        return callback.fail(err)
+      }
+
+      this.writeConfigFile(tmpDir, tmpConfigFile, (err, hash) => {
+        if (err) {
+          return callback.fail(new Error(err))
+        }
+        var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+        var runtimePath = path.join(baseDir, 'bin', 'karma')
+
+        var executor = (done) => {
+          var cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
+
+          return exec(cmd, {
+            cwd: baseDir
+          }, done)
+        }
+
+        var runOut = command === 'runOut'
+        if (command === 'run' || command === 'runOut') {
+          this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
+          var done = () => {
+            cleansingNeeded = true
+            this.child && this.child.kill()
+            callback()
+          }
+
+          this.child.on('error', (error) => {
+            this.lastRun.error = error
+            done()
+          })
+
+          this.child.stderr.on('data', (chunk) => {
+            this.lastRun.stderr += chunk.toString()
+          })
+
+          this.child.stdout.on('data', (chunk) => {
+            this.lastRun.stdout += chunk.toString()
+            var cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
+            setTimeout(() => {
+              exec(cmd, {
+                cwd: baseDir
+              }, (error, stdout) => {
+                if (error) {
+                  this.lastRun.error = error
+                }
+                if (runOut) {
+                  this.lastRun.stdout = stdout
+                }
+                done()
+              })
+            }, 1000)
+          })
+        } else {
+          executor((error, stdout, stderr) => {
+            if (error) {
+              this.lastRun.error = error
+            }
+            this.lastRun.stdout = stdout
+            this.lastRun.stderr = stderr
+            cleansingNeeded = true
+            callback()
+          })
+        }
+      })
+    })
+  }
+
   Given('a configuration with:', function (fileContent, callback) {
     cleanseIfNeeded()
     this.addConfigContent(fileContent)
     return callback()
   })
 
-  Given('command line arguments of: {stringInDoubleQuotes}', function (args, callback) {
+  Given('command line arguments of: {string}', function (args, callback) {
     additionalArgs = args
     return callback()
   })
@@ -70,86 +151,34 @@ defineSupportCode(function ({defineParameterType, Given, Then, When}) {
     })(this))
   })
 
-  When("I {run|runOut|start|init|stop} Karma( with log-level {string})( behind a proxy on port {int} that prepends '{string}' to the base path)", function (command, level, proxyPort, proxyPath, callback) {
-    var startProxy = function (done) {
-      if (proxyPort) {
-        this.proxy.start(proxyPort, proxyPath, done)
-      } else {
-        done()
-      }
-    }
-    startProxy.call(this, (function (_this) {
-      return function (err) {
-        if (err) {
-          return callback.fail(err)
-        }
-        _this.writeConfigFile(tmpDir, tmpConfigFile, function (err, hash) {
-          if (err) {
-            return callback.fail(new Error(err))
-          }
-          level = level || 'warn'
-          var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
-          var runtimePath = path.join(baseDir, 'bin', 'karma')
-          var execKarma = function (done) {
-            var cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
-
-            return exec(cmd, {
-              cwd: baseDir
-            }, done)
-          }
-          var runOut = command === 'runOut'
-          if (command === 'run' || command === 'runOut') {
-            _this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
-            var done = function () {
-              cleansingNeeded = true
-              _this.child && _this.child.kill()
-              callback()
-            }
-
-            _this.child.on('error', function (error) {
-              _this.lastRun.error = error
-              done()
-            })
-
-            _this.child.stderr.on('data', function (chunk) {
-              _this.lastRun.stderr += chunk.toString()
-            })
-
-            _this.child.stdout.on('data', function (chunk) {
-              _this.lastRun.stdout += chunk.toString()
-              var cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
-
-              setTimeout(function () {
-                exec(cmd, {
-                  cwd: baseDir
-                }, function (error, stdout) {
-                  if (error) {
-                    _this.lastRun.error = error
-                  }
-                  if (runOut) {
-                    _this.lastRun.stdout = stdout
-                  }
-                  done()
-                })
-              }, 1000)
-            })
-          } else {
-            execKarma(function (error, stdout, stderr) {
-              if (error) {
-                _this.lastRun.error = error
-              }
-              _this.lastRun.stdout = stdout
-              _this.lastRun.stderr = stderr
-              cleansingNeeded = true
-              callback()
-            })
-          }
-        })
-      }
-    })(this))
+  defineParameterType({
+    name: 'command',
+    regexp: /run|runOut|start|init|stop/
   })
 
-  Then('it passes with( {no debug|like}):', {timeout: 10 * 1000}, function (mode, expectedOutput, callback) {
+  defineParameterType({
+    name: 'loglevel',
+    regexp: /info|error|warn|debug/
+  })
+
+  When('I {command} Karma', function (command, callback) {
+    execKarma.apply(this, [command, undefined, undefined, undefined, callback])
+  })
+
+  When('I {command} Karma with log-level {loglevel}', function (command, level, callback) {
+    execKarma.apply(this, [command, level, undefined, undefined, callback])
+  })
+
+  When('I {command} Karma behind a proxy on port {int} that prepends {string} to the base path', function (command, proxyPort, proxyPath, callback) {
+    execKarma.apply(this, [command, undefined, proxyPort, proxyPath, callback])
+  })
+
+  defineParameterType({
+    name: 'exact',
+    regexp: /no\sdebug|like/
+  })
+
+  Then('it passes with( {exact}):', {timeout: 10 * 1000}, function (mode, expectedOutput, callback) {
     var noDebug = mode === 'no debug'
     var like = mode === 'like'
     var actualOutput = this.lastRun.stdout.toString()
@@ -203,7 +232,12 @@ defineSupportCode(function ({defineParameterType, Given, Then, When}) {
     }
   })
 
-  Then('The {server|stopper} is dead( with exit code {int})',
+  defineParameterType({
+    name: 'component',
+    regexp: /server|stopper/
+  })
+
+  Then('The {component} is dead( with exit code {int})',
     function (stopperOrServer, code, callback) {
       var server = stopperOrServer === 'server'
       var _this = this
@@ -215,7 +249,7 @@ defineSupportCode(function ({defineParameterType, Given, Then, When}) {
       }, 4000)
     })
 
-  Then('the file at {string} contains:',
+  Then(/^the file at ([a-zA-Z0-9/\\_.]+) contains:$/,
     function (filePath, expectedOutput, callback) {
       var data = fs.readFileSync(filePath, {encoding: 'UTF-8'})
       if (data.match(expectedOutput)) {
