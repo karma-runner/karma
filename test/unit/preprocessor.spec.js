@@ -117,7 +117,7 @@ describe('preprocessor', () => {
     var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
     pp = m.createPreprocessor({'!**/*.js': ['fake']}, null, injector)
 
-    var file = {originalPath: '/some/script.js', path: 'path'}
+    var file = {originalPath: '/some/a.js', path: 'path'}
 
     pp(file, () => {
       expect(fakePreprocessor).to.not.have.been.called
@@ -133,7 +133,7 @@ describe('preprocessor', () => {
     var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
     pp = m.createPreprocessor({'!**/*.js': ['fake']}, null, injector)
 
-    var file = {originalPath: '/some/text.txt', path: 'path'}
+    var file = {originalPath: '/some/a.txt', path: 'path'}
 
     pp(file, () => {
       expect(fakePreprocessor).to.have.been.calledOnce
