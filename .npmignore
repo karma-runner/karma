@@ -5,7 +5,6 @@ tmp
 test
 tasks
 docs
-client
 logo
 integration-tests
 
@@ -17,6 +16,8 @@ Karma.sublime-*
 
 static/karma.src.js
 static/karma.wrapper
+static/context.js
+static/karma.js
 test-results.xml
 thesis.pdf
 mocha-watch.sh

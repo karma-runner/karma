@@ -329,6 +329,7 @@
   "dependencies": {
     "bluebird": "^3.3.0",
     "body-parser": "^1.16.1",
+    "browserify": "^14.5.0",
     "chokidar": "^1.4.1",
     "colors": "^1.1.0",
     "combine-lists": "^1.0.0",
@@ -436,7 +437,8 @@
   "scripts": {
     "lint": "eslint client/**/*.js common/**/*.js context/**/*.js gruntfile.js wallaby.js lib/**/*.js test/**/*.js static/debug.js",
     "test": "grunt test",
-    "build": "grunt build",
+    "build": "browserify ./client/main.js -o ./static/karma.js && browserify ./context/main.js -o ./static/context.js",
+    "postinstall": "npm run build",
     "test:appveyor": "grunt test-appveyor",
     "test:integration": "./scripts/integration-tests.sh",
     "link": "node --eval \"path=require('path'); require('fs').symlinkSync(path.resolve(__dirname), path.resolve(__dirname, 'node_modules', 'karma'), 'junction')\"",

@@ -144,7 +144,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'npm-contributors',
       'bump:' + (type || 'patch') + ':bump-only',
-      'build',
       'conventionalChangelog',
       'bump-commit',
       'conventionalGithubReleaser',
