@@ -109,6 +109,38 @@ describe('preprocessor', () => {
     })
   })
 
+  it('should ignore file(s) explicitly ignored', (done) => {
+    var fakePreprocessor = sinon.spy((content, file, done) => {
+      done(null, '')
+    })
+
+    var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
+    pp = m.createPreprocessor({'!**/*.js': ['fake']}, null, injector)
+
+    var file = {originalPath: '/some/script.js', path: 'path'}
+
+    pp(file, () => {
+      expect(fakePreprocessor).to.not.have.been.called
+      done()
+    })
+  })
+
+  it('should not ignore file(s) not explicitly ignored', (done) => {
+    var fakePreprocessor = sinon.spy((content, file, done) => {
+      done(null, '')
+    })
+
+    var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
+    pp = m.createPreprocessor({'!**/*.js': ['fake']}, null, injector)
+
+    var file = {originalPath: '/some/text.txt', path: 'path'}
+
+    pp(file, () => {
+      expect(fakePreprocessor).to.have.been.calledOnce
+      done()
+    })
+  })
+
   it('should apply all preprocessors', (done) => {
     var fakePreprocessor1 = sinon.spy((content, file, done) => {
       file.path = file.path + '-p1'
