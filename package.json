@@ -434,7 +434,7 @@
   "version": "1.7.1",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint client/**/*.js common/**/*.js context/**/*.js gruntfile.js wallaby.js lib/**/*.js test/**/*.js static/debug.js",
+    "lint": "eslint client/**/*.js common/**/*.js context/**/*.js gruntfile.js wallaby.js lib/**/*.js test/unit/**/*.js test/client/*.js test/e2e/**/*.js static/debug.js",
     "test": "grunt test",
     "build": "grunt build",
     "test:appveyor": "grunt test-appveyor",

@@ -1,13 +1,17 @@
-var {defineSupportCode} = require('cucumber')
+var cucumber = require('cucumber')
+var fs = require('fs')
+var path = require('path')
+var ref = require('child_process')
+var exec = ref.exec
+var spawn = ref.spawn
+var rimraf = require('rimraf')
+var stopper = require('../../../lib/stopper')
 
-defineSupportCode(function ({defineParameterType, Given, Then, When}) {
-  var fs = require('fs')
-  var path = require('path')
-  var ref = require('child_process')
-  var exec = ref.exec
-  var spawn = ref.spawn
-  var rimraf = require('rimraf')
-  var stopper = require('../../../lib/stopper')
+cucumber.defineSupportCode((a) => {
+  var When = a.When
+  var Then = a.Then
+  var Given = a.Given
+  var defineParameterType = a.defineParameterType
 
   var baseDir = fs.realpathSync(path.join(__dirname, '/../../..'))
   var tmpDir = path.join(baseDir, 'tmp', 'sandbox')

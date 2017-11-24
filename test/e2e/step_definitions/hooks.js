@@ -1,7 +1,7 @@
-var {defineSupportCode} = require('cucumber')
+var cucumber = require('cucumber')
 
-defineSupportCode(function ({After}) {
-  After(function (scenario, callback) {
+cucumber.defineSupportCode((a) => {
+  a.After(function (scenario, callback) {
     var running = this.child != null && typeof this.child.kill === 'function'
 
     if (running) {
