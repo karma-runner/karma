@@ -1,9 +1,10 @@
-import http from 'http'
-import mocks from 'mocks'
-import request from 'supertest'
-import helper from '../../../lib/helper'
-import File from '../../../lib/file'
-import {createServeFile} from '../../../lib/middleware/common'
+var http = require('http')
+var mocks = require('mocks')
+var request = require('supertest')
+
+var helper = require('../../../lib/helper')
+var File = require('../../../lib/file')
+var createServeFile = require('../../../lib/middleware/common').createServeFile
 var createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
 
 describe('middleware.source_files', function () {
@@ -128,8 +129,7 @@ describe('middleware.source_files', function () {
       .expect(200, 'js-src-a')
       .then(function () {
         return expect(next).not.to.have.been.called
-      }
-    )
+      })
   })
 
   it('should send strict caching headers for js source files with sha', function () {
@@ -143,8 +143,7 @@ describe('middleware.source_files', function () {
       .expect(200)
       .then(function () {
         return expect(next).not.to.have.been.called
-      }
-    )
+      })
   })
 
   it('should send strict caching headers for js source files with sha (in basePath)', function () {
@@ -174,8 +173,7 @@ describe('middleware.source_files', function () {
       .expect(200)
       .then(function () {
         return expect(next).not.to.have.been.called
-      }
-    )
+      })
   })
 
   it('should not serve files that are not in served', function () {
@@ -208,8 +206,7 @@ describe('middleware.source_files', function () {
       .expect(200, 'utf8-file')
       .then(function () {
         return expect(next).not.to.have.been.called
-      }
-    )
+      })
   })
 
   it('should serve js source file from paths containing HTML URL encoded chars', function () {
@@ -224,8 +221,7 @@ describe('middleware.source_files', function () {
       .expect(200, 'utf8-file')
       .then(function () {
         return expect(next).not.to.have.been.called
-      }
-    )
+      })
   })
 
   it('should set content-type headers', function () {
@@ -252,8 +248,7 @@ describe('middleware.source_files', function () {
       .expect(200, 'cached-content')
       .then(function () {
         return expect(next).not.to.have.been.called
-      }
-    )
+      })
   })
 
   return it('should not use cached content if doNotCache is set', function () {
@@ -270,7 +265,6 @@ describe('middleware.source_files', function () {
       .expect(200, 'js-source')
       .then(function () {
         return expect(next).not.to.have.been.called
-      }
-    )
+      })
   })
 })

@@ -1,11 +1,10 @@
-import 'core-js'
-import {EventEmitter} from 'events'
-import request from 'supertest'
-import di from 'di'
-import mocks from 'mocks'
-import fs from 'fs'
-import mime from 'mime'
-import path from 'path'
+var EventEmitter = require('events').EventEmitter
+var request = require('supertest')
+var di = require('di')
+var mocks = require('mocks')
+var fs = require('fs')
+var mime = require('mime')
+var path = require('path')
 
 describe('web-server', () => {
   var server

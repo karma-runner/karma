@@ -1,7 +1,8 @@
-import mocks from 'mocks'
-import di from 'di'
-import path from 'path'
-import events from '../../lib/events'
+var mocks = require('mocks')
+var di = require('di')
+var path = require('path')
+
+var events = require('../../lib/events')
 
 describe('preprocessor', () => {
   var pp
@@ -39,7 +40,11 @@ describe('preprocessor', () => {
       done(null, 'new-content')
     })
 
-    var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
+    var injector = new di.Injector([{
+      'preprocessor:fake': [
+        'factory', function () { return fakePreprocessor }
+      ]
+    }, emitterSetting])
     pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
 
     var file = {originalPath: '/some/a.js', path: 'path'}
@@ -58,7 +63,9 @@ describe('preprocessor', () => {
       done(null, 'new-content')
     })
 
-    var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
+    var injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor } ]
+    }, emitterSetting])
     pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
 
     var file = {originalPath: '/some/.dir/a.js', path: 'path'}
@@ -77,7 +84,9 @@ describe('preprocessor', () => {
       done(null, 'new-content')
     })
 
-    var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
+    var injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
+    }, emitterSetting])
     var config = {'**/*.txt': ['fake']}
     pp = m.createPreprocessor(config, null, injector)
 
@@ -98,7 +107,9 @@ describe('preprocessor', () => {
       done(null, '')
     })
 
-    var injector = new di.Injector([{'preprocessor:fake': ['factory', () => fakePreprocessor]}, emitterSetting])
+    var injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
+    }, emitterSetting])
     pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
 
     var file = {originalPath: '/some/a.txt', path: 'path'}
@@ -121,8 +132,8 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:fake1': ['factory', () => fakePreprocessor1],
-      'preprocessor:fake2': ['factory', () => fakePreprocessor2]
+      'preprocessor:fake1': ['factory', function () { return fakePreprocessor1 }],
+      'preprocessor:fake2': ['factory', function () { return fakePreprocessor2 }]
     }, emitterSetting])
 
     pp = m.createPreprocessor({'**/*.js': ['fake1', 'fake2']}, null, injector)
@@ -166,7 +177,7 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:fake': ['factory', () => fakePreprocessor]
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
     pp = m.createPreprocessor({'**/a.js': ['fake']}, null, injector)
@@ -192,7 +203,7 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:failing': ['factory', () => failingPreprocessor]
+      'preprocessor:failing': ['factory', function () { return failingPreprocessor }]
     }, emitterSetting])
 
     pp = m.createPreprocessor({'**/*.js': ['failing']}, null, injector)
@@ -215,8 +226,8 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:failing': ['factory', () => failingPreprocessor],
-      'preprocessor:fake': ['factory', () => fakePreprocessor]
+      'preprocessor:failing': ['factory', function () { return failingPreprocessor }],
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
     pp = m.createPreprocessor({'**/*.js': ['failing', 'fake']}, null, injector)
@@ -245,7 +256,7 @@ describe('preprocessor', () => {
       })
 
       var injector = new di.Injector([{
-        'preprocessor:fake': ['factory', () => fakePreprocessor]
+        'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
       }, emitterSetting])
 
       var pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
@@ -283,7 +294,7 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:fake': ['factory', () => fakePreprocessor]
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
     pp = m.createPreprocessor({'**/*': ['fake']}, null, injector)
@@ -305,7 +316,7 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:fake': ['factory', () => fakePreprocessor]
+      'preprocessor:fake': ['factory', function () { fakePreprocessor }]
     }, emitterSetting])
 
     pp = m.createPreprocessor({'**/*': ['fake']}, null, injector)
@@ -341,10 +352,10 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:fakeA': ['factory', () => fakePreprocessorA],
-      'preprocessor:fakeB': ['factory', () => fakePreprocessorB],
-      'preprocessor:fakeC': ['factory', () => fakePreprocessorC],
-      'preprocessor:fakeD': ['factory', () => fakePreprocessorD]
+      'preprocessor:fakeA': ['factory', function () { return fakePreprocessorA }],
+      'preprocessor:fakeB': ['factory', function () { return fakePreprocessorB }],
+      'preprocessor:fakeC': ['factory', function () { return fakePreprocessorC }],
+      'preprocessor:fakeD': ['factory', function () { return fakePreprocessorD }]
     }, emitterSetting])
 
     pp = m.createPreprocessor({

@@ -4,7 +4,7 @@ var path = require('path')
 var hasher = require('crypto').createHash
 var mkdirp = require('mkdirp')
 var _ = require('lodash')
-var {defineSupportCode} = require('cucumber')
+var cucumber = require('cucumber')
 
 function World () {
   this.proxy = require('./proxy')
@@ -63,6 +63,6 @@ function World () {
   }
 }
 
-defineSupportCode(function ({setWorldConstructor}) {
-  setWorldConstructor(World)
+cucumber.defineSupportCode((a) => {
+  a.setWorldConstructor(World)
 })

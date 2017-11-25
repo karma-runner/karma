@@ -1,10 +1,12 @@
-import {EventEmitter} from 'events'
-import {loadFile} from 'mocks'
-import path from 'path'
-import _ from 'lodash'
-import sinon from 'sinon'
+'use strict'
 
-import File from '../../lib/file'
+var EventEmitter = require('events').EventEmitter
+var loadFile = require('mocks').loadFile
+var path = require('path')
+var _ = require('lodash')
+var sinon = require('sinon')
+
+var File = require('../../lib/file')
 
 describe('reporter', () => {
   var m

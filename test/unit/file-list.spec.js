@@ -1,23 +1,24 @@
-import Promise from 'bluebird'
-import {EventEmitter} from 'events'
-import mocks from 'mocks'
-import proxyquire from 'proxyquire'
-import pathLib from 'path'
-import _ from 'lodash'
-import from from 'core-js/library/fn/array/from'
+var Promise = require('bluebird')
+var EventEmitter = require('events').EventEmitter
+var mocks = require('mocks')
+var proxyquire = require('proxyquire')
+var pathLib = require('path')
+var _ = require('lodash')
 
-import helper from '../../lib/helper'
-import config from '../../lib/config'
+var helper = require('../../lib/helper')
+var config = require('../../lib/config')
 
 // create an array of pattern objects from given strings
-var patterns = (...strings) => strings.map((str) => new config.Pattern(str))
+var patterns = function () {
+  return Array.from(arguments).map((str) => new config.Pattern(str))
+}
 
 function pathsFrom (files) {
-  return _.map(from(files), 'path')
+  return _.map(Array.from(files), 'path')
 }
 
 function findFile (path, files) {
-  return from(files).find((file) => file.path === path)
+  return Array.from(files).find((file) => file.path === path)
 }
 
 var PATTERN_LIST = {
@@ -71,10 +72,12 @@ describe('FileList', () => {
       emitter = new EventEmitter()
 
       glob = {
-        Glob: (pattern, opts) => ({
-          found: patternList[pattern],
-          statCache: mg.statCache
-        })
+        Glob: function (pattern, opts) {
+          return {
+            found: patternList[pattern],
+            statCache: mg.statCache
+          }
+        }
       }
 
       List = proxyquire('../../lib/file-list', {
@@ -104,7 +107,7 @@ describe('FileList', () => {
 
     it('returns only served files', () => {
       var files = [
-        new config.Pattern('/a.*', true),        // served: true
+        new config.Pattern('/a.*', true), // served: true
         new config.Pattern('/some/*.js', false) // served: false
       ]
 
@@ -117,7 +120,7 @@ describe('FileList', () => {
 
     it('marks no cache files', () => {
       var files = [
-        new config.Pattern('/a.*'),        // nocach: false
+        new config.Pattern('/a.*'), // nocach: false
         new config.Pattern('/some/*.js', true, true, true, true) // nocache: true
       ]
 
@@ -201,10 +204,12 @@ describe('FileList', () => {
       emitter = new EventEmitter()
 
       glob = {
-        Glob: (pattern, opts) => ({
-          found: patternList[pattern],
-          statCache: mg.statCache
-        })
+        Glob: function (pattern, opts) {
+          return {
+            found: patternList[pattern],
+            statCache: mg.statCache
+          }
+        }
       }
 
       List = proxyquire('../../lib/file-list', {
@@ -238,10 +243,12 @@ describe('FileList', () => {
       emitter = new EventEmitter()
 
       glob = {
-        Glob: (pattern, opts) => ({
-          found: patternList[pattern],
-          statCache: mg.statCache
-        })
+        Glob: function (pattern, opts) {
+          return {
+            found: patternList[pattern],
+            statCache: mg.statCache
+          }
+        }
       }
 
       List = proxyquire('../../lib/file-list', {
@@ -363,8 +370,7 @@ describe('FileList', () => {
           var file = findFile('http://some.com', bucket)
 
           expect(file).to.have.property('isUrl', true)
-        }
-      )
+        })
     })
 
     it('preprocesses all files', () => {
@@ -416,8 +422,7 @@ describe('FileList', () => {
       ])
         .then(() => {
           expect(list._refresh).to.have.been.calledTwice
-        }
-      )
+        })
     })
   })
 
@@ -432,10 +437,12 @@ describe('FileList', () => {
       emitter = new EventEmitter()
 
       glob = {
-        Glob: (pattern, opts) => ({
-          found: patternList[pattern],
-          statCache: mg.statCache
-        })
+        Glob: function (pattern, opts) {
+          return {
+            found: patternList[pattern],
+            statCache: mg.statCache
+          }
+        }
       }
 
       clock = sinon.useFakeTimers()
@@ -559,10 +566,12 @@ describe('FileList', () => {
       emitter = new EventEmitter()
 
       glob = {
-        Glob: (pattern, opts) => ({
-          found: patternList[pattern],
-          statCache: mg.statCache
-        })
+        Glob: function (pattern, opts) {
+          return {
+            found: patternList[pattern],
+            statCache: mg.statCache
+          }
+        }
       }
 
       clock = sinon.useFakeTimers()
@@ -666,10 +675,12 @@ describe('FileList', () => {
       emitter = new EventEmitter()
 
       glob = {
-        Glob: (pattern, opts) => ({
-          found: patternList[pattern],
-          statCache: mg.statCache
-        })
+        Glob: function (pattern, opts) {
+          return {
+            found: patternList[pattern],
+            statCache: mg.statCache
+          }
+        }
       }
 
       clock = sinon.useFakeTimers()
@@ -741,16 +752,18 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler((fn) => fn())
+      Promise.setScheduler(function (fn) { fn() })
 
       preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
-        Glob: (pattern, opts) => ({
-          found: patternList[pattern],
-          statCache: mg.statCache
-        })
+        Glob: function (pattern, opts) {
+          return {
+            found: patternList[pattern],
+            statCache: mg.statCache
+          }
+        }
       }
 
       modified = sinon.stub()
@@ -873,9 +886,10 @@ describe('FileList', () => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
         list.changeFile('/some/b.js')
         list.removeFile('/some/a.js') // /some/b.js, /a.txt
-        list.removeFile('/a.txt')     // /some/b.js
-        list.addFile('/a.txt')        // /some/b.js, /a.txt
-        list.addFile('/some/0.js').then(() => {     // /some/0.js, /some/b.js, /a.txt
+        list.removeFile('/a.txt') // /some/b.js
+        list.addFile('/a.txt') // /some/b.js, /a.txt
+        list.addFile('/some/0.js').then(() => {
+          // /some/0.js, /some/b.js, /a.txt
           clock.tick(99)
           expect(modified).to.not.have.been.called
           mockFs._touchFile('/a.txt', '2020-01-01')
