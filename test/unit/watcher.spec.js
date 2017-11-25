@@ -1,5 +1,5 @@
-import mocks from 'mocks'
-import path from 'path'
+var mocks = require('mocks')
+var path = require('path')
 
 describe('watcher', () => {
   var config = require('../../lib/config')

@@ -1,4 +1,4 @@
-import path from 'path'
+var path = require('path')
 var httpMock = require('mocks').http
 var loadFile = require('mocks').loadFile
 

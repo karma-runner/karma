@@ -1,8 +1,9 @@
-import Promise from 'bluebird'
-import di from 'di'
-import events from '../../lib/events'
-import launcher from '../../lib/launcher'
-import createMockTimer from './mocks/timer'
+var Promise = require('bluebird')
+var di = require('di')
+
+var events = require('../../lib/events')
+var launcher = require('../../lib/launcher')
+var createMockTimer = require('./mocks/timer')
 
 // promise mock
 var stubPromise = (obj, method, stubAction) => {
@@ -17,48 +18,44 @@ var stubPromise = (obj, method, stubAction) => {
   })
 }
 
-class FakeBrowser {
-  constructor (id, name, baseBrowserDecorator) {
-    this.id = id
-    this.name = name
-    this.DEFAULT_CMD = {
-      linux: '/script',
-      darwin: '/script',
-      win32: 'script.exe'
-    }
-    this.ENV_CMD = 'SCRIPT_BIN'
-
-    baseBrowserDecorator(this)
-    FakeBrowser._instances.push(this)
-    sinon.stub(this, 'start').callsFake(() => {
-      this.state = this.STATE_BEING_CAPTURED
-      this._done()
-    })
-    stubPromise(this, 'forceKill')
-    sinon.stub(this, 'restart')
+function FakeBrowser (id, name, baseBrowserDecorator) {
+  this.id = id
+  this.name = name
+  this.DEFAULT_CMD = {
+    linux: '/script',
+    darwin: '/script',
+    win32: 'script.exe'
   }
+  this.ENV_CMD = 'SCRIPT_BIN'
+
+  baseBrowserDecorator(this)
+  FakeBrowser._instances.push(this)
+  sinon.stub(this, 'start').callsFake(() => {
+    this.state = this.STATE_BEING_CAPTURED
+    this._done()
+  })
+  stubPromise(this, 'forceKill')
+  sinon.stub(this, 'restart')
 }
 
-class ScriptBrowser {
-  constructor (id, name, baseBrowserDecorator) {
-    this.id = id
-    this.name = name
-    this.DEFAULT_CMD = {
-      linux: '/script',
-      darwin: '/script',
-      win32: 'script.exe'
-    }
-    this.ENV_CMD = 'SCRIPT_BIN'
-
-    baseBrowserDecorator(this)
-    ScriptBrowser._instances.push(this)
-    sinon.stub(this, 'start').callsFake(() => {
-      this.state = this.STATE_BEING_CAPTURED
-      this._done()
-    })
-    stubPromise(this, 'forceKill')
-    sinon.stub(this, 'restart')
+function ScriptBrowser (id, name, baseBrowserDecorator) {
+  this.id = id
+  this.name = name
+  this.DEFAULT_CMD = {
+    linux: '/script',
+    darwin: '/script',
+    win32: 'script.exe'
   }
+  this.ENV_CMD = 'SCRIPT_BIN'
+
+  baseBrowserDecorator(this)
+  ScriptBrowser._instances.push(this)
+  sinon.stub(this, 'start').callsFake(() => {
+    this.state = this.STATE_BEING_CAPTURED
+    this._done()
+  })
+  stubPromise(this, 'forceKill')
+  sinon.stub(this, 'restart')
 }
 
 describe('launcher', () => {

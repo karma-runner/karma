@@ -1,4 +1,4 @@
-import path from 'path'
+var path = require('path')
 
 describe('helper', () => {
   var helper = require('../../lib/helper')

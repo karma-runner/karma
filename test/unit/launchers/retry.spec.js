@@ -1,8 +1,8 @@
-import _ from 'lodash'
+var _ = require('lodash')
 
-import BaseLauncher from '../../../lib/launchers/base'
-import RetryLauncher from '../../../lib/launchers/retry'
-import {EventEmitter} from '../../../lib/events'
+var BaseLauncher = require('../../../lib/launchers/base')
+var RetryLauncher = require('../../../lib/launchers/retry')
+var EventEmitter = require('../../../lib/events').EventEmitter
 
 describe('launchers/retry.js', () => {
   var emitter

@@ -1,4 +1,4 @@
-import path from 'path'
+var path = require('path')
 
 describe('reporter', function () {
   var loadFile = require('mocks').loadFile

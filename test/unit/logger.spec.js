@@ -1,12 +1,12 @@
-import {loadFile} from 'mocks'
-import path from 'path'
+var loadFile = require('mocks').loadFile
+var path = require('path')
 
 describe('logger', () => {
   var m
-  let configuration
+  var configuration
 
   beforeEach(() => {
-    const mockLog4Js = {
+    var mockLog4Js = {
       configure: function (config) {
         configuration = config
       }

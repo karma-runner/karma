@@ -31,7 +31,6 @@ module.exports = function (grunt) {
     },
     mochaTest: {
       options: {
-        require: 'babel-register',
         reporter: 'dot',
         ui: 'bdd',
         quiet: false,

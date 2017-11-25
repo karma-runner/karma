@@ -1,4 +1,4 @@
-import path from 'path'
+var path = require('path')
 var loadFile = require('mocks').loadFile
 var helper = require('../../lib/helper')
 var logger = require('../../lib/logger.js')
@@ -421,7 +421,9 @@ describe('config', () => {
   describe('custom', () => {
     var di = require('di')
 
-    var forwardArgsFactory = (args) => args
+    var forwardArgsFactory = function (args) {
+      return args
+    }
 
     var baseModule = {
       'preprocessor:base': ['type', forwardArgsFactory],

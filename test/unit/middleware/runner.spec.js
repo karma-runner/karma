@@ -1,12 +1,14 @@
-import path from 'path'
-import {EventEmitter} from 'events'
-import mocks from 'mocks'
-import {Promise} from 'bluebird'
-import Browser from '../../../lib/browser'
-import BrowserCollection from '../../../lib/browser_collection'
-import MultReporter from '../../../lib/reporters/multi'
+var path = require('path')
+var EventEmitter = require('events').EventEmitter
+var mocks = require('mocks')
+var Promise = require('bluebird')
 var _ = require('lodash')
+
+var Browser = require('../../../lib/browser')
+var BrowserCollection = require('../../../lib/browser_collection')
+var MultReporter = require('../../../lib/reporters/multi')
 var createRunnerMiddleware = require('../../../lib/middleware/runner').create
+
 var HttpResponseMock = mocks.http.ServerResponse
 var HttpRequestMock = mocks.http.ServerRequest
 
