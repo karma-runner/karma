@@ -522,6 +522,8 @@ See [plugins] for more information.
 
 **Description:** The port where the web server will be listening.
 
+If the defined port is already in use, karma will automatically increase its value in steps of 1 until a free port is found.
+
 
 ## processKillTimeout
 **Type:** Number
