@@ -356,6 +356,7 @@
     "useragent": "^2.1.12"
   },
   "devDependencies": {
+    "@types/node": "^8.0.53",
     "LiveScript": "^1.3.0",
     "babel-core": "^6.26.0",
     "chai": "^4.1.2",
@@ -419,6 +420,7 @@
     "sinon-chai": "^2.7.0",
     "supertest": "^3.0.0",
     "timer-shim": "^0.3.0",
+    "typescript": "^2.6.1",
     "validate-commit-msg": "^2.11.1",
     "which": "^1.1.1"
   },
@@ -432,7 +434,7 @@
   "version": "1.7.1",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint client/**/*.js common/**/*.js context/**/*.js gruntfile.js wallaby.js lib/**/*.js test/unit/**/*.js test/client/*.js test/e2e/**/*.js static/debug.js",
+    "lint": "eslint client/**/*.js common/**/*.js context/**/*.js gruntfile.js wallaby.js lib/**/*.js test/unit/**/*.js test/client/*.js test/e2e/**/*.js static/debug.js && tsc -p ./tsconfig.json",
     "test": "grunt test",
     "build": "grunt build",
     "test:appveyor": "grunt test-appveyor",
