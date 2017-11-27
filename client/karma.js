@@ -136,6 +136,10 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       message += '\n\n' + error.stack
     }
 
+    // create an object with the string representation of the message to ensure all its content is properly
+    // transferred to the console log
+    message = {message: message, str: message.toString()}
+
     socket.emit('karma_error', message)
     this.complete()
     return false
