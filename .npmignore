@@ -5,7 +5,6 @@ tmp
 test
 tasks
 docs
-client
 logo
 integration-tests
 
@@ -15,6 +14,8 @@ Gruntfile.coffee
 credentials
 Karma.sublime-*
 
+static/karma.js
+static/context.js
 static/karma.src.js
 static/karma.wrapper
 test-results.xml

@@ -1,5 +1,7 @@
 var Server = require('../../lib/server')
 var BrowserCollection = require('../../lib/browser_collection')
+var fs = require('fs')
+var path = require('path')
 
 describe('server', () => {
   var mockConfig
@@ -103,6 +105,17 @@ describe('server', () => {
   // server._start()
   // ============================================================================
   describe('_start', () => {
+    it('should compile static resources on first run', function (done) {
+      this.timeout(5000)
+      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+      fileListOnResolve()
+
+      setTimeout(() => {
+        expect(fs.existsSync(path.join(__dirname, '/../../static/karma.js')) && fs.existsSync(path.join(__dirname, '/../../static/context.js'))).to.be.true
+        done()
+      }, 4000)
+    })
+
     it('should start the web server after all files have been preprocessed successfully', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
