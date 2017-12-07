@@ -198,7 +198,9 @@ describe('BrowserCollection', () => {
 
     it('should compute exitCode', () => {
       var browsers = [new Browser(), new Browser()]
-      browsers.forEach(collection.add)
+      browsers.forEach((browser) => {
+        collection.add(browser)
+      })
 
       browsers[0].lastResult.success = 2
       var results = collection.getResults()
@@ -250,7 +252,9 @@ describe('BrowserCollection', () => {
   describe('clone', () => {
     it('should create a shallow copy of the collection', () => {
       var browsers = [new Browser(), new Browser(), new Browser()]
-      browsers.forEach(collection.add)
+      browsers.forEach((browser) => {
+        collection.add(browser)
+      })
 
       var clone = collection.clone()
       expect(clone.length).to.equal(3)
@@ -264,7 +268,9 @@ describe('BrowserCollection', () => {
   describe('map', () => {
     it('should have map()', () => {
       var browsers = [new Browser(1), new Browser(2), new Browser(3)]
-      browsers.forEach(collection.add)
+      browsers.forEach((browser) => {
+        collection.add(browser)
+      })
 
       var mappedIds = collection.map((browser) => browser.id)
 
@@ -275,7 +281,9 @@ describe('BrowserCollection', () => {
   describe('forEach', () => {
     it('should have forEach()', () => {
       var browsers = [new Browser(0), new Browser(1), new Browser(2)]
-      browsers.forEach(collection.add)
+      browsers.forEach((browser) => {
+        collection.add(browser)
+      })
 
       collection.forEach(function (browser, index) {
         expect(browser.id).to.equal(index)
