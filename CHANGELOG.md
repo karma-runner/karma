@@ -1,3 +1,55 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/karma-runner/karma/compare/v1.7.1...v2.0.0) (2017-12-21)
+
+
+### Bug Fixes
+
+* **config:** Call debug log methods after setting the loglevel based upon config/cli-options. ([99fd3f0](https://github.com/karma-runner/karma/commit/99fd3f0))
+* **config:** Call debug log methods after setting the loglevel based upon config/cli-options. ([a340dae](https://github.com/karma-runner/karma/commit/a340dae))
+* **config:** Retry install with appveyor-retry.   ([17d5791](https://github.com/karma-runner/karma/commit/17d5791))
+* **config:** Workaround npm 5.4 windows bug ([ec47d81](https://github.com/karma-runner/karma/commit/ec47d81))
+* **deps:** update socket.io to version 2.0.3. ([3b7b019](https://github.com/karma-runner/karma/commit/3b7b019)), closes [#2821](https://github.com/karma-runner/karma/issues/2821) [#2777](https://github.com/karma-runner/karma/issues/2777)
+* **logging:** Upgrade to log4js 2.x API. ([#2868](https://github.com/karma-runner/karma/issues/2868)) ([f6f8707](https://github.com/karma-runner/karma/commit/f6f8707)), closes [#2858](https://github.com/karma-runner/karma/issues/2858)
+* **reporter:** show file path correctly when urlRoot specified ([34dc7d3](https://github.com/karma-runner/karma/commit/34dc7d3)), closes [#2897](https://github.com/karma-runner/karma/issues/2897)
+
+
+### Features
+
+* **cli:** Warn on commands with underscores. ([0801a7f](https://github.com/karma-runner/karma/commit/0801a7f))
+* **config:** allow to use newer versions of CoffeeScript ([c1fcf42](https://github.com/karma-runner/karma/commit/c1fcf42))
+* **launcher:** trim whitespace in browser name ([871d46f](https://github.com/karma-runner/karma/commit/871d46f))
+* **launcher:** trim whitespace in browser name ([334f9fb](https://github.com/karma-runner/karma/commit/334f9fb))
+* **middleware:** added manual file type option ([0330cd1](https://github.com/karma-runner/karma/commit/0330cd1)), closes [#2824](https://github.com/karma-runner/karma/issues/2824)
+* better string representation of errors ([c9e1ca9](https://github.com/karma-runner/karma/commit/c9e1ca9))
+* drop core-js and babel where possible ([60dfc5c](https://github.com/karma-runner/karma/commit/60dfc5c))
+* update of supported node versions ([e79463b](https://github.com/karma-runner/karma/commit/e79463b))
+
+
+
+<a name="1.7.1"></a>
+## [1.7.1](https://github.com/karma-runner/karma/compare/v1.7.0...1.7.1) (2017-08-25)
+
+
+### Bug Fixes
+
+* **debug-runner:** support asynchronous tests in the debug runner ([a36f3eb](https://github.com/karma-runner/karma/commit/a36f3eb)), closes [#2811](https://github.com/karma-runner/karma/issues/2811)
+* **file-list:** Stop polluting global environment with core-js ([0988022](https://github.com/karma-runner/karma/commit/0988022))
+* **preprocessor:** renamed handeFile to readFileCallback ([92a8c81](https://github.com/karma-runner/karma/commit/92a8c81))
+* **preprocessor:** retry if fs.readFile fails ([4b60513](https://github.com/karma-runner/karma/commit/4b60513))
+* **preprocessor:** throw if retry fails ([2789bf5](https://github.com/karma-runner/karma/commit/2789bf5))
+
+
+### Features
+
+* **ci:** disable testing of node versions below 4 ([ec92ea9](https://github.com/karma-runner/karma/commit/ec92ea9))
+* **client:** log global error stack trace  ([523d608](https://github.com/karma-runner/karma/commit/523d608)), closes [#2812](https://github.com/karma-runner/karma/issues/2812)
+* **config:** remove polling usage ([b0f41c7](https://github.com/karma-runner/karma/commit/b0f41c7)), closes [#2669](https://github.com/karma-runner/karma/issues/2669)
+* **deps:** add support for node@8 ([7feaee3](https://github.com/karma-runner/karma/commit/7feaee3)), closes [#2754](https://github.com/karma-runner/karma/issues/2754)
+* **deps:** update socket.io to `1.7.4` to avoid issue with `ws@1.1.2` ([264442b](https://github.com/karma-runner/karma/commit/264442b)), closes [#2593](https://github.com/karma-runner/karma/issues/2593)
+* **watcher:** Debounce autoWatchBatchDelay ([2f8c049](https://github.com/karma-runner/karma/commit/2f8c049)), closes [#2331](https://github.com/karma-runner/karma/issues/2331)
+
+
+
 <a name="1.7.1"></a>
 ## [1.7.1](https://github.com/karma-runner/karma/compare/v1.7.0...v1.7.1) (2017-08-30)
 

@@ -442,7 +442,7 @@
   "engines": {
     "node": ">= 4"
   },
-  "version": "1.7.1",
+  "version": "2.0.0",
   "license": "MIT",
   "scripts": {
     "lint": "eslint client/**/*.js common/**/*.js context/**/*.js gruntfile.js wallaby.js lib/**/*.js test/unit/**/*.js test/client/*.js test/e2e/**/*.js static/debug.js",
