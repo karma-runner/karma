@@ -11,6 +11,11 @@
 * **deps:** update socket.io to version 2.0.3. ([3b7b019](https://github.com/karma-runner/karma/commit/3b7b019)), closes [#2821](https://github.com/karma-runner/karma/issues/2821) [#2777](https://github.com/karma-runner/karma/issues/2777)
 * **logging:** Upgrade to log4js 2.x API. ([#2868](https://github.com/karma-runner/karma/issues/2868)) ([f6f8707](https://github.com/karma-runner/karma/commit/f6f8707)), closes [#2858](https://github.com/karma-runner/karma/issues/2858)
 * **reporter:** show file path correctly when urlRoot specified ([34dc7d3](https://github.com/karma-runner/karma/commit/34dc7d3)), closes [#2897](https://github.com/karma-runner/karma/issues/2897)
+* **debug-runner:** support asynchronous tests in the debug runner ([a36f3eb](https://github.com/karma-runner/karma/commit/a36f3eb)), closes [#2811](https://github.com/karma-runner/karma/issues/2811)
+* **file-list:** Stop polluting global environment with core-js ([0988022](https://github.com/karma-runner/karma/commit/0988022))
+* **preprocessor:** renamed handeFile to readFileCallback ([92a8c81](https://github.com/karma-runner/karma/commit/92a8c81))
+* **preprocessor:** retry if fs.readFile fails ([4b60513](https://github.com/karma-runner/karma/commit/4b60513))
+* **preprocessor:** throw if retry fails ([2789bf5](https://github.com/karma-runner/karma/commit/2789bf5))
 
 
 ### Features
@@ -21,26 +26,8 @@
 * **launcher:** trim whitespace in browser name ([334f9fb](https://github.com/karma-runner/karma/commit/334f9fb))
 * **middleware:** added manual file type option ([0330cd1](https://github.com/karma-runner/karma/commit/0330cd1)), closes [#2824](https://github.com/karma-runner/karma/issues/2824)
 * better string representation of errors ([c9e1ca9](https://github.com/karma-runner/karma/commit/c9e1ca9))
-* drop core-js and babel where possible ([60dfc5c](https://github.com/karma-runner/karma/commit/60dfc5c))
+n* drop core-js and babel where possible ([60dfc5c](https://github.com/karma-runner/karma/commit/60dfc5c))
 * update of supported node versions ([e79463b](https://github.com/karma-runner/karma/commit/e79463b))
-
-
-
-<a name="1.7.1"></a>
-## [1.7.1](https://github.com/karma-runner/karma/compare/v1.7.0...1.7.1) (2017-08-25)
-
-
-### Bug Fixes
-
-* **debug-runner:** support asynchronous tests in the debug runner ([a36f3eb](https://github.com/karma-runner/karma/commit/a36f3eb)), closes [#2811](https://github.com/karma-runner/karma/issues/2811)
-* **file-list:** Stop polluting global environment with core-js ([0988022](https://github.com/karma-runner/karma/commit/0988022))
-* **preprocessor:** renamed handeFile to readFileCallback ([92a8c81](https://github.com/karma-runner/karma/commit/92a8c81))
-* **preprocessor:** retry if fs.readFile fails ([4b60513](https://github.com/karma-runner/karma/commit/4b60513))
-* **preprocessor:** throw if retry fails ([2789bf5](https://github.com/karma-runner/karma/commit/2789bf5))
-
-
-### Features
-
 * **ci:** disable testing of node versions below 4 ([ec92ea9](https://github.com/karma-runner/karma/commit/ec92ea9))
 * **client:** log global error stack trace  ([523d608](https://github.com/karma-runner/karma/commit/523d608)), closes [#2812](https://github.com/karma-runner/karma/issues/2812)
 * **config:** remove polling usage ([b0f41c7](https://github.com/karma-runner/karma/commit/b0f41c7)), closes [#2669](https://github.com/karma-runner/karma/issues/2669)
@@ -633,7 +620,7 @@ to match this new format.
     var server = new Server(config, done)
     server.start()
     ```
-    
+
   Closes #1037, #1482, #1467
   ([82cbbadd](https://github.com/karma-runner/karma/commit/82cbbadd))
 
