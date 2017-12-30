@@ -54,6 +54,8 @@ var stringify = function stringify (obj, depth) {
         return obj.outerHTML
       } else if (isNode(obj)) {
         return serialize(obj)
+      } else if (instanceOf(obj, 'Error')) {
+        return obj.toString() + '\n' + obj.stack
       } else {
         var constructor = 'Object'
         if (obj.constructor && typeof obj.constructor === 'function') {

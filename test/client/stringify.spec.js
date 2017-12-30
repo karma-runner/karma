@@ -86,6 +86,11 @@ describe('stringify', function () {
     assert.deepEqual(stringify(div).trim().toLowerCase(), '<div>some <span>text</span></div>')
   })
 
+  it('should serialize error', function () {
+    var error = new TypeError('Error description')
+    assert(stringify(error).indexOf('Error description') > -1)
+  })
+
   it('should serialize DOMParser objects', function () {
     if (typeof DOMParser !== 'undefined') {
       // Test only works in IE 9 and above
