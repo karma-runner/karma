@@ -215,12 +215,14 @@ describe('middleware.karma', () => {
       new MockFile('/first.css', 'sha007'),
       new MockFile('/second.html', 'sha678'),
       new MockFile('/third', 'sha111', 'css'),
-      new MockFile('/fourth', 'sha222', 'html')
+      new MockFile('/fourth', 'sha222', 'html'),
+      new Url('http://some.url.com/fifth', 'css'),
+      new Url('http://some.url.com/sixth', 'html')
     ])
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css?sha007" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html?sha678" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third?sha111" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/fourth?sha222" rel="import">')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css?sha007" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html?sha678" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third?sha111" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/fourth?sha222" rel="import">\n<link type="text/css" href="http://some.url.com/fifth" rel="stylesheet">\n<link href="http://some.url.com/sixth" rel="import">')
       done()
     })
 
