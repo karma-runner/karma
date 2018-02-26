@@ -10,10 +10,24 @@ module.exports = function (grunt) {
       grunt: ['grunt.js', 'tasks/*.js'],
       scripts: ['scripts/init-dev-env.js']
     },
+    browserify: {
+      client: {
+        files: {
+          'static/karma.js': ['client/main.js'],
+          'static/context.js': ['context/main.js']
+        }
+      }
+    },
     test: {
       unit: 'mochaTest:unit',
       client: 'test/client/karma.conf.js',
       e2e: 'cucumberjs:ci'
+    },
+    watch: {
+      client: {
+        files: '<%= files.client %>',
+        tasks: 'browserify:client'
+      }
     },
     mochaTest: {
       options: {
@@ -71,6 +85,7 @@ module.exports = function (grunt) {
     },
     'npm-publish': {
       options: {
+        requires: ['build'],
         abortIfDirty: true,
         tag: 'latest'
       }
@@ -120,13 +135,15 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt)
 
   grunt.registerTask('lint', ['eslint'])
-  grunt.registerTask('default', ['lint', 'test'])
+  grunt.registerTask('build', ['browserify:client'])
+  grunt.registerTask('default', ['build', 'lint', 'test'])
   grunt.registerTask('test-appveyor', ['test:unit', 'test:client'])
 
-  grunt.registerTask('release', 'Bump and publish to NPM.', function (type) {
+  grunt.registerTask('release', 'Build, bump and publish to NPM.', function (type) {
     grunt.task.run([
       'npm-contributors',
       'bump:' + (type || 'patch') + ':bump-only',
+      'build',
       'conventionalChangelog',
       'bump-commit',
       'conventionalGithubReleaser',
