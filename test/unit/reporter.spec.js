@@ -170,6 +170,21 @@ describe('reporter', () => {
         })
       })
 
+      it('should rewrite stack traces (when basePath is empty)', (done) => {
+        formatError = m.createErrorFormatter({ basePath: '', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
+        var servedFiles = [new File('/a.js'), new File('/b.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+
+        emitter.emit('file_list_modified', {served: servedFiles})
+
+        _.defer(() => {
+          var ERROR = 'at http://localhost:123/base/b.js:2:6'
+          expect(formatError(ERROR)).to.equal('at /original/b.js:4:8 <- b.js:2:6\n')
+          done()
+        })
+      })
+
       it('should rewrite stack traces to the first column when no column is given', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
