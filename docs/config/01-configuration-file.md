@@ -174,6 +174,7 @@ If, during test execution, Karma does not receive any message from a browser wit
 
   * `Chrome` (launcher requires karma-chrome-launcher plugin)
   * `ChromeCanary` (launcher requires karma-chrome-launcher plugin)
+  * `ChromeHeadless` (launcher requires karma-chrome-launcher plugin ^2.1.0)
   * `PhantomJS` (launcher requires karma-phantomjs-launcher plugin)
   * `Firefox` (launcher requires karma-firefox-launcher plugin)
   * `Opera` (launcher requires karma-opera-launcher plugin)
