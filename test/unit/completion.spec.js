@@ -1,10 +1,12 @@
-var c = require('../../lib/completion')
+'use strict'
+
+const c = require('../../lib/completion')
 
 describe('completion', () => {
-  var completion
+  let completion
 
   function mockEnv (line) {
-    var words = line.split(' ')
+    const words = line.split(' ')
 
     return {
       words: words,
