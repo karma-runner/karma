@@ -40,11 +40,8 @@ describe('stringify', function () {
   //   http://caniuse.com/#feat=proxy
   if (window.Proxy) {
     it('should serialize proxied functions', function () {
-      var abcProxy = new Proxy(function abc (a, b, c) { return 'whatever' }, {})
       var defProxy = new Proxy(function (d, e, f) { return 'whatever' }, {})
-
-      assert.deepEqual(stringify(abcProxy), 'Proxy(function abc(...) { ... })')
-      assert.deepEqual(stringify(defProxy), 'Proxy(function (...) { ... })')
+      assert.deepEqual(stringify(defProxy), 'function () { ... }')
     })
   }
 
