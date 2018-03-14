@@ -29,9 +29,9 @@ just for immediate execution, without reporting to Karma server.
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
   <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded",function(){
+    window.onload = function() {
       window.__karma__.loaded();
-    });
+    };
   </script>
 </body>
 </html>
