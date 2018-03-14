@@ -27,7 +27,9 @@ Reloaded before every execution run.
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
   <script type="text/javascript">
-    window.__karma__.loaded();
+    document.addEventListener("DOMContentLoaded",function(){
+      window.__karma__.loaded();
+    });
   </script>
 </body>
 </html>
