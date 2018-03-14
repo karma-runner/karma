@@ -5,6 +5,7 @@ Feature: Module Testrunner
   Note: This test can only run in chrome, since chrome is the only
   one to support this feature at time of developpement (2018-03-14)
 
+  @not-jenkins
   Scenario: Execute a test with modules in Chrome
     Given a configuration with:
       """
