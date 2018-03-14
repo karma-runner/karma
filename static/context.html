@@ -27,9 +27,15 @@ Reloaded before every execution run.
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
   <script type="text/javascript">
-    window.onload = function() {
+    if (window.addEventListener) {  
+      document.addEventListener("DOMContentLoaded",function(){
+        window.__karma__.loaded();
+      });
+    } else {
+      // Hack for IE7 and IE8.
+      // In IE7 and IE8, we don't care about native es6-module, since they are not implemented anyway
       window.__karma__.loaded();
-    };
+    }
   </script>
 </body>
 </html>
