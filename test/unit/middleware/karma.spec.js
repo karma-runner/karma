@@ -101,15 +101,15 @@ describe('middleware.karma', () => {
   it('should not serve outside of urlRoot', () => {
     handler(normalizedHttpRequest('/'), null, nextSpy)
     expect(nextSpy).to.have.been.called
-    nextSpy.reset()
+    nextSpy.resetHistory()
 
     handler(normalizedHttpRequest('/client.html'), null, nextSpy)
     expect(nextSpy).to.have.been.called
-    nextSpy.reset()
+    nextSpy.resetHistory()
 
     handler(normalizedHttpRequest('/debug.html'), null, nextSpy)
     expect(nextSpy).to.have.been.called
-    nextSpy.reset()
+    nextSpy.resetHistory()
 
     handler(normalizedHttpRequest('/context.html'), null, nextSpy)
     expect(nextSpy).to.have.been.called

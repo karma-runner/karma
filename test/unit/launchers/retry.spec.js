@@ -47,7 +47,7 @@ describe('launchers/retry.js', () => {
     _.defer(() => {
       expect(launcher.start).to.have.been.called
       expect(spyOnBrowserProcessFailure).not.to.have.been.called
-      launcher.start.reset()
+      launcher.start.resetHistory()
 
       // simulate second crash
       launcher._done('crash')
@@ -55,7 +55,7 @@ describe('launchers/retry.js', () => {
       _.defer(() => {
         expect(launcher.start).to.have.been.called
         expect(spyOnBrowserProcessFailure).not.to.have.been.called
-        launcher.start.reset()
+        launcher.start.resetHistory()
 
         // simulate third crash
         launcher._done('crash')

@@ -39,7 +39,7 @@ describe('launchers/base.js', () => {
       launcher.on('kill', spyOnKill)
 
       launcher.start('http://host:9988/')
-      spyOnStart.reset()
+      spyOnStart.resetHistory()
 
       launcher.restart()
       expect(spyOnKill).to.have.been.called
@@ -66,7 +66,7 @@ describe('launchers/base.js', () => {
       launcher.on('done', spyOnDone)
 
       launcher.start('http://host:9988/')
-      spyOnStart.reset()
+      spyOnStart.resetHistory()
 
       // simulate crash
       // the first onDone will restart
@@ -88,7 +88,7 @@ describe('launchers/base.js', () => {
       launcher.on('kill', spyOnKill)
 
       launcher.start('http://host:9988/')
-      spyOnStart.reset()
+      spyOnStart.resetHistory()
 
       var onceKilled = launcher.forceKill()
 
@@ -142,7 +142,7 @@ describe('launchers/base.js', () => {
 
       launcher.start('http://localhost:9876/')
       launcher.kill().then(() => {
-        spyOnKill.reset()
+        spyOnKill.resetHistory()
         launcher.kill().then(() => {
           expect(spyOnKill).to.not.have.been.called
           done()
@@ -201,7 +201,7 @@ describe('launchers/base.js', () => {
       launcher.on('start', spyOnStart)
 
       launcher.start('http://localhost:9876/')
-      spyOnStart.reset()
+      spyOnStart.resetHistory()
       launcher.restart()
 
       launcher.forceKill().done(() => {

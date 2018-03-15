@@ -56,7 +56,7 @@ describe('middleware.source_files', function () {
   })
 
   afterEach(function () {
-    return next.reset()
+    return next.resetHistory()
   })
 
   var servedFiles = function (list) {
