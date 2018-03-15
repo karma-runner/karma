@@ -15,7 +15,7 @@ Feature: JavaScript Tag
       ]
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with like:
       """
       .
       Firefox
