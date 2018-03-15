@@ -504,7 +504,7 @@ describe('FileList', () => {
       emitter.on('file_list_modified', modified)
 
       return list.refresh().then(() => {
-        modified.reset()
+        modified.resetHistory()
 
         return list.addFile('/some/d.js').then(() => {
           clock.tick(101)
@@ -518,7 +518,7 @@ describe('FileList', () => {
       // This checks that we only stat and preprocess the file once.
 
       return list.refresh().then(() => {
-        preprocess.reset()
+        preprocess.resetHistory()
         sinon.spy(mockFs, 'stat')
 
         return Promise.all([
@@ -545,7 +545,7 @@ describe('FileList', () => {
       // MATCH: /a.txt
       list = new List(patterns('/a.*'), [], emitter, preprocess)
       return list.refresh().then((files) => {
-        preprocess.reset()
+        preprocess.resetHistory()
         return list.addFile('/a.js').then(() => {
           expect(preprocess).to.have.been.calledOnce
           expect(preprocess.args[0][0].originalPath).to.eql('/a.js')
@@ -603,7 +603,7 @@ describe('FileList', () => {
 
       return list.refresh().then((files) => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
-        modified.reset()
+        modified.resetHistory()
 
         return list.changeFile('/some/b.js').then((files) => {
           clock.tick(101)
@@ -622,7 +622,7 @@ describe('FileList', () => {
 
       return list.refresh().then((files) => {
         mockFs._touchFile('/some/b.js', '2020-01-01')
-        modified.reset()
+        modified.resetHistory()
 
         return list.changeFile('/some/b.js').then(() => {
           expect(modified).to.not.have.been.called
@@ -640,7 +640,7 @@ describe('FileList', () => {
 
       return list.refresh().then((files) => {
         // not touching the file, stat will return still the same
-        modified.reset()
+        modified.resetHistory()
 
         return list.changeFile('/some/b.js').then(() => {
           expect(modified).not.to.have.been.called
@@ -653,7 +653,7 @@ describe('FileList', () => {
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
 
       return list.refresh().then((files) => {
-        preprocess.reset()
+        preprocess.resetHistory()
         mockFs._touchFile('/some/a.js', '2020-01-01')
         return list.changeFile('/some/a.js').then(() => {
           expect(preprocess).to.have.been.called
@@ -712,7 +712,7 @@ describe('FileList', () => {
       emitter.on('file_list_modified', modified)
 
       return list.refresh().then((files) => {
-        modified.reset()
+        modified.resetHistory()
         return list.removeFile('/some/a.js')
       }).then((files) => {
         expect(pathsFrom(files.served)).to.be.eql([
@@ -729,7 +729,7 @@ describe('FileList', () => {
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess)
 
       return list.refresh().then((files) => {
-        modified.reset()
+        modified.resetHistory()
         return list.removeFile('/a.js').then(() => {
           expect(modified).to.not.have.been.called
         })
@@ -791,7 +791,7 @@ describe('FileList', () => {
       list = new List(patterns(), [], emitter, preprocess, 100)
 
       return list.refresh().then(() => {
-        modified.reset()
+        modified.resetHistory()
         list._emitModified()
         clock.tick(99)
         expect(modified).to.not.have.been.called
@@ -816,7 +816,7 @@ describe('FileList', () => {
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
 
       return list.refresh().then((files) => {
-        modified.reset()
+        modified.resetHistory()
         // Even with no changes, all these files are served
         list.addFile('/some/0.js').then(() => {
           clock.tick(99)
@@ -840,7 +840,7 @@ describe('FileList', () => {
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
 
       return list.refresh().then((files) => {
-        modified.reset()
+        modified.resetHistory()
         list.addFile('/some/0.js').then(() => {
           clock.tick(99)
           expect(modified).to.not.have.been.called
@@ -882,7 +882,7 @@ describe('FileList', () => {
       list = new List(patterns('/some/*.js', '/a.*'), [], emitter, preprocess, 100)
 
       return list.refresh().then((files) => {
-        modified.reset()
+        modified.resetHistory()
         mockFs._touchFile('/some/b.js', '2020-01-01')
         list.changeFile('/some/b.js')
         list.removeFile('/some/a.js') // /some/b.js, /a.txt
@@ -918,8 +918,8 @@ describe('FileList', () => {
       list = new List(patterns('/a.*'), [], emitter, preprocess, 100)
 
       list.refresh().then((files) => {
-        preprocess.reset()
-        modified.reset()
+        preprocess.resetHistory()
+        modified.resetHistory()
 
         // Remove and then immediately add file to the bucket
         list.removeFile('/a.txt')
