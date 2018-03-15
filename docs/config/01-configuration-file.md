@@ -803,7 +803,7 @@ sometimes you might want to proxy a url that is already taken by Karma.
 
 If `> 0`, Karma will add a JavaScript version tag to the included JavaScript files.
 
-Note: This will only be applied to the Firefox browser. It is currently the only browser that supports the version tag.
+Note: This will only be applied to the Firefox browser up to version 58. Support for JavaScript version was [removed](https://bugzilla.mozilla.org/show_bug.cgi?id=1428745) in Firefox 59. This property is deprecated and will be removed in the next major release of Karma.
 
 
 [plugins]: plugins.html

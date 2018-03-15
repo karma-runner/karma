@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-var isFirefox = function () {
-  return typeof InstallTrigger !== 'undefined'
+var isFirefoxBefore59 = function () {
+  return typeof InstallTrigger !== 'undefined' && parseFloat(navigator.userAgent.match(/\d+\.\d+$/)) < 59
 }
 
 var containsJsTag = function () {
