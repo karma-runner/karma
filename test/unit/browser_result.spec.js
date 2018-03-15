@@ -1,20 +1,22 @@
-describe('BrowserResult', () => {
-  var Result = require('../../lib/browser_result')
-  var result = null
+'use strict'
 
-  var successResultFromBrowser = {
+describe('BrowserResult', () => {
+  const Result = require('../../lib/browser_result')
+  let result = null
+
+  const successResultFromBrowser = {
     success: true,
     skipped: false,
     time: 100
   }
 
-  var failedResultFromBrowser = {
+  const failedResultFromBrowser = {
     success: false,
     skipped: false,
     time: 200
   }
 
-  var skippedResultFromBrowser = {
+  const skippedResultFromBrowser = {
     success: false,
     skipped: true,
     time: 0

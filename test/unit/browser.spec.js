@@ -1,17 +1,19 @@
+'use strict'
+
 describe('Browser', () => {
-  var collection
-  var emitter
-  var socket
-  var e = require('../../lib/events')
-  var Browser = require('../../lib/browser')
-  var Collection = require('../../lib/browser_collection')
-  var createMockTimer = require('./mocks/timer')
+  let collection
+  let emitter
+  let socket
+  const e = require('../../lib/events')
+  const Browser = require('../../lib/browser')
+  const Collection = require('../../lib/browser_collection')
+  const createMockTimer = require('./mocks/timer')
 
-  var browser = collection = emitter = socket = null
-  var socketId = 0
+  let browser = collection = emitter = socket = null
+  let socketId = 0
 
-  var mkSocket = () => {
-    var s = new e.EventEmitter()
+  const mkSocket = () => {
+    const s = new e.EventEmitter()
     socketId = socketId + 1
     s.id = socketId
     return s
@@ -24,7 +26,7 @@ describe('Browser', () => {
   })
 
   it('should set fullName and name', () => {
-    var fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
+    const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
     browser = new Browser('id', fullName, collection, emitter, socket)
     expect(browser.name).to.equal('Chrome 16.0.912 (Mac OS X 10.6.8)')
     expect(browser.fullName).to.equal(fullName)
@@ -32,7 +34,7 @@ describe('Browser', () => {
 
   describe('init', () => {
     it('should emit "browser_register"', () => {
-      var spyRegister = sinon.spy()
+      const spyRegister = sinon.spy()
       emitter.on('browser_register', spyRegister)
       browser = new Browser(12345, '', collection, emitter, socket)
       browser.init()
@@ -54,13 +56,13 @@ describe('Browser', () => {
 
   describe('toString', () => {
     it('should return browser name', () => {
-      var fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
+      const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
       browser = new Browser('id', fullName, collection, emitter, socket)
       expect(browser.toString()).to.equal('Chrome 16.0.912 (Mac OS X 10.6.8)')
     })
 
     it('should return verbatim user agent string for unrecognized browser', () => {
-      var fullName = 'NonexistentBot/1.2.3'
+      const fullName = 'NonexistentBot/1.2.3'
       browser = new Browser('id', fullName, collection, emitter, socket)
       expect(browser.toString()).to.equal('NonexistentBot/1.2.3')
     })
@@ -72,7 +74,7 @@ describe('Browser', () => {
     })
 
     it('should set lastResult.error and fire "browser_error"', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_error', spy)
       browser.state = Browser.STATE_EXECUTING
 
@@ -82,7 +84,7 @@ describe('Browser', () => {
     })
 
     it('should ignore if browser not executing', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_error', spy)
       browser.state = Browser.STATE_READY
 
@@ -98,7 +100,7 @@ describe('Browser', () => {
     })
 
     it('should emit "browser_log"', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_log', spy)
 
       browser.state = Browser.STATE_EXECUTING
@@ -107,8 +109,8 @@ describe('Browser', () => {
     })
 
     it('should emit "browser_info"', () => {
-      var spy = sinon.spy()
-      var infoData = {}
+      const spy = sinon.spy()
+      const infoData = {}
       emitter.on('browser_info', spy)
 
       browser.state = Browser.STATE_EXECUTING
@@ -117,7 +119,7 @@ describe('Browser', () => {
     })
 
     it('should ignore if browser not executing', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_dump', spy)
 
       browser.state = Browser.STATE_READY
@@ -141,7 +143,7 @@ describe('Browser', () => {
     })
 
     it('should emit "browser_start"', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_start', spy)
 
       browser.state = Browser.STATE_EXECUTING
@@ -169,7 +171,7 @@ describe('Browser', () => {
     })
 
     it('should fire "browsers_change" event', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browsers_change', spy)
 
       browser.state = Browser.STATE_EXECUTING
@@ -178,7 +180,7 @@ describe('Browser', () => {
     })
 
     it('should ignore if browser not executing', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browsers_change', spy)
       emitter.on('browser_complete', spy)
 
@@ -205,7 +207,7 @@ describe('Browser', () => {
   })
 
   describe('onDisconnect', () => {
-    var timer = null
+    let timer = null
 
     beforeEach(() => {
       timer = createMockTimer()
@@ -221,7 +223,7 @@ describe('Browser', () => {
     })
 
     it('should complete if browser executing', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_complete', spy)
       browser.state = Browser.STATE_EXECUTING
 
@@ -233,7 +235,7 @@ describe('Browser', () => {
     })
 
     it('should not complete if browser not executing', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_complete', spy)
       browser.state = Browser.STATE_READY
 
@@ -244,7 +246,7 @@ describe('Browser', () => {
 
   describe('reconnect', () => {
     it('should cancel disconnecting', () => {
-      var timer = createMockTimer()
+      const timer = createMockTimer()
 
       browser = new Browser('id', 'Chrome 19.0', collection, emitter, socket, timer, 10)
       browser.init()
@@ -289,15 +291,15 @@ describe('Browser', () => {
   })
 
   describe('onResult', () => {
-    var createSuccessResult = () => {
+    const createSuccessResult = () => {
       return {success: true, suite: [], log: []}
     }
 
-    var createFailedResult = () => {
+    const createFailedResult = () => {
       return {success: false, suite: [], log: []}
     }
 
-    var createSkippedResult = () => {
+    const createSkippedResult = () => {
       return {success: true, skipped: true, suite: [], log: []}
     }
 
@@ -362,8 +364,8 @@ describe('Browser', () => {
 
   describe('execute', () => {
     it('should emit execute and change state to EXECUTING', () => {
-      var spyExecute = sinon.spy()
-      var config = {}
+      const spyExecute = sinon.spy()
+      const config = {}
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
       socket.on('execute', spyExecute)
       browser.execute(config)
@@ -375,7 +377,7 @@ describe('Browser', () => {
 
   describe('scenario:', () => {
     it('reconnecting during the run', () => {
-      var timer = createMockTimer()
+      const timer = createMockTimer()
       browser = new Browser('fake-id', 'full name', collection, emitter, socket, timer, 10)
       browser.init()
       browser.state = Browser.STATE_EXECUTING
@@ -383,7 +385,7 @@ describe('Browser', () => {
       socket.emit('disconnect', 'socket.io reason')
       expect(browser.isReady()).to.equal(false)
 
-      var newSocket = mkSocket()
+      const newSocket = mkSocket()
       browser.reconnect(newSocket)
       expect(browser.isReady()).to.equal(false)
 
@@ -395,16 +397,16 @@ describe('Browser', () => {
     })
 
     it('disconecting during the run', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browser_complete', spy)
-      var timer = createMockTimer()
+      const timer = createMockTimer()
       browser = new Browser('fake-id', 'full name', collection, emitter, socket, timer, 10)
       browser.init()
       browser.state = Browser.STATE_EXECUTING
       socket.emit('result', {success: true, suite: [], log: []})
       socket.emit('disconnect', 'socket.io reason')
 
-      var spyBrowserError = sinon.spy()
+      const spyBrowserError = sinon.spy()
       emitter.on('browser_error', spyBrowserError)
 
       timer.wind(10)
@@ -414,7 +416,7 @@ describe('Browser', () => {
     })
 
     it('restarting a disconnected browser', () => {
-      var timer = createMockTimer()
+      const timer = createMockTimer()
       browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, timer, 10)
       browser.init()
 
@@ -428,7 +430,7 @@ describe('Browser', () => {
       expect(browser.state).to.equal(Browser.STATE_DISCONNECTED)
       expect(browser.disconnectsCount).to.equal(1)
 
-      var newSocket = mkSocket()
+      const newSocket = mkSocket()
       emitter.on('browser_register', () => browser.execute())
 
       // reconnect on a new socket (which triggers re-execution)
@@ -452,7 +454,7 @@ describe('Browser', () => {
       browser.execute()
 
       // A second connection...
-      var newSocket = mkSocket()
+      const newSocket = mkSocket()
       browser.reconnect(newSocket)
 
       // Disconnect the second connection...
@@ -482,12 +484,12 @@ describe('Browser', () => {
     })
 
     it('disconnect when no message during the run', () => {
-      var timer = createMockTimer()
+      const timer = createMockTimer()
       browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, timer, 10, 20)
       browser.init()
       browser.execute()
 
-      var spyBrowserComplete = sinon.spy()
+      const spyBrowserComplete = sinon.spy()
       emitter.on('browser_complete', spyBrowserComplete)
 
       socket.emit('start', {total: 11})
