@@ -364,7 +364,7 @@
     "rimraf": "^2.6.2",
     "safe-buffer": "^5.1.1",
     "socket.io": "2.0.4",
-    "source-map": "^0.7.2",
+    "source-map": "^0.6.0",
     "tmp": "0.0.33",
     "useragent": "2.2.1"
   },
