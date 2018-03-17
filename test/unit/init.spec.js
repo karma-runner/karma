@@ -1,8 +1,10 @@
-var path = require('path')
+'use strict'
+
+const path = require('path')
 
 describe('init', () => {
-  var loadFile = require('mocks').loadFile
-  var m = null
+  const loadFile = require('mocks').loadFile
+  let m = null
 
   beforeEach(() => {
     m = loadFile(path.join(__dirname, '/../../lib/init.js'), {glob: require('glob')})
@@ -11,7 +13,7 @@ describe('init', () => {
 
   describe('getBasePath', () => {
     // just for windows.
-    var replace = (p) => p.replace(/\//g, path.sep)
+    const replace = (p) => p.replace(/\//g, path.sep)
 
     it('should be empty if config file in cwd', () => {
       expect(m.getBasePath('some.conf', replace('/usr/local/whatever'))).to.equal('')
@@ -23,30 +25,30 @@ describe('init', () => {
 
     it('should handle config file in subfolder', () => {
       // config /usr/local/sub/folder/file.conf
-      var file = replace('sub/folder/file.conf')
+      const file = replace('sub/folder/file.conf')
       expect(m.getBasePath(file, replace('/usr/local'))).to.equal(replace('../..'))
     })
 
     it('should handle config in a parent path', () => {
       // config /home/file.js
-      var basePath = m.getBasePath(replace('../../../file.js'), replace('/home/vojta/tc/project'))
+      const basePath = m.getBasePath(replace('../../../file.js'), replace('/home/vojta/tc/project'))
       expect(basePath).to.equal(replace('vojta/tc/project'))
     })
 
     it('should handle config in parent subfolder', () => {
       // config /home/vojta/other/f.js
-      var f = replace('../../other/f.js')
+      const f = replace('../../other/f.js')
       expect(m.getBasePath(f, replace('/home/vojta/tc/prj'))).to.equal(replace('../tc/prj'))
     })
 
     it('should handle absolute paths', () => {
-      var basePath = m.getBasePath(replace('/Users/vojta/karma/conf.js'), replace('/Users/vojta'))
+      const basePath = m.getBasePath(replace('/Users/vojta/karma/conf.js'), replace('/Users/vojta'))
       expect(basePath).to.equal(replace('..'))
     })
   })
 
   describe('processAnswers', () => {
-    var answers = (obj) => {
+    const answers = (obj) => {
       obj = obj || {}
       obj.files = obj.files || []
       obj.exclude = obj.exclude || []
@@ -55,7 +57,7 @@ describe('init', () => {
     }
 
     it('should add requirejs and set files non-included if requirejs used', () => {
-      var processedAnswers = m.processAnswers(answers({
+      const processedAnswers = m.processAnswers(answers({
         requirejs: true,
         includedFiles: ['test-main.js'],
         files: ['*.js']
@@ -67,7 +69,7 @@ describe('init', () => {
     })
 
     it('should add coffee preprocessor', () => {
-      var processedAnswers = m.processAnswers(answers({
+      const processedAnswers = m.processAnswers(answers({
         files: ['src/*.coffee']
       }))
 
@@ -77,14 +79,14 @@ describe('init', () => {
   })
 
   describe('scenario:', () => {
-    var formatter
-    var vm = require('vm')
+    let formatter
+    const vm = require('vm')
 
-    var StateMachine = require('../../lib/init/state_machine')
-    var JavaScriptFormatter = require('../../lib/init/formatters').JavaScript
-    var DefaultKarmaConfig = require('../../lib/config').Config
+    const StateMachine = require('../../lib/init/state_machine')
+    const JavaScriptFormatter = require('../../lib/init/formatters').JavaScript
+    const DefaultKarmaConfig = require('../../lib/config').Config
 
-    var mockRli = {
+    const mockRli = {
       close: () => null,
       write: () => null,
       prompt: () => null,
@@ -92,16 +94,16 @@ describe('init', () => {
       _deleteLineRight: () => null
     }
 
-    var mockColors = {
+    const mockColors = {
       question: () => ''
     }
 
-    var machine = formatter = null
+    let machine = formatter = null
 
-    var evaluateConfigCode = (code) => {
-      var sandbox = {module: {}}
+    const evaluateConfigCode = (code) => {
+      const sandbox = {module: {}}
       vm.runInNewContext(code, sandbox)
-      var config = new DefaultKarmaConfig()
+      const config = new DefaultKarmaConfig()
       sandbox.module.exports(config)
       return config
     }
@@ -113,10 +115,10 @@ describe('init', () => {
 
     it('should generate working config', (done) => {
       machine.process(m.questions, (answers) => {
-        var basePath = m.getBasePath('../karma.conf.js', path.normalize('/some/path'))
-        var processedAnswers = m.processAnswers(answers, basePath)
-        var generatedConfigCode = formatter.generateConfigFile(processedAnswers)
-        var config = evaluateConfigCode(generatedConfigCode)
+        const basePath = m.getBasePath('../karma.conf.js', path.normalize('/some/path'))
+        const processedAnswers = m.processAnswers(answers, basePath)
+        const generatedConfigCode = formatter.generateConfigFile(processedAnswers)
+        const config = evaluateConfigCode(generatedConfigCode)
 
         // expect correct configuration
         expect(config.basePath).to.equal('path')
@@ -157,10 +159,10 @@ describe('init', () => {
 
     it('should generate config for requirejs', (done) => {
       machine.process(m.questions, (answers) => {
-        var basePath = m.getBasePath('../karma.conf.js', '/some/path')
-        var processedAnswers = m.processAnswers(answers, basePath)
-        var generatedConfigCode = formatter.generateConfigFile(processedAnswers)
-        var config = evaluateConfigCode(generatedConfigCode)
+        const basePath = m.getBasePath('../karma.conf.js', '/some/path')
+        const processedAnswers = m.processAnswers(answers, basePath)
+        const generatedConfigCode = formatter.generateConfigFile(processedAnswers)
+        const config = evaluateConfigCode(generatedConfigCode)
 
         // expect correct configuration
         expect(config.frameworks).to.contain('requirejs')
@@ -205,10 +207,10 @@ describe('init', () => {
 
     it('should generate the test-main for requirejs', (done) => {
       machine.process(m.questions, (answers) => {
-        var basePath = m.getBasePath('../karma.conf.js', '/some/path')
-        var processedAnswers = m.processAnswers(answers, basePath, 'test-main.js')
-        var generatedConfigCode = formatter.generateConfigFile(processedAnswers)
-        var config = evaluateConfigCode(generatedConfigCode)
+        const basePath = m.getBasePath('../karma.conf.js', '/some/path')
+        const processedAnswers = m.processAnswers(answers, basePath, 'test-main.js')
+        const generatedConfigCode = formatter.generateConfigFile(processedAnswers)
+        const config = evaluateConfigCode(generatedConfigCode)
 
         // expect correct processedAnswers
         expect(processedAnswers.generateTestMain).to.be.ok
@@ -252,10 +254,10 @@ describe('init', () => {
 
     it('should add coffee preprocessor', (done) => {
       machine.process(m.questions, (answers) => {
-        var basePath = m.getBasePath('karma.conf.js', '/cwd')
-        var processedAnswers = m.processAnswers(answers, basePath)
-        var generatedConfigCode = formatter.generateConfigFile(processedAnswers)
-        var config = evaluateConfigCode(generatedConfigCode)
+        const basePath = m.getBasePath('karma.conf.js', '/cwd')
+        const processedAnswers = m.processAnswers(answers, basePath)
+        const generatedConfigCode = formatter.generateConfigFile(processedAnswers)
+        const config = evaluateConfigCode(generatedConfigCode)
 
         // expect correct configuration
         expect(config.preprocessors).to.have.property('**/*.coffee')
