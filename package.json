@@ -467,7 +467,7 @@
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
     "lint:fix": "eslint . --ext js --ignore-pattern *.tpl.js --fix",
     "test": "grunt test",
-    "build": "grunt build",
+    "prepare": "grunt build",
     "test:appveyor": "grunt test-appveyor",
     "test:integration": "./scripts/integration-tests.sh",
     "link": "node --eval \"path=require('path'); require('fs').symlinkSync(path.resolve(__dirname), path.resolve(__dirname, 'node_modules', 'karma'), 'junction')\"",
