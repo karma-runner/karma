@@ -131,6 +131,7 @@ module.exports = function (grunt) {
     }
   })
 
+  grunt.loadNpmTasks('grunt-check-clean')
   grunt.loadTasks('tasks')
   require('load-grunt-tasks')(grunt)
 
@@ -141,6 +142,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function (type) {
     grunt.task.run([
+      'check_clean',
       'npm-contributors',
       'bump:' + (type || 'patch') + ':bump-only',
       'build',

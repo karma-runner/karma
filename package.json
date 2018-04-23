@@ -397,6 +397,7 @@
     "grunt-browserify": "^5.0.0",
     "grunt-bump": "^0.8.0",
     "grunt-cli": "^1.1.0",
+    "grunt-check-clean": "^0.1.2",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-conventional-changelog": "^6.0.1",
     "grunt-conventional-github-releaser": "^1.0.0",
