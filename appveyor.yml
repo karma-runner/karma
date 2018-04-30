@@ -13,8 +13,8 @@ install:
   # Install Node.js
   - ps: Install-Product node $env:nodejs_version
 
-  # Upgrade npm
-  - npm install -g npm
+  # Install npm compat with node 4
+  - npm install -g npm@3
 
   # Output our current versions for debugging
   - node --version
