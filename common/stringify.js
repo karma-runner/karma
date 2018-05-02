@@ -25,8 +25,8 @@ var stringify = function stringify (obj, depth) {
         return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }')
       } catch (err) {
         if (err instanceof TypeError) {
-          // Proxy(function abc(...) { ... })
-          return 'Proxy(function ' + (obj.name || '') + '(...) { ... })'
+          // Support older browsers
+          return 'function ' + (obj.name || '') + '() { ... }'
         } else {
           throw err
         }
