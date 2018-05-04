@@ -346,8 +346,8 @@ describe('middleware.proxy', () => {
     }
     var parsedProxyConfig = m.parseProxyConfig(proxy, config)
     expect(parsedProxyConfig).to.have.length(1)
-    expect(parsedProxyConfig[0].proxy.listeners('proxyReq', true)).to.equal(true)
-    expect(parsedProxyConfig[0].proxy.listeners('proxyRes', true)).to.equal(true)
+    expect(parsedProxyConfig[0].proxy.listeners('proxyReq')[0]).to.equal(config.proxyReq)
+    expect(parsedProxyConfig[0].proxy.listeners('proxyRes')[0]).to.equal(config.proxyRes)
   })
 
   it('should handle empty proxy config', () => {

@@ -65,13 +65,15 @@ describe('server', () => {
     }
 
     mockSocketServer = {
+      close: () => {},
       flashPolicyServer: {
         close: () => {}
       },
       sockets: {
         sockets: {},
         on: () => {},
-        emit: () => {}
+        emit: () => {},
+        removeAllListeners: () => {}
       }
     }
 
