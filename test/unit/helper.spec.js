@@ -73,7 +73,7 @@ describe('helper', () => {
         'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; WOW64; SLCC1; ' +
         '.NET CLR 2.0.50727; .NET4.0C; .NET4.0E)'
       )
-        .to.be.equal('IE 7.0.0 (Windows Vista 0.0.0)')
+        .to.be.equal('IE 7.0.0 (Windows Vista.0.0)')
     })
 
     it('should parse IE8', () => {
@@ -81,7 +81,7 @@ describe('helper', () => {
         'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; ' +
         'SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E; InfoPath.3)"'
       )
-        .to.be.equal('IE 8.0.0 (Windows 7 0.0.0)')
+        .to.be.equal('IE 8.0.0 (Windows 7.0.0)')
     })
 
     it('should parse IE9', () => {
@@ -89,7 +89,7 @@ describe('helper', () => {
         'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; ' +
         '.NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0)'
       )
-        .to.be.equal('IE 9.0.0 (Windows 7 0.0.0)')
+        .to.be.equal('IE 9.0.0 (Windows 7.0.0)')
     })
 
     it('should parse IE10', () => {
@@ -97,7 +97,7 @@ describe('helper', () => {
         'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; ' +
         '.NET4.0E; .NET4.0C)'
       )
-        .to.be.equal('IE 10.0.0 (Windows 8 0.0.0)')
+        .to.be.equal('IE 10.0.0 (Windows 8.0.0)')
     })
 
     it('should parse PhantomJS', () => {
