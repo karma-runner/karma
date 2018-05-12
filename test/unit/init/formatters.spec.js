@@ -55,7 +55,7 @@ describe('init/formatters', () => {
         }))
 
         expect(replacements.FILES).to.equal(
-          "\n      'test-main.js',\n      {pattern: 'src/*.js', included: false}"
+          "\n      'test-main.js',\n      { pattern: 'src/*.js', included: false }"
         )
       })
 
@@ -63,7 +63,7 @@ describe('init/formatters', () => {
         var replacements = formatter.formatAnswers(createAnswers({preprocessors: {'*.coffee': ['coffee']}}))
 
         expect(replacements.PREPROCESSORS).to.equal(
-          "{\n      '*.coffee': ['coffee']\n    }"
+          "\n      '*.coffee': ['coffee']"
         )
       })
     })
