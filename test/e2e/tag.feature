@@ -8,7 +8,6 @@ Feature: JavaScript Tag
       """
       files = ['tag/tag.js', 'tag/test-with-version.js'];
       browsers = ['Firefox']
-      jsVersion = 1.8
       plugins = [
         'karma-jasmine',
         'karma-firefox-launcher'
@@ -26,7 +25,6 @@ Feature: JavaScript Tag
       """
       files = ['tag/tag.js', 'tag/test-with-version.js'];
       browsers = ['Chrome'];
-      jsVersion = 1.8;
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -72,4 +70,3 @@ Feature: JavaScript Tag
       .
       Chrome
       """
-      
