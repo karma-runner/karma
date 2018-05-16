@@ -1,14 +1,16 @@
-var Browser = require('../../lib/browser')
-var BrowserCollection = require('../../lib/browser_collection')
-var EventEmitter = require('../../lib/events').EventEmitter
-var Executor = require('../../lib/executor')
+'use strict'
+
+const Browser = require('../../lib/browser')
+const BrowserCollection = require('../../lib/browser_collection')
+const EventEmitter = require('../../lib/events').EventEmitter
+const Executor = require('../../lib/executor')
 
 describe('executor', () => {
-  var emitter
-  var capturedBrowsers
-  var config
-  var spy
-  var executor
+  let emitter
+  let capturedBrowsers
+  let config
+  let spy
+  let executor
 
   beforeEach(() => {
     config = {client: {}}
