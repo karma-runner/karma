@@ -1,5 +1,3 @@
-const babel = require('babel-core')
-
 module.exports = function (wallaby) {
   return {
     files: [
@@ -31,12 +29,6 @@ module.exports = function (wallaby) {
     tests: [
       'test/unit/**/*.spec.js'
     ],
-
-    compilers: {
-      '**/*.js': wallaby.compilers.babel({
-        babel: babel
-      })
-    },
 
     bootstrap: function (w) {
       var path = require('path')
