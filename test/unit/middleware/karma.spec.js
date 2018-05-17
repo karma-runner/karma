@@ -1,3 +1,5 @@
+'use strict'
+
 var mocks = require('mocks')
 
 var helper = require('../../../lib/helper')
@@ -14,9 +16,11 @@ describe('middleware.karma', () => {
   var nextSpy
   var response
 
-  var MockFile = function (path, sha, type) {
-    File.call(this, path, undefined, undefined, type)
-    this.sha = sha || 'sha-default'
+  class MockFile extends File {
+    constructor (path, sha, type) {
+      super(path, undefined, undefined, type)
+      this.sha = sha || 'sha-default'
+    }
   }
 
   var fsMock = mocks.fs.create({
