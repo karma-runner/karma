@@ -1,21 +1,15 @@
-const path = require('path')
+'use strict'
 
 describe('reporter', () => {
-  const loadFile = require('mocks').loadFile
-  let m = null
+  const BaseReporter = require('../../../lib/reporters/base')
 
-  beforeEach(() => {
-    m = loadFile(path.join(__dirname, '/../../../lib/reporters/base.js'))
-    return m
-  })
-
-  return describe('Progress', () => {
+  describe('Progress', () => {
     let reporter
     let adapter = reporter = null
 
     beforeEach(() => {
       adapter = sinon.spy()
-      reporter = new m.BaseReporter(null, null, false, {terminal: true}, adapter)
+      reporter = new BaseReporter(null, null, false, {terminal: true}, adapter)
       return reporter
     })
 
@@ -39,7 +33,7 @@ describe('reporter', () => {
     })
 
     it('should not call non-colored adapters when wrong default setting', () => {
-      const reporter = new m.BaseReporter(null, null, true, {}, adapter)
+      const reporter = new BaseReporter(null, null, true, {}, adapter)
       const anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
       reporter.EXCLUSIVELY_USE_COLORS = false
@@ -49,7 +43,7 @@ describe('reporter', () => {
     })
 
     it('should call colored adapters regardless of default setting', () => {
-      const reporter = new m.BaseReporter(null, null, true, {}, adapter)
+      const reporter = new BaseReporter(null, null, true, {}, adapter)
       const anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
       reporter.EXCLUSIVELY_USE_COLORS = false
@@ -84,7 +78,7 @@ describe('reporter', () => {
     })
 
     it('should not log if lower priority than browserConsoleLogOptions "error"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'error',
         terminal: true
       }, adapter)
@@ -97,7 +91,7 @@ describe('reporter', () => {
     })
 
     it('should not log if lower priority than browserConsoleLogOptions "warn"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'warn',
         terminal: true
       }, adapter)
@@ -110,7 +104,7 @@ describe('reporter', () => {
     })
 
     it('should not log if lower priority than browserConsoleLogOptions "log"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'log',
         terminal: true
       }, adapter)
@@ -123,7 +117,7 @@ describe('reporter', () => {
     })
 
     it('should not log if lower priority than browserConsoleLogOptions "info"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'info',
         terminal: true
       }, adapter)
@@ -136,7 +130,7 @@ describe('reporter', () => {
     })
 
     it('should log if higher priority than browserConsoleLogOptions "warn"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'warn',
         terminal: true
       }, adapter)
@@ -149,7 +143,7 @@ describe('reporter', () => {
     })
 
     it('should log if higher priority than browserConsoleLogOptions "log"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'log',
         terminal: true
       }, adapter)
@@ -162,7 +156,7 @@ describe('reporter', () => {
     })
 
     it('should log if higher priority than browserConsoleLogOptions "info"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'info',
         terminal: true
       }, adapter)
@@ -175,7 +169,7 @@ describe('reporter', () => {
     })
 
     it('should log if higher priority than browserConsoleLogOptions "debug"', () => {
-      const reporter = new m.BaseReporter(null, null, true, {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'debug',
         terminal: true
       }, adapter)
