@@ -64,7 +64,7 @@ describe('preprocessor', () => {
     })
 
     var injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor } ]
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
     pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
 

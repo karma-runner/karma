@@ -93,7 +93,7 @@ describe('server', () => {
         callback && callback()
       }),
       removeAllListeners: () => {},
-      close: sinon.spy(callback => callback && callback())
+      close: sinon.spy((callback) => callback && callback())
     }
 
     sinon.stub(server._injector, 'get')
