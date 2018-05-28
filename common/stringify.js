@@ -14,8 +14,6 @@ var stringify = function stringify (obj, depth) {
   }
 
   switch (typeof obj) {
-    case 'symbol':
-      return obj.toString()
     case 'string':
       return "'" + obj + "'"
     case 'undefined':
