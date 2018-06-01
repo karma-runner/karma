@@ -1,1 +1,4 @@
 test/e2e/support/error/under-test.js
+static/karma.js
+static/context.js
+tmp/*
