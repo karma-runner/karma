@@ -17,7 +17,10 @@ describe('server', () => {
   var fileListOnResolve = fileListOnReject = mockLauncher = null
   var mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneSpy = null
 
-  beforeEach(() => {
+  // Use regular function not arrow so 'this' is mocha 'this'.
+  beforeEach(function () {
+    // The first call to new Server() loads plugins and it can take >2000ms.
+    this.timeout(4000)
     browserCollection = new BrowserCollection()
     doneSpy = sinon.spy()
 
