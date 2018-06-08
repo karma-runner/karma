@@ -1,4 +1,4 @@
-var e = require('../../lib/events')
+const e = require('../../lib/events')
 
 describe('events', () => {
   var emitter
@@ -98,7 +98,7 @@ describe('events', () => {
     it('should take emitter as second argument', () => {
       var object = sinon.stub({onFoo: () => {}})
 
-      e.bindAll(object, emitter)
+      emitter.bind(object)
       emitter.emit('foo')
       emitter.emit('bar')
 
@@ -108,7 +108,7 @@ describe('events', () => {
     it('should append "context" to event arguments', () => {
       var object = sinon.stub({onFoo: () => {}})
 
-      e.bindAll(object, emitter)
+      emitter.bind(object)
       emitter.emit('foo', 'event-argument')
 
       expect(object.onFoo).to.have.been.calledWith('event-argument', emitter)

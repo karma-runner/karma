@@ -4,6 +4,14 @@ var assert = require('assert')
 var stringify = require('../../common/stringify')
 
 describe('stringify', function () {
+  if (window && window.Symbol) {
+    // IE does not support Symbol
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+    it('should serialize symbols', function () {
+      assert.deepEqual(stringify(Symbol.for('x')), 'Symbol(x)')
+    })
+  }
+
   it('should serialize string', function () {
     assert.deepEqual(stringify('aaa'), "'aaa'")
   })

@@ -1,20 +1,12 @@
-Karma uses [Semantic Versioning]. There are some special rules at the moment,
-as we have not yet released a `1.0.0`.
+Karma uses [Semantic Versioning].
 
-* Minor versions could introduce breaking changes.
-* Patch versions are expected to be compatible at all times.
+It is recommended that you add Karma by running:
 
-It is recommended that you add the following entry to your `package.json`
-file, either manually
-```javascript
-{
-  "devDependencies": {
-    "karma": "^0.13.0"
-  }
-}
+```bash
+$ yarn add --dev karma
 ```
 
-or by running
+or: 
 
 ```bash
 $ npm --save-dev install karma

@@ -1,11 +1,13 @@
-var path = require('path')
+'use strict'
+
+const path = require('path')
 
 describe('helper', () => {
-  var helper = require('../../lib/helper')
+  const helper = require('../../lib/helper')
 
   describe('browserFullNameToShort', () => {
     // helper function
-    var expecting = (name) => expect(helper.browserFullNameToShort(name))
+    const expecting = (name) => expect(helper.browserFullNameToShort(name))
 
     it('should parse iOS', () => {
       expecting(
@@ -119,7 +121,7 @@ describe('helper', () => {
   })
 
   describe('isDefined', () => {
-    var isDefined = helper.isDefined
+    const isDefined = helper.isDefined
 
     it('should return true if defined', () => {
       expect(isDefined()).to.equal(false)
@@ -133,7 +135,7 @@ describe('helper', () => {
   })
 
   describe('camelToSnake', () => {
-    var camelToSnake = helper.camelToSnake
+    const camelToSnake = helper.camelToSnake
 
     it('should convert camelCase string to snake_case', () => {
       expect(camelToSnake('OneMoreThing')).to.equal('one_more_thing')
@@ -141,7 +143,7 @@ describe('helper', () => {
   })
 
   describe('dashToCamel', () => {
-    var dashToCamel = helper.dashToCamel
+    const dashToCamel = helper.dashToCamel
 
     it('should convert dash-case to camelCase', () => {
       expect(dashToCamel('one-more-thing')).to.equal('oneMoreThing')
@@ -150,14 +152,14 @@ describe('helper', () => {
   })
 
   describe('arrayRemove', () => {
-    var arrayRemove = helper.arrayRemove
+    const arrayRemove = helper.arrayRemove
 
     it('should remove object from array', () => {
-      var a = 'one'
-      var b = []
-      var c = {}
-      var d = () => null
-      var collection = [a, b, c, d]
+      const a = 'one'
+      const b = []
+      const c = {}
+      const d = () => null
+      const collection = [a, b, c, d]
 
       expect(arrayRemove(collection, b)).to.equal(true)
       expect(collection).to.deep.equal([a, c, d])
@@ -175,8 +177,8 @@ describe('helper', () => {
 
   describe('merge', () => {
     it('should copy properties to first argument', () => {
-      var destination = {a: 1, b: 2}
-      var result = helper.merge(destination, {a: 4, c: 5})
+      const destination = {a: 1, b: 2}
+      const result = helper.merge(destination, {a: 4, c: 5})
 
       expect(destination.a).to.equal(1)
       expect(result).to.deep.equal({a: 4, b: 2, c: 5})
@@ -211,17 +213,17 @@ describe('helper', () => {
   })
 
   describe('mkdirIfNotExists', () => {
-    var fsMock = require('mocks').fs
-    var loadFile = require('mocks').loadFile
+    const fsMock = require('mocks').fs
+    const loadFile = require('mocks').loadFile
 
-    var fs = fsMock.create({
+    const fs = fsMock.create({
       home: {'some.js': fsMock.file()}
     })
 
     // load file under test
-    var m = loadFile(path.join(__dirname, '/../../lib/helper.js'), {'graceful-fs': fs, lodash: require('lodash')})
+    const m = loadFile(path.join(__dirname, '/../../lib/helper.js'), {'graceful-fs': fs, lodash: require('lodash')})
 
-    var mkdirIfNotExists = m.exports.mkdirIfNotExists
+    const mkdirIfNotExists = m.exports.mkdirIfNotExists
 
     it('should not do anything, if dir already exists', (done) => {
       mkdirIfNotExists('/home', done)
@@ -229,7 +231,7 @@ describe('helper', () => {
 
     it('should create directory if it does not exist', (done) => {
       mkdirIfNotExists('/home/new', () => {
-        var stat = fs.statSync('/home/new')
+        const stat = fs.statSync('/home/new')
         expect(stat).to.exist
         expect(stat.isDirectory()).to.equal(true)
         done()
@@ -238,7 +240,7 @@ describe('helper', () => {
 
     it('should create even parent directories if it does not exist', (done) => {
       mkdirIfNotExists('/home/new/parent/child', () => {
-        var stat = fs.statSync('/home/new/parent/child')
+        const stat = fs.statSync('/home/new/parent/child')
         expect(stat).to.exist
         expect(stat.isDirectory()).to.equal(true)
         done()
@@ -247,7 +249,7 @@ describe('helper', () => {
   })
 
   describe('mmComparePatternWeights', () => {
-    var helper = require('../../lib/helper')
+    const helper = require('../../lib/helper')
     it('should compare right on equal', () => {
       helper.mmComparePatternWeights([1, 2, 3], [1, 2, 3]).should.be.equal(0)
     })
@@ -266,7 +268,7 @@ describe('helper', () => {
   })
 
   describe('mmPatternWeight', () => {
-    var helper = require('../../lib/helper')
+    const helper = require('../../lib/helper')
     it('should calculate right weight of empty', () => {
       helper.mmPatternWeight('').should.be.deep.equal([0, 0, 0, 0, 0, 0])
     })

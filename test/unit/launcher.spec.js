@@ -1,3 +1,5 @@
+'use strict'
+
 var Promise = require('bluebird')
 var di = require('di')
 
@@ -61,9 +63,7 @@ function ScriptBrowser (id, name, baseBrowserDecorator) {
 describe('launcher', () => {
   // mock out id generator
   var lastGeneratedId = null
-  launcher.Launcher.generateId = () => {
-    return ++lastGeneratedId
-  }
+  launcher.Launcher.generateId = () => ++lastGeneratedId
 
   before(() => {
     Promise.setScheduler((fn) => fn())
