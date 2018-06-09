@@ -19,7 +19,7 @@ cucumber.defineSupportCode((a) => {
   var cleansingNeeded = true
   var additionalArgs = []
 
-  var cleanseIfNeeded = function () {
+  function cleanseIfNeeded () {
     if (cleansingNeeded) {
       try {
         rimraf.sync(tmpDir)

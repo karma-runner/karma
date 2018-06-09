@@ -2,7 +2,7 @@ var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
-var Karma = function (socket, iframe, opener, navigator, location) {
+function Karma (socket, iframe, opener, navigator, location) {
   var startEmitted = false
   var reloadingContext = false
   var self = this
@@ -47,7 +47,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   }
 
   var childWindow = null
-  var navigateContextTo = function (url) {
+  function navigateContextTo (url) {
     if (self.config.useIframe === false) {
       // run in new window
       if (self.config.runInParent === false) {
@@ -98,7 +98,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
 
   this.stringify = stringify
 
-  var clearContext = function () {
+  function clearContext () {
     reloadingContext = true
 
     navigateContextTo('about:blank')

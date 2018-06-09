@@ -1,7 +1,7 @@
 var VERSION = require('./constants').VERSION
 
-var StatusUpdater = function (socket, titleElement, bannerElement, browsersElement) {
-  var updateBrowsersInfo = function (browsers) {
+function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
+  function updateBrowsersInfo (browsers) {
     if (!browsersElement) {
       return
     }
@@ -14,7 +14,7 @@ var StatusUpdater = function (socket, titleElement, bannerElement, browsersEleme
     browsersElement.innerHTML = items.join('\n')
   }
 
-  var updateBanner = function (status) {
+  function updateBanner (status) {
     return function (param) {
       if (!titleElement || !bannerElement) {
         return

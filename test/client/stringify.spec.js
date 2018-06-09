@@ -28,7 +28,7 @@ describe('stringify', function () {
 
   it('should serialize functions', function () {
     function abc (a, b, c) { return 'whatever' }
-    var def = function (d, e, f) { return 'whatever' }
+    function def (d, e, f) { return 'whatever' }
 
     var abcString = stringify(abc)
     var partsAbc = ['function', 'abc', '(a, b, c)', '{ ... }']
