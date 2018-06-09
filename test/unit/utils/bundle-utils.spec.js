@@ -16,7 +16,7 @@ describe('BundleUtils.bundleResource', () => {
         expect(fs.existsSync(PathUtils.calculateAbsolutePath('test/unit/fixtures/bundled.js'))).to.be.true
         done()
       })
-  })
+  }).timeout(5000)
 })
 
 describe('BundleUtils.bundleResourceIfNotExist', () => {
