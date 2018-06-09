@@ -9,7 +9,7 @@ describe('init/formatters', () => {
     })
 
     describe('formatAnswers', () => {
-      var createAnswers = function (ans) {
+      function createAnswers (ans) {
         ans = ans || {}
         ans.frameworks = ans.frameworks || []
         ans.files = ans.files || []

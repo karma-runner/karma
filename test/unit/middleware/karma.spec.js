@@ -86,7 +86,7 @@ describe('middleware.karma', () => {
     return req
   }
 
-  var callHandlerWith = function (urlPath, next) {
+  function callHandlerWith (urlPath, next) {
     var promise = handler(normalizedHttpRequest(urlPath), response, next || nextSpy)
     if (promise && promise.done) promise.done()
   }

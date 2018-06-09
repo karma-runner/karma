@@ -1,7 +1,7 @@
 /* globals plus */
 describe('plus', function () {
   // super hacky way to get the actual socket to manipulate it...
-  var socket = function () {
+  function socket () {
     return window.parent.karma.socket
   }
 

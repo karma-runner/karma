@@ -32,7 +32,7 @@ describe('middleware.source_files', function () {
 
   var serveFile = createServeFile(fsMock, null)
 
-  var createServer = function (f, s, basePath) {
+  function createServer (f, s, basePath) {
     var handler = createSourceFilesMiddleware(f.promise, s, basePath)
     return http.createServer(function (req, res) {
       next = sinon.spy(function (err) {
@@ -59,7 +59,7 @@ describe('middleware.source_files', function () {
     return next.reset()
   })
 
-  var servedFiles = function (list) {
+  function servedFiles (list) {
     return files.resolve({included: [], served: list})
   }
 

@@ -458,7 +458,7 @@ The plugin must provide an express/connect middleware function (details about th
 
 **Example:**
 ```javascript
-var CustomMiddlewareFactory = function (config) {
+function CustomMiddlewareFactory (config) {
   return function (request, response, /* next */) {
     response.writeHead(200)
     return response.end("content!")
