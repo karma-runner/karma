@@ -1,5 +1,6 @@
 var Server = require('../../lib/server')
 var BundleUtils = require('../../lib/utils/bundle-utils')
+var NetUtils = require('../../lib/utils/net-utils')
 var BrowserCollection = require('../../lib/browser_collection')
 
 describe('server', () => {
@@ -105,23 +106,34 @@ describe('server', () => {
     webServerOnError = null
   })
 
-  // ============================================================================
-  // server._start()
-  // ============================================================================
-  describe('_start', () => {
-    it('should compile static resources', (done) => {
+  describe('start', () => {
+    beforeEach(() => {
       sinon.spy(BundleUtils, 'bundleResourceIfNotExist')
+      sinon.stub(NetUtils, 'getAvailablePort').resolves(9876)
+      sinon.stub(server, 'get').withArgs('config').returns({ port: 9876, listenAddress: '127.0.0.1' })
+    })
 
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
-
-      fileListOnResolve().then(() => {
+    it('should compile static resources', (done) => {
+      server.start().then(() => {
         expect(BundleUtils.bundleResourceIfNotExist).to.have.been.calledWith('client/main.js', 'static/karma.js')
         expect(BundleUtils.bundleResourceIfNotExist).to.have.been.calledWith('context/main.js', 'static/context.js')
         done()
       })
     })
 
-    it('should start the web server after all files have been preprocessed successfully', (done) => {
+    it('should search for available port', (done) => {
+      server.start().then(() => {
+        expect(NetUtils.getAvailablePort).to.have.been.calledWith(9876, '127.0.0.1')
+        done()
+      })
+    })
+  })
+
+  // ============================================================================
+  // server._start()
+  // ============================================================================
+  describe('_start', () => {
+    it('should start the web server after all files have been preprocessed successfully', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockFileList.refresh).to.have.been.called
@@ -129,14 +141,12 @@ describe('server', () => {
       expect(mockWebServer.listen).not.to.have.been.called
       expect(server._injector.invoke).not.to.have.been.calledWith(mockLauncher.launch, mockLauncher)
 
-      fileListOnResolve().then(() => {
-        expect(mockWebServer.listen).to.have.been.called
-        expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
-        done()
-      })
+      fileListOnResolve()
+      expect(mockWebServer.listen).to.have.been.called
+      expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
-    it('should start the web server after all files have been preprocessed with an error', (done) => {
+    it('should start the web server after all files have been preprocessed with an error', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockFileList.refresh).to.have.been.called
@@ -144,27 +154,23 @@ describe('server', () => {
       expect(mockWebServer.listen).not.to.have.been.called
       expect(server._injector.invoke).not.to.have.been.calledWith(mockLauncher.launch, mockLauncher)
 
-      fileListOnReject().then(() => {
-        expect(mockWebServer.listen).to.have.been.called
-        expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
-        done()
-      })
+      fileListOnReject()
+      expect(mockWebServer.listen).to.have.been.called
+      expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
-    it('should launch browsers after the web server has started', (done) => {
+    it('should launch browsers after the web server has started', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockWebServer.listen).not.to.have.been.called
       expect(server._injector.invoke).not.to.have.been.calledWith(mockLauncher.launch, mockLauncher)
 
-      fileListOnResolve().then(() => {
-        expect(mockWebServer.listen).to.have.been.called
-        expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
-        done()
-      })
+      fileListOnResolve()
+      expect(mockWebServer.listen).to.have.been.called
+      expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
-    it('should listen on the listenAddress in the config', (done) => {
+    it('should listen on the listenAddress in the config', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockWebServer.listen).not.to.have.been.called
@@ -172,28 +178,12 @@ describe('server', () => {
 
       expect(mockConfig.listenAddress).to.be.equal('127.0.0.1')
 
-      fileListOnResolve().then(() => {
-        expect(mockWebServer.listen).to.have.been.calledWith(9876, '127.0.0.1')
-        expect(mockConfig.listenAddress).to.be.equal('127.0.0.1')
-        done()
-      })
+      fileListOnResolve()
+      expect(mockWebServer.listen).to.have.been.calledWith(9876, '127.0.0.1')
+      expect(mockConfig.listenAddress).to.be.equal('127.0.0.1')
     })
 
-    it('should try next port if already in use', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
-
-      expect(mockWebServer.listen).not.to.have.been.called
-      expect(webServerOnError).not.to.be.null
-
-      expect(mockConfig.port).to.be.equal(9876)
-
-      webServerOnError({code: 'EADDRINUSE'})
-
-      expect(mockWebServer.listen).to.have.been.calledWith(9877)
-      expect(mockConfig.port).to.be.equal(9877)
-    })
-
-    it('should emit a listening event once server begin accepting connections', (done) => {
+    it('should emit a listening event once server begin accepting connections', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       var listening = sinon.spy()
@@ -201,10 +191,8 @@ describe('server', () => {
 
       expect(listening).not.to.have.been.called
 
-      fileListOnResolve().then(() => {
-        expect(listening).to.have.been.calledWith(9876)
-        done()
-      })
+      fileListOnResolve()
+      expect(listening).to.have.been.calledWith(9876)
     })
 
     it('should emit a browsers_ready event once all the browsers are captured', () => {
