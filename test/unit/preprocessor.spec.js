@@ -272,7 +272,7 @@ describe('preprocessor', () => {
       thirdCallback('error')
     })
 
-    it('should tbrow after 3 retries', (done) => {
+    it('should throw after 3 retries', (done) => {
       var injector = new di.Injector([{}, emitterSetting])
 
       var pp = m.createPreprocessor({'**/*.js': []}, null, injector)
@@ -288,7 +288,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should not preprocess binary files', (done) => {
+  it('should not preprocess binary files by default', (done) => {
     var fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content)
     })
@@ -305,6 +305,29 @@ describe('preprocessor', () => {
       if (err) throw err
 
       expect(fakePreprocessor).not.to.have.been.called
+      expect(file.content).to.be.an.instanceof(Buffer)
+      done()
+    })
+  })
+
+  it('should preprocess binary files if handleBinaryFiles=true', (done) => {
+    const fakePreprocessor = sinon.spy((content, file, done) => {
+      done(null, content)
+    })
+    fakePreprocessor.handleBinaryFiles = true
+
+    var injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
+    }, emitterSetting])
+
+    pp = m.createPreprocessor({'**/*': ['fake']}, null, injector)
+
+    const file = {originalPath: '/some/photo.png', path: 'path'}
+
+    pp(file, (err) => {
+      if (err) throw err
+
+      expect(fakePreprocessor).to.have.been.calledOnce
       expect(file.content).to.be.an.instanceof(Buffer)
       done()
     })
