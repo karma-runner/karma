@@ -306,6 +306,12 @@ describe('launcher', () => {
       })
     })
 
+    describe('markCaptured', () => {
+      it('should not fail if an un-launched browser attaches', () => {
+        expect(() => l.markCaptured('not-a-thing')).to.not.throw()
+      })
+    })
+
     describe('onExit', () => {
       it('should kill all browsers', (done) => {
         l.launch(['Fake', 'Fake'], 1)
