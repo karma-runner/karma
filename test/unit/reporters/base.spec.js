@@ -3,7 +3,7 @@
 describe('reporter', () => {
   const BaseReporter = require('../../../lib/reporters/base')
 
-  describe('Progress', () => {
+  describe('Base', () => {
     let reporter
     let adapter = reporter = null
 
@@ -181,13 +181,21 @@ describe('reporter', () => {
       return writeSpy.should.have.been.called
     })
 
-    return it('should format log messages correctly for multi browsers', () => {
+    it('should format log messages correctly for multi browsers', () => {
       const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome', 'Firefox']
       reporter.onBrowserLog('Chrome', 'Message', 'LOG')
 
       return expect(writeSpy).to.have.been.calledWith('Chrome LOG: Message\n')
+    })
+
+    it('should log messages correctly when complete with just one browser', () => {
+      const writeSpy = sinon.spy(reporter, 'write')
+      const mockResults = {error: false, disconnected: false}
+
+      reporter.onRunComplete(['Chrome'], mockResults)
+      return writeSpy.should.have.been.called
     })
   })
 })
