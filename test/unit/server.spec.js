@@ -241,4 +241,8 @@ describe('server', () => {
       }
     })
   })
+
+  it('static Server constructs a server', () => {
+    expect(Server.start(mockConfig) instanceof Server).to.be.true
+  })
 })
