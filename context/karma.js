@@ -2,7 +2,7 @@
 var stringify = require('../common/stringify')
 
 // Define our context Karma constructor
-var ContextKarma = function (callParentKarmaMethod) {
+function ContextKarma (callParentKarmaMethod) {
   // Define local variables
   var hasError = false
   var self = this
@@ -30,7 +30,7 @@ var ContextKarma = function (callParentKarmaMethod) {
   }
 
   // Define our start handler
-  var UNIMPLEMENTED_START = function () {
+  function UNIMPLEMENTED_START () {
     this.error('You need to include some adapter that implements __karma__.start method!')
   }
   // all files loaded, let's start the execution
@@ -98,7 +98,7 @@ var ContextKarma = function (callParentKarmaMethod) {
     }
 
     // If we want to overload our console, then do it
-    var getConsole = function (currentWindow) {
+    function getConsole (currentWindow) {
       return currentWindow.console || {
         log: function () {},
         info: function () {},

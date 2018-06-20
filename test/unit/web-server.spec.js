@@ -60,6 +60,9 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],
+        filesPromise: ['factory', m.createFilesPromise],
+        serveStaticFile: ['factory', m.createServeStaticFile],
+        serveFile: ['factory', m.createServeFile],
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],
@@ -83,7 +86,6 @@ describe('web-server', () => {
           }
         }]
       }])
-
       server = injector.invoke(m.createWebServer)
     })
 
@@ -167,6 +169,7 @@ describe('web-server', () => {
     })
 
     it('should serve no files when they are not available yet', () => {
+      servedFiles(new Set())
       return request(server)
         .get('/base/new.js')
         .expect(404)
@@ -226,6 +229,10 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],
+        filesPromise: ['factory', m.createFilesPromise],
+        serveStaticFile: ['factory', m.createServeStaticFile],
+        serveFile: ['factory', m.createServeFile],
+
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],
@@ -267,6 +274,9 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],
+        filesPromise: ['factory', m.createFilesPromise],
+        serveStaticFile: ['factory', m.createServeStaticFile],
+        serveFile: ['factory', m.createServeFile],
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],

@@ -11,7 +11,7 @@ var MockSocket = require('./mocks').Socket
 describe('Karma', function () {
   var socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
 
-  var setTransportTo = function (transportName) {
+  function setTransportTo (transportName) {
     socket._setTransportNameTo(transportName)
     socket.emit('connect')
   }
@@ -72,7 +72,7 @@ describe('Karma', function () {
   })
 
   it('should remove reference to start even after syntax error', function () {
-    var ADAPTER_START_FN = function () {}
+    function ADAPTER_START_FN () {}
 
     ck.start = ADAPTER_START_FN
     ck.error('syntax error', '/some/file.js', 11)
