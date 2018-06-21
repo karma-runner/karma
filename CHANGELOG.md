@@ -1,3 +1,17 @@
+<a name="2.0.4"></a>
+## [2.0.4](https://github.com/karma-runner/karma/compare/v2.0.3...v2.0.4) (2018-06-21)
+
+
+### Bug Fixes
+
+* **deps:** remove babel-core and babel call in wallaby. ([#3044](https://github.com/karma-runner/karma/issues/3044)) ([7da8ca0](https://github.com/karma-runner/karma/commit/7da8ca0))
+* **events:** bind emitters with for..in. ([#3059](https://github.com/karma-runner/karma/issues/3059)) ([b99f03f](https://github.com/karma-runner/karma/commit/b99f03f)), closes [#3057](https://github.com/karma-runner/karma/issues/3057)
+* **launcher:** Only markCaptured browsers that are launched. ([#3047](https://github.com/karma-runner/karma/issues/3047)) ([f8f3ebc](https://github.com/karma-runner/karma/commit/f8f3ebc))
+* **server:** actually call stert(). ([#3062](https://github.com/karma-runner/karma/issues/3062)) ([40d836a](https://github.com/karma-runner/karma/commit/40d836a))
+* **server:** Resurrect static function Server.start() lost in 2.0.3 ([#3055](https://github.com/karma-runner/karma/issues/3055)) ([c88ebc6](https://github.com/karma-runner/karma/commit/c88ebc6))
+
+
+
 <a name="2.0.3"></a>
 ## [2.0.3](https://github.com/karma-runner/karma/compare/v0.12.16...v2.0.3) (2018-06-15)
 
