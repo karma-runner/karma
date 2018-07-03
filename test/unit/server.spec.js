@@ -11,6 +11,7 @@ describe('server', () => {
   var mockLauncher
   var mockWebServer
   var mockSocketServer
+  var mockBoundServer
   var mockExecutor
   var doneSpy
   var server = mockConfig = browserCollection = webServerOnError = null
@@ -45,8 +46,7 @@ describe('server', () => {
 
     sinon.stub(server._injector, 'invoke').returns([])
 
-    mockExecutor =
-      {schedule: () => {}}
+    mockExecutor = { schedule: () => {} }
 
     mockFileList = {
       refresh: sinon.spy(() => {
@@ -80,6 +80,13 @@ describe('server', () => {
       }
     }
 
+    mockBoundServer = {
+      on: sinon.spy((event, callback) => callback && callback()),
+      listen: sinon.spy((port, listenAddress, callback) => callback && callback()),
+      close: sinon.spy((callback) => callback && callback()),
+      address: () => { return { port: 9876 } }
+    }
+
     mockWebServer = {
       on (name, handler) {
         if (name === 'error') {
@@ -99,7 +106,8 @@ describe('server', () => {
       close: sinon.spy((callback) => callback && callback())
     }
 
-    sinon.stub(server._injector, 'get')
+    sinon
+      .stub(server._injector, 'get')
       .withArgs('webServer').returns(mockWebServer)
       .withArgs('socketServer').returns(mockSocketServer)
 
@@ -107,10 +115,15 @@ describe('server', () => {
   })
 
   describe('start', () => {
+    var config
     beforeEach(() => {
+      config = { port: 9876, listenAddress: '127.0.0.1' }
       sinon.spy(BundleUtils, 'bundleResourceIfNotExist')
-      sinon.stub(NetUtils, 'getAvailablePort').resolves(9876)
-      sinon.stub(server, 'get').withArgs('config').returns({ port: 9876, listenAddress: '127.0.0.1' })
+      sinon.stub(NetUtils, 'bindAvailablePort').resolves(mockBoundServer)
+      sinon.stub(mockBoundServer, 'address').returns({ port: 9877 })
+      sinon
+        .stub(server, 'get')
+        .withArgs('config').returns(config)
     })
 
     it('should compile static resources', (done) => {
@@ -123,7 +136,17 @@ describe('server', () => {
 
     it('should search for available port', (done) => {
       server.start().then(() => {
-        expect(NetUtils.getAvailablePort).to.have.been.calledWith(9876, '127.0.0.1')
+        expect(NetUtils.bindAvailablePort).to.have.been.calledWith(9876, '127.0.0.1')
+        expect(mockBoundServer.address).to.have.been.called
+        done()
+      })
+    })
+
+    it('should change config.port to available', (done) => {
+      expect(config.port).to.be.equal(9876)
+      server.start().then(() => {
+        expect(config.port).to.be.equal(9877)
+        expect(server._boundServer).to.be.equal(mockBoundServer)
         done()
       })
     })
@@ -133,6 +156,10 @@ describe('server', () => {
   // server._start()
   // ============================================================================
   describe('_start', () => {
+    beforeEach(() => {
+      server._boundServer = mockBoundServer
+    })
+
     it('should start the web server after all files have been preprocessed successfully', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
@@ -142,7 +169,8 @@ describe('server', () => {
       expect(server._injector.invoke).not.to.have.been.calledWith(mockLauncher.launch, mockLauncher)
 
       fileListOnResolve()
-      expect(mockWebServer.listen).to.have.been.called
+      expect(mockWebServer.listen).to.have.been.calledWith(mockBoundServer, sinon.match.func)
+      expect(webServerOnError).not.to.be.null
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
@@ -155,7 +183,8 @@ describe('server', () => {
       expect(server._injector.invoke).not.to.have.been.calledWith(mockLauncher.launch, mockLauncher)
 
       fileListOnReject()
-      expect(mockWebServer.listen).to.have.been.called
+      expect(mockWebServer.listen).to.have.been.calledWith(mockBoundServer, sinon.match.func)
+      expect(webServerOnError).not.to.be.null
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
@@ -163,24 +192,12 @@ describe('server', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockWebServer.listen).not.to.have.been.called
+      expect(webServerOnError).not.to.be.null
       expect(server._injector.invoke).not.to.have.been.calledWith(mockLauncher.launch, mockLauncher)
 
       fileListOnResolve()
-      expect(mockWebServer.listen).to.have.been.called
+      expect(mockWebServer.listen).to.have.been.calledWith(mockBoundServer, sinon.match.func)
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
-    })
-
-    it('should listen on the listenAddress in the config', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
-
-      expect(mockWebServer.listen).not.to.have.been.called
-      expect(webServerOnError).not.to.be.null
-
-      expect(mockConfig.listenAddress).to.be.equal('127.0.0.1')
-
-      fileListOnResolve()
-      expect(mockWebServer.listen).to.have.been.calledWith(9876, '127.0.0.1')
-      expect(mockConfig.listenAddress).to.be.equal('127.0.0.1')
     })
 
     it('should emit a listening event once server begin accepting connections', () => {
