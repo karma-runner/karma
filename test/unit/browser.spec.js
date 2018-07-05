@@ -136,8 +136,13 @@ describe('Browser', () => {
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
     })
 
+    it('should change state to EXECUTING', () => {
+      browser.state = Browser.STATE_READY
+      browser.onStart({total: 20})
+      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
+    })
+
     it('should set total count of specs', () => {
-      browser.state = Browser.STATE_EXECUTING
       browser.onStart({total: 20})
       expect(browser.lastResult.total).to.equal(20)
     })
@@ -146,7 +151,6 @@ describe('Browser', () => {
       const spy = sinon.spy()
       emitter.on('browser_start', spy)
 
-      browser.state = Browser.STATE_EXECUTING
       browser.onStart({total: 20})
 
       expect(spy).to.have.been.calledWith(browser, {total: 20})

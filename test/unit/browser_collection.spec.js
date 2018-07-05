@@ -71,32 +71,6 @@ describe('BrowserCollection', () => {
     })
   })
 
-  describe('setAllToExecuting', () => {
-    let browsers = null
-
-    beforeEach(() => {
-      browsers = [new Browser(), new Browser(), new Browser()]
-      browsers.forEach((browser) => {
-        collection.add(browser)
-      })
-    })
-
-    it('should set all browsers state to executing', () => {
-      collection.setAllToExecuting()
-      browsers.forEach((browser) => {
-        expect(browser.isReady()).to.equal(false)
-        expect(browser.state).to.equal(Browser.STATE_EXECUTING)
-      })
-    })
-
-    it('should fire "browsers_change" event', () => {
-      const spy = sinon.spy()
-      emitter.on('browsers_change', spy)
-      collection.setAllToExecuting()
-      expect(spy).to.have.been.called
-    })
-  })
-
   describe('areAllReady', () => {
     let browsers = null
 
