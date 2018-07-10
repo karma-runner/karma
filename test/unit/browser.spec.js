@@ -32,6 +32,14 @@ describe('Browser', () => {
     expect(browser.fullName).to.equal(fullName)
   })
 
+  it('should serialize to JSON', () => {
+    const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
+    browser = new Browser('id', fullName, collection, emitter, socket)
+    emitter.browser = browser
+    const json = JSON.stringify(browser)
+    expect(json).to.contain(fullName)
+  })
+
   describe('init', () => {
     it('should emit "browser_register"', () => {
       const spyRegister = sinon.spy()
