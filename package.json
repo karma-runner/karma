@@ -349,11 +349,11 @@
     "João Marcos Duarte <joumd86@gmail.com>",
     "Julian Connor <julian.connor@venmo.com>",
     "Jurko Gospodnetić <jurko.gospodnetic@pke.hr>",
-    "Sean Enright <seanenright86@gmail.com>"
     "Justin Ridgewell <jridgewell@users.noreply.github.com>",
     "KahWee Teng <t@kw.sg>",
     "Karl Lindmark <karl.lindmark@ninetwozero.com>",
     "Karol Fabjańczuk <karol.fabjanczuk@lemondemon.pl>"
+    "Sean Enright <seanenright86@gmail.com>"
   ],
   "dependencies": {
     "bluebird": "^3.3.0",
