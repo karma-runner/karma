@@ -1,10 +1,11 @@
 var serialize = require('dom-serialize')
 var instanceOf = require('./util').instanceOf
-var isNode = function (obj) {
+
+function isNode (obj) {
   return (obj.tagName || obj.nodeName) && obj.nodeType
 }
 
-var stringify = function stringify (obj, depth) {
+function stringify (obj, depth) {
   if (depth === 0) {
     return '...'
   }
@@ -14,6 +15,8 @@ var stringify = function stringify (obj, depth) {
   }
 
   switch (typeof obj) {
+    case 'symbol':
+      return obj.toString()
     case 'string':
       return "'" + obj + "'"
     case 'undefined':
@@ -25,8 +28,8 @@ var stringify = function stringify (obj, depth) {
         return obj.toString().replace(/\{[\s\S]*\}/, '{ ... }')
       } catch (err) {
         if (err instanceof TypeError) {
-          // Proxy(function abc(...) { ... })
-          return 'Proxy(function ' + (obj.name || '') + '(...) { ... })'
+          // Support older browsers
+          return 'function ' + (obj.name || '') + '() { ... }'
         } else {
           throw err
         }
@@ -54,6 +57,8 @@ var stringify = function stringify (obj, depth) {
         return obj.outerHTML
       } else if (isNode(obj)) {
         return serialize(obj)
+      } else if (instanceOf(obj, 'Error')) {
+        return obj.toString() + '\n' + obj.stack
       } else {
         var constructor = 'Object'
         if (obj.constructor && typeof obj.constructor === 'function') {

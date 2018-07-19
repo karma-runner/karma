@@ -32,6 +32,18 @@ Please, make sure:
     - e.g. if the first commit is `fix(web-server): serve binary files` and a second commit is “fix unit tests broken in the previous commit”, you should squash them into a single commit.
   - It’s alright to ask the author of the pull request to fix any of the above.
 
+## Releasing npm
+For core collaborators with admin rights.
+- Be on a good network that won't go down in the middle.
+- Make sure you are sync to upstream master.
+- `echo $GH_TOKEN`
+  - If not set, set GH_TOKEN from https://github.com/settings/tokens/new
+- `npm login karmarunnerbot`
+  - The password is known to authorized releasers.
+- `grunt release`
+If the release fails, check the state of the git tags pushed to github.  You may have to delete one.
+
+
 ## Ownership
 Every project has one or more owners (or “maintainers”), listed in `owners` field of the
 `package.json`. Typically, owners have push permissions.

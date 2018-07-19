@@ -1,9 +1,11 @@
-import EmitterWrapper from '../../lib/emitter_wrapper'
-import {EventEmitter} from 'events'
+'use strict'
+
+const EventEmitter = require('events').EventEmitter
+const EmitterWrapper = require('../../lib/emitter_wrapper')
 
 describe('emitter_wrapper', () => {
-  var emitter
-  var wrapped
+  let emitter
+  let wrapped
 
   beforeEach(() => {
     emitter = new EventEmitter()
@@ -13,7 +15,7 @@ describe('emitter_wrapper', () => {
   })
 
   describe('addListener', () => {
-    var aListener = (e) => true
+    const aListener = (e) => true
 
     it('should add a listener to the wrapped emitter', () => {
       wrapped.addListener('anEvent', aListener)
@@ -26,7 +28,7 @@ describe('emitter_wrapper', () => {
   })
 
   describe('removeAllListeners', () => {
-    var aListener = (e) => true
+    const aListener = (e) => true
 
     beforeEach(() => {
       wrapped.addListener('anEvent', aListener)
@@ -43,7 +45,7 @@ describe('emitter_wrapper', () => {
     })
 
     it('should remove only matching listeners when called with an event name', () => {
-      var anotherListener = (e) => true
+      const anotherListener = (e) => true
       wrapped.addListener('anotherEvent', anotherListener)
       wrapped.removeAllListeners('anEvent')
       expect(emitter.listeners('anEvent')).not.to.contain(aListener)

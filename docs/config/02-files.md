@@ -17,12 +17,23 @@
 
 
 ## Included, served, watched
-Each pattern is either a simple string or an object with four properties:
+Each pattern is either a simple string or an object with the following properties:
 
 ### `pattern`
 * **Type.** String
-* **No Default.**
-* **Description.** The pattern to use for matching. This property is mandatory.
+* **No Default.** This property is mandatory.
+* **Description.** The pattern to use for matching.
+
+### `type`
+* **Type.** String
+* **Default.** Will attempt to determine type based on file extension. If that fails, defaults to `js`.
+* **Description.** Choose the type to use when including a file.
+* **Possible Values:**
+  * `css`
+  * `html`
+  * `js`
+  * `dart`
+  * `module`
 
 ### `watched`
 * **Type.** Boolean
@@ -132,6 +143,7 @@ proxies: {
 * In-memory caching of files.
 * Watching for updates in the files.
 * Proxies to alter file paths.
+* Support for custom middlewares (the `middleware` configuration option).
 
 
 [glob]: https://github.com/isaacs/node-glob

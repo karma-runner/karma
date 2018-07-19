@@ -4,8 +4,9 @@ var path = require('path')
 var hasher = require('crypto').createHash
 var mkdirp = require('mkdirp')
 var _ = require('lodash')
+var cucumber = require('cucumber')
 
-exports.World = function World () {
+function World () {
   this.proxy = require('./proxy')
 
   this.template = _.template('module.exports = function (config) {\n  config.set(\n    <%= content %>\n  );\n};')
@@ -61,3 +62,7 @@ exports.World = function World () {
     stderr: ''
   }
 }
+
+cucumber.defineSupportCode((a) => {
+  a.setWorldConstructor(World)
+})

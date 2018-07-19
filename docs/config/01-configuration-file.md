@@ -174,6 +174,7 @@ If, during test execution, Karma does not receive any message from a browser wit
 
   * `Chrome` (launcher requires karma-chrome-launcher plugin)
   * `ChromeCanary` (launcher requires karma-chrome-launcher plugin)
+  * `ChromeHeadless` (launcher requires karma-chrome-launcher plugin ^2.1.0)
   * `PhantomJS` (launcher requires karma-phantomjs-launcher plugin)
   * `Firefox` (launcher requires karma-firefox-launcher plugin)
   * `Opera` (launcher requires karma-opera-launcher plugin)
@@ -457,7 +458,7 @@ The plugin must provide an express/connect middleware function (details about th
 
 **Example:**
 ```javascript
-var CustomMiddlewareFactory = function (config) {
+function CustomMiddlewareFactory (config) {
   return function (request, response, /* next */) {
     response.writeHead(200)
     return response.end("content!")
@@ -521,6 +522,8 @@ See [plugins] for more information.
 **CLI:** `--port 9876`
 
 **Description:** The port where the web server will be listening.
+
+If the defined port is already in use, karma will automatically increase its value in steps of 1 until a free port is found.
 
 
 ## processKillTimeout
@@ -789,18 +792,6 @@ If set then the following fields will be defined and can be overriden:
 
 All of Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
 sometimes you might want to proxy a url that is already taken by Karma.
-
-
-## jsVersion
-**Type:** Number
-
-**Default:** `0`
-
-**Description:** The JavaScript version to use in the Firefox browser.
-
-If `> 0`, Karma will add a JavaScript version tag to the included JavaScript files.
-
-Note: This will only be applied to the Firefox browser. It is currently the only browser that supports the version tag.
 
 
 [plugins]: plugins.html

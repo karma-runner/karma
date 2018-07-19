@@ -1,10 +1,12 @@
-import {EventEmitter} from 'events'
-import {loadFile} from 'mocks'
-import path from 'path'
-import _ from 'lodash'
-import sinon from 'sinon'
+'use strict'
 
-import File from '../../lib/file'
+var EventEmitter = require('events').EventEmitter
+var loadFile = require('mocks').loadFile
+var path = require('path')
+var _ = require('lodash')
+var sinon = require('sinon')
+
+var File = require('../../lib/file')
 
 describe('reporter', () => {
   var m
@@ -97,6 +99,11 @@ describe('reporter', () => {
       expect(formatError('at http://localhost:123/base/a.js?123')).to.equal('at a.js\n')
     })
 
+    it('should restore urlRoot paths', () => {
+      formatError = m.createErrorFormatter({ urlRoot: '/__karma__', basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter)
+      expect(formatError('at http://localhost:123/__karma__/base/sub/a.js?123')).to.equal('at sub/a.js\n')
+    })
+
     it('should restore absolute paths', () => {
       var ERROR = 'at http://localhost:8080/absolute/usr/path.js?6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9'
       expect(formatError(ERROR)).to.equal('at /usr/path.js\n')
@@ -151,6 +158,21 @@ describe('reporter', () => {
       it('should rewrite stack traces', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         var servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
+        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
+        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+
+        emitter.emit('file_list_modified', {served: servedFiles})
+
+        _.defer(() => {
+          var ERROR = 'at http://localhost:123/base/b.js:2:6'
+          expect(formatError(ERROR)).to.equal('at /original/b.js:4:8 <- b.js:2:6\n')
+          done()
+        })
+      })
+
+      it('should rewrite stack traces (when basePath is empty)', (done) => {
+        formatError = m.createErrorFormatter({ basePath: '', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
+        var servedFiles = [new File('/a.js'), new File('/b.js')]
         servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
         servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
 

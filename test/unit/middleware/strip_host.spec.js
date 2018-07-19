@@ -1,4 +1,4 @@
-import mocks from 'mocks'
+var mocks = require('mocks')
 
 describe('middleware.strip_host', function () {
   var nextSpy

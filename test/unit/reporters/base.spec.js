@@ -1,26 +1,20 @@
-import path from 'path'
+'use strict'
 
-describe('reporter', function () {
-  var loadFile = require('mocks').loadFile
-  var m = null
+describe('reporter', () => {
+  const BaseReporter = require('../../../lib/reporters/base')
 
-  beforeEach(function () {
-    m = loadFile(path.join(__dirname, '/../../../lib/reporters/base.js'))
-    return m
-  })
+  describe('Base', () => {
+    let reporter
+    let adapter = reporter = null
 
-  return describe('Progress', function () {
-    var reporter
-    var adapter = reporter = null
-
-    beforeEach(function () {
+    beforeEach(() => {
       adapter = sinon.spy()
-      reporter = new m.BaseReporter(null, null, false, {terminal: true}, adapter)
+      reporter = new BaseReporter(null, null, false, {terminal: true}, adapter)
       return reporter
     })
 
-    it('should write to all registered adapters', function () {
-      var anotherAdapter = sinon.spy()
+    it('should write to all registered adapters', () => {
+      const anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
 
       reporter.write('some')
@@ -28,8 +22,8 @@ describe('reporter', function () {
       return expect(anotherAdapter).to.have.been.calledWith('some')
     })
 
-    it('should omit adapters not using the right color', function () {
-      var anotherAdapter = sinon.spy()
+    it('should omit adapters not using the right color', () => {
+      const anotherAdapter = sinon.spy()
       anotherAdapter.colors = true
       reporter.EXCLUSIVELY_USE_COLORS = false
       reporter.adapters.push(anotherAdapter)
@@ -38,9 +32,9 @@ describe('reporter', function () {
       return expect(anotherAdapter).to.not.have.been.called
     })
 
-    it('should not call non-colored adapters when wrong default setting', function () {
-      var reporter = new m.BaseReporter(null, null, true, {}, adapter)
-      var anotherAdapter = sinon.spy()
+    it('should not call non-colored adapters when wrong default setting', () => {
+      const reporter = new BaseReporter(null, null, true, {}, adapter)
+      const anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
       reporter.EXCLUSIVELY_USE_COLORS = false
       reporter.write('some')
@@ -48,9 +42,9 @@ describe('reporter', function () {
       return expect(anotherAdapter).to.not.have.been.called
     })
 
-    it('should call colored adapters regardless of default setting', function () {
-      var reporter = new m.BaseReporter(null, null, true, {}, adapter)
-      var anotherAdapter = sinon.spy()
+    it('should call colored adapters regardless of default setting', () => {
+      const reporter = new BaseReporter(null, null, true, {}, adapter)
+      const anotherAdapter = sinon.spy()
       reporter.adapters.push(anotherAdapter)
       reporter.EXCLUSIVELY_USE_COLORS = false
       adapter.colors = false
@@ -59,8 +53,8 @@ describe('reporter', function () {
       return expect(anotherAdapter).to.not.have.been.called
     })
 
-    it('should call all adapters if EXCLUSIVELY_USE_COLORS is undefined', function () {
-      var anotherAdapter = sinon.spy()
+    it('should call all adapters if EXCLUSIVELY_USE_COLORS is undefined', () => {
+      const anotherAdapter = sinon.spy()
       anotherAdapter.colors = true
       reporter.adapters.push(anotherAdapter)
       reporter.write('some')
@@ -68,14 +62,14 @@ describe('reporter', function () {
       expect(anotherAdapter).to.have.been.calledWith('some')
     })
 
-    it('should format', function () {
+    it('should format', () => {
       reporter.write('Success: %d Failure: %d', 10, 20)
 
       return expect(adapter).to.have.been.calledWith('Success: 10 Failure: 20')
     })
 
-    it('should format log messages correctly for single browser', function () {
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+    it('should format log messages correctly for single browser', () => {
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'LOG')
@@ -83,12 +77,12 @@ describe('reporter', function () {
       return expect(writeSpy).to.have.been.calledWith('LOG: Message\n')
     })
 
-    it('should not log if lower priority than browserConsoleLogOptions "error"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should not log if lower priority than browserConsoleLogOptions "error"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'error',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'WARN')
@@ -96,12 +90,12 @@ describe('reporter', function () {
       return writeSpy.should.have.not.been.called
     })
 
-    it('should not log if lower priority than browserConsoleLogOptions "warn"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should not log if lower priority than browserConsoleLogOptions "warn"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'warn',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'LOG')
@@ -109,12 +103,12 @@ describe('reporter', function () {
       return writeSpy.should.have.not.been.called
     })
 
-    it('should not log if lower priority than browserConsoleLogOptions "log"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should not log if lower priority than browserConsoleLogOptions "log"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'log',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'INFO')
@@ -122,12 +116,12 @@ describe('reporter', function () {
       return writeSpy.should.have.not.been.called
     })
 
-    it('should not log if lower priority than browserConsoleLogOptions "info"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should not log if lower priority than browserConsoleLogOptions "info"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'info',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'DEBUG')
@@ -135,12 +129,12 @@ describe('reporter', function () {
       return writeSpy.should.have.not.been.called
     })
 
-    it('should log if higher priority than browserConsoleLogOptions "warn"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should log if higher priority than browserConsoleLogOptions "warn"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'warn',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'ERROR')
@@ -148,12 +142,12 @@ describe('reporter', function () {
       return writeSpy.should.have.been.called
     })
 
-    it('should log if higher priority than browserConsoleLogOptions "log"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should log if higher priority than browserConsoleLogOptions "log"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'log',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'WARN')
@@ -161,12 +155,12 @@ describe('reporter', function () {
       return writeSpy.should.have.been.called
     })
 
-    it('should log if higher priority than browserConsoleLogOptions "info"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should log if higher priority than browserConsoleLogOptions "info"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'info',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'LOG')
@@ -174,12 +168,12 @@ describe('reporter', function () {
       return writeSpy.should.have.been.called
     })
 
-    it('should log if higher priority than browserConsoleLogOptions "debug"', function () {
-      var reporter = new m.BaseReporter(null, null, true, {
+    it('should log if higher priority than browserConsoleLogOptions "debug"', () => {
+      const reporter = new BaseReporter(null, null, true, {
         level: 'debug',
         terminal: true
       }, adapter)
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome']
       reporter.onBrowserLog('Chrome', 'Message', 'INFO')
@@ -187,13 +181,21 @@ describe('reporter', function () {
       return writeSpy.should.have.been.called
     })
 
-    return it('should format log messages correctly for multi browsers', function () {
-      var writeSpy = sinon.spy(reporter, 'writeCommonMsg')
+    it('should format log messages correctly for multi browsers', () => {
+      const writeSpy = sinon.spy(reporter, 'writeCommonMsg')
 
       reporter._browsers = ['Chrome', 'Firefox']
       reporter.onBrowserLog('Chrome', 'Message', 'LOG')
 
       return expect(writeSpy).to.have.been.calledWith('Chrome LOG: Message\n')
+    })
+
+    it('should log messages correctly when complete with just one browser', () => {
+      const writeSpy = sinon.spy(reporter, 'write')
+      const mockResults = {error: false, disconnected: false}
+
+      reporter.onRunComplete(['Chrome'], mockResults)
+      return writeSpy.should.have.been.called
     })
   })
 })

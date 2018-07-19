@@ -31,7 +31,6 @@ module.exports = function (grunt) {
     },
     mochaTest: {
       options: {
-        require: 'babel-register',
         reporter: 'dot',
         ui: 'bdd',
         quiet: false,
@@ -46,9 +45,9 @@ module.exports = function (grunt) {
     },
     cucumberjs: {
       options: {
-        steps: 'test/e2e/steps',
+        steps: 'test/e2e/step_definitions',
         format: 'progress',
-        require: 'test/e2e/support/env.js'
+        require: ['test/e2e/support/env.js', 'test/e2e/support/world.js']
       },
       all: 'test/e2e/*.feature',
       current: {
@@ -64,7 +63,7 @@ module.exports = function (grunt) {
           src: 'test/e2e/*.feature'
         },
         options: {
-          tags: '~@not-jenkins'
+          tags: 'not @not-jenkins'
         }
       }
     },
@@ -132,6 +131,7 @@ module.exports = function (grunt) {
     }
   })
 
+  grunt.loadNpmTasks('grunt-check-clean')
   grunt.loadTasks('tasks')
   require('load-grunt-tasks')(grunt)
 
@@ -142,6 +142,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function (type) {
     grunt.task.run([
+      'check_clean',
       'npm-contributors',
       'bump:' + (type || 'patch') + ':bump-only',
       'build',

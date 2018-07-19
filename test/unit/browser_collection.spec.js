@@ -1,9 +1,11 @@
+'use strict'
+
 describe('BrowserCollection', () => {
-  var emitter
-  var e = require('../../lib/events')
-  var Collection = require('../../lib/browser_collection')
-  var Browser = require('../../lib/browser')
-  var collection = emitter = null
+  let emitter
+  const e = require('../../lib/events')
+  const Collection = require('../../lib/browser_collection')
+  const Browser = require('../../lib/browser')
+  let collection = emitter = null
 
   beforeEach(() => {
     emitter = new e.EventEmitter()
@@ -18,7 +20,7 @@ describe('BrowserCollection', () => {
     })
 
     it('should fire "browsers_change" event', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browsers_change', spy)
       collection.add({})
       expect(spy).to.have.been.called
@@ -27,7 +29,7 @@ describe('BrowserCollection', () => {
 
   describe('remove', () => {
     it('should remove given browser', () => {
-      var browser = new Browser('id')
+      const browser = new Browser('id')
       collection.add(browser)
 
       expect(collection.length).to.equal(1)
@@ -36,8 +38,8 @@ describe('BrowserCollection', () => {
     })
 
     it('should fire "browsers_change" event', () => {
-      var spy = sinon.spy()
-      var browser = new Browser('id')
+      const spy = sinon.spy()
+      const browser = new Browser('id')
       collection.add(browser)
 
       emitter.on('browsers_change', spy)
@@ -46,7 +48,7 @@ describe('BrowserCollection', () => {
     })
 
     it('should return false if given browser does not exist within the collection', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browsers_change', spy)
       expect(collection.remove({})).to.equal(false)
       expect(spy).not.to.have.been.called
@@ -55,7 +57,7 @@ describe('BrowserCollection', () => {
 
   describe('getById', () => {
     it('should find the browser by id', () => {
-      var browser = new Browser(123)
+      const browser = new Browser(123)
       collection.add(browser)
 
       expect(collection.getById(123)).to.equal(browser)
@@ -70,7 +72,7 @@ describe('BrowserCollection', () => {
   })
 
   describe('setAllToExecuting', () => {
-    var browsers = null
+    let browsers = null
 
     beforeEach(() => {
       browsers = [new Browser(), new Browser(), new Browser()]
@@ -88,7 +90,7 @@ describe('BrowserCollection', () => {
     })
 
     it('should fire "browsers_change" event', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
       emitter.on('browsers_change', spy)
       collection.setAllToExecuting()
       expect(spy).to.have.been.called
@@ -96,7 +98,7 @@ describe('BrowserCollection', () => {
   })
 
   describe('areAllReady', () => {
-    var browsers = null
+    let browsers = null
 
     beforeEach(() => {
       browsers = [new Browser(), new Browser(), new Browser()]
@@ -118,7 +120,7 @@ describe('BrowserCollection', () => {
     it('should add all non-ready browsers into given array', () => {
       browsers[0].state = Browser.STATE_EXECUTING
       browsers[1].state = Browser.STATE_EXECUTING_DISCONNECTED
-      var nonReady = []
+      const nonReady = []
       collection.areAllReady(nonReady)
       expect(nonReady).to.deep.equal([browsers[0], browsers[1]])
     })
@@ -126,7 +128,7 @@ describe('BrowserCollection', () => {
 
   describe('serialize', () => {
     it('should return plain array with serialized browsers', () => {
-      var browsers = [new Browser('1'), new Browser('2')]
+      const browsers = [new Browser('1'), new Browser('2')]
       browsers[0].name = 'B 1.0'
       browsers[1].name = 'B 2.0'
       collection.add(browsers[0])
@@ -141,7 +143,7 @@ describe('BrowserCollection', () => {
 
   describe('getResults', () => {
     it('should return sum of all browser results', () => {
-      var browsers = [new Browser(), new Browser()]
+      const browsers = [new Browser(), new Browser()]
       collection.add(browsers[0])
       collection.add(browsers[1])
       browsers[0].lastResult.success = 2
@@ -149,17 +151,17 @@ describe('BrowserCollection', () => {
       browsers[1].lastResult.success = 4
       browsers[1].lastResult.failed = 5
 
-      var results = collection.getResults()
+      const results = collection.getResults()
       expect(results.success).to.equal(6)
       expect(results.failed).to.equal(8)
     })
 
     it('should compute disconnected true if any browser got disconnected', () => {
-      var browsers = [new Browser(), new Browser()]
+      const browsers = [new Browser(), new Browser()]
       collection.add(browsers[0])
       collection.add(browsers[1])
 
-      var results = collection.getResults()
+      let results = collection.getResults()
       expect(results.disconnected).to.equal(false)
 
       browsers[0].lastResult.disconnected = true
@@ -176,11 +178,11 @@ describe('BrowserCollection', () => {
     })
 
     it('should compute error true if any browser had error', () => {
-      var browsers = [new Browser(), new Browser()]
+      const browsers = [new Browser(), new Browser()]
       collection.add(browsers[0])
       collection.add(browsers[1])
 
-      var results = collection.getResults()
+      let results = collection.getResults()
       expect(results.error).to.equal(false)
 
       browsers[0].lastResult.error = true
@@ -197,11 +199,11 @@ describe('BrowserCollection', () => {
     })
 
     it('should compute exitCode', () => {
-      var browsers = [new Browser(), new Browser()]
-      browsers.forEach(collection.add)
+      const browsers = [new Browser(), new Browser()]
+      browsers.forEach((browser) => collection.add(browser))
 
       browsers[0].lastResult.success = 2
-      var results = collection.getResults()
+      let results = collection.getResults()
       expect(results.exitCode).to.equal(0)
 
       browsers[0].lastResult.failed = 2
@@ -227,7 +229,7 @@ describe('BrowserCollection', () => {
   describe('clearResults', () => {
     it('should clear all results', () => {
       // Date.now.returns 112233
-      var browsers = [new Browser(), new Browser()]
+      const browsers = [new Browser(), new Browser()]
       collection.add(browsers[0])
       collection.add(browsers[1])
       browsers[0].lastResult.sucess++
@@ -249,10 +251,10 @@ describe('BrowserCollection', () => {
 
   describe('clone', () => {
     it('should create a shallow copy of the collection', () => {
-      var browsers = [new Browser(), new Browser(), new Browser()]
-      browsers.forEach(collection.add)
+      const browsers = [new Browser(), new Browser(), new Browser()]
+      browsers.forEach((browser) => collection.add(browser))
 
-      var clone = collection.clone()
+      const clone = collection.clone()
       expect(clone.length).to.equal(3)
 
       clone.remove(browsers[0])
@@ -263,10 +265,10 @@ describe('BrowserCollection', () => {
 
   describe('map', () => {
     it('should have map()', () => {
-      var browsers = [new Browser(1), new Browser(2), new Browser(3)]
-      browsers.forEach(collection.add)
+      const browsers = [new Browser(1), new Browser(2), new Browser(3)]
+      browsers.forEach((browser) => collection.add(browser))
 
-      var mappedIds = collection.map((browser) => browser.id)
+      const mappedIds = collection.map((browser) => browser.id)
 
       expect(mappedIds).to.deep.equal([1, 2, 3])
     })
@@ -274,10 +276,10 @@ describe('BrowserCollection', () => {
 
   describe('forEach', () => {
     it('should have forEach()', () => {
-      var browsers = [new Browser(0), new Browser(1), new Browser(2)]
-      browsers.forEach(collection.add)
+      const browsers = [new Browser(0), new Browser(1), new Browser(2)]
+      browsers.forEach((browser) => collection.add(browser))
 
-      collection.forEach(function (browser, index) {
+      collection.forEach((browser, index) => {
         expect(browser.id).to.equal(index)
       })
     })

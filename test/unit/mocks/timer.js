@@ -1,4 +1,4 @@
-import {Timer} from 'timer-shim'
+var Timer = require('timer-shim').Timer
 
 module.exports = function () {
   var timer = new Timer()

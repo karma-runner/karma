@@ -1,6 +1,7 @@
-import {loadFile} from 'mocks'
-import constant from '../../lib/constants'
-import path from 'path'
+var loadFile = require('mocks').loadFile
+var path = require('path')
+
+var constant = require('../../lib/constants')
 
 describe('runner', () => {
   var m

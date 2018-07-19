@@ -12,7 +12,7 @@ module.exports = function (grunt) {
     var path = require('path')
     var cmd = path.join(__dirname, '..', 'bin', 'karma')
 
-    var spawnKarma = function (args, callback) {
+    function spawnKarma (args, callback) {
       grunt.log.writeln(['Running', cmd].concat(args).join(' '))
       var child
       if (process.platform === 'win32') {
@@ -24,7 +24,7 @@ module.exports = function (grunt) {
       child.stderr.pipe(process.stderr)
     }
 
-    var exec = function (args, failMsg) {
+    function exec (args, failMsg) {
       spawnKarma(args, function (err, result, code) {
         if (code) {
           console.error(err)

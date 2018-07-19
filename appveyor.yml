@@ -3,9 +3,9 @@ version: "{build}"
 environment:
   matrix:
     - nodejs_version: "4"
-    - nodejs_version: "5"
     - nodejs_version: "6"
-    - nodejs_version: "7"
+    - nodejs_version: "8"
+    - nodejs_version: "10"
 
 matrix:
   fast_finish: true
@@ -14,15 +14,12 @@ install:
   # Install Node.js
   - ps: Install-Product node $env:nodejs_version
 
-  # Upgrade npm
-  - npm install -g npm
-
   # Output our current versions for debugging
   - node --version
   - npm --version
 
   # Install our package dependencies
-  - npm install
+  - appveyor-retry npm install
 
   # Install our current directory as a dependency of itself
   - npm run init:windows

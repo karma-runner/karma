@@ -1,11 +1,10 @@
-import 'core-js'
-import {EventEmitter} from 'events'
-import request from 'supertest'
-import di from 'di'
-import mocks from 'mocks'
-import fs from 'fs'
-import mime from 'mime'
-import path from 'path'
+var EventEmitter = require('events').EventEmitter
+var request = require('supertest')
+var di = require('di')
+var mocks = require('mocks')
+var fs = require('fs')
+var mime = require('mime')
+var path = require('path')
 
 describe('web-server', () => {
   var server
@@ -61,6 +60,9 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],
+        filesPromise: ['factory', m.createFilesPromise],
+        serveStaticFile: ['factory', m.createServeStaticFile],
+        serveFile: ['factory', m.createServeFile],
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],
@@ -84,7 +86,6 @@ describe('web-server', () => {
           }
         }]
       }])
-
       server = injector.invoke(m.createWebServer)
     })
 
@@ -168,6 +169,7 @@ describe('web-server', () => {
     })
 
     it('should serve no files when they are not available yet', () => {
+      servedFiles(new Set())
       return request(server)
         .get('/base/new.js')
         .expect(404)
@@ -227,6 +229,10 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],
+        filesPromise: ['factory', m.createFilesPromise],
+        serveStaticFile: ['factory', m.createServeStaticFile],
+        serveFile: ['factory', m.createServeFile],
+
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],
@@ -252,7 +258,7 @@ describe('web-server', () => {
   })
 
   describe('http2', () => {
-    var http2 = require('http2')
+    var http2 = require('http2/')
 
     beforeEach(() => {
       var credentials = {
@@ -268,6 +274,9 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', {files: {served: [], included: []}}],
+        filesPromise: ['factory', m.createFilesPromise],
+        serveStaticFile: ['factory', m.createServeStaticFile],
+        serveFile: ['factory', m.createServeFile],
         capturedBrowsers: ['value', null],
         reporter: ['value', null],
         executor: ['value', null],

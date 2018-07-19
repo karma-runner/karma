@@ -1,4 +1,5 @@
-import path from 'path'
+var path = require('path')
+
 describe('init', () => {
   var loadFile = require('mocks').loadFile
   var m = null

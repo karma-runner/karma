@@ -1,7 +1,7 @@
-import _ from 'lodash'
+var _ = require('lodash')
 
-import BaseLauncher from '../../../lib/launchers/base'
-import {EventEmitter} from '../../../lib/events'
+var BaseLauncher = require('../../../lib/launchers/base')
+var EventEmitter = require('../../../lib/events').EventEmitter
 
 describe('launchers/base.js', () => {
   var emitter

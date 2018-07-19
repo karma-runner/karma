@@ -18,15 +18,15 @@ module.exports = (config) ->
     ]
 
 
-    # list of files to exclude
+    # list of files / patterns to exclude
     exclude: [%EXCLUDE%
     ]
 
 
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: %PREPROCESSORS%
-
+    preprocessors: {%PREPROCESSORS%
+    }
 
     # test results reporter to use
     # possible values: 'dots', 'progress'

@@ -1,12 +1,12 @@
-import path from 'path'
-import _ from 'lodash'
+var path = require('path')
+var _ = require('lodash')
 
-import BaseLauncher from '../../../lib/launchers/base'
-import RetryLauncher from '../../../lib/launchers/retry'
-import CaptureTimeoutLauncher from '../../../lib/launchers/capture_timeout'
-import ProcessLauncher from '../../../lib/launchers/process'
-import {EventEmitter} from '../../../lib/events'
-import createMockTimer from '../mocks/timer'
+var BaseLauncher = require('../../../lib/launchers/base')
+var RetryLauncher = require('../../../lib/launchers/retry')
+var CaptureTimeoutLauncher = require('../../../lib/launchers/capture_timeout')
+var ProcessLauncher = require('../../../lib/launchers/process')
+var EventEmitter = require('../../../lib/events').EventEmitter
+var createMockTimer = require('../mocks/timer')
 
 describe('launchers/process.js', () => {
   var emitter

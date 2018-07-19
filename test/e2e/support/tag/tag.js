@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-var isFirefox = function () {
-  return typeof InstallTrigger !== 'undefined'
+function isFirefoxBefore59 () {
+  return typeof InstallTrigger !== 'undefined' && parseFloat(navigator.userAgent.match(/\d+\.\d+$/)) < 59
 }
 
-var containsJsTag = function () {
+function containsJsTag () {
   var scripts = document.getElementsByTagName('script')
   for (var i = 0; i < scripts.length; i++) {
     if (scripts[i].type.indexOf(';version=') > -1) {

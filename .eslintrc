@@ -1,3 +1,7 @@
 {
-  "extends": "standard"
+  "extends": "standard",
+  "rules": {
+    "arrow-parens": [2, "always"],
+    "space-before-function-paren": ["error", "always"]
+  }
 }

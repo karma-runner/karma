@@ -4,6 +4,14 @@ var assert = require('assert')
 var stringify = require('../../common/stringify')
 
 describe('stringify', function () {
+  if (window && window.Symbol) {
+    // IE does not support Symbol
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+    it('should serialize symbols', function () {
+      assert.deepEqual(stringify(Symbol.for('x')), 'Symbol(x)')
+    })
+  }
+
   it('should serialize string', function () {
     assert.deepEqual(stringify('aaa'), "'aaa'")
   })
@@ -20,7 +28,7 @@ describe('stringify', function () {
 
   it('should serialize functions', function () {
     function abc (a, b, c) { return 'whatever' }
-    var def = function (d, e, f) { return 'whatever' }
+    function def (d, e, f) { return 'whatever' }
 
     var abcString = stringify(abc)
     var partsAbc = ['function', 'abc', '(a, b, c)', '{ ... }']
@@ -40,11 +48,8 @@ describe('stringify', function () {
   //   http://caniuse.com/#feat=proxy
   if (window.Proxy) {
     it('should serialize proxied functions', function () {
-      var abcProxy = new Proxy(function abc (a, b, c) { return 'whatever' }, {})
       var defProxy = new Proxy(function (d, e, f) { return 'whatever' }, {})
-
-      assert.deepEqual(stringify(abcProxy), 'Proxy(function abc(...) { ... })')
-      assert.deepEqual(stringify(defProxy), 'Proxy(function (...) { ... })')
+      assert.deepEqual(stringify(defProxy), 'function () { ... }')
     })
   }
 
@@ -84,6 +89,11 @@ describe('stringify', function () {
 
     div.innerHTML = 'some <span>text</span>'
     assert.deepEqual(stringify(div).trim().toLowerCase(), '<div>some <span>text</span></div>')
+  })
+
+  it('should serialize error', function () {
+    var error = new TypeError('Error description')
+    assert(stringify(error).indexOf('Error description') > -1)
   })
 
   it('should serialize DOMParser objects', function () {

@@ -1,4 +1,4 @@
-var e = require('../../lib/events')
+const e = require('../../lib/events')
 
 describe('events', () => {
   var emitter
@@ -20,34 +20,48 @@ describe('events', () => {
       var object = null
 
       beforeEach(() => {
-        object = sinon.stub({
+        // Note: es6 class instances have non-enumerable prototype properties.
+        function FB () {};
+        FB.prototype = {
+          onPrototypeBar () {}
+        }
+        object = new FB()
+        Object.assign(object, {
           onFoo: () => {},
           onFooBar: () => {},
-          foo: () => {},
-          bar: () => {}
+          foo: () => {}
         })
+
         emitter.bind(object)
       })
 
       it('should register all "on" methods to events', () => {
+        sinon.spy(object, 'onFoo')
         emitter.emit('foo')
         expect(object.onFoo).to.have.been.called
 
+        sinon.spy(object, 'onFooBar')
         emitter.emit('foo_bar')
         expect(object.onFooBar).to.have.been.called
 
+        sinon.spy(object, 'onPrototypeBar')
+        emitter.emit('prototype_bar')
+        expect(object.onPrototypeBar).to.have.been.called
+
+        sinon.spy(object, 'foo')
         expect(object.foo).not.to.have.been.called
-        expect(object.bar).not.to.have.been.called
       })
 
       it('should bind methods to the owner object', () => {
+        sinon.spy(object, 'foo')
+        sinon.spy(object, 'onFoo')
+        sinon.spy(object, 'onFooBar')
         emitter.emit('foo')
         emitter.emit('foo_bar')
 
         expect(object.onFoo).to.have.always.been.calledOn(object)
         expect(object.onFooBar).to.have.always.been.calledOn(object)
         expect(object.foo).not.to.have.been.called
-        expect(object.bar).not.to.have.been.called
       })
     })
 
@@ -98,7 +112,7 @@ describe('events', () => {
     it('should take emitter as second argument', () => {
       var object = sinon.stub({onFoo: () => {}})
 
-      e.bindAll(object, emitter)
+      emitter.bind(object)
       emitter.emit('foo')
       emitter.emit('bar')
 
@@ -108,7 +122,7 @@ describe('events', () => {
     it('should append "context" to event arguments', () => {
       var object = sinon.stub({onFoo: () => {}})
 
-      e.bindAll(object, emitter)
+      emitter.bind(object)
       emitter.emit('foo', 'event-argument')
 
       expect(object.onFoo).to.have.been.calledWith('event-argument', emitter)
@@ -147,7 +161,7 @@ describe('events', () => {
       emitter.on('bar', spy)
 
       replyEvents()
-      expect(spy).to.not.have.been.caleed
+      expect(spy).to.not.have.been.called
     })
 
     it('should work with overriden "emit" method', () => {
