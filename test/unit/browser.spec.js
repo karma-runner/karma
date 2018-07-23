@@ -366,16 +366,25 @@ describe('Browser', () => {
     })
   })
 
-  describe('execute', () => {
-    it('should emit execute and change state to EXECUTING', () => {
+  describe('execute and start', () => {
+    it('should emit execute and change state to CONFIGURING', () => {
       const spyExecute = sinon.spy()
       const config = {}
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
       socket.on('execute', spyExecute)
       browser.execute(config)
 
-      expect(browser.isReady()).to.equal(false)
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
       expect(spyExecute).to.have.been.calledWith(config)
+    })
+
+    it('should emit start and change state to EXECUTING', () => {
+      browser = new Browser('fake-id', 'full name', collection, emitter, socket)
+      browser.init() // init socket listeners
+
+      expect(browser.state).to.equal(Browser.STATE_READY)
+      socket.emit('start', {total: 1})
+      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
     })
   })
 
@@ -423,6 +432,7 @@ describe('Browser', () => {
       const timer = createMockTimer()
       browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, timer, 10)
       browser.init()
+      expect(browser.state).to.equal(Browser.STATE_READY)
 
       browser.execute()
       socket.emit('start', {total: 10})
@@ -439,8 +449,9 @@ describe('Browser', () => {
 
       // reconnect on a new socket (which triggers re-execution)
       browser.reconnect(newSocket)
-      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
       newSocket.emit('start', {total: 11})
+      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
       socket.emit('result', {success: true, suite: [], log: []})
 
       // expected cleared last result (should not include the results from previous run)
@@ -455,6 +466,8 @@ describe('Browser', () => {
       // we need to keep the old socket, in the case that the new socket will disconnect.
       browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, null, 10)
       browser.init()
+      expect(browser.state).to.equal(Browser.STATE_READY)
+
       browser.execute()
 
       // A second connection...
@@ -463,6 +476,8 @@ describe('Browser', () => {
 
       // Disconnect the second connection...
       browser.onDisconnect('socket.io-reason', newSocket)
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
+      socket.emit('start', {total: 1})
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
 
       // It should still be listening on the old socket.
