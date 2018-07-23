@@ -77,7 +77,7 @@ describe('BrowserCollection', () => {
     beforeEach(() => {
       browsers = [new Browser(), new Browser(), new Browser()]
       browsers.forEach((browser) => {
-        browser.state = Browser.STATE_READY
+        browser.state = Browser.STATE_CONNECTED
         collection.add(browser)
       })
     })
@@ -109,8 +109,8 @@ describe('BrowserCollection', () => {
       collection.add(browsers[1])
 
       expect(collection.serialize()).to.deep.equal([
-        {id: '1', name: 'B 1.0', isReady: true},
-        {id: '2', name: 'B 2.0', isReady: true}
+        {id: '1', name: 'B 1.0', isConnected: true},
+        {id: '2', name: 'B 2.0', isConnected: true}
       ])
     })
   })
