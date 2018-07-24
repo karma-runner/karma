@@ -461,7 +461,7 @@
   "engines": {
     "node": ">= 4"
   },
-  "version": "2.0.4",
+  "version": "2.0.5",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",

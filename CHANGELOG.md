@@ -1,3 +1,22 @@
+<a name="2.0.5"></a>
+## [2.0.5](https://github.com/karma-runner/karma/compare/v2.0.4...v2.0.5) (2018-07-24)
+
+
+### Bug Fixes
+
+* remove circular reference in Browser ([518cb11](https://github.com/karma-runner/karma/commit/518cb11)), closes [#3075](https://github.com/karma-runner/karma/issues/3075)
+* **browser:** ensure browser state is EXECUTING when tests start ([#3074](https://github.com/karma-runner/karma/issues/3074)) ([dc7265b](https://github.com/karma-runner/karma/commit/dc7265b)), closes [#1640](https://github.com/karma-runner/karma/issues/1640)
+* **doc:** Document release steps for admins ([#3063](https://github.com/karma-runner/karma/issues/3063)) ([a701732](https://github.com/karma-runner/karma/commit/a701732))
+* **middleware:** Obey the Promise API. ([93ba05a](https://github.com/karma-runner/karma/commit/93ba05a))
+* **server:** pass bound port to prevent`EADDRINUSE` issue. ([#3065](https://github.com/karma-runner/karma/issues/3065)) ([850a90b](https://github.com/karma-runner/karma/commit/850a90b))
+
+
+### Features
+
+* **preprocessor:** Allow preprocessor to handle binary files ([#3054](https://github.com/karma-runner/karma/issues/3054)) ([7b66e18](https://github.com/karma-runner/karma/commit/7b66e18))
+
+
+
 <a name="2.0.4"></a>
 ## [2.0.4](https://github.com/karma-runner/karma/compare/v2.0.3...v2.0.4) (2018-06-21)
 
