@@ -8,7 +8,8 @@ You can, however, call Karma programmatically from your node module. Here is the
 
 ```javascript
 var Server = require('karma').Server
-var server = new Server({port: 9876}, function(exitCode) {
+var karmaConfig = {port: 9876}
+var server = new Server(karmaConfig, function(exitCode) {
   console.log('Karma has exited with ' + exitCode)
   process.exit(exitCode)
 })
