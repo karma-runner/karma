@@ -122,7 +122,11 @@ function ContextKarma (callParentKarmaMethod) {
         }
         localConsole[method] = function () {
           self.log(method, arguments)
-          return Function.prototype.apply.call(orig, localConsole, arguments)
+          try {
+            return Function.prototype.apply.call(orig, localConsole, arguments)
+          } catch (error) {
+            self.log('warn', ['Console method ' + method + ' threw: ' + error])
+          }
         }
       }
       for (var i = 0; i < logMethods.length; i++) {
