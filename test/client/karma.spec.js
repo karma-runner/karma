@@ -289,6 +289,57 @@ describe('Karma', function () {
       assert.equal(promptCalled, true)
       assert.equal(promptResult, 'user-input')
     })
+
+    it('should patch the console if captureConsole is true', function () {
+      sinon.spy(ck, 'log')
+      ck.config.captureConsole = true
+
+      var mockWindow = {
+        console: {
+          log: function () {}
+        }
+      }
+
+      ck.setupContext(mockWindow)
+      mockWindow.console.log('What?')
+      assert(ck.log.calledWith('log'))
+      assert(ck.log.args[0][1][0] === 'What?')
+    })
+
+    it('should not patch the console if captureConsole is false', function () {
+      sinon.spy(ck, 'log')
+      ck.config.captureConsole = false
+
+      var mockWindow = {
+        console: {
+          log: function () {}
+        }
+      }
+
+      ck.setupContext(mockWindow)
+      mockWindow.console.log('hello')
+      assert(!ck.log.called)
+    })
+
+    it('should not allow broken console methods to break tests (if captureConsole is true)', function () {
+      sinon.spy(ck, 'log')
+      ck.config.captureConsole = true
+
+      var mockWindow = {
+        console: {
+          log: function () {
+            throw new Error('I am a broken console.log method.')
+          }
+        }
+      }
+
+      ck.setupContext(mockWindow)
+      mockWindow.console.log('What?')
+      assert(ck.log.calledWith('log'))
+      assert.equal(ck.log.args[0][1][0], 'What?')
+      assert(ck.log.calledWith('warn'))
+      assert(/^Console method log threw:[\s\S]+I am a broken console\.log method/.test(ck.log.args[1][1][0]))
+    })
   })
 
   describe('complete', function () {
@@ -341,37 +392,6 @@ describe('Karma', function () {
         done()
       }, 5)
       clock.tick(10)
-    })
-
-    it('should patch the console if captureConsole is true', function () {
-      sinon.spy(ck, 'log')
-      ck.config.captureConsole = true
-
-      var mockWindow = {
-        console: {
-          log: function () {}
-        }
-      }
-
-      ck.setupContext(mockWindow)
-      mockWindow.console.log('What?')
-      assert(ck.log.calledWith('log'))
-      assert(ck.log.args[0][1][0] === 'What?')
-    })
-
-    it('should not patch the console if captureConsole is false', function () {
-      sinon.spy(ck, 'log')
-      ck.config.captureConsole = false
-
-      var mockWindow = {
-        console: {
-          log: function () {}
-        }
-      }
-
-      ck.setupContext(mockWindow)
-      mockWindow.console.log('hello')
-      assert(!ck.log.called)
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
