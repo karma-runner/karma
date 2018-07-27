@@ -156,11 +156,11 @@ a flaky network link between the Karma server and the browsers.
 ## browserNoActivityTimeout
 **Type:** Number
 
-**Default:** `20000`
+**Default:** `30000`
 
 **Description:** How long will Karma wait for a message from a browser before disconnecting from it (in ms).
 
-If, during test execution, Karma does not receive any message from a browser within `browserNoActivityTimeout`(ms), it will disconnect from the browser.
+If, during test execution, Karma does not receive any message from a browser within `browserNoActivityTimeout`(ms), it will disconnect from the browser. The default is the one recommended by Travis (https://docs.travis-ci.com/user/gui-and-headless-browsers/#karma-and-firefox-inactivity-timeouts)
 
 
 ## browsers
