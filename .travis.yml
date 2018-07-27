@@ -14,13 +14,13 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "8"
+    - name: "Lint code and commit message format"
+      node_js: "8"
       env: VALIDATE_COMMIT_MSG=true LINT=true
 
 before_install:
   - npm config set loglevel warn
   - g++-4.8 --version
-  - if [[ "`node --version`" = v4* ]]; then npm install -g npm@latest-3; fi
 
 addons:
   firefox:
@@ -36,7 +36,10 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - npm run init
   - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
-  - 'if [ "$VALIDATE_COMMIT_MSG" == "true" ]; then ./scripts/validate-commit-msg.sh $TRAVIS_COMMIT; fi'
+  - echo "git head commit $(git rev-parse FETCH_HEAD)"
+  - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
+  - echo "TRAVIS_PULL_REQUEST_SHA $TRAVIS_PULL_REQUEST_SHA"
+  - 'if [ "$VALIDATE_COMMIT_MSG" == "true" ]; then ./scripts/validate-commit-msg.sh $TRAVIS_PULL_REQUEST_SHA; fi'
   - 'if [ "$LINT" == "true" ]; then npm run lint; fi'
 
 script:
