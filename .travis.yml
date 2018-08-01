@@ -38,7 +38,7 @@ before_script:
   - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
   - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
   - echo "TRAVIS_PULL_REQUEST_SHA $TRAVIS_PULL_REQUEST_SHA"
-  - COMMIT_TO_VALIDATE=${TRAVIS_PULL_REQUEST_SHA:-TRAVIS_COMMIT}
+  - COMMIT_TO_VALIDATE=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
   - echo "COMMIT_TO_VALIDATE $COMMIT_TO_VALIDATE"
   - 'if [ "$VALIDATE_COMMIT_MSG" == "true" ]; then ./scripts/validate-commit-msg.sh $COMMIT_TO_VALIDATE; fi'
   - 'if [ "$LINT" == "true" ]; then npm run lint; fi'
