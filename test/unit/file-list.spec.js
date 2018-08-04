@@ -11,15 +11,15 @@ const helper = require('../../lib/helper')
 const config = require('../../lib/config')
 
 // create an array of pattern objects from given strings
-const patterns = function () {
+function patterns () {
   return Array.from(arguments).map((str) => new config.Pattern(str))
 }
 
-const pathsFrom = (files) => {
-  return _.map(Array.from(files), 'path')
+function pathsFrom (files) {
+  return Array.from(files).map((file) => file.path)
 }
 
-const findFile = (path, files) => {
+function findFile (path, files) {
   return Array.from(files).find((file) => file.path === path)
 }
 
@@ -159,7 +159,7 @@ describe('FileList', () => {
     })
   })
 
-  describe('_isExcluded', () => {
+  describe('_findExcluded', () => {
     beforeEach(() => {
       preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
@@ -167,18 +167,18 @@ describe('FileList', () => {
 
     it('returns undefined when no match is found', () => {
       list = new List([], ['hello.js', 'world.js'], emitter, preprocess)
-      expect(list._isExcluded('hello.txt')).to.be.undefined
-      expect(list._isExcluded('/hello/world/i.js')).to.be.undefined
+      expect(list._findExcluded('hello.txt')).to.be.undefined
+      expect(list._findExcluded('/hello/world/i.js')).to.be.undefined
     })
 
     it('returns the first match if it finds one', () => {
       list = new List([], ['*.js', '**/*.js'], emitter, preprocess)
-      expect(list._isExcluded('world.js')).to.be.eql('*.js')
-      expect(list._isExcluded('/hello/world/i.js')).to.be.eql('**/*.js')
+      expect(list._findExcluded('world.js')).to.be.eql('*.js')
+      expect(list._findExcluded('/hello/world/i.js')).to.be.eql('**/*.js')
     })
   })
 
-  describe('_isIncluded', () => {
+  describe('_findIncluded', () => {
     beforeEach(() => {
       preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
@@ -186,14 +186,14 @@ describe('FileList', () => {
 
     it('returns undefined when no match is found', () => {
       list = new List(patterns('*.js'), [], emitter, preprocess)
-      expect(list._isIncluded('hello.txt')).to.be.undefined
-      expect(list._isIncluded('/hello/world/i.js')).to.be.undefined
+      expect(list._findIncluded('hello.txt')).to.be.undefined
+      expect(list._findIncluded('/hello/world/i.js')).to.be.undefined
     })
 
     it('returns the first match if it finds one', () => {
       list = new List(patterns('*.js', '**/*.js'), [], emitter, preprocess)
-      expect(list._isIncluded('world.js').pattern).to.be.eql('*.js')
-      expect(list._isIncluded('/hello/world/i.js').pattern).to.be.eql('**/*.js')
+      expect(list._findIncluded('world.js').pattern).to.be.eql('*.js')
+      expect(list._findIncluded('/hello/world/i.js').pattern).to.be.eql('**/*.js')
     })
   })
 
@@ -288,7 +288,7 @@ describe('FileList', () => {
 
     it('cancels refreshs', () => {
       const checkResult = (files) => {
-        expect(_.map(files.served, 'path')).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
+        expect(pathsFrom(files.served)).to.contain('/some/a.js', '/some/b.js', '/some/c.js')
       }
 
       const p1 = list.refresh().then(checkResult)

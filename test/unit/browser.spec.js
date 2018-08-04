@@ -32,6 +32,14 @@ describe('Browser', () => {
     expect(browser.fullName).to.equal(fullName)
   })
 
+  it('should serialize to JSON', () => {
+    const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
+    browser = new Browser('id', fullName, collection, emitter, socket)
+    emitter.browser = browser
+    const json = JSON.stringify(browser)
+    expect(json).to.contain(fullName)
+  })
+
   describe('init', () => {
     it('should emit "browser_register"', () => {
       const spyRegister = sinon.spy()
@@ -86,7 +94,7 @@ describe('Browser', () => {
     it('should ignore if browser not executing', () => {
       const spy = sinon.spy()
       emitter.on('browser_error', spy)
-      browser.state = Browser.STATE_READY
+      browser.state = Browser.STATE_CONNECTED
 
       browser.onKarmaError()
       expect(browser.lastResult.error).to.equal(false)
@@ -122,7 +130,7 @@ describe('Browser', () => {
       const spy = sinon.spy()
       emitter.on('browser_dump', spy)
 
-      browser.state = Browser.STATE_READY
+      browser.state = Browser.STATE_CONNECTED
       browser.onInfo({dump: 'something'})
       browser.onInfo({total: 20})
 
@@ -136,8 +144,13 @@ describe('Browser', () => {
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
     })
 
+    it('should change state to EXECUTING', () => {
+      browser.state = Browser.STATE_CONNECTED
+      browser.onStart({total: 20})
+      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
+    })
+
     it('should set total count of specs', () => {
-      browser.state = Browser.STATE_EXECUTING
       browser.onStart({total: 20})
       expect(browser.lastResult.total).to.equal(20)
     })
@@ -146,7 +159,6 @@ describe('Browser', () => {
       const spy = sinon.spy()
       emitter.on('browser_start', spy)
 
-      browser.state = Browser.STATE_EXECUTING
       browser.onStart({total: 20})
 
       expect(spy).to.have.been.calledWith(browser, {total: 20})
@@ -164,10 +176,10 @@ describe('Browser', () => {
       Date.now.restore()
     })
 
-    it('should set isReady to true', () => {
+    it('should set isConnected to true', () => {
       browser.state = Browser.STATE_EXECUTING
       browser.onComplete()
-      expect(browser.isReady()).to.equal(true)
+      expect(browser.isConnected()).to.equal(true)
     })
 
     it('should fire "browsers_change" event', () => {
@@ -184,7 +196,7 @@ describe('Browser', () => {
       emitter.on('browsers_change', spy)
       emitter.on('browser_complete', spy)
 
-      browser.state = Browser.STATE_READY
+      browser.state = Browser.STATE_CONNECTED
       browser.onComplete()
       expect(spy).not.to.have.been.called
     })
@@ -237,7 +249,7 @@ describe('Browser', () => {
     it('should not complete if browser not executing', () => {
       const spy = sinon.spy()
       emitter.on('browser_complete', spy)
-      browser.state = Browser.STATE_READY
+      browser.state = Browser.STATE_CONNECTED
 
       browser.onDisconnect('socket.io-reason', socket)
       expect(spy).not.to.have.been.called
@@ -286,7 +298,7 @@ describe('Browser', () => {
 
       browser.reconnect(mkSocket())
 
-      expect(browser.isReady()).to.equal(true)
+      expect(browser.isConnected()).to.equal(true)
     })
   })
 
@@ -320,7 +332,7 @@ describe('Browser', () => {
     })
 
     it('should ignore if not running', () => {
-      browser.state = Browser.STATE_READY
+      browser.state = Browser.STATE_CONNECTED
       browser.onResult(createSuccessResult())
       browser.onResult(createSuccessResult())
       browser.onResult(createFailedResult())
@@ -352,26 +364,35 @@ describe('Browser', () => {
   })
 
   describe('serialize', () => {
-    it('should return plain object with only name, id, isReady properties', () => {
+    it('should return plain object with only name, id, isConnected properties', () => {
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
-      browser.state = Browser.STATE_READY
+      browser.state = Browser.STATE_CONNECTED
       browser.name = 'Browser 1.0'
       browser.id = '12345'
 
-      expect(browser.serialize()).to.deep.equal({id: '12345', name: 'Browser 1.0', isReady: true})
+      expect(browser.serialize()).to.deep.equal({id: '12345', name: 'Browser 1.0', isConnected: true})
     })
   })
 
-  describe('execute', () => {
-    it('should emit execute and change state to EXECUTING', () => {
+  describe('execute and start', () => {
+    it('should emit execute and change state to CONFIGURING', () => {
       const spyExecute = sinon.spy()
       const config = {}
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
       socket.on('execute', spyExecute)
       browser.execute(config)
 
-      expect(browser.isReady()).to.equal(false)
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
       expect(spyExecute).to.have.been.calledWith(config)
+    })
+
+    it('should emit start and change state to EXECUTING', () => {
+      browser = new Browser('fake-id', 'full name', collection, emitter, socket)
+      browser.init() // init socket listeners
+
+      expect(browser.state).to.equal(Browser.STATE_CONNECTED)
+      socket.emit('start', {total: 1})
+      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
     })
   })
 
@@ -383,15 +404,15 @@ describe('Browser', () => {
       browser.state = Browser.STATE_EXECUTING
       socket.emit('result', {success: true, suite: [], log: []})
       socket.emit('disconnect', 'socket.io reason')
-      expect(browser.isReady()).to.equal(false)
+      expect(browser.isConnected()).to.equal(false)
 
       const newSocket = mkSocket()
       browser.reconnect(newSocket)
-      expect(browser.isReady()).to.equal(false)
+      expect(browser.isConnected()).to.equal(false)
 
       newSocket.emit('result', {success: false, suite: [], log: []})
       newSocket.emit('complete')
-      expect(browser.isReady()).to.equal(true)
+      expect(browser.isConnected()).to.equal(true)
       expect(browser.lastResult.success).to.equal(1)
       expect(browser.lastResult.failed).to.equal(1)
     })
@@ -419,6 +440,7 @@ describe('Browser', () => {
       const timer = createMockTimer()
       browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, timer, 10)
       browser.init()
+      expect(browser.state).to.equal(Browser.STATE_CONNECTED)
 
       browser.execute()
       socket.emit('start', {total: 10})
@@ -435,8 +457,9 @@ describe('Browser', () => {
 
       // reconnect on a new socket (which triggers re-execution)
       browser.reconnect(newSocket)
-      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
       newSocket.emit('start', {total: 11})
+      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
       socket.emit('result', {success: true, suite: [], log: []})
 
       // expected cleared last result (should not include the results from previous run)
@@ -451,6 +474,8 @@ describe('Browser', () => {
       // we need to keep the old socket, in the case that the new socket will disconnect.
       browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, null, 10)
       browser.init()
+      expect(browser.state).to.equal(Browser.STATE_CONNECTED)
+
       browser.execute()
 
       // A second connection...
@@ -459,6 +484,8 @@ describe('Browser', () => {
 
       // Disconnect the second connection...
       browser.onDisconnect('socket.io-reason', newSocket)
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
+      socket.emit('start', {total: 1})
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
 
       // It should still be listening on the old socket.

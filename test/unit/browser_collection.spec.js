@@ -71,39 +71,13 @@ describe('BrowserCollection', () => {
     })
   })
 
-  describe('setAllToExecuting', () => {
-    let browsers = null
-
-    beforeEach(() => {
-      browsers = [new Browser(), new Browser(), new Browser()]
-      browsers.forEach((browser) => {
-        collection.add(browser)
-      })
-    })
-
-    it('should set all browsers state to executing', () => {
-      collection.setAllToExecuting()
-      browsers.forEach((browser) => {
-        expect(browser.isReady()).to.equal(false)
-        expect(browser.state).to.equal(Browser.STATE_EXECUTING)
-      })
-    })
-
-    it('should fire "browsers_change" event', () => {
-      const spy = sinon.spy()
-      emitter.on('browsers_change', spy)
-      collection.setAllToExecuting()
-      expect(spy).to.have.been.called
-    })
-  })
-
   describe('areAllReady', () => {
     let browsers = null
 
     beforeEach(() => {
       browsers = [new Browser(), new Browser(), new Browser()]
       browsers.forEach((browser) => {
-        browser.state = Browser.STATE_READY
+        browser.state = Browser.STATE_CONNECTED
         collection.add(browser)
       })
     })
@@ -135,8 +109,8 @@ describe('BrowserCollection', () => {
       collection.add(browsers[1])
 
       expect(collection.serialize()).to.deep.equal([
-        {id: '1', name: 'B 1.0', isReady: true},
-        {id: '2', name: 'B 2.0', isReady: true}
+        {id: '1', name: 'B 1.0', isConnected: true},
+        {id: '2', name: 'B 2.0', isConnected: true}
       ])
     })
   })

@@ -1,3 +1,36 @@
+<a name="2.0.5"></a>
+## [2.0.5](https://github.com/karma-runner/karma/compare/v2.0.4...v2.0.5) (2018-07-24)
+
+
+### Bug Fixes
+
+* remove circular reference in Browser ([518cb11](https://github.com/karma-runner/karma/commit/518cb11)), closes [#3075](https://github.com/karma-runner/karma/issues/3075)
+* **browser:** ensure browser state is EXECUTING when tests start ([#3074](https://github.com/karma-runner/karma/issues/3074)) ([dc7265b](https://github.com/karma-runner/karma/commit/dc7265b)), closes [#1640](https://github.com/karma-runner/karma/issues/1640)
+* **doc:** Document release steps for admins ([#3063](https://github.com/karma-runner/karma/issues/3063)) ([a701732](https://github.com/karma-runner/karma/commit/a701732))
+* **middleware:** Obey the Promise API. ([93ba05a](https://github.com/karma-runner/karma/commit/93ba05a))
+* **server:** pass bound port to prevent`EADDRINUSE` issue. ([#3065](https://github.com/karma-runner/karma/issues/3065)) ([850a90b](https://github.com/karma-runner/karma/commit/850a90b))
+
+
+### Features
+
+* **preprocessor:** Allow preprocessor to handle binary files ([#3054](https://github.com/karma-runner/karma/issues/3054)) ([7b66e18](https://github.com/karma-runner/karma/commit/7b66e18))
+
+
+
+<a name="2.0.4"></a>
+## [2.0.4](https://github.com/karma-runner/karma/compare/v2.0.3...v2.0.4) (2018-06-21)
+
+
+### Bug Fixes
+
+* **deps:** remove babel-core and babel call in wallaby. ([#3044](https://github.com/karma-runner/karma/issues/3044)) ([7da8ca0](https://github.com/karma-runner/karma/commit/7da8ca0))
+* **events:** bind emitters with for..in. ([#3059](https://github.com/karma-runner/karma/issues/3059)) ([b99f03f](https://github.com/karma-runner/karma/commit/b99f03f)), closes [#3057](https://github.com/karma-runner/karma/issues/3057)
+* **launcher:** Only markCaptured browsers that are launched. ([#3047](https://github.com/karma-runner/karma/issues/3047)) ([f8f3ebc](https://github.com/karma-runner/karma/commit/f8f3ebc))
+* **server:** actually call stert(). ([#3062](https://github.com/karma-runner/karma/issues/3062)) ([40d836a](https://github.com/karma-runner/karma/commit/40d836a))
+* **server:** Resurrect static function Server.start() lost in 2.0.3 ([#3055](https://github.com/karma-runner/karma/issues/3055)) ([c88ebc6](https://github.com/karma-runner/karma/commit/c88ebc6))
+
+
+
 <a name="2.0.3"></a>
 ## [2.0.3](https://github.com/karma-runner/karma/compare/v0.12.16...v2.0.3) (2018-06-15)
 
