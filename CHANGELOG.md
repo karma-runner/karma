@@ -13,6 +13,10 @@
 * **travis:** validate TRAVIS_COMMIT if TRAVIS_PULL_REQUEST_SHA is not set. ([#3094](https://github.com/karma-runner/karma/issues/3094)) ([fba5d36](https://github.com/karma-runner/karma/commit/fba5d36))
 * **travis:** Validate TRAVIS_PULL_REQUEST_SHA rather than TRAVIS_COMMIT. ([#3093](https://github.com/karma-runner/karma/issues/3093)) ([a58fa45](https://github.com/karma-runner/karma/commit/a58fa45))
 
+### BREAKING CHANGES
+
+* Drop Support for Nodejs4 ([#3082](https://github.com/karma-runner/karma/pull/3082))
+
 
 
 <a name="2.0.6"></a>
