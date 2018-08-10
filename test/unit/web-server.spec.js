@@ -90,11 +90,11 @@ describe('web-server', () => {
     })
 
     it('should setup mime', () => {
-      expect(mime.lookup('/my.custom')).to.equal('custom/custom')
+      expect(mime.getType('/my.custom')).to.equal('custom/custom')
     })
 
     it('should keep default mimes', () => {
-      expect(mime.lookup('/my.html')).to.equal('text/html')
+      expect(mime.getType('/my.html')).to.equal('text/html')
     })
 
     it('should serve client.html', () => {
