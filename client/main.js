@@ -9,12 +9,13 @@ var constants = require('./constants')
 
 var KARMA_URL_ROOT = constants.KARMA_URL_ROOT
 var KARMA_PROXY_PATH = constants.KARMA_PROXY_PATH
+var BROWSER_SOCKET_TIMEOUT = constants.BROWSER_SOCKET_TIMEOUT
 
 // Connect to the server using socket.io http://socket.io
 var socket = io(location.host, {
   reconnectionDelay: 500,
   reconnectionDelayMax: Infinity,
-  timeout: 20000,
+  timeout: BROWSER_SOCKET_TIMEOUT,
   path: KARMA_PROXY_PATH + KARMA_URL_ROOT.substr(1) + 'socket.io',
   'sync disconnect on unload': true
 })

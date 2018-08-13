@@ -793,6 +793,29 @@ If set then the following fields will be defined and can be overriden:
 All of Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
 sometimes you might want to proxy a url that is already taken by Karma.
 
+## browserSocketTimeout
+**Type:** Number
+
+**Default:** `20000`
+
+**Description:** Timeout for the client socket connection (in ms).
+
+This configuration represents the amount of time that the client will wait for the socket
+to connect.
+
+When running a browser in different environments, it can take different amounts of time for the
+client socket to connect. If Karma cannot connect within the default timeout, you may see an
+error similar to the following:
+```
+ChromeHeadless have not captured in 60000ms, killing.
+Trying to start ChromeHeadless again (1/2).
+ChromeHeadless have not captured in 60000ms, killing.
+Trying to start ChromeHeadless again (2/2).
+ChromeHeadless have not captured in 60000ms, killing.
+ChromeHeadless failed 2 times(timeout). Giving up.
+```
+If you see this error, you can try increasing the socket connection timeout.
+
 
 [plugins]: plugins.html
 [config/files]: files.html
