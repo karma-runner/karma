@@ -166,7 +166,7 @@ describe('launchers/process.js', () => {
       expect(browserProcess.kill).to.have.been.called
       browserProcess.emit('exit', 0)
       mockTempDir.remove.callArg(1)
-      mockSpawn.reset()
+      mockSpawn.resetHistory()
 
       _.defer(() => {
         // expect re-starting
@@ -182,8 +182,9 @@ describe('launchers/process.js', () => {
 
       // expect starting
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
+
       let browserProcess = mockSpawn._processes.shift()
-      mockSpawn.reset()
+      mockSpawn.resetHistory()
 
       // timeout - first time
       mockTimer.wind(101)
@@ -192,14 +193,14 @@ describe('launchers/process.js', () => {
       expect(browserProcess.kill).to.have.been.called
       browserProcess.emit('exit', 0)
       mockTempDir.remove.callArg(1)
-      mockTempDir.remove.reset()
+      mockTempDir.remove.resetHistory()
 
       _.defer(() => {
         // expect re-starting
         expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
         browserProcess = mockSpawn._processes.shift()
         expect(failureSpy).not.to.have.been.called
-        mockSpawn.reset()
+        mockSpawn.resetHistory()
 
         // timeout - second time
         mockTimer.wind(101)
@@ -208,14 +209,14 @@ describe('launchers/process.js', () => {
         expect(browserProcess.kill).to.have.been.called
         browserProcess.emit('exit', 0)
         mockTempDir.remove.callArg(1)
-        mockTempDir.remove.reset()
+        mockTempDir.remove.resetHistory()
 
         _.defer(() => {
           // expect re-starting
           expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
           browserProcess = mockSpawn._processes.shift()
           expect(failureSpy).not.to.have.been.called
-          mockSpawn.reset()
+          mockSpawn.resetHistory()
 
           // timeout - third time
           mockTimer.wind(201)
@@ -224,7 +225,7 @@ describe('launchers/process.js', () => {
           expect(browserProcess.kill).to.have.been.called
           browserProcess.emit('exit', 0)
           mockTempDir.remove.callArg(1)
-          mockTempDir.remove.reset()
+          mockTempDir.remove.resetHistory()
 
           _.defer(() => {
             expect(mockSpawn).to.not.have.been.called
@@ -243,12 +244,12 @@ describe('launchers/process.js', () => {
       // expect starting the process
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
       let browserProcess = mockSpawn._processes.shift()
-      mockSpawn.reset()
+      mockSpawn.resetHistory()
 
       // crash
       browserProcess.emit('exit', 1)
       mockTempDir.remove.callArg(1)
-      mockTempDir.remove.reset()
+      mockTempDir.remove.resetHistory()
 
       _.defer(() => {
         // expect re-starting
@@ -307,8 +308,8 @@ describe('launchers/process.js', () => {
 
       browserProcess.emit('exit', 0)
       mockTempDir.remove.callArg(1)
-      mockTempDir.remove.reset()
-      mockSpawn.reset()
+      mockTempDir.remove.resetHistory()
+      mockSpawn.resetHistory()
     })
   })
 })

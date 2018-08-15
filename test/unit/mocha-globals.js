@@ -15,7 +15,7 @@ chai.use(require('sinon-chai'))
 chai.use(require('chai-subset'))
 
 beforeEach(() => {
-  global.sinon = sinon.sandbox.create()
+  global.sinon = sinon.createSandbox()
 
   // set logger to log INFO, but do not append to console
   // so that we can assert logs by logger.on('info', ...)

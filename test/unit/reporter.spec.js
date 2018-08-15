@@ -23,7 +23,7 @@ describe('reporter', () => {
     beforeEach(() => {
       emitter = new EventEmitter()
       formatError = m.createErrorFormatter({ basePath: '', hostname: 'localhost', port: 8080 }, emitter)
-      sandbox = sinon.sandbox.create()
+      sandbox = sinon.createSandbox()
     })
 
     it('should call config.formatError if defined', () => {
