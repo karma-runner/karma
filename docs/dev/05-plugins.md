@@ -18,6 +18,17 @@ Karma can be extended through plugins. A plugin is essentially an NPM module. Ty
 - use NPM keywords `karma-plugin`, `karma-launcher`
 
 ## Preprocessors
+
+A preprocessor is a function that accepts three arguments (`content`, `file`, and `next`), mutates the content in some way, and passes it on to the next preprocessor.
+
+- arguments passed to preprocessor plugins:
+  - **`content`** of the file being processed
+  - **`file`** object describing the file being processed
+     - **path:** the current file, mutable file path. e. g. `some/file.coffee` -> `some/file.coffee.js` _This path is mutable and may not actually exist._
+     - **originalPath:** the original, unmutated path
+     - **encodings:** A mutable, keyed object where the keys are a valid encoding type ('gzip', 'compress', 'br', etc.) and the values are the encoded content. Encoded content should be stored here and not resolved using `next(null, encodedContent)`
+     - **type:** the pattern used to match the file
+  - **`next`** function to be called when preprocessing is complete, should be called as `next(null, processedContent)` or `next(error)`
 - example plugins: [karma-coffee-preprocessor], [karma-ng-html2js-preprocessor]
 - use naming convention is `karma-*-preprocessor`
 - user NPM keywords `karma-plugin`, `karma-preprocessor`

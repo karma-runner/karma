@@ -1,6 +1,7 @@
 var http = require('http')
 var mocks = require('mocks')
 var request = require('supertest')
+var zlib = require('zlib')
 
 var helper = require('../../../lib/helper')
 var File = require('../../../lib/file')
@@ -106,6 +107,41 @@ describe('middleware.source_files', function () {
         .get('/absolute/src/some.js')
         .set('Range', 'bytes=20-')
         .expect(416, '')
+    })
+  })
+
+  describe('file encoding', function () {
+    let file
+    beforeEach(function () {
+      file = new File('/src/some.js')
+      servedFiles([
+        file
+      ])
+    })
+
+    it('serves encoded files', function () {
+      file.encodings.gzip = zlib.gzipSync('gzipped-js-source')
+      return request(server)
+        .get('/absolute/src/some.js')
+        .set('Accept-Encoding', 'gzip, deflate')
+        .expect(200, 'gzipped-js-source')
+        .expect('Content-Encoding', 'gzip')
+        .expect('Content-Type', 'application/javascript')
+    })
+
+    it('serves unencoded files when request does not accept available encodings', function (done) {
+      file.encodings.gzip = zlib.gzipSync('gzipped-js-source')
+      request(server)
+        .get('/absolute/src/some.js')
+        .set('Accept-Encoding', 'gzippy, deflate')
+        .expect(200, 'js-source')
+        .end((error, res) => {
+          if (error) {
+            return done(error)
+          }
+          expect(res.headers).to.not.have.property('content-encoding')
+          return done()
+        })
     })
   })
 
