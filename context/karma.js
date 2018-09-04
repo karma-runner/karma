@@ -37,7 +37,11 @@ function ContextKarma (callParentKarmaMethod) {
   this.loaded = function () {
     // has error -> cancel
     if (!hasError) {
-      this.start(this.config)
+      try {
+        this.start(this.config)
+      } catch (error) {
+        this.error(error.stack || error.toString())
+      }
     }
 
     // remove reference to child iframe
