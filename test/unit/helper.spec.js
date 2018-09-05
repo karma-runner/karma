@@ -309,4 +309,32 @@ describe('helper', () => {
       helper.mmPatternWeight('{**,*}').should.be.deep.equal([2, 1, 0, 0, 0, 0])
     })
   })
+
+  describe('saveOriginalArgs', () => {
+    it('should clone config.client.args', () => {
+      var config = {
+        client: {
+          args: ['--somearg']
+        }
+      }
+      expect(config.client.originalArgs).to.not.exist
+      helper.saveOriginalArgs(config)
+      config.client.args.should.be.deep.equal(['--somearg'])
+      config.client.originalArgs.should.be.deep.equal(['--somearg'])
+    })
+  })
+
+  describe('restoreOriginalArgs', () => {
+    it('should restore config.client.originalArgs', () => {
+      var config = {
+        client: {
+          args: ['--somearg'],
+          originalArgs: []
+        }
+      }
+      helper.restoreOriginalArgs(config)
+      config.client.args.should.be.deep.equal([])
+      config.client.originalArgs.should.be.deep.equal([])
+    })
+  })
 })
