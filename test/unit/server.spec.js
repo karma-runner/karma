@@ -152,6 +152,25 @@ describe('server', () => {
     })
   })
 
+  describe('start on watch mode', () => {
+    var config
+    beforeEach(() => {
+      config = { port: 9876, listenAddress: '127.0.0.1', singleRun: false }
+      sinon.spy(BundleUtils, 'bundleResourceIfNotExist')
+      sinon.stub(NetUtils, 'bindAvailablePort').resolves(mockBoundServer)
+      sinon.stub(mockBoundServer, 'address').returns({ port: 9877 })
+      sinon
+        .stub(server, 'get')
+        .withArgs('config').returns(config)
+    })
+
+    it('should exit gracefully', (done) => {
+      server.start()
+        .then(() => server.stop())
+        .then(() => done())
+    })
+  })
+
   // ============================================================================
   // server._start()
   // ============================================================================
