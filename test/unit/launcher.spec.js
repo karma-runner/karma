@@ -1,15 +1,15 @@
 'use strict'
 
-var Promise = require('bluebird')
-var di = require('di')
+const Promise = require('bluebird')
+const di = require('di')
 
-var events = require('../../lib/events')
-var launcher = require('../../lib/launcher')
-var createMockTimer = require('./mocks/timer')
+const events = require('../../lib/events')
+const launcher = require('../../lib/launcher')
+const createMockTimer = require('./mocks/timer')
 
 // promise mock
-var stubPromise = (obj, method, stubAction) => {
-  var promise = new Promise((resolve) => {
+const stubPromise = (obj, method, stubAction) => {
+  const promise = new Promise((resolve) => {
     obj[method].resolve = resolve
   })
 
@@ -62,7 +62,7 @@ function ScriptBrowser (id, name, baseBrowserDecorator) {
 
 describe('launcher', () => {
   // mock out id generator
-  var lastGeneratedId = null
+  let lastGeneratedId = null
   launcher.Launcher.generateId = () => ++lastGeneratedId
 
   before(() => {
@@ -80,10 +80,10 @@ describe('launcher', () => {
   })
 
   describe('Launcher', () => {
-    var emitter
-    var server
-    var config
-    var l
+    let emitter
+    let server
+    let config
+    let l
 
     beforeEach(() => {
       emitter = new events.EventEmitter()
@@ -96,7 +96,7 @@ describe('launcher', () => {
         urlRoot: '/root/'
       }
 
-      var injector = new di.Injector([{
+      const injector = new di.Injector([{
         'launcher:Fake': ['type', FakeBrowser],
         'launcher:Script': ['type', ScriptBrowser],
         'server': ['value', server],
@@ -111,7 +111,7 @@ describe('launcher', () => {
       it('should inject and start all browsers', (done) => {
         l.launch(['Fake'], 1)
 
-        var browser = FakeBrowser._instances.pop()
+        const browser = FakeBrowser._instances.pop()
         l.jobs.on('end', () => {
           expect(browser.start).to.have.been.calledWith('http://localhost:1234/root/')
           expect(browser.id).to.equal(lastGeneratedId)
@@ -138,7 +138,7 @@ describe('launcher', () => {
             }
           }
 
-          var injector = new di.Injector([{
+          const injector = new di.Injector([{
             'launcher:Fake': ['type', FakeBrowser],
             'launcher:Script': ['type', ScriptBrowser],
             'server': ['value', server],
@@ -152,7 +152,7 @@ describe('launcher', () => {
         it('should inject and start all browsers', (done) => {
           l.launch(['Fake'], 1)
 
-          var browser = FakeBrowser._instances.pop()
+          const browser = FakeBrowser._instances.pop()
           l.jobs.on('end', () => {
             expect(browser.start).to.have.been.calledWith('https://proxy:5678/__proxy__/root/')
             expect(browser.id).to.equal(lastGeneratedId)
@@ -175,7 +175,7 @@ describe('launcher', () => {
       it('should allow launching a script', (done) => {
         l.launch(['/usr/local/bin/special-browser'], 1)
 
-        var script = ScriptBrowser._instances.pop()
+        const script = ScriptBrowser._instances.pop()
 
         l.jobs.on('end', () => {
           expect(script.start).to.have.been.calledWith('http://localhost:1234/root/')
@@ -189,7 +189,7 @@ describe('launcher', () => {
         config.hostname = 'whatever'
         l.launch(['Fake'], 1)
 
-        var browser = FakeBrowser._instances.pop()
+        const browser = FakeBrowser._instances.pop()
         l.jobs.on('end', () => {
           expect(browser.start).to.have.been.calledWith('http://whatever:1234/root/')
           done()
@@ -200,10 +200,9 @@ describe('launcher', () => {
     describe('restart', () => {
       it('should restart the browser', () => {
         l.launch(['Fake'], 1)
-        var browser = FakeBrowser._instances.pop()
+        const browser = FakeBrowser._instances.pop()
 
-        var returnedValue = l.restart(lastGeneratedId)
-        expect(returnedValue).to.equal(true)
+        expect(l.restart(lastGeneratedId)).to.equal(true)
         expect(browser.restart).to.have.been.called
       })
 
@@ -216,7 +215,7 @@ describe('launcher', () => {
     describe('kill', () => {
       it('should kill browser with given id', (done) => {
         l.launch(['Fake'], 1)
-        var browser = FakeBrowser._instances.pop()
+        const browser = FakeBrowser._instances.pop()
 
         l.kill(browser.id, done)
         expect(browser.forceKill).to.have.been.called
@@ -226,10 +225,9 @@ describe('launcher', () => {
 
       it('should return false if browser does not exist, but still resolve the callback', (done) => {
         l.launch(['Fake'], 1)
-        var browser = FakeBrowser._instances.pop()
+        const browser = FakeBrowser._instances.pop()
 
-        var returnedValue = l.kill('weird-id', done)
-        expect(returnedValue).to.equal(false)
+        expect(l.kill('weird-id', done)).to.equal(false)
         expect(browser.forceKill).not.to.have.been.called
       })
 
@@ -247,7 +245,7 @@ describe('launcher', () => {
         l.launch(['Fake', 'Fake'], 1)
         l.killAll()
 
-        var browser = FakeBrowser._instances.pop()
+        let browser = FakeBrowser._instances.pop()
         expect(browser.forceKill).to.have.been.called
 
         browser = FakeBrowser._instances.pop()
@@ -255,7 +253,7 @@ describe('launcher', () => {
       })
 
       it('should call callback when all processes killed', () => {
-        var exitSpy = sinon.spy()
+        const exitSpy = sinon.spy()
 
         l.launch(['Fake', 'Fake'], 1)
         l.killAll(exitSpy)
@@ -263,7 +261,7 @@ describe('launcher', () => {
         expect(exitSpy).not.to.have.been.called
 
         // finish the first browser
-        var browser = FakeBrowser._instances.pop()
+        let browser = FakeBrowser._instances.pop()
         browser.forceKill.resolve()
 
         scheduleNextTick(() => {
@@ -318,7 +316,7 @@ describe('launcher', () => {
 
         emitter.emitAsync('exit').then(done)
 
-        var browser = FakeBrowser._instances.pop()
+        let browser = FakeBrowser._instances.pop()
         browser.forceKill.resolve()
 
         browser = FakeBrowser._instances.pop()

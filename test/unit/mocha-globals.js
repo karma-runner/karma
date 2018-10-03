@@ -1,6 +1,6 @@
-var sinon = require('sinon')
-var chai = require('chai')
-var logger = require('../../lib/logger')
+const sinon = require('sinon')
+const chai = require('chai')
+const logger = require('../../lib/logger')
 
 require('bluebird').longStackTraces()
 
@@ -29,7 +29,7 @@ afterEach(() => {
 // TODO(vojta): move to helpers or something
 chai.use((chai, utils) => {
   chai.Assertion.addMethod('beServedAs', function (expectedStatus, expectedBody) {
-    var response = utils.flag(this, 'object')
+    const response = utils.flag(this, 'object')
 
     this.assert(response._status === expectedStatus,
       `expected response status '${response._status}' to be '${expectedStatus}'`)
@@ -38,7 +38,7 @@ chai.use((chai, utils) => {
   })
 
   chai.Assertion.addMethod('beNotServed', function () {
-    var response = utils.flag(this, 'object')
+    const response = utils.flag(this, 'object')
 
     this.assert(response._status === null,
       `expected response status to not be set, it was '${response._status}'`)
@@ -48,8 +48,8 @@ chai.use((chai, utils) => {
 })
 
 // TODO(vojta): move it somewhere ;-)
-var nextTickQueue = []
-var nextTickCallback = () => {
+const nextTickQueue = []
+const nextTickCallback = () => {
   if (!nextTickQueue.length) throw new Error('Nothing scheduled!')
   nextTickQueue.shift()()
 
@@ -60,8 +60,8 @@ global.scheduleNextTick = (action) => {
 
   if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
 }
-var nextQueue = []
-var nextCallback = () => {
+const nextQueue = []
+const nextCallback = () => {
   // if not nextQueue.length then throw new Error 'Nothing scheduled!'
   nextQueue.shift()()
 }

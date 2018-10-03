@@ -1,27 +1,27 @@
-var path = require('path')
-var _ = require('lodash')
+const path = require('path')
+const _ = require('lodash')
 
-var BaseLauncher = require('../../../lib/launchers/base')
-var RetryLauncher = require('../../../lib/launchers/retry')
-var CaptureTimeoutLauncher = require('../../../lib/launchers/capture_timeout')
-var ProcessLauncher = require('../../../lib/launchers/process')
-var EventEmitter = require('../../../lib/events').EventEmitter
-var createMockTimer = require('../mocks/timer')
+const BaseLauncher = require('../../../lib/launchers/base')
+const RetryLauncher = require('../../../lib/launchers/retry')
+const CaptureTimeoutLauncher = require('../../../lib/launchers/capture_timeout')
+const ProcessLauncher = require('../../../lib/launchers/process')
+const EventEmitter = require('../../../lib/events').EventEmitter
+const createMockTimer = require('../mocks/timer')
 
 describe('launchers/process.js', () => {
-  var emitter
-  var mockSpawn
-  var mockTempDir
-  var launcher
+  let emitter
+  let mockSpawn
+  let mockTempDir
+  let launcher
 
-  var BROWSER_PATH = path.normalize('/usr/bin/browser')
+  const BROWSER_PATH = path.normalize('/usr/bin/browser')
 
   beforeEach(() => {
     emitter = new EventEmitter()
     launcher = new BaseLauncher('fake-id', emitter)
 
     mockSpawn = sinon.spy(function (cmd, args) {
-      var process = new EventEmitter()
+      const process = new EventEmitter()
       process.stdout = new EventEmitter()
       process.stderr = new EventEmitter()
       process.kill = sinon.spy()
@@ -79,7 +79,7 @@ describe('launchers/process.js', () => {
       RetryLauncher.call(launcher, 2)
       launcher._getCommand = () => BROWSER_PATH
 
-      var failureSpy = sinon.spy()
+      const failureSpy = sinon.spy()
       emitter.on('browser_process_failure', failureSpy)
 
       launcher.start('http://host:9876/')
@@ -97,8 +97,8 @@ describe('launchers/process.js', () => {
 
   // higher level tests with Retry and CaptureTimeout launchers
   describe('flow', () => {
-    var failureSpy
-    var mockTimer = failureSpy = null
+    let failureSpy
+    let mockTimer = failureSpy = null
 
     beforeEach(() => {
       mockTimer = createMockTimer()
@@ -122,7 +122,7 @@ describe('launchers/process.js', () => {
       launcher.markCaptured()
 
       // kill it
-      var killingLauncher = launcher.kill()
+      const killingLauncher = launcher.kill()
       expect(launcher.state).to.equal(launcher.STATE_BEING_KILLED)
       expect(mockSpawn._processes[0].kill).to.have.been.called
 
@@ -138,18 +138,18 @@ describe('launchers/process.js', () => {
 
     // when the browser fails to get captured in default timeout, it should restart
     it('start -> timeout -> restart', (done) => {
-      var stdOutSpy = sinon.spy(launcher, '_onStdout')
-      var stdErrSpy = sinon.spy(launcher, '_onStderr')
+      const stdOutSpy = sinon.spy(launcher, '_onStdout')
+      const stdErrSpy = sinon.spy(launcher, '_onStderr')
 
       // start
       launcher.start('http://localhost/')
 
       // expect starting the process
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
-      var browserProcess = mockSpawn._processes.shift()
+      const browserProcess = mockSpawn._processes.shift()
 
-      var expectedStdoutString = 'starting...'
-      var expectedStderrString = 'Oops...there was a problem'
+      const expectedStdoutString = 'starting...'
+      const expectedStderrString = 'Oops...there was a problem'
       browserProcess.stdout.emit('data', expectedStdoutString)
       browserProcess.stderr.emit('data', expectedStderrString)
 
@@ -182,7 +182,7 @@ describe('launchers/process.js', () => {
 
       // expect starting
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
-      var browserProcess = mockSpawn._processes.shift()
+      let browserProcess = mockSpawn._processes.shift()
       mockSpawn.reset()
 
       // timeout - first time
@@ -242,7 +242,7 @@ describe('launchers/process.js', () => {
 
       // expect starting the process
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
-      var browserProcess = mockSpawn._processes.shift()
+      let browserProcess = mockSpawn._processes.shift()
       mockSpawn.reset()
 
       // crash
@@ -263,8 +263,8 @@ describe('launchers/process.js', () => {
 
   // higher level tests - process kill timeout
   describe('process-kill-timeout', () => {
-    var failureSpy
-    var mockTimer = null
+    let failureSpy
+    let mockTimer = null
 
     beforeEach(() => {
       mockTimer = createMockTimer()
@@ -285,7 +285,7 @@ describe('launchers/process.js', () => {
 
       // expect starting the process
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
-      var browserProcess = mockSpawn._processes.shift()
+      const browserProcess = mockSpawn._processes.shift()
 
       // timeout
       mockTimer.wind(101)

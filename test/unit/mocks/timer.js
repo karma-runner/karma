@@ -1,7 +1,7 @@
-var Timer = require('timer-shim').Timer
+const Timer = require('timer-shim').Timer
 
 module.exports = function () {
-  var timer = new Timer()
+  const timer = new Timer()
   timer.pause()
 
   return {

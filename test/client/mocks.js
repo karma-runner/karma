@@ -1,5 +1,5 @@
 function Emitter () {
-  var listeners = {}
+  const listeners = {}
 
   this.on = function (event, fn) {
     if (!listeners[event]) {
@@ -10,11 +10,11 @@ function Emitter () {
   }
 
   this.emit = function (event) {
-    var eventListeners = listeners[event]
+    const eventListeners = listeners[event]
 
     if (!eventListeners) return
 
-    var i = 0
+    let i = 0
     while (i < eventListeners.length) {
       eventListeners[i].apply(null, Array.prototype.slice.call(arguments, 1))
       i++
@@ -27,7 +27,7 @@ function MockSocket () {
 
   this.socket = {transport: {name: 'websocket'}}
 
-  var transportName = 'websocket'
+  let transportName = 'websocket'
 
   this.io = {
     engine: {

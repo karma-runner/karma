@@ -318,7 +318,7 @@ describe('preprocessor', () => {
     })
     fakePreprocessor.handleBinaryFiles = true
 
-    var injector = new di.Injector([{
+    const injector = new di.Injector([{
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 

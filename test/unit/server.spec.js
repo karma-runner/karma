@@ -1,22 +1,22 @@
-var Server = require('../../lib/server')
-var BundleUtils = require('../../lib/utils/bundle-utils')
-var NetUtils = require('../../lib/utils/net-utils')
-var BrowserCollection = require('../../lib/browser_collection')
+const Server = require('../../lib/server')
+const BundleUtils = require('../../lib/utils/bundle-utils')
+const NetUtils = require('../../lib/utils/net-utils')
+const BrowserCollection = require('../../lib/browser_collection')
 
 describe('server', () => {
-  var mockConfig
-  var browserCollection
-  var webServerOnError
-  var fileListOnReject
-  var mockLauncher
-  var mockWebServer
-  var mockSocketServer
-  var mockBoundServer
-  var mockExecutor
-  var doneSpy
-  var server = mockConfig = browserCollection = webServerOnError = null
-  var fileListOnResolve = fileListOnReject = mockLauncher = null
-  var mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneSpy = null
+  let mockConfig
+  let browserCollection
+  let webServerOnError
+  let fileListOnReject
+  let mockLauncher
+  let mockWebServer
+  let mockSocketServer
+  let mockBoundServer
+  let mockExecutor
+  let doneSpy
+  let server = mockConfig = browserCollection = webServerOnError = null
+  let fileListOnResolve = fileListOnReject = mockLauncher = null
+  let mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneSpy = null
 
   // Use regular function not arrow so 'this' is mocha 'this'.
   beforeEach(function () {
@@ -94,7 +94,7 @@ describe('server', () => {
         }
       },
       listen: sinon.spy((port, arg2, arg3) => {
-        var callback = null
+        let callback = null
         if (typeof arg2 === 'function') {
           callback = arg2
         } else if (typeof arg3 === 'function') {
@@ -115,7 +115,7 @@ describe('server', () => {
   })
 
   describe('start', () => {
-    var config
+    let config
     beforeEach(() => {
       config = { port: 9876, listenAddress: '127.0.0.1' }
       sinon.spy(BundleUtils, 'bundleResourceIfNotExist')
@@ -203,7 +203,7 @@ describe('server', () => {
     it('should emit a listening event once server begin accepting connections', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
-      var listening = sinon.spy()
+      const listening = sinon.spy()
       server.on('listening', listening)
 
       expect(listening).not.to.have.been.called
@@ -215,7 +215,7 @@ describe('server', () => {
     it('should emit a browsers_ready event once all the browsers are captured', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
-      var browsersReady = sinon.spy()
+      const browsersReady = sinon.spy()
       server.on('browsers_ready', browsersReady)
 
       mockLauncher.areAllCaptured = () => false
@@ -230,7 +230,7 @@ describe('server', () => {
     it('should emit a browser_register event for each browser added', () => {
       server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
-      var browsersReady = sinon.spy()
+      const browsersReady = sinon.spy()
       server.on('browsers_ready', browsersReady)
 
       mockLauncher.areAllCaptured = () => false

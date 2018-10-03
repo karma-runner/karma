@@ -1,10 +1,10 @@
-var fs = require('fs')
-var vm = require('vm')
-var path = require('path')
-var hasher = require('crypto').createHash
-var mkdirp = require('mkdirp')
-var _ = require('lodash')
-var cucumber = require('cucumber')
+const fs = require('fs')
+const vm = require('vm')
+const path = require('path')
+const hasher = require('crypto').createHash
+const mkdirp = require('mkdirp')
+const _ = require('lodash')
+const cucumber = require('cucumber')
 
 function World () {
   this.proxy = require('./proxy')
@@ -35,7 +35,7 @@ function World () {
   this.writeConfigFile = (function (_this) {
     return function (dir, file, done) {
       return mkdirp(dir, 0x1ed, function (err) {
-        var content, hash
+        let content, hash
         if (err) {
           return done(err)
         }

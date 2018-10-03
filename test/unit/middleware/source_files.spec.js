@@ -1,19 +1,19 @@
-var http = require('http')
-var mocks = require('mocks')
-var request = require('supertest')
+const http = require('http')
+const mocks = require('mocks')
+const request = require('supertest')
 var zlib = require('zlib')
 
-var helper = require('../../../lib/helper')
-var File = require('../../../lib/file')
-var createServeFile = require('../../../lib/middleware/common').createServeFile
-var createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
+const helper = require('../../../lib/helper')
+const File = require('../../../lib/file')
+const createServeFile = require('../../../lib/middleware/common').createServeFile
+const createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
 
 describe('middleware.source_files', function () {
-  var next
-  var files
-  var server = next = files = null
+  let next
+  let files
+  let server = next = files = null
 
-  var fsMock = mocks.fs.create({
+  const fsMock = mocks.fs.create({
     base: {
       path: {
         'a.js': mocks.fs.file(0, 'js-src-a'),
@@ -31,10 +31,10 @@ describe('middleware.source_files', function () {
     }
   })
 
-  var serveFile = createServeFile(fsMock, null)
+  const serveFile = createServeFile(fsMock, null)
 
   function createServer (f, s, basePath) {
-    var handler = createSourceFilesMiddleware(f.promise, s, basePath)
+    const handler = createSourceFilesMiddleware(f.promise, s, basePath)
     return http.createServer(function (req, res) {
       next = sinon.spy(function (err) {
         if (err) {
@@ -194,7 +194,7 @@ describe('middleware.source_files', function () {
   })
 
   it('should send no-caching headers for js source files without timestamps', function () {
-    var ZERO_DATE = new RegExp(new Date(0).toUTCString())
+    const ZERO_DATE = new RegExp(new Date(0).toUTCString())
 
     servedFiles([
       new File('/src/some.js')
@@ -272,7 +272,7 @@ describe('middleware.source_files', function () {
   })
 
   it('should use cached content if available', function () {
-    var cachedFile = new File('/some/file.js')
+    const cachedFile = new File('/some/file.js')
     cachedFile.content = 'cached-content'
 
     servedFiles([
@@ -288,7 +288,7 @@ describe('middleware.source_files', function () {
   })
 
   return it('should not use cached content if doNotCache is set', function () {
-    var cachedFile = new File('/src/some.js')
+    const cachedFile = new File('/src/some.js')
     cachedFile.content = 'cached-content'
     cachedFile.doNotCache = true
 

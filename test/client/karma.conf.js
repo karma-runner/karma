@@ -1,6 +1,6 @@
-var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
+const TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
 
-var launchers = {
+const launchers = {
   bs_chrome: {
     base: 'BrowserStack',
     browser: 'chrome',
@@ -59,7 +59,7 @@ var launchers = {
   // }
 }
 
-var browsers = []
+let browsers = []
 
 if (process.env.TRAVIS) {
   if (TRAVIS_WITHOUT_BS) {

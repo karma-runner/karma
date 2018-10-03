@@ -1,18 +1,18 @@
-var EventEmitter = require('events').EventEmitter
-var request = require('supertest')
-var di = require('di')
-var mocks = require('mocks')
-var fs = require('fs')
-var mime = require('mime')
-var path = require('path')
+const EventEmitter = require('events').EventEmitter
+const request = require('supertest')
+const di = require('di')
+const mocks = require('mocks')
+const fs = require('fs')
+const mime = require('mime')
+const path = require('path')
 
 describe('web-server', () => {
-  var server
-  var emitter
-  var File = require('../../lib/file')
+  let server
+  let emitter
+  const File = require('../../lib/file')
 
-  var _mocks = {}
-  var _globals = {__dirname: '/karma/lib'}
+  const _mocks = {}
+  const _globals = {__dirname: '/karma/lib'}
 
   _mocks['graceful-fs'] = mocks.fs.create({
     karma: {
@@ -30,11 +30,11 @@ describe('web-server', () => {
 
   // NOTE(vojta): only loading once, to speed things up
   // this relies on the fact that none of these tests mutate fs
-  var m = mocks.loadFile(path.join(__dirname, '/../../lib/web-server.js'), _mocks, _globals)
-  var customFileHandlers = server = emitter = null
-  var beforeMiddlewareActive = false
-  var middlewareActive = false
-  var servedFiles = (files) => {
+  const m = mocks.loadFile(path.join(__dirname, '/../../lib/web-server.js'), _mocks, _globals)
+  let customFileHandlers = server = emitter = null
+  let beforeMiddlewareActive = false
+  let middlewareActive = false
+  const servedFiles = (files) => {
     emitter.emit('file_list_modified', {included: [], served: files})
   }
 
@@ -42,7 +42,7 @@ describe('web-server', () => {
     beforeEach(() => {
       customFileHandlers = []
       emitter = new EventEmitter()
-      var config = {
+      const config = {
         basePath: '/base/path',
         urlRoot: '/',
         beforeMiddleware: ['beforeCustom'],
@@ -55,7 +55,7 @@ describe('web-server', () => {
         }
       }
 
-      var injector = new di.Injector([{
+      const injector = new di.Injector([{
         config: ['value', config],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
@@ -210,7 +210,7 @@ describe('web-server', () => {
 
   describe('https', () => {
     beforeEach(() => {
-      var credentials = {
+      const credentials = {
         key: fs.readFileSync(path.join(__dirname, '/certificates/server.key')),
         cert: fs.readFileSync(path.join(__dirname, '/certificates/server.crt'))
       }
@@ -218,7 +218,7 @@ describe('web-server', () => {
       customFileHandlers = []
       emitter = new EventEmitter()
 
-      var injector = new di.Injector([{
+      const injector = new di.Injector([{
         config: ['value', {
           basePath: '/base/path',
           urlRoot: '/',
@@ -258,10 +258,10 @@ describe('web-server', () => {
   })
 
   describe('http2', () => {
-    var http2 = require('http2/')
+    const http2 = require('http2/')
 
     beforeEach(() => {
-      var credentials = {
+      const credentials = {
         key: fs.readFileSync(path.join(__dirname, '/certificates/server.key')),
         cert: fs.readFileSync(path.join(__dirname, '/certificates/server.crt'))
       }
@@ -269,7 +269,7 @@ describe('web-server', () => {
       customFileHandlers = []
       emitter = new EventEmitter()
 
-      var injector = new di.Injector([{
+      const injector = new di.Injector([{
         config: ['value', {basePath: '/base/path', urlRoot: '/', httpModule: http2, protocol: 'https:', httpsServerOptions: credentials}],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],

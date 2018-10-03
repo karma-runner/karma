@@ -1,8 +1,8 @@
-var cucumber = require('cucumber')
+const cucumber = require('cucumber')
 
 cucumber.defineSupportCode((a) => {
   a.After(function (scenario, callback) {
-    var running = this.child != null && typeof this.child.kill === 'function'
+    const running = this.child != null && typeof this.child.kill === 'function'
 
     if (running) {
       this.child.kill()
