@@ -7,10 +7,10 @@ module.exports = function (grunt) {
    * grunt test:client
    */
   grunt.registerMultiTask('test', 'Run tests.', function () {
-    var specDone = this.async()
-    var node = require('which').sync('node')
-    var path = require('path')
-    var cmd = path.join(__dirname, '..', 'bin', 'karma')
+    const specDone = this.async()
+    const node = require('which').sync('node')
+    const path = require('path')
+    const cmd = path.join(__dirname, '..', 'bin', 'karma')
 
     function spawnKarma (args, callback) {
       grunt.log.writeln(['Running', cmd].concat(args).join(' '))

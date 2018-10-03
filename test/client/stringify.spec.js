@@ -1,7 +1,7 @@
 /* global __karma__ */
-var assert = require('assert')
+const assert = require('assert')
 
-var stringify = require('../../common/stringify')
+const stringify = require('../../common/stringify')
 
 describe('stringify', function () {
   if (window && window.Symbol) {
@@ -30,15 +30,15 @@ describe('stringify', function () {
     function abc (a, b, c) { return 'whatever' }
     function def (d, e, f) { return 'whatever' }
 
-    var abcString = stringify(abc)
-    var partsAbc = ['function', 'abc', '(a, b, c)', '{ ... }']
-    var partsDef = ['function', '(d, e, f)', '{ ... }']
+    const abcString = stringify(abc)
+    const partsAbc = ['function', 'abc', '(a, b, c)', '{ ... }']
+    const partsDef = ['function', '(d, e, f)', '{ ... }']
 
     partsAbc.forEach(function (part) {
       assert(abcString.indexOf(part) > -1)
     })
 
-    var defString = stringify(def)
+    const defString = stringify(def)
     partsDef.forEach(function (part) {
       assert(defString.indexOf(part) > -1)
     })
@@ -48,7 +48,7 @@ describe('stringify', function () {
   //   http://caniuse.com/#feat=proxy
   if (window.Proxy) {
     it('should serialize proxied functions', function () {
-      var defProxy = new Proxy(function (d, e, f) { return 'whatever' }, {})
+      const defProxy = new Proxy(function (d, e, f) { return 'whatever' }, {})
       assert.deepEqual(stringify(defProxy), 'function () { ... }')
     })
   }
@@ -58,7 +58,7 @@ describe('stringify', function () {
   })
 
   it('should serialize objects', function () {
-    var obj
+    let obj
 
     obj = {a: 'a', b: 'b', c: null, d: true, e: false}
     assert(stringify(obj).indexOf("{a: 'a', b: 'b', c: null, d: true, e: false}") > -1)
@@ -73,7 +73,7 @@ describe('stringify', function () {
     obj = {constructor: null}
 
     // IE 7 serializes this to Object{}
-    var s = stringify(obj)
+    const s = stringify(obj)
     assert(s.indexOf('{constructor: null}') > -1 || s.indexOf('Object{}') > -1)
 
     obj = Object.create(null)
@@ -83,7 +83,7 @@ describe('stringify', function () {
   })
 
   it('should serialize html', function () {
-    var div = document.createElement('div')
+    const div = document.createElement('div')
 
     assert.deepEqual(stringify(div).trim().toLowerCase(), '<div></div>')
 
@@ -92,21 +92,21 @@ describe('stringify', function () {
   })
 
   it('should serialize error', function () {
-    var error = new TypeError('Error description')
+    const error = new TypeError('Error description')
     assert(stringify(error).indexOf('Error description') > -1)
   })
 
   it('should serialize DOMParser objects', function () {
     if (typeof DOMParser !== 'undefined') {
       // Test only works in IE 9 and above
-      var parser = new DOMParser()
-      var doc = parser.parseFromString('<test></test>', 'application/xml')
+      const parser = new DOMParser()
+      const doc = parser.parseFromString('<test></test>', 'application/xml')
       assert.deepEqual(stringify(doc), '<test></test>')
     }
   })
 
   it('should serialize across iframes', function () {
-    var div = document.createElement('div')
+    const div = document.createElement('div')
     assert.deepEqual(__karma__.stringify(div).trim().toLowerCase(), '<div></div>')
 
     assert.deepEqual(__karma__.stringify([1, 2]), '[1, 2]')

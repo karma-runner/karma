@@ -1,10 +1,10 @@
-var StateMachine = require('../../../lib/init/state_machine')
+const StateMachine = require('../../../lib/init/state_machine')
 
 describe('init/StateMachine', () => {
-  var done
-  var machine
+  let done
+  let machine
 
-  var mockRli = {
+  const mockRli = {
     close: () => null,
     write: () => null,
     prompt: () => null,
@@ -12,7 +12,7 @@ describe('init/StateMachine', () => {
     _deleteLineRight: () => null
   }
 
-  var mockColors = {
+  const mockColors = {
     question: () => ''
   }
 
@@ -22,7 +22,7 @@ describe('init/StateMachine', () => {
   })
 
   it('should go through all the questions', () => {
-    var questions = [
+    const questions = [
       {id: 'framework', options: ['jasmine', 'mocha']},
       {id: 'other'}
     ]
@@ -39,7 +39,7 @@ describe('init/StateMachine', () => {
   })
 
   it('should allow multiple answers', () => {
-    var questions = [
+    const questions = [
       {id: 'browsers', multiple: true}
     ]
 
@@ -55,7 +55,7 @@ describe('init/StateMachine', () => {
   })
 
   it('should treat spaces as confirmation of multiple answers', () => {
-    var questions = [
+    const questions = [
       {id: 'browsers', multiple: true}
     ]
 
@@ -70,7 +70,7 @@ describe('init/StateMachine', () => {
   })
 
   it('should always return array for multiple', () => {
-    var questions = [
+    const questions = [
       {id: 'empty', multiple: true}
     ]
 
@@ -84,8 +84,8 @@ describe('init/StateMachine', () => {
   })
 
   it('should validate answers', () => {
-    var validator = sinon.spy()
-    var questions = [
+    const validator = sinon.spy()
+    const questions = [
       {id: 'validated', validate: validator}
     ]
 
@@ -97,10 +97,10 @@ describe('init/StateMachine', () => {
   })
 
   it('should allow conditional answers', () => {
-    var ifTrue = sinon.spy((answers) => {
+    const ifTrue = sinon.spy((answers) => {
       return answers.first === 'true'
     })
-    var ifFalse = sinon.spy((answers) => {
+    const ifFalse = sinon.spy((answers) => {
       return answers.first === 'false'
     })
 
@@ -110,7 +110,7 @@ describe('init/StateMachine', () => {
       expect(answers.onlyIfFalse).to.not.exist
     })
 
-    var questions = [
+    const questions = [
       {id: 'first'},
       {id: 'onlyIfTrue', condition: ifTrue},
       {id: 'onlyIfFalse', condition: ifFalse}
@@ -129,7 +129,7 @@ describe('init/StateMachine', () => {
       expect(answers.no).to.equal(false)
     })
 
-    var questions = [
+    const questions = [
       {id: 'yes', options: ['yes', 'no'], boolean: true},
       {id: 'no', options: ['yes', 'no'], boolean: true}
     ]
@@ -142,11 +142,11 @@ describe('init/StateMachine', () => {
   })
 
   it('should parse booleans before validation', () => {
-    var validator = sinon.spy((value) => {
+    const validator = sinon.spy((value) => {
       expect(typeof value).to.equal('boolean')
     })
 
-    var questions = [
+    const questions = [
       {id: 'what', options: ['yes', 'no'], boolean: true, validate: validator},
       {id: 'really', options: ['yes', 'no'], boolean: true, validate: validator}
     ]

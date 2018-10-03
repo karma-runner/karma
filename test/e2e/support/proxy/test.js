@@ -1,5 +1,5 @@
 function httpGet (url) {
-  var xmlHttp = new XMLHttpRequest()
+  const xmlHttp = new XMLHttpRequest()
 
   xmlHttp.open('GET', url, false)
   xmlHttp.send(null)

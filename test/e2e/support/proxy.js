@@ -1,8 +1,8 @@
-var http = require('http')
-var httpProxy = require('http-proxy')
+const http = require('http')
+const httpProxy = require('http-proxy')
 
 function Proxy () {
-  var self = this
+  const self = this
   self.running = false
 
   self.proxy = httpProxy.createProxyServer({
@@ -10,8 +10,8 @@ function Proxy () {
   })
 
   self.server = http.createServer(function (req, res) {
-    var url = req.url
-    var match = url.match(self.proxyPathRegExp)
+    const url = req.url
+    const match = url.match(self.proxyPathRegExp)
     if (match) {
       req.url = '/' + match[1]
       self.proxy.web(req, res)

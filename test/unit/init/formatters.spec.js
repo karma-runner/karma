@@ -1,7 +1,7 @@
-var formatters = require('../../../lib/init/formatters')
+const formatters = require('../../../lib/init/formatters')
 
 describe('init/formatters', () => {
-  var formatter
+  let formatter
 
   describe('JavaScript', () => {
     beforeEach(() => {
@@ -21,12 +21,12 @@ describe('init/formatters', () => {
       }
 
       it('should format FRAMEWORKS', () => {
-        var replacements = formatter.formatAnswers(createAnswers({frameworks: ['jasmine', 'requirejs']}))
+        const replacements = formatter.formatAnswers(createAnswers({frameworks: ['jasmine', 'requirejs']}))
         expect(replacements.FRAMEWORKS).to.equal("'jasmine', 'requirejs'")
       })
 
       it('should format FILES', () => {
-        var replacements = formatter.formatAnswers(createAnswers())
+        let replacements = formatter.formatAnswers(createAnswers())
         expect(replacements.FILES).to.equal('')
 
         replacements = formatter.formatAnswers(createAnswers({files: ['*.js', 'other/file.js']}))
@@ -36,12 +36,12 @@ describe('init/formatters', () => {
       })
 
       it('should format BROWSERS', () => {
-        var replacements = formatter.formatAnswers(createAnswers({browsers: ['Chrome', 'Firefox']}))
+        const replacements = formatter.formatAnswers(createAnswers({browsers: ['Chrome', 'Firefox']}))
         expect(replacements.BROWSERS).to.equal("'Chrome', 'Firefox'")
       })
 
       it('should format AUTO_WATCH', () => {
-        var replacements = formatter.formatAnswers(createAnswers({autoWatch: true}))
+        let replacements = formatter.formatAnswers(createAnswers({autoWatch: true}))
         expect(replacements.AUTO_WATCH).to.equal('true')
 
         replacements = formatter.formatAnswers(createAnswers({autoWatch: false}))
@@ -49,7 +49,7 @@ describe('init/formatters', () => {
       })
 
       it('should format onlyServedFiles', () => {
-        var replacements = formatter.formatAnswers(createAnswers({
+        const replacements = formatter.formatAnswers(createAnswers({
           files: ['test-main.js'],
           onlyServedFiles: ['src/*.js']
         }))
@@ -60,7 +60,7 @@ describe('init/formatters', () => {
       })
 
       it('should format PREPROCESSORS', () => {
-        var replacements = formatter.formatAnswers(createAnswers({preprocessors: {'*.coffee': ['coffee']}}))
+        const replacements = formatter.formatAnswers(createAnswers({preprocessors: {'*.coffee': ['coffee']}}))
 
         expect(replacements.PREPROCESSORS).to.equal(
           "\n      '*.coffee': ['coffee']"

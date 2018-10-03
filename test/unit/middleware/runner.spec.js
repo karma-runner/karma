@@ -1,27 +1,27 @@
-var path = require('path')
-var EventEmitter = require('events').EventEmitter
-var mocks = require('mocks')
-var Promise = require('bluebird')
-var _ = require('lodash')
+const path = require('path')
+const EventEmitter = require('events').EventEmitter
+const mocks = require('mocks')
+const Promise = require('bluebird')
+const _ = require('lodash')
 
-var Browser = require('../../../lib/browser')
-var BrowserCollection = require('../../../lib/browser_collection')
-var MultReporter = require('../../../lib/reporters/multi')
-var createRunnerMiddleware = require('../../../lib/middleware/runner').create
+const Browser = require('../../../lib/browser')
+const BrowserCollection = require('../../../lib/browser_collection')
+const MultReporter = require('../../../lib/reporters/multi')
+const createRunnerMiddleware = require('../../../lib/middleware/runner').create
 
-var HttpResponseMock = mocks.http.ServerResponse
-var HttpRequestMock = mocks.http.ServerRequest
+const HttpResponseMock = mocks.http.ServerResponse
+const HttpRequestMock = mocks.http.ServerRequest
 
 describe('middleware.runner', () => {
-  var nextSpy
-  var response
-  var mockReporter
-  var capturedBrowsers
-  var emitter
-  var config
-  var executor
-  var handler
-  var fileListMock
+  let nextSpy
+  let response
+  let mockReporter
+  let capturedBrowsers
+  let emitter
+  let config
+  let executor
+  let handler
+  let fileListMock
 
   function createHandler () {
     handler = createRunnerMiddleware(
@@ -162,13 +162,13 @@ describe('middleware.runner', () => {
       sinon.stub(fileListMock, 'changeFile')
       sinon.stub(fileListMock, 'removeFile')
 
-      var RAW_MESSAGE = JSON.stringify({
+      const RAW_MESSAGE = JSON.stringify({
         addedFiles: ['/new.js'],
         removedFiles: ['/foo.js', '/bar.js'],
         changedFiles: ['/changed.js']
       })
 
-      var request = new HttpRequestMock('/__run__', {
+      const request = new HttpRequestMock('/__run__', {
         'content-type': 'application/json',
         'content-length': RAW_MESSAGE.length
       })
@@ -192,14 +192,14 @@ describe('middleware.runner', () => {
       capturedBrowsers.add(new Browser())
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
-      var res = null
-      var fileListPromise = new Promise((resolve, reject) => {
+      let res = null
+      const fileListPromise = new Promise((resolve, reject) => {
         res = resolve
       })
       sinon.stub(fileListMock, 'refresh').returns(fileListPromise)
       sinon.stub(executor, 'schedule')
 
-      var request = new HttpRequestMock('/__run__')
+      const request = new HttpRequestMock('/__run__')
       handler(request, response, nextSpy)
 
       process.nextTick(() => {
@@ -222,9 +222,9 @@ describe('middleware.runner', () => {
       sinon.spy(fileListMock, 'refresh')
       sinon.stub(executor, 'schedule')
 
-      var RAW_MESSAGE = JSON.stringify({refresh: false})
+      const RAW_MESSAGE = JSON.stringify({refresh: false})
 
-      var request = new HttpRequestMock('/__run__', {
+      const request = new HttpRequestMock('/__run__', {
         'content-type': 'application/json',
         'content-length': RAW_MESSAGE.length
       })

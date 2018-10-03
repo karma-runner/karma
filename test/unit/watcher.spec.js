@@ -1,13 +1,13 @@
-var mocks = require('mocks')
-var path = require('path')
+const mocks = require('mocks')
+const path = require('path')
 
 describe('watcher', () => {
-  var config = require('../../lib/config')
+  const config = require('../../lib/config')
 
-  var m = null
+  let m = null
 
   beforeEach(() => {
-    var mocks_ = {chokidar: mocks.chokidar}
+    const mocks_ = {chokidar: mocks.chokidar}
     m = mocks.loadFile(path.join(__dirname, '/../../lib/watcher.js'), mocks_)
   })
 
@@ -43,7 +43,7 @@ describe('watcher', () => {
   })
 
   describe('watchPatterns', () => {
-    var chokidarWatcher = null
+    let chokidarWatcher = null
 
     beforeEach(() => {
       chokidarWatcher = new mocks.chokidar.FSWatcher()
@@ -88,7 +88,7 @@ describe('watcher', () => {
 
   describe('getWatchedPatterns', () => {
     it('should return list of watched patterns (strings)', () => {
-      var watchedPatterns = m.getWatchedPatterns([
+      const watchedPatterns = m.getWatchedPatterns([
         config.createPatternObject('/watched.js'),
         config.createPatternObject({pattern: 'non/*.js', watched: false})
       ])
@@ -97,24 +97,24 @@ describe('watcher', () => {
   })
 
   describe('ignore', () => {
-    var FILE_STAT = {
+    const FILE_STAT = {
       isDirectory: () => false,
       isFile: () => true
     }
 
-    var DIRECTORY_STAT = {
+    const DIRECTORY_STAT = {
       isDirectory: () => true,
       isFile: () => false
     }
 
     it('should ignore all files', () => {
-      var ignore = m.createIgnore(['**/*'], ['**/*'])
+      const ignore = m.createIgnore(['**/*'], ['**/*'])
       expect(ignore('/some/files/deep/nested.js', FILE_STAT)).to.equal(true)
       expect(ignore('/some/files', FILE_STAT)).to.equal(true)
     })
 
     it('should ignore .# files', () => {
-      var ignore = m.createIgnore(['**/*'], ['**/.#*'])
+      const ignore = m.createIgnore(['**/*'], ['**/.#*'])
       expect(ignore('/some/files/deep/nested.js', FILE_STAT)).to.equal(false)
       expect(ignore('/some/files', FILE_STAT)).to.equal(false)
       expect(ignore('/some/files/deep/.npm', FILE_STAT)).to.equal(false)
@@ -123,20 +123,20 @@ describe('watcher', () => {
     })
 
     it('should ignore files that do not match any pattern', () => {
-      var ignore = m.createIgnore(['/some/*.js'], [])
+      const ignore = m.createIgnore(['/some/*.js'], [])
       expect(ignore('/a.js', FILE_STAT)).to.equal(true)
       expect(ignore('/some.js', FILE_STAT)).to.equal(true)
       expect(ignore('/some/a.js', FILE_STAT)).to.equal(false)
     })
 
     it('should not ignore directories', () => {
-      var ignore = m.createIgnore(['**/*'], ['**/*'])
+      const ignore = m.createIgnore(['**/*'], ['**/*'])
       expect(ignore('/some/dir', DIRECTORY_STAT)).to.equal(false)
     })
 
     it('should not ignore items without stat', () => {
       // before we know whether it's a directory or file, we can't ignore
-      var ignore = m.createIgnore(['**/*'], ['**/*'])
+      const ignore = m.createIgnore(['**/*'], ['**/*'])
       expect(ignore('/some.js', undefined)).to.equal(false)
       expect(ignore('/what/ever', undefined)).to.equal(false)
     })

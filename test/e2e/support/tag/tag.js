@@ -4,8 +4,8 @@ function isFirefoxBefore59 () {
 }
 
 function containsJsTag () {
-  var scripts = document.getElementsByTagName('script')
-  for (var i = 0; i < scripts.length; i++) {
+  const scripts = document.getElementsByTagName('script')
+  for (let i = 0; i < scripts.length; i++) {
     if (scripts[i].type.indexOf(';version=') > -1) {
       return true
     }

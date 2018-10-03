@@ -5,8 +5,8 @@ module.exports = function (grunt) {
    * - register git hooks (commit-msg)
    */
   grunt.registerTask('init-dev-env', 'Initialize dev environment.', function () {
-    var fs = require('fs')
-    var done = this.async()
+    const fs = require('fs')
+    const done = this.async()
 
     fs.symlink('../../tasks/lib/validate-commit-msg.js', '.git/hooks/commit-msg', function (e) {
       if (!e) {

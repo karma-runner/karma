@@ -1,23 +1,23 @@
-var cucumber = require('cucumber')
-var fs = require('fs')
-var path = require('path')
-var ref = require('child_process')
-var exec = ref.exec
-var spawn = ref.spawn
-var rimraf = require('rimraf')
-var stopper = require('../../../lib/stopper')
+const cucumber = require('cucumber')
+const fs = require('fs')
+const path = require('path')
+const ref = require('child_process')
+const exec = ref.exec
+const spawn = ref.spawn
+const rimraf = require('rimraf')
+const stopper = require('../../../lib/stopper')
 
 cucumber.defineSupportCode((a) => {
-  var When = a.When
-  var Then = a.Then
-  var Given = a.Given
-  var defineParameterType = a.defineParameterType
+  const When = a.When
+  const Then = a.Then
+  const Given = a.Given
+  const defineParameterType = a.defineParameterType
 
-  var baseDir = fs.realpathSync(path.join(__dirname, '/../../..'))
-  var tmpDir = path.join(baseDir, 'tmp', 'sandbox')
-  var tmpConfigFile = 'karma.conf.js'
-  var cleansingNeeded = true
-  var additionalArgs = []
+  const baseDir = fs.realpathSync(path.join(__dirname, '/../../..'))
+  const tmpDir = path.join(baseDir, 'tmp', 'sandbox')
+  const tmpConfigFile = 'karma.conf.js'
+  let cleansingNeeded = true
+  let additionalArgs = []
 
   function cleanseIfNeeded () {
     if (cleansingNeeded) {
@@ -35,7 +35,7 @@ cucumber.defineSupportCode((a) => {
   function execKarma (command, level, proxyPort, proxyPath, callback) {
     level = level || 'warn'
 
-    var startProxy = (done) => {
+    const startProxy = (done) => {
       if (proxyPort) {
         this.proxy.start(proxyPort, proxyPath, done)
       } else {
@@ -52,21 +52,21 @@ cucumber.defineSupportCode((a) => {
         if (err) {
           return callback.fail(new Error(err))
         }
-        var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
-        var runtimePath = path.join(baseDir, 'bin', 'karma')
+        const configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+        const runtimePath = path.join(baseDir, 'bin', 'karma')
 
-        var executor = (done) => {
-          var cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
+        const executor = (done) => {
+          const cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
 
           return exec(cmd, {
             cwd: baseDir
           }, done)
         }
 
-        var runOut = command === 'runOut'
+        const runOut = command === 'runOut'
         if (command === 'run' || command === 'runOut') {
           this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
-          var done = () => {
+          const done = () => {
             cleansingNeeded = true
             this.child && this.child.kill()
             callback()
@@ -83,7 +83,7 @@ cucumber.defineSupportCode((a) => {
 
           this.child.stdout.on('data', (chunk) => {
             this.lastRun.stdout += chunk.toString()
-            var cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
+            const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
             setTimeout(() => {
               exec(cmd, {
                 cwd: baseDir
@@ -125,7 +125,7 @@ cucumber.defineSupportCode((a) => {
   })
 
   When('I stop a server programmatically', function (callback) {
-    var _this = this
+    const _this = this
     setTimeout(function () {
       stopper.stop(_this.configFile, function (exitCode) {
         _this.stopperExitCode = exitCode
@@ -140,8 +140,8 @@ cucumber.defineSupportCode((a) => {
         if (err) {
           return callback.fail(new Error(err))
         }
-        var configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
-        var runtimePath = path.join(baseDir, 'bin', 'karma')
+        const configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+        const runtimePath = path.join(baseDir, 'bin', 'karma')
         _this.child = spawn('' + runtimePath, ['start', '--log-level', 'debug', configFile])
         _this.child.stdout.on('data', function () {
           callback()
@@ -183,10 +183,10 @@ cucumber.defineSupportCode((a) => {
   })
 
   Then('it passes with( {exact}):', {timeout: 10 * 1000}, function (mode, expectedOutput, callback) {
-    var noDebug = mode === 'no debug'
-    var like = mode === 'like'
-    var actualOutput = this.lastRun.stdout.toString()
-    var lines
+    const noDebug = mode === 'no debug'
+    const like = mode === 'like'
+    let actualOutput = this.lastRun.stdout.toString()
+    let lines
 
     if (noDebug) {
       lines = actualOutput.split('\n').filter(function (line) {
@@ -210,9 +210,9 @@ cucumber.defineSupportCode((a) => {
   })
 
   Then('it fails with:', function (expectedOutput, callback) {
-    var actualOutput = this.lastRun.stdout.toString()
-    var actualError = this.lastRun.error
-    var actualStderr = this.lastRun.stderr.toString()
+    const actualOutput = this.lastRun.stdout.toString()
+    const actualError = this.lastRun.error
+    const actualStderr = this.lastRun.stderr.toString()
 
     if (actualOutput.match(expectedOutput)) {
       return callback()
@@ -224,9 +224,9 @@ cucumber.defineSupportCode((a) => {
   })
 
   Then('it fails with like:', function (expectedOutput, callback) {
-    var actualOutput = this.lastRun.stdout.toString()
-    var actualError = this.lastRun.error
-    var actualStderr = this.lastRun.stderr.toString()
+    const actualOutput = this.lastRun.stdout.toString()
+    const actualError = this.lastRun.error
+    const actualStderr = this.lastRun.stderr.toString()
     if (actualOutput.match(new RegExp(expectedOutput))) {
       return callback()
     }
@@ -243,10 +243,10 @@ cucumber.defineSupportCode((a) => {
 
   Then('The {component} is dead( with exit code {int})',
     function (stopperOrServer, code, callback) {
-      var server = stopperOrServer === 'server'
-      var _this = this
+      const server = stopperOrServer === 'server'
+      const _this = this
       setTimeout(function () {
-        var actualExitCode = server ? _this.childExitCode : _this.stopperExitCode
+        const actualExitCode = server ? _this.childExitCode : _this.stopperExitCode
         if (actualExitCode === undefined) return callback(new Error('Server has not exited.'))
         if (code === undefined || parseInt(code, 10) === actualExitCode) return callback()
         callback(new Error('Exit-code mismatch'))
@@ -255,7 +255,7 @@ cucumber.defineSupportCode((a) => {
 
   Then(/^the file at ([a-zA-Z0-9/\\_.]+) contains:$/,
     function (filePath, expectedOutput, callback) {
-      var data = fs.readFileSync(filePath, {encoding: 'UTF-8'})
+      const data = fs.readFileSync(filePath, {encoding: 'UTF-8'})
       if (data.match(expectedOutput)) {
         return callback()
       }

@@ -1,9 +1,9 @@
 describe('reporter', function () {
-  var ProgressReporter = require('../../../lib/reporters/progress')
+  const ProgressReporter = require('../../../lib/reporters/progress')
 
   describe('Progress', function () {
-    var reporter
-    var formatError
+    let reporter
+    let formatError
 
     beforeEach(function () {
       formatError = sinon.spy()

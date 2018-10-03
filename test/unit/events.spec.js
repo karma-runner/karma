@@ -1,7 +1,7 @@
 const e = require('../../lib/events')
 
 describe('events', () => {
-  var emitter
+  let emitter
 
   beforeEach(() => {
     emitter = new e.EventEmitter()
@@ -9,7 +9,7 @@ describe('events', () => {
 
   describe('EventEmitter', () => {
     it('should emit events', () => {
-      var spy = sinon.spy()
+      const spy = sinon.spy()
 
       emitter.on('abc', spy)
       emitter.emit('abc')
@@ -17,7 +17,7 @@ describe('events', () => {
     })
 
     describe('bind', () => {
-      var object = null
+      let object = null
 
       beforeEach(() => {
         // Note: es6 class instances have non-enumerable prototype properties.
@@ -66,7 +66,7 @@ describe('events', () => {
     })
 
     describe('emitAsync', () => {
-      var object = null
+      let object = null
 
       beforeEach(() => {
         object = sinon.stub({
@@ -79,14 +79,14 @@ describe('events', () => {
       })
 
       it('should resolve the promise once all listeners are done', (done) => {
-        var callbacks = []
-        var eventDone = sinon.spy()
+        const callbacks = []
+        const eventDone = sinon.spy()
 
         emitter.on('a', (d) => d())
         emitter.on('a', (d) => callbacks.push(d))
         emitter.on('a', (d) => callbacks.push(d))
 
-        var promise = emitter.emitAsync('a')
+        const promise = emitter.emitAsync('a')
 
         expect(eventDone).not.to.have.been.called
         callbacks.pop()()
@@ -101,7 +101,7 @@ describe('events', () => {
       })
 
       it('should resolve asynchronously when no listener', (done) => {
-        var spyDone = sinon.spy(done)
+        const spyDone = sinon.spy(done)
         emitter.emitAsync('whatever').then(spyDone)
         expect(spyDone).to.not.have.been.called
       })
@@ -110,7 +110,7 @@ describe('events', () => {
 
   describe('bindAll', () => {
     it('should take emitter as second argument', () => {
-      var object = sinon.stub({onFoo: () => {}})
+      const object = sinon.stub({onFoo: () => {}})
 
       emitter.bind(object)
       emitter.emit('foo')
@@ -120,7 +120,7 @@ describe('events', () => {
     })
 
     it('should append "context" to event arguments', () => {
-      var object = sinon.stub({onFoo: () => {}})
+      const object = sinon.stub({onFoo: () => {}})
 
       emitter.bind(object)
       emitter.emit('foo', 'event-argument')
@@ -131,8 +131,8 @@ describe('events', () => {
 
   describe('bufferEvents', () => {
     it('should reply all events', () => {
-      var spy = sinon.spy()
-      var replyEvents = e.bufferEvents(emitter, ['foo', 'bar'])
+      const spy = sinon.spy()
+      const replyEvents = e.bufferEvents(emitter, ['foo', 'bar'])
 
       emitter.emit('foo', 'foo-1')
       emitter.emit('bar', 'bar-2')
@@ -149,8 +149,8 @@ describe('events', () => {
     })
 
     it('should not buffer after reply()', () => {
-      var spy = sinon.spy()
-      var replyEvents = e.bufferEvents(emitter, ['foo', 'bar'])
+      const spy = sinon.spy()
+      const replyEvents = e.bufferEvents(emitter, ['foo', 'bar'])
       replyEvents()
 
       emitter.emit('foo', 'foo-1')
@@ -168,11 +168,11 @@ describe('events', () => {
       // This is to make sure it works with socket.io sockets,
       // which overrides the emit() method to send the event through the wire,
       // instead of local emit.
-      var originalEmit = emitter.emit
+      const originalEmit = emitter.emit
       emitter.emit = () => null
 
-      var spy = sinon.spy()
-      var replyEvents = e.bufferEvents(emitter, ['foo'])
+      const spy = sinon.spy()
+      const replyEvents = e.bufferEvents(emitter, ['foo'])
 
       originalEmit.apply(emitter, ['foo', 'whatever'])
 

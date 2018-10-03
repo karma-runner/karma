@@ -1,12 +1,12 @@
-var _ = require('lodash')
+const _ = require('lodash')
 
-var BaseLauncher = require('../../../lib/launchers/base')
-var RetryLauncher = require('../../../lib/launchers/retry')
-var EventEmitter = require('../../../lib/events').EventEmitter
+const BaseLauncher = require('../../../lib/launchers/base')
+const RetryLauncher = require('../../../lib/launchers/retry')
+const EventEmitter = require('../../../lib/events').EventEmitter
 
 describe('launchers/retry.js', () => {
-  var emitter
-  var launcher
+  let emitter
+  let launcher
 
   beforeEach(() => {
     emitter = new EventEmitter()
@@ -19,7 +19,7 @@ describe('launchers/retry.js', () => {
     launcher.start('http://localhost:9876')
 
     sinon.spy(launcher, 'start')
-    var spyOnBrowserProcessFailure = sinon.spy()
+    const spyOnBrowserProcessFailure = sinon.spy()
     emitter.on('browser_process_failure', spyOnBrowserProcessFailure)
 
     // simulate crash
@@ -38,7 +38,7 @@ describe('launchers/retry.js', () => {
     launcher.start('http://localhost:9876')
 
     sinon.spy(launcher, 'start')
-    var spyOnBrowserProcessFailure = sinon.spy()
+    const spyOnBrowserProcessFailure = sinon.spy()
     emitter.on('browser_process_failure', spyOnBrowserProcessFailure)
 
     // simulate first crash
@@ -75,7 +75,7 @@ describe('launchers/retry.js', () => {
     launcher.start('http://localhost:9876')
 
     sinon.spy(launcher, 'start')
-    var spyOnBrowserProcessFailure = sinon.spy()
+    const spyOnBrowserProcessFailure = sinon.spy()
     emitter.on('browser_process_failure', spyOnBrowserProcessFailure)
 
     // process just exited normally
