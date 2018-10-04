@@ -1,15 +1,15 @@
 // shim all the things
 require('core-js/es5')
 global.JSON = require('json3')
-const sinon = require('sinon')
-const assert = require('assert')
+var sinon = require('sinon')
+var assert = require('assert')
 
-const ClientKarma = require('../../client/karma')
-const ContextKarma = require('../../context/karma')
-const MockSocket = require('./mocks').Socket
+var ClientKarma = require('../../client/karma')
+var ContextKarma = require('../../context/karma')
+var MockSocket = require('./mocks').Socket
 
 describe('Karma', function () {
-  let socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
+  var socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
 
   function setTransportTo (transportName) {
     socket._setTransportNameTo(transportName)
@@ -33,7 +33,7 @@ describe('Karma', function () {
   })
 
   it('should start execution when all files loaded and pass config', function () {
-    const config = ck.config = {
+    var config = ck.config = {
       useIframe: true
     }
 
@@ -45,7 +45,7 @@ describe('Karma', function () {
   })
 
   it('should open a new window when useIFrame is false', function () {
-    const config = ck.config = {
+    var config = ck.config = {
       useIframe: false,
       runInParent: false
     }
@@ -85,13 +85,13 @@ describe('Karma', function () {
   })
 
   it('should not set up context if there was an error', function () {
-    const config = ck.config = {
+    var config = ck.config = {
       clearContext: true
     }
 
     socket.emit('execute', config)
 
-    const mockWindow = {}
+    var mockWindow = {}
 
     ck.error('page reload')
     ck.setupContext(mockWindow)
@@ -101,13 +101,13 @@ describe('Karma', function () {
   })
 
   it('should setup context if there was error but clearContext config is false', function () {
-    const config = ck.config = {
+    var config = ck.config = {
       clearContext: false
     }
 
     socket.emit('execute', config)
 
-    const mockWindow = {}
+    var mockWindow = {}
 
     ck.error('page reload')
     ck.setupContext(mockWindow)
@@ -118,11 +118,11 @@ describe('Karma', function () {
 
   it('should error out if a script attempted to reload the browser after setup', function () {
     // Perform setup
-    const config = ck.config = {
+    var config = ck.config = {
       clearContext: true
     }
     socket.emit('execute', config)
-    const mockWindow = {}
+    var mockWindow = {}
     ck.setupContext(mockWindow)
 
     // Spy on our error handler
@@ -136,7 +136,7 @@ describe('Karma', function () {
   })
 
   it('should report navigator name', function () {
-    const spyInfo = sinon.spy(function (info) {
+    var spyInfo = sinon.spy(function (info) {
       assert(info.name === 'Fake browser name')
     })
 
@@ -153,7 +153,7 @@ describe('Karma', function () {
     socket = new MockSocket()
     k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
 
-    const spyInfo = sinon.spy(function (info) {
+    var spyInfo = sinon.spy(function (info) {
       assert(info.id === '567')
     })
 
@@ -165,13 +165,13 @@ describe('Karma', function () {
 
   describe('result', function () {
     it('should buffer results when polling', function () {
-      const spyResult = sinon.stub()
+      var spyResult = sinon.stub()
       socket.on('result', spyResult)
 
       setTransportTo('polling')
 
       // emit 49 results
-      for (let i = 1; i < 50; i++) {
+      for (var i = 1; i < 50; i++) {
         ck.result({id: i})
       }
 
@@ -183,13 +183,13 @@ describe('Karma', function () {
     })
 
     it('should buffer results when polling', function () {
-      const spyResult = sinon.stub()
+      var spyResult = sinon.stub()
       socket.on('result', spyResult)
 
       setTransportTo('polling')
 
       // emit 40 results
-      for (let i = 1; i <= 40; i++) {
+      for (var i = 1; i <= 40; i++) {
         ck.result({id: i})
       }
 
@@ -199,7 +199,7 @@ describe('Karma', function () {
     })
 
     it('should emit "start" with total specs count first', function () {
-      const log = []
+      var log = []
 
       socket.on('result', function () {
         log.push('result')
@@ -217,13 +217,13 @@ describe('Karma', function () {
     })
 
     it('should not emit "start" if already done by the adapter', function () {
-      const log = []
+      var log = []
 
-      const spyStart = sinon.spy(function () {
+      var spyStart = sinon.spy(function () {
         log.push('start')
       })
 
-      const spyResult = sinon.spy(function () {
+      var spyResult = sinon.spy(function () {
         log.push('result')
       })
 
@@ -243,7 +243,7 @@ describe('Karma', function () {
     it('should capture alert', function () {
       sinon.spy(ck, 'log')
 
-      const mockWindow = {
+      var mockWindow = {
         alert: function () {
           throw new Error('Alert was not patched!')
         }
@@ -256,9 +256,9 @@ describe('Karma', function () {
 
     it('should capture confirm', function () {
       sinon.spy(ck, 'log')
-      let confirmCalled = false
+      var confirmCalled = false
 
-      const mockWindow = {
+      var mockWindow = {
         confirm: function () {
           confirmCalled = true
           return true
@@ -266,7 +266,7 @@ describe('Karma', function () {
       }
 
       ck.setupContext(mockWindow)
-      const confirmResult = mockWindow.confirm('What?')
+      var confirmResult = mockWindow.confirm('What?')
       assert(ck.log.calledWith('confirm', ['What?']))
       assert.equal(confirmCalled, true)
       assert.equal(confirmResult, true)
@@ -274,9 +274,9 @@ describe('Karma', function () {
 
     it('should capture prompt', function () {
       sinon.spy(ck, 'log')
-      let promptCalled = false
+      var promptCalled = false
 
-      const mockWindow = {
+      var mockWindow = {
         prompt: function () {
           promptCalled = true
           return 'user-input'
@@ -284,7 +284,7 @@ describe('Karma', function () {
       }
 
       ck.setupContext(mockWindow)
-      const promptResult = mockWindow.prompt('What is your favorite color?', 'blue')
+      var promptResult = mockWindow.prompt('What is your favorite color?', 'blue')
       assert(ck.log.calledWith('prompt', ['What is your favorite color?', 'blue']))
       assert.equal(promptCalled, true)
       assert.equal(promptResult, 'user-input')
@@ -292,7 +292,7 @@ describe('Karma', function () {
   })
 
   describe('complete', function () {
-    let clock
+    var clock
 
     before(function () {
       clock = sinon.useFakeTimers()
@@ -303,13 +303,13 @@ describe('Karma', function () {
     })
 
     it('should clean the result buffer before completing', function () {
-      const spyResult = sinon.stub()
+      var spyResult = sinon.stub()
       socket.on('result', spyResult)
 
       setTransportTo('polling')
 
       // emit 40 results
-      for (let i = 0; i < 40; i++) {
+      for (var i = 0; i < 40; i++) {
         ck.result({id: i})
       }
 
@@ -347,7 +347,7 @@ describe('Karma', function () {
       sinon.spy(ck, 'log')
       ck.config.captureConsole = true
 
-      const mockWindow = {
+      var mockWindow = {
         console: {
           log: function () {}
         }
@@ -363,7 +363,7 @@ describe('Karma', function () {
       sinon.spy(ck, 'log')
       ck.config.captureConsole = false
 
-      const mockWindow = {
+      var mockWindow = {
         console: {
           log: function () {}
         }
@@ -375,12 +375,12 @@ describe('Karma', function () {
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
-      const config = ck.config = {
+      var config = ck.config = {
         clearContext: true
       }
 
       socket.emit('execute', config)
-      const CURRENT_URL = iframe.src
+      var CURRENT_URL = iframe.src
 
       ck.complete()
 
@@ -392,12 +392,12 @@ describe('Karma', function () {
     })
 
     it('should not clear context window upon complete when clearContext config is false', function () {
-      const config = ck.config = {
+      var config = ck.config = {
         clearContext: false
       }
 
       socket.emit('execute', config)
-      const CURRENT_URL = iframe.src
+      var CURRENT_URL = iframe.src
 
       ck.complete()
 
