@@ -50,7 +50,7 @@ describe('launchers/capture_timeout.js', () => {
     launcher.start()
     timer.wind(8)
     launcher.kill().done(() => {
-      launcher.kill.reset()
+      launcher.kill.resetHistory()
       launcher.start()
       timer.wind(8)
       expect(launcher.kill).not.to.have.been.called

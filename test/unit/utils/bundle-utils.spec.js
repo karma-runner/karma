@@ -5,7 +5,7 @@ const PathUtils = require('../../../lib/utils/path-utils')
 const FileUtils = require('../../../lib/utils/file-utils')
 const fs = require('fs')
 
-const sandbox = sinon.sandbox.create()
+const sandbox = sinon.createSandbox()
 
 describe('BundleUtils.bundleResource', () => {
   beforeEach(() => FileUtils.removeFileIfExists(PathUtils.calculateAbsolutePath('test/unit/fixtures/bundled.js')))
