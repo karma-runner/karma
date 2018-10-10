@@ -118,7 +118,7 @@ describe('config', () => {
 
       expect(logSpy).to.have.been.called
       const event = logSpy.lastCall.args
-      expect(event).to.be.deep.equal(['File %s does not exist!', '/conf/not-exist.js'])
+      expect(event).to.be.deep.equal(['File /conf/not-exist.js does not exist!'])
       expect(mocks.process.exit).to.have.been.calledWith(1)
     })
 
