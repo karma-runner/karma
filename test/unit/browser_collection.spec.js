@@ -90,13 +90,17 @@ describe('BrowserCollection', () => {
       browsers[1].state = Browser.STATE_EXECUTING
       expect(collection.areAllReady()).to.equal(false)
     })
+  })
 
-    it('should add all non-ready browsers into given array', () => {
+  describe('getNonReady', () => {
+    it('return all non-ready browsers', () => {
+      const browsers = [new Browser(), new Browser(), new Browser()]
       browsers[0].state = Browser.STATE_EXECUTING
       browsers[1].state = Browser.STATE_EXECUTING_DISCONNECTED
-      const nonReady = []
-      collection.areAllReady(nonReady)
-      expect(nonReady).to.deep.equal([browsers[0], browsers[1]])
+      browsers[2].state = Browser.STATE_CONNECTED
+      browsers.forEach((browser) => collection.add(browser))
+
+      expect(collection.getNonReady()).to.deep.equal([browsers[0], browsers[1]])
     })
   })
 
