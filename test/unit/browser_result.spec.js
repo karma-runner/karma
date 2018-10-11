@@ -1,7 +1,7 @@
 'use strict'
 
 describe('BrowserResult', () => {
-  const Result = require('../../lib/browser_result')
+  const BrowserResult = require('../../lib/browser_result')
   let result = null
 
   const successResultFromBrowser = {
@@ -25,7 +25,7 @@ describe('BrowserResult', () => {
   beforeEach(() => {
     sinon.stub(Date, 'now')
     Date.now.returns(123)
-    result = new Result()
+    result = new BrowserResult()
   })
 
   afterEach(() => {
