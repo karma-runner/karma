@@ -8,8 +8,7 @@ const cucumber = require('cucumber')
 
 function World () {
   this.proxy = require('./proxy')
-
-  this.template = _.template('module.exports = function (config) {\n  config.set(\n    <%= content %>\n  );\n};')
+  this.template = _.template(`const puppeteer = require('puppeteer'); process.env.CHROME_BIN = puppeteer.executablePath(); module.exports = function (config) {\n  config.set(\n    <%= content %>\n  );\n};`)
 
   this.configFile = {
     singleRun: true,

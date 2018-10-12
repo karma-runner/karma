@@ -7,14 +7,14 @@ Feature: Error Display
     Given a configuration with:
       """
       files = ['error/test.js', 'error/under-test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadless'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it fails with:
       """
-      SyntaxError: Parser error
+      SyntaxError: Unexpected token }
       """
