@@ -7,7 +7,7 @@ Feature: Custom Context File
     Given a configuration with:
       """
       files = ['context/*.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

@@ -7,7 +7,7 @@ Feature: Proxying
     Given a configuration with:
       """
       files = ['proxy/test.js', 'proxy/foo.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -27,7 +27,7 @@ Feature: Proxying
     Given a configuration with:
       """
       files = ['proxy/test.js', 'proxy/foo.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher',
@@ -46,7 +46,7 @@ Feature: Proxying
     Given a configuration with:
       """
       files = ['proxy/test.js', 'proxy/foo.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

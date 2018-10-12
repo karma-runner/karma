@@ -10,7 +10,7 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: false},
         'files/*.js'
        ];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -31,7 +31,7 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: false},
         'files/*.js'
        ];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -56,7 +56,7 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: true},
         {pattern: 'files/log_foo.js', included: false}
        ];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -81,7 +81,7 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: false},
         {pattern: 'files/{log,bug}_foo.js', included: true}
        ];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -106,7 +106,7 @@ Feature: Including files
         {pattern: 'files/+(log|bug)_foo.js', included: false},
         {pattern: 'files/*.js', included: true}
        ];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -131,7 +131,7 @@ Feature: Including files
         {pattern: 'files/*.js', included: false},
         {pattern: 'files/**', included: true}
        ];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -157,7 +157,7 @@ Feature: Including files
         {pattern: 'files/{log,bug}_foo.js', included: true}
 
        ];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

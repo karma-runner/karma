@@ -7,7 +7,7 @@ Feature: Mocha reporter
     Given a configuration with:
       """
       files = ['mocha/plus.js', 'mocha/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       frameworks = ['mocha', 'chai']
       colors = true
       plugins = [
@@ -29,7 +29,7 @@ Feature: Mocha reporter
     Given a configuration with:
       """
       files = ['mocha/plus.js', 'mocha/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       frameworks = ['mocha', 'chai']
       colors = false
       plugins = [

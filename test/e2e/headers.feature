@@ -7,7 +7,7 @@ Feature: Custom Headers
     Given a configuration with:
       """
       files = ['headers/*.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

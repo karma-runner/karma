@@ -7,7 +7,7 @@ Feature: Passing Options
     Given a configuration with:
       """
       files = ['reconnecting/test.js', 'reconnecting/plus.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

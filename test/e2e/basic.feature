@@ -7,7 +7,7 @@ Feature: Basic Testrunner
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

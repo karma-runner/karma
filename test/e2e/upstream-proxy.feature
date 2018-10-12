@@ -7,7 +7,7 @@ Feature: UpstreamProxy
     Given a configuration with:
       """
       files = ['behind-proxy/plus.js', 'behind-proxy/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

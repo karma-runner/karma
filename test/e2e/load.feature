@@ -28,7 +28,7 @@ Feature: Basic Testrunner
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-totally-non-existing-plugin',
         'karma-jasmine',
@@ -52,7 +52,7 @@ Feature: Basic Testrunner
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       reporters = ['unreal-reporter']
       plugins = [
         'karma-jasmine',

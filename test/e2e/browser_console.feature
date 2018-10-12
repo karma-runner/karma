@@ -7,7 +7,7 @@ Feature: Browser Console Configuration
     Given a configuration with:
       """
       files = ['browser-console/log.js', 'browser-console/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -44,7 +44,7 @@ Feature: Browser Console Configuration
     Given a configuration with:
       """
       files = ['browser-console/log.js', 'browser-console/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -68,7 +68,7 @@ Feature: Browser Console Configuration
     Given a configuration with:
       """
       files = ['browser-console/log.js', 'browser-console/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -92,7 +92,7 @@ Feature: Browser Console Configuration
     Given a configuration with:
       """
       files = ['browser-console/log.js', 'browser-console/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -115,7 +115,7 @@ Feature: Browser Console Configuration
     Given a configuration with:
       """
       files = ['browser-console/log.js', 'browser-console/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -135,7 +135,7 @@ Feature: Browser Console Configuration
     Given a configuration with:
       """
       files = ['browser-console/log.js', 'browser-console/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -157,7 +157,7 @@ Feature: Browser Console Configuration
     Given a configuration with:
       """
       files = ['browser-console/log.js', 'browser-console/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

@@ -7,7 +7,7 @@ Feature: Middleware
     Given a configuration with:
       """
       files = ['middleware/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher',
@@ -28,7 +28,7 @@ Feature: Middleware
     Given a configuration with:
       """
       files = ['middleware/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher',

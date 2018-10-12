@@ -7,14 +7,14 @@ Feature: Custom Display-name
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['customPhantom'];
+      browsers = ['customChrome'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
       ];
       customLaunchers = {
-        customPhantom: {
-          base: 'ChromeHeadless',
+        customChrome: {
+          base: 'ChromeHeadlessNoSandbox',
           displayName: '42'
         }
       };

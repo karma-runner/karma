@@ -7,7 +7,7 @@ Feature: Error Display
     Given a configuration with:
       """
       files = ['error/test.js', 'error/under-test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'

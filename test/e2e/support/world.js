@@ -8,7 +8,7 @@ const cucumber = require('cucumber')
 
 function World () {
   this.proxy = require('./proxy')
-  this.template = _.template(`const puppeteer = require('puppeteer'); process.env.CHROME_BIN = puppeteer.executablePath(); module.exports = function (config) {\n  config.set(\n    <%= content %>\n  );\n};`)
+  this.template = _.template(`process.env.CHROME_BIN = require('puppeteer').executablePath(); module.exports = function (config) {\n  config.set(\n    <%= content %>\n  );\n};`)
 
   this.configFile = {
     singleRun: true,
@@ -51,7 +51,11 @@ function World () {
 
   this.generateJS = function (config) {
     return this.template({
-      content: JSON.stringify(config)
+      content: JSON.stringify(Object.assign({}, config, {
+        customLaunchers: Object.assign({
+          ChromeHeadlessNoSandbox: {base: 'ChromeHeadless', flags: ['--no-sandbox']}
+        }, config.customLaunchers)
+      }))
     })
   }
 

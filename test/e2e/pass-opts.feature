@@ -7,7 +7,7 @@ Feature: Passing Options
     Given a configuration with:
       """
       files = ['pass-opts/test.js'];
-      browsers = ['ChromeHeadless'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
