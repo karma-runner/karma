@@ -13,7 +13,7 @@ describe('config', () => {
   const resolveWinPath = (p) => helper.normalizeWinPath(path.resolve(p))
 
   const normalizeConfigWithDefaults = (cfg) => {
-    if (!cfg.urlRoot) cfg.urlRoot = ''
+    if (!helper.isDefined(cfg.urlRoot)) cfg.urlRoot = '/'
     if (!cfg.proxyPath) cfg.proxyPath = ''
     if (!cfg.files) cfg.files = []
     if (!cfg.exclude) cfg.exclude = []
@@ -175,21 +175,21 @@ describe('config', () => {
       ])
     })
 
-    it('should normalize urlRoot config', () => {
-      let config = normalizeConfigWithDefaults({urlRoot: ''})
-      expect(config.urlRoot).to.equal('/')
+    it('should validate that urlRoot starts and ends with "/"', () => {
+      expect(() => normalizeConfigWithDefaults({urlRoot: ''}))
+        .to.throw('Invalid configuration: invalid urlRoot - must starts and ends with "/"')
 
-      config = normalizeConfigWithDefaults({urlRoot: '/a/b'})
-      expect(config.urlRoot).to.equal('/a/b/')
+      expect(() => normalizeConfigWithDefaults({urlRoot: '/a/b'}))
+        .to.throw('Invalid configuration: invalid urlRoot - must starts and ends with "/"')
 
-      config = normalizeConfigWithDefaults({urlRoot: 'a/'})
-      expect(config.urlRoot).to.equal('/a/')
+      expect(() => normalizeConfigWithDefaults({urlRoot: 'a/'}))
+        .to.throw('Invalid configuration: invalid urlRoot - must starts and ends with "/"')
 
-      config = normalizeConfigWithDefaults({urlRoot: 'some/thing'})
-      expect(config.urlRoot).to.equal('/some/thing/')
+      expect(() => normalizeConfigWithDefaults({urlRoot: 'some/thing'}))
+        .to.throw('Invalid configuration: invalid urlRoot - must starts and ends with "/"')
     })
 
-    it('should normalize upstream proxy config', () => {
+    it('should validate and normalize upstream proxy config', () => {
       let config = normalizeConfigWithDefaults({})
       expect(config.upstreamProxy).to.be.undefined
 
@@ -208,14 +208,14 @@ describe('config', () => {
       config = normalizeConfigWithDefaults({upstreamProxy: {protocol: 'unknown'}})
       expect(config.upstreamProxy.protocol).to.equal('http:')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {path: '/a/b'}})
-      expect(config.upstreamProxy.path).to.equal('/a/b/')
+      expect(() => normalizeConfigWithDefaults({upstreamProxy: {path: '/a/b'}}))
+        .to.throw('Invalid configuration: invalid upstreamProxy.path - must starts and ends with "/"')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {path: 'a/'}})
-      expect(config.upstreamProxy.path).to.equal('/a/')
+      expect(() => normalizeConfigWithDefaults({upstreamProxy: {path: 'a/'}}))
+        .to.throw('Invalid configuration: invalid upstreamProxy.path - must starts and ends with "/"')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {path: 'some/thing'}})
-      expect(config.upstreamProxy.path).to.equal('/some/thing/')
+      expect(() => normalizeConfigWithDefaults({upstreamProxy: {path: 'some/thing'}}))
+        .to.throw('Invalid configuration: invalid upstreamProxy.path - must starts and ends with "/"')
     })
 
     it('should change autoWatch to false if singleRun', () => {
