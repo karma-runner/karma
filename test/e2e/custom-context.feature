@@ -7,10 +7,10 @@ Feature: Custom Context File
     Given a configuration with:
       """
       files = ['context/*.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       customContextFile = 'context/context2.html'
       """
@@ -18,5 +18,5 @@ Feature: Custom Context File
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """

@@ -7,10 +7,10 @@ Feature: Proxying
     Given a configuration with:
       """
       files = ['proxy/test.js', 'proxy/foo.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       proxies = {
         '/foo.js': '/base/proxy/foo.js'
@@ -20,17 +20,17 @@ Feature: Proxying
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
 
   Scenario: Added by a framework
     Given a configuration with:
       """
       files = ['proxy/test.js', 'proxy/foo.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher',
+        'karma-chrome-launcher',
         _resolve('proxy/plugin')
       ];
       frameworks = ['jasmine', 'foo']
@@ -39,17 +39,17 @@ Feature: Proxying
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
 
   Scenario: URLRoot
     Given a configuration with:
       """
       files = ['proxy/test.js', 'proxy/foo.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       urlRoot = '/__karma__/';
       proxies = {
@@ -60,5 +60,5 @@ Feature: Proxying
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """

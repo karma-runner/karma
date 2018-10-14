@@ -3,18 +3,18 @@ Feature: Custom Display-name
   As a person who wants to write great tests
   I want to Karma to send custom display-name.
 
-  Scenario: Execute a test in PhantomJS
+  Scenario: Execute a test in ChromeHeadless
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['customPhantom'];
+      browsers = ['customChrome'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       customLaunchers = {
-        customPhantom: {
-          base: 'PhantomJS',
+        customChrome: {
+          base: 'ChromeHeadlessNoSandbox',
           displayName: '42'
         }
       };

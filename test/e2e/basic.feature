@@ -3,21 +3,21 @@ Feature: Basic Testrunner
   As a person who wants to write great tests
   I want to be able to run tests from the command line.
 
-  Scenario: Execute a test in PhantomJS
+  Scenario: Execute a test in ChromeHeadless
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with:
       """
       ..
-      PhantomJS
+      HeadlessChrome
       """
   @not-jenkins
   Scenario: Execute a test in Chrome

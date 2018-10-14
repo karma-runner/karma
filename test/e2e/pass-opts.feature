@@ -7,10 +7,10 @@ Feature: Passing Options
     Given a configuration with:
       """
       files = ['pass-opts/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       singleRun = false;
       """

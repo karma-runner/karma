@@ -7,10 +7,10 @@ Feature: Middleware
     Given a configuration with:
       """
       files = ['middleware/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher',
+        'karma-chrome-launcher',
         _resolve('middleware/middleware')
       ];
       middleware = [
@@ -21,17 +21,17 @@ Feature: Middleware
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
 
   Scenario: Frameworks can add middleware
     Given a configuration with:
       """
       files = ['middleware/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher',
+        'karma-chrome-launcher',
         _resolve('middleware/middleware')
       ];
       frameworks = ['jasmine', 'foo']
@@ -40,5 +40,5 @@ Feature: Middleware
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """

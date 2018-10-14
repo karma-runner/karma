@@ -3,14 +3,14 @@ Feature: runInParent option
   As a person who wants to write great tests
   I want Karma to run without iframe or opening new window
 
-  Scenario: Execute a test in PhantomJS
+  Scenario: Execute a test in ChromeHeadless
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       client = {
         useIframe: false,
@@ -21,7 +21,7 @@ Feature: runInParent option
     Then it passes with:
       """
       ..
-      PhantomJS
+      HeadlessChrome
       """
   @not-jenkins
   Scenario: Execute a test in Chrome

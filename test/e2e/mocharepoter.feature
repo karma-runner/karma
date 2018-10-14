@@ -3,16 +3,16 @@ Feature: Mocha reporter
   As a person who wants to write great tests
   I want to be able to use the mocha reporter.
 
-  Scenario: Execute a test in PhantomJS with colors
+  Scenario: Execute a test in ChromeHeadless with colors
     Given a configuration with:
       """
       files = ['mocha/plus.js', 'mocha/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       frameworks = ['mocha', 'chai']
       colors = true
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher',
+        'karma-chrome-launcher',
         'karma-mocha-reporter',
         'karma-mocha',
         'karma-chai'
@@ -25,16 +25,16 @@ Feature: Mocha reporter
       2 tests completed
       """
 
-  Scenario: Execute a test in PhantomJS with no-colors
+  Scenario: Execute a test in ChromeHeadless with no-colors
     Given a configuration with:
       """
       files = ['mocha/plus.js', 'mocha/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       frameworks = ['mocha', 'chai']
       colors = false
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher',
+        'karma-chrome-launcher',
         'karma-mocha-reporter',
         'karma-mocha',
         'karma-chai'

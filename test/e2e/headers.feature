@@ -7,10 +7,10 @@ Feature: Custom Headers
     Given a configuration with:
       """
       files = ['headers/*.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       customHeaders = [{
         match: 'foo.js',
@@ -22,5 +22,5 @@ Feature: Custom Headers
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """

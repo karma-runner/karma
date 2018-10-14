@@ -7,10 +7,10 @@ Feature: UpstreamProxy
     Given a configuration with:
       """
       files = ['behind-proxy/plus.js', 'behind-proxy/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       urlRoot = '/__karma__/';
       upstreamProxy = {
@@ -21,5 +21,5 @@ Feature: UpstreamProxy
     Then it passes with:
       """
       ..
-      PhantomJS
+      HeadlessChrome
       """

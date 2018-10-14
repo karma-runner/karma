@@ -10,17 +10,17 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: false},
         'files/*.js'
        ];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
 
   Scenario: Execute a test excluding an explicitly included file
@@ -31,17 +31,17 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: false},
         'files/*.js'
        ];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with like:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
     And it passes with like:
       """
@@ -56,17 +56,17 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: true},
         {pattern: 'files/log_foo.js', included: false}
        ];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with like:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
     And it passes with like:
       """
@@ -81,17 +81,17 @@ Feature: Including files
         {pattern: 'files/log_foo.js', included: false},
         {pattern: 'files/{log,bug}_foo.js', included: true}
        ];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with like:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
     And it passes with like:
       """
@@ -106,17 +106,17 @@ Feature: Including files
         {pattern: 'files/+(log|bug)_foo.js', included: false},
         {pattern: 'files/*.js', included: true}
        ];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with like:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
     And it passes with like:
       """
@@ -131,17 +131,17 @@ Feature: Including files
         {pattern: 'files/*.js', included: false},
         {pattern: 'files/**', included: true}
        ];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with like:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
     And it passes with like:
       """
@@ -157,17 +157,17 @@ Feature: Including files
         {pattern: 'files/{log,bug}_foo.js', included: true}
 
        ];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with like:
       """
       .
-      PhantomJS
+      HeadlessChrome
       """
     And it passes with like:
       """

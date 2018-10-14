@@ -7,10 +7,10 @@ Feature: Basic Testrunner
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['NonExistingBrowser', 'PhantomJS'];
+      browsers = ['NonExistingBrowser', 'ChromeHeadless'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       singleRun = false
       """
@@ -28,11 +28,11 @@ Feature: Basic Testrunner
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-totally-non-existing-plugin',
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       singleRun = false
       """
@@ -52,11 +52,11 @@ Feature: Basic Testrunner
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       reporters = ['unreal-reporter']
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       singleRun = false
       """
@@ -75,12 +75,12 @@ Feature: Basic Testrunner
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
-      browsers = ['NonExistingBrowser', 'PhantomJS'];
+      browsers = ['NonExistingBrowser', 'ChromeHeadless'];
       reporters = ['unreal-reporter']
       plugins = [
         'karma-totally-non-existing-plugin',
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       singleRun = false
       """

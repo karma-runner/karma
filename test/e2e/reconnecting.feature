@@ -7,15 +7,15 @@ Feature: Passing Options
     Given a configuration with:
       """
       files = ['reconnecting/test.js', 'reconnecting/plus.js'];
-      browsers = ['PhantomJS'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
-        'karma-phantomjs-launcher'
+        'karma-chrome-launcher'
       ];
       """
     When I start Karma
     Then it passes with:
       """
       .....
-      PhantomJS
+      HeadlessChrome
       """
