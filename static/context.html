@@ -26,7 +26,12 @@ Reloaded before every execution run.
   </script>
   <!-- Dynamically replaced with <script> tags -->
   %SCRIPTS%
-  <script type="text/javascript">
+  <!-- Since %SCRIPTS% might include modules, the `loaded()` call needs to be in a module too.
+   This ensures all the tests will have been declared before karma tries to run them. -->
+  <script type="module">
+    window.__karma__.loaded();
+  </script>
+  <script nomodule>
     window.__karma__.loaded();
   </script>
 </body>
