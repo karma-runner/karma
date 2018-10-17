@@ -196,7 +196,7 @@ describe('cli', () => {
       } catch (e) {
         expectedException = e
       } finally {
-        expect(expectedException + '').to.equal('Error: Bad argument: no_browsers did you mean no-browsers')
+        expect(expectedException + '').to.includes('Bad argument: no_browsers did you mean no-browsers')
       }
     })
   })
