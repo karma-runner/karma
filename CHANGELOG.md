@@ -1,3 +1,31 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/karma-runner/karma/compare/v3.0.0...v3.1.0) (2018-10-22)
+
+
+### Bug Fixes
+
+* work around broken console methods ([873e4f9](https://github.com/karma-runner/karma/commit/873e4f9)), closes [/github.com/angular/angular.js/pull/16644#issuecomment-407680658](https://github.com//github.com/angular/angular.js/pull/16644/issues/issuecomment-407680658)
+* **browser:** emit 'browsers_change' in collection ([#3183](https://github.com/karma-runner/karma/issues/3183)) ([7634e71](https://github.com/karma-runner/karma/commit/7634e71))
+* **config:** remove phantomjs in favor of chrome headless ([#3175](https://github.com/karma-runner/karma/issues/3175)) ([0f8b2b1](https://github.com/karma-runner/karma/commit/0f8b2b1))
+* **init:** Support ChromeHeadless in `validateBrowser` ([#3110](https://github.com/karma-runner/karma/issues/3110)) ([eeadcf2](https://github.com/karma-runner/karma/commit/eeadcf2))
+* **middleware:** simplify stripHost. ([#3115](https://github.com/karma-runner/karma/issues/3115)) ([d65e911](https://github.com/karma-runner/karma/commit/d65e911))
+* **runner:** Do not persist grep option across runs ([#3121](https://github.com/karma-runner/karma/issues/3121)) ([c91cb81](https://github.com/karma-runner/karma/commit/c91cb81))
+* **runner:** Make exit code configurable when tests are failing ([#3116](https://github.com/karma-runner/karma/issues/3116)) ([74da748](https://github.com/karma-runner/karma/commit/74da748)), closes [#1300](https://github.com/karma-runner/karma/issues/1300)
+* **test/client:** revert const/let changes. ([c097ecf](https://github.com/karma-runner/karma/commit/c097ecf))
+
+
+### Features
+
+* **config:** Add config option for browser socket timeout ([#3102](https://github.com/karma-runner/karma/issues/3102)) ([11e3a9d](https://github.com/karma-runner/karma/commit/11e3a9d)), closes [#2927](https://github.com/karma-runner/karma/issues/2927)
+* **config:** add support for ES modules ([e811adb](https://github.com/karma-runner/karma/commit/e811adb))
+* **frameworks:** report start() errors back to server. ([#3126](https://github.com/karma-runner/karma/issues/3126)) ([8257375](https://github.com/karma-runner/karma/commit/8257375))
+* **server:** .dom files include HTML tags in page. ([#3178](https://github.com/karma-runner/karma/issues/3178)) ([4651524](https://github.com/karma-runner/karma/commit/4651524))
+* **server:** Add public API to force a file refresh ([dab8a82](https://github.com/karma-runner/karma/commit/dab8a82))
+* **server:** Add stop method ([#3153](https://github.com/karma-runner/karma/issues/3153)) ([6d96d8e](https://github.com/karma-runner/karma/commit/6d96d8e)), closes [#3149](https://github.com/karma-runner/karma/issues/3149)
+* **server:** Add support for encoded source files ([#3123](https://github.com/karma-runner/karma/issues/3123)) ([68b37d3](https://github.com/karma-runner/karma/commit/68b37d3))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/karma-runner/karma/compare/v2.0.5...v3.0.0) (2018-08-09)
 
