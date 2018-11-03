@@ -395,7 +395,7 @@
     "socket.io": "2.1.1",
     "source-map": "^0.6.1",
     "tmp": "0.0.33",
-    "useragent": "2.2.1"
+    "useragent": "2.3.0"
   },
   "devDependencies": {
     "LiveScript": "^1.3.0",
