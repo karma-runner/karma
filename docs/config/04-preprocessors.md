@@ -20,7 +20,9 @@ Note: Most of the preprocessors need to be loaded as [plugins].
 - [html2js]
   - Note any .html files listed in the files section must be referenced at run time as `window.__html__['template.html']`. [Learn more](https://github.com/karma-runner/karma-html2js-preprocessor#how-does-it-work-).
   - If this preprocessor is disabled, included .html files will need `base/` added to beginning of their path reference. See [discussion in issue 788][issue788].
-- [coverage]
+- [coverage] 
+  - Note this preprocessor uses a deprecated version of [Istanbul](https://github.com/gotwarlost/istanbul) which may lead to unaccurate code coverage. It is advised to use [karma-coverage-istanbul-reporter](https://www.npmjs.com/package/karma-coverage-istanbul-reporter) as it uses [IstanbulJS](https://github.com/istanbuljs/istanbuljs) which is the new and maintained version.
+  
 - [ng-html2js]
 - [many more](https://www.npmjs.org/browse/keyword/karma-preprocessor)
 
