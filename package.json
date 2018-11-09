@@ -458,7 +458,7 @@
     "qunitjs": "^2.1.1",
     "requirejs": "^2.1.20",
     "sinon": "^6.1.5",
-    "sinon-chai": "^2.7.0",
+    "sinon-chai": "^3.0.0",
     "supertest": "^3.0.0",
     "timer-shim": "^0.3.0",
     "validate-commit-msg": "^2.11.1",
