@@ -91,14 +91,11 @@ describe('Browser', () => {
       expect(spy).to.have.been.called
     })
 
-    it('should ignore if browser not executing', () => {
-      const spy = sinon.spy()
-      emitter.on('browser_error', spy)
+    it('should not set lastResult if browser not executing', () => {
       browser.state = Browser.STATE_CONNECTED
 
       browser.onKarmaError()
       expect(browser.lastResult.error).to.equal(false)
-      expect(spy).not.to.have.been.called
     })
   })
 
