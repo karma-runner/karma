@@ -172,3 +172,39 @@ Feature: Browser Console Configuration
       .
       HeadlessChrome
       """
+  Scenario: Execute logging program with singleRun
+    Given a configuration with:
+      """
+      files = ['browser-console/log.js', 'browser-console/test.js'];
+      browsers = ['ChromeHeadlessNoSandbox'];
+      plugins = [
+        'karma-jasmine',
+        'karma-chrome-launcher'
+      ];
+      singleRun = false;
+      """
+    When I runOut Karma
+    Then it passes with like:
+      """
+      LOG: 'foo'
+      """
+    Then it passes with like:
+      """
+      DEBUG: 'bar'
+      """
+    Then it passes with like:
+      """
+      INFO: 'baz'
+      """
+    Then it passes with like:
+      """
+      WARN: 'foobar'
+      """
+    Then it passes with like:
+      """
+      ERROR: 'barbaz'
+      """
+    Then it passes with like:
+      """
+      SUCCESS
+      """
