@@ -1,6 +1,5 @@
 // shim all the things
 require('core-js/es5')
-global.JSON = require('json3')
 var sinon = require('sinon')
 var assert = require('assert')
 
