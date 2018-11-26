@@ -1,9 +1,16 @@
 pageTitle: Troubleshooting
 menuTitle: Troubleshooting
 
-Here you'll find a list of the most common problems and how to solve it.
+### How Do I Debug a karma issue?
 
-Note: If you can't find the solution for your issue here you can also ask for help in the [mailing-list](https://groups.google.com/d/forum/karma-users) or [Stack Overflow](http://stackoverflow.com/questions/tagged/karma-runner).
+Many issues can be solved by reading the `debug log` or by using the `browsers devtools`:
+
+#### Use `--log-level debug` to investigate server-side issues, especially configuration issues.
+The `DEBUG` log includes a copy of the final 'config': note that plugins can alter the config and sometimes the settings you applied do not give the result you expected. The log includes both core `karma` lines and lines from plugins: use the logging prefix to determine if your issue may need to be reported to a karma plugin.
+
+#### Use `--no-single-run` to investigate browser-side issues, especially global errors in test files.
+The `--no-single-run` option causes the server to print a URL and wait.  Open the URL in a browser and use the browsers devtools to investigate the problem. Typically you will want to open the URL, then click the DEBUG link in the upper right corner. That opens a new window with cleaner code for debugging. 
+
 
 ### I'm getting an error during the installation related to the ```ws``` module, how can I solve it?
 This is a common Windows [issue](https://github.com/einaros/ws/issues/178), the compilation of the native [ws](https://www.npmjs.org/package/ws) module fails. Anyways, ```ws``` has a fallback JS implementation which NPM should take care using it. All you need to do is make sure that you're using an up-to-date version of NPM. To do that you can:
@@ -41,3 +48,6 @@ Try to remove `karma` and `karma-*` modules from your `node_modules` first (for 
 
 ### My tests are running really slow. What's going on?
 Make sure the Karma's tab is active. Browsers give inactive tabs only minimum CPU.
+
+Note: If you can't find the solution for your issue here you can also ask for help in the [mailing-list](https://groups.google.com/d/forum/karma-users) or [Stack Overflow](http://stackoverflow.com/questions/tagged/karma-runner).
+
