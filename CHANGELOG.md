@@ -1,3 +1,13 @@
+<a name="3.1.3"></a>
+## [3.1.3](https://github.com/karma-runner/karma/compare/v3.1.2...v3.1.3) (2018-12-01)
+
+
+### Bug Fixes
+
+* add missing dep flatted ([#3223](https://github.com/karma-runner/karma/issues/3223)) ([655d4d2](https://github.com/karma-runner/karma/commit/655d4d2))
+
+
+
 <a name="3.1.2"></a>
 ## [3.1.2](https://github.com/karma-runner/karma/compare/v3.1.1...v3.1.2) (2018-12-01)
 
