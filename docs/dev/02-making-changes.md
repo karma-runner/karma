@@ -20,20 +20,18 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
   $ git clone https://github.com/<your-username>/karma.git
   $ cd karma
   ```
-* Install for development. Use a recent npm version, ignore peerdep warnings
+* Karma uses Yarn as a package manager, so make sure to have it installed. Instructions can be found on the [official website](https://yarnpkg.com/en/docs/install).
+* Install dependencies and initialize environment
   ```bash
-  $ npm install
-  $ rm -rf node_modules/karma
-  $ cd node_modules
-  $ ln -s ../ karma
-  $ cd ../
-  $ grunt browserify
+  $ yarn
+  $ yarn run init # or yarn run init:windows if you are on Windows
+
   ```
 
 ## Testing and Building
 - Run the tests via:
   ```bash
-  $ npm test
+  $ yarn test
   # or if you have grunt-cli installed globally you can also
   $ grunt test:unit
   $ grunt test:e2e
@@ -45,12 +43,12 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 
 - Lint the code via:
   ```bash
-  $ npm run lint
+  $ yarn lint
   ```
 
 - Build the client code via:
   ```bash
-  $ npm build
+  $ yarn build
   ```
 
 ## Changing the Code

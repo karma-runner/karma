@@ -20,6 +20,10 @@ matrix:
 before_install:
   - npm config set loglevel warn
   - g++-4.8 --version
+  - npm install -g yarn@1.12.3
+
+install:
+  - yarn --frozen-lockfile
 
 addons:
   firefox:

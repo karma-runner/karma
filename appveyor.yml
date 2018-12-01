@@ -17,13 +17,16 @@ install:
   - node --version
   - npm --version
 
-  # Install our package dependencies
-  - appveyor-retry npm install
+  # Install desired Yarn version
+  - npm i -g yarn@1.12.3
 
-  # Install our current directory as a dependency of itself
-  - npm run init:windows
+  # Install package dependencies
+  - appveyor-retry yarn --frozen-lockfile
+
+  # Install current directory as a dependency of itself
+  - yarn init:windows
 
 test_script:
-  - npm run appveyor
+  - yarn appveyor
 
 build: off
