@@ -1,3 +1,24 @@
+<a name="3.1.2"></a>
+## [3.1.2](https://github.com/karma-runner/karma/compare/v3.1.1...v3.1.2) (2018-12-01)
+
+
+### Bug Fixes
+
+* **browser:** report errors to console during singleRun=false ([#3209](https://github.com/karma-runner/karma/issues/3209)) ([30ff73b](https://github.com/karma-runner/karma/commit/30ff73b)), closes [#3131](https://github.com/karma-runner/karma/issues/3131)
+* **changelog:** remove release which does not exist ([#3214](https://github.com/karma-runner/karma/issues/3214)) ([4e87902](https://github.com/karma-runner/karma/commit/4e87902))
+* **dep:** Bump useragent to fix HeadlessChrome version ([#3201](https://github.com/karma-runner/karma/issues/3201)) ([240209f](https://github.com/karma-runner/karma/commit/240209f)), closes [#2762](https://github.com/karma-runner/karma/issues/2762)
+* **deps:** upgrade sinon-chai 2.x -> 3.x ([#3207](https://github.com/karma-runner/karma/issues/3207)) ([dc5f5de](https://github.com/karma-runner/karma/commit/dc5f5de))
+* **file-list:** do not preprocess up-to-date files ([#3196](https://github.com/karma-runner/karma/issues/3196)) ([5334d1a](https://github.com/karma-runner/karma/commit/5334d1a)), closes [#2829](https://github.com/karma-runner/karma/issues/2829)
+* **package:** bump lodash version ([#3203](https://github.com/karma-runner/karma/issues/3203)) ([d38f344](https://github.com/karma-runner/karma/commit/d38f344)), closes [#3177](https://github.com/karma-runner/karma/issues/3177)
+* **server:** use flatted for json.stringify ([#3220](https://github.com/karma-runner/karma/issues/3220)) ([fb05fb1](https://github.com/karma-runner/karma/commit/fb05fb1)), closes [#3215](https://github.com/karma-runner/karma/issues/3215)
+
+
+### Features
+
+* **docs:** callout the key debug strategies. ([#3219](https://github.com/karma-runner/karma/issues/3219)) ([2682bff](https://github.com/karma-runner/karma/commit/2682bff))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/karma-runner/karma/compare/v3.1.0...v3.1.1) (2018-10-23)
 
