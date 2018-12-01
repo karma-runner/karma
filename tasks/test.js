@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 
     function spawnKarma (args, callback) {
       grunt.log.writeln(['Running', cmd].concat(args).join(' '))
-      var child
+      let child
       if (process.platform === 'win32') {
         child = grunt.util.spawn({cmd: node, args: [cmd].concat(args)}, callback)
       } else {
