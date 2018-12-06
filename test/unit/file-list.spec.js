@@ -375,15 +375,9 @@ describe('FileList', () => {
         })
     })
 
-    it('preprocesses new and/or changed files', () => {
+    it('preprocesses all files', () => {
       return list.refresh().then((files) => {
         expect(preprocess.callCount).to.be.eql(5)
-        preprocess.resetHistory()
-        mg.statCache['/some/a.js'].mtime++
-        return list.refresh().then((files) => {
-          expect(preprocess.callCount).to.be.eql(1)
-          mg.statCache['/some/a.js'].mtime--
-        })
       })
     })
 
