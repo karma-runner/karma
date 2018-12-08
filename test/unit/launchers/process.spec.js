@@ -93,6 +93,26 @@ describe('launchers/process.js', () => {
         done()
       })
     })
+
+    it('should handle spawn EACCES error and not even retry', (done) => {
+      ProcessLauncher.call(launcher, mockSpawn, mockTempDir)
+      RetryLauncher.call(launcher, 2)
+      launcher._getCommand = () => BROWSER_PATH
+
+      const failureSpy = sinon.spy()
+      emitter.on('browser_process_failure', failureSpy)
+
+      launcher.start('http://host:9876/')
+      mockSpawn._processes[0].emit('error', {code: 'EACCES'})
+      mockSpawn._processes[0].emit('exit', 1)
+      mockTempDir.remove.callArg(1)
+
+      _.defer(() => {
+        expect(launcher.state).to.equal(launcher.STATE_FINISHED)
+        expect(failureSpy).to.have.been.called
+        done()
+      })
+    })
   })
 
   // higher level tests with Retry and CaptureTimeout launchers
