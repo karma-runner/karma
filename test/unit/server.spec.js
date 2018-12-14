@@ -2,6 +2,7 @@ const Server = require('../../lib/server')
 const BundleUtils = require('../../lib/utils/bundle-utils')
 const NetUtils = require('../../lib/utils/net-utils')
 const BrowserCollection = require('../../lib/browser_collection')
+const Browser = require('../../lib/browser')
 
 describe('server', () => {
   let mockConfig
@@ -10,6 +11,7 @@ describe('server', () => {
   let fileListOnReject
   let mockLauncher
   let mockWebServer
+  let mockServerSocket
   let mockSocketServer
   let mockBoundServer
   let mockExecutor
@@ -17,6 +19,7 @@ describe('server', () => {
   let server = mockConfig = browserCollection = webServerOnError = null
   let fileListOnResolve = fileListOnReject = mockLauncher = null
   let mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneSpy = null
+  let mockSocketEventListeners = new Map()
 
   // Use regular function not arrow so 'this' is mocha 'this'.
   beforeEach(function () {
@@ -67,6 +70,13 @@ describe('server', () => {
       kill: () => true
     }
 
+    mockServerSocket = {
+      id: 'socket-id',
+      on: (name, handler) => mockSocketEventListeners.set(name, handler),
+      emit: () => {},
+      removeListener: () => {}
+    }
+
     mockSocketServer = {
       close: () => {},
       flashPolicyServer: {
@@ -74,7 +84,7 @@ describe('server', () => {
       },
       sockets: {
         sockets: {},
-        on: () => {},
+        on: (name, handler) => handler(mockServerSocket),
         emit: () => {},
         removeAllListeners: () => {}
       }
@@ -275,6 +285,46 @@ describe('server', () => {
       function mockProcess (process) {
         sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
       }
+    })
+  })
+
+  describe('reconnecting browser', () => {
+    let mockBrowserSocket
+
+    beforeEach(() => {
+      browserCollection = new BrowserCollection(server)
+      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+
+      mockBrowserSocket = {
+        id: 'browser-socket-id',
+        on: () => {},
+        emit: () => {}
+      }
+    })
+
+    it('should re-configure disconnected browser which has been restarted', () => {
+      const testBrowserId = 'my-id'
+      const browser = new Browser(testBrowserId, 'Chrome 19.0', browserCollection, server,
+        mockBrowserSocket, null, 0)
+      const registerFn = mockSocketEventListeners.get('register')
+
+      browser.init()
+      browserCollection.add(browser)
+
+      // We assume that our browser was running when it disconnected randomly.
+      browser.setState(Browser.STATE_EXECUTING_DISCONNECTED)
+
+      // We now simulate a "connect" event from the Karma client where it registers
+      // a previous browser that disconnected while executing. Usually if it was just a
+      // socket.io reconnect, we would not want to restart the execution, but since this is
+      // a complete reconnect, we want to configure the browser and start a new execution.
+      registerFn({
+        name: 'fake-name',
+        id: testBrowserId,
+        isSocketReconnect: false
+      })
+
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
     })
   })
 })

@@ -147,7 +147,7 @@ describe('Karma', function () {
     assert(spyInfo.called)
   })
 
-  it.only('should mark "register" event for reconnected socket', function () {
+  it('should mark "register" event for reconnected socket', function () {
     socket.on('register', sinon.spy(function (info) {
       assert(info.isSocketReconnect === true)
     }))
