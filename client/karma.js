@@ -5,6 +5,7 @@ var util = require('../common/util')
 function Karma (socket, iframe, opener, navigator, location) {
   var startEmitted = false
   var reloadingContext = false
+  var socketReconnect = false
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -227,19 +228,26 @@ function Karma (socket, iframe, opener, navigator, location) {
     this.complete()
   }.bind(this))
 
-  // report browser name, id
+  // Report the browser name and Id. Note that this event can also fire if the connection has
+  // been temporarily lost, but the socket reconnected automatically. Read more in the docs:
+  // https://socket.io/docs/client-api/#Event-%E2%80%98connect%E2%80%99
   socket.on('connect', function () {
     socket.io.engine.on('upgrade', function () {
       resultsBufferLimit = 1
     })
     var info = {
       name: navigator.userAgent,
-      id: browserId
+      id: browserId,
+      isSocketReconnect: socketReconnect
     }
     if (displayName) {
       info.displayName = displayName
     }
     socket.emit('register', info)
+  })
+
+  socket.on('reconnect', function () {
+    socketReconnect = true
   })
 }
 

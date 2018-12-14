@@ -147,6 +147,15 @@ describe('Karma', function () {
     assert(spyInfo.called)
   })
 
+  it.only('should mark "register" event for reconnected socket', function () {
+    socket.on('register', sinon.spy(function (info) {
+      assert(info.isSocketReconnect === true)
+    }))
+
+    socket.emit('reconnect')
+    socket.emit('connect')
+  })
+
   it('should report browser id', function () {
     windowLocation.search = '?id=567'
     socket = new MockSocket()
