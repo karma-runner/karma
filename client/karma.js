@@ -5,7 +5,6 @@ var util = require('../common/util')
 function Karma (socket, iframe, opener, navigator, location) {
   var startEmitted = false
   var reloadingContext = false
-  var socketReconnect = false
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -14,6 +13,11 @@ function Karma (socket, iframe, opener, navigator, location) {
 
   var resultsBufferLimit = 50
   var resultsBuffer = []
+
+  // This variable will be set to "true" whenever the socket lost connection and was able to
+  // reconnect to the Karma server. This will be passed to the Karma server then, so that
+  // Karma can differentiate between a socket client reconnect and a full browser reconnect.
+  var socketReconnect = false
 
   this.VERSION = constant.VERSION
   this.config = {}
