@@ -1,3 +1,15 @@
+<a name="3.1.4"></a>
+## [3.1.4](https://github.com/karma-runner/karma/compare/v3.1.3...v3.1.4) (2018-12-17)
+
+
+### Bug Fixes
+
+* **file-list:** revert "do not preprocess up-to-date files" ([#3226](https://github.com/karma-runner/karma/issues/3226)) ([#3230](https://github.com/karma-runner/karma/issues/3230)) ([bb022a7](https://github.com/karma-runner/karma/commit/bb022a7))
+* improve error msg when bin is a directory ([#3231](https://github.com/karma-runner/karma/issues/3231)) ([584dddc](https://github.com/karma-runner/karma/commit/584dddc))
+* restarted browsers not running tests ([#3233](https://github.com/karma-runner/karma/issues/3233)) ([cc2eff2](https://github.com/karma-runner/karma/commit/cc2eff2))
+
+
+
 <a name="3.1.3"></a>
 ## [3.1.3](https://github.com/karma-runner/karma/compare/v3.1.2...v3.1.3) (2018-12-01)
 
