@@ -14,6 +14,11 @@ function Karma (socket, iframe, opener, navigator, location) {
   var resultsBufferLimit = 50
   var resultsBuffer = []
 
+  // This variable will be set to "true" whenever the socket lost connection and was able to
+  // reconnect to the Karma server. This will be passed to the Karma server then, so that
+  // Karma can differentiate between a socket client reconnect and a full browser reconnect.
+  var socketReconnect = false
+
   this.VERSION = constant.VERSION
   this.config = {}
 
@@ -227,19 +232,26 @@ function Karma (socket, iframe, opener, navigator, location) {
     this.complete()
   }.bind(this))
 
-  // report browser name, id
+  // Report the browser name and Id. Note that this event can also fire if the connection has
+  // been temporarily lost, but the socket reconnected automatically. Read more in the docs:
+  // https://socket.io/docs/client-api/#Event-%E2%80%98connect%E2%80%99
   socket.on('connect', function () {
     socket.io.engine.on('upgrade', function () {
       resultsBufferLimit = 1
     })
     var info = {
       name: navigator.userAgent,
-      id: browserId
+      id: browserId,
+      isSocketReconnect: socketReconnect
     }
     if (displayName) {
       info.displayName = displayName
     }
     socket.emit('register', info)
+  })
+
+  socket.on('reconnect', function () {
+    socketReconnect = true
   })
 }
 

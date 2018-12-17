@@ -297,6 +297,19 @@ describe('Browser', () => {
 
       expect(browser.isConnected()).to.equal(true)
     })
+
+    it('should not add a disconnected browser to the collection multiple times', () => {
+      browser = new Browser('id', 'Chrome 25.0', collection, emitter, socket, null, 10)
+      browser.init()
+
+      expect(collection.length).to.equal(1)
+
+      browser.state = Browser.STATE_DISCONNECTED
+
+      browser.reconnect(mkSocket())
+
+      expect(collection.length).to.equal(1)
+    })
   })
 
   describe('onResult', () => {
