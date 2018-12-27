@@ -482,6 +482,7 @@
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
     "lint:fix": "eslint . --ext js --ignore-pattern *.tpl.js --fix",
+    "test:unit": "grunt test:unit",
     "test": "grunt test",
     "build": "grunt build",
     "test:appveyor": "grunt test-appveyor",
