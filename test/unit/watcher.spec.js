@@ -11,37 +11,6 @@ describe('watcher', () => {
     m = mocks.loadFile(path.join(__dirname, '/../../lib/watcher.js'), mocks_)
   })
 
-  describe('baseDirFromPattern', () => {
-    it('should return parent directory without start', () => {
-      expect(m.baseDirFromPattern('/some/path/**/more.js')).to.equal('/some/path')
-      expect(m.baseDirFromPattern('/some/p*/file.js')).to.equal('/some')
-    })
-
-    it('should remove part with !(x)', () => {
-      expect(m.baseDirFromPattern('/some/p/!(a|b).js')).to.equal('/some/p')
-      expect(m.baseDirFromPattern('/some/p!(c|b)*.js')).to.equal('/some')
-    })
-
-    it('should remove part with +(x)', () => {
-      expect(m.baseDirFromPattern('/some/p/+(a|b).js')).to.equal('/some/p')
-      expect(m.baseDirFromPattern('/some/p+(c|bb).js')).to.equal('/some')
-    })
-
-    it('should remove part with (x)?', () => {
-      expect(m.baseDirFromPattern('/some/p/(a|b)?.js')).to.equal('/some/p')
-      expect(m.baseDirFromPattern('/some/p(c|b)?.js')).to.equal('/some')
-    })
-
-    it('should allow paths with parentheses', () => {
-      expect(m.baseDirFromPattern('/some/x (a|b)/a.js')).to.equal('/some/x (a|b)/a.js')
-      expect(m.baseDirFromPattern('/some/p(c|b)/*.js')).to.equal('/some/p(c|b)')
-    })
-
-    it('should ignore exact files', () => {
-      expect(m.baseDirFromPattern('/usr/local/bin.js')).to.equal('/usr/local/bin.js')
-    })
-  })
-
   describe('watchPatterns', () => {
     let chokidarWatcher = null
 
