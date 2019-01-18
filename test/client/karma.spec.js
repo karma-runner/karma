@@ -433,5 +433,20 @@ describe('Karma', function () {
 
       assert.equal(iframe.src, CURRENT_URL)
     })
+
+    it('should accept multiple calls to loaded', function () {
+      // support for Safari 10 since it supports type=module but not nomodule.
+      var config = ck.config = {
+        useIframe: true
+      }
+
+      socket.emit('execute', config)
+      assert(!startSpy.called)
+
+      ck.loaded()
+      ck.loaded()
+      assert(startSpy.calledWith(config))
+      assert(startSpy.getCalls().length === 1)
+    })
   })
 })

@@ -6,6 +6,7 @@ function ContextKarma (callParentKarmaMethod) {
   // Define local variables
   var hasError = false
   var self = this
+  var isLoaded = false
 
   // Define our loggers
   // DEV: These are intentionally repeated in client and context
@@ -36,7 +37,8 @@ function ContextKarma (callParentKarmaMethod) {
   // all files loaded, let's start the execution
   this.loaded = function () {
     // has error -> cancel
-    if (!hasError) {
+    if (!hasError && !isLoaded) {
+      isLoaded = true
       try {
         this.start(this.config)
       } catch (error) {
