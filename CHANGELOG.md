@@ -1,3 +1,24 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/karma-runner/karma/compare/v3.1.4...v4.0.0) (2019-01-23)
+
+
+### Bug Fixes
+
+* **client:** fix issue with loaded on safari 10 ([#3252](https://github.com/karma-runner/karma/issues/3252)) ([571191c](https://github.com/karma-runner/karma/commit/571191c)), closes [#3198](https://github.com/karma-runner/karma/issues/3198)
+* **config:** add test:unit npm script ([#3242](https://github.com/karma-runner/karma/issues/3242)) ([02f071d](https://github.com/karma-runner/karma/commit/02f071d))
+
+
+### Chores
+
+* remove support for node 6 ([#3246](https://github.com/karma-runner/karma/issues/3246)) ([8a83990](https://github.com/karma-runner/karma/commit/8a83990)), closes [#3151](https://github.com/karma-runner/karma/issues/3151)
+
+
+### BREAKING CHANGES
+
+* Drop Support for Node 6, to make it possible to use async/await in karma codebase.
+
+
+
 <a name="3.1.4"></a>
 ## [3.1.4](https://github.com/karma-runner/karma/compare/v3.1.3...v3.1.4) (2018-12-17)
 
