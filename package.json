@@ -394,7 +394,7 @@
     "http-proxy": "^1.13.0",
     "isbinaryfile": "^3.0.0",
     "lodash": "^4.17.5",
-    "log4js": "^3.0.0",
+    "log4js": "^4.0.0",
     "mime": "^2.3.1",
     "minimatch": "^3.0.2",
     "optimist": "^0.6.1",
