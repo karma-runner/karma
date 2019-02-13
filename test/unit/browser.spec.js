@@ -123,12 +123,19 @@ describe('Browser', () => {
       expect(spy).to.have.been.calledWith(browser, infoData)
     })
 
-    it('should ignore if browser not executing', () => {
+    it('should update total specs count during execution', () => {
+      browser.state = Browser.STATE_EXECUTING
+      browser.onInfo({total: 20})
+
+      expect(browser.lastResult.total).to.equal(20)
+    })
+
+    it('should ignore update total if not executing', () => {
       const spy = sinon.spy()
-      emitter.on('browser_dump', spy)
+      emitter.on('browser_log', spy)
+      emitter.on('browser_info', spy)
 
       browser.state = Browser.STATE_CONNECTED
-      browser.onInfo({dump: 'something'})
       browser.onInfo({total: 20})
 
       expect(browser.lastResult.total).to.equal(0)
