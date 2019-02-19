@@ -380,6 +380,7 @@
   "dependencies": {
     "bluebird": "^3.3.0",
     "body-parser": "^1.16.1",
+    "braces": "^2.3.2",
     "chokidar": "^2.0.3",
     "colors": "^1.1.0",
     "combine-lists": "^1.0.0",
@@ -387,7 +388,6 @@
     "core-js": "^2.2.0",
     "di": "^0.0.1",
     "dom-serialize": "^2.2.0",
-    "expand-braces": "^0.1.1",
     "flatted": "^2.0.0",
     "glob": "^7.1.1",
     "graceful-fs": "^4.1.2",
