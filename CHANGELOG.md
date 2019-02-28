@@ -1,3 +1,17 @@
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/karma-runner/karma/compare/v4.0.0...v4.0.1) (2019-02-28)
+
+
+### Bug Fixes
+
+* **browser:** allow updating total specs count ([#3264](https://github.com/karma-runner/karma/issues/3264)) ([d5df723](https://github.com/karma-runner/karma/commit/d5df723))
+* remove vulnerable dependency combine-lists ([#3273](https://github.com/karma-runner/karma/issues/3273)) ([c43f584](https://github.com/karma-runner/karma/commit/c43f584)), closes [#3265](https://github.com/karma-runner/karma/issues/3265)
+* remove vulnerable dependency expand-braces ([#3270](https://github.com/karma-runner/karma/issues/3270)) ([4ec4f6f](https://github.com/karma-runner/karma/commit/4ec4f6f)), closes [#3268](https://github.com/karma-runner/karma/issues/3268) [#3269](https://github.com/karma-runner/karma/issues/3269)
+* **filelist:** correct logger name. ([#3262](https://github.com/karma-runner/karma/issues/3262)) ([375bb5e](https://github.com/karma-runner/karma/commit/375bb5e))
+* **launcher:** Debug Child Processes exit signal ([#3259](https://github.com/karma-runner/karma/issues/3259)) ([c277a6b](https://github.com/karma-runner/karma/commit/c277a6b))
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/karma-runner/karma/compare/v3.1.4...v4.0.0) (2019-01-23)
 
