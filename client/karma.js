@@ -66,8 +66,24 @@ function Karma (socket, iframe, opener, navigator, location) {
       } else if (url !== 'about:blank') {
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
-            var ele = document.createElement('script')
-            ele.src = window.__karma__.scriptUrls[idx]
+            var parser = new DOMParser()
+            // Browsers don't like character <> in string when assigning
+            // stringify json into a variable, so we replace them with escape
+            // hex
+            var string = window.__karma__.scriptUrls[idx]
+              .replace(/\\x3C/g, '<')
+              .replace(/\\x3E/g, '>')
+            var doc = parser.parseFromString(string, 'text/html')
+            var ele = doc.head.firstChild || doc.body.firstChild
+            // script elements created by DomParser is marked as unexecutable,
+            // create a new script element manually and copy necessary properties
+            // so it is executable
+            if (ele.tagName && ele.tagName.toLowerCase() === 'script') {
+              var tmp = ele
+              ele = document.createElement('script')
+              ele.src = tmp.src
+              ele.crossOrigin = tmp.crossorigin
+            }
             ele.onload = function () {
               loadScript(idx + 1)
             }
