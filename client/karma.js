@@ -67,15 +67,13 @@ function Karma (socket, iframe, opener, navigator, location) {
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
             var parser = new DOMParser()
-            // Browsers don't like character <> in string when assigning
-            // stringify json into a variable, so we replace them with escape
-            // hex
+            // Revert escaped characters with special roles in HTML before parsing
             var string = window.__karma__.scriptUrls[idx]
               .replace(/\\x3C/g, '<')
               .replace(/\\x3E/g, '>')
             var doc = parser.parseFromString(string, 'text/html')
             var ele = doc.head.firstChild || doc.body.firstChild
-            // script elements created by DomParser is marked as unexecutable,
+            // script elements created by DomParser are marked as unexecutable,
             // create a new script element manually and copy necessary properties
             // so it is executable
             if (ele.tagName && ele.tagName.toLowerCase() === 'script') {
