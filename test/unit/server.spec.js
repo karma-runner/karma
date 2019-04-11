@@ -189,8 +189,8 @@ describe('server', () => {
       server._boundServer = mockBoundServer
     })
 
-    it('should start the web server after all files have been preprocessed successfully', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+    it('should start the web server after all files have been preprocessed successfully', async () => {
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockFileList.refresh).to.have.been.called
       expect(fileListOnResolve).not.to.be.null
@@ -203,8 +203,8 @@ describe('server', () => {
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
-    it('should start the web server after all files have been preprocessed with an error', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+    it('should start the web server after all files have been preprocessed with an error', async () => {
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockFileList.refresh).to.have.been.called
       expect(fileListOnReject).not.to.be.null
@@ -217,8 +217,8 @@ describe('server', () => {
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
-    it('should launch browsers after the web server has started', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+    it('should launch browsers after the web server has started', async () => {
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       expect(mockWebServer.listen).not.to.have.been.called
       expect(webServerOnError).not.to.be.null
@@ -229,8 +229,8 @@ describe('server', () => {
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
     })
 
-    it('should emit a listening event once server begin accepting connections', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+    it('should emit a listening event once server begin accepting connections', async () => {
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       const listening = sinon.spy()
       server.on('listening', listening)
@@ -241,8 +241,8 @@ describe('server', () => {
       expect(listening).to.have.been.calledWith(9876)
     })
 
-    it('should emit a browsers_ready event once all the browsers are captured', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+    it('should emit a browsers_ready event once all the browsers are captured', async () => {
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       const browsersReady = sinon.spy()
       server.on('browsers_ready', browsersReady)
@@ -256,8 +256,8 @@ describe('server', () => {
       expect(browsersReady).to.have.been.called
     })
 
-    it('should emit a browser_register event for each browser added', () => {
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+    it('should emit a browser_register event for each browser added', async () => {
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       const browsersReady = sinon.spy()
       server.on('browsers_ready', browsersReady)
@@ -271,12 +271,11 @@ describe('server', () => {
       expect(browsersReady).to.have.been.called
     })
 
-    it('should exit with error exit code on load errors', (done) => {
+    it('should exit with error exit code on load errors', async () => {
       mockProcess(process)
 
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
         expect(exitCode).to.have.equal(1)
-        done()
       })
 
       server.loadErrors.push(['TestError', 'Test'])
@@ -291,9 +290,9 @@ describe('server', () => {
   describe('reconnecting browser', () => {
     let mockBrowserSocket
 
-    beforeEach(() => {
+    beforeEach(async () => {
       browserCollection = new BrowserCollection(server)
-      server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
+      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneSpy)
 
       mockBrowserSocket = {
         id: 'browser-socket-id',
