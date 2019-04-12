@@ -81,7 +81,7 @@ function Karma (socket, iframe, opener, navigator, location) {
               var tmp = ele
               ele = document.createElement('script')
               ele.src = tmp.src
-              ele.crossOrigin = tmp.crossorigin
+              ele.crossOrigin = tmp.crossOrigin
             }
             ele.onload = function () {
               loadScript(idx + 1)
