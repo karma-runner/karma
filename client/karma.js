@@ -62,12 +62,27 @@ function Karma (socket, iframe, opener, navigator, location) {
           childWindow.close()
         }
         childWindow = opener(url)
-      // run context on parent element and dynamically loading scripts
+      // run context on parent element (client_with_context)
+      // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
-            var ele = document.createElement('script')
-            ele.src = window.__karma__.scriptUrls[idx]
+            var parser = new DOMParser()
+            // Revert escaped characters with special roles in HTML before parsing
+            var string = window.__karma__.scriptUrls[idx]
+              .replace(/\\x3C/g, '<')
+              .replace(/\\x3E/g, '>')
+            var doc = parser.parseFromString(string, 'text/html')
+            var ele = doc.head.firstChild || doc.body.firstChild
+            // script elements created by DomParser are marked as unexecutable,
+            // create a new script element manually and copy necessary properties
+            // so it is executable
+            if (ele.tagName && ele.tagName.toLowerCase() === 'script') {
+              var tmp = ele
+              ele = document.createElement('script')
+              ele.src = tmp.src
+              ele.crossOrigin = tmp.crossOrigin
+            }
             ele.onload = function () {
               loadScript(idx + 1)
             }
