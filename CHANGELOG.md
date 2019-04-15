@@ -1,3 +1,16 @@
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/karma-runner/karma/compare/v4.0.1...v4.1.0) (2019-04-15)
+
+
+### Bug Fixes
+
+* **client:** Enable loading different file types when running in parent mode without iframe ([#3289](https://github.com/karma-runner/karma/issues/3289)) ([7968db6](https://github.com/karma-runner/karma/commit/7968db6))
+* **client:** Only create the funky object if message is not a string ([#3298](https://github.com/karma-runner/karma/issues/3298)) ([ce6825f](https://github.com/karma-runner/karma/commit/ce6825f)), closes [#3296](https://github.com/karma-runner/karma/issues/3296)
+* **launcher:** Log state transitions in debug ([#3294](https://github.com/karma-runner/karma/issues/3294)) ([6556ab4](https://github.com/karma-runner/karma/commit/6556ab4)), closes [#3290](https://github.com/karma-runner/karma/issues/3290)
+* **middleware:** log invalid filetype ([#3292](https://github.com/karma-runner/karma/issues/3292)) ([7eb48c5](https://github.com/karma-runner/karma/commit/7eb48c5)), closes [#3291](https://github.com/karma-runner/karma/issues/3291)
+
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/karma-runner/karma/compare/v4.0.0...v4.0.1) (2019-02-28)
 
