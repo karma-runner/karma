@@ -145,20 +145,22 @@ function Karma (socket, iframe, opener, navigator, location) {
   // error during js file loading (most likely syntax error)
   // we are not going to execute at all. `window.onerror` callback.
   this.error = function (messageOrEvent, source, lineno, colno, error) {
-    var message = messageOrEvent
-    var location = getLocation(source, lineno, colno)
+    var message
+    if (typeof messageOrEvent === 'string') {
+      message = messageOrEvent
 
-    if (location !== '') {
-      message += '\nat ' + location
+      var location = getLocation(source, lineno, colno)
+      if (location !== '') {
+        message += '\nat ' + location
+      }
+      if (error && error.stack) {
+        message += '\n\n' + error.stack
+      }
+    } else {
+      // create an object with the string representation of the message to
+      // ensure all its content is properly transferred to the console log
+      message = {message: messageOrEvent, str: messageOrEvent.toString()}
     }
-
-    if (error) {
-      message += '\n\n' + error.stack
-    }
-
-    // create an object with the string representation of the message to ensure all its content is properly
-    // transferred to the console log
-    message = {message: message, str: message.toString()}
 
     socket.emit('karma_error', message)
     this.complete()
