@@ -91,7 +91,7 @@ describe('server', () => {
     }
 
     mockBoundServer = {
-      on: sinon.spy((event, callback) => callback && callback()),
+      on: sinon.spy((event, callback) => callback && callback(mockServerSocket)),
       listen: sinon.spy((port, listenAddress, callback) => callback && callback()),
       close: sinon.spy((callback) => callback && callback()),
       address: () => { return { port: 9876 } }
@@ -148,6 +148,7 @@ describe('server', () => {
       server.start().then(() => {
         expect(NetUtils.bindAvailablePort).to.have.been.calledWith(9876, '127.0.0.1')
         expect(mockBoundServer.address).to.have.been.called
+        expect(typeof mockSocketEventListeners.get('error')).to.be.equal('function')
         done()
       })
     })
