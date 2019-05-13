@@ -384,8 +384,8 @@
   "dependencies": {
     "bluebird": "^3.3.0",
     "body-parser": "^1.16.1",
-    "braces": "^2.3.2",
-    "chokidar": "^2.0.3",
+    "braces": "^3.0.2",
+    "chokidar": "^3.0.0",
     "colors": "^1.1.0",
     "connect": "^3.6.0",
     "core-js": "^2.2.0",
