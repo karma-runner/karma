@@ -15,9 +15,9 @@ describe('cli', () => {
   let mockery
 
   const fsMock = mocks.fs.create({
-    cwd: {'karma.conf.js': true},
-    cwd2: {'karma.conf.coffee': true},
-    cwd3: {'karma.conf.ts': true}
+    cwd: { 'karma.conf.js': true },
+    cwd2: { 'karma.conf.coffee': true },
+    cwd3: { 'karma.conf.ts': true }
   })
 
   let currentCwd = null
@@ -41,8 +41,8 @@ describe('cli', () => {
   beforeEach(() => {
     setCWD('/')
     mockery = {}
-    mockery.process = {exit: sinon.spy()}
-    mockery.console = {error: sinon.spy()}
+    mockery.process = { exit: sinon.spy() }
+    mockery.console = { error: sinon.spy() }
 
     // load file under test
     m = loadFile(path.join(__dirname, '/../../lib/cli.js'), mockery, {

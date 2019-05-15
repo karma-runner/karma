@@ -139,7 +139,7 @@ describe('middleware.proxy', () => {
   })
 
   it('should parse a simple proxy config', () => {
-    const proxy = {'/base/': 'http://localhost:8000/'}
+    const proxy = { '/base/': 'http://localhost:8000/' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -153,7 +153,7 @@ describe('middleware.proxy', () => {
   })
 
   it('should set default http port', () => {
-    const proxy = {'/base/': 'http://localhost/'}
+    const proxy = { '/base/': 'http://localhost/' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -167,7 +167,7 @@ describe('middleware.proxy', () => {
   })
 
   it('should set default https port', () => {
-    const proxy = {'/base/': 'https://localhost/'}
+    const proxy = { '/base/': 'https://localhost/' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -188,7 +188,7 @@ describe('middleware.proxy', () => {
   })
 
   it('should handle proxy configs with paths', () => {
-    const proxy = {'/base': 'http://localhost:8000/proxy'}
+    const proxy = { '/base': 'http://localhost:8000/proxy' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -202,7 +202,7 @@ describe('middleware.proxy', () => {
   })
 
   it('should determine protocol', () => {
-    const proxy = {'/base': 'https://localhost:8000'}
+    const proxy = { '/base': 'https://localhost:8000' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -223,8 +223,8 @@ describe('middleware.proxy', () => {
   })
 
   it('should handle proxy configs with only basepaths', () => {
-    const proxy = {'/base': '/proxy/test'}
-    const config = {port: 9877, hostname: 'localhost'}
+    const proxy = { '/base': '/proxy/test' }
+    const config = { port: 9877, hostname: 'localhost' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, config)
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -238,8 +238,8 @@ describe('middleware.proxy', () => {
   })
 
   it('should normalize proxy url with only basepaths', () => {
-    const proxy = {'/base/': '/proxy/test'}
-    const config = {port: 9877, hostname: 'localhost'}
+    const proxy = { '/base/': '/proxy/test' }
+    const config = { port: 9877, hostname: 'localhost' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, config)
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -254,7 +254,7 @@ describe('middleware.proxy', () => {
 
   it('should parse right port of proxy target', () => {
     const proxy = { '/w': 'http://krinkle.dev/w' }
-    const config = {port: 9877, hostname: 'localhost'}
+    const config = { port: 9877, hostname: 'localhost' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, config)
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -269,7 +269,7 @@ describe('middleware.proxy', () => {
 
   it('should parse right port of proxy target w. https', () => {
     const proxy = { '/w': 'https://krinkle.dev/w' }
-    const config = {port: 9877, hostname: 'localhost'}
+    const config = { port: 9877, hostname: 'localhost' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, config)
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -283,7 +283,7 @@ describe('middleware.proxy', () => {
   })
 
   it('should normalize proxy url', () => {
-    const proxy = {'/base/': 'http://localhost:8000/proxy/test'}
+    const proxy = { '/base/': 'http://localhost:8000/proxy/test' }
     const parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
     expect(parsedProxyConfig[0]).to.containSubset({
@@ -323,7 +323,7 @@ describe('middleware.proxy', () => {
 
   it('should accept object for proxy config', () => {
     const proxy = {
-      '/base/': {target: 'http://localhost:8000/'}
+      '/base/': { target: 'http://localhost:8000/' }
     }
     const parsedProxyConfig = m.parseProxyConfig(proxy, {})
     expect(parsedProxyConfig).to.have.length(1)
@@ -338,7 +338,7 @@ describe('middleware.proxy', () => {
   })
 
   it('should bind proxy event', () => {
-    const proxy = {'/base/': 'http://localhost:8000/'}
+    const proxy = { '/base/': 'http://localhost:8000/' }
     const config = {
       proxyReq: function proxyReq () {},
       proxyRes: function proxyRes () {}

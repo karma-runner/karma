@@ -188,7 +188,7 @@ cucumber.defineSupportCode((a) => {
     regexp: /no\sdebug|like/
   })
 
-  Then('it passes with( {exact}):', {timeout: 10 * 1000}, function (mode, expectedOutput, callback) {
+  Then('it passes with( {exact}):', { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
     const noDebug = mode === 'no debug'
     const like = mode === 'like'
     let actualOutput = this.lastRun.stdout.toString()
@@ -261,7 +261,7 @@ cucumber.defineSupportCode((a) => {
 
   Then(/^the file at ([a-zA-Z0-9/\\_.]+) contains:$/,
     function (filePath, expectedOutput, callback) {
-      const data = fs.readFileSync(filePath, {encoding: 'UTF-8'})
+      const data = fs.readFileSync(filePath, { encoding: 'UTF-8' })
       if (data.match(expectedOutput)) {
         return callback()
       }

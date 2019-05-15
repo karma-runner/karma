@@ -53,7 +53,7 @@ function World () {
     return this.template({
       content: JSON.stringify(Object.assign({}, config, {
         customLaunchers: Object.assign({
-          ChromeHeadlessNoSandbox: {base: 'ChromeHeadless', flags: ['--no-sandbox']}
+          ChromeHeadlessNoSandbox: { base: 'ChromeHeadless', flags: ['--no-sandbox'] }
         }, config.customLaunchers)
       }))
     })

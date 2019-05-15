@@ -12,7 +12,7 @@ describe('web-server', () => {
   const File = require('../../lib/file')
 
   const _mocks = {}
-  const _globals = {__dirname: '/karma/lib'}
+  const _globals = { __dirname: '/karma/lib' }
 
   _mocks['graceful-fs'] = mocks.fs.create({
     karma: {
@@ -35,7 +35,7 @@ describe('web-server', () => {
   let beforeMiddlewareActive = false
   let middlewareActive = false
   const servedFiles = (files) => {
-    emitter.emit('file_list_modified', {included: [], served: files})
+    emitter.emit('file_list_modified', { included: [], served: files })
   }
 
   describe('request', () => {
@@ -48,7 +48,7 @@ describe('web-server', () => {
         beforeMiddleware: ['beforeCustom'],
         middleware: ['custom'],
         middlewareResponse: 'hello middleware!',
-        mime: {'custom/custom': ['custom']},
+        mime: { 'custom/custom': ['custom'] },
         client: {
           useIframe: true,
           useSingleWindow: false
@@ -59,7 +59,7 @@ describe('web-server', () => {
         config: ['value', config],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
-        fileList: ['value', {files: {served: [], included: []}}],
+        fileList: ['value', { files: { served: [], included: [] } }],
         filesPromise: ['factory', m.createFilesPromise],
         serveStaticFile: ['factory', m.createServeStaticFile],
         serveFile: ['factory', m.createServeFile],
@@ -225,11 +225,11 @@ describe('web-server', () => {
           urlRoot: '/',
           protocol: 'https:',
           httpsServerOptions: credentials,
-          client: {useIframe: true, useSingleWindow: false}
+          client: { useIframe: true, useSingleWindow: false }
         }],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
-        fileList: ['value', {files: {served: [], included: []}}],
+        fileList: ['value', { files: { served: [], included: [] } }],
         filesPromise: ['factory', m.createFilesPromise],
         serveStaticFile: ['factory', m.createServeStaticFile],
         serveFile: ['factory', m.createServeFile],
@@ -271,10 +271,10 @@ describe('web-server', () => {
       emitter = new EventEmitter()
 
       const injector = new di.Injector([{
-        config: ['value', {basePath: '/base/path', urlRoot: '/', httpModule: http2, protocol: 'https:', httpsServerOptions: credentials}],
+        config: ['value', { basePath: '/base/path', urlRoot: '/', httpModule: http2, protocol: 'https:', httpsServerOptions: credentials }],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
-        fileList: ['value', {files: {served: [], included: []}}],
+        fileList: ['value', { files: { served: [], included: [] } }],
         filesPromise: ['factory', m.createFilesPromise],
         serveStaticFile: ['factory', m.createServeStaticFile],
         serveFile: ['factory', m.createServeFile],

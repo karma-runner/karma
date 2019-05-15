@@ -9,7 +9,7 @@ describe('reporter', () => {
 
     beforeEach(() => {
       adapter = sinon.spy()
-      reporter = new BaseReporter(null, null, false, {terminal: true}, adapter)
+      reporter = new BaseReporter(null, null, false, { terminal: true }, adapter)
       return reporter
     })
 
@@ -192,7 +192,7 @@ describe('reporter', () => {
 
     it('should log messages correctly when complete with just one browser', () => {
       const writeSpy = sinon.spy(reporter, 'write')
-      const mockResults = {error: false, disconnected: false}
+      const mockResults = { error: false, disconnected: false }
 
       reporter.onRunComplete(['Chrome'], mockResults)
       return writeSpy.should.have.been.called

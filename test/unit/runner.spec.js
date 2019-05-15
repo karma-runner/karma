@@ -38,7 +38,7 @@ describe('runner', () => {
 
     it('should not slice buffer if smaller than exit code msg', () => {
       // regression
-      const fakeBuffer = {length: 1, slice: () => null}
+      const fakeBuffer = { length: 1, slice: () => null }
       sinon.stub(fakeBuffer, 'slice')
 
       m.parseExitCode(fakeBuffer, 10)
@@ -47,7 +47,7 @@ describe('runner', () => {
 
     it('should return same buffer if smaller than exit code msg', () => {
       // regression
-      const fakeBuffer = {length: 1, slice: () => null}
+      const fakeBuffer = { length: 1, slice: () => null }
       const result = m.parseExitCode(fakeBuffer, 10)
       expect(fakeBuffer).to.equal(result.buffer)
     })

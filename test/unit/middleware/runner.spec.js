@@ -69,7 +69,7 @@ describe('middleware.runner', () => {
 
     nextSpy = sinon.spy()
     response = new HttpResponseMock()
-    config = {client: {}, basePath: '/'}
+    config = { client: {}, basePath: '/' }
   })
 
   describe('', () => {
@@ -90,7 +90,7 @@ describe('middleware.runner', () => {
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
       mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, {exitCode: 0})
+      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0 })
     })
 
     it('should set the empty to 0 if empty results', (done) => {
@@ -106,7 +106,7 @@ describe('middleware.runner', () => {
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
       mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, {exitCode: 0, success: 0, failed: 0})
+      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 0, failed: 0 })
     })
 
     it('should set the empty to 1 if successful tests', (done) => {
@@ -122,7 +122,7 @@ describe('middleware.runner', () => {
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
       mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, {exitCode: 0, success: 3, failed: 0})
+      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 3, failed: 0 })
     })
 
     it('should set the empty to 1 if failed tests', (done) => {
@@ -138,7 +138,7 @@ describe('middleware.runner', () => {
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
       mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, {exitCode: 0, success: 0, failed: 6})
+      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 0, failed: 6 })
     })
 
     it('should not run if there is no browser captured', (done) => {
@@ -222,7 +222,7 @@ describe('middleware.runner', () => {
       sinon.spy(fileListMock, 'refresh')
       sinon.stub(executor, 'schedule')
 
-      const RAW_MESSAGE = JSON.stringify({refresh: false})
+      const RAW_MESSAGE = JSON.stringify({ refresh: false })
 
       const request = new HttpRequestMock('/__run__', {
         'content-type': 'application/json',
@@ -281,7 +281,7 @@ describe('middleware.runner', () => {
       },
       {
         desc: 'should set object client args passed by run when there are no existing client.args',
-        expected: {arg2: 'fig', arg3: 'chocolate'},
+        expected: { arg2: 'fig', arg3: 'chocolate' },
         rawMessage: '{"args": {"arg2": "fig", "arg3": "chocolate"}}'
       },
       {
@@ -292,7 +292,7 @@ describe('middleware.runner', () => {
       },
       {
         desc: 'should overwrite empty array client.args when run passes an object for client.args',
-        expected: {arg2: 'figs', arg3: 'chocolates'},
+        expected: { arg2: 'figs', arg3: 'chocolates' },
         rawMessage: '{"args": {"arg2": "figs", "arg3": "chocolates"}}',
         existingConfig: []
       },
@@ -322,13 +322,13 @@ describe('middleware.runner', () => {
       },
       {
         desc: 'should merge existing client.args with client.args passed by run',
-        expected: {arg1: 'cherry', arg2: 'fig', arg3: 'chocolate'},
+        expected: { arg1: 'cherry', arg2: 'fig', arg3: 'chocolate' },
         rawMessage: '{"args": {"arg2": "fig", "arg3": "chocolate"}}',
-        existingConfig: {arg1: 'cherry', arg2: 'mango'}
+        existingConfig: { arg1: 'cherry', arg2: 'mango' }
       },
       {
         desc: 'should merge empty client.args with client.args passed by run',
-        expected: {arg2: 'fig', arg3: 'chocolate'},
+        expected: { arg2: 'fig', arg3: 'chocolate' },
         rawMessage: '{"args": {"arg2": "fig", "arg3": "chocolate"}}',
         existingConfig: {}
       }
@@ -339,7 +339,7 @@ describe('middleware.runner', () => {
         capturedBrowsers.add(new Browser())
         sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
         if (run.existingConfig) {
-          config = _.merge(config, {client: {args: run.existingConfig}})
+          config = _.merge(config, { client: { args: run.existingConfig } })
         }
         createHandler()
 

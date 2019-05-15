@@ -68,17 +68,17 @@ describe('middleware.karma', () => {
       injector,
       '/base/path',
       '/__karma__/',
-      {path: '/__proxy__/'}
+      { path: '/__proxy__/' }
     )
   })
 
   // helpers
   const includedFiles = (files) => {
-    return filesDeferred.resolve({included: files, served: []})
+    return filesDeferred.resolve({ included: files, served: [] })
   }
 
   const servedFiles = (files) => {
-    return filesDeferred.resolve({included: [], served: files})
+    return filesDeferred.resolve({ included: [], served: files })
   }
 
   const normalizedHttpRequest = (urlPath) => {
@@ -479,9 +479,9 @@ describe('middleware.karma', () => {
           if (val === 'config.client') {
             i++
             if (i === 1) {
-              return {foo: 'bar'}
+              return { foo: 'bar' }
             } else {
-              return {foo: 'baz'}
+              return { foo: 'baz' }
             }
           } else {
             return null
@@ -490,7 +490,7 @@ describe('middleware.karma', () => {
       },
       '/base/path',
       '/__karma__/',
-      {path: '/__proxy__/'}
+      { path: '/__proxy__/' }
     )
 
     includedFiles([

@@ -17,7 +17,7 @@ function ContextKarma (callParentKarmaMethod) {
       values.push(this.stringify(args[i], 3))
     }
 
-    this.info({log: values.join(', '), type: type})
+    this.info({ log: values.join(', '), type: type })
   }
 
   this.stringify = stringify
@@ -153,7 +153,7 @@ ContextKarma.getDirectCallParentKarmaMethod = function (parentWindow) {
 }
 ContextKarma.getPostMessageCallParentKarmaMethod = function (parentWindow) {
   return function postMessageCallParentKarmaMethod (method, args) {
-    parentWindow.postMessage({__karmaMethod: method, __karmaArguments: args}, window.location.origin)
+    parentWindow.postMessage({ __karmaMethod: method, __karmaArguments: args }, window.location.origin)
   }
 }
 

@@ -185,11 +185,11 @@ describe('helper', () => {
 
   describe('merge', () => {
     it('should copy properties to first argument', () => {
-      const destination = {a: 1, b: 2}
-      const result = helper.merge(destination, {a: 4, c: 5})
+      const destination = { a: 1, b: 2 }
+      const result = helper.merge(destination, { a: 4, c: 5 })
 
       expect(destination.a).to.equal(1)
-      expect(result).to.deep.equal({a: 4, b: 2, c: 5})
+      expect(result).to.deep.equal({ a: 4, b: 2, c: 5 })
     })
   })
 
@@ -225,11 +225,11 @@ describe('helper', () => {
     const loadFile = require('mocks').loadFile
 
     const fs = fsMock.create({
-      home: {'some.js': fsMock.file()}
+      home: { 'some.js': fsMock.file() }
     })
 
     // load file under test
-    const m = loadFile(path.join(__dirname, '/../../lib/helper.js'), {'graceful-fs': fs, lodash: require('lodash')})
+    const m = loadFile(path.join(__dirname, '/../../lib/helper.js'), { 'graceful-fs': fs, lodash: require('lodash') })
 
     const mkdirIfNotExists = m.exports.mkdirIfNotExists
 

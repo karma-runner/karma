@@ -7,7 +7,7 @@ describe('reporter', function () {
 
     beforeEach(function () {
       formatError = sinon.spy()
-      reporter = new ProgressReporter(formatError, null, false, {terminal: true})
+      reporter = new ProgressReporter(formatError, null, false, { terminal: true })
     })
 
     it('should turn off colors', function () {

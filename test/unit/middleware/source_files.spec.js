@@ -61,7 +61,7 @@ describe('middleware.source_files', function () {
   })
 
   function servedFiles (list) {
-    return files.resolve({included: [], served: list})
+    return files.resolve({ included: [], served: list })
   }
 
   describe('Range headers', function () {

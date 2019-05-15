@@ -31,11 +31,11 @@ const PATTERN_LIST = {
 
 const MG = {
   statCache: {
-    '/some/a.js': {mtime: new Date()},
-    '/some/b.js': {mtime: new Date()},
-    '/a.txt': {mtime: new Date()},
-    '/b.txt': {mtime: new Date()},
-    '/c.txt': {mtime: new Date()}
+    '/some/a.js': { mtime: new Date() },
+    '/some/b.js': { mtime: new Date() },
+    '/a.txt': { mtime: new Date() },
+    '/b.txt': { mtime: new Date() },
+    '/c.txt': { mtime: new Date() }
   }
 }
 const mockFs = mocks.fs.create({
@@ -293,7 +293,7 @@ describe('FileList', () => {
 
       const p1 = list.refresh().then(checkResult)
       patternList['/some/*.js'].push('/some/c.js')
-      mg.statCache['/some/c.js'] = {mtime: new Date(Date.now() + 5000)}
+      mg.statCache['/some/c.js'] = { mtime: new Date(Date.now() + 5000) }
       const p2 = list.refresh().then(checkResult)
       let called = false
       const callback = (data) => {

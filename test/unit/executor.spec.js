@@ -13,7 +13,7 @@ describe('executor', () => {
   let executor
 
   beforeEach(() => {
-    config = {client: {}}
+    config = { client: {} }
     emitter = new EventEmitter()
     capturedBrowsers = new BrowserCollection(emitter)
     capturedBrowsers.add(new Browser())

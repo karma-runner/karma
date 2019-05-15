@@ -32,7 +32,7 @@ describe('preprocessor', () => {
       'graceful-fs': mockFs,
       minimatch: require('minimatch')
     }
-    emitterSetting = {'emitter': ['value', new events.EventEmitter()]}
+    emitterSetting = { 'emitter': ['value', new events.EventEmitter()] }
     m = mocks.loadFile(path.join(__dirname, '/../../lib/preprocessor.js'), mocks_)
   })
 
@@ -47,9 +47,9 @@ describe('preprocessor', () => {
         'factory', function () { return fakePreprocessor }
       ]
     }, emitterSetting])
-    pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
 
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
 
     pp(file, () => {
       expect(fakePreprocessor).to.have.been.called
@@ -68,9 +68,9 @@ describe('preprocessor', () => {
     const injector = new di.Injector([{
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
-    pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
 
-    const file = {originalPath: '/some/.dir/a.js', path: 'path'}
+    const file = { originalPath: '/some/.dir/a.js', path: 'path' }
 
     pp(file, () => {
       expect(fakePreprocessor).to.have.been.called
@@ -89,10 +89,10 @@ describe('preprocessor', () => {
     const injector = new di.Injector([{
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
-    const config = {'**/*.txt': ['fake']}
+    const config = { '**/*.txt': ['fake'] }
     pp = m.createPreprocessor(config, null, injector)
 
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
 
     config['**/*.js'] = ['fake']
 
@@ -112,9 +112,9 @@ describe('preprocessor', () => {
     const injector = new di.Injector([{
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
-    pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
 
-    const file = {originalPath: '/some/a.txt', path: 'path'}
+    const file = { originalPath: '/some/a.txt', path: 'path' }
 
     pp(file, () => {
       expect(fakePreprocessor).to.not.have.been.called
@@ -138,9 +138,9 @@ describe('preprocessor', () => {
       'preprocessor:fake2': ['factory', function () { return fakePreprocessor2 }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({'**/*.js': ['fake1', 'fake2']}, null, injector)
+    pp = m.createPreprocessor({ '**/*.js': ['fake1', 'fake2'] }, null, injector)
 
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
 
     pp(file, () => {
       expect(fakePreprocessor1).to.have.been.calledOnce
@@ -153,7 +153,7 @@ describe('preprocessor', () => {
 
   it('should compute SHA', (done) => {
     pp = m.createPreprocessor({}, null, new di.Injector([emitterSetting]))
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
 
     pp(file, () => {
       expect(file.sha).to.exist
@@ -182,10 +182,10 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({'**/a.js': ['fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/a.js': ['fake'] }, null, injector)
 
-    const fileProcess = {originalPath: '/some/a.js', path: 'path'}
-    const fileSkip = {originalPath: '/some/b.js', path: 'path'}
+    const fileProcess = { originalPath: '/some/a.js', path: 'path' }
+    const fileSkip = { originalPath: '/some/b.js', path: 'path' }
 
     pp(fileProcess, () => {
       pp(fileSkip, () => {
@@ -208,9 +208,9 @@ describe('preprocessor', () => {
       'preprocessor:failing': ['factory', function () { return failingPreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({'**/*.js': ['failing']}, null, injector)
+    pp = m.createPreprocessor({ '**/*.js': ['failing'] }, null, injector)
 
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
 
     pp(file, (err) => {
       expect(err).to.exist
@@ -232,9 +232,9 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({'**/*.js': ['failing', 'fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/*.js': ['failing', 'fake'] }, null, injector)
 
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
 
     pp(file, () => {
       expect(fakePreprocessor).not.to.have.been.called
@@ -243,7 +243,7 @@ describe('preprocessor', () => {
   })
 
   describe('when fs.readFile fails', () => {
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
     const getReadFileCallback = (nthCall) => {
       return mockFs.readFile.args[nthCall][1]
     }
@@ -261,7 +261,7 @@ describe('preprocessor', () => {
         'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
       }, emitterSetting])
 
-      const pp = m.createPreprocessor({'**/*.js': ['fake']}, null, injector)
+      const pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
 
       pp(file, () => {
         expect(fakePreprocessor).to.have.been.called
@@ -277,7 +277,7 @@ describe('preprocessor', () => {
     it('should throw after 3 retries', (done) => {
       const injector = new di.Injector([{}, emitterSetting])
 
-      const pp = m.createPreprocessor({'**/*.js': []}, null, injector)
+      const pp = m.createPreprocessor({ '**/*.js': [] }, null, injector)
 
       pp(file, () => { })
 
@@ -299,9 +299,9 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({'**/*': ['fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/*': ['fake'] }, null, injector)
 
-    const file = {originalPath: '/some/photo.png', path: 'path'}
+    const file = { originalPath: '/some/photo.png', path: 'path' }
 
     pp(file, (err) => {
       if (err) throw err
@@ -322,9 +322,9 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({'**/*': ['fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/*': ['fake'] }, null, injector)
 
-    const file = {originalPath: '/some/photo.png', path: 'path'}
+    const file = { originalPath: '/some/photo.png', path: 'path' }
 
     pp(file, (err) => {
       if (err) throw err
@@ -344,9 +344,9 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({'**/*': ['fake']}, null, injector)
+    pp = m.createPreprocessor({ '**/*': ['fake'] }, null, injector)
 
-    const file = {originalPath: '/some/CAM_PHOTO.JPG', path: 'path'}
+    const file = { originalPath: '/some/CAM_PHOTO.JPG', path: 'path' }
 
     pp(file, (err) => {
       if (err) throw err
@@ -389,7 +389,7 @@ describe('preprocessor', () => {
       '/some/a.js': ['fakeD']
     }, null, injector)
 
-    const file = {originalPath: '/some/a.js', path: 'path'}
+    const file = { originalPath: '/some/a.js', path: 'path' }
 
     pp(file, (err) => {
       if (err) throw err

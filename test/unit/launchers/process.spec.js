@@ -83,7 +83,7 @@ describe('launchers/process.js', () => {
       emitter.on('browser_process_failure', failureSpy)
 
       launcher.start('http://host:9876/')
-      mockSpawn._processes[0].emit('error', {code: 'ENOENT'})
+      mockSpawn._processes[0].emit('error', { code: 'ENOENT' })
       mockSpawn._processes[0].emit('exit', 1)
       mockTempDir.remove.callArg(1)
 
@@ -103,7 +103,7 @@ describe('launchers/process.js', () => {
       emitter.on('browser_process_failure', failureSpy)
 
       launcher.start('http://host:9876/')
-      mockSpawn._processes[0].emit('error', {code: 'EACCES'})
+      mockSpawn._processes[0].emit('error', { code: 'EACCES' })
       mockSpawn._processes[0].emit('exit', 1)
       mockTempDir.remove.callArg(1)
 

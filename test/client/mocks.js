@@ -25,7 +25,7 @@ function Emitter () {
 function MockSocket () {
   Emitter.call(this)
 
-  this.socket = {transport: {name: 'websocket'}}
+  this.socket = { transport: { name: 'websocket' } }
 
   var transportName = 'websocket'
 

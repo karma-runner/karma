@@ -67,9 +67,9 @@ describe('reporter', () => {
 
     it('should handle arbitrary error objects', () => {
       expect(
-        formatError({hello: 'world'})
+        formatError({ hello: 'world' })
       ).to.equal(
-        JSON.stringify({hello: 'world'}) + '\n'
+        JSON.stringify({ hello: 'world' }) + '\n'
       )
     })
 
@@ -158,10 +158,10 @@ describe('reporter', () => {
       it('should rewrite stack traces', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
-        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = 'at http://localhost:123/base/b.js:2:6'
@@ -173,10 +173,10 @@ describe('reporter', () => {
       it('should rewrite stack traces (when basePath is empty)', (done) => {
         formatError = m.createErrorFormatter({ basePath: '', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/a.js'), new File('/b.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
-        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = 'at http://localhost:123/base/b.js:2:6'
@@ -188,10 +188,10 @@ describe('reporter', () => {
       it('should rewrite stack traces to the first column when no column is given', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
-        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = 'at http://localhost:123/base/b.js:2'
@@ -203,10 +203,10 @@ describe('reporter', () => {
       it('should rewrite relative url stack traces', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
-        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = 'at /base/b.js:2:6'
@@ -219,9 +219,9 @@ describe('reporter', () => {
         sourceMappingPath = 'original/' // Note: relative path.
         formatError = m.createErrorFormatter({ basePath: '/some/base' }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/some/base/path/a.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.fancyjs'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.fancyjs' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = 'at /base/path/a.js:2:6'
@@ -233,10 +233,10 @@ describe('reporter', () => {
       it('should fall back to non-source-map format if originalPositionFor throws', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
-        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = 'at http://localhost:123/base/b.js:0:0'
@@ -248,10 +248,10 @@ describe('reporter', () => {
       it('should not try to use source maps when no line is given', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
-        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = 'at http://localhost:123/base/b.js'
@@ -264,10 +264,10 @@ describe('reporter', () => {
       it('should not try to match domains with spaces', (done) => {
         formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 9876 }, emitter, MockSourceMapConsumer)
         const servedFiles = [new File('/some/base/a.js'), new File('/some/base/b.js')]
-        servedFiles[0].sourceMap = {content: 'SOURCE MAP a.js'}
-        servedFiles[1].sourceMap = {content: 'SOURCE MAP b.js'}
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
 
-        emitter.emit('file_list_modified', {served: servedFiles})
+        emitter.emit('file_list_modified', { served: servedFiles })
 
         _.defer(() => {
           const ERROR = '"http://localhost:9876"\n at /base/b.js:2:6'
@@ -283,11 +283,11 @@ describe('reporter', () => {
         beforeEach(() => {
           formatError = m.createErrorFormatter({ basePath: '/some/base', hostname: 'localhost', port: 123 }, emitter, MockSourceMapConsumer)
           servedFiles = [new File('C:/a/b/c.js')]
-          servedFiles[0].sourceMap = {content: 'SOURCE MAP b.js'}
+          servedFiles[0].sourceMap = { content: 'SOURCE MAP b.js' }
         })
 
         it('should correct rewrite stack traces without sha', (done) => {
-          emitter.emit('file_list_modified', {served: servedFiles})
+          emitter.emit('file_list_modified', { served: servedFiles })
 
           _.defer(() => {
             const ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js:2:6'
@@ -297,7 +297,7 @@ describe('reporter', () => {
         })
 
         it('should correct rewrite stack traces with sha', (done) => {
-          emitter.emit('file_list_modified', {served: servedFiles})
+          emitter.emit('file_list_modified', { served: servedFiles })
 
           _.defer(() => {
             const ERROR = 'at http://localhost:123/absoluteC:/a/b/c.js?da39a3ee5e6:2:6'

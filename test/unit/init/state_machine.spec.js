@@ -23,8 +23,8 @@ describe('init/StateMachine', () => {
 
   it('should go through all the questions', () => {
     const questions = [
-      {id: 'framework', options: ['jasmine', 'mocha']},
-      {id: 'other'}
+      { id: 'framework', options: ['jasmine', 'mocha'] },
+      { id: 'other' }
     ]
 
     done = sinon.spy((answers) => {
@@ -40,7 +40,7 @@ describe('init/StateMachine', () => {
 
   it('should allow multiple answers', () => {
     const questions = [
-      {id: 'browsers', multiple: true}
+      { id: 'browsers', multiple: true }
     ]
 
     done = sinon.spy((answers) => {
@@ -56,7 +56,7 @@ describe('init/StateMachine', () => {
 
   it('should treat spaces as confirmation of multiple answers', () => {
     const questions = [
-      {id: 'browsers', multiple: true}
+      { id: 'browsers', multiple: true }
     ]
 
     done = sinon.spy((answers) => {
@@ -71,7 +71,7 @@ describe('init/StateMachine', () => {
 
   it('should always return array for multiple', () => {
     const questions = [
-      {id: 'empty', multiple: true}
+      { id: 'empty', multiple: true }
     ]
 
     done = sinon.spy((answers) => {
@@ -86,7 +86,7 @@ describe('init/StateMachine', () => {
   it('should validate answers', () => {
     const validator = sinon.spy()
     const questions = [
-      {id: 'validated', validate: validator}
+      { id: 'validated', validate: validator }
     ]
 
     machine.process(questions, done)
@@ -111,9 +111,9 @@ describe('init/StateMachine', () => {
     })
 
     const questions = [
-      {id: 'first'},
-      {id: 'onlyIfTrue', condition: ifTrue},
-      {id: 'onlyIfFalse', condition: ifFalse}
+      { id: 'first' },
+      { id: 'onlyIfTrue', condition: ifTrue },
+      { id: 'onlyIfFalse', condition: ifFalse }
     ]
 
     machine.process(questions, done)
@@ -130,8 +130,8 @@ describe('init/StateMachine', () => {
     })
 
     const questions = [
-      {id: 'yes', options: ['yes', 'no'], boolean: true},
-      {id: 'no', options: ['yes', 'no'], boolean: true}
+      { id: 'yes', options: ['yes', 'no'], boolean: true },
+      { id: 'no', options: ['yes', 'no'], boolean: true }
     ]
 
     machine.process(questions, done)
@@ -147,8 +147,8 @@ describe('init/StateMachine', () => {
     })
 
     const questions = [
-      {id: 'what', options: ['yes', 'no'], boolean: true, validate: validator},
-      {id: 'really', options: ['yes', 'no'], boolean: true, validate: validator}
+      { id: 'what', options: ['yes', 'no'], boolean: true, validate: validator },
+      { id: 'really', options: ['yes', 'no'], boolean: true, validate: validator }
     ]
 
     machine.process(questions, done)

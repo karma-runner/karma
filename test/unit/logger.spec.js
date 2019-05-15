@@ -11,7 +11,7 @@ describe('logger', () => {
         configuration = config
       }
     }
-    m = loadFile(path.join(__dirname, '/../../lib/logger.js'), {'log4js': mockLog4Js})
+    m = loadFile(path.join(__dirname, '/../../lib/logger.js'), { 'log4js': mockLog4Js })
   })
 
   describe('setup', () => {
