@@ -12,6 +12,11 @@ Feature: Passing Options
         'karma-jasmine',
         'karma-chrome-launcher'
       ];
+      client = {
+        jasmine: {
+          random: false
+        }
+      };
       """
     When I start Karma
     Then it passes with:
