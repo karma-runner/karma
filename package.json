@@ -450,7 +450,7 @@
     "karma-script-launcher": "^1.0.0",
     "load-grunt-tasks": "^4.0.0",
     "mkdirp": "^0.5.0",
-    "mocha": "^6.1.4",
+    "mocha": "^4.1.0",
     "mocks": "^0.0.15",
     "proxyquire": "^2.1.0",
     "puppeteer": "^1.9.0",
