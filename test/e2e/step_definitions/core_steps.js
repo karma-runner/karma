@@ -64,7 +64,7 @@ cucumber.defineSupportCode((a) => {
         }
 
         const runOut = command === 'runOut'
-        if (command === 'run' || command === 'runOut' || command === 'monitor') {
+        if (command === 'run' || command === 'runOut') {
           this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
           const done = () => {
             cleansingNeeded = true
@@ -87,18 +87,16 @@ cucumber.defineSupportCode((a) => {
             setTimeout(() => {
               exec(cmd, {
                 cwd: baseDir
-              }, (error, stdout) => {
+              }, (error, stdout, stderr) => {
                 if (error) {
                   this.lastRun.error = error
                 }
                 if (runOut) {
                   this.lastRun.stdout = stdout
+                  this.lastRun.stderr = stderr
                 }
                 done()
               })
-              if (command === 'monitor') {
-                done()
-              }
             }, 1000)
           })
         } else {
@@ -160,7 +158,7 @@ cucumber.defineSupportCode((a) => {
 
   defineParameterType({
     name: 'command',
-    regexp: /run|runOut|start|init|stop|monitor/
+    regexp: /run|runOut|start|init|stop/
   })
 
   defineParameterType({
@@ -178,15 +176,6 @@ cucumber.defineSupportCode((a) => {
 
   When('I {command} Karma behind a proxy on port {int} that prepends {string} to the base path', function (command, proxyPort, proxyPath, callback) {
     execKarma.apply(this, [command, undefined, proxyPort, proxyPath, callback])
-  })
-
-  When('I stop when the log contains {string}', function (message, callback) {
-    setInterval(() => {
-      if (this.lastRun.stdout.includes(message)) {
-        this.child && this.child.kill()
-        callback()
-      }
-    }, 100)
   })
 
   defineParameterType({
