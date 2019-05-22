@@ -65,6 +65,7 @@ cucumber.defineSupportCode((a) => {
 
         const runOut = command === 'runOut'
         if (command === 'run' || command === 'runOut') {
+          let isRun = false
           this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
           const done = () => {
             cleansingNeeded = true
@@ -84,20 +85,24 @@ cucumber.defineSupportCode((a) => {
           this.child.stdout.on('data', (chunk) => {
             this.lastRun.stdout += chunk.toString()
             const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
-            setTimeout(() => {
-              exec(cmd, {
-                cwd: baseDir
-              }, (error, stdout, stderr) => {
-                if (error) {
-                  this.lastRun.error = error
-                }
-                if (runOut) {
-                  this.lastRun.stdout = stdout
-                  this.lastRun.stderr = stderr
-                }
-                done()
-              })
-            }, 1000)
+            if (!isRun) {
+              isRun = true
+
+              setTimeout(() => {
+                exec(cmd, {
+                  cwd: baseDir
+                }, (error, stdout, stderr) => {
+                  if (error) {
+                    this.lastRun.error = error
+                  }
+                  if (runOut) {
+                    this.lastRun.stdout = stdout
+                    this.lastRun.stderr = stderr
+                  }
+                  done()
+                })
+              }, 1000)
+            }
           })
         } else {
           executor((error, stdout, stderr) => {
@@ -130,8 +135,8 @@ cucumber.defineSupportCode((a) => {
     setTimeout(function () {
       stopper.stop(_this.configFile, function (exitCode) {
         _this.stopperExitCode = exitCode
+        callback()
       })
-      callback()
     }, 1000)
   })
 

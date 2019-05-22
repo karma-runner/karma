@@ -44,7 +44,7 @@ Feature: Stop karma
     """
 
 
-  Scenario: A server can be stopped programically
+  Scenario: A server can be stopped programmatically
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js'];
