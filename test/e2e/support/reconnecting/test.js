@@ -22,8 +22,9 @@ describe('plus', function () {
 
   it('should re-connect', function (done) {
     expect(4).toBe(4)
+    // Emit reconnect, so Karma will not start new test run after reconnecting.
+    socket().emit('reconnect')
     socket().connect()
-    // window.parent.socket.socket.connect()
 
     done()
   })

@@ -64,7 +64,8 @@ cucumber.defineSupportCode((a) => {
         }
 
         const runOut = command === 'runOut'
-        if (command === 'run' || command === 'runOut' || command === 'monitor') {
+        if (command === 'run' || command === 'runOut') {
+          let isRun = false
           this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
           const done = () => {
             cleansingNeeded = true
@@ -84,22 +85,24 @@ cucumber.defineSupportCode((a) => {
           this.child.stdout.on('data', (chunk) => {
             this.lastRun.stdout += chunk.toString()
             const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
-            setTimeout(() => {
-              exec(cmd, {
-                cwd: baseDir
-              }, (error, stdout) => {
-                if (error) {
-                  this.lastRun.error = error
-                }
-                if (runOut) {
-                  this.lastRun.stdout = stdout
-                }
-                done()
-              })
-              if (command === 'monitor') {
-                done()
-              }
-            }, 1000)
+            if (!isRun) {
+              isRun = true
+
+              setTimeout(() => {
+                exec(cmd, {
+                  cwd: baseDir
+                }, (error, stdout, stderr) => {
+                  if (error) {
+                    this.lastRun.error = error
+                  }
+                  if (runOut) {
+                    this.lastRun.stdout = stdout
+                    this.lastRun.stderr = stderr
+                  }
+                  done()
+                })
+              }, 1000)
+            }
           })
         } else {
           executor((error, stdout, stderr) => {
@@ -132,8 +135,8 @@ cucumber.defineSupportCode((a) => {
     setTimeout(function () {
       stopper.stop(_this.configFile, function (exitCode) {
         _this.stopperExitCode = exitCode
+        callback()
       })
-      callback()
     }, 1000)
   })
 
@@ -160,7 +163,7 @@ cucumber.defineSupportCode((a) => {
 
   defineParameterType({
     name: 'command',
-    regexp: /run|runOut|start|init|stop|monitor/
+    regexp: /run|runOut|start|init|stop/
   })
 
   defineParameterType({
@@ -178,15 +181,6 @@ cucumber.defineSupportCode((a) => {
 
   When('I {command} Karma behind a proxy on port {int} that prepends {string} to the base path', function (command, proxyPort, proxyPath, callback) {
     execKarma.apply(this, [command, undefined, proxyPort, proxyPath, callback])
-  })
-
-  When('I stop when the log contains {string}', function (message, callback) {
-    setInterval(() => {
-      if (this.lastRun.stdout.includes(message)) {
-        this.child && this.child.kill()
-        callback()
-      }
-    }, 100)
   })
 
   defineParameterType({

@@ -18,7 +18,7 @@ Feature: Error Display
       """
       SyntaxError: Unexpected token }
       """
-  Scenario: Single-run Syntax Error in a test file
+  Scenario: Not single-run Syntax Error in a test file
     Given a configuration with:
       """
       files = ['error/test.js', 'error/under-test.js'];
@@ -29,10 +29,8 @@ Feature: Error Display
       ];
       singleRun = false;
       """
-    When I monitor Karma
-    And I stop when the log contains 'SyntaxError'
+    When I runOut Karma
     Then it fails with like:
       """
       SyntaxError: Unexpected token }
       """
-    And I stop a server programmatically
