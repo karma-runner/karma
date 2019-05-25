@@ -26,7 +26,7 @@ module.exports = function (grunt) {
 
     function exec (args, failMsg) {
       spawnKarma(args, function (err, result, code) {
-        if (code) {
+        if (code || err) {
           console.error(err)
           grunt.fail.fatal(failMsg, code)
         } else {
