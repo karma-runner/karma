@@ -42,7 +42,17 @@ about like Karma.
 ## Configure Travis with Firefox
 Travis supports running a real browser (Firefox) with a virtual
 screen. Just update your `.travis.yml` to set up the virtual screen
-like this:
+like this (if you're using Xenial):
+```ruby
+language: node_js
+node_js:
+  - "4"
+dist: xenial
+services:
+  - xvfb
+```
+
+Or this, for Trusty and below:
 ```ruby
 language: node_js
 node_js:
