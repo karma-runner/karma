@@ -1,5 +1,5 @@
 // shim all the things
-require('core-js/es5')
+require('core-js/stable')
 var sinon = require('sinon')
 var assert = require('assert')
 
