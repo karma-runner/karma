@@ -195,7 +195,7 @@ describe('reporter', () => {
 
         _.defer(() => {
           const ERROR = 'at http://localhost:123/base/b.js:2'
-          expect(formatError(ERROR)).to.equal('at /original/b.js:4:2 <- b.js:2\n')
+          expect(formatError(ERROR)).to.equal('at /original/b.js:4:3 <- b.js:2\n')
           done()
         })
       })
