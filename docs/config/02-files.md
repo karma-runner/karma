@@ -37,7 +37,7 @@ Each pattern is either a simple string or an object with the following propertie
   * `dom`
 * **Description.** The type determines the mechanism for including the file. The `css` and `html` types
 create `link` elements; the `js`, `dart`, and `module` elements create `script` elements. The `dom` type
-includes the file content in the page, used, for example, to test components combinging HTML and JS.
+includes the file content in the page, used, for example, to test components combining HTML and JS.
 
 ### `watched`
 * **Type.** Boolean
