@@ -1,3 +1,15 @@
+<a name="4.2.0"></a>
+# [4.2.0](https://github.com/karma-runner/karma/compare/v4.1.0...v4.2.0) (2019-07-12)
+
+
+### Bug Fixes
+
+* **logging:** Util inspect for logging the config. ([#3332](https://github.com/karma-runner/karma/issues/3332)) ([70b72a9](https://github.com/karma-runner/karma/commit/70b72a9))
+* **reporter:** format stack with 1-based column ([#3325](https://github.com/karma-runner/karma/issues/3325)) ([182c04d](https://github.com/karma-runner/karma/commit/182c04d)), closes [#3324](https://github.com/karma-runner/karma/issues/3324)
+* **server:** Add error handler for webserver socket. ([#3300](https://github.com/karma-runner/karma/issues/3300)) ([fe9a1dd](https://github.com/karma-runner/karma/commit/fe9a1dd))
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/karma-runner/karma/compare/v4.0.1...v4.1.0) (2019-04-15)
 
