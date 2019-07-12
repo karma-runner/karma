@@ -19,7 +19,7 @@ describe('Karma', function () {
     socket = new MockSocket()
     iframe = {}
     windowNavigator = {}
-    windowLocation = {search: ''}
+    windowLocation = { search: '' }
     windowStub = sinon.stub().returns({})
 
     k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation)
@@ -76,11 +76,11 @@ describe('Karma', function () {
     ck.start = ADAPTER_START_FN
     ck.error('syntax error', '/some/file.js', 11)
     ck.loaded()
-    assert.notEqual(ck.start, ADAPTER_START_FN)
+    assert.notStrictEqual(ck.start, ADAPTER_START_FN)
 
     ck.start = ADAPTER_START_FN
     ck.loaded()
-    assert.notEqual(k.start, ADAPTER_START_FN)
+    assert.notStrictEqual(k.start, ADAPTER_START_FN)
   })
 
   it('should not set up context if there was an error', function () {
@@ -180,12 +180,12 @@ describe('Karma', function () {
 
       // emit 49 results
       for (var i = 1; i < 50; i++) {
-        ck.result({id: i})
+        ck.result({ id: i })
       }
 
       assert(!spyResult.called)
 
-      ck.result('result', {id: 50})
+      ck.result('result', { id: 50 })
       assert(spyResult.called)
       assert(spyResult.args[0][0].length === 50)
     })
@@ -198,7 +198,7 @@ describe('Karma', function () {
 
       // emit 40 results
       for (var i = 1; i <= 40; i++) {
-        ck.result({id: i})
+        ck.result({ id: i })
       }
 
       ck.complete()
@@ -221,7 +221,7 @@ describe('Karma', function () {
 
       // adapter didn't call info({total: x})
       ck.result()
-      assert.deepEqual(log, ['start', 'result'])
+      assert.deepStrictEqual(log, ['start', 'result'])
     })
 
     it('should not emit "start" if already done by the adapter', function () {
@@ -240,10 +240,10 @@ describe('Karma', function () {
 
       setTransportTo('websocket')
 
-      ck.info({total: 321})
+      ck.info({ total: 321 })
       ck.result()
-      assert.deepEqual(log, ['start', 'result'])
-      assert(spyStart.calledWith({total: 321}))
+      assert.deepStrictEqual(log, ['start', 'result'])
+      assert(spyStart.calledWith({ total: 321 }))
     })
   })
 
@@ -276,8 +276,8 @@ describe('Karma', function () {
       ck.setupContext(mockWindow)
       var confirmResult = mockWindow.confirm('What?')
       assert(ck.log.calledWith('confirm', ['What?']))
-      assert.equal(confirmCalled, true)
-      assert.equal(confirmResult, true)
+      assert.strictEqual(confirmCalled, true)
+      assert.strictEqual(confirmResult, true)
     })
 
     it('should capture prompt', function () {
@@ -294,8 +294,8 @@ describe('Karma', function () {
       ck.setupContext(mockWindow)
       var promptResult = mockWindow.prompt('What is your favorite color?', 'blue')
       assert(ck.log.calledWith('prompt', ['What is your favorite color?', 'blue']))
-      assert.equal(promptCalled, true)
-      assert.equal(promptResult, 'user-input')
+      assert.strictEqual(promptCalled, true)
+      assert.strictEqual(promptResult, 'user-input')
     })
 
     it('should patch the console if captureConsole is true', function () {
@@ -344,7 +344,7 @@ describe('Karma', function () {
       ck.setupContext(mockWindow)
       mockWindow.console.log('What?')
       assert(ck.log.calledWith('log'))
-      assert.equal(ck.log.args[0][1][0], 'What?')
+      assert.strictEqual(ck.log.args[0][1][0], 'What?')
       assert(ck.log.calledWith('warn'))
       assert(/^Console method log threw:[\s\S]+I am a broken console\.log method/.test(ck.log.args[1][1][0]))
     })
@@ -369,7 +369,7 @@ describe('Karma', function () {
 
       // emit 40 results
       for (var i = 0; i < 40; i++) {
-        ck.result({id: i})
+        ck.result({ id: i })
       }
 
       assert(!spyResult.called)
@@ -382,7 +382,7 @@ describe('Karma', function () {
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
       k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
-      clientWindow = {karma: k}
+      clientWindow = { karma: k }
       ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
       ck.config = {}
 
@@ -415,7 +415,7 @@ describe('Karma', function () {
       // clock.tick() does not work in IE 7
       setTimeout(function () {
         clock.tick(1)
-        assert.notEqual(iframe.src, CURRENT_URL)
+        assert.notStrictEqual(iframe.src, CURRENT_URL)
       }, 10)
     })
 
@@ -431,7 +431,7 @@ describe('Karma', function () {
 
       clock.tick(1)
 
-      assert.equal(iframe.src, CURRENT_URL)
+      assert.strictEqual(iframe.src, CURRENT_URL)
     })
 
     it('should accept multiple calls to loaded', function () {

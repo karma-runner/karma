@@ -21,7 +21,7 @@ describe('init/formatters', () => {
       }
 
       it('should format FRAMEWORKS', () => {
-        const replacements = formatter.formatAnswers(createAnswers({frameworks: ['jasmine', 'requirejs']}))
+        const replacements = formatter.formatAnswers(createAnswers({ frameworks: ['jasmine', 'requirejs'] }))
         expect(replacements.FRAMEWORKS).to.equal("'jasmine', 'requirejs'")
       })
 
@@ -29,22 +29,22 @@ describe('init/formatters', () => {
         let replacements = formatter.formatAnswers(createAnswers())
         expect(replacements.FILES).to.equal('')
 
-        replacements = formatter.formatAnswers(createAnswers({files: ['*.js', 'other/file.js']}))
+        replacements = formatter.formatAnswers(createAnswers({ files: ['*.js', 'other/file.js'] }))
         expect(replacements.FILES).to.equal(
           "\n      '*.js',\n      'other/file.js'"
         )
       })
 
       it('should format BROWSERS', () => {
-        const replacements = formatter.formatAnswers(createAnswers({browsers: ['Chrome', 'Firefox']}))
+        const replacements = formatter.formatAnswers(createAnswers({ browsers: ['Chrome', 'Firefox'] }))
         expect(replacements.BROWSERS).to.equal("'Chrome', 'Firefox'")
       })
 
       it('should format AUTO_WATCH', () => {
-        let replacements = formatter.formatAnswers(createAnswers({autoWatch: true}))
+        let replacements = formatter.formatAnswers(createAnswers({ autoWatch: true }))
         expect(replacements.AUTO_WATCH).to.equal('true')
 
-        replacements = formatter.formatAnswers(createAnswers({autoWatch: false}))
+        replacements = formatter.formatAnswers(createAnswers({ autoWatch: false }))
         expect(replacements.AUTO_WATCH).to.equal('false')
       })
 
@@ -60,7 +60,7 @@ describe('init/formatters', () => {
       })
 
       it('should format PREPROCESSORS', () => {
-        const replacements = formatter.formatAnswers(createAnswers({preprocessors: {'*.coffee': ['coffee']}}))
+        const replacements = formatter.formatAnswers(createAnswers({ preprocessors: { '*.coffee': ['coffee'] } }))
 
         expect(replacements.PREPROCESSORS).to.equal(
           "\n      '*.coffee': ['coffee']"

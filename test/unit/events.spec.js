@@ -110,7 +110,7 @@ describe('events', () => {
 
   describe('bindAll', () => {
     it('should take emitter as second argument', () => {
-      const object = sinon.stub({onFoo: () => {}})
+      const object = sinon.stub({ onFoo: () => {} })
 
       emitter.bind(object)
       emitter.emit('foo')
@@ -120,7 +120,7 @@ describe('events', () => {
     })
 
     it('should append "context" to event arguments', () => {
-      const object = sinon.stub({onFoo: () => {}})
+      const object = sinon.stub({ onFoo: () => {} })
 
       emitter.bind(object)
       emitter.emit('foo', 'event-argument')

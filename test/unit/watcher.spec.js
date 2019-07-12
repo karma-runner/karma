@@ -7,7 +7,7 @@ describe('watcher', () => {
   let m = null
 
   beforeEach(() => {
-    const mocks_ = {chokidar: mocks.chokidar}
+    const mocks_ = { chokidar: mocks.chokidar }
     m = mocks.loadFile(path.join(__dirname, '/../../lib/watcher.js'), mocks_)
   })
 
@@ -59,7 +59,7 @@ describe('watcher', () => {
     it('should return list of watched patterns (strings)', () => {
       const watchedPatterns = m.getWatchedPatterns([
         config.createPatternObject('/watched.js'),
-        config.createPatternObject({pattern: 'non/*.js', watched: false})
+        config.createPatternObject({ pattern: 'non/*.js', watched: false })
       ])
       expect(watchedPatterns).to.deep.equal(['/watched.js'])
     })

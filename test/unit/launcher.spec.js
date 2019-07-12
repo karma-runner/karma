@@ -87,7 +87,7 @@ describe('launcher', () => {
 
     beforeEach(() => {
       emitter = new events.EventEmitter()
-      server = {'loadErrors': []}
+      server = { 'loadErrors': [] }
       config = {
         captureTimeout: 0,
         protocol: 'http:',
@@ -123,7 +123,7 @@ describe('launcher', () => {
       describe('with upstream proxy settings', () => {
         beforeEach(() => {
           emitter = new events.EventEmitter()
-          server = {'loadErrors': []}
+          server = { 'loadErrors': [] }
           config = {
             captureTimeout: 0,
             protocol: 'http:',

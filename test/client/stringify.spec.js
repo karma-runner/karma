@@ -8,22 +8,22 @@ describe('stringify', function () {
     // IE does not support Symbol
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
     it('should serialize symbols', function () {
-      assert.deepEqual(stringify(Symbol.for('x')), 'Symbol(x)')
+      assert.deepStrictEqual(stringify(Symbol.for('x')), 'Symbol(x)')
     })
   }
 
   it('should serialize string', function () {
-    assert.deepEqual(stringify('aaa'), "'aaa'")
+    assert.deepStrictEqual(stringify('aaa'), "'aaa'")
   })
 
   it('should serialize booleans', function () {
-    assert.deepEqual(stringify(true), 'true')
-    assert.deepEqual(stringify(false), 'false')
+    assert.deepStrictEqual(stringify(true), 'true')
+    assert.deepStrictEqual(stringify(false), 'false')
   })
 
   it('should serialize null and undefined', function () {
-    assert.deepEqual(stringify(null), 'null')
-    assert.deepEqual(stringify(), 'undefined')
+    assert.deepStrictEqual(stringify(null), 'null')
+    assert.deepStrictEqual(stringify(), 'undefined')
   })
 
   it('should serialize functions', function () {
@@ -49,18 +49,18 @@ describe('stringify', function () {
   if (window.Proxy) {
     it('should serialize proxied functions', function () {
       var defProxy = new Proxy(function (d, e, f) { return 'whatever' }, {})
-      assert.deepEqual(stringify(defProxy), 'function () { ... }')
+      assert.deepStrictEqual(stringify(defProxy), 'function () { ... }')
     })
   }
 
   it('should serialize arrays', function () {
-    assert.deepEqual(stringify(['a', 'b', null, true, false]), "['a', 'b', null, true, false]")
+    assert.deepStrictEqual(stringify(['a', 'b', null, true, false]), "['a', 'b', null, true, false]")
   })
 
   it('should serialize objects', function () {
     var obj
 
-    obj = {a: 'a', b: 'b', c: null, d: true, e: false}
+    obj = { a: 'a', b: 'b', c: null, d: true, e: false }
     assert(stringify(obj).indexOf("{a: 'a', b: 'b', c: null, d: true, e: false}") > -1)
 
     function MyObj () {
@@ -70,7 +70,7 @@ describe('stringify', function () {
     obj = new MyObj()
     assert(stringify(obj).indexOf("{a: 'a'}") > -1)
 
-    obj = {constructor: null}
+    obj = { constructor: null }
 
     // IE 7 serializes this to Object{}
     var s = stringify(obj)
@@ -85,10 +85,10 @@ describe('stringify', function () {
   it('should serialize html', function () {
     var div = document.createElement('div')
 
-    assert.deepEqual(stringify(div).trim().toLowerCase(), '<div></div>')
+    assert.deepStrictEqual(stringify(div).trim().toLowerCase(), '<div></div>')
 
     div.innerHTML = 'some <span>text</span>'
-    assert.deepEqual(stringify(div).trim().toLowerCase(), '<div>some <span>text</span></div>')
+    assert.deepStrictEqual(stringify(div).trim().toLowerCase(), '<div>some <span>text</span></div>')
   })
 
   it('should serialize error', function () {
@@ -101,18 +101,18 @@ describe('stringify', function () {
       // Test only works in IE 9 and above
       var parser = new DOMParser()
       var doc = parser.parseFromString('<test></test>', 'application/xml')
-      assert.deepEqual(stringify(doc), '<test></test>')
+      assert.deepStrictEqual(stringify(doc), '<test></test>')
     }
   })
 
   it('should serialize across iframes', function () {
     var div = document.createElement('div')
-    assert.deepEqual(__karma__.stringify(div).trim().toLowerCase(), '<div></div>')
+    assert.deepStrictEqual(__karma__.stringify(div).trim().toLowerCase(), '<div></div>')
 
-    assert.deepEqual(__karma__.stringify([1, 2]), '[1, 2]')
+    assert.deepStrictEqual(__karma__.stringify([1, 2]), '[1, 2]')
   })
 
   it('should stringify object with property tagName as Object', function () {
-    assert(stringify({tagName: 'a'}).indexOf("{tagName: 'a'}") > -1)
+    assert(stringify({ tagName: 'a' }).indexOf("{tagName: 'a'}") > -1)
   })
 })

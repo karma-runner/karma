@@ -113,7 +113,7 @@ function Karma (socket, iframe, opener, navigator, location) {
       values.push(this.stringify(args[i], 3))
     }
 
-    this.info({log: values.join(', '), type: type})
+    this.info({ log: values.join(', '), type: type })
   }
 
   this.stringify = stringify
@@ -159,7 +159,7 @@ function Karma (socket, iframe, opener, navigator, location) {
     } else {
       // create an object with the string representation of the message to
       // ensure all its content is properly transferred to the console log
-      message = {message: messageOrEvent, str: messageOrEvent.toString()}
+      message = { message: messageOrEvent, str: messageOrEvent.toString() }
     }
 
     socket.emit('karma_error', message)
@@ -184,7 +184,7 @@ function Karma (socket, iframe, opener, navigator, location) {
     }
 
     if (!startEmitted) {
-      socket.emit('start', {total: null})
+      socket.emit('start', { total: null })
       startEmitted = true
     }
 

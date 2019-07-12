@@ -16,9 +16,9 @@ module.exports = function (grunt) {
       grunt.log.writeln(['Running', cmd].concat(args).join(' '))
       var child
       if (process.platform === 'win32') {
-        child = grunt.util.spawn({cmd: node, args: [cmd].concat(args)}, callback)
+        child = grunt.util.spawn({ cmd: node, args: [cmd].concat(args) }, callback)
       } else {
-        child = grunt.util.spawn({cmd: cmd, args: args}, callback)
+        child = grunt.util.spawn({ cmd: cmd, args: args }, callback)
       }
       child.stdout.pipe(process.stdout)
       child.stderr.pipe(process.stderr)

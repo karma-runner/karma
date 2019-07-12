@@ -33,24 +33,24 @@ describe('config', () => {
 
   beforeEach(() => {
     mocks = {}
-    mocks.process = {exit: sinon.spy()}
+    mocks.process = { exit: sinon.spy() }
     const mockConfigs = {
-      '/home/config1.js': wrapCfg({basePath: 'base', reporters: ['dots']}),
-      '/home/config2.js': wrapCfg({basePath: '/abs/base'}),
-      '/home/config3.js': wrapCfg({files: ['one.js', 'sub/two.js']}),
-      '/home/config4.js': wrapCfg({port: 123, autoWatch: true, basePath: '/abs/base'}),
-      '/home/config6.js': wrapCfg({reporters: 'junit'}),
-      '/home/config7.js': wrapCfg({browsers: ['Chrome', 'Firefox']}),
-      '/home/config8.js': (config) => config.set({files: config.suite === 'e2e' ? ['tests/e2e.spec.js'] : ['tests/unit.spec.js']}),
-      '/home/config9.js': wrapCfg({client: {useIframe: false}}),
+      '/home/config1.js': wrapCfg({ basePath: 'base', reporters: ['dots'] }),
+      '/home/config2.js': wrapCfg({ basePath: '/abs/base' }),
+      '/home/config3.js': wrapCfg({ files: ['one.js', 'sub/two.js'] }),
+      '/home/config4.js': wrapCfg({ port: 123, autoWatch: true, basePath: '/abs/base' }),
+      '/home/config6.js': wrapCfg({ reporters: 'junit' }),
+      '/home/config7.js': wrapCfg({ browsers: ['Chrome', 'Firefox'] }),
+      '/home/config8.js': (config) => config.set({ files: config.suite === 'e2e' ? ['tests/e2e.spec.js'] : ['tests/unit.spec.js'] }),
+      '/home/config9.js': wrapCfg({ client: { useIframe: false } }),
       '/conf/invalid.js': () => {
         throw new SyntaxError('Unexpected token =')
       },
-      '/conf/exclude.js': wrapCfg({exclude: ['one.js', 'sub/two.js']}),
-      '/conf/absolute.js': wrapCfg({files: ['http://some.com', 'https://more.org/file.js']}),
-      '/conf/both.js': wrapCfg({files: ['one.js', 'two.js'], exclude: ['third.js']}),
-      '/conf/coffee.coffee': wrapCfg({files: ['one.js', 'two.js']}),
-      '/conf/default-export.js': {default: wrapCfg({files: ['one.js', 'two.js']})}
+      '/conf/exclude.js': wrapCfg({ exclude: ['one.js', 'sub/two.js'] }),
+      '/conf/absolute.js': wrapCfg({ files: ['http://some.com', 'https://more.org/file.js'] }),
+      '/conf/both.js': wrapCfg({ files: ['one.js', 'two.js'], exclude: ['third.js'] }),
+      '/conf/coffee.coffee': wrapCfg({ files: ['one.js', 'two.js'] }),
+      '/conf/default-export.js': { default: wrapCfg({ files: ['one.js', 'two.js'] }) }
     }
 
     // load file under test
@@ -133,7 +133,7 @@ describe('config', () => {
     })
 
     it('should override config with given cli options', () => {
-      const config = e.parseConfig('/home/config4.js', {port: 456, autoWatch: false})
+      const config = e.parseConfig('/home/config4.js', { port: 456, autoWatch: false })
 
       expect(config.port).to.equal(456)
       expect(config.autoWatch).to.equal(false)
@@ -142,21 +142,21 @@ describe('config', () => {
 
     it('should override config with cli options if the config property is an array', () => {
       // regression https://github.com/karma-runner/karma/issues/283
-      const config = e.parseConfig('/home/config7.js', {browsers: ['Safari']})
+      const config = e.parseConfig('/home/config7.js', { browsers: ['Safari'] })
 
       expect(config.browsers).to.deep.equal(['Safari'])
     })
 
     it('should merge config with cli options if the config property is an object', () => {
       // regression https://github.com/karma-runner/grunt-karma/issues/165
-      const config = e.parseConfig('/home/config9.js', {client: {captureConsole: false}})
+      const config = e.parseConfig('/home/config9.js', { client: { captureConsole: false } })
 
       expect(config.client.useIframe).to.equal(false)
       expect(config.client.captureConsole).to.equal(false)
     })
 
     it('should have access to cli options in the config file', () => {
-      let config = e.parseConfig('/home/config8.js', {suite: 'e2e'})
+      let config = e.parseConfig('/home/config8.js', { suite: 'e2e' })
       expect(patternsFrom(config.files)).to.deep.equal([resolveWinPath('/home/tests/e2e.spec.js')])
 
       config = e.parseConfig('/home/config8.js', {})
@@ -164,7 +164,7 @@ describe('config', () => {
     })
 
     it('should resolve files and excludes to overriden basePath from cli', () => {
-      const config = e.parseConfig('/conf/both.js', {port: 456, autoWatch: false, basePath: '/xxx'})
+      const config = e.parseConfig('/conf/both.js', { port: 456, autoWatch: false, basePath: '/xxx' })
 
       expect(config.basePath).to.equal(resolveWinPath('/xxx'))
       const actual = [resolveWinPath('/xxx/one.js'), resolveWinPath('/xxx/two.js')]
@@ -176,16 +176,16 @@ describe('config', () => {
     })
 
     it('should normalize urlRoot config', () => {
-      let config = normalizeConfigWithDefaults({urlRoot: ''})
+      let config = normalizeConfigWithDefaults({ urlRoot: '' })
       expect(config.urlRoot).to.equal('/')
 
-      config = normalizeConfigWithDefaults({urlRoot: '/a/b'})
+      config = normalizeConfigWithDefaults({ urlRoot: '/a/b' })
       expect(config.urlRoot).to.equal('/a/b/')
 
-      config = normalizeConfigWithDefaults({urlRoot: 'a/'})
+      config = normalizeConfigWithDefaults({ urlRoot: 'a/' })
       expect(config.urlRoot).to.equal('/a/')
 
-      config = normalizeConfigWithDefaults({urlRoot: 'some/thing'})
+      config = normalizeConfigWithDefaults({ urlRoot: 'some/thing' })
       expect(config.urlRoot).to.equal('/some/thing/')
     })
 
@@ -193,34 +193,34 @@ describe('config', () => {
       let config = normalizeConfigWithDefaults({})
       expect(config.upstreamProxy).to.be.undefined
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {}})
+      config = normalizeConfigWithDefaults({ upstreamProxy: {} })
       expect(config.upstreamProxy.path).to.equal('/')
       expect(config.upstreamProxy.hostname).to.equal('localhost')
       expect(config.upstreamProxy.port).to.equal(9875)
       expect(config.upstreamProxy.protocol).to.equal('http:')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {protocol: 'http'}})
+      config = normalizeConfigWithDefaults({ upstreamProxy: { protocol: 'http' } })
       expect(config.upstreamProxy.protocol).to.equal('http:')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {protocol: 'https'}})
+      config = normalizeConfigWithDefaults({ upstreamProxy: { protocol: 'https' } })
       expect(config.upstreamProxy.protocol).to.equal('https:')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {protocol: 'unknown'}})
+      config = normalizeConfigWithDefaults({ upstreamProxy: { protocol: 'unknown' } })
       expect(config.upstreamProxy.protocol).to.equal('http:')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {path: '/a/b'}})
+      config = normalizeConfigWithDefaults({ upstreamProxy: { path: '/a/b' } })
       expect(config.upstreamProxy.path).to.equal('/a/b/')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {path: 'a/'}})
+      config = normalizeConfigWithDefaults({ upstreamProxy: { path: 'a/' } })
       expect(config.upstreamProxy.path).to.equal('/a/')
 
-      config = normalizeConfigWithDefaults({upstreamProxy: {path: 'some/thing'}})
+      config = normalizeConfigWithDefaults({ upstreamProxy: { path: 'some/thing' } })
       expect(config.upstreamProxy.path).to.equal('/some/thing/')
     })
 
     it('should change autoWatch to false if singleRun', () => {
       // config4.js has autoWatch = true
-      const config = m.parseConfig('/home/config4.js', {singleRun: true})
+      const config = m.parseConfig('/home/config4.js', { singleRun: true })
       expect(config.autoWatch).to.equal(false)
     })
 
@@ -243,7 +243,7 @@ describe('config', () => {
     })
 
     it('should not read config file, when null', () => {
-      const config = e.parseConfig(null, {basePath: '/some'})
+      const config = e.parseConfig(null, { basePath: '/some' })
 
       expect(logSpy).not.to.have.been.called
       expect(config.basePath).to.equal(resolveWinPath('/some')) // overriden by CLI
@@ -251,7 +251,7 @@ describe('config', () => {
     }) // default value
 
     it('should not read config file, when null but still resolve cli basePath', () => {
-      const config = e.parseConfig(null, {basePath: './some'})
+      const config = e.parseConfig(null, { basePath: './some' })
 
       expect(logSpy).not.to.have.been.called
       expect(config.basePath).to.equal(resolveWinPath('./some'))
@@ -259,17 +259,17 @@ describe('config', () => {
     }) // default value
 
     it('should default unset options in client config', () => {
-      let config = e.parseConfig(null, {client: {args: ['--test']}})
+      let config = e.parseConfig(null, { client: { args: ['--test'] } })
 
       expect(config.client.useIframe).to.not.be.undefined
       expect(config.client.captureConsole).to.not.be.undefined
 
-      config = e.parseConfig(null, {client: {useIframe: true}})
+      config = e.parseConfig(null, { client: { useIframe: true } })
 
       expect(config.client.args).to.not.be.undefined
       expect(config.client.captureConsole).to.not.be.undefined
 
-      config = e.parseConfig(null, {client: {captureConsole: true}})
+      config = e.parseConfig(null, { client: { captureConsole: true } })
 
       expect(config.client.useIframe).to.not.be.undefined
       expect(config.client.args).to.not.be.undefined
@@ -279,19 +279,19 @@ describe('config', () => {
       let config = normalizeConfigWithDefaults({})
       expect(config.protocol).to.equal('http:')
 
-      config = normalizeConfigWithDefaults({protocol: 'http'})
+      config = normalizeConfigWithDefaults({ protocol: 'http' })
       expect(config.protocol).to.equal('http:')
 
-      config = normalizeConfigWithDefaults({protocol: 'http:'})
+      config = normalizeConfigWithDefaults({ protocol: 'http:' })
       expect(config.protocol).to.equal('http:')
 
-      config = normalizeConfigWithDefaults({protocol: 'https'})
+      config = normalizeConfigWithDefaults({ protocol: 'https' })
       expect(config.protocol).to.equal('https:')
 
-      config = normalizeConfigWithDefaults({protocol: 'https:'})
+      config = normalizeConfigWithDefaults({ protocol: 'https:' })
       expect(config.protocol).to.equal('https:')
 
-      config = normalizeConfigWithDefaults({protocol: 'unsupported:'})
+      config = normalizeConfigWithDefaults({ protocol: 'unsupported:' })
       expect(config.protocol).to.equal('http:')
     })
 
@@ -305,7 +305,7 @@ describe('config', () => {
     it('should convert patterns to objects and set defaults', () => {
       const config = normalizeConfigWithDefaults({
         basePath: '/base',
-        files: ['a/*.js', {pattern: 'b.js', watched: false, included: false}, {pattern: 'c.js'}],
+        files: ['a/*.js', { pattern: 'b.js', watched: false, included: false }, { pattern: 'c.js' }],
         customContextFile: 'context.html',
         customDebugFile: 'debug.html',
         customClientContextFile: 'client_with_context.html'
@@ -396,7 +396,7 @@ describe('config', () => {
     })
 
     it('should merge pattern object and set defaults', () => {
-      const pattern = m.createPatternObject({pattern: 'a.js', included: false, watched: false})
+      const pattern = m.createPatternObject({ pattern: 'a.js', included: false, watched: false })
 
       expect(typeof pattern).to.equal('object')
       expect(pattern.pattern).to.equal('a.js')
@@ -413,7 +413,7 @@ describe('config', () => {
       expect(pattern.watched).to.equal(false)
       expect(pattern.served).to.equal(false)
 
-      pattern = m.createPatternObject({pattern: 'https://some.other.com'})
+      pattern = m.createPatternObject({ pattern: 'https://some.other.com' })
 
       expect(pattern.pattern).to.equal('https://some.other.com')
       expect(pattern.included).to.equal(true)

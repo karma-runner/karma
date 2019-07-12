@@ -109,7 +109,7 @@ describe('Browser', () => {
       emitter.on('browser_log', spy)
 
       browser.state = Browser.STATE_EXECUTING
-      browser.onInfo({log: 'something', type: 'info'})
+      browser.onInfo({ log: 'something', type: 'info' })
       expect(spy).to.have.been.calledWith(browser, 'something', 'info')
     })
 
@@ -125,7 +125,7 @@ describe('Browser', () => {
 
     it('should update total specs count during execution', () => {
       browser.state = Browser.STATE_EXECUTING
-      browser.onInfo({total: 20})
+      browser.onInfo({ total: 20 })
 
       expect(browser.lastResult.total).to.equal(20)
     })
@@ -136,7 +136,7 @@ describe('Browser', () => {
       emitter.on('browser_info', spy)
 
       browser.state = Browser.STATE_CONNECTED
-      browser.onInfo({total: 20})
+      browser.onInfo({ total: 20 })
 
       expect(browser.lastResult.total).to.equal(0)
       expect(spy).not.to.have.been.called
@@ -150,12 +150,12 @@ describe('Browser', () => {
 
     it('should change state to EXECUTING', () => {
       browser.state = Browser.STATE_CONNECTED
-      browser.onStart({total: 20})
+      browser.onStart({ total: 20 })
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
     })
 
     it('should set total count of specs', () => {
-      browser.onStart({total: 20})
+      browser.onStart({ total: 20 })
       expect(browser.lastResult.total).to.equal(20)
     })
 
@@ -163,9 +163,9 @@ describe('Browser', () => {
       const spy = sinon.spy()
       emitter.on('browser_start', spy)
 
-      browser.onStart({total: 20})
+      browser.onStart({ total: 20 })
 
-      expect(spy).to.have.been.calledWith(browser, {total: 20})
+      expect(spy).to.have.been.calledWith(browser, { total: 20 })
     })
   })
 
@@ -285,7 +285,7 @@ describe('Browser', () => {
       browser.reconnect(mkSocket())
 
       // still accept results on the old socket
-      socket.emit('result', {success: true})
+      socket.emit('result', { success: true })
       expect(browser.lastResult.success).to.equal(1)
 
       socket.emit('karma_error', {})
@@ -321,15 +321,15 @@ describe('Browser', () => {
 
   describe('onResult', () => {
     const createSuccessResult = () => {
-      return {success: true, suite: [], log: []}
+      return { success: true, suite: [], log: [] }
     }
 
     const createFailedResult = () => {
-      return {success: false, suite: [], log: []}
+      return { success: false, suite: [], log: [] }
     }
 
     const createSkippedResult = () => {
-      return {success: true, skipped: true, suite: [], log: []}
+      return { success: true, skipped: true, suite: [], log: [] }
     }
 
     beforeEach(() => {
@@ -360,9 +360,9 @@ describe('Browser', () => {
 
     it('should update netTime', () => {
       browser.state = Browser.STATE_EXECUTING
-      browser.onResult({time: 3, suite: [], log: []})
-      browser.onResult({time: 1, suite: [], log: []})
-      browser.onResult({time: 5, suite: [], log: []})
+      browser.onResult({ time: 3, suite: [], log: [] })
+      browser.onResult({ time: 1, suite: [], log: [] })
+      browser.onResult({ time: 5, suite: [], log: [] })
 
       expect(browser.lastResult.netTime).to.equal(9)
     })
@@ -387,7 +387,7 @@ describe('Browser', () => {
       browser.name = 'Browser 1.0'
       browser.id = '12345'
 
-      expect(browser.serialize()).to.deep.equal({id: '12345', name: 'Browser 1.0', isConnected: true})
+      expect(browser.serialize()).to.deep.equal({ id: '12345', name: 'Browser 1.0', isConnected: true })
     })
   })
 
@@ -408,7 +408,7 @@ describe('Browser', () => {
       browser.init() // init socket listeners
 
       expect(browser.state).to.equal(Browser.STATE_CONNECTED)
-      socket.emit('start', {total: 1})
+      socket.emit('start', { total: 1 })
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
     })
   })
@@ -419,7 +419,7 @@ describe('Browser', () => {
       browser = new Browser('fake-id', 'full name', collection, emitter, socket, timer, 10)
       browser.init()
       browser.state = Browser.STATE_EXECUTING
-      socket.emit('result', {success: true, suite: [], log: []})
+      socket.emit('result', { success: true, suite: [], log: [] })
       socket.emit('disconnect', 'socket.io reason')
       expect(browser.isConnected()).to.equal(false)
 
@@ -427,7 +427,7 @@ describe('Browser', () => {
       browser.reconnect(newSocket)
       expect(browser.isConnected()).to.equal(false)
 
-      newSocket.emit('result', {success: false, suite: [], log: []})
+      newSocket.emit('result', { success: false, suite: [], log: [] })
       newSocket.emit('complete')
       expect(browser.isConnected()).to.equal(true)
       expect(browser.lastResult.success).to.equal(1)
@@ -441,7 +441,7 @@ describe('Browser', () => {
       browser = new Browser('fake-id', 'full name', collection, emitter, socket, timer, 10)
       browser.init()
       browser.state = Browser.STATE_EXECUTING
-      socket.emit('result', {success: true, suite: [], log: []})
+      socket.emit('result', { success: true, suite: [], log: [] })
       socket.emit('disconnect', 'socket.io reason')
 
       const spyBrowserError = sinon.spy()
@@ -460,10 +460,10 @@ describe('Browser', () => {
       expect(browser.state).to.equal(Browser.STATE_CONNECTED)
 
       browser.execute()
-      socket.emit('start', {total: 10})
-      socket.emit('result', {success: true, suite: [], log: []})
-      socket.emit('result', {success: false, suite: [], log: []})
-      socket.emit('result', {skipped: true, suite: [], log: []})
+      socket.emit('start', { total: 10 })
+      socket.emit('result', { success: true, suite: [], log: [] })
+      socket.emit('result', { success: false, suite: [], log: [] })
+      socket.emit('result', { skipped: true, suite: [], log: [] })
       socket.emit('disconnect', 'socket.io reason')
       timer.wind(10) // wait-for reconnecting delay
       expect(browser.state).to.equal(Browser.STATE_DISCONNECTED)
@@ -475,9 +475,9 @@ describe('Browser', () => {
       // reconnect on a new socket (which triggers re-execution)
       browser.reconnect(newSocket)
       expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
-      newSocket.emit('start', {total: 11})
+      newSocket.emit('start', { total: 11 })
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
-      socket.emit('result', {success: true, suite: [], log: []})
+      socket.emit('result', { success: true, suite: [], log: [] })
 
       // expected cleared last result (should not include the results from previous run)
       expect(browser.lastResult.total).to.equal(11)
@@ -502,11 +502,11 @@ describe('Browser', () => {
       // Disconnect the second connection...
       browser.onDisconnect('socket.io-reason', newSocket)
       expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
-      socket.emit('start', {total: 1})
+      socket.emit('start', { total: 1 })
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
 
       // It should still be listening on the old socket.
-      socket.emit('result', {success: true, suite: [], log: []})
+      socket.emit('result', { success: true, suite: [], log: [] })
       expect(browser.lastResult.success).to.equal(1)
     })
 
@@ -521,7 +521,7 @@ describe('Browser', () => {
       // A second connection...
       browser.reconnect(socket)
 
-      socket.emit('result', {success: true, suite: [], log: []})
+      socket.emit('result', { success: true, suite: [], log: [] })
       socket.emit('complete')
 
       expect(browser.onComplete.callCount).to.equal(1)
@@ -536,8 +536,8 @@ describe('Browser', () => {
       const spyBrowserComplete = sinon.spy()
       emitter.on('browser_complete', spyBrowserComplete)
 
-      socket.emit('start', {total: 11})
-      socket.emit('result', {success: true, suite: [], log: []})
+      socket.emit('start', { total: 11 })
+      socket.emit('result', { success: true, suite: [], log: [] })
 
       timer.wind(20)
       expect(browser.state).to.equal(Browser.STATE_DISCONNECTED)

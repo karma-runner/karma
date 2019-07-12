@@ -5,7 +5,7 @@ describe('init', () => {
   let m = null
 
   beforeEach(() => {
-    m = loadFile(path.join(__dirname, '/../../lib/init.js'), {glob: require('glob')})
+    m = loadFile(path.join(__dirname, '/../../lib/init.js'), { glob: require('glob') })
     sinon.stub(m, 'installPackage')
   })
 
@@ -99,7 +99,7 @@ describe('init', () => {
     let machine = formatter = null
 
     const evaluateConfigCode = (code) => {
-      const sandbox = {module: {}}
+      const sandbox = { module: {} }
       vm.runInNewContext(code, sandbox)
       const config = new DefaultKarmaConfig()
       sandbox.module.exports(config)
