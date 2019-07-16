@@ -399,7 +399,7 @@
     "graceful-fs": "^4.1.2",
     "http-proxy": "^1.13.0",
     "isbinaryfile": "^3.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "log4js": "^4.0.0",
     "mime": "^2.3.1",
     "minimatch": "^3.0.2",
