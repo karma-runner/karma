@@ -16,7 +16,7 @@ Feature: Error Display
     When I start Karma
     Then it fails with:
       """
-      SyntaxError: Unexpected token }
+      SyntaxError: Unexpected token '}'
       """
   Scenario: Not single-run Syntax Error in a test file
     Given a configuration with:
@@ -32,5 +32,5 @@ Feature: Error Display
     When I runOut Karma
     Then it fails with like:
       """
-      SyntaxError: Unexpected token }
+      SyntaxError: Unexpected token '}'
       """
