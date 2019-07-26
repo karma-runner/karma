@@ -118,7 +118,8 @@ describe('config', () => {
 
       expect(logSpy).to.have.been.called
       const event = logSpy.lastCall.args
-      expect(event).to.be.deep.equal(['File /conf/not-exist.js does not exist!'])
+      expect(event.toString().split('\n').slice(0, 2)).to.be.deep.equal(
+        [`Error in config file!`, `  Error: Cannot find module '/conf/not-exist.js'`])
       expect(mocks.process.exit).to.have.been.calledWith(1)
     })
 
