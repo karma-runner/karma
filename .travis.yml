@@ -32,6 +32,7 @@ addons:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - sleep 3 # Give xvfb time to to start
   - npm run init
   - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
   - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
@@ -43,3 +44,5 @@ before_script:
 
 script:
   - npm run travis
+
+dist: trusty # Impacts this script, eg xvfb
