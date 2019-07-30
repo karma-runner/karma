@@ -129,6 +129,17 @@ runner.run({port: 9876}, function(exitCode) {
 })
 ```
 
+`runner.run()` returns an `EventEmitter` which emits a `progress` event passing
+the reporter output as a `Buffer` object.
+
+You may listen for that event to print the reporter output to the console:
+
+```javascript
+runner.run({port: 9876}).on('progress', function(data) {
+  process.stdout.write(data)
+})
+```
+
 ## karma.stopper
 
 ### **stopper.stop(options, [callback=process.exit])**
