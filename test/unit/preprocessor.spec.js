@@ -47,7 +47,7 @@ describe('preprocessor', () => {
         'factory', function () { return fakePreprocessor }
       ]
     }, emitterSetting])
-    pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -68,7 +68,7 @@ describe('preprocessor', () => {
     const injector = new di.Injector([{
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
-    pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
 
     const file = { originalPath: '/some/.dir/a.js', path: 'path' }
 
@@ -90,7 +90,7 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
     const config = { '**/*.txt': ['fake'] }
-    pp = m.createPreprocessor(config, null, injector)
+    pp = m.createPriorityPreprocessor(config, {}, null, injector)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -112,7 +112,7 @@ describe('preprocessor', () => {
     const injector = new di.Injector([{
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
-    pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
 
     const file = { originalPath: '/some/a.txt', path: 'path' }
 
@@ -138,7 +138,7 @@ describe('preprocessor', () => {
       'preprocessor:fake2': ['factory', function () { return fakePreprocessor2 }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({ '**/*.js': ['fake1', 'fake2'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['fake1', 'fake2'] }, {}, null, injector)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -152,7 +152,7 @@ describe('preprocessor', () => {
   })
 
   it('should compute SHA', (done) => {
-    pp = m.createPreprocessor({}, null, new di.Injector([emitterSetting]))
+    pp = m.createPriorityPreprocessor({}, {}, null, new di.Injector([emitterSetting]))
     const file = { originalPath: '/some/a.js', path: 'path' }
 
     pp(file, () => {
@@ -182,7 +182,7 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({ '**/a.js': ['fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/a.js': ['fake'] }, {}, null, injector)
 
     const fileProcess = { originalPath: '/some/a.js', path: 'path' }
     const fileSkip = { originalPath: '/some/b.js', path: 'path' }
@@ -208,7 +208,7 @@ describe('preprocessor', () => {
       'preprocessor:failing': ['factory', function () { return failingPreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({ '**/*.js': ['failing'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['failing'] }, {}, null, injector)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -232,7 +232,7 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({ '**/*.js': ['failing', 'fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['failing', 'fake'] }, {}, null, injector)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -261,7 +261,7 @@ describe('preprocessor', () => {
         'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
       }, emitterSetting])
 
-      const pp = m.createPreprocessor({ '**/*.js': ['fake'] }, null, injector)
+      const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
 
       pp(file, () => {
         expect(fakePreprocessor).to.have.been.called
@@ -277,7 +277,7 @@ describe('preprocessor', () => {
     it('should throw after 3 retries', (done) => {
       const injector = new di.Injector([{}, emitterSetting])
 
-      const pp = m.createPreprocessor({ '**/*.js': [] }, null, injector)
+      const pp = m.createPriorityPreprocessor({ '**/*.js': [] }, {}, null, injector)
 
       pp(file, () => { })
 
@@ -299,7 +299,7 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({ '**/*': ['fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
 
     const file = { originalPath: '/some/photo.png', path: 'path' }
 
@@ -322,7 +322,7 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({ '**/*': ['fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
 
     const file = { originalPath: '/some/photo.png', path: 'path' }
 
@@ -344,7 +344,7 @@ describe('preprocessor', () => {
       'preprocessor:fake': ['factory', function () { fakePreprocessor }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({ '**/*': ['fake'] }, null, injector)
+    pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
 
     const file = { originalPath: '/some/CAM_PHOTO.JPG', path: 'path' }
 
@@ -357,7 +357,7 @@ describe('preprocessor', () => {
     })
   })
 
-  it('should merge lists of preprocessors', (done) => {
+  it('should merge lists of preprocessors using default priority', (done) => {
     const callOrder = []
     const fakePreprocessorA = sinon.spy((content, file, done) => {
       callOrder.push('a')
@@ -383,11 +383,11 @@ describe('preprocessor', () => {
       'preprocessor:fakeD': ['factory', function () { return fakePreprocessorD }]
     }, emitterSetting])
 
-    pp = m.createPreprocessor({
+    pp = m.createPriorityPreprocessor({
       '/*/a.js': ['fakeA', 'fakeB'],
       '/some/*': ['fakeB', 'fakeC'],
       '/some/a.js': ['fakeD']
-    }, null, injector)
+    }, {}, null, injector)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -399,10 +399,56 @@ describe('preprocessor', () => {
       expect(fakePreprocessorC).to.have.been.called
       expect(fakePreprocessorD).to.have.been.called
 
-      expect(callOrder.indexOf('d')).not.to.equal(-1)
-      expect(callOrder.filter((letter) => {
-        return letter !== 'd'
-      })).to.eql(['a', 'b', 'c'])
+      expect(callOrder).to.eql(['a', 'b', 'c', 'd'])
+      done()
+    })
+  })
+
+  it('should merge lists of preprocessors obeying priority', (done) => {
+    const callOrder = []
+    const fakePreprocessorA = sinon.spy((content, file, done) => {
+      callOrder.push('a')
+      done(null, content)
+    })
+    const fakePreprocessorB = sinon.spy((content, file, done) => {
+      callOrder.push('b')
+      done(null, content)
+    })
+    const fakePreprocessorC = sinon.spy((content, file, done) => {
+      callOrder.push('c')
+      done(null, content)
+    })
+    const fakePreprocessorD = sinon.spy((content, file, done) => {
+      callOrder.push('d')
+      done(null, content)
+    })
+
+    const injector = new di.Injector([{
+      'preprocessor:fakeA': ['factory', function () { return fakePreprocessorA }],
+      'preprocessor:fakeB': ['factory', function () { return fakePreprocessorB }],
+      'preprocessor:fakeC': ['factory', function () { return fakePreprocessorC }],
+      'preprocessor:fakeD': ['factory', function () { return fakePreprocessorD }]
+    }, emitterSetting])
+
+    const priority = { 'fakeA': -1, 'fakeB': 1, 'fakeD': 100 }
+
+    pp = m.createPriorityPreprocessor({
+      '/*/a.js': ['fakeA', 'fakeB'],
+      '/some/*': ['fakeB', 'fakeC'],
+      '/some/a.js': ['fakeD']
+    }, priority, null, injector)
+
+    const file = { originalPath: '/some/a.js', path: 'path' }
+
+    pp(file, (err) => {
+      if (err) throw err
+
+      expect(fakePreprocessorA).to.have.been.called
+      expect(fakePreprocessorB).to.have.been.called
+      expect(fakePreprocessorC).to.have.been.called
+      expect(fakePreprocessorD).to.have.been.called
+
+      expect(callOrder).to.eql(['d', 'b', 'c', 'a'])
       done()
     })
   })
