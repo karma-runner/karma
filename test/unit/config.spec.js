@@ -383,6 +383,15 @@ describe('config', () => {
 
       expect(invalid).to.throw('Invalid configuration: formatError option must be a function.')
     })
+
+    it('should prevent non-numeric input for numeric options', () => {
+      const invalid = function () {
+        normalizeConfigWithDefaults({
+          pingTimeout: '10000'
+        })
+      }
+      expect(invalid).to.throw('Invalid configuration: pingTimeout option must be a number.')
+    })
   })
 
   describe('createPatternObject', () => {

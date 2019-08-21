@@ -59,10 +59,10 @@ Under the hood Karma uses ts-node to transpile TypeScript to JavaScript. If the 
 Create a JavaScript configuration file that overrides the module format.
 ```javascript
 // karma.conf.js
-require('ts-node').register({ 
-  compilerOptions: { 
-    module: 'commonjs' 
-  } 
+require('ts-node').register({
+  compilerOptions: {
+    module: 'commonjs'
+  }
 });
 require('./karma.conf.ts');
 ```
@@ -677,6 +677,14 @@ Note: Just about all additional reporters in Karma (other than progress) require
 **Description:** Format assertion errors and stack traces.  Useful for removing vendors and compiled sources.  Return an empty line `''` to remove it.
 
 The CLI option should be a path to a file that exports the format function.  This can be a function exported at the root of the module or an export named `formatError`.
+
+## pingTimeout
+**Type** Number
+
+**Default** 5000
+
+**Description** Socket.io pingTimeout in ms, https://socket.io/docs/server-api/#new-Server-httpServer-options.
+Very slow networks may need values up to 60000. Larger values delay discovery of deadlock in tests or browser crashes.
 
 ## restartOnFileChange
 **Type:** Boolean
