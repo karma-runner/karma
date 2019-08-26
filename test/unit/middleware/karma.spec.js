@@ -12,15 +12,15 @@ const HttpRequestMock = mocks.http.ServerRequest
 
 describe('middleware.karma', () => {
   let serveFile
-  let readFilesDeferred
   let filesDeferred
   let nextSpy
   let response
 
   class MockFile extends File {
-    constructor (path, sha, type) {
+    constructor (path, sha, type, content) {
       super(path, undefined, undefined, type)
       this.sha = sha || 'sha-default'
+      this.content = content
     }
   }
 
@@ -63,7 +63,6 @@ describe('middleware.karma', () => {
     handler = createKarmaMiddleware(
       filesDeferred.promise,
       serveFile,
-      null,
       null,
       injector,
       '/base/path',
@@ -121,12 +120,10 @@ describe('middleware.karma', () => {
   })
 
   it('should serve client.html', (done) => {
-    readFilesDeferred = helper.defer()
     handler = createKarmaMiddleware(
       null,
       serveFile,
       null,
-      readFilesDeferred.promise,
       injector,
       '/base',
       '/'
@@ -142,12 +139,10 @@ describe('middleware.karma', () => {
   })
 
   it('should serve /?id=xxx', (done) => {
-    readFilesDeferred = helper.defer()
     handler = createKarmaMiddleware(
       null,
       serveFile,
       null,
-      readFilesDeferred.promise,
       injector,
       '/base',
       '/'
@@ -163,13 +158,10 @@ describe('middleware.karma', () => {
   })
 
   it('should serve /?x-ua-compatible with replaced values', (done) => {
-    readFilesDeferred = helper.defer()
-
     handler = createKarmaMiddleware(
       null,
       serveFile,
       null,
-      readFilesDeferred.promise,
       injector,
       '/base',
       '/'
@@ -278,31 +270,20 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.html with included DOM content', (done) => {
-    const readFilePromise = (path) => {
-      const cases = {
-        '/some/abc/a.dom': 'a',
-        '/some/abc/b_test_dom.html': 'b',
-        '/some/abc/c': 'c',
-        '/some/abc/d_test_dom.html': 'd'
-      }
-      return Promise.resolve(cases[path] || '?unknown ' + path)
-    }
-
     filesDeferred = helper.defer()
     handler = createKarmaMiddleware(
       filesDeferred.promise,
       serveFile,
       null,
-      readFilePromise,
       injector,
       '/base',
       '/'
     )
 
     includedFiles([
-      new MockFile('/some/abc/a.dom', 'sha1'),
-      new MockFile('/some/abc/b_test_dom.html', 'sha2', 'dom'),
-      new MockFile('/some/abc/c', 'sha3', 'dom')
+      new MockFile('/some/abc/a.dom', 'sha1', undefined, 'a'),
+      new MockFile('/some/abc/b_test_dom.html', 'sha2', 'dom', 'b'),
+      new MockFile('/some/abc/c', 'sha3', 'dom', 'c')
     ])
 
     response.once('end', () => {
@@ -468,12 +449,10 @@ describe('middleware.karma', () => {
 
   it('should update handle updated configs', (done) => {
     let i = 0
-    readFilesDeferred = helper.defer()
     handler = createKarmaMiddleware(
       filesDeferred.promise,
       serveFile,
       null,
-      readFilesDeferred.promise,
       {
         get (val) {
           if (val === 'config.client') {
