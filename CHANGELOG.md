@@ -1,3 +1,26 @@
+<a name="4.3.0"></a>
+# [4.3.0](https://github.com/karma-runner/karma/compare/v4.2.0...v4.3.0) (2019-08-27)
+
+
+### Bug Fixes
+
+* **build:** switch from yarn to package-lock.json ([#3351](https://github.com/karma-runner/karma/issues/3351)) ([6c5add2](https://github.com/karma-runner/karma/commit/6c5add2))
+* **config:** Simpilfy error proceesing. ([#3345](https://github.com/karma-runner/karma/issues/3345)) ([582a406](https://github.com/karma-runner/karma/commit/582a406)), closes [#3339](https://github.com/karma-runner/karma/issues/3339)
+* **deps:** lodash update. ([#3341](https://github.com/karma-runner/karma/issues/3341)) ([5614c04](https://github.com/karma-runner/karma/commit/5614c04))
+* **server:** Simplify 'dom' inclusion. ([#3356](https://github.com/karma-runner/karma/issues/3356)) ([5f13e11](https://github.com/karma-runner/karma/commit/5f13e11))
+* **test:** `test:client` silently failing on Travis ([#3343](https://github.com/karma-runner/karma/issues/3343)) ([1489e9a](https://github.com/karma-runner/karma/commit/1489e9a)), closes [/travis-ci.org/karma-runner/karma/jobs/537027667#L1046](https://github.com//travis-ci.org/karma-runner/karma/jobs/537027667/issues/L1046)
+* **travis:** Pin to trusty ([#3347](https://github.com/karma-runner/karma/issues/3347)) ([1c6c690](https://github.com/karma-runner/karma/commit/1c6c690))
+
+
+### Features
+
+* **async:** frameworks can be loaded asynchronously ([#3297](https://github.com/karma-runner/karma/issues/3297)) ([177e2ef](https://github.com/karma-runner/karma/commit/177e2ef)), closes [#851](https://github.com/karma-runner/karma/issues/851)
+* **config:** socket.io server pingTimeout config option. ([#3355](https://github.com/karma-runner/karma/issues/3355)) ([817fbbd](https://github.com/karma-runner/karma/commit/817fbbd))
+* **preprocessor:** preprocessor_priority execution order. ([#3303](https://github.com/karma-runner/karma/issues/3303)) ([c5f3560](https://github.com/karma-runner/karma/commit/c5f3560))
+* **runner:** feat(runner):  ([62d4c5a](https://github.com/karma-runner/karma/commit/62d4c5a)), closes [#2121](https://github.com/karma-runner/karma/issues/2121) [#2799](https://github.com/karma-runner/karma/issues/2799) [#2121](https://github.com/karma-runner/karma/issues/2121) [#2799](https://github.com/karma-runner/karma/issues/2799)
+
+
+
 <a name="4.2.0"></a>
 # [4.2.0](https://github.com/karma-runner/karma/compare/v4.1.0...v4.2.0) (2019-07-12)
 
