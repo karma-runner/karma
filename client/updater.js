@@ -5,13 +5,20 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     if (!browsersElement) {
       return
     }
-    var items = []
     var status
+
+    // clear browsersElement
+    while (browsersElement.firstChild) {
+      browsersElement.removeChild(browsersElement.firstChild)
+    }
+
     for (var i = 0; i < browsers.length; i++) {
       status = browsers[i].isConnected ? 'idle' : 'executing'
-      items.push('<li class="' + status + '">' + browsers[i].name + ' is ' + status + '</li>')
+      var li = document.createElement('li')
+      li.setAttribute('class', status)
+      li.textContent = browsers[i].name + ' is ' + status
+      browsersElement.appendChild(li)
     }
-    browsersElement.innerHTML = items.join('\n')
   }
 
   function updateBanner (status) {
@@ -20,7 +27,7 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
         return
       }
       var paramStatus = param ? status.replace('$', param) : status
-      titleElement.innerHTML = 'Karma v' + VERSION + ' - ' + paramStatus
+      titleElement.textContent = 'Karma v' + VERSION + ' - ' + paramStatus
       bannerElement.className = status === 'connected' ? 'online' : 'offline'
     }
   }
