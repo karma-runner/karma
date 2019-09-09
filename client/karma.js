@@ -2,7 +2,7 @@ var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
-function Karma (socket, iframe, opener, navigator, location) {
+function Karma (socket, iframe, opener, navigator, location, document) {
   var startEmitted = false
   var reloadingContext = false
   var self = this
@@ -265,6 +265,12 @@ function Karma (socket, iframe, opener, navigator, location) {
     // if not clearing context, reloadingContext always true to prevent beforeUnload error
     reloadingContext = !self.config.clearContext
     navigateContextTo(constant.CONTEXT_URL)
+
+    if (self.config.clientDisplayNone) {
+      [].forEach.call(document.querySelectorAll('#banner, #browsers'), function (el) {
+        el.style.display = 'none'
+      })
+    }
 
     // clear the console before run
     // works only on FF (Safari, Chrome do not allow to clear console from js source)

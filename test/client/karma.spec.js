@@ -9,6 +9,7 @@ var MockSocket = require('./mocks').Socket
 
 describe('Karma', function () {
   var socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
+  var windowDocument, elements
 
   function setTransportTo (transportName) {
     socket._setTransportNameTo(transportName)
@@ -21,8 +22,10 @@ describe('Karma', function () {
     windowNavigator = {}
     windowLocation = { search: '' }
     windowStub = sinon.stub().returns({})
+    elements = [{ style: {} }, { style: {} }]
+    windowDocument = { querySelectorAll: sinon.stub().returns(elements) }
 
-    k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation)
+    k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation, windowDocument)
     clientWindow = {
       karma: k
     }
@@ -55,6 +58,19 @@ describe('Karma', function () {
     ck.loaded()
     assert(startSpy.calledWith(config))
     assert(windowStub.calledWith('context.html'))
+  })
+
+  it('should not set style on elements', function () {
+    var config = {}
+    socket.emit('execute', config)
+    assert(Object.keys(elements[0].style).length === 0)
+  })
+
+  it('should set display none on elements if clientDisplayNone', function () {
+    var config = { clientDisplayNone: true }
+    socket.emit('execute', config)
+    assert(elements[0].style.display === 'none')
+    assert(elements[1].style.display === 'none')
   })
 
   it('should stop execution', function () {

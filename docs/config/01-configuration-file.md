@@ -268,6 +268,15 @@ If true, Karma runs the tests inside the original window without using iframe. I
 If true, Karma clears the context window upon the completion of running the tests. If false, Karma does not clear the context window
 upon the completion of running the tests. Setting this to false is useful when embedding a Jasmine Spec Runner Template.
 
+## client.clientDisplayNone
+**Type:** Boolean
+
+**Default:** `false`
+
+**Description:** Set style display none on client elements.
+
+If true, Karma does not display the banner and browser list. Useful when using karma on component tests with screenshots.
+
 ## colors
 **Type:** Boolean
 

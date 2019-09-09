@@ -23,4 +23,4 @@ var socket = io(location.host, {
 // instantiate the updater of the view
 new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'))
 window.karma = new Karma(socket, util.elm('context'), window.open,
-  window.navigator, window.location)
+  window.navigator, window.location, window.document)
