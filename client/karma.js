@@ -14,6 +14,33 @@ function Karma (socket, iframe, opener, navigator, location) {
   var resultsBufferLimit = 50
   var resultsBuffer = []
 
+  // This is a no-op if not running with a Trusted Types CSP policy, and
+  // lets tests declare that they trust the way that karma creates and handles
+  // URLs.
+  //
+  // More info about the proposed Trusted Types standard at
+  // https://github.com/WICG/trusted-types
+  var policy = {
+    createURL: function (s) {
+      return s
+    },
+    createScriptURL: function (s) {
+      return s
+    }
+  }
+  var trustedTypes = window.trustedTypes || window.TrustedTypes
+  if (trustedTypes) {
+    policy = trustedTypes.createPolicy('karma', policy)
+    if (!policy.createURL) {
+      // Install createURL for newer browsers. Only browsers that implement an
+      //     old version of the spec require createURL.
+      //     Should be safe to delete all reference to createURL by
+      //     February 2020.
+      // https://github.com/WICG/trusted-types/pull/204
+      policy.createURL = function (s) { return s }
+    }
+  }
+
   // This variable will be set to "true" whenever the socket lost connection and was able to
   // reconnect to the Karma server. This will be passed to the Karma server then, so that
   // Karma can differentiate between a socket client reconnect and a full browser reconnect.
@@ -80,7 +107,7 @@ function Karma (socket, iframe, opener, navigator, location) {
             if (ele.tagName && ele.tagName.toLowerCase() === 'script') {
               var tmp = ele
               ele = document.createElement('script')
-              ele.src = tmp.src
+              ele.src = policy.createScriptURL(tmp.src)
               ele.crossOrigin = tmp.crossOrigin
             }
             ele.onload = function () {
@@ -95,7 +122,7 @@ function Karma (socket, iframe, opener, navigator, location) {
       }
     // run in iframe
     } else {
-      iframe.src = url
+      iframe.src = policy.createURL(url)
     }
   }
 
