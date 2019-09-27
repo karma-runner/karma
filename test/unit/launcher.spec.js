@@ -87,7 +87,7 @@ describe('launcher', () => {
 
     beforeEach(() => {
       emitter = new events.EventEmitter()
-      server = { 'loadErrors': [] }
+      server = { loadErrors: [] }
       config = {
         captureTimeout: 0,
         protocol: 'http:',
@@ -99,10 +99,10 @@ describe('launcher', () => {
       const injector = new di.Injector([{
         'launcher:Fake': ['type', FakeBrowser],
         'launcher:Script': ['type', ScriptBrowser],
-        'server': ['value', server],
-        'emitter': ['value', emitter],
-        'config': ['value', config],
-        'timer': ['factory', createMockTimer]
+        server: ['value', server],
+        emitter: ['value', emitter],
+        config: ['value', config],
+        timer: ['factory', createMockTimer]
       }])
       l = new launcher.Launcher(server, emitter, injector)
     })
@@ -123,7 +123,7 @@ describe('launcher', () => {
       describe('with upstream proxy settings', () => {
         beforeEach(() => {
           emitter = new events.EventEmitter()
-          server = { 'loadErrors': [] }
+          server = { loadErrors: [] }
           config = {
             captureTimeout: 0,
             protocol: 'http:',
@@ -141,10 +141,10 @@ describe('launcher', () => {
           const injector = new di.Injector([{
             'launcher:Fake': ['type', FakeBrowser],
             'launcher:Script': ['type', ScriptBrowser],
-            'server': ['value', server],
-            'emitter': ['value', emitter],
-            'config': ['value', config],
-            'timer': ['factory', createMockTimer]
+            server: ['value', server],
+            emitter: ['value', emitter],
+            config: ['value', config],
+            timer: ['factory', createMockTimer]
           }])
           l = new launcher.Launcher(server, emitter, injector)
         })

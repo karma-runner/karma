@@ -19,7 +19,7 @@ describe('server', () => {
   let server = mockConfig = browserCollection = webServerOnError = null
   let fileListOnResolve = fileListOnReject = mockLauncher = null
   let mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneSpy = null
-  let mockSocketEventListeners = new Map()
+  const mockSocketEventListeners = new Map()
 
   // Use regular function not arrow so 'this' is mocha 'this'.
   beforeEach(function () {

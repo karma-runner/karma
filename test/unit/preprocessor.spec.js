@@ -32,7 +32,7 @@ describe('preprocessor', () => {
       'graceful-fs': mockFs,
       minimatch: require('minimatch')
     }
-    emitterSetting = { 'emitter': ['value', new events.EventEmitter()] }
+    emitterSetting = { emitter: ['value', new events.EventEmitter()] }
     m = mocks.loadFile(path.join(__dirname, '/../../lib/preprocessor.js'), mocks_)
   })
 
@@ -430,7 +430,7 @@ describe('preprocessor', () => {
       'preprocessor:fakeD': ['factory', function () { return fakePreprocessorD }]
     }, emitterSetting])
 
-    const priority = { 'fakeA': -1, 'fakeB': 1, 'fakeD': 100 }
+    const priority = { fakeA: -1, fakeB: 1, fakeD: 100 }
 
     pp = m.createPriorityPreprocessor({
       '/*/a.js': ['fakeA', 'fakeB'],
