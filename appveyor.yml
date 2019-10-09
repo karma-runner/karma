@@ -26,3 +26,10 @@ test_script:
   - npm run appveyor
 
 build: off
+
+notifications:
+  - provider: GitHubPullRequest
+    auth_token:
+      secure: EsLCrNVrISCIxbBSTorZ5uxFQf/zRaLNznqYPWQ0LBEl2KG2IgCFRnjiNKpTfTDs
+    template: "{{#passed}}:white_check_mark:{{/passed}}{{#failed}}:x:{{/failed}} [Build {{&projectName}} {{buildVersion}} {{status}}]({{buildUrl}}) (commit {{commitUrl}} by @{{&commitAuthorUsername}})"
+
