@@ -33,6 +33,7 @@ always be lowercase as shown below.
 
 * **feat** (new feature for the user, not a new feature for build script)
 * **fix** (bug fix for the user, not a fix to a build script)
+* **revise** (revise current changes, eg. fix a new bug that arise on current changes)
 * **docs** (changes to the documentation)
 * **style** (formatting, missing semi colons, etc; no production code change)
 * **refactor** (refactoring production code, eg. renaming a variable)
