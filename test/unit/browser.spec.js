@@ -213,13 +213,6 @@ describe('Browser', () => {
 
       expect(browser.lastResult.totalTime).to.equal(2)
     })
-
-    it('should error the result if zero tests executed', () => {
-      browser.state = Browser.STATE_EXECUTING
-      browser.onComplete()
-
-      expect(browser.lastResult.error).to.equal(true)
-    })
   })
 
   describe('onDisconnect', () => {
