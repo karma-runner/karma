@@ -383,6 +383,15 @@ The server can be stopped using the `karma stop` command.
 **Description:** Enable or disable failure on running empty test-suites. If disabled the program
 will return exit-code `0` and display a warning.
 
+## failOnFailingTestSuite
+**Type:** Boolean
+
+**Default:** `true`
+
+**CLI:** `--fail-on-failing-test-suite`, `--no-fail-on-failing-test-suite`
+
+**Description:** Enable or disable failure on failing tests.
+
 ## files
 **Type:** Array
 
