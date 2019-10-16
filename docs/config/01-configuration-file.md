@@ -388,10 +388,19 @@ will return exit-code `0` and display a warning.
 
 **Default:** `false`
 
-**CLI:** `--fail-on-pending-tests`, `--no-fail-on-pending-tests`
+**CLI:** `--fail-on-skipped-tests`, `--no-fail-on-skipped-tests`
 
 **Description:** Enable or disable failure on tests deliberately disabled, eg fit() or xit() tests in jasmine.
 Use this to prevent accidental disabling tests needed to validate production.
+
+## failOnFailingTestSuite
+**Type:** Boolean
+
+**Default:** `true`
+
+**CLI:** `--fail-on-failing-test-suite`, `--no-fail-on-failing-test-suite`
+
+**Description:** Enable or disable failure on failing tests.
 
 ## files
 **Type:** Array

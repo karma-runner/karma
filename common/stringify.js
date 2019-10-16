@@ -1,4 +1,10 @@
-var serialize = require('dom-serialize')
+var serialize = null
+try {
+  serialize = require('dom-serialize')
+} catch (e) {
+  // Ignore failure on IE8
+}
+
 var instanceOf = require('./util').instanceOf
 
 function isNode (obj) {
@@ -56,7 +62,11 @@ function stringify (obj, depth) {
       } else if (obj.outerHTML) {
         return obj.outerHTML
       } else if (isNode(obj)) {
-        return serialize(obj)
+        if (serialize) {
+          return serialize(obj)
+        } else {
+          return 'Skipping stringify, no support for dom-serialize'
+        }
       } else if (instanceOf(obj, 'Error')) {
         return obj.toString() + '\n' + obj.stack
       } else {
