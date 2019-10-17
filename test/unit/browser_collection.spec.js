@@ -274,7 +274,7 @@ describe('BrowserCollection', () => {
       const results = {
         success: 0,
         failed: 0,
-        error: true
+        error: false
       }
       it('shall pass if failOnEmptyTestSuite not is set', () => {
         const res = collection.calculateExitCode(results)
