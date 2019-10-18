@@ -80,6 +80,48 @@ describe('preprocessor', () => {
     })
   })
 
+  it('should get content if preprocessor is an async function or return Promise with content', (done) => {
+    const fakePreprocessor = sinon.spy(async (content, file, done) => {
+      file.path = file.path + '-preprocessed'
+      return 'new-content'
+    })
+
+    const injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
+    }, emitterSetting])
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+
+    const file = { originalPath: '/some/.dir/a.js', path: 'path' }
+
+    pp(file, () => {
+      expect(fakePreprocessor).to.have.been.called
+      expect(file.path).to.equal('path-preprocessed')
+      expect(file.content).to.equal('new-content')
+      done()
+    })
+  })
+
+  it('should get content if preprocessor is an async function still calling done()', (done) => {
+    const fakePreprocessor = sinon.spy(async (content, file, done) => {
+      file.path = file.path + '-preprocessed'
+      done(null, 'new-content')
+    })
+
+    const injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
+    }, emitterSetting])
+    pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+
+    const file = { originalPath: '/some/.dir/a.js', path: 'path' }
+
+    pp(file, () => {
+      expect(fakePreprocessor).to.have.been.called
+      expect(file.path).to.equal('path-preprocessed')
+      expect(file.content).to.equal('new-content')
+      done()
+    })
+  })
+
   it('should check patterns after creation when invoked', (done) => {
     const fakePreprocessor = sinon.spy((content, file, done) => {
       file.path = file.path + '-preprocessed'
