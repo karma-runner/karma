@@ -1,3 +1,15 @@
+<a name="4.4.1"></a>
+## [4.4.1](https://github.com/karma-runner/karma/compare/v4.4.0...v4.4.1) (2019-10-18)
+
+
+### Bug Fixes
+
+* **deps:** back to karma-browserstack-launcher 1.4 ([#3361](https://github.com/karma-runner/karma/issues/3361)) ([1cd87ad](https://github.com/karma-runner/karma/commit/1cd87ad))
+* **server:** Add test coverage for config.singleRun true branch. ([#3384](https://github.com/karma-runner/karma/issues/3384)) ([259be0d](https://github.com/karma-runner/karma/commit/259be0d))
+* if preprocessor is async function and doesn't return a content then await donePromise ([#3387](https://github.com/karma-runner/karma/issues/3387)) ([f91be24](https://github.com/karma-runner/karma/commit/f91be24))
+
+
+
 <a name="4.4.0"></a>
 # [4.4.0](https://github.com/karma-runner/karma/compare/v4.3.0...v4.4.0) (2019-10-17)
 
