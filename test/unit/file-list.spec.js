@@ -64,13 +64,14 @@ describe('FileList', () => {
   let glob
   let List = list = emitter = preprocess = patternList = mg = modified = glob = null
 
-  beforeEach(() => {})
+  beforeEach(() => {
+    preprocess = sinon.stub().resolves()
+  })
 
   describe('files', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
@@ -161,7 +162,6 @@ describe('FileList', () => {
 
   describe('_findExcluded', () => {
     beforeEach(() => {
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
     })
 
@@ -180,7 +180,6 @@ describe('FileList', () => {
 
   describe('_findIncluded', () => {
     beforeEach(() => {
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
     })
 
@@ -202,7 +201,6 @@ describe('FileList', () => {
       patternList = _.cloneDeep(PATTERN_LIST)
       mg = _.cloneDeep(MG)
 
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
@@ -241,7 +239,6 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = _.cloneDeep(PATTERN_LIST)
       mg = _.cloneDeep(MG)
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
@@ -382,9 +379,7 @@ describe('FileList', () => {
     })
 
     it('fails when a preprocessor fails', () => {
-      preprocess = sinon.spy((file, next) => {
-        next(new Error('failing'), null)
-      })
+      preprocess = sinon.stub().rejects(new Error('failing'))
 
       list = new List(patterns('/some/*.js'), [], emitter, preprocess)
 
@@ -410,7 +405,6 @@ describe('FileList', () => {
 
   describe('reload', () => {
     beforeEach(() => {
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
       list = new List(patterns('/some/*.js', '*.txt'), [], emitter, preprocess)
     })
@@ -435,7 +429,6 @@ describe('FileList', () => {
       patternList = PATTERN_LIST
       mg = MG
 
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
@@ -564,7 +557,6 @@ describe('FileList', () => {
       mg = MG
       Promise.setScheduler((fn) => fn())
 
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
@@ -690,7 +682,6 @@ describe('FileList', () => {
       mg = MG
       Promise.setScheduler((fn) => fn())
 
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
@@ -773,7 +764,6 @@ describe('FileList', () => {
       mg = MG
       Promise.setScheduler((fn) => { fn() })
 
-      preprocess = sinon.spy((file, done) => process.nextTick(done))
       emitter = new EventEmitter()
 
       glob = {
