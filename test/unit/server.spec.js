@@ -42,6 +42,7 @@ describe('server', () => {
       browsers: ['fake'],
       singleRun: true,
       logLevel: 'OFF',
+      plugins: [],
       browserDisconnectTolerance: 0
     }
 
@@ -271,20 +272,92 @@ describe('server', () => {
       server.emit('browser_register', {})
       expect(browsersReady).to.have.been.called
     })
+    describe('should exit with exit code', () => {
+      let resolveExitCode
 
-    it('should exit with error exit code on load errors', async () => {
-      mockProcess(process)
+      async function exitCode () {
+        return new Promise((resolve) => {
+          resolveExitCode = resolve
+        })
+      }
 
-      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
-        expect(exitCode).to.have.equal(1)
+      it('1 on load errors', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+        server.loadErrors.push(['TestError', 'Test'])
+        fileListOnResolve()
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+
+        expect(await exitCode()).to.have.equal(1)
       })
 
-      server.loadErrors.push(['TestError', 'Test'])
-      fileListOnResolve()
+      it('given on run_complete', async () => {
+        mockProcess(process)
 
-      function mockProcess (process) {
-        sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
-      }
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        server.emit('run_complete', browserCollection, { exitCode: 15 })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(15)
+      })
+
+      it('1 on browser_process_failure (singleRunBrowserNotCaptured)', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        server.emit('browser_process_failure', { id: 'fake' })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(1)
+      })
+
+      it('0 on browser_complete_with_no_more_retries', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        server.emit('browser_complete_with_no_more_retries', { id: 'fake' })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(0)
+      })
+
+      it('1 on browser_complete_with_no_more_retries with config.failOnEmptyTestSuite', async () => {
+        mockProcess(process)
+
+        mockConfig.failOnEmptyTestSuite = true
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        server.emit('browser_complete_with_no_more_retries', { id: 'fake' })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(1)
+      })
     })
   })
 
