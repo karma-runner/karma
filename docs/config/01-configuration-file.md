@@ -383,6 +383,25 @@ The server can be stopped using the `karma stop` command.
 **Description:** Enable or disable failure on running empty test-suites. If disabled the program
 will return exit-code `0` and display a warning.
 
+## failOnSkippedTests
+**Type:** Boolean
+
+**Default:** `false`
+
+**CLI:** `--fail-on-skipped-tests`, `--no-fail-on-skipped-tests`
+
+**Description:** Enable or disable failure on tests deliberately disabled, eg fit() or xit() tests in jasmine.
+Use this to prevent accidental disabling tests needed to validate production.
+
+## failOnFailingTestSuite
+**Type:** Boolean
+
+**Default:** `true`
+
+**CLI:** `--fail-on-failing-test-suite`, `--no-fail-on-failing-test-suite`
+
+**Description:** Enable or disable failure on failing tests.
+
 ## files
 **Type:** Array
 

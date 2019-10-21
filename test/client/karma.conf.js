@@ -41,22 +41,6 @@ var launchers = {
     os: 'Windows',
     os_version: '7'
   }
-  // TODO: Figure out why these fail on browserstack
-  // ,
-  // bs_ie_8: {
-  //   base: 'BrowserStack',
-  //   browser: 'ie',
-  //   browser_version: '8.0',
-  //   os: 'Windows',
-  //   os_version: '7'
-  // },
-  // bs_ie_7: {
-  //   base: 'BrowserStack',
-  //   browser: 'ie',
-  //   browser_version: '7.0',
-  //   os: 'Windows',
-  //   os_version: 'XP'
-  // }
 }
 
 var browsers = []
@@ -157,7 +141,11 @@ module.exports = function (config) {
     forceJSONP: true,
 
     browserStack: {
-      project: 'Karma'
+      project: 'Karma',
+      // The karma-browserstack-launcher polls for each browser.
+      // With many browsers the 120 requests per minute limit is hit
+      // resulting in fails Error: 403 Forbidden (Rate Limit Exceeded)
+      pollingTimeout: 10000
     }
   })
 }

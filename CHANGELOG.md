@@ -1,3 +1,34 @@
+<a name="4.4.1"></a>
+## [4.4.1](https://github.com/karma-runner/karma/compare/v4.4.0...v4.4.1) (2019-10-18)
+
+
+### Bug Fixes
+
+* **deps:** back to karma-browserstack-launcher 1.4 ([#3361](https://github.com/karma-runner/karma/issues/3361)) ([1cd87ad](https://github.com/karma-runner/karma/commit/1cd87ad))
+* **server:** Add test coverage for config.singleRun true branch. ([#3384](https://github.com/karma-runner/karma/issues/3384)) ([259be0d](https://github.com/karma-runner/karma/commit/259be0d))
+* if preprocessor is async function and doesn't return a content then await donePromise ([#3387](https://github.com/karma-runner/karma/issues/3387)) ([f91be24](https://github.com/karma-runner/karma/commit/f91be24))
+
+
+
+<a name="4.4.0"></a>
+# [4.4.0](https://github.com/karma-runner/karma/compare/v4.3.0...v4.4.0) (2019-10-17)
+
+
+### Bug Fixes
+
+* **runner:** remove explicit error on all tests failed ([#3369](https://github.com/karma-runner/karma/issues/3369)) ([f8005c6](https://github.com/karma-runner/karma/commit/f8005c6)), closes [#3367](https://github.com/karma-runner/karma/issues/3367)
+
+
+### Features
+
+* **client:** Add trusted types support ([#3360](https://github.com/karma-runner/karma/issues/3360)) ([019bfd4](https://github.com/karma-runner/karma/commit/019bfd4))
+* Preprocessor can return Promise ([#3376](https://github.com/karma-runner/karma/issues/3376)) ([3ffcd83](https://github.com/karma-runner/karma/commit/3ffcd83))
+* **config:** add failOnSkippedTests option. ([#3374](https://github.com/karma-runner/karma/issues/3374)) ([4ed3af0](https://github.com/karma-runner/karma/commit/4ed3af0))
+* **config:** clientDisplayNone sets client elements display none. ([#3348](https://github.com/karma-runner/karma/issues/3348)) ([6235e68](https://github.com/karma-runner/karma/commit/6235e68))
+* **deps:** Remove core-js dependency. ([#3379](https://github.com/karma-runner/karma/issues/3379)) ([0d70809](https://github.com/karma-runner/karma/commit/0d70809))
+
+
+
 <a name="4.3.0"></a>
 # [4.3.0](https://github.com/karma-runner/karma/compare/v4.2.0...v4.3.0) (2019-08-27)
 
