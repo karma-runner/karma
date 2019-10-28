@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
 
 var launchers = {
@@ -42,6 +44,27 @@ var launchers = {
     os_version: '7'
   }
 }
+
+// Verify the install. This will run async but that's ok we'll see the log.
+fs.lstat('node_modules/karma', (err, stats) => {
+  if (err) {
+    console.error('Cannot verify installation', err.stack || err)
+  }
+  if (stats && stats.isSymbolicLink()) {
+    return
+  }
+
+  console.log('**** Incorrect directory layout for karma self-tests ****')
+  console.log(`
+    $ npm install
+    $ rm -rf node_modules/karma
+    $ cd node_modules
+    $ ln -s ../ karma
+    $ cd ../
+    $ grunt browserify
+  `)
+  process.exit(1)
+})
 
 var browsers = []
 
