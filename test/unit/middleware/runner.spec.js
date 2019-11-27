@@ -55,16 +55,23 @@ describe('middleware.runner', () => {
     }
 
     executor = {
-      schedule: () => emitter.emit('run_start')
+      scheduled: false,
+      schedule: () => {
+        executor.scheduled = true
+        emitter.emit('run_start')
+        if (executor.onSchedule) {
+          executor.onSchedule()
+        }
+      }
     }
 
     emitter = new EventEmitter()
     capturedBrowsers = new BrowserCollection(emitter)
     fileListMock = {
-      refresh: () => Promise.resolve(),
-      addFile: () => null,
-      removeFile: () => null,
-      changeFile: () => null
+      refresh: sinon.stub(),
+      addFile: sinon.stub(),
+      removeFile: sinon.stub(),
+      changeFile: sinon.stub()
     }
 
     nextSpy = sinon.spy()
@@ -82,15 +89,21 @@ describe('middleware.runner', () => {
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
       response.once('end', () => {
-        expect(nextSpy).to.not.have.been.called
-        expect(response).to.beServedAs(200, 'result\x1FEXIT10')
-        done()
+        try {
+          expect(nextSpy).to.not.have.been.called
+          expect(response).to.beServedAs(200, 'result\x1FEXIT10')
+          done()
+        } catch (err) {
+          done(err)
+        }
       })
 
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
-      mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0 })
+      executor.onSchedule = () => {
+        mockReporter.write('result')
+        emitter.emit('run_complete', capturedBrowsers, { exitCode: 0 })
+      }
     })
 
     it('should set the empty to 0 if empty results', (done) => {
@@ -98,15 +111,21 @@ describe('middleware.runner', () => {
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
       response.once('end', () => {
-        expect(nextSpy).to.not.have.been.called
-        expect(response).to.beServedAs(200, 'result\x1FEXIT00')
-        done()
+        try {
+          expect(nextSpy).to.not.have.been.called
+          expect(response).to.beServedAs(200, 'result\x1FEXIT00')
+          done()
+        } catch (err) {
+          done(err)
+        }
       })
 
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
-      mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 0, failed: 0 })
+      executor.onSchedule = () => {
+        mockReporter.write('result')
+        emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 0, failed: 0 })
+      }
     })
 
     it('should set the empty to 1 if successful tests', (done) => {
@@ -114,15 +133,21 @@ describe('middleware.runner', () => {
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
       response.once('end', () => {
-        expect(nextSpy).to.not.have.been.called
-        expect(response).to.beServedAs(200, 'result\x1FEXIT10')
-        done()
+        try {
+          expect(nextSpy).to.not.have.been.called
+          expect(response).to.beServedAs(200, 'result\x1FEXIT10')
+          done()
+        } catch (err) {
+          done(err)
+        }
       })
 
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
-      mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 3, failed: 0 })
+      executor.onSchedule = () => {
+        mockReporter.write('result')
+        emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 3, failed: 0 })
+      }
     })
 
     it('should set the empty to 1 if failed tests', (done) => {
@@ -130,20 +155,24 @@ describe('middleware.runner', () => {
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
       response.once('end', () => {
-        expect(nextSpy).to.not.have.been.called
-        expect(response).to.beServedAs(200, 'result\x1FEXIT10')
-        done()
+        try {
+          expect(nextSpy).to.not.have.been.called
+          expect(response).to.beServedAs(200, 'result\x1FEXIT10')
+          done()
+        } catch (err) {
+          done(err)
+        }
       })
 
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
-      mockReporter.write('result')
-      emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 0, failed: 6 })
+      executor.onSchedule = () => {
+        mockReporter.write('result')
+        emitter.emit('run_complete', capturedBrowsers, { exitCode: 0, success: 0, failed: 6 })
+      }
     })
 
     it('should not run if there is no browser captured', (done) => {
-      sinon.stub(fileListMock, 'refresh')
-
       response.once('end', () => {
         expect(nextSpy).to.not.have.been.called
         expect(response).to.beServedAs(200, 'No captured browser, open http://localhost:8877/\n')
@@ -156,11 +185,7 @@ describe('middleware.runner', () => {
 
     it('should refresh explicit files if specified', (done) => {
       capturedBrowsers.add(new Browser())
-      sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
-      sinon.stub(fileListMock, 'refresh')
-      sinon.stub(fileListMock, 'addFile')
-      sinon.stub(fileListMock, 'changeFile')
-      sinon.stub(fileListMock, 'removeFile')
+      sinon.stub(capturedBrowsers, 'areAllReady').returns(true)
 
       const RAW_MESSAGE = JSON.stringify({
         addedFiles: ['/new.js'],
@@ -178,14 +203,14 @@ describe('middleware.runner', () => {
       request.emit('data', RAW_MESSAGE)
       request.emit('end')
 
-      process.nextTick(() => {
+      executor.onSchedule = () => {
         expect(fileListMock.refresh).not.to.have.been.called
         expect(fileListMock.addFile).to.have.been.calledWith(path.resolve('/new.js'))
         expect(fileListMock.removeFile).to.have.been.calledWith(path.resolve('/foo.js'))
         expect(fileListMock.removeFile).to.have.been.calledWith(path.resolve('/bar.js'))
         expect(fileListMock.changeFile).to.have.been.calledWith(path.resolve('/changed.js'))
         done()
-      })
+      }
     })
 
     it('should wait for refresh to finish if applicable before scheduling execution', (done) => {
@@ -193,34 +218,27 @@ describe('middleware.runner', () => {
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
       let res = null
-      const fileListPromise = new Promise((resolve, reject) => {
+      const fileListPromise = new Promise((resolve) => {
         res = resolve
       })
-      sinon.stub(fileListMock, 'refresh').returns(fileListPromise)
-      sinon.stub(executor, 'schedule')
+      fileListMock.refresh.returns(fileListPromise)
 
       const request = new HttpRequestMock('/__run__')
       handler(request, response, nextSpy)
 
       process.nextTick(() => {
         expect(fileListMock.refresh).to.have.been.called
-        expect(executor.schedule).to.not.have.been.called
+        expect(executor.scheduled).to.be.false
 
-        // Now try resolving the promise
+        executor.onSchedule = done
+        // Now resolving the promise
         res()
-        setTimeout(() => {
-          expect(executor.schedule).to.have.been.called
-          done()
-        }, 2)
       })
     })
 
     it('should schedule execution if no refresh', (done) => {
       capturedBrowsers.add(new Browser())
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
-
-      sinon.spy(fileListMock, 'refresh')
-      sinon.stub(executor, 'schedule')
 
       const RAW_MESSAGE = JSON.stringify({ refresh: false })
 
@@ -234,11 +252,14 @@ describe('middleware.runner', () => {
       request.emit('data', RAW_MESSAGE)
       request.emit('end')
 
-      process.nextTick(() => {
-        expect(fileListMock.refresh).not.to.have.been.called
-        expect(executor.schedule).to.have.been.called
-        done()
-      })
+      executor.onSchedule = () => {
+        try {
+          expect(fileListMock.refresh).not.to.have.been.called
+          done()
+        } catch (err) {
+          done(err)
+        }
+      }
     })
 
     it('should not schedule execution if refreshing and autoWatch', (done) => {
@@ -247,16 +268,12 @@ describe('middleware.runner', () => {
       capturedBrowsers.add(new Browser())
       sinon.stub(capturedBrowsers, 'areAllReady').callsFake(() => true)
 
-      sinon.spy(fileListMock, 'refresh')
-      sinon.stub(executor, 'schedule')
-
       handler(new HttpRequestMock('/__run__'), response, nextSpy)
 
-      process.nextTick(() => {
+      executor.onSchedule = () => {
         expect(fileListMock.refresh).to.have.been.called
-        expect(executor.schedule).not.to.have.been.called
         done()
-      })
+      }
     })
 
     it('should ignore other urls', (done) => {
@@ -264,6 +281,22 @@ describe('middleware.runner', () => {
         expect(response).to.beNotServed()
         done()
       })
+    })
+
+    it('should scheduleError when file list rejects', (done) => {
+      const error = new Error('expected error for testing')
+      capturedBrowsers.add(new Browser())
+      sinon.stub(capturedBrowsers, 'areAllReady').returns(true)
+      fileListMock.refresh.rejects(error)
+      handler(new HttpRequestMock('/__run__'), response, nextSpy)
+      executor.scheduleError = (errorMessage) => {
+        try {
+          expect(errorMessage).eq(`Error during refresh file list. ${error.stack}`)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      }
     })
   })
 
