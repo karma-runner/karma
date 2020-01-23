@@ -119,11 +119,11 @@ module.exports = function (config) {
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     // CLI --log-level debug
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
     // enable / disable watching file and executing tests whenever any file changes
     // CLI --auto-watch --no-auto-watch
-    autoWatch: true,
+    autoWatch: !process.env.TRAVIS,
 
     // Start these browsers, currently available:
     // - Chrome
@@ -140,11 +140,11 @@ module.exports = function (config) {
 
     // If browser does not capture in given timeout [ms], kill it
     // CLI --capture-timeout 5000
-    captureTimeout: 50000,
+    captureTimeout: 120000,
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
-    singleRun: false,
+    singleRun: !!process.env.TRAVIS,
 
     // report which specs are slower than 500ms
     // CLI --report-slower-than 500
