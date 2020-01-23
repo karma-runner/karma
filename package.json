@@ -422,6 +422,8 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.2.2",
+    "@commitlint/cli": "^8.3.4",
+    "@commitlint/config-conventional": "^8.3.4",
     "cucumber": "^3.1.0",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
@@ -443,7 +445,7 @@
     "grunt-mocha-test": "^0.13.2",
     "grunt-npm": "0.0.2",
     "http2": "^3.3.6",
-    "husky": "^0.14.3",
+    "husky": "^4.0.3",
     "jasmine-core": "^3.4.0",
     "karma-browserify": "^6.0.0",
     "karma-browserstack-launcher": "^1.5.0",
@@ -477,6 +479,12 @@
   },
   "version": "4.4.1",
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint"
+    }
+  },
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
     "lint:fix": "eslint . --ext js --ignore-pattern *.tpl.js --fix",
@@ -490,8 +498,6 @@
     "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../",
     "init:windows": "(IF EXIST node_modules\\karma (rmdir node_modules\\karma /S /q)) && npm run link",
     "appveyor": "npm run build && npm run test:appveyor",
-    "travis": "npm run build && npm test && npm run test:integration",
-    "commitmsg": "validate-commit-msg",
-    "precommit": "npm run lint"
+    "travis": "npm run build && npm test && npm run test:integration"
   }
 }
