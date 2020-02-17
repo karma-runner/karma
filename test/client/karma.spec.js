@@ -85,7 +85,7 @@ describe('Karma', function () {
   })
 
   it('should remove reference to start even after syntax error', function () {
-    function ADAPTER_START_FN () {}
+    function ADAPTER_START_FN () { }
 
     ck.start = ADAPTER_START_FN
     ck.error('syntax error', '/some/file.js', 11)
@@ -129,23 +129,68 @@ describe('Karma', function () {
     assert(mockWindow.onerror != null)
   })
 
-  it('should error out if a script attempted to reload the browser after setup', function () {
-    // Perform setup
-    var config = ck.config = {
+  it('should schedule execution if clearContext is busy', function () {
+    // Arrange
+    ck.config = k.config = {
+      useIframe: true,
       clearContext: true
     }
-    socket.emit('execute', config)
-    var mockWindow = {}
+    const runConfig = {
+      useIFrame: true
+    }
+    const mockWindow = {}
     ck.setupContext(mockWindow)
+    k.complete() // set reloading contexts
 
-    // Spy on our error handler
-    sinon.spy(k, 'error')
+    // Act
+    socket.emit('execute', runConfig)
+    ck.loaded()
 
-    // Emulate an unload event
-    mockWindow.onbeforeunload()
+    // Assert
+    assert(!startSpy.calledWith(runConfig))
+    assert(!!k.scheduledExecution)
+  })
 
-    // Assert our spy was called
-    assert(k.error.calledWith('Some of your tests did a full page reload!'))
+  describe('onbeforeunload', function () {
+    it('should error out if a script attempted to reload the browser after setup', function () {
+      // Perform setup
+      var config = ck.config = {
+        clearContext: true
+      }
+
+      socket.emit('execute', config)
+      var mockWindow = {}
+      ck.setupContext(mockWindow)
+
+      // Spy on our error handler
+      sinon.spy(k, 'error')
+
+      // Emulate an unload event
+      mockWindow.onbeforeunload()
+
+      // Assert our spy was called
+      assert(k.error.calledWith('Some of your tests did a full page reload!'))
+    })
+
+    it('should execute if an earlier execution is scheduled', function () {
+      // Arrange
+      const config = ck.config = k.config = {
+        useIframe: true,
+        clearContext: true
+      }
+      const mockWindow = {}
+      ck.setupContext(mockWindow)
+      k.complete() // set reloading contexts
+      socket.emit('execute', config)
+
+      // Act
+      mockWindow.onbeforeunload()
+      ck.loaded()
+
+      // Assert
+      assert(startSpy.calledWith(config))
+      assert(!k.scheduledExecution)
+    })
   })
 
   it('should report navigator name', function () {
@@ -318,7 +363,7 @@ describe('Karma', function () {
 
       var mockWindow = {
         console: {
-          log: function () {}
+          log: function () { }
         }
       }
 
@@ -334,7 +379,7 @@ describe('Karma', function () {
 
       var mockWindow = {
         console: {
-          log: function () {}
+          log: function () { }
         }
       }
 

@@ -89,8 +89,8 @@ function Karma (socket, iframe, opener, navigator, location, document) {
           childWindow.close()
         }
         childWindow = opener(url)
-      // run context on parent element (client_with_context)
-      // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
+        // run context on parent element (client_with_context)
+        // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
@@ -120,14 +120,33 @@ function Karma (socket, iframe, opener, navigator, location, document) {
         }
         loadScript(0)
       }
-    // run in iframe
+      // run in iframe
     } else {
       iframe.src = policy.createURL(url)
     }
   }
 
+  /**
+   * Schedules te next execution after current context is cleared
+   * (or is directly started if context is currently not being cleared)
+   * @param execution {() => void}
+   * @see https://github.com/karma-runner/karma/issues/3424
+   */
+  this.scheduleExecution = function (execution) {
+    if (reloadingContext) {
+      // A context reload is in progress. Wait for it to complete before executing.
+      this.scheduledExecution = execution
+    } else {
+      execution()
+    }
+  }
+
   this.onbeforeunload = function () {
-    if (!reloadingContext) {
+    if (reloadingContext) {
+      reloadingContext = false
+      self.scheduledExecution && self.scheduledExecution()
+      self.scheduledExecution = undefined
+    } else {
       // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
       self.error('Some of your tests did a full page reload!')
     }
@@ -146,8 +165,6 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   this.stringify = stringify
 
   function clearContext () {
-    reloadingContext = true
-
     navigateContextTo('about:blank')
   }
 
@@ -234,6 +251,8 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
 
     if (self.config.clearContext) {
+      reloadingContext = true
+
       // give the browser some time to breath, there could be a page reload, but because a bunch of
       // tests could run in the same event loop, we wouldn't notice.
       setTimeout(function () {
@@ -259,24 +278,25 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
-    // reset startEmitted and reload the iframe
-    startEmitted = false
-    self.config = cfg
-    // if not clearing context, reloadingContext always true to prevent beforeUnload error
-    reloadingContext = !self.config.clearContext
-    navigateContextTo(constant.CONTEXT_URL)
+    self.scheduleExecution(() => {
+      // reset startEmitted and reload the iframe
+      startEmitted = false
+      self.config = cfg
 
-    if (self.config.clientDisplayNone) {
-      [].forEach.call(document.querySelectorAll('#banner, #browsers'), function (el) {
-        el.style.display = 'none'
-      })
-    }
+      navigateContextTo(constant.CONTEXT_URL)
 
-    // clear the console before run
-    // works only on FF (Safari, Chrome do not allow to clear console from js source)
-    if (window.console && window.console.clear) {
-      window.console.clear()
-    }
+      if (self.config.clientDisplayNone) {
+        [].forEach.call(document.querySelectorAll('#banner, #browsers'), function (el) {
+          el.style.display = 'none'
+        })
+      }
+
+      // clear the console before run
+      // works only on FF (Safari, Chrome do not allow to clear console from js source)
+      if (window.console && window.console.clear) {
+        window.console.clear()
+      }
+    })
   })
   socket.on('stop', function () {
     this.complete()
