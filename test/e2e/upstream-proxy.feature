@@ -18,8 +18,7 @@ Feature: UpstreamProxy
       };
       """
     When I start Karma behind a proxy on port 9875 that prepends '/__proxy__/' to the base path
-    Then it passes with:
+    Then it passes with regexp:
       """
-      ..
-      HeadlessChrome
+      HeadlessChrome.*Executed.*SUCCESS
       """
