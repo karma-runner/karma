@@ -180,17 +180,18 @@ cucumber.defineSupportCode((a) => {
   })
 
   When('I {command} Karma behind a proxy on port {int} that prepends {string} to the base path', function (command, proxyPort, proxyPath, callback) {
-    execKarma.apply(this, [command, undefined, proxyPort, proxyPath, callback])
+    execKarma.apply(this, [command, 'debug', proxyPort, proxyPath, callback])
   })
 
   defineParameterType({
     name: 'exact',
-    regexp: /no\sdebug|like/
+    regexp: /no\sdebug|like|regexp/
   })
 
   Then('it passes with( {exact}):', { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
     const noDebug = mode === 'no debug'
     const like = mode === 'like'
+    const regexp = mode === 'regexp'
     let actualOutput = this.lastRun.stdout.toString()
     let lines
 
@@ -203,7 +204,9 @@ cucumber.defineSupportCode((a) => {
     if (like && actualOutput.indexOf(expectedOutput) >= 0) {
       return callback()
     }
-
+    if (regexp && actualOutput.match(expectedOutput)) {
+      return callback()
+    }
     if (actualOutput.indexOf(expectedOutput) === 0) {
       return callback()
     }
@@ -212,7 +215,7 @@ cucumber.defineSupportCode((a) => {
       return callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + actualOutput))
     }
 
-    callback(new Error('Failed all comparissons'))
+    callback(new Error('Failed all comparisons'))
   })
 
   Then('it fails with:', function (expectedOutput, callback) {
