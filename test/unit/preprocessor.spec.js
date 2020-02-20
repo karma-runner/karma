@@ -21,6 +21,7 @@ describe('preprocessor', () => {
         'a.txt': mocks.fs.file(0, 'some-text'),
         'photo.png': mocks.fs.file(0, binarydata),
         'CAM_PHOTO.JPG': mocks.fs.file(0, binarydata),
+        'proto.pb': mocks.fs.file(0, Buffer.from('mixed-content', 'utf8')),
         '.dir': {
           'a.js': mocks.fs.file(0, 'content')
         }
@@ -323,6 +324,43 @@ describe('preprocessor', () => {
     await pp(file)
     expect(fakePreprocessor).not.to.have.been.called
     expect(file.content).to.be.an.instanceof(Buffer)
+  })
+
+  it('should not preprocess files configured to be binary', async () => {
+    const fakePreprocessor = sinon.spy((content, file, done) => {
+      done(null, content)
+    })
+
+    const injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
+    }, emitterSetting])
+
+    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
+
+    const file = { originalPath: '/some/proto.pb', path: 'path', isBinary: true }
+
+    await pp(file)
+    expect(fakePreprocessor).not.to.have.been.called
+    expect(file.content).to.be.an.instanceof(Buffer)
+  })
+
+  it('should preprocess files configured not to be binary', async () => {
+    const fakePreprocessor = sinon.spy((content, file, done) => {
+      done(null, content)
+    })
+
+    const injector = new di.Injector([{
+      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
+    }, emitterSetting])
+
+    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
+
+    // Explicit false for isBinary
+    const file = { originalPath: '/some/proto.pb', path: 'path', isBinary: false }
+
+    await pp(file)
+    expect(fakePreprocessor).to.have.been.calledOnce
+    expect(typeof file.content).to.equal('string')
   })
 
   it('should preprocess binary files if handleBinaryFiles=true', async () => {
