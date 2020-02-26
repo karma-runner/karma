@@ -1,8 +1,8 @@
 sudo: false
 language: node_js
 node_js:
-  - 8
   - 10
+  - 12
 
 env:
   global:
@@ -13,7 +13,7 @@ matrix:
   fast_finish: true
   include:
     - name: "Lint code and commit message format"
-      node_js: "8"
+      node_js: "10"
       env: VALIDATE_COMMIT_MSG=true LINT=true
 
 before_install:
@@ -47,7 +47,7 @@ script:
 
 after_success:
   # run automated release process with semantic-release
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_EVENT_TYPE" == "push" && "$TRAVIS_NODE_VERSION" == "10" ]]; then
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_EVENT_TYPE" == "push" && "$TRAVIS_NODE_VERSION" == "12" ]]; then
       npm i --no-save semantic-release@15 @semantic-release/changelog@3 @semantic-release/git@7;
       semantic-release;
     fi;

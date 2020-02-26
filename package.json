@@ -475,7 +475,7 @@
     "karma": "./bin/karma"
   },
   "engines": {
-    "node": ">= 8"
+    "node": ">= 10"
   },
   "version": "4.4.1",
   "license": "MIT",
