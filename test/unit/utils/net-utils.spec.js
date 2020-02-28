@@ -22,6 +22,7 @@ describe('NetUtils.bindAvailablePort', () => {
         const port = boundServer.address().port
         expect(port).to.be.equal(9877)
         expect(boundServer).not.to.be.null
+        boundServer.close()
         server.close(done)
       })
     })

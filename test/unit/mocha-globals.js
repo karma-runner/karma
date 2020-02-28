@@ -2,8 +2,6 @@ const sinon = require('sinon')
 const chai = require('chai')
 const logger = require('../../lib/logger')
 
-require('bluebird').longStackTraces()
-
 // publish globals that all specs can use
 global.expect = chai.expect
 global.should = chai.should()
@@ -45,39 +43,4 @@ chai.use((chai, utils) => {
     this.assert(response._body === null,
       `expected response body to not be set, it was '${response._body}'`)
   })
-})
-
-// TODO(vojta): move it somewhere ;-)
-const nextTickQueue = []
-const nextTickCallback = () => {
-  if (!nextTickQueue.length) throw new Error('Nothing scheduled!')
-  nextTickQueue.shift()()
-
-  if (nextTickQueue.length) process.nextTick(nextTickCallback)
-}
-global.scheduleNextTick = (action) => {
-  nextTickQueue.push(action)
-
-  if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
-}
-const nextQueue = []
-const nextCallback = () => {
-  // if not nextQueue.length then throw new Error 'Nothing scheduled!'
-  nextQueue.shift()()
-}
-
-global.scheduleNextTick = (action) => {
-  nextTickQueue.push(action)
-
-  if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
-}
-global.scheduleNext = (action) => {
-  nextQueue.push(action)
-}
-
-global.next = nextCallback
-
-beforeEach(() => {
-  nextTickQueue.length = 0
-  nextQueue.length = 0
 })
