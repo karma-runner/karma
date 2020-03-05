@@ -20,7 +20,7 @@ Feature: Proxying
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
 
   Scenario: Added by a framework
@@ -39,7 +39,7 @@ Feature: Proxying
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
 
   Scenario: URLRoot
@@ -60,5 +60,5 @@ Feature: Proxying
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """

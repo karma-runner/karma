@@ -18,5 +18,5 @@ Feature: Custom Context File
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
