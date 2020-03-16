@@ -447,7 +447,7 @@
     "http2": "^3.3.6",
     "husky": "^4.0.3",
     "jasmine-core": "^3.4.0",
-    "karma-browserify": "^6.0.0",
+    "karma-browserify": "^7.0.0",
     "karma-browserstack-launcher": "^1.5.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
