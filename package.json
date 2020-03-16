@@ -411,7 +411,6 @@
     "qjobs": "^1.1.4",
     "range-parser": "^1.2.0",
     "rimraf": "^2.6.0",
-    "safe-buffer": "^5.0.1",
     "socket.io": "2.1.1",
     "source-map": "^0.6.1",
     "tmp": "0.0.33",
