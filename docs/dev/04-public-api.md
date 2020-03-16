@@ -184,6 +184,10 @@ The default port used for the karma server
 
 The default hostname used for the karma server
 
+### **constants.DEFAULT_LISTEN_ADDR**
+
+The default address use for the karma server to listen on
+
 ### **constants.LOG_DISABLE**
 
 The value for disabling logs
