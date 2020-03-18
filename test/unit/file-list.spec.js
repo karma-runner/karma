@@ -1,6 +1,5 @@
 'use strict'
 
-const Promise = require('bluebird')
 const EventEmitter = require('events').EventEmitter
 const mocks = require('mocks')
 const proxyquire = require('proxyquire')
@@ -448,8 +447,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
 
       list = new List(patterns('/some/*.js', '*.txt'), ['/secret/*.txt'], emitter, preprocess, 100)
@@ -457,7 +455,6 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('does not add excluded files', () => {
@@ -514,14 +511,14 @@ describe('FileList', () => {
 
       return list.refresh().then(() => {
         preprocess.resetHistory()
-        sinon.spy(mockFs, 'stat')
+        sinon.spy(mockFs, 'statAsync')
 
         return Promise.all([
           list.addFile('/some/d.js'),
           list.addFile('/some/d.js')
         ]).then(() => {
           expect(preprocess).to.have.been.calledOnce
-          expect(mockFs.stat).to.have.been.calledOnce
+          expect(mockFs.statAsync).to.have.been.calledOnce
         })
       })
     })
@@ -555,7 +552,6 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler((fn) => fn())
 
       emitter = new EventEmitter()
 
@@ -576,8 +572,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
 
       mockFs._touchFile('/some/a.js', '2012-04-04')
@@ -586,7 +581,6 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('updates mtime and fires "file_list_modified"', () => {
@@ -680,7 +674,6 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler((fn) => fn())
 
       emitter = new EventEmitter()
 
@@ -701,8 +694,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
 
       modified = sinon.stub()
@@ -711,7 +703,6 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('removes the file from the list and fires "file_list_modified"', () => {
@@ -762,7 +753,6 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler((fn) => { fn() })
 
       emitter = new EventEmitter()
 
@@ -786,14 +776,12 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
     })
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('debounces calls to emitModified', () => {

@@ -133,7 +133,7 @@ describe('launchers/process.js', () => {
     })
 
     // the most common scenario, when everything works fine
-    it('start -> capture -> kill', (done) => {
+    it('start -> capture -> kill', async () => {
       // start the browser
       launcher.start('http://localhost/')
       expect(mockSpawn).to.have.been.calledWith(BROWSER_PATH, ['http://localhost/?id=fake-id'])
@@ -150,10 +150,9 @@ describe('launchers/process.js', () => {
       mockSpawn._processes[0].emit('exit', 0)
       mockTempDir.remove.callArg(1)
 
-      killingLauncher.done(() => {
-        expect(launcher.state).to.equal(launcher.STATE_FINISHED)
-        done()
-      })
+      await killingLauncher
+
+      expect(launcher.state).to.equal(launcher.STATE_FINISHED)
     })
 
     // when the browser fails to get captured in default timeout, it should restart
