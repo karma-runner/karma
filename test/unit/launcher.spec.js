@@ -1,6 +1,5 @@
 'use strict'
 
-const Promise = require('bluebird')
 const di = require('di')
 
 const events = require('../../lib/events')
@@ -64,14 +63,6 @@ describe('launcher', () => {
   // mock out id generator
   let lastGeneratedId = null
   launcher.Launcher.generateId = () => ++lastGeneratedId
-
-  before(() => {
-    Promise.setScheduler((fn) => fn())
-  })
-
-  after(() => {
-    Promise.setScheduler((fn) => process.nextTick(fn))
-  })
 
   beforeEach(() => {
     lastGeneratedId = 0
@@ -252,7 +243,7 @@ describe('launcher', () => {
         expect(browser.forceKill).to.have.been.called
       })
 
-      it('should call callback when all processes killed', () => {
+      it('should call callback when all processes killed', (done) => {
         const exitSpy = sinon.spy()
 
         l.launch(['Fake', 'Fake'], 1)
@@ -264,18 +255,17 @@ describe('launcher', () => {
         let browser = FakeBrowser._instances.pop()
         browser.forceKill.resolve()
 
-        scheduleNextTick(() => {
+        setImmediate(() => {
           expect(exitSpy).not.to.have.been.called
-        })
 
-        scheduleNextTick(() => {
           // finish the second browser
           browser = FakeBrowser._instances.pop()
           browser.forceKill.resolve()
-        })
 
-        scheduleNextTick(() => {
-          expect(exitSpy).to.have.been.called
+          setImmediate(() => {
+            expect(exitSpy).to.have.been.called
+            done()
+          })
         })
       })
 
