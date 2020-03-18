@@ -47,6 +47,7 @@ script:
 
 after_success:
   # run automated release process with semantic-release
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, TRAVIS_EVENT_TYPE=$TRAVIS_EVENT_TYPE, TRAVIS_NODE_VERSION=$TRAVIS_NODE_VERSION"
   - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_EVENT_TYPE" == "push" && "$TRAVIS_NODE_VERSION" == "12" ]]; then
       npm i --no-save semantic-release@15 @semantic-release/changelog@3 @semantic-release/git@7;
       semantic-release;
