@@ -128,7 +128,7 @@ Feature: Browser Console Configuration
     When I start Karma
     Then the file at test/e2e/console.log contains:
       """
-      HeadlessChrome
+      Chrome Headless
       """
 
   Scenario: Execute logging program and disabling terminal
@@ -150,7 +150,7 @@ Feature: Browser Console Configuration
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
 
   Scenario: Execute logging program and disabling terminal
@@ -170,7 +170,7 @@ Feature: Browser Console Configuration
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
   Scenario: Execute logging program with singleRun
     Given a configuration with:

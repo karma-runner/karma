@@ -17,7 +17,7 @@ Feature: Basic Testrunner
     Then it passes with:
       """
       ..
-      HeadlessChrome
+      Chrome Headless
       """
   @not-jenkins
   Scenario: Execute a test in Chrome
