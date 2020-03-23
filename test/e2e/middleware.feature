@@ -21,7 +21,7 @@ Feature: Middleware
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
 
   Scenario: Frameworks can add middleware
@@ -40,5 +40,5 @@ Feature: Middleware
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """

@@ -28,7 +28,7 @@ describe('Browser', () => {
   it('should set fullName and name', () => {
     const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
     browser = new Browser('id', fullName, collection, emitter, socket)
-    expect(browser.name).to.equal('Chrome 16.0.912 (Mac OS X 10.6.8)')
+    expect(browser.name).to.equal('Chrome 16.0.912.63 (Mac OS 10.6.8)')
     expect(browser.fullName).to.equal(fullName)
   })
 
@@ -66,7 +66,7 @@ describe('Browser', () => {
     it('should return browser name', () => {
       const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
       browser = new Browser('id', fullName, collection, emitter, socket)
-      expect(browser.toString()).to.equal('Chrome 16.0.912 (Mac OS X 10.6.8)')
+      expect(browser.toString()).to.equal('Chrome 16.0.912.63 (Mac OS 10.6.8)')
     })
 
     it('should return verbatim user agent string for unrecognized browser', () => {

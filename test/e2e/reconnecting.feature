@@ -22,5 +22,5 @@ Feature: Passing Options
     Then it passes with:
       """
       .....
-      HeadlessChrome
+      Chrome Headless
       """

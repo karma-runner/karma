@@ -20,7 +20,7 @@ Feature: Including files
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
 
   Scenario: Execute a test excluding an explicitly included file
@@ -41,7 +41,7 @@ Feature: Including files
     Then it passes with like:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
     And it passes with like:
       """
@@ -66,7 +66,7 @@ Feature: Including files
     Then it passes with like:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
     And it passes with like:
       """
@@ -91,7 +91,7 @@ Feature: Including files
     Then it passes with like:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
     And it passes with like:
       """
@@ -116,7 +116,7 @@ Feature: Including files
     Then it passes with like:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
     And it passes with like:
       """
@@ -141,7 +141,7 @@ Feature: Including files
     Then it passes with like:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
     And it passes with like:
       """
@@ -167,7 +167,7 @@ Feature: Including files
     Then it passes with like:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
     And it passes with like:
       """
