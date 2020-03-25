@@ -141,6 +141,13 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
       self.error('Some of your tests did a full page reload!')
     }
+    reloadingContext = false
+  }
+
+  function clearContext () {
+    reloadingContext = true
+
+    navigateContextTo('about:blank')
   }
 
   this.log = function (type, args) {
@@ -154,12 +161,6 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   this.stringify = stringify
-
-  function clearContext () {
-    reloadingContext = true
-
-    navigateContextTo('about:blank')
-  }
 
   function getLocation (url, lineno, colno) {
     var location = ''
@@ -244,11 +245,10 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
 
     if (self.config.clearContext) {
-      // give the browser some time to breath, there could be a page reload, but because a bunch of
-      // tests could run in the same event loop, we wouldn't notice.
-      setTimeout(function () {
-        clearContext()
-      }, 0)
+      // A test could have incorrectly issued a navigate. To clear the context
+      // we will navigate the iframe. Delay ours to ensure the error from an
+      // incorrect navigate is processed.
+      setTimeout(clearContext)
     }
 
     socket.emit('complete', result || {}, function () {
@@ -269,24 +269,26 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
-    // reset startEmitted and reload the iframe
-    startEmitted = false
-    self.config = cfg
-    // if not clearing context, reloadingContext always true to prevent beforeUnload error
-    reloadingContext = !self.config.clearContext
-    navigateContextTo(constant.CONTEXT_URL)
+    // Delay our navigation to the next event in case the clearContext has not completed.
+    setTimeout(function allowClearContextToComplete () {
+      // reset startEmitted and reload the iframe
+      startEmitted = false
+      self.config = cfg
 
-    if (self.config.clientDisplayNone) {
-      [].forEach.call(document.querySelectorAll('#banner, #browsers'), function (el) {
-        el.style.display = 'none'
-      })
-    }
+      navigateContextTo(constant.CONTEXT_URL)
 
-    // clear the console before run
-    // works only on FF (Safari, Chrome do not allow to clear console from js source)
-    if (window.console && window.console.clear) {
-      window.console.clear()
-    }
+      if (self.config.clientDisplayNone) {
+        [].forEach.call(document.querySelectorAll('#banner, #browsers'), function (el) {
+          el.style.display = 'none'
+        })
+      }
+
+      // clear the console before run
+      // works only on FF (Safari, Chrome do not allow to clear console from js source)
+      if (window.console && window.console.clear) {
+        window.console.clear()
+      }
+    })
   })
   socket.on('stop', function () {
     this.complete()
