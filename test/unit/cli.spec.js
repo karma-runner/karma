@@ -1,6 +1,6 @@
 'use strict'
 
-const optimist = require('optimist')
+const yargs = require('yargs')
 const path = require('path')
 const mocks = require('mocks')
 
@@ -34,7 +34,7 @@ describe('cli', () => {
   }
 
   const processArgs = (args, opts) => {
-    const argv = optimist.parse(args)
+    const argv = yargs.parse(args)
     return e.processArgs(argv, opts || {}, fsMock, pathMock)
   }
 
@@ -62,7 +62,7 @@ describe('cli', () => {
 
   describe('processArgs', () => {
     it('should override if multiple options given', () => {
-      // optimist parses --port 123 --port 456 as port = [123, 456] which makes no sense
+      // yargs parses --port 123 --port 456 as port = [123, 456] which makes no sense
       const options = processArgs(['some.conf', '--port', '12', '--log-level', 'info', '--port', '34', '--log-level', 'debug'])
 
       expect(options.port).to.equal(34)
