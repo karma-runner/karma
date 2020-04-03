@@ -164,7 +164,7 @@ describe('config', () => {
       expect(patternsFrom(config.files)).to.deep.equal([resolveWinPath('/home/tests/unit.spec.js')])
     })
 
-    it('should resolve files and excludes to overriden basePath from cli', () => {
+    it('should resolve files and excludes to overridden basePath from cli', () => {
       const config = e.parseConfig('/conf/both.js', { port: 456, autoWatch: false, basePath: '/xxx' })
 
       expect(config.basePath).to.equal(resolveWinPath('/xxx'))
@@ -247,7 +247,7 @@ describe('config', () => {
       const config = e.parseConfig(null, { basePath: '/some' })
 
       expect(logSpy).not.to.have.been.called
-      expect(config.basePath).to.equal(resolveWinPath('/some')) // overriden by CLI
+      expect(config.basePath).to.equal(resolveWinPath('/some')) // overridden by CLI
       expect(config.urlRoot).to.equal('/')
     }) // default value
 
