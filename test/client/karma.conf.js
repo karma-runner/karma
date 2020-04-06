@@ -3,6 +3,8 @@ const fs = require('fs')
 var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
 
 console.log('----- config TRAVIS_WITHOUT_BS ' + TRAVIS_WITHOUT_BS)
+console.log('username ' + process.env.BROWSERSTACK_USERNAME + ' , ' + process.env.BROWSER_STACK_USERNAME)
+console.log('password ' + !!process.env.BROWSERSTACK_ACCESS_KEY + ' , ' + !!process.env.env.BROWSER_STACK_ACCESS_KEY)
 
 var launchers = {
   bs_chrome: {
