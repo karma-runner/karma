@@ -800,7 +800,7 @@ proxyRes: function(proxyRes, req, res) {
 
 **Description:** For use when the Karma server needs to be run behind a proxy that changes the base url, etc
 
-If set then the following fields will be defined and can be overriden:
+If set then the following fields will be defined and can be overridden:
 
 ### path
 **Type:** String
