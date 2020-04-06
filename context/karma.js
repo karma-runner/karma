@@ -49,7 +49,7 @@ function ContextKarma (callParentKarmaMethod) {
     // remove reference to child iframe
     this.start = UNIMPLEMENTED_START
   }
-  // supposed to be overriden by the context
+  // supposed to be overridden by the context
   // TODO(vojta): support multiple callbacks (queue)
   this.start = UNIMPLEMENTED_START
 
