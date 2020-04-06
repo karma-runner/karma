@@ -2,6 +2,8 @@ const fs = require('fs')
 
 var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
 
+console.log('----- config TRAVIS_WITHOUT_BS ' + TRAVIS_WITHOUT_BS)
+
 var launchers = {
   bs_chrome: {
     base: 'BrowserStack',
@@ -77,6 +79,8 @@ if (process.env.TRAVIS) {
 } else {
   browsers.push('Chrome')
 }
+
+console.log('------------- browsers ' + browsers.join(','))
 
 module.exports = function (config) {
   config.set({
