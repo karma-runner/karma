@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
+var TRAVIS_WITHOUT_BS = true // process.env.TRAVIS_SECURE_ENV_VARS === 'false'
 
 var launchers = {
   bs_chrome: {
@@ -71,6 +71,7 @@ var browsers = []
 if (process.env.TRAVIS) {
   if (TRAVIS_WITHOUT_BS) {
     browsers.push('Firefox')
+    browsers.push('Chrome')
   } else {
     browsers = Object.keys(launchers)
   }
