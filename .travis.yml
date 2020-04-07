@@ -22,6 +22,7 @@ before_install:
 addons:
   firefox:
     "latest"
+  sauce_connect: true
   apt:
     sources:
       - ubuntu-toolchain-r-test
