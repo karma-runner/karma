@@ -418,6 +418,8 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
     "@commitlint/config-conventional": "^8.3.4",
+    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/git": "^7.0.18",
     "browserify": "^16.2.3",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -461,6 +463,7 @@
     "mocks": "^0.0.15",
     "proxyquire": "^2.1.0",
     "puppeteer": "^1.9.0",
+    "semantic-release": "^15.14.0",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.0.0",
     "supertest": "^4.0.2",
@@ -496,6 +499,7 @@
     "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../",
     "init:windows": "(IF EXIST node_modules\\karma (rmdir node_modules\\karma /S /q)) && npm run link",
     "appveyor": "npm run build && npm run test:appveyor",
-    "travis": "npm run build && npm test && npm run test:integration"
+    "travis": "npm run build && npm test && npm run test:integration",
+    "semantic-release": "semantic-release"
   }
 }
