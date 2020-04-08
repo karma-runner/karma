@@ -34,7 +34,6 @@ services:
 
 before_script:
   - npm run init
-  - export $(openssl aes-256-cbc -pass env:CREDENTIALS_PASS -d -in credentials)
   - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
   - echo "TRAVIS_PULL_REQUEST_SHA $TRAVIS_PULL_REQUEST_SHA"
   - COMMIT_TO_VALIDATE=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
