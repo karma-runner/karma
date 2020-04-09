@@ -9,10 +9,14 @@ function Proxy () {
     target: 'http://localhost:9876'
   })
 
+  self.proxy.on('error', function proxyError (err, req, res) {
+    console.log('proxy on error', err)
+  })
+
   self.server = http.createServer(function (req, res) {
     const url = req.url
     const match = url.match(self.proxyPathRegExp)
-    console.log('e2e/support/proxy req: ' + url)
+    // console.log('e2e/support/proxy req: ' + url)
     if (match) {
       console.log('e2e/support/proxy match' + match)
       req.url = '/' + match[1]
@@ -22,6 +26,10 @@ function Proxy () {
       res.statusMessage = 'Not found'
       res.end()
     }
+  })
+
+  self.server.on('clientError', (err, socket) => {
+    console.log('clientError', err)
   })
 
   self.start = function (port, proxyPath, callback) {

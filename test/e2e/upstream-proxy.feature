@@ -13,7 +13,7 @@ Feature: UpstreamProxy
         'karma-jasmine',
         'karma-chrome-launcher'
       ];
-      logLevel = 'debug'
+      logLevel = 'DEBUG'
       urlRoot = '/__karma__/';
       upstreamProxy = {
         path: '/__proxy__/'
