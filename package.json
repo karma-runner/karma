@@ -500,7 +500,7 @@
     "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../",
     "init:windows": "(IF EXIST node_modules\\karma (rmdir node_modules\\karma /S /q)) && npm run link",
     "appveyor": "npm run build && npm run test:appveyor",
-    "travis": "npm run build && npm test && npm run test:integration",
+    "travis": "npm run build && npm test",
     "semantic-release": "semantic-release"
   }
 }
