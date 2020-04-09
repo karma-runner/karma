@@ -37,6 +37,7 @@ cucumber.defineSupportCode((a) => {
 
     const startProxy = (done) => {
       if (proxyPort) {
+        console.log('startProxy ', proxyPort)
         this.proxy.start(proxyPort, proxyPath, done)
       } else {
         done()

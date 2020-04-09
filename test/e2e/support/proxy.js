@@ -13,6 +13,7 @@ function Proxy () {
     const url = req.url
     const match = url.match(self.proxyPathRegExp)
     if (match) {
+      console.log('e2e/support/proxy match' + match)
       req.url = '/' + match[1]
       self.proxy.web(req, res)
     } else {
@@ -25,13 +26,17 @@ function Proxy () {
   self.start = function (port, proxyPath, callback) {
     self.proxyPathRegExp = new RegExp('^' + proxyPath + '(.*)')
     self.server.listen(port, function (error) {
+      console.log('e2e/support/proxy listen', error)
       self.running = !error
       callback(error)
     })
+    console.log('e2e/support/proxy start')
   }
 
   self.stop = function (callback) {
+    console.log('e2e/support/proxy stop')
     if (self.running) {
+      console.log('e2e/support/proxy close')
       self.running = false
       self.server.close(callback)
     } else {

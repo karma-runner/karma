@@ -3,6 +3,7 @@ Feature: UpstreamProxy
   As a person who wants to write great tests
   I want to Karma to to work when it is behind a proxy that prepends to the base path.
 
+  @current
   Scenario: UpstreamProxy
     Given a configuration with:
       """
@@ -12,6 +13,7 @@ Feature: UpstreamProxy
         'karma-jasmine',
         'karma-chrome-launcher'
       ];
+      logLevel = 'debug'
       urlRoot = '/__karma__/';
       upstreamProxy = {
         path: '/__proxy__/'
