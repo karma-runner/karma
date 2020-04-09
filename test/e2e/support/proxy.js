@@ -12,6 +12,7 @@ function Proxy () {
   self.server = http.createServer(function (req, res) {
     const url = req.url
     const match = url.match(self.proxyPathRegExp)
+    console.log('e2e/support/proxy req: ' + url)
     if (match) {
       console.log('e2e/support/proxy match' + match)
       req.url = '/' + match[1]
