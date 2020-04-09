@@ -19,9 +19,9 @@ module.exports = function (grunt) {
       }
     },
     test: {
-      unit: 'mochaTest:unit',
-      client: 'test/client/karma.conf.js',
+      // unit: 'mochaTest:unit',
       e2e: 'cucumberjs:ci'
+      // client: 'test/client/karma.conf.js'
     },
     watch: {
       client: {
