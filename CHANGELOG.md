@@ -1,3 +1,42 @@
+# [5.0.0](https://github.com/karma-runner/karma/compare/v4.4.1...v5.0.0) (2020-04-09)
+
+
+### Bug Fixes
+
+* install semantic-release as a regular dev dependency ([#3455](https://github.com/karma-runner/karma/issues/3455)) ([1eaf35e](https://github.com/karma-runner/karma/commit/1eaf35e1d616a2ef21dd00d843552f189fbc7c94))
+* **ci:** echo travis env that gates release after_success ([#3446](https://github.com/karma-runner/karma/issues/3446)) ([b8b2ed8](https://github.com/karma-runner/karma/commit/b8b2ed81e595baf0337c9628a736494b9f2c91c1))
+* **ci:** poll every 10s to avoid rate limit. ([#3388](https://github.com/karma-runner/karma/issues/3388)) ([91e7e00](https://github.com/karma-runner/karma/commit/91e7e00b29db95ea7209f60c07431b10ab597b02))
+* **middleware/runner:** handle file list rejections ([#3400](https://github.com/karma-runner/karma/issues/3400)) ([80febfb](https://github.com/karma-runner/karma/commit/80febfb53a7d041bdcbcffef617e53cdc2d8dd66)), closes [#3396](https://github.com/karma-runner/karma/issues/3396) [#3396](https://github.com/karma-runner/karma/issues/3396)
+* **server:** cleanup import of the removed method ([#3439](https://github.com/karma-runner/karma/issues/3439)) ([cb1bcbf](https://github.com/karma-runner/karma/commit/cb1bcbf0b33c8b14a823f7c2cfb7003a7d7704e5))
+* **server:** createPreprocessor was removed ([#3435](https://github.com/karma-runner/karma/issues/3435)) ([5c334f5](https://github.com/karma-runner/karma/commit/5c334f5e811c490f49e4e681e38345776b77210a))
+* **server:** detection new MS Edge Chromium ([#3440](https://github.com/karma-runner/karma/issues/3440)) ([7166ce2](https://github.com/karma-runner/karma/commit/7166ce2b965a44c89010271fda908e2d58a10a9a))
+* **server:** replace optimist on yargs lib ([#3451](https://github.com/karma-runner/karma/issues/3451)) ([ec1e69a](https://github.com/karma-runner/karma/commit/ec1e69a2545695ee248f34c26f7c4c2b50439b94)), closes [#2473](https://github.com/karma-runner/karma/issues/2473)
+* **server:** Report original error message ([#3415](https://github.com/karma-runner/karma/issues/3415)) ([79ee331](https://github.com/karma-runner/karma/commit/79ee331c939b7fb76a826d9216fea5fabc646854)), closes [#3414](https://github.com/karma-runner/karma/issues/3414)
+
+
+### Code Refactoring
+
+* use native Promise instead of Bluebird ([#3436](https://github.com/karma-runner/karma/issues/3436)) ([33a069f](https://github.com/karma-runner/karma/commit/33a069f8a4c4687cdbe07971cca479d98b262e3f)), closes [/github.com/karma-runner/karma/pull/3060#discussion_r284797390](https://github.com//github.com/karma-runner/karma/pull/3060/issues/discussion_r284797390)
+
+
+### Continuous Integration
+
+* drop node 8, adopt node 12 ([#3430](https://github.com/karma-runner/karma/issues/3430)) ([a673aa8](https://github.com/karma-runner/karma/commit/a673aa8ad76f733565498f2aab13fcd720502be1))
+
+
+### Features
+
+* **docs:** document `DEFAULT_LISTEN_ADDR` constant ([#3443](https://github.com/karma-runner/karma/issues/3443)) ([057d527](https://github.com/karma-runner/karma/commit/057d527262f1e258f53985116cba718268f108da)), closes [#2479](https://github.com/karma-runner/karma/issues/2479)
+* **karma-server:** added log to the server.js for uncaught exception ([#3399](https://github.com/karma-runner/karma/issues/3399)) ([adc6a66](https://github.com/karma-runner/karma/commit/adc6a66943c93185e8481060c3cf4b7416985151))
+* **preprocessor:** obey Pattern.isBinary when set ([#3422](https://github.com/karma-runner/karma/issues/3422)) ([708ae13](https://github.com/karma-runner/karma/commit/708ae133acc233195ea64657cafbb86cbd56f115)), closes [#3405](https://github.com/karma-runner/karma/issues/3405)
+
+
+### BREAKING CHANGES
+
+* Karma plugins which rely on the fact that Karma uses Bluebird promises may break as Bluebird-specific API is no longer available on Promises returned by the Karma core
+* **server:** Deprecated createPreprocessor removed, karma-browserify < 7 version doesn't work
+* no more testing on node 8.
+
 <a name="4.4.1"></a>
 ## [4.4.1](https://github.com/karma-runner/karma/compare/v4.4.0...v4.4.1) (2019-10-18)
 
