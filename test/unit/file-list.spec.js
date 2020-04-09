@@ -442,6 +442,10 @@ describe('FileList', () => {
       clock = sinon.useFakeTimers()
       // This hack is needed to ensure lodash is using the fake timers
       // from sinon
+
+      // fs.stat needs to be spied before file-list is required
+      sinon.spy(mockFs, 'stat')
+
       List = proxyquire('../../lib/file-list', {
         lodash: _.runInContext(),
         helper: helper,
@@ -455,6 +459,7 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
+      mockFs.stat.restore()
     })
 
     it('does not add excluded files', () => {
@@ -511,14 +516,13 @@ describe('FileList', () => {
 
       return list.refresh().then(() => {
         preprocess.resetHistory()
-        sinon.spy(mockFs, 'statAsync')
 
         return Promise.all([
           list.addFile('/some/d.js'),
           list.addFile('/some/d.js')
         ]).then(() => {
           expect(preprocess).to.have.been.calledOnce
-          expect(mockFs.statAsync).to.have.been.calledOnce
+          expect(mockFs.stat).to.have.been.calledOnce
         })
       })
     })
