@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/karma-runner/karma/compare/v5.0.0...v5.0.1) (2020-04-10)
+
+
+### Bug Fixes
+
+* **file-list:** do not define fs.statAsync ([#3467](https://github.com/karma-runner/karma/issues/3467)) ([55a59e7](https://github.com/karma-runner/karma/commit/55a59e70017af79d6f3c170d87d808acc8e21faf))
+
 # [5.0.0](https://github.com/karma-runner/karma/compare/v4.4.1...v5.0.0) (2020-04-09)
 
 
