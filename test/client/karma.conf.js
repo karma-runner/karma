@@ -1,8 +1,8 @@
 const fs = require('fs')
 
-var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
+const TRAVIS_WITH_BS = !!process.env.BROWSER_STACK_ACCESS_KEY
 
-var launchers = {
+const launchers = {
   bs_chrome: {
     base: 'BrowserStack',
     browser: 'chrome',
@@ -66,13 +66,13 @@ fs.lstat('node_modules/karma', (err, stats) => {
   process.exit(1)
 })
 
-var browsers = []
+let browsers = []
 
 if (process.env.TRAVIS) {
-  if (TRAVIS_WITHOUT_BS) {
-    browsers.push('Firefox')
-  } else {
+  if (TRAVIS_WITH_BS) {
     browsers = Object.keys(launchers)
+  } else {
+    browsers.push('Firefox')
   }
 } else {
   browsers.push('Chrome')
