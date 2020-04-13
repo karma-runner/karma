@@ -9,6 +9,10 @@ function Proxy () {
     target: 'http://localhost:9876'
   })
 
+  self.proxy.on('error', function proxyError (err, req, res) {
+    console.log('support/proxy onerror', err)
+  })
+
   self.server = http.createServer(function (req, res) {
     const url = req.url
     const match = url.match(self.proxyPathRegExp)
@@ -20,6 +24,10 @@ function Proxy () {
       res.statusMessage = 'Not found'
       res.end()
     }
+  })
+
+  self.server.on('clientError', (err, socket) => {
+    console.log('support/proxy clientError', err)
   })
 
   self.start = function (port, proxyPath, callback) {
