@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/karma-runner/karma/compare/v5.0.1...v5.0.2) (2020-04-16)
+
+
+### Bug Fixes
+
+* **ci:** stop the proxy before killing the child, handle errors ([#3472](https://github.com/karma-runner/karma/issues/3472)) ([abe9af6](https://github.com/karma-runner/karma/commit/abe9af616f7a08f3c64cc06f6a68bd5f9c941133)), closes [#3464](https://github.com/karma-runner/karma/issues/3464)
+
 ## [5.0.1](https://github.com/karma-runner/karma/compare/v5.0.0...v5.0.1) (2020-04-10)
 
 
