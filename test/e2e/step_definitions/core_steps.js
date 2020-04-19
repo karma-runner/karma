@@ -9,8 +9,6 @@ let additionalArgs = []
 function execKarma (command, level, callback) {
   level = level || 'warn'
 
-  this.writeConfigFile()
-
   const configFile = this.configFile
   const runtimePath = this.karmaExecutable
   const baseDir = this.workDir
@@ -75,8 +73,13 @@ function execKarma (command, level, callback) {
   }
 }
 
+Given('a default configuration', function () {
+  this.writeConfigFile()
+})
+
 Given('a configuration with:', function (fileContent) {
   this.updateConfig(fileContent)
+  this.writeConfigFile()
 })
 
 Given('command line arguments of: {string}', function (args, callback) {
