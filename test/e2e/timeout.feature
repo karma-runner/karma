@@ -14,7 +14,7 @@ Feature: Timeout
       ];
       captureTimeout = 100
       """
-    When I run Karma
+    When I start Karma
     Then it fails with like:
       """
       have not captured in 100 ms

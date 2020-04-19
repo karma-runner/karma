@@ -1,3 +1,4 @@
+const { spawn } = require('child_process')
 const fs = require('fs')
 const vm = require('vm')
 const path = require('path')
@@ -56,6 +57,12 @@ class World {
       stdout: '',
       stderr: ''
     }
+
+    this.backgroundProcess = {
+      handle: null,
+      stdout: '',
+      stderr: ''
+    }
   }
 
   updateConfig (configOverrides) {
@@ -84,6 +91,59 @@ module.exports = (config) => {
   ensureSandbox () {
     rimraf.sync(this.sandboxDir)
     mkdirp.sync(this.sandboxDir)
+  }
+
+  async runBackgroundProcess (args, readyOutput = null) {
+    return new Promise((resolve, reject) => {
+      const handle = this.backgroundProcess.handle = spawn(this.karmaExecutable, args, { cwd: this.workDir })
+
+      let isSettled = false
+
+      // The errorHandler only handles spawn errors (e.g. invalid executable
+      // path). It is removed once process has spawned. Kill errors
+      // handling is done in {@link stopBackgroundProcessIfRunning}.
+      // See https://nodejs.org/api/child_process.html#child_process_event_error
+      //
+      // This is because the Cucumber step to start the background process is
+      // considered successful once first output from the spawned process has
+      // been received. Then Karma server is running in the background (while
+      // subsequent Cucumber steps are executed) and there is no way to mark
+      // Cucumber step that started a server as failed since it has already
+      // completed.
+      const errorHandler = (error) => {
+        isSettled = true
+        this.backgroundProcess.handle = null
+        reject(error)
+      }
+      handle.once('error', errorHandler)
+
+      handle.stderr.on('data', (chunk) => {
+        this.backgroundProcess.stderr += chunk.toString()
+      })
+
+      handle.stdout.on('data', (chunk) => {
+        this.backgroundProcess.stdout += chunk.toString()
+
+        if (!isSettled) {
+          if (readyOutput == null || this.backgroundProcess.stdout.includes(readyOutput)) {
+            isSettled = true
+            handle.off('error', errorHandler)
+            resolve()
+          }
+        }
+      })
+    })
+  }
+
+  async stopBackgroundProcessIfRunning () {
+    if (this.backgroundProcess.handle != null && this.backgroundProcess.handle.exitCode == null) {
+      return new Promise((resolve, reject) => {
+        this.backgroundProcess.handle
+          .once('exit', () => resolve())
+          .once('error', (error) => reject(error))
+          .kill()
+      })
+    }
   }
 }
 
