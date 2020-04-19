@@ -19,12 +19,12 @@ Feature: JavaScript Tag
       .
       Firefox
       """
-  @not-jenkins
-  Scenario: Execute a test in Chrome with version, without JavaScript tag
+
+  Scenario: Execute a test in ChromeHeadless with version, without JavaScript tag
     Given a configuration with:
       """
       files = ['tag/tag.js', 'tag/test-with-version.js'];
-      browsers = ['Chrome'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
@@ -53,12 +53,12 @@ Feature: JavaScript Tag
       .
       Firefox
       """
-  @not-jenkins
-  Scenario: Execute a test in Chrome without version, without JavaScript tag
+
+  Scenario: Execute a test in ChromeHeadless without version, without JavaScript tag
     Given a configuration with:
       """
       files = ['tag/tag.js', 'tag/test-without-version.js'];
-      browsers = ['Chrome'];
+      browsers = ['ChromeHeadlessNoSandbox'];
       plugins = [
         'karma-jasmine',
         'karma-chrome-launcher'
