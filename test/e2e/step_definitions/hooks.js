@@ -1,14 +1,11 @@
 const { After } = require('cucumber')
 
-After(function (scenario, callback) {
-  const running = this.child != null && typeof this.child.kill === 'function'
+After(async function () {
+  await this.proxy.stopIfRunning()
 
-  // stop the proxy if it was started
-  this.proxy.stop(() => {
-    if (running) {
-      this.child.kill()
-      this.child = null
-    }
-    callback()
-  })
+  const running = this.child != null && typeof this.child.kill === 'function'
+  if (running) {
+    this.child.kill()
+    this.child = null
+  }
 })
