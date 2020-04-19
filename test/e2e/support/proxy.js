@@ -1,51 +1,50 @@
 const http = require('http')
 const httpProxy = require('http-proxy')
 
-function Proxy () {
-  const self = this
-  self.running = false
+module.exports = class Proxy {
+  constructor () {
+    this.running = false
 
-  self.proxy = httpProxy.createProxyServer({
-    target: 'http://localhost:9876'
-  })
+    this.proxy = httpProxy.createProxyServer({
+      target: 'http://localhost:9876'
+    })
 
-  self.proxy.on('error', function proxyError (err, req, res) {
-    console.log('support/proxy onerror', err)
-  })
+    this.proxy.on('error', (err) => {
+      console.log('support/proxy onerror', err)
+    })
 
-  self.server = http.createServer(function (req, res) {
-    const url = req.url
-    const match = url.match(self.proxyPathRegExp)
-    if (match) {
-      req.url = '/' + match[1]
-      self.proxy.web(req, res)
-    } else {
-      res.statusCode = 404
-      res.statusMessage = 'Not found'
-      res.end()
-    }
-  })
+    this.server = http.createServer((req, res) => {
+      const url = req.url
+      const match = url.match(this.proxyPathRegExp)
+      if (match) {
+        req.url = '/' + match[1]
+        this.proxy.web(req, res)
+      } else {
+        res.statusCode = 404
+        res.statusMessage = 'Not found'
+        res.end()
+      }
+    })
 
-  self.server.on('clientError', (err, socket) => {
-    console.log('support/proxy clientError', err)
-  })
+    this.server.on('clientError', (err) => {
+      console.log('support/proxy clientError', err)
+    })
+  }
 
-  self.start = function (port, proxyPath, callback) {
-    self.proxyPathRegExp = new RegExp('^' + proxyPath + '(.*)')
-    self.server.listen(port, function (error) {
-      self.running = !error
+  start (port, proxyPath, callback) {
+    this.proxyPathRegExp = new RegExp('^' + proxyPath + '(.*)')
+    this.server.listen(port, (error) => {
+      this.running = !error
       callback(error)
     })
   }
 
-  self.stop = function (callback) {
-    if (self.running) {
-      self.running = false
-      self.server.close(callback)
+  stop (callback) {
+    if (this.running) {
+      this.running = false
+      this.server.close(callback)
     } else {
       callback()
     }
   }
 }
-
-module.exports = new Proxy()
