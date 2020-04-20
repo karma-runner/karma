@@ -20,8 +20,7 @@ module.exports = function (grunt) {
     },
     test: {
       unit: 'mochaTest:unit',
-      client: 'test/client/karma.conf.js',
-      e2e: 'cucumberjs:ci'
+      client: 'test/client/karma.conf.js'
     },
     watch: {
       client: {
@@ -41,30 +40,6 @@ module.exports = function (grunt) {
           'test/unit/mocha-globals.js',
           'test/unit/**/*.spec.js'
         ]
-      }
-    },
-    cucumberjs: {
-      options: {
-        steps: 'test/e2e/step_definitions',
-        format: 'progress',
-        require: ['test/e2e/support/env.js', 'test/e2e/support/world.js']
-      },
-      all: 'test/e2e/*.feature',
-      current: {
-        files: {
-          src: 'test/e2e/*.feature'
-        },
-        options: {
-          tags: '@current'
-        }
-      },
-      ci: {
-        files: {
-          src: 'test/e2e/*.feature'
-        },
-        options: {
-          tags: 'not @not-jenkins'
-        }
       }
     },
     eslint: {
