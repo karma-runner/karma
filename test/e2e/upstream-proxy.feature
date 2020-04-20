@@ -18,7 +18,7 @@ Feature: UpstreamProxy
       };
       """
     And a proxy on port 9875 that prepends '/__proxy__/' to the base path
-    When I start Karma with log-level debug
+    When I start Karma with additional arguments: "--log-level debug"
     Then it passes with regexp:
       """
       Chrome Headless.*Executed.*SUCCESS
