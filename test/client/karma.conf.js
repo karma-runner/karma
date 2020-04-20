@@ -139,9 +139,13 @@ module.exports = function (config) {
 
     customLaunchers: launchers,
 
-    // If browser does not capture in given timeout [ms], kill it
-    // CLI --capture-timeout 5000
-    captureTimeout: 50000,
+    // Recommeneded browserstack timeouts
+    // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
+    captureTimeout: 3e5,
+    browserDisconnectTolerance: 3,
+    browserDisconnectTimeout: 3e5,
+    browserSocketTimeout: 1.2e5,
+    browserNoActivityTimeout: 3e5,
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
