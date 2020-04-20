@@ -23,11 +23,12 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 * Install for development. Use a recent npm version, ignore peerdep warnings
   ```bash
   $ npm install
-  $ rm -rf node_modules/karma
-  $ cd node_modules
-  $ ln -s ../ karma
-  $ cd ../
-  $ grunt browserify
+  
+  $ npm run init
+  # or if you're on Windows
+  $ npm run init:windows
+  
+  $ npm run build
   ```
 
 ## Testing and Building
@@ -49,7 +50,7 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 
 - Build the client code via:
   ```bash
-  $ npm build
+  $ npm run build
   ```
 
 ## Changing the Code
