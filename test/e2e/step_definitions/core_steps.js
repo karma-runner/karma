@@ -2,6 +2,7 @@ const { defineParameterType, Given, Then, When } = require('cucumber')
 const fs = require('fs')
 const path = require('path')
 const { exec } = require('child_process')
+const { waitForCondition } = require('./utils')
 const stopper = require('../../../lib/stopper')
 
 let additionalArgs = []
@@ -9,47 +10,13 @@ let additionalArgs = []
 function execKarma (command, level, callback) {
   level = level || 'warn'
 
-  const configFile = this.configFile
-  const runtimePath = this.karmaExecutable
-  const baseDir = this.workDir
-
-  const executor = (done) => {
-    const cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
-
-    return exec(cmd, {
-      cwd: baseDir
-    }, done)
-  }
-
-  if (command === 'run') {
-    this.runBackgroundProcess(['start', '--log-level', 'warn', configFile])
-      .then(() => {
-        const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
-
-        setTimeout(() => {
-          exec(cmd, {
-            cwd: baseDir
-          }, (error, stdout, stderr) => {
-            if (error) {
-              this.lastRun.error = error
-            }
-            this.lastRun.stdout = stdout
-            this.lastRun.stderr = stderr
-            callback()
-          })
-        }, 1000)
-      })
-      .catch((error) => callback(error))
-  } else {
-    executor((error, stdout, stderr) => {
-      if (error) {
-        this.lastRun.error = error
-      }
-      this.lastRun.stdout = stdout
-      this.lastRun.stderr = stderr
-      callback()
-    })
-  }
+  const cmd = `${this.karmaExecutable} ${command} --log-level ${level} ${this.configFile} ${additionalArgs}`
+  exec(cmd, { cwd: this.workDir }, (error, stdout, stderr) => {
+    this.lastRun.error = error
+    this.lastRun.stdout = stdout.toString()
+    this.lastRun.stderr = stderr.toString()
+    callback()
+  })
 }
 
 Given('a default configuration', function () {
@@ -83,6 +50,10 @@ When('I start a server in background', async function () {
   await this.runBackgroundProcess(['start', '--log-level', 'debug', this.configFile])
 })
 
+When('I wait until server output contains:', async function (expectedOutput) {
+  await waitForCondition(() => this.backgroundProcess.stdout.includes(expectedOutput))
+})
+
 defineParameterType({
   name: 'command',
   regexp: /run|start|init|stop/
@@ -105,7 +76,7 @@ Then(/^it passes with(:? (no\sdebug|like|regexp))?:$/, { timeout: 10 * 1000 }, f
   const noDebug = mode === 'no debug'
   const like = mode === 'like'
   const regexp = mode === 'regexp'
-  let actualOutput = this.lastRun.stdout.toString()
+  let actualOutput = this.lastRun.stdout
   let lines
 
   if (noDebug) {
@@ -132,9 +103,9 @@ Then(/^it passes with(:? (no\sdebug|like|regexp))?:$/, { timeout: 10 * 1000 }, f
 })
 
 Then('it fails with:', function (expectedOutput, callback) {
-  const actualOutput = this.lastRun.stdout.toString()
+  const actualOutput = this.lastRun.stdout
   const actualError = this.lastRun.error
-  const actualStderr = this.lastRun.stderr.toString()
+  const actualStderr = this.lastRun.stderr
 
   if (actualOutput.match(expectedOutput)) {
     return callback()
@@ -146,9 +117,10 @@ Then('it fails with:', function (expectedOutput, callback) {
 })
 
 Then('it fails with like:', function (expectedOutput, callback) {
-  const actualOutput = this.lastRun.stdout.toString()
+  const actualOutput = this.lastRun.stdout
   const actualError = this.lastRun.error
-  const actualStderr = this.lastRun.stderr.toString()
+  const actualStderr = this.lastRun.stderr
+
   if (actualOutput.match(new RegExp(expectedOutput))) {
     return callback()
   }
