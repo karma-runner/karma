@@ -1,15 +1,11 @@
-sudo: false
+os: linux
+dist: xenial
 language: node_js
 node_js:
   - 10
   - 12
 
-env:
-  global:
-  - SAUCE_USERNAME: karmarunnerbot
-  - CXX=g++-4.8
-matrix:
-  fast_finish: true
+jobs:
   include:
     - name: "Lint code and commit message format"
       node_js: "10"
@@ -17,16 +13,9 @@ matrix:
 
 before_install:
   - npm config set loglevel warn
-  - g++-4.8 --version
 
 addons:
-  firefox:
-    "latest"
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
+  firefox: "latest"
 
 services:
   - xvfb
