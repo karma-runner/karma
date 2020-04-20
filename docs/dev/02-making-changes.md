@@ -34,18 +34,17 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 - Run the tests via:
   ```bash
   $ npm test
-  # or if you have grunt-cli installed globally you can also
-  $ grunt test:unit
-  $ grunt test:e2e
-  $ grunt test:client
-
-  # All tests.
-  $ grunt test
+  # or you can run test suits individually
+  $ npm run test:unit
+  $ npm run test:e2e
+  $ npm run test:client
   ```
 
 - Lint the code via:
   ```bash
   $ npm run lint
+  # or you can also apply auto-fixes where possible
+  $ npm run lint:fix
   ```
 
 - Build the client code via:
