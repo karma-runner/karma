@@ -57,11 +57,12 @@ fs.lstat('node_modules/karma', (err, stats) => {
   console.log('**** Incorrect directory layout for karma self-tests ****')
   console.log(`
     $ npm install
-    $ rm -rf node_modules/karma
-    $ cd node_modules
-    $ ln -s ../ karma
-    $ cd ../
-    $ grunt browserify
+    
+    $ npm run init
+    # or if you're on Windows
+    $ npm run init:windows
+    
+    $ npm run build
   `)
   process.exit(1)
 })
