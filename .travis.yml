@@ -1,15 +1,37 @@
 os: linux
 dist: xenial
 language: node_js
-node_js:
-  - 10
-  - 12
 
 jobs:
   include:
-    - name: "Lint code and commit message format"
-      node_js: "10"
-      env: VALIDATE_COMMIT_MSG=true LINT=true
+    - node_js: "10"
+      script:
+        - npm run init
+        - npm run build
+        - npm run test:unit
+        - npm run test:e2e
+
+    - node_js: "12"
+      script:
+        - npm run init
+        - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
+        - echo "TRAVIS_PULL_REQUEST_SHA $TRAVIS_PULL_REQUEST_SHA"
+        - COMMIT_TO_VALIDATE=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
+        - echo "COMMIT_TO_VALIDATE $COMMIT_TO_VALIDATE"
+        - ./scripts/validate-commit-msg.sh $COMMIT_TO_VALIDATE
+        - npm run lint
+        - npm run build
+        - npm run test:unit
+        - npm run test:e2e
+        - npm run test:client
+        - npm run test:integration
+
+      after_success:
+        # run automated release process with semantic-release
+        - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, TRAVIS_EVENT_TYPE=$TRAVIS_EVENT_TYPE
+        - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_EVENT_TYPE" == "push" ]]; then
+            npm run semantic-release;
+          fi;
 
 before_install:
   - npm config set loglevel warn
@@ -19,22 +41,3 @@ addons:
 
 services:
   - xvfb
-
-before_script:
-  - npm run init
-  - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
-  - echo "TRAVIS_PULL_REQUEST_SHA $TRAVIS_PULL_REQUEST_SHA"
-  - COMMIT_TO_VALIDATE=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
-  - echo "COMMIT_TO_VALIDATE $COMMIT_TO_VALIDATE"
-  - 'if [ "$VALIDATE_COMMIT_MSG" == "true" ]; then ./scripts/validate-commit-msg.sh $COMMIT_TO_VALIDATE; fi'
-  - 'if [ "$LINT" == "true" ]; then npm run lint; fi'
-
-script:
-  - npm run travis
-
-after_success:
-  # run automated release process with semantic-release
-  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, TRAVIS_EVENT_TYPE=$TRAVIS_EVENT_TYPE, TRAVIS_NODE_VERSION=$TRAVIS_NODE_VERSION"
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_EVENT_TYPE" == "push" && "$TRAVIS_NODE_VERSION" == "12" ]]; then
-      npm run semantic-release;
-    fi;
