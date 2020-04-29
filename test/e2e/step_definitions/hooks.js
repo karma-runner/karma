@@ -1,16 +1,14 @@
-const cucumber = require('cucumber')
+const { After } = require('cucumber')
 
-cucumber.defineSupportCode((a) => {
-  a.After(function (scenario, callback) {
-    const running = this.child != null && typeof this.child.kill === 'function'
+After(function (scenario, callback) {
+  const running = this.child != null && typeof this.child.kill === 'function'
 
-    // stop the proxy if it was started
-    this.proxy.stop(() => {
-      if (running) {
-        this.child.kill()
-        this.child = null
-      }
-      callback()
-    })
+  // stop the proxy if it was started
+  this.proxy.stop(() => {
+    if (running) {
+      this.child.kill()
+      this.child = null
+    }
+    callback()
   })
 })
