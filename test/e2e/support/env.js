@@ -1,5 +1,3 @@
-const cucumber = require('cucumber')
+const { setDefaultTimeout } = require('cucumber')
 
-cucumber.defineSupportCode((a) => {
-  a.setDefaultTimeout(60 * 1000)
-})
+setDefaultTimeout(60 * 1000)
