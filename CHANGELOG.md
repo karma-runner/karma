@@ -1,3 +1,10 @@
+## [5.0.3](https://github.com/karma-runner/karma/compare/v5.0.2...v5.0.3) (2020-04-29)
+
+
+### Bug Fixes
+
+* **client:** flush resultsBuffer on engine upgrade ([#3212](https://github.com/karma-runner/karma/issues/3212)) ([e44ca94](https://github.com/karma-runner/karma/commit/e44ca944fe94ae455cd6dc45d9985a6d9fb94754)), closes [#3211](https://github.com/karma-runner/karma/issues/3211)
+
 ## [5.0.2](https://github.com/karma-runner/karma/compare/v5.0.1...v5.0.2) (2020-04-16)
 
 
