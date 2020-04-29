@@ -288,6 +288,11 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   socket.on('connect', function () {
     socket.io.engine.on('upgrade', function () {
       resultsBufferLimit = 1
+      // Flush any results which were buffered before the upgrade to WebSocket protocol.
+      if (resultsBuffer.length > 0) {
+        socket.emit('result', resultsBuffer)
+        resultsBuffer = []
+      }
     })
     var info = {
       name: navigator.userAgent,
