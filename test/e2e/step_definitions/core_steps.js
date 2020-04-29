@@ -183,12 +183,7 @@ cucumber.defineSupportCode((a) => {
     execKarma.apply(this, [command, 'debug', proxyPort, proxyPath, callback])
   })
 
-  defineParameterType({
-    name: 'exact',
-    regexp: /no\sdebug|like|regexp/
-  })
-
-  Then('it passes with( {exact}):', { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
+  Then(/^it passes with(:? (no\sdebug|like|regexp))?:$/, { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
     const noDebug = mode === 'no debug'
     const like = mode === 'like'
     const regexp = mode === 'regexp'
@@ -245,12 +240,7 @@ cucumber.defineSupportCode((a) => {
     }
   })
 
-  defineParameterType({
-    name: 'component',
-    regexp: /server|stopper/
-  })
-
-  Then('The {component} is dead( with exit code {int})',
+  Then(/^The (server|stopper) is dead(:? with exit code (\d+))?$/,
     function (stopperOrServer, code, callback) {
       const server = stopperOrServer === 'server'
       const _this = this
