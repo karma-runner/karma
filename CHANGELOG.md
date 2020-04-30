@@ -1,3 +1,10 @@
+## [5.0.4](https://github.com/karma-runner/karma/compare/v5.0.3...v5.0.4) (2020-04-30)
+
+
+### Bug Fixes
+
+* **browser:** make sure that empty results array is still recognized ([#3486](https://github.com/karma-runner/karma/issues/3486)) ([fa95fa3](https://github.com/karma-runner/karma/commit/fa95fa3c917470fa4b9ad736287379d1e9ebb350))
+
 ## [5.0.3](https://github.com/karma-runner/karma/compare/v5.0.2...v5.0.3) (2020-04-29)
 
 
