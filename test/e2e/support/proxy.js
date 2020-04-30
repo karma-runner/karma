@@ -1,9 +1,11 @@
 const http = require('http')
 const httpProxy = require('http-proxy')
+const { promisify } = require('util')
 
 module.exports = class Proxy {
   constructor () {
     this.running = false
+    this.proxyPathRegExp = null
 
     this.proxy = httpProxy.createProxyServer({
       target: 'http://localhost:9876'
@@ -31,20 +33,16 @@ module.exports = class Proxy {
     })
   }
 
-  start (port, proxyPath, callback) {
+  async start (port, proxyPath) {
     this.proxyPathRegExp = new RegExp('^' + proxyPath + '(.*)')
-    this.server.listen(port, (error) => {
-      this.running = !error
-      callback(error)
-    })
+    await promisify(this.server.listen.bind(this.server))(port)
+    this.running = true
   }
 
-  stop (callback) {
+  async stopIfRunning () {
     if (this.running) {
       this.running = false
-      this.server.close(callback)
-    } else {
-      callback()
+      await promisify(this.server.close.bind(this.server))()
     }
   }
 }
