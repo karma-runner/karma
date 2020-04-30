@@ -24,90 +24,76 @@ function cleanseIfNeeded () {
   }
 }
 
-function execKarma (command, level, proxyPort, proxyPath, callback) {
+function execKarma (command, level, callback) {
   level = level || 'warn'
 
-  const startProxy = (done) => {
-    if (proxyPort) {
-      this.proxy.start(proxyPort, proxyPath, done)
-    } else {
-      done()
-    }
-  }
-
-  startProxy((err) => {
+  this.writeConfigFile(tmpDir, tmpConfigFile, (err, hash) => {
     if (err) {
-      return callback.fail(err)
+      return callback.fail(new Error(err))
+    }
+    const configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
+    const runtimePath = path.join(baseDir, 'bin', 'karma')
+
+    const executor = (done) => {
+      const cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
+
+      return exec(cmd, {
+        cwd: baseDir
+      }, done)
     }
 
-    this.writeConfigFile(tmpDir, tmpConfigFile, (err, hash) => {
-      if (err) {
-        return callback.fail(new Error(err))
-      }
-      const configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
-      const runtimePath = path.join(baseDir, 'bin', 'karma')
-
-      const executor = (done) => {
-        const cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
-
-        return exec(cmd, {
-          cwd: baseDir
-        }, done)
+    const runOut = command === 'runOut'
+    if (command === 'run' || command === 'runOut') {
+      let isRun = false
+      this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
+      const done = () => {
+        cleansingNeeded = true
+        this.child && this.child.kill()
+        callback()
       }
 
-      const runOut = command === 'runOut'
-      if (command === 'run' || command === 'runOut') {
-        let isRun = false
-        this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
-        const done = () => {
-          cleansingNeeded = true
-          this.child && this.child.kill()
-          callback()
+      this.child.on('error', (error) => {
+        this.lastRun.error = error
+        done()
+      })
+
+      this.child.stderr.on('data', (chunk) => {
+        this.lastRun.stderr += chunk.toString()
+      })
+
+      this.child.stdout.on('data', (chunk) => {
+        this.lastRun.stdout += chunk.toString()
+        const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
+        if (!isRun) {
+          isRun = true
+
+          setTimeout(() => {
+            exec(cmd, {
+              cwd: baseDir
+            }, (error, stdout, stderr) => {
+              if (error) {
+                this.lastRun.error = error
+              }
+              if (runOut) {
+                this.lastRun.stdout = stdout
+                this.lastRun.stderr = stderr
+              }
+              done()
+            })
+          }, 1000)
         }
-
-        this.child.on('error', (error) => {
+      })
+    } else {
+      executor((error, stdout, stderr) => {
+        if (error) {
           this.lastRun.error = error
-          done()
-        })
-
-        this.child.stderr.on('data', (chunk) => {
-          this.lastRun.stderr += chunk.toString()
-        })
-
-        this.child.stdout.on('data', (chunk) => {
-          this.lastRun.stdout += chunk.toString()
-          const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
-          if (!isRun) {
-            isRun = true
-
-            setTimeout(() => {
-              exec(cmd, {
-                cwd: baseDir
-              }, (error, stdout, stderr) => {
-                if (error) {
-                  this.lastRun.error = error
-                }
-                if (runOut) {
-                  this.lastRun.stdout = stdout
-                  this.lastRun.stderr = stderr
-                }
-                done()
-              })
-            }, 1000)
-          }
-        })
-      } else {
-        executor((error, stdout, stderr) => {
-          if (error) {
-            this.lastRun.error = error
-          }
-          this.lastRun.stdout = stdout
-          this.lastRun.stderr = stderr
-          cleansingNeeded = true
-          callback()
-        })
-      }
-    })
+        }
+        this.lastRun.stdout = stdout
+        this.lastRun.stderr = stderr
+        cleansingNeeded = true
+        callback()
+      })
+    }
   })
 }
 
@@ -120,6 +106,10 @@ Given('a configuration with:', function (fileContent, callback) {
 Given('command line arguments of: {string}', function (args, callback) {
   additionalArgs = args
   return callback()
+})
+
+Given('a proxy on port {int} that prepends {string} to the base path', async function (proxyPort, proxyPath) {
+  return this.proxy.start(proxyPort, proxyPath)
 })
 
 When('I stop a server programmatically', function (callback) {
@@ -164,15 +154,11 @@ defineParameterType({
 })
 
 When('I {command} Karma', function (command, callback) {
-  execKarma.apply(this, [command, undefined, undefined, undefined, callback])
+  execKarma.apply(this, [command, undefined, callback])
 })
 
 When('I {command} Karma with log-level {loglevel}', function (command, level, callback) {
-  execKarma.apply(this, [command, level, undefined, undefined, callback])
-})
-
-When('I {command} Karma behind a proxy on port {int} that prepends {string} to the base path', function (command, proxyPort, proxyPath, callback) {
-  execKarma.apply(this, [command, 'debug', proxyPort, proxyPath, callback])
+  execKarma.apply(this, [command, level, callback])
 })
 
 Then(/^it passes with(:? (no\sdebug|like|regexp))?:$/, { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
