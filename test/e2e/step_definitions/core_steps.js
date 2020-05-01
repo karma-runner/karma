@@ -2,105 +2,81 @@ const { defineParameterType, Given, Then, When } = require('cucumber')
 const fs = require('fs')
 const path = require('path')
 const { exec, spawn } = require('child_process')
-const rimraf = require('rimraf')
 const stopper = require('../../../lib/stopper')
 
-const baseDir = fs.realpathSync(path.join(__dirname, '/../../..'))
-const tmpDir = path.join(baseDir, 'tmp', 'sandbox')
-const tmpConfigFile = 'karma.conf.js'
-let cleansingNeeded = true
 let additionalArgs = []
-
-function cleanseIfNeeded () {
-  if (cleansingNeeded) {
-    try {
-      rimraf.sync(tmpDir)
-    } catch (e) {
-    }
-
-    cleansingNeeded = false
-
-    return cleansingNeeded
-  }
-}
 
 function execKarma (command, level, callback) {
   level = level || 'warn'
 
-  this.writeConfigFile(tmpDir, tmpConfigFile, (err, hash) => {
-    if (err) {
-      return callback.fail(new Error(err))
+  this.writeConfigFile()
+
+  const configFile = this.configFile
+  const runtimePath = this.karmaExecutable
+  const baseDir = this.workDir
+
+  const executor = (done) => {
+    const cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
+
+    return exec(cmd, {
+      cwd: baseDir
+    }, done)
+  }
+
+  const runOut = command === 'runOut'
+  if (command === 'run' || command === 'runOut') {
+    let isRun = false
+    this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
+    const done = () => {
+      this.child && this.child.kill()
+      callback()
     }
-    const configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
-    const runtimePath = path.join(baseDir, 'bin', 'karma')
 
-    const executor = (done) => {
-      const cmd = runtimePath + ' ' + command + ' --log-level ' + level + ' ' + configFile + ' ' + additionalArgs
+    this.child.on('error', (error) => {
+      this.lastRun.error = error
+      done()
+    })
 
-      return exec(cmd, {
-        cwd: baseDir
-      }, done)
-    }
+    this.child.stderr.on('data', (chunk) => {
+      this.lastRun.stderr += chunk.toString()
+    })
 
-    const runOut = command === 'runOut'
-    if (command === 'run' || command === 'runOut') {
-      let isRun = false
-      this.child = spawn('' + runtimePath, ['start', '--log-level', 'warn', configFile])
-      const done = () => {
-        cleansingNeeded = true
-        this.child && this.child.kill()
-        callback()
+    this.child.stdout.on('data', (chunk) => {
+      this.lastRun.stdout += chunk.toString()
+      const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
+      if (!isRun) {
+        isRun = true
+
+        setTimeout(() => {
+          exec(cmd, {
+            cwd: baseDir
+          }, (error, stdout, stderr) => {
+            if (error) {
+              this.lastRun.error = error
+            }
+            if (runOut) {
+              this.lastRun.stdout = stdout
+              this.lastRun.stderr = stderr
+            }
+            done()
+          })
+        }, 1000)
       }
-
-      this.child.on('error', (error) => {
+    })
+  } else {
+    executor((error, stdout, stderr) => {
+      if (error) {
         this.lastRun.error = error
-        done()
-      })
-
-      this.child.stderr.on('data', (chunk) => {
-        this.lastRun.stderr += chunk.toString()
-      })
-
-      this.child.stdout.on('data', (chunk) => {
-        this.lastRun.stdout += chunk.toString()
-        const cmd = runtimePath + ' run ' + configFile + ' ' + additionalArgs
-        if (!isRun) {
-          isRun = true
-
-          setTimeout(() => {
-            exec(cmd, {
-              cwd: baseDir
-            }, (error, stdout, stderr) => {
-              if (error) {
-                this.lastRun.error = error
-              }
-              if (runOut) {
-                this.lastRun.stdout = stdout
-                this.lastRun.stderr = stderr
-              }
-              done()
-            })
-          }, 1000)
-        }
-      })
-    } else {
-      executor((error, stdout, stderr) => {
-        if (error) {
-          this.lastRun.error = error
-        }
-        this.lastRun.stdout = stdout
-        this.lastRun.stderr = stderr
-        cleansingNeeded = true
-        callback()
-      })
-    }
-  })
+      }
+      this.lastRun.stdout = stdout
+      this.lastRun.stderr = stderr
+      callback()
+    })
+  }
 }
 
-Given('a configuration with:', function (fileContent, callback) {
-  cleanseIfNeeded()
-  this.addConfigContent(fileContent)
-  return callback()
+Given('a configuration with:', function (fileContent) {
+  this.updateConfig(fileContent)
 })
 
 Given('command line arguments of: {string}', function (args, callback) {
@@ -113,34 +89,27 @@ Given('a proxy on port {int} that prepends {string} to the base path', async fun
 })
 
 When('I stop a server programmatically', function (callback) {
-  const _this = this
-  setTimeout(function () {
-    stopper.stop(_this.configFile, function (exitCode) {
-      _this.stopperExitCode = exitCode
+  setTimeout(() => {
+    stopper.stop(this.config, (exitCode) => {
+      this.stopperExitCode = exitCode
       callback()
     })
   }, 1000)
 })
 
 When('I start a server in background', function (callback) {
-  this.writeConfigFile(tmpDir, tmpConfigFile, (function (_this) {
-    return function (err, hash) {
-      if (err) {
-        return callback.fail(new Error(err))
-      }
-      const configFile = path.join(tmpDir, hash + '.' + tmpConfigFile)
-      const runtimePath = path.join(baseDir, 'bin', 'karma')
-      _this.child = spawn('' + runtimePath, ['start', '--log-level', 'debug', configFile])
-      _this.child.stdout.on('data', function () {
-        callback()
-        callback = function () {
-        }
-      })
-      _this.child.on('exit', function (exitCode) {
-        _this.childExitCode = exitCode
-      })
-    }
-  })(this))
+  this.writeConfigFile()
+
+  const configFile = this.configFile
+  const runtimePath = this.karmaExecutable
+  this.child = spawn(runtimePath, ['start', '--log-level', 'debug', configFile])
+  this.child.stdout.on('data', () => {
+    callback()
+    callback = () => null
+  })
+  this.child.on('exit', (exitCode) => {
+    this.childExitCode = exitCode
+  })
 })
 
 defineParameterType({
@@ -230,11 +199,9 @@ Then(/^The (server|stopper) is dead(:? with exit code (\d+))?$/,
     }, 4000)
   })
 
-Then(/^the file at ([a-zA-Z0-9/\\_.]+) contains:$/,
-  function (filePath, expectedOutput, callback) {
-    const data = fs.readFileSync(filePath, { encoding: 'UTF-8' })
-    if (data.match(expectedOutput)) {
-      return callback()
-    }
-    callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + data))
-  })
+Then(/^the file at ([a-zA-Z0-9/\\_.]+) contains:$/, function (filePath, expectedOutput) {
+  const data = fs.readFileSync(path.join(this.workDir, filePath), 'utf8')
+  if (!data.match(expectedOutput)) {
+    throw new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + data)
+  }
+})

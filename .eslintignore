@@ -1,5 +1,5 @@
+test/e2e/support/sandbox
 test/e2e/support/error/under-test.js
 test/unit/fixtures/bundled.js
 static/karma.js
 static/context.js
-tmp/*

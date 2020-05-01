@@ -50,12 +50,12 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%t:%m'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
       log:'foo'
       debug:'bar'
@@ -74,12 +74,12 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%t:%T:%m'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
       log:LOG:'foo'
       debug:DEBUG:'bar'
@@ -98,13 +98,13 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%t:%T:%m',
         level: 'warn'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
       log:LOG:'foo'
       warn:WARN:'foobar'
@@ -121,12 +121,12 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%b'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
       Chrome Headless
       """
@@ -141,7 +141,7 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%b',
         terminal: false
       };
