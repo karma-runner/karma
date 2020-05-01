@@ -7,7 +7,7 @@ Feature: Timeout
     Given a configuration with:
       """
       files = ['timeout/specs.js'];
-      browsers = [__dirname + '/timeout/fake-browser.sh'];
+      browsers = [_resolve('timeout/fake-browser.sh')];
       plugins = [
         'karma-jasmine',
         'karma-script-launcher'
