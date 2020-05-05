@@ -4,6 +4,7 @@ Feature: Stop karma
   I want to be able to stop Karma.
 
   Scenario: A server can't be stopped if it isn't running
+    Given a default configuration
     When I stop Karma
     Then it fails with like:
       """
