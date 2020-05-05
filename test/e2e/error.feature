@@ -29,7 +29,7 @@ Feature: Error Display
       ];
       singleRun = false;
       """
-    When I runOut Karma
+    When I run Karma
     Then it fails with like:
       """
       SyntaxError: Unexpected token '}'
