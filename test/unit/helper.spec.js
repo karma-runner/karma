@@ -228,6 +228,15 @@ describe('helper', () => {
     })
   })
 
+  describe('getFileType', () => {
+    it('should extract file type', () => {
+      expect(helper.getFileType({ path: 'a.js' })).to.equal('js')
+      expect(helper.getFileType({ path: 'a.js#' })).to.equal('js')
+      expect(helper.getFileType({ path: 'a.js?#' })).to.equal('js')
+      expect(helper.getFileType({ type: 'js', path: 'a' })).to.equal('js')
+    })
+  })
+
   describe('mkdirIfNotExists', () => {
     const fsMock = require('mocks').fs
     const loadFile = require('mocks').loadFile
