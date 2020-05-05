@@ -183,7 +183,7 @@ Feature: Browser Console Configuration
       ];
       singleRun = false;
       """
-    When I runOut Karma
+    When I run Karma
     Then it passes with like:
       """
       LOG: 'foo'

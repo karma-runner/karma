@@ -13,7 +13,7 @@ Feature: Launcher error
         'karma-script-launcher'
       ];
       """
-    When I run Karma
+    When I start Karma
     Then it fails with like:
       """
       Missing fake dependency

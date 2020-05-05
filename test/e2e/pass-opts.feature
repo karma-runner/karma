@@ -15,7 +15,7 @@ Feature: Passing Options
       singleRun = false;
       """
     And command line arguments of: "-- arg1 arg2"
-    When I runOut Karma
+    When I run Karma
     Then it passes with no debug:
       """
       .
