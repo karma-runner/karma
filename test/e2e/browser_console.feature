@@ -183,7 +183,12 @@ Feature: Browser Console Configuration
       ];
       singleRun = false;
       """
-    When I run Karma
+    When I start a server in background
+    And I wait until server output contains:
+      """
+      Executed 1 of 1 SUCCESS
+      """
+    And I run Karma
     Then it passes with like:
       """
       LOG: 'foo'

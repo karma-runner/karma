@@ -15,7 +15,12 @@ Feature: Passing Options
       singleRun = false;
       """
     And command line arguments of: "-- arg1 arg2"
-    When I run Karma
+    When I start a server in background
+    And I wait until server output contains:
+      """
+      Executed 1 of 1 (1 FAILED)
+      """
+    And I run Karma
     Then it passes with no debug:
       """
       .

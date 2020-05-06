@@ -18,6 +18,7 @@ Feature: Error Display
       """
       SyntaxError: Unexpected token '}'
       """
+
   Scenario: Not single-run Syntax Error in a test file
     Given a configuration with:
       """
@@ -29,7 +30,12 @@ Feature: Error Display
       ];
       singleRun = false;
       """
-    When I run Karma
+    When I start a server in background
+    And I wait until server output contains:
+      """
+      Executed 2 of 2 (1 FAILED)
+      """
+    And I run Karma
     Then it fails with like:
       """
       SyntaxError: Unexpected token '}'
