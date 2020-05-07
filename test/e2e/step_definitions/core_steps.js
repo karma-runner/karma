@@ -1,23 +1,8 @@
 const { defineParameterType, Given, Then, When } = require('cucumber')
 const fs = require('fs')
 const path = require('path')
-const { exec } = require('child_process')
 const { waitForCondition } = require('./utils')
 const stopper = require('../../../lib/stopper')
-
-let additionalArgs = []
-
-function execKarma (command, level, callback) {
-  level = level || 'warn'
-
-  const cmd = `${this.karmaExecutable} ${command} --log-level ${level} ${this.configFile} ${additionalArgs}`
-  exec(cmd, { cwd: this.workDir }, (error, stdout, stderr) => {
-    this.lastRun.error = error
-    this.lastRun.stdout = stdout.toString()
-    this.lastRun.stderr = stderr.toString()
-    callback()
-  })
-}
 
 Given('a default configuration', function () {
   this.writeConfigFile()
@@ -26,11 +11,6 @@ Given('a default configuration', function () {
 Given('a configuration with:', function (fileContent) {
   this.updateConfig(fileContent)
   this.writeConfigFile()
-})
-
-Given('command line arguments of: {string}', function (args, callback) {
-  additionalArgs = args
-  return callback()
 })
 
 Given('a proxy on port {int} that prepends {string} to the base path', async function (proxyPort, proxyPath) {
@@ -59,17 +39,12 @@ defineParameterType({
   regexp: /run|start|init|stop/
 })
 
-defineParameterType({
-  name: 'loglevel',
-  regexp: /info|error|warn|debug/
+When('I {command} Karma', async function (command) {
+  await this.runForegroundProcess(`${command} ${this.configFile}`)
 })
 
-When('I {command} Karma', function (command, callback) {
-  execKarma.apply(this, [command, undefined, callback])
-})
-
-When('I {command} Karma with log-level {loglevel}', function (command, level, callback) {
-  execKarma.apply(this, [command, level, callback])
+When('I {command} Karma with additional arguments: {string}', async function (command, args) {
+  await this.runForegroundProcess(`${command} ${this.configFile} ${args}`)
 })
 
 Then(/^it passes with(:? (no\sdebug|like|regexp))?:$/, { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
