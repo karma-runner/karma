@@ -1,3 +1,10 @@
+## [5.0.5](https://github.com/karma-runner/karma/compare/v5.0.4...v5.0.5) (2020-05-07)
+
+
+### Bug Fixes
+
+* **cli:** restore command line help contents ([#3502](https://github.com/karma-runner/karma/issues/3502)) ([e99da31](https://github.com/karma-runner/karma/commit/e99da316a2d3f875f45baf4e985e521a2fcc755f)), closes [#3474](https://github.com/karma-runner/karma/issues/3474)
+
 ## [5.0.4](https://github.com/karma-runner/karma/compare/v5.0.3...v5.0.4) (2020-04-30)
 
 

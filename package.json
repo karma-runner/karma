@@ -477,7 +477,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "5.0.4",
+  "version": "5.0.5",
   "license": "MIT",
   "husky": {
     "hooks": {
