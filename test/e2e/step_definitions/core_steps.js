@@ -47,6 +47,10 @@ When('I {command} Karma with additional arguments: {string}', async function (co
   await this.runForegroundProcess(`${command} ${this.configFile} ${args}`)
 })
 
+When('I execute Karma with arguments: {string}', async function (args) {
+  await this.runForegroundProcess(args)
+})
+
 Then(/^it passes with(:? (no\sdebug|like|regexp))?:$/, { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
   const noDebug = mode === 'no debug'
   const like = mode === 'like'
@@ -102,6 +106,31 @@ Then('it fails with like:', function (expectedOutput, callback) {
 
   if (actualError || actualStderr) {
     callback(new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + actualOutput))
+  }
+})
+
+Then(/^the (stdout|stderr) (is exactly|contains|matches RegExp):$/, function (outputType, comparison, expectedOutput) {
+  const actualOutput = (outputType === 'stdout' ? this.lastRun.stdout : this.lastRun.stderr).trim()
+  expectedOutput = expectedOutput.trim()
+
+  switch (comparison) {
+    case 'is exactly':
+      if (actualOutput !== expectedOutput) {
+        throw new Error(`Expected output to be exactly as above, but got:\n\n${actualOutput}`)
+      }
+      break
+    case 'contains':
+      if (!actualOutput.includes(expectedOutput)) {
+        throw new Error(`Expected output to contain the above text, but got:\n\n${actualOutput}`)
+      }
+      break
+    case 'matches RegExp':
+      if (!(new RegExp(expectedOutput).test(actualOutput))) {
+        throw new Error(`Expected output to match the above RegExp, but got:\n\n${actualOutput}`)
+      }
+      break
+    default:
+      throw new Error(`Unknown comparison type: ${comparison}`)
   }
 })
 
