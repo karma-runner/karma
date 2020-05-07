@@ -1,4 +1,4 @@
-const { spawn } = require('child_process')
+const { exec, spawn } = require('child_process')
 const fs = require('fs')
 const vm = require('vm')
 const path = require('path')
@@ -42,6 +42,7 @@ class World {
       frameworks: ['jasmine'],
       basePath: this.workDir,
       colors: false,
+      logLevel: 'warn',
       // Current approach uses vm.runInNewContext() method to apply
       // configuration overrides. With this approach config object is used as an
       // evaluation context and as result none of the regular node module
@@ -144,6 +145,17 @@ module.exports = (config) => {
           .kill()
       })
     }
+  }
+
+  async runForegroundProcess (args) {
+    return new Promise((resolve) => {
+      exec(`${this.karmaExecutable} ${args}`, { cwd: this.workDir }, (error, stdout, stderr) => {
+        this.lastRun.error = error
+        this.lastRun.stdout = stdout.toString()
+        this.lastRun.stderr = stderr.toString()
+        resolve()
+      })
+    })
   }
 }
 

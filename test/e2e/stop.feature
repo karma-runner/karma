@@ -38,7 +38,7 @@ Feature: Stop karma
       singleRun = false;
       """
     When I start a server in background
-    And I stop Karma with log-level info
+    And I stop Karma with additional arguments: "--log-level info"
     Then it passes with like:
     """
     Server stopped.
