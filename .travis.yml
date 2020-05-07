@@ -14,6 +14,13 @@ jobs:
     - node_js: "12"
       script:
         - npm run init
+        - npm run build
+        - npm run test:unit
+        - npm run test:e2e
+
+    - node_js: "14"
+      script:
+        - npm run init
         - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
         - echo "TRAVIS_PULL_REQUEST_SHA $TRAVIS_PULL_REQUEST_SHA"
         - COMMIT_TO_VALIDATE=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
