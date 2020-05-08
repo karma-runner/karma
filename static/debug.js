@@ -1,3 +1,6 @@
+// Add a flag for adapter code to determine if in debug mode
+window.__karma__.isDebug = true
+
 // Override the Karma setup for local debugging
 window.__karma__.info = function (info) {
   if (info.dump && window.console) window.console.log(info.dump)
