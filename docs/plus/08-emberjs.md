@@ -1,5 +1,7 @@
+---
 pageTitle: Ember.js
 menuTitle: Ember.js
+---
 
 To execute javascript unit and integration tests with ember.js follow the steps below:
 

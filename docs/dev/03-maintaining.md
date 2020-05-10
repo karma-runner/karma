@@ -1,6 +1,6 @@
+---
 pageTitle: Maintaining Karma
-
-
+---
 
 This document is for people working on Karma. It describes common tasks such as triaging or merging
 pull requests.

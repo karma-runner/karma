@@ -1,4 +1,6 @@
+---
 pageTitle: Developing Plugins
+---
 
 Karma can be extended through plugins. There are five kinds of plugins: *framework*, *reporter*, *launcher*, *preprocessor* and *middleware*. Each type allows to modify a certain aspect of the Karma behavior.
 
