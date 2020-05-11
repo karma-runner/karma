@@ -51,19 +51,11 @@ When('I execute Karma with arguments: {string}', async function (args) {
   await this.runForegroundProcess(args)
 })
 
-Then(/^it passes with(:? (no\sdebug|like|regexp))?:$/, { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
-  const noDebug = mode === 'no debug'
+Then(/^it passes with(:? (like|regexp))?:$/, { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
   const like = mode === 'like'
   const regexp = mode === 'regexp'
   let actualOutput = this.lastRun.stdout
-  let lines
 
-  if (noDebug) {
-    lines = actualOutput.split('\n').filter(function (line) {
-      return !line.match(/\[DEBUG\]/)
-    })
-    actualOutput = lines.join('\n')
-  }
   if (like && actualOutput.indexOf(expectedOutput) >= 0) {
     return callback()
   }

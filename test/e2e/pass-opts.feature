@@ -20,7 +20,7 @@ Feature: Passing Options
       Executed 1 of 1 (1 FAILED)
       """
     And I run Karma with additional arguments: "-- arg1 arg2"
-    Then it passes with no debug:
+    Then it passes with:
       """
       .
       """
