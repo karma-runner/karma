@@ -1,3 +1,10 @@
+## [5.0.7](https://github.com/karma-runner/karma/compare/v5.0.6...v5.0.7) (2020-05-16)
+
+
+### Bug Fixes
+
+* detect type for URLs with query parameter or fragment identifier ([#3509](https://github.com/karma-runner/karma/issues/3509)) ([f399063](https://github.com/karma-runner/karma/commit/f399063d1bc8954dba74166ea3dabef2fe376ae4)), closes [#3497](https://github.com/karma-runner/karma/issues/3497)
+
 ## [5.0.6](https://github.com/karma-runner/karma/compare/v5.0.5...v5.0.6) (2020-05-16)
 
 
