@@ -27,7 +27,7 @@ A preprocessor is a function that accepts three arguments (`content`, `file`, an
      - **path:** the current file, mutable file path. e. g. `some/file.coffee` -> `some/file.coffee.js` _This path is mutable and may not actually exist._
      - **originalPath:** the original, unmutated path
      - **encodings:** A mutable, keyed object where the keys are a valid encoding type ('gzip', 'compress', 'br', etc.) and the values are the encoded content. Encoded content should be stored here and not resolved using `next(null, encodedContent)`
-     - **type:** the pattern used to match the file
+     - **type:** determines how to include a file, when serving
   - **`next`** function to be called when preprocessing is complete, should be called as `next(null, processedContent)` or `next(error)`
 - example plugins: [karma-coffee-preprocessor], [karma-ng-html2js-preprocessor]
 - use naming convention is `karma-*-preprocessor`
