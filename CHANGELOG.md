@@ -1,3 +1,10 @@
+## [5.0.6](https://github.com/karma-runner/karma/compare/v5.0.5...v5.0.6) (2020-05-16)
+
+
+### Bug Fixes
+
+* **dependencies:** update production dependencies ([#3512](https://github.com/karma-runner/karma/issues/3512)) ([0cd696f](https://github.com/karma-runner/karma/commit/0cd696fe91f2616f6646ea5c67cc44b49d7e941a))
+
 ## [5.0.5](https://github.com/karma-runner/karma/compare/v5.0.4...v5.0.5) (2020-05-07)
 
 
