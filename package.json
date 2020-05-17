@@ -440,7 +440,6 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-conventional-changelog": "^6.0.1",
     "grunt-conventional-github-releaser": "^1.0.0",
-    "grunt-eslint": "^21.0.0",
     "grunt-mocha-test": "^0.13.2",
     "grunt-npm": "0.0.2",
     "http2": "^3.3.6",
