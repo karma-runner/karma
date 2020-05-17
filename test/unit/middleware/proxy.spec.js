@@ -7,7 +7,7 @@ describe('middleware.proxy', () => {
   let response
   let nextSpy
   let type
-  let m = loadFile(path.join(__dirname, '/../../../lib/middleware/proxy.js'))
+  const m = loadFile(path.join(__dirname, '/../../../lib/middleware/proxy.js'))
 
   const mockProxies = [{
     path: '/proxy',

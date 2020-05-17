@@ -23,7 +23,7 @@ describe('middleware.source_files', function () {
     src: {
       'some.js': mocks.fs.file(0, 'js-source')
     },
-    'utf8ášč': {
+    utf8ášč: {
       'some.js': mocks.fs.file(0, 'utf8-file')
     },
     'jenkins%2Fbranch': {

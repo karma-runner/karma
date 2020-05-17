@@ -95,7 +95,7 @@ describe('middleware.karma', () => {
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs(301, 'MOVED PERMANENTLY')
-      expect(response._headers['Location']).to.equal('/__proxy__/__karma__/')
+      expect(response._headers.Location).to.equal('/__proxy__/__karma__/')
       done()
     })
 
@@ -349,8 +349,8 @@ describe('middleware.karma', () => {
       expect(nextSpy).not.to.have.been.called
       expect(response._headers['Cache-Control']).to.equal('no-cache')
       // idiotic IE8 needs more
-      expect(response._headers['Pragma']).to.equal('no-cache')
-      expect(response._headers['Expires']).to.equal(ZERO_DATE)
+      expect(response._headers.Pragma).to.equal('no-cache')
+      expect(response._headers.Expires).to.equal(ZERO_DATE)
       done()
     })
 

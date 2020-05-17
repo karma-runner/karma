@@ -9,5 +9,5 @@ const options = [
 ]
 
 module.exports = {
-  'default': options.join(' ')
+  default: options.join(' ')
 }
