@@ -409,7 +409,7 @@
     "qjobs": "^1.2.0",
     "range-parser": "^1.2.1",
     "rimraf": "^3.0.2",
-    "socket.io": "2.1.1",
+    "socket.io": "^2.3.0",
     "source-map": "^0.6.1",
     "tmp": "0.2.1",
     "ua-parser-js": "0.7.21",
