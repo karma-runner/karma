@@ -31,7 +31,14 @@ When('I start a server in background', async function () {
 })
 
 When('I wait until server output contains:', async function (expectedOutput) {
-  await waitForCondition(() => this.backgroundProcess.stdout.includes(expectedOutput))
+  await waitForCondition(
+    () => this.backgroundProcess.stdout.includes(expectedOutput),
+    5000,
+    () => new Error(
+      'Expected server output to contain the above text within 5000ms, but got:\n\n' +
+      this.backgroundProcess.stdout
+    )
+  )
 })
 
 defineParameterType({
