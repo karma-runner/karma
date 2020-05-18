@@ -42,22 +42,6 @@ module.exports = function (grunt) {
         ]
       }
     },
-    eslint: {
-      options: {
-        quiet: true
-      },
-      target: [
-        '<%= files.server %>',
-        '<%= files.grunt %>',
-        '<%= files.scripts %>',
-        '<%= files.client %>',
-        '<%= files.common %>',
-        '<%= files.context %>',
-        'static/debug.js',
-        'test/**/*.js',
-        'gruntfile.js'
-      ]
-    },
     'npm-publish': {
       options: {
         requires: ['build'],
@@ -110,9 +94,8 @@ module.exports = function (grunt) {
   grunt.loadTasks('tasks')
   require('load-grunt-tasks')(grunt)
 
-  grunt.registerTask('lint', ['eslint'])
   grunt.registerTask('build', ['browserify:client'])
-  grunt.registerTask('default', ['build', 'lint', 'test'])
+  grunt.registerTask('default', ['build', 'test'])
   grunt.registerTask('test-appveyor', ['test:unit', 'test:client'])
 
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function (type) {
