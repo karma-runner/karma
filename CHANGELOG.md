@@ -1,3 +1,11 @@
+## [5.0.8](https://github.com/karma-runner/karma/compare/v5.0.7...v5.0.8) (2020-05-18)
+
+
+### Bug Fixes
+
+* **dependencies:** update and unlock socket.io dependency ([#3513](https://github.com/karma-runner/karma/issues/3513)) ([b60391f](https://github.com/karma-runner/karma/commit/b60391fbddcfa5f8c50b6ac6e3c8d8d845258a56))
+* **dependencies:** update to latest log4js major ([#3514](https://github.com/karma-runner/karma/issues/3514)) ([47f1cb2](https://github.com/karma-runner/karma/commit/47f1cb222ee0921defbe313b694da3288a894fec))
+
 ## [5.0.7](https://github.com/karma-runner/karma/compare/v5.0.6...v5.0.7) (2020-05-16)
 
 
