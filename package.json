@@ -403,7 +403,7 @@
     "http-proxy": "^1.18.0",
     "isbinaryfile": "^4.0.6",
     "lodash": "^4.17.15",
-    "log4js": "^4.0.0",
+    "log4js": "^6.2.1",
     "mime": "^2.4.5",
     "minimatch": "^3.0.4",
     "qjobs": "^1.2.0",
