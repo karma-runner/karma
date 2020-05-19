@@ -1,3 +1,10 @@
+## [5.0.9](https://github.com/karma-runner/karma/compare/v5.0.8...v5.0.9) (2020-05-19)
+
+
+### Bug Fixes
+
+* **dependencies:** update to safe version of http-proxy ([#3519](https://github.com/karma-runner/karma/issues/3519)) ([00347bb](https://github.com/karma-runner/karma/commit/00347bb204c8c87e1096679af4634032d6600b67)), closes [#3510](https://github.com/karma-runner/karma/issues/3510)
+
 ## [5.0.8](https://github.com/karma-runner/karma/compare/v5.0.7...v5.0.8) (2020-05-18)
 
 
