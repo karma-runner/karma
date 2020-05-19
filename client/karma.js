@@ -199,7 +199,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     // Convert all array-like objects to real arrays.
     for (var propertyName in originalResult) {
-      if (originalResult.hasOwnProperty(propertyName)) {
+      if (Object.prototype.hasOwnProperty.call(originalResult, propertyName)) {
         var propertyValue = originalResult[propertyName]
 
         if (Object.prototype.toString.call(propertyValue) === '[object Array]') {
