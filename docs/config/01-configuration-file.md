@@ -54,17 +54,12 @@ module.exports = (config) => {
 ```
 
 ### Customized TypeScript Configuration
-Under the hood Karma uses ts-node to transpile TypeScript to JavaScript. If the resolved `tsconfig.json` has `module` configured as `ES` formats. You might get errors like `SyntaxError: Unexpected token`. This is due that in Node `ES` module formats are not supported. To overcome this issue you need to configure ts-node to use `commonjs` module format.
+Under the hood Karma uses [ts-node](https://github.com/TypeStrong/ts-node) to transpile TypeScript to JavaScript. If the resolved `tsconfig.json` has `module` configured as `ES` formats. You might get errors like `SyntaxError: Unexpected token`. This is due that in Node `ES` module formats are not supported. To overcome this issue you need to configure ts-node to use `commonjs` module format.
 
-Create a JavaScript configuration file that overrides the module format.
-```javascript
-// karma.conf.js
-require('ts-node').register({
-  compilerOptions: {
-    module: 'commonjs'
-  }
-});
-require('./karma.conf.ts');
+To use a TypeScript configuration file rename the existing `karma.conf.js` to `karma.conf.ts` and install `ts-node` and `typescript`:
+
+```bash
+npm install ts-node typescript --save-dev
 ```
 
 ## File Patterns
