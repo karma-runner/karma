@@ -61,7 +61,7 @@ When('I execute Karma with arguments: {string}', async function (args) {
 Then(/^it passes with(:? (like|regexp))?:$/, { timeout: 10 * 1000 }, function (mode, expectedOutput, callback) {
   const like = mode === 'like'
   const regexp = mode === 'regexp'
-  let actualOutput = this.lastRun.stdout
+  const actualOutput = this.lastRun.stdout
 
   if (like && actualOutput.indexOf(expectedOutput) >= 0) {
     return callback()
