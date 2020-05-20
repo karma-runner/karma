@@ -21,11 +21,7 @@ jobs:
     - node_js: "14"
       script:
         - npm run init
-        - echo "TRAVIS_COMMIT $TRAVIS_COMMIT"
-        - echo "TRAVIS_PULL_REQUEST_SHA $TRAVIS_PULL_REQUEST_SHA"
-        - COMMIT_TO_VALIDATE=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
-        - echo "COMMIT_TO_VALIDATE $COMMIT_TO_VALIDATE"
-        - ./scripts/validate-commit-msg.sh $COMMIT_TO_VALIDATE
+        - commitlint-travis
         - npm run lint
         - npm run build
         - npm run test:unit
