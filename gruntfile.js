@@ -7,8 +7,7 @@ module.exports = function (grunt) {
       client: ['client/**/*.js'],
       common: ['common/**/*.js'],
       context: ['context/**/*.js'],
-      grunt: ['grunt.js', 'tasks/*.js'],
-      scripts: ['scripts/init-dev-env.js']
+      grunt: ['grunt.js', 'tasks/*.js']
     },
     browserify: {
       client: {
