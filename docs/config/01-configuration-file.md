@@ -548,12 +548,9 @@ mime: {
 
 **Default:** `['karma-*']`
 
-**Description:** List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object.
-By default, Karma loads all sibling NPM modules which have a name starting with `karma-*`.
+**Description:** List of plugins to load. A plugin can be either a plugin object, or a string containing name of the module which exports a plugin object. See [plugins] for more information on how to install and use plugins. 
 
-Note: Just about all plugins in Karma require an additional library to be installed (via NPM).
-
-See [plugins] for more information.
+By default, Karma loads plugins from all sibling NPM packages which have a name starting with `karma-*`.
 
 
 ## port
@@ -587,8 +584,7 @@ If, after test execution or after Karma attempts to kill the browser, browser is
 
 Preprocessors can be loaded through [plugins].
 
-Note: Just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
-require an additional library to be installed (via NPM).
+Note: Just about all preprocessors in Karma require an additional library to be installed (via NPM).
 
 Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance,
 if you are using the "coverage" preprocessor on your source files, if you then attempt to interactively debug
