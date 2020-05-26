@@ -17,6 +17,7 @@ module.exports = {
     '@semantic-release/github'
   ],
   success: [
-    '@semantic-release/github'
+    '@semantic-release/github',
+    './tools/update-docs'
   ]
 }
