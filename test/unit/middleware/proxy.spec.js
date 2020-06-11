@@ -352,4 +352,24 @@ describe('middleware.proxy', () => {
   it('should handle empty proxy config', () => {
     expect(m.parseProxyConfig({})).to.deep.equal([])
   })
+
+  it('should use http agent with keepAlive=true', () => {
+    const proxy = { '/base': 'http://localhost:8000/proxy' }
+    const parsedProxyConfig = m.parseProxyConfig(proxy, {})
+    expect(parsedProxyConfig).to.have.length(1)
+    expect(parsedProxyConfig[0].proxy.options.agent).to.containSubset({
+      keepAlive: true,
+      protocol: 'http:'
+    })
+  })
+
+  it('should use https agent with keepAlive=true', () => {
+    const proxy = { '/base': 'https://localhost:8000/proxy' }
+    const parsedProxyConfig = m.parseProxyConfig(proxy, {})
+    expect(parsedProxyConfig).to.have.length(1)
+    expect(parsedProxyConfig[0].proxy.options.agent).to.containSubset({
+      keepAlive: true,
+      protocol: 'https:'
+    })
+  })
 })
