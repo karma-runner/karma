@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/karma-runner/karma/compare/v5.0.9...v5.1.0) (2020-06-11)
+
+
+### Features
+
+* **proxy:** use keepAlive agent ([#3527](https://github.com/karma-runner/karma/issues/3527)) ([b77f94c](https://github.com/karma-runner/karma/commit/b77f94c1c95d0f717866eae42d478d09544b6d9d))
+
 ## [5.0.9](https://github.com/karma-runner/karma/compare/v5.0.8...v5.0.9) (2020-05-19)
 
 
