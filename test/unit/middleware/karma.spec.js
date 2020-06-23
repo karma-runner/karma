@@ -214,6 +214,21 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
+  it('should serve context.html without using special patterns when replacing script tags', (done) => {
+    includedFiles([
+      new MockFile('/.yarn/$$virtual/first.js', 'sha123'),
+      new MockFile('/.yarn/$$virtual/second.dart', 'sha456')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/first.js?sha123" crossorigin="anonymous"></script>\n<script type="application/dart" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/second.dart?sha456" crossorigin="anonymous"></script>')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
   it('should serve context.html with replaced link tags', (done) => {
     includedFiles([
       new MockFile('/first.css', 'sha007'),
@@ -367,6 +382,20 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/some/abc/a.js': 'sha_a',\n  '/__proxy__/__karma__/base/b.js': 'sha_b',\n  '/__proxy__/__karma__/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n};\n")
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
+  it('should inline mappings without using special patterns', (done) => {
+    fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
+    servedFiles([
+      new MockFile('/.yarn/$$virtual/abc/a.js', 'sha_a')
+    ])
+
+    response.once('end', () => {
+      expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/.yarn/$$virtual/abc/a.js': 'sha_a'\n};\n")
       done()
     })
 
