@@ -3,6 +3,7 @@ const BundleUtils = require('../../lib/utils/bundle-utils')
 const NetUtils = require('../../lib/utils/net-utils')
 const BrowserCollection = require('../../lib/browser_collection')
 const Browser = require('../../lib/browser')
+const logger = require('../../lib/logger')
 
 describe('server', () => {
   let mockConfig
@@ -16,6 +17,7 @@ describe('server', () => {
   let mockBoundServer
   let mockExecutor
   let doneSpy
+  let logErrorSpy
   let server = mockConfig = browserCollection = webServerOnError = null
   let fileListOnResolve = fileListOnReject = mockLauncher = null
   let mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneSpy = null
@@ -27,6 +29,7 @@ describe('server', () => {
     this.timeout(4000)
     browserCollection = new BrowserCollection()
     doneSpy = sinon.spy()
+    logErrorSpy = sinon.spy(logger.create('karma-server'), 'error')
 
     fileListOnResolve = fileListOnReject = null
 
@@ -213,10 +216,12 @@ describe('server', () => {
       expect(mockWebServer.listen).not.to.have.been.called
       expect(server._injector.invoke).not.to.have.been.calledWith(mockLauncher.launch, mockLauncher)
 
-      fileListOnReject()
+      const fileListRefreshError = new Error('file-list refresh error')
+      fileListOnReject(fileListRefreshError)
       expect(mockWebServer.listen).to.have.been.calledWith(mockBoundServer, sinon.match.func)
       expect(webServerOnError).not.to.be.null
       expect(server._injector.invoke).to.have.been.calledWith(mockLauncher.launch, mockLauncher)
+      expect(logErrorSpy).to.have.been.calledWith('Error during file loading or preprocessing\n' + fileListRefreshError.stack)
     })
 
     it('should launch browsers after the web server has started', async () => {
