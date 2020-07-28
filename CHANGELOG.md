@@ -1,3 +1,10 @@
+## [5.1.1](https://github.com/karma-runner/karma/compare/v5.1.0...v5.1.1) (2020-07-28)
+
+
+### Bug Fixes
+
+* **server:** echo the hostname rather than listenAddress ([#3532](https://github.com/karma-runner/karma/issues/3532)) ([ebe7ce4](https://github.com/karma-runner/karma/commit/ebe7ce4c1aaa7637f2acfde6647f5766347ae1f5))
+
 # [5.1.0](https://github.com/karma-runner/karma/compare/v5.0.9...v5.1.0) (2020-06-11)
 
 
