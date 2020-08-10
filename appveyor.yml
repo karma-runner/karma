@@ -24,7 +24,7 @@ install:
   - npm run init:windows
 
 test_script:
-  - npm run appveyor
+  - npm run test:appveyor
 
 build: off
 

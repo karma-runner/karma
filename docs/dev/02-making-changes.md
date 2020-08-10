@@ -27,8 +27,6 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
   $ npm run init
   # or if you're on Windows
   $ npm run init:windows
-  
-  $ npm run build
   ```
 
 ## Testing and Building

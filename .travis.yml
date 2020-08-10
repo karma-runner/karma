@@ -7,14 +7,12 @@ jobs:
     - node_js: "10"
       script:
         - npm run init
-        - npm run build
         - npm run test:unit
         - npm run test:e2e
 
     - node_js: "12"
       script:
         - npm run init
-        - npm run build
         - npm run test:unit
         - npm run test:e2e
 
@@ -23,7 +21,7 @@ jobs:
         - npm run init
         - commitlint-travis
         - npm run lint
-        - npm run build
+        - npm run build:check
         - npm run test:unit
         - npm run test:e2e
         - npm run test:client
