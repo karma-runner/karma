@@ -11,7 +11,7 @@ matrix:
 
 install:
   # Install Node.js
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version x64
 
   # Output our current versions for debugging
   - node --version
