@@ -1,5 +1,4 @@
 const Server = require('../../lib/server')
-const BundleUtils = require('../../lib/utils/bundle-utils')
 const NetUtils = require('../../lib/utils/net-utils')
 const BrowserCollection = require('../../lib/browser_collection')
 const Browser = require('../../lib/browser')
@@ -132,20 +131,11 @@ describe('server', () => {
     let config
     beforeEach(() => {
       config = { port: 9876, listenAddress: '127.0.0.1' }
-      sinon.spy(BundleUtils, 'bundleResourceIfNotExist')
       sinon.stub(NetUtils, 'bindAvailablePort').resolves(mockBoundServer)
       sinon.stub(mockBoundServer, 'address').returns({ port: 9877 })
       sinon
         .stub(server, 'get')
         .withArgs('config').returns(config)
-    })
-
-    it('should compile static resources', (done) => {
-      server.start().then(() => {
-        expect(BundleUtils.bundleResourceIfNotExist).to.have.been.calledWith('client/main.js', 'static/karma.js')
-        expect(BundleUtils.bundleResourceIfNotExist).to.have.been.calledWith('context/main.js', 'static/context.js')
-        done()
-      })
     })
 
     it('should search for available port', (done) => {
@@ -171,7 +161,6 @@ describe('server', () => {
     var config
     beforeEach(() => {
       config = { port: 9876, listenAddress: '127.0.0.1', singleRun: false }
-      sinon.spy(BundleUtils, 'bundleResourceIfNotExist')
       sinon.stub(NetUtils, 'bindAvailablePort').resolves(mockBoundServer)
       sinon.stub(mockBoundServer, 'address').returns({ port: 9877 })
       sinon
