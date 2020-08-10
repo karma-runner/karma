@@ -31,7 +31,7 @@ Once the server sees the websocket connection, it instructs the client -- over t
 When the browser loads this context page, the onload event handler connects the context page to the client page via postMessage. The framework adapter is in charge at this point: it runs the test, reporting errors or success by messaging through the client page.
 
 Messages sent to the client page are forwarded through the websocket to the Karma server. The server re-dispatches these messages as 'browser' events.  The reporters listening to 'browser' events get the data; they may print it, save it to files, or forward the data to another service.
-Since the data is sent by the test framework adapter to the reporter, adapters and reporters almost always come in pairs, like karma-jasmine and karma-jasmine-reporter.  The detailed content of test-result data is of no concern to other parts of karma: only the reporter needs to know it format.
+Since the data is sent by the test framework adapter to the reporter, adapters and reporters almost always come in pairs, like karma-jasmine and karma-jasmine-reporter.  The detailed content of test-result data is of no concern to other parts of karma: only the reporter needs to know its format.
 
 Karma has many variations and options that may cause different workflow with different configurations.
 
