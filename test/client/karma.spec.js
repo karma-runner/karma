@@ -44,31 +44,40 @@ describe('Karma', function () {
     assert(startSpy.calledWith(config))
   })
 
-  it('should open a new window when useIFrame is false', function () {
+  it('should open a new window when useIFrame is false', function (done) {
     var config = ck.config = {
       useIframe: false,
       runInParent: false
     }
 
     socket.emit('execute', config)
-    assert(!ck.start.called)
+    setTimeout(function nextEventLoop () {
+      assert(!ck.start.called)
 
-    ck.loaded()
-    assert(startSpy.calledWith(config))
-    assert(windowStub.calledWith('context.html'))
+      ck.loaded()
+      assert(startSpy.calledWith(config))
+      assert(windowStub.calledWith('context.html'))
+      done()
+    })
   })
 
-  it('should not set style on elements', function () {
+  it('should not set style on elements', function (done) {
     var config = {}
     socket.emit('execute', config)
-    assert(Object.keys(elements[0].style).length === 0)
+    setTimeout(function nextEventLoop () {
+      assert(Object.keys(elements[0].style).length === 0)
+      done()
+    })
   })
 
-  it('should set display none on elements if clientDisplayNone', function () {
+  it('should set display none on elements if clientDisplayNone', function (done) {
     var config = { clientDisplayNone: true }
     socket.emit('execute', config)
-    assert(elements[0].style.display === 'none')
-    assert(elements[1].style.display === 'none')
+    setTimeout(function nextEventLoop () {
+      assert(elements[0].style.display === 'none')
+      assert(elements[1].style.display === 'none')
+      done()
+    })
   })
 
   it('should stop execution', function () {
@@ -97,55 +106,65 @@ describe('Karma', function () {
     assert.notStrictEqual(k.start, ADAPTER_START_FN)
   })
 
-  it('should not set up context if there was an error', function () {
+  it('should not set up context if there was an error', function (done) {
     var config = ck.config = {
       clearContext: true
     }
 
     socket.emit('execute', config)
 
-    var mockWindow = {}
+    setTimeout(function nextEventLoop () {
+      var mockWindow = {}
 
-    ck.error('page reload')
-    ck.setupContext(mockWindow)
+      ck.error('page reload')
+      ck.setupContext(mockWindow)
 
-    assert(mockWindow.onbeforeunload == null)
-    assert(mockWindow.onerror == null)
+      assert(mockWindow.onbeforeunload == null)
+      assert(mockWindow.onerror == null)
+      done()
+    })
   })
 
-  it('should setup context if there was error but clearContext config is false', function () {
+  it('should setup context if there was error but clearContext config is false', function (done) {
     var config = ck.config = {
       clearContext: false
     }
 
     socket.emit('execute', config)
 
-    var mockWindow = {}
+    setTimeout(function nextEventLoop () {
+      var mockWindow = {}
 
-    ck.error('page reload')
-    ck.setupContext(mockWindow)
+      ck.error('page reload')
+      ck.setupContext(mockWindow)
 
-    assert(mockWindow.onbeforeunload != null)
-    assert(mockWindow.onerror != null)
+      assert(mockWindow.onbeforeunload != null)
+      assert(mockWindow.onerror != null)
+      done()
+    })
   })
 
-  it('should error out if a script attempted to reload the browser after setup', function () {
+  it('should error out if a script attempted to reload the browser after setup', function (done) {
     // Perform setup
     var config = ck.config = {
       clearContext: true
     }
     socket.emit('execute', config)
-    var mockWindow = {}
-    ck.setupContext(mockWindow)
 
-    // Spy on our error handler
-    sinon.spy(k, 'error')
+    setTimeout(function nextEventLoop () {
+      var mockWindow = {}
+      ck.setupContext(mockWindow)
 
-    // Emulate an unload event
-    mockWindow.onbeforeunload()
+      // Spy on our error handler
+      sinon.spy(k, 'error')
 
-    // Assert our spy was called
-    assert(k.error.calledWith('Some of your tests did a full page reload!'))
+      // Emulate an unload event
+      mockWindow.onbeforeunload()
+
+      // Assert our spy was called
+      assert(k.error.calledWith('Some of your tests did a full page reload!'))
+      done()
+    })
   })
 
   it('should report navigator name', function () {
@@ -439,12 +458,10 @@ describe('Karma', function () {
       }
 
       socket.emit('execute', config)
-      var CURRENT_URL = iframe.src
-
-      ck.complete()
-
       clock.tick(1)
-
+      var CURRENT_URL = iframe.src
+      ck.complete()
+      clock.tick(1)
       assert.strictEqual(iframe.src, CURRENT_URL)
     })
 
@@ -455,6 +472,7 @@ describe('Karma', function () {
       }
 
       socket.emit('execute', config)
+      clock.tick(1)
       assert(!startSpy.called)
 
       ck.loaded()
