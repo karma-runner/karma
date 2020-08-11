@@ -463,7 +463,7 @@
     "proxyquire": "^2.1.3",
     "puppeteer": "^1.20.0",
     "semantic-release": "^15.14.0",
-    "sinon": "^7.5.0",
+    "sinon": "7.3.2",
     "sinon-chai": "^3.5.0",
     "supertest": "^4.0.2",
     "timer-shim": "^0.3.0",
