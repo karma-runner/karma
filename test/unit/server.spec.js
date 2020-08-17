@@ -306,6 +306,110 @@ describe('server', () => {
         expect(await exitCode()).to.have.equal(15)
       })
 
+      it('given on run_complete with exit event listener (15)', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        // last non-zero exit code will be taken
+        server.on('exit', (done) => {
+          setTimeout(() => done(30))
+        })
+        server.on('exit', (done) => {
+          setTimeout(() => done(15))
+        })
+        server.on('exit', (done) => {
+          setTimeout(() => done(0))
+        })
+
+        // Provided run_complete exitCode will be overridden by exit listeners
+        server.emit('run_complete', browserCollection, { exitCode: 5 })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(15)
+      })
+
+      it('given on run_complete with exit event listener (0)', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        // exit listeners can't set exit code back to 0
+        server.on('exit', (done) => {
+          setTimeout(() => done(0))
+        })
+
+        server.emit('run_complete', browserCollection, { exitCode: 15 })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(15)
+      })
+
+      it('1 on run_complete with exit event listener throws', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        server.on('exit', (done) => {
+          throw new Error('async error from exit event listener')
+        })
+
+        server.emit('run_complete', browserCollection, { exitCode: 0 })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(1)
+      })
+
+      it('1 on run_complete with exit event listener rejects', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        function onExit (done) {
+          // Need to remove listener to prevent endless loop via unhandledRejection handler
+          // which again calls disconnectBrowsers to fire the 'exit' event
+          server.off('exit', onExit)
+          return Promise.reject(new Error('async error from exit event listener'))
+        }
+        server.on('exit', onExit)
+
+        server.emit('run_complete', browserCollection, { exitCode: 0 })
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(1)
+      })
+
+      it('0 on server stop', async () => {
+        mockProcess(process)
+
+        await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, (exitCode) => {
+          resolveExitCode(exitCode)
+        })
+
+        server.stop()
+
+        function mockProcess (process) {
+          sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
+        }
+        expect(await exitCode()).to.have.equal(0)
+      })
+
       it('1 on browser_process_failure (singleRunBrowserNotCaptured)', async () => {
         mockProcess(process)
 
