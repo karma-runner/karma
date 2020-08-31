@@ -1,3 +1,19 @@
+# [5.2.0](https://github.com/karma-runner/karma/compare/v5.1.1...v5.2.0) (2020-08-31)
+
+
+### Bug Fixes
+
+* **client:** avoid race between execute and clearContext ([#3452](https://github.com/karma-runner/karma/issues/3452)) ([8bc5b46](https://github.com/karma-runner/karma/commit/8bc5b468393bb90c0cac8f400d61e3434596c05a)), closes [#3424](https://github.com/karma-runner/karma/issues/3424)
+* **client:** check in bundled client code into version control ([#3524](https://github.com/karma-runner/karma/issues/3524)) ([6cd5a3b](https://github.com/karma-runner/karma/commit/6cd5a3b091490ad1c621710456f359213f0c161e)), closes [/github.com/karma-runner/karma/commit/f5521df7df5cd1201b5dce28dc4e326b1ffc41fd#commitcomment-38967493](https://github.com//github.com/karma-runner/karma/commit/f5521df7df5cd1201b5dce28dc4e326b1ffc41fd/issues/commitcomment-38967493)
+* **dependencies:** update dependencies ([#3543](https://github.com/karma-runner/karma/issues/3543)) ([5db46b7](https://github.com/karma-runner/karma/commit/5db46b799b84a3d29157edfdbb8d0d0bc57f8fbc))
+* **docs:** Update 03-how-it-works.md ([#3539](https://github.com/karma-runner/karma/issues/3539)) ([e7cf7b1](https://github.com/karma-runner/karma/commit/e7cf7b11ca3f70a6401c0499376f78984b18e1cc))
+* **server:** log error when file loading or preprocessing fails ([#3540](https://github.com/karma-runner/karma/issues/3540)) ([fc2fd61](https://github.com/karma-runner/karma/commit/fc2fd6102a1c6ed2972ab5bdec29d8747f1b8e64))
+
+
+### Features
+
+* **server:** allow 'exit' listeners to set exit code ([#3541](https://github.com/karma-runner/karma/issues/3541)) ([7a94d33](https://github.com/karma-runner/karma/commit/7a94d33ab60b1924fd760b4675254d1edea5dd0a))
+
 ## [5.1.1](https://github.com/karma-runner/karma/compare/v5.1.0...v5.1.1) (2020-07-28)
 
 
