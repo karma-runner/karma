@@ -8,6 +8,7 @@ module.exports = {
     '@semantic-release/github'
   ],
   prepare: [
+    './tools/update-contributors',
     '@semantic-release/changelog',
     '@semantic-release/npm',
     '@semantic-release/git'
