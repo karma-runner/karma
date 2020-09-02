@@ -1,3 +1,11 @@
+## [5.2.1](https://github.com/karma-runner/karma/compare/v5.2.0...v5.2.1) (2020-09-02)
+
+
+### Bug Fixes
+
+* remove broken link from docs - 06-angularjs.md ([#3555](https://github.com/karma-runner/karma/issues/3555)) ([da2f307](https://github.com/karma-runner/karma/commit/da2f307603dbdeb9b49e30ebdbbe9ce68ccc2e9e))
+* remove unused JSON utilities and flatted dependency ([#3550](https://github.com/karma-runner/karma/issues/3550)) ([beed255](https://github.com/karma-runner/karma/commit/beed255698c2efb3b7139f2145123829578345f6))
+
 # [5.2.0](https://github.com/karma-runner/karma/compare/v5.1.1...v5.2.0) (2020-08-31)
 
 
