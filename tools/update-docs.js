@@ -11,7 +11,7 @@ const success = async (pluginConfig, { nextRelease, logger }) => {
   // button on GitHub. The only added part is GH_TOKEN value in the `userinfo`
   // part of the URL (https://en.wikipedia.org/wiki/URL), which allows GitHub
   // to authenticate a user and authorise the push to the repository.
-  const repoOrigin = `https://${process.env.GH_TOKEN}@github.com/karma/karma-runner.github.com.git`
+  const repoOrigin = `https://${process.env.GH_TOKEN}@github.com/karma-runner/karma-runner.github.com.git`
 
   const options = { encoding: 'utf8', cwd: docsPath }
 
