@@ -431,7 +431,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "flatted": "^2.0.2",
     "grunt": "^1.2.1",
     "grunt-auto-release": "^0.0.7",
     "grunt-browserify": "^5.0.0",
