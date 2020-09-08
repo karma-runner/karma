@@ -1,3 +1,10 @@
+## [5.2.2](https://github.com/karma-runner/karma/compare/v5.2.1...v5.2.2) (2020-09-08)
+
+
+### Bug Fixes
+
+* revert source-map update ([#3559](https://github.com/karma-runner/karma/issues/3559)) ([d9ba284](https://github.com/karma-runner/karma/commit/d9ba2849ced403a2ff2574d8e3a14deee21f1cc4)), closes [#3557](https://github.com/karma-runner/karma/issues/3557)
+
 ## [5.2.1](https://github.com/karma-runner/karma/compare/v5.2.0...v5.2.1) (2020-09-02)
 
 
