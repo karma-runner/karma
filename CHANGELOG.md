@@ -1,3 +1,10 @@
+## [5.2.3](https://github.com/karma-runner/karma/compare/v5.2.2...v5.2.3) (2020-09-25)
+
+
+### Bug Fixes
+
+* update us-parser-js dependency ([#3564](https://github.com/karma-runner/karma/issues/3564)) ([500ed25](https://github.com/karma-runner/karma/commit/500ed25d7e523efe7e7cff2ec70830be7e6e797a))
+
 ## [5.2.2](https://github.com/karma-runner/karma/compare/v5.2.1...v5.2.2) (2020-09-08)
 
 

@@ -32,8 +32,8 @@
     "Maksim Ryzhikov <rv.maksim@gmail.com>",
     "ukasz Usarz <lukasz.usarz@gmail.com>",
     "Christian Budde Christensen <budde377@gmail.com>",
-    "Wesley Cho <wesley.cho@gmail.com>",
     "semantic-release-bot <semantic-release-bot@martynus.net>",
+    "Wesley Cho <wesley.cho@gmail.com>",
     "taichi <ryushi@gmail.com>",
     "Liam Newman <bitwiseman@gmail.com>",
     "lukasz <lukasz.usarz@gmail.com>",
@@ -192,6 +192,7 @@
     "Dillon <mdillon@reachmail.com>",
     "Dmitrii Abramov <dabramov@yahoo-inc.com>",
     "Dmitriy Ryajov <dryajov@gmail.com>",
+    "Donovan Hutchinson <donovanh@gmail.com>",
     "Douglas Blumeyer <DougBlumeyer@users.noreply.github.com>",
     "Douglas Blumeyer <pair+dblumeyer@vmware.com>",
     "Dunja Radulov <dradulov@renderedtext.com>",
@@ -488,7 +489,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "5.2.2",
+  "version": "5.2.3",
   "license": "MIT",
   "husky": {
     "hooks": {
