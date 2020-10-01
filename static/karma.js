@@ -14,7 +14,7 @@ var util = require('../common/util')
 
 function Karma (socket, iframe, opener, navigator, location, document) {
   var startEmitted = false
-  var reloadingContext = false
+  var karmaNavigating = false
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -90,6 +90,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
   var childWindow = null
   function navigateContextTo (url) {
+    karmaNavigating = true
     if (self.config.useIframe === false) {
       // run in new window
       if (self.config.runInParent === false) {
@@ -99,9 +100,11 @@ function Karma (socket, iframe, opener, navigator, location, document) {
           childWindow.close()
         }
         childWindow = opener(url)
+        karmaNavigating = false
       // run context on parent element (client_with_context)
       // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
+        karmaNavigating = false
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
             var parser = new DOMParser()
@@ -133,20 +136,19 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     // run in iframe
     } else {
       iframe.src = policy.createURL(url)
+      karmaNavigating = false
     }
   }
 
   this.onbeforeunload = function () {
-    if (!reloadingContext) {
+    if (!karmaNavigating) {
       // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
       self.error('Some of your tests did a full page reload!')
     }
-    reloadingContext = false
+    karmaNavigating = false
   }
 
   function clearContext () {
-    reloadingContext = true
-
     navigateContextTo('about:blank')
   }
 
