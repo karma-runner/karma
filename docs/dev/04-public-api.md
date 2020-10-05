@@ -113,7 +113,7 @@ A test run starts.
 * `browsers`: A collection of browser instances
 * `results`: A list of results
 
-A test run was completed.
+This event gets triggered whenever all the browsers, which belong to a test run, finish. For example, on a run that has 3 browsers, one would expect 3 `browser_complete` events before the `run_complete` one.
 
 ## karma.runner
 
