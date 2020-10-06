@@ -147,6 +147,29 @@ describe('Karma', function () {
   it('should error out if a script attempted to reload the browser after setup', function (done) {
     // Perform setup
     var config = ck.config = {
+      clearContext: false
+    }
+    socket.emit('execute', config)
+
+    setTimeout(function nextEventLoop () {
+      var mockWindow = {}
+      ck.setupContext(mockWindow)
+
+      // Spy on our error handler
+      sinon.spy(k, 'error')
+
+      // Emulate an unload event
+      mockWindow.onbeforeunload()
+
+      // Assert our spy was called
+      assert(k.error.calledWith('Some of your tests did a full page reload!'))
+      done()
+    })
+  })
+
+  it('should error out if a script attempted to reload the browser after setup with clearContext true', function (done) {
+    // Perform setup
+    var config = ck.config = {
       clearContext: true
     }
     socket.emit('execute', config)
