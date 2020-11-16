@@ -141,7 +141,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   this.onbeforeunload = function () {
-    if (!karmaNavigating) {
+    if (karmaNavigating) {
       // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
       self.error('Some of your tests did a full page reload!')
     }
