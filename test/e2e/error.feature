@@ -40,3 +40,19 @@ Feature: Error Display
       """
       SyntaxError: Unexpected token '}'
       """
+
+  Scenario: Missing module Error in a test file
+    Given a configuration with:
+      """
+      files = [{pattern: 'error/import-something-from-somewhere.js', type: 'module'}];
+      browsers = ['ChromeHeadlessNoSandbox'];
+      plugins = [
+        'karma-jasmine',
+        'karma-chrome-launcher'
+      ];
+      """
+    When I start Karma
+    Then it fails with:
+      """
+      Error: Failed to load error/import-something-from-somewhere.js
+      """

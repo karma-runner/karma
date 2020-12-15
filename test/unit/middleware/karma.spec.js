@@ -207,7 +207,8 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="application/dart" src="/__proxy__/__karma__/absolute/second.dart?sha456" crossorigin="anonymous"></script>')
+      /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
+      expect(response).to.beServedAs(200, `CONTEXT\n<script type="text/javascript" onerror="throw new Error('Failed to load /__proxy__/__karma__/absolute/first.js?sha123')" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="application/dart" onerror="throw new Error('Failed to load /__proxy__/__karma__/absolute/second.dart?sha456')" src="/__proxy__/__karma__/absolute/second.dart?sha456" crossorigin="anonymous"></script>`)
       done()
     })
 
@@ -241,7 +242,8 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/some/abc/a.js?sha" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/base/b.js?shaaa" crossorigin="anonymous"></script>')
+      /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
+      expect(response).to.beServedAs(200, `CONTEXT\n<script type="text/javascript" onerror="throw new Error('Failed to load /__proxy__/__karma__/absolute/some/abc/a.js?sha')" src="/__proxy__/__karma__/absolute/some/abc/a.js?sha" crossorigin="anonymous"></script>\n<script type="text/javascript" onerror="throw new Error('Failed to load /__proxy__/__karma__/base/b.js?shaaa')" src="/__proxy__/__karma__/base/b.js?shaaa" crossorigin="anonymous"></script>`)
       done()
     })
 
@@ -333,7 +335,8 @@ describe('middleware.karma', () => {
     ])
 
     response.once('end', () => {
-      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="http://some.url.com/whatever" crossorigin="anonymous"></script>')
+      /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
+      expect(response).to.beServedAs(200, `CONTEXT\n<script type="text/javascript" onerror="throw new Error('Failed to load http://some.url.com/whatever')" src="http://some.url.com/whatever" crossorigin="anonymous"></script>`)
       done()
     })
 
@@ -366,7 +369,8 @@ describe('middleware.karma', () => {
     ])
 
     response.once('end', () => {
-      expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/some/abc/a.js': 'sha_a',\n  '/__proxy__/__karma__/base/b.js': 'sha_b',\n  '/__proxy__/__karma__/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n};\n")
+      /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
+      expect(response).to.beServedAs(200, `window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/some/abc/a.js': 'sha_a',\n  '/__proxy__/__karma__/base/b.js': 'sha_b',\n  '/__proxy__/__karma__/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n};\n`)
       done()
     })
 
@@ -376,7 +380,8 @@ describe('middleware.karma', () => {
   it('should escape quotes in mappings with all served files', (done) => {
     fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
     servedFiles([
-      new MockFile("/some/abc/a'b.js", 'sha_a'),
+      /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
+      new MockFile(`/some/abc/a'b.js`, 'sha_a'),
       new MockFile('/base/path/ba.js', 'sha_b')
     ])
 
@@ -396,7 +401,8 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'DEBUG\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/base/b.js" crossorigin="anonymous"></script>')
+      /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
+      expect(response).to.beServedAs(200, `DEBUG\n<script type="text/javascript" onerror="throw new Error('Failed to load /__proxy__/__karma__/absolute/first.js')" src="/__proxy__/__karma__/absolute/first.js" crossorigin="anonymous"></script>\n<script type="text/javascript" onerror="throw new Error('Failed to load /__proxy__/__karma__/base/b.js')" src="/__proxy__/__karma__/base/b.js" crossorigin="anonymous"></script>`)
       done()
     })
 
