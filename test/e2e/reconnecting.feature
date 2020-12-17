@@ -19,8 +19,7 @@ Feature: Passing Options
       };
       """
     When I start Karma
-    Then it passes with:
+    Then it passes with regexp:
       """
-      .....
-      Chrome Headless
+      Chrome Headless.*Executed.*SUCCESS
       """
