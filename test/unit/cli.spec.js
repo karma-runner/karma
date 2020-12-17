@@ -1,6 +1,5 @@
 'use strict'
 
-const yargs = require('yargs')
 const path = require('path')
 const mocks = require('mocks')
 
@@ -34,7 +33,7 @@ describe('cli', () => {
   }
 
   const processArgs = (args, opts) => {
-    const argv = yargs.parse(args)
+    const argv = m.describeRoot().parse(args)
     return e.processArgs(argv, opts || {}, fsMock, pathMock)
   }
 
@@ -63,14 +62,14 @@ describe('cli', () => {
   describe('processArgs', () => {
     it('should override if multiple options given', () => {
       // yargs parses --port 123 --port 456 as port = [123, 456] which makes no sense
-      const options = processArgs(['some.conf', '--port', '12', '--log-level', 'info', '--port', '34', '--log-level', 'debug'])
+      const options = processArgs(['start', 'some.conf', '--port', '12', '--log-level', 'info', '--port', '34', '--log-level', 'debug'])
 
       expect(options.port).to.equal(34)
       expect(options.logLevel).to.equal('DEBUG')
     })
 
     it('should return camelCased options', () => {
-      const options = processArgs(['some.conf', '--port', '12', '--single-run'])
+      const options = processArgs(['start', 'some.conf', '--port', '12', '--single-run'])
 
       expect(options.configFile).to.exist
       expect(options.port).to.equal(12)
@@ -79,41 +78,40 @@ describe('cli', () => {
 
     it('should parse options without configFile and set default', () => {
       setCWD('/cwd')
-      const options = processArgs(['--auto-watch', '--auto-watch-interval', '10'])
+      const options = processArgs(['start', '--auto-watch'])
       expect(path.resolve(options.configFile)).to.equal(path.resolve('/cwd/karma.conf.js'))
       expect(options.autoWatch).to.equal(true)
-      expect(options.autoWatchInterval).to.equal(10)
     })
 
     it('should set default karma.conf.coffee config file if exists', () => {
       setCWD('/cwd2')
-      const options = processArgs(['--port', '10'])
+      const options = processArgs(['start', '--port', '10'])
 
       expect(path.resolve(options.configFile)).to.equal(path.resolve('/cwd2/karma.conf.coffee'))
     })
 
     it('should set default karma.conf.ts config file if exists', () => {
       setCWD('/cwd3')
-      const options = processArgs(['--port', '10'])
+      const options = processArgs(['start', '--port', '10'])
 
       expect(path.resolve(options.configFile)).to.equal(path.resolve('/cwd3/karma.conf.ts'))
     })
 
     it('should not set default config if neither exists', () => {
       setCWD('/')
-      const options = processArgs([])
+      const options = processArgs(['start'])
 
       expect(options.configFile).to.equal(null)
     })
 
     it('should parse auto-watch, colors, singleRun to boolean', () => {
-      let options = processArgs(['--auto-watch', 'false', '--colors', 'false', '--single-run', 'false'])
+      let options = processArgs(['start', '--auto-watch', 'false', '--colors', 'false', '--single-run', 'false'])
 
       expect(options.autoWatch).to.equal(false)
       expect(options.colors).to.equal(false)
       expect(options.singleRun).to.equal(false)
 
-      options = processArgs(['--auto-watch', 'true', '--colors', 'true', '--single-run', 'true'])
+      options = processArgs(['start', '--auto-watch', 'true', '--colors', 'true', '--single-run', 'true'])
 
       expect(options.autoWatch).to.equal(true)
       expect(options.colors).to.equal(true)
@@ -121,63 +119,64 @@ describe('cli', () => {
     })
 
     it('should replace log-level constants', () => {
-      let options = processArgs(['--log-level', 'debug'])
+      let options = processArgs(['start', '--log-level', 'debug'])
       expect(options.logLevel).to.equal(constant.LOG_DEBUG)
 
-      options = processArgs(['--log-level', 'error'])
+      options = processArgs(['start', '--log-level', 'error'])
       expect(options.logLevel).to.equal(constant.LOG_ERROR)
 
-      options = processArgs(['--log-level', 'warn'])
+      options = processArgs(['start', '--log-level', 'warn'])
       expect(options.logLevel).to.equal(constant.LOG_WARN)
 
-      options = processArgs(['--log-level', 'foo'])
+      options = processArgs(['start', '--log-level', 'foo'])
       expect(mockery.process.exit).to.have.been.calledWith(1)
 
-      options = processArgs(['--log-level'])
+      options = processArgs(['start', '--log-level'])
       expect(mockery.process.exit).to.have.been.calledWith(1)
     })
 
     it('should parse format-error into a function', () => {
       // root export
-      let options = processArgs(['--format-error', '../../test/unit/fixtures/format-error-root'])
+      let options = processArgs(['start', '--format-error', '../../test/unit/fixtures/format-error-root'])
       const formatErrorRoot = require('../../test/unit/fixtures/format-error-root')
       expect(options.formatError).to.equal(formatErrorRoot)
 
       // property export
-      options = processArgs(['--format-error', '../../test/unit/fixtures/format-error-property'])
+      options = processArgs(['start', '--format-error', '../../test/unit/fixtures/format-error-property'])
       const formatErrorProperty = require('../../test/unit/fixtures/format-error-property').formatError
       expect(options.formatError).to.equal(formatErrorProperty)
     })
 
     it('should parse browsers into an array', () => {
-      const options = processArgs(['--browsers', 'Chrome,ChromeCanary,Firefox'])
+      const options = processArgs(['start', '--browsers', 'Chrome,ChromeCanary,Firefox'])
       expect(options.browsers).to.deep.equal(['Chrome', 'ChromeCanary', 'Firefox'])
     })
 
     it('should resolve configFile to absolute path', () => {
       setCWD('/cwd')
-      const options = processArgs(['some/config.js'])
+      const options = processArgs(['start', 'some/config.js'])
       expect(path.resolve(options.configFile)).to.equal(path.resolve('/cwd/some/config.js'))
     })
 
     it('should parse report-slower-than to a number', () => {
-      let options = processArgs(['--report-slower-than', '2000'])
+      let options = processArgs(['start', '--report-slower-than', '2000'])
       expect(options.reportSlowerThan).to.equal(2000)
 
-      options = processArgs(['--no-report-slower-than'])
+      options = processArgs(['start', '--no-report-slower-than'])
       expect(options.reportSlowerThan).to.equal(0)
     })
 
     it('should cast reporters to array', () => {
-      let options = processArgs(['--reporters', 'dots,junit'])
+      let options = processArgs(['start', '--reporters', 'dots,junit'])
       expect(options.reporters).to.deep.equal(['dots', 'junit'])
 
-      options = processArgs(['--reporters', 'dots'])
+      options = processArgs(['start', '--reporters', 'dots'])
       expect(options.reporters).to.deep.equal(['dots'])
     })
 
     it('should parse removed/added/changed files to array', () => {
       const options = processArgs([
+        'run',
         '--removed-files', 'r1.js,r2.js',
         '--changed-files', 'ch1.js,ch2.js',
         '--added-files', 'a1.js,a2.js'
@@ -186,18 +185,6 @@ describe('cli', () => {
       expect(options.removedFiles).to.deep.equal(['r1.js', 'r2.js'])
       expect(options.addedFiles).to.deep.equal(['a1.js', 'a2.js'])
       expect(options.changedFiles).to.deep.equal(['ch1.js', 'ch2.js'])
-    })
-
-    it('should error on args with underscores', () => {
-      let expectedException
-      try {
-        const options = processArgs(['--no_browsers'])
-        expectedException = 'Should have thrown but got ' + options
-      } catch (e) {
-        expectedException = e
-      } finally {
-        expect(expectedException + '').to.includes('Bad argument: no_browsers did you mean no-browsers')
-      }
     })
   })
 
