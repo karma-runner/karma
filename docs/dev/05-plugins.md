@@ -34,7 +34,7 @@ A preprocessor is a function that accepts three arguments (`content`, `file`, an
 - user NPM keywords `karma-plugin`, `karma-preprocessor`
 
 ## Crazier stuff
-Karma is assembled by Dependency Injection and a plugin is just an additional DI module (see [node-di] for more), that can be loaded by Karma. Therefore, it can ask for pretty much any Karma component and interact with it. There are a couple of plugins that do more interesting stuff like this, check out [karma-closure], [karma-intellij], [karma-dart].
+Karma is assembled by Dependency Injection and a plugin is just an additional DI module (see [node-di] for more), that can be loaded by Karma. Therefore, it can ask for pretty much any Karma component and interact with it. There are a couple of plugins that do more interesting stuff like this, check out [karma-closure], [karma-intellij].
 
 
 [karma-jasmine]: https://github.com/karma-runner/karma-jasmine
@@ -49,7 +49,6 @@ Karma is assembled by Dependency Injection and a plugin is just an additional DI
 [karma-ng-html2js-preprocessor]: https://github.com/karma-runner/karma-ng-html2js-preprocessor
 [karma-closure]: https://github.com/karma-runner/karma-closure
 [karma-intellij]: https://github.com/karma-runner/karma-intellij
-[karma-dart]: https://github.com/karma-runner/karma-dart
 [node-di]: https://github.com/vojtajina/node-di
 [karma-material-reporter]: https://github.com/ameerthehacker/karma-material-reporter
 

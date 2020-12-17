@@ -31,7 +31,6 @@ Each pattern is either a simple string or an object with the following propertie
   * `css` - Include using `<link rel="stylesheet">` tag.
   * `html` - Include using [HTML Imports](https://developer.mozilla.org/en-US/docs/Web/Web_Components/HTML_Imports). Note that this feature is obsolete and does not work in the modern browsers. 
   * `js` - Include using `<script></script>` tag.
-  * `dart` - Include using `<script type="application/dart"></script>` tag. Note that this does not work in the modern browsers.
   * `module` - Include using `<script type="module"></script>` tag.
   * `dom` - Inline content of the file in the page. This can be used, for example, to test components combining HTML and JS.
 * **Description.** The type determines the mechanism for including the file.

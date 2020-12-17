@@ -31,7 +31,7 @@ describe('web-server', () => {
   // NOTE(vojta): only loading once, to speed things up
   // this relies on the fact that none of these tests mutate fs
   const m = mocks.loadFile(path.join(__dirname, '/../../lib/web-server.js'), _mocks, _globals)
-  let customFileHandlers = server = emitter = null
+  server = emitter = null
   let beforeMiddlewareActive = false
   let middlewareActive = false
   const servedFiles = (files) => {
@@ -40,7 +40,6 @@ describe('web-server', () => {
 
   describe('request', () => {
     beforeEach(() => {
-      customFileHandlers = []
       emitter = new EventEmitter()
       const config = {
         basePath: '/base/path',
@@ -57,7 +56,6 @@ describe('web-server', () => {
 
       const injector = new di.Injector([{
         config: ['value', config],
-        customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', { files: { served: [], included: [] } }],
         filesPromise: ['factory', m.createFilesPromise],
@@ -182,23 +180,6 @@ describe('web-server', () => {
         })
     })
 
-    it('should load custom handlers', () => {
-      servedFiles(new Set())
-
-      // TODO(vojta): change this, only keeping because karma-dart is relying on it
-      customFileHandlers.push({
-        urlRegex: /\/some\/weird/,
-        handler (request, response, staticFolder, adapterFolder, baseFolder, urlRoot) {
-          response.writeHead(222)
-          response.end('CONTENT')
-        }
-      })
-
-      return request(server)
-        .get('/some/weird/url')
-        .expect(222, 'CONTENT')
-    })
-
     it('should serve 404 for non-existing files', () => {
       servedFiles(new Set())
 
@@ -215,7 +196,6 @@ describe('web-server', () => {
         cert: fs.readFileSync(path.join(__dirname, '/certificates/server.crt'))
       }
 
-      customFileHandlers = []
       emitter = new EventEmitter()
 
       const injector = new di.Injector([{
@@ -226,7 +206,6 @@ describe('web-server', () => {
           httpsServerOptions: credentials,
           client: { useIframe: true, useSingleWindow: false }
         }],
-        customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', { files: { served: [], included: [] } }],
         filesPromise: ['factory', m.createFilesPromise],
@@ -265,12 +244,10 @@ describe('web-server', () => {
         cert: fs.readFileSync(path.join(__dirname, '/certificates/server.crt'))
       }
 
-      customFileHandlers = []
       emitter = new EventEmitter()
 
       const injector = new di.Injector([{
         config: ['value', { basePath: '/base/path', urlRoot: '/', httpModule: http2, protocol: 'https:', httpsServerOptions: credentials }],
-        customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', { files: { served: [], included: [] } }],
         filesPromise: ['factory', m.createFilesPromise],
