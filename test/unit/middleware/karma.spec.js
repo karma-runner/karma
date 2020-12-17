@@ -202,12 +202,12 @@ describe('middleware.karma', () => {
   it('should serve context.html with replaced script tags', (done) => {
     includedFiles([
       new MockFile('/first.js', 'sha123'),
-      new MockFile('/second.dart', 'sha456')
+      new MockFile('/second.js', 'sha456')
     ])
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="application/dart" src="/__proxy__/__karma__/absolute/second.dart?sha456" crossorigin="anonymous"></script>')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/second.js?sha456" crossorigin="anonymous"></script>')
       done()
     })
 
