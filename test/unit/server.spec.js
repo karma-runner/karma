@@ -45,7 +45,8 @@ describe('server', () => {
       singleRun: true,
       logLevel: 'OFF',
       plugins: [],
-      browserDisconnectTolerance: 0
+      browserDisconnectTolerance: 0,
+      browserNoActivityTimeout: 0
     }
 
     server = new Server(mockConfig, doneSpy)
@@ -432,7 +433,7 @@ describe('server', () => {
           resolveExitCode(exitCode)
         })
 
-        server.emit('browser_complete_with_no_more_retries', { id: 'fake' })
+        server.emit('browser_complete_with_no_more_retries', { id: 'fake', remove: () => {} })
 
         function mockProcess (process) {
           sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
@@ -449,7 +450,7 @@ describe('server', () => {
           resolveExitCode(exitCode)
         })
 
-        server.emit('browser_complete_with_no_more_retries', { id: 'fake' })
+        server.emit('browser_complete_with_no_more_retries', { id: 'fake', remove: () => {} })
 
         function mockProcess (process) {
           sinon.stub(process, 'kill').callsFake((pid, ev) => process.emit(ev))
@@ -476,7 +477,7 @@ describe('server', () => {
     it('should re-configure disconnected browser which has been restarted', () => {
       const testBrowserId = 'my-id'
       const browser = new Browser(testBrowserId, 'Chrome 19.0', browserCollection, server,
-        mockBrowserSocket, null, 0)
+        mockBrowserSocket, undefined, 0, 0, true, {})
       const registerFn = mockSocketEventListeners.get('register')
 
       browser.init()

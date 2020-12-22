@@ -204,11 +204,13 @@ describe('Karma', function () {
   })
 
   it('should mark "register" event for reconnected socket', function () {
+    // First connect.
+    socket.emit('connect')
+
     socket.on('register', sinon.spy(function (info) {
       assert(info.isSocketReconnect === true)
     }))
-
-    socket.emit('reconnect')
+    // Reconnect
     socket.emit('connect')
   })
 
