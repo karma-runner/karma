@@ -24,7 +24,8 @@ install:
   - npm run init:windows
 
 test_script:
-  - npm run test:appveyor
+  - npm run test:unit
+  - npm run test:client
 
 build: off
 
