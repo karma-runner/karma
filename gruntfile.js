@@ -9,23 +9,9 @@ module.exports = function (grunt) {
       context: ['context/**/*.js'],
       grunt: ['grunt.js', 'tasks/*.js']
     },
-    browserify: {
-      client: {
-        files: {
-          'static/karma.js': ['client/main.js'],
-          'static/context.js': ['context/main.js']
-        }
-      }
-    },
     test: {
       unit: 'mochaTest:unit',
       client: 'test/client/karma.conf.js'
-    },
-    watch: {
-      client: {
-        files: '<%= files.client %>',
-        tasks: 'browserify:client'
-      }
     },
     mochaTest: {
       options: {
@@ -43,7 +29,6 @@ module.exports = function (grunt) {
     },
     'npm-publish': {
       options: {
-        requires: ['build'],
         abortIfDirty: true,
         tag: 'latest'
       }
@@ -93,8 +78,7 @@ module.exports = function (grunt) {
   grunt.loadTasks('tasks')
   require('load-grunt-tasks')(grunt)
 
-  grunt.registerTask('build', ['browserify:client'])
-  grunt.registerTask('default', ['build', 'test'])
+  grunt.registerTask('default', ['test'])
   grunt.registerTask('test-appveyor', ['test:unit', 'test:client'])
 
   grunt.registerTask('release', 'Build, bump and publish to NPM.', function (type) {
@@ -102,7 +86,6 @@ module.exports = function (grunt) {
       'check_clean',
       'npm-contributors',
       'bump:' + (type || 'patch') + ':bump-only',
-      'build',
       'conventionalChangelog',
       'bump-commit',
       'conventionalGithubReleaser',
