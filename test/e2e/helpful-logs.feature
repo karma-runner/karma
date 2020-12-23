@@ -18,7 +18,5 @@ Feature: Helpful warning and errors
     When I start Karma
     Then the stdout matches RegExp:
       """
-      WARN \[middleware:karma\]: Unable to determine file type from the file extension, defaulting to js.
-        To silence the warning specify a valid type for .+modules/minus.mjs in the configuration file.
-        See http://karma-runner.github.io/latest/config/files.html
+      ERROR \[middleware:karma\]: Invalid file type \(mjs\) for .+modules/minus.mjs\.
       """

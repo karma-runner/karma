@@ -329,11 +329,11 @@ describe('middleware.karma', () => {
 
   it('should not change urls', (done) => {
     includedFiles([
-      new Url('http://some.url.com/whatever')
+      new Url('http://some.url.com/whatever.js')
     ])
 
     response.once('end', () => {
-      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="http://some.url.com/whatever" crossorigin="anonymous"></script>')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="http://some.url.com/whatever.js" crossorigin="anonymous"></script>')
       done()
     })
 
