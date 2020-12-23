@@ -49,6 +49,8 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 - Build the client code via:
   ```bash
   $ npm run build
+  # or use the watch mode
+  $ npm run build:watch
   ```
 
 ## Changing the Code
