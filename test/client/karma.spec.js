@@ -437,24 +437,20 @@ describe('Karma', function () {
     it('should navigate the client to return_url if specified', function (done) {
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
-      k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
+      k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation)
       clientWindow = { karma: k }
       ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
       ck.config = {}
 
       sinon.spy(socket, 'disconnect')
-
-      socket.on('complete', function (data, ack) {
-        ack()
-      })
+      clock.tick(500)
 
       ck.complete()
-
-      clock.tick(500)
-      setTimeout(function () {
+      setTimeout(() => {
         assert(windowLocation.href === 'http://return.com')
         done()
       }, 5)
+
       clock.tick(10)
     })
 

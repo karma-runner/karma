@@ -137,10 +137,6 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
   }
 
-  function clearContext () {
-    navigateContextTo('about:blank')
-  }
-
   this.log = function (type, args) {
     var values = []
 
@@ -234,15 +230,15 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       socket.emit('result', resultsBuffer)
       resultsBuffer = []
     }
+    // A test could have incorrectly issued a navigate. Wait one turn
+    // to ensure the error from an incorrect navigate is processed.
+    setTimeout(() => {
+      if (this.config.clearContext) {
+        navigateContextTo('about:blank')
+      }
 
-    if (self.config.clearContext) {
-      // A test could have incorrectly issued a navigate. To clear the context
-      // we will navigate the iframe. Delay ours to ensure the error from an
-      // incorrect navigate is processed.
-      setTimeout(clearContext)
-    }
+      socket.emit('complete', result || {})
 
-    socket.emit('complete', result || {}, function () {
       if (returnUrl) {
         location.href = returnUrl
       }
@@ -260,26 +256,23 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
-    // Delay our navigation to the next event in case the clearContext has not completed.
-    setTimeout(function allowClearContextToComplete () {
-      // reset startEmitted and reload the iframe
-      startEmitted = false
-      self.config = cfg
+    // reset startEmitted and reload the iframe
+    startEmitted = false
+    self.config = cfg
 
-      navigateContextTo(constant.CONTEXT_URL)
+    navigateContextTo(constant.CONTEXT_URL)
 
-      if (self.config.clientDisplayNone) {
-        [].forEach.call(document.querySelectorAll('#banner, #browsers'), function (el) {
-          el.style.display = 'none'
-        })
-      }
+    if (self.config.clientDisplayNone) {
+      [].forEach.call(document.querySelectorAll('#banner, #browsers'), function (el) {
+        el.style.display = 'none'
+      })
+    }
 
-      // clear the console before run
-      // works only on FF (Safari, Chrome do not allow to clear console from js source)
-      if (window.console && window.console.clear) {
-        window.console.clear()
-      }
-    })
+    // clear the console before run
+    // works only on FF (Safari, Chrome do not allow to clear console from js source)
+    if (window.console && window.console.clear) {
+      window.console.clear()
+    }
   })
   socket.on('stop', function () {
     this.complete()
