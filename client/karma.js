@@ -41,9 +41,11 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
   }
 
-  // This variable will be set to "true" whenever the socket lost connection and was able to
-  // reconnect to the Karma server. This will be passed to the Karma server then, so that
-  // Karma can differentiate between a socket client reconnect and a full browser reconnect.
+  // To start we will signal the server that we are not reconnecting. If the socket loses
+  // connection and was able to reconnect to the Karma server we will get a
+  // second 'connect' event. There we will pass 'true' and that will be passed to the
+  // Karma server then, so that Karma can differentiate between a socket client
+  // econnect and a full browser reconnect.
   var socketReconnect = false
 
   this.VERSION = constant.VERSION
@@ -299,9 +301,6 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       info.displayName = displayName
     }
     socket.emit('register', info)
-  })
-
-  socket.on('reconnect', function () {
     socketReconnect = true
   })
 }

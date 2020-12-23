@@ -6,27 +6,26 @@ describe('plus', function () {
   }
 
   it('should pass', function () {
+    // In flaky fails we probably get two starts.
+    console.log('============== START TEST ==============')
     expect(1).toBe(1)
   })
 
   it('should disconnect', function (done) {
     expect(2).toBe(2)
-    socket().disconnect()
-
-    done()
+    setTimeout(() => {
+      socket().disconnect()
+      done()
+    }, 500)
   })
 
   it('should work', function () {
     expect(plus(1, 2)).toBe(3)
   })
 
-  it('should re-connect', function (done) {
+  it('should re-connect', function () {
     expect(4).toBe(4)
-    // Emit reconnect, so Karma will not start new test run after reconnecting.
-    socket().emit('reconnect')
     socket().connect()
-
-    done()
   })
 
   it('should work', function () {
