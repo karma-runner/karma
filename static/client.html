@@ -8,9 +8,15 @@ It contains socket.io and all the communication logic.
 %X_UA_COMPATIBLE%
   <title>Karma</title>
   <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <meta name="color-scheme" content="dark light">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style type="text/css">
+
+    :root {
+      color-scheme: light dark;
+    }
+
     iframe {
       height: 100%;
       width: 100%;
@@ -23,6 +29,19 @@ It contains socket.io and all the communication logic.
       margin: 0;
 
       font-family: sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+      body {
+        background: #222222;
+        color: #dddddd;
+      }
+
+      #banner {
+        background: #226644;
+      }
+
     }
 
     .offline {
