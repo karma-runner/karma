@@ -14,35 +14,35 @@ const launchers = {
     browser: 'firefox',
     os: 'Windows',
     os_version: '10'
-  },
-  bs_safari: {
-    base: 'BrowserStack',
-    browser: 'safari',
-    browser_version: '9.0',
-    os_version: 'El Capitan',
-    os: 'OS X'
-  },
-  bs_ie_11: {
-    base: 'BrowserStack',
-    browser: 'ie',
-    browser_version: '11.0',
-    os: 'Windows',
-    os_version: '10'
-  },
-  bs_ie_10: {
-    base: 'BrowserStack',
-    browser: 'ie',
-    browser_version: '10.0',
-    os: 'Windows',
-    os_version: '8'
-  },
-  bs_ie_9: {
-    base: 'BrowserStack',
-    browser: 'ie',
-    browser_version: '9.0',
-    os: 'Windows',
-    os_version: '7'
   }
+  // bs_safari: {
+  //   base: 'BrowserStack',
+  //   browser: 'safari',
+  //   browser_version: '9.0',
+  //   os_version: 'El Capitan',
+  //   os: 'OS X'
+  // },
+  // bs_ie_11: {
+  //   base: 'BrowserStack',
+  //   browser: 'ie',
+  //   browser_version: '11.0',
+  //   os: 'Windows',
+  //   os_version: '10'
+  // },
+  // bs_ie_10: {
+  //   base: 'BrowserStack',
+  //   browser: 'ie',
+  //   browser_version: '10.0',
+  //   os: 'Windows',
+  //   os_version: '8'
+  // },
+  // bs_ie_9: {
+  //   base: 'BrowserStack',
+  //   browser: 'ie',
+  //   browser_version: '9.0',
+  //   os: 'Windows',
+  //   os_version: '7'
+  // }
 }
 
 // Verify the install. This will run async but that's ok we'll see the log.
@@ -57,26 +57,22 @@ fs.lstat('node_modules/karma', (err, stats) => {
   console.log('**** Incorrect directory layout for karma self-tests ****')
   console.log(`
     $ npm install
-    
+
     $ npm run init
     # or if you're on Windows
     $ npm run init:windows
-    
+
     $ npm run build
   `)
   process.exit(1)
 })
 
-let browsers = []
+let browsers = ['Chrome']
 
 if (process.env.TRAVIS) {
   if (TRAVIS_WITH_BS) {
     browsers = Object.keys(launchers)
-  } else {
-    browsers.push('Firefox')
   }
-} else {
-  browsers.push('Chrome')
 }
 
 module.exports = function (config) {
