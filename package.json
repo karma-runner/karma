@@ -124,6 +124,7 @@
     "Steve Mao <steve.mao@healthinteract.com.au>",
     "Steve Van Opstal <stevevanopstal@gmail.com>",
     "Sylvain Hamel <sylvainhamel0@gmail.com>",
+    "SymbioticKilla <59652865+SymbioticKilla@users.noreply.github.com>",
     "Terry <zhangwenlp@vip.qq.com>",
     "Thomas Parisot <thomas@oncle-tom.net>",
     "Tom Erik Støwer <tomerik@getkahoot.com>",
@@ -152,6 +153,7 @@
     "Andrey Chalkin <L2jLiga@gmail.com>",
     "Andy Joslin <andytjoslin@gmail.com>",
     "Anton Usmansky <cody0@yandex-team.ru>",
+    "Athur Ming <mingguobin@live.com>",
     "Atul Bhosale <atul1bhosale@gmail.com>",
     "AugustinLF <augustin.public@gmail.com>",
     "AvnerCohen <israbirding@gmail.com>",
@@ -237,6 +239,7 @@
     "Jon Bretman <jon.bretman@gmail.com>",
     "Jonathan ES Lin <ernsheong@gmail.com>",
     "Jonathan Felchlin <jonathan@xgecko.com>",
+    "Jonathan Ginsburg <jon@than.ml>",
     "Jonathan Niles <jniles@users.noreply.github.com>",
     "Josh Lory <josh.lory@code.org>",
     "João Marcos Duarte <joumd86@gmail.com>",
@@ -266,6 +269,7 @@
     "Martin Jul <martin@mjul.com>",
     "Martin Lemanski <martin.lemanski@gmx.at>",
     "Martin Probst <martin@probst.io>",
+    "Marvin Heilemann <m.heilemann@protonmail.com>",
     "Matias Niemelä <matias@yearofmoo.com>",
     "Matthew Amato <matt.amato@gmail.com>",
     "Matthew Cale <mattc41190@gmail.com>",
@@ -481,7 +485,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "5.2.3",
+  "version": "6.0.0",
   "license": "MIT",
   "husky": {
     "hooks": {
