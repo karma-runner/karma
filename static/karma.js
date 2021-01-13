@@ -12,7 +12,8 @@ var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
-function Karma (socket, iframe, opener, navigator, location, document) {
+function Karma (updater, socket, iframe, opener, navigator, location, document) {
+  this.updater = updater
   var startEmitted = false
   var karmaNavigating = false
   var self = this
@@ -200,6 +201,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
 
     socket.emit('karma_error', message)
+    self.updater.updateTestStatus(`karma_error ${message}`)
     this.complete()
     return false
   }
@@ -222,10 +224,12 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (!startEmitted) {
       socket.emit('start', { total: null })
+      self.updater.updateTestStatus('start')
       startEmitted = true
     }
 
     if (resultsBufferLimit === 1) {
+      self.updater.updateTestStatus('result')
       return socket.emit('result', convertedResult)
     }
 
@@ -233,6 +237,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (resultsBuffer.length === resultsBufferLimit) {
       socket.emit('result', resultsBuffer)
+      self.updater.updateTestStatus('result')
       resultsBuffer = []
     }
   }
@@ -242,6 +247,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       socket.emit('result', resultsBuffer)
       resultsBuffer = []
     }
+
     // A test could have incorrectly issued a navigate. Wait one turn
     // to ensure the error from an incorrect navigate is processed.
     setTimeout(() => {
@@ -250,6 +256,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       }
 
       socket.emit('complete', result || {})
+      self.updater.updateTestStatus('complete')
 
       if (returnUrl) {
         location.href = returnUrl
@@ -268,6 +275,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
+    self.updater.updateTestStatus('execute')
     // reset startEmitted and reload the iframe
     startEmitted = false
     self.config = cfg
@@ -340,8 +348,8 @@ var socket = io(location.host, {
 })
 
 // instantiate the updater of the view
-new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'))
-window.karma = new Karma(socket, util.elm('context'), window.open,
+var updater = new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'))
+window.karma = new Karma(updater, socket, util.elm('context'), window.open,
   window.navigator, window.location, window.document)
 
 },{"../common/util":6,"./constants":1,"./karma":2,"./updater":4}],4:[function(require,module,exports){
@@ -368,26 +376,60 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     }
   }
 
-  function updateBanner (status) {
-    return function (param) {
-      if (!titleElement || !bannerElement) {
-        return
-      }
-      var paramStatus = param ? status.replace('$', param) : status
-      titleElement.textContent = 'Karma v' + VERSION + ' - ' + paramStatus
-      bannerElement.className = status === 'connected' ? 'online' : 'offline'
+  var connectionText = 'never-connected'
+  var testText = 'loading'
+  var pingText = ''
+
+  function updateBanner () {
+    if (!titleElement || !bannerElement) {
+      return
     }
+    titleElement.textContent = `Karma v ${VERSION} - ${connectionText}; test: ${testText}; ${pingText}`
+    bannerElement.className = connectionText === 'connected' ? 'online' : 'offline'
   }
 
-  socket.on('connect', updateBanner('connected'))
-  socket.on('disconnect', updateBanner('disconnected'))
-  socket.on('reconnecting', updateBanner('reconnecting in $ seconds...'))
-  socket.on('reconnect', updateBanner('connected'))
-  socket.on('reconnect_failed', updateBanner('failed to reconnect'))
+  function updateConnectionStatus (connectionStatus) {
+    connectionText = connectionStatus || connectionText
+    updateBanner()
+  }
+  function updateTestStatus (testStatus) {
+    testText = testStatus || testText
+    updateBanner()
+  }
+  function updatePingStatus (pingStatus) {
+    pingText = pingStatus || pingText
+    updateBanner()
+  }
+
+  socket.on('connect', () => {
+    updateConnectionStatus('connected')
+  })
+  socket.on('disconnect', () => {
+    updateConnectionStatus('disconnected')
+  })
+  socket.on('reconnecting', (sec) => {
+    updateConnectionStatus(`reconnecting in ${sec} seconds`)
+  })
+  socket.on('reconnect', () => {
+    updateConnectionStatus('reconnected')
+  })
+  socket.on('reconnect_failed', () => {
+    updateConnectionStatus('reconnect_failed')
+  })
+
   socket.on('info', updateBrowsersInfo)
-  socket.on('disconnect', function () {
+  socket.on('disconnect', () => {
     updateBrowsersInfo([])
   })
+
+  socket.on('ping', () => {
+    updatePingStatus('ping...')
+  })
+  socket.on('pong', (latency) => {
+    updatePingStatus(`ping ${latency}ms`)
+  })
+
+  return { updateTestStatus: updateTestStatus }
 }
 
 module.exports = StatusUpdater
