@@ -21,26 +21,60 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     }
   }
 
-  function updateBanner (status) {
-    return function (param) {
-      if (!titleElement || !bannerElement) {
-        return
-      }
-      var paramStatus = param ? status.replace('$', param) : status
-      titleElement.textContent = 'Karma v' + VERSION + ' - ' + paramStatus
-      bannerElement.className = status === 'connected' ? 'online' : 'offline'
+  var connectionText = 'never-connected'
+  var testText = 'loading'
+  var pingText = ''
+
+  function updateBanner () {
+    if (!titleElement || !bannerElement) {
+      return
     }
+    titleElement.textContent = `Karma v ${VERSION} - ${connectionText}; test: ${testText}; ${pingText}`
+    bannerElement.className = connectionText === 'connected' ? 'online' : 'offline'
   }
 
-  socket.on('connect', updateBanner('connected'))
-  socket.on('disconnect', updateBanner('disconnected'))
-  socket.on('reconnecting', updateBanner('reconnecting in $ seconds...'))
-  socket.on('reconnect', updateBanner('connected'))
-  socket.on('reconnect_failed', updateBanner('failed to reconnect'))
+  function updateConnectionStatus (connectionStatus) {
+    connectionText = connectionStatus || connectionText
+    updateBanner()
+  }
+  function updateTestStatus (testStatus) {
+    testText = testStatus || testText
+    updateBanner()
+  }
+  function updatePingStatus (pingStatus) {
+    pingText = pingStatus || pingText
+    updateBanner()
+  }
+
+  socket.on('connect', () => {
+    updateConnectionStatus('connected')
+  })
+  socket.on('disconnect', () => {
+    updateConnectionStatus('disconnected')
+  })
+  socket.on('reconnecting', (sec) => {
+    updateConnectionStatus(`reconnecting in ${sec} seconds`)
+  })
+  socket.on('reconnect', () => {
+    updateConnectionStatus('reconnected')
+  })
+  socket.on('reconnect_failed', () => {
+    updateConnectionStatus('reconnect_failed')
+  })
+
   socket.on('info', updateBrowsersInfo)
-  socket.on('disconnect', function () {
+  socket.on('disconnect', () => {
     updateBrowsersInfo([])
   })
+
+  socket.on('ping', () => {
+    updatePingStatus('ping...')
+  })
+  socket.on('pong', (latency) => {
+    updatePingStatus(`ping ${latency}ms`)
+  })
+
+  return { updateTestStatus: updateTestStatus }
 }
 
 module.exports = StatusUpdater

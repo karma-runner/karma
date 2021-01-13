@@ -2,7 +2,8 @@ var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
-function Karma (socket, iframe, opener, navigator, location, document) {
+function Karma (updater, socket, iframe, opener, navigator, location, document) {
+  this.updater = updater
   var startEmitted = false
   var karmaNavigating = false
   var self = this
@@ -190,6 +191,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
 
     socket.emit('karma_error', message)
+    self.updater.updateTestStatus(`karma_error ${message}`)
     this.complete()
     return false
   }
@@ -212,10 +214,12 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (!startEmitted) {
       socket.emit('start', { total: null })
+      self.updater.updateTestStatus('start')
       startEmitted = true
     }
 
     if (resultsBufferLimit === 1) {
+      self.updater.updateTestStatus('result')
       return socket.emit('result', convertedResult)
     }
 
@@ -223,6 +227,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (resultsBuffer.length === resultsBufferLimit) {
       socket.emit('result', resultsBuffer)
+      self.updater.updateTestStatus('result')
       resultsBuffer = []
     }
   }
@@ -232,6 +237,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       socket.emit('result', resultsBuffer)
       resultsBuffer = []
     }
+
     // A test could have incorrectly issued a navigate. Wait one turn
     // to ensure the error from an incorrect navigate is processed.
     setTimeout(() => {
@@ -240,6 +246,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       }
 
       socket.emit('complete', result || {})
+      self.updater.updateTestStatus('complete')
 
       if (returnUrl) {
         location.href = returnUrl
@@ -258,6 +265,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
+    self.updater.updateTestStatus('execute')
     // reset startEmitted and reload the iframe
     startEmitted = false
     self.config = cfg
