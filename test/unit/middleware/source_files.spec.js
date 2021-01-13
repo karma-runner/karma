@@ -3,15 +3,14 @@ const mocks = require('mocks')
 const request = require('supertest')
 var zlib = require('zlib')
 
-const helper = require('../../../lib/helper')
 const File = require('../../../lib/file')
 const createServeFile = require('../../../lib/middleware/common').createServeFile
 const createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
 
 describe('middleware.source_files', function () {
   let next
-  let files
-  let server = next = files = null
+  let currentFiles
+  let server = next = currentFiles = null
 
   const fsMock = mocks.fs.create({
     base: {
@@ -34,7 +33,7 @@ describe('middleware.source_files', function () {
   const serveFile = createServeFile(fsMock, null)
 
   function createServer (f, s, basePath) {
-    const handler = createSourceFilesMiddleware(f.promise, s, basePath)
+    const handler = createSourceFilesMiddleware(f, s, basePath)
     return http.createServer(function (req, res) {
       next = sinon.spy(function (err) {
         if (err) {
@@ -51,8 +50,8 @@ describe('middleware.source_files', function () {
   }
 
   beforeEach(function () {
-    files = helper.defer()
-    server = createServer(files, serveFile, '/base/path')
+    currentFiles = { files: { included: [], served: [] } }
+    server = createServer(currentFiles, serveFile, '/base/path')
     return server
   })
 
@@ -61,7 +60,7 @@ describe('middleware.source_files', function () {
   })
 
   function servedFiles (list) {
-    return files.resolve({ included: [], served: list })
+    currentFiles.files = { included: [], served: list }
   }
 
   describe('Range headers', function () {
@@ -235,7 +234,7 @@ describe('middleware.source_files', function () {
       new File('/utf8ášč/some.js')
     ])
 
-    server = createServer(files, serveFile, '/utf8ášč')
+    server = createServer(currentFiles, serveFile, '/utf8ášč')
 
     return request(server)
       .get('/base/some.js')
@@ -250,7 +249,7 @@ describe('middleware.source_files', function () {
       new File('/jenkins%2Fbranch/some.js')
     ])
 
-    server = createServer(files, serveFile, '')
+    server = createServer(currentFiles, serveFile, '')
 
     return request(server)
       .get('/base/jenkins%2Fbranch/some.js')

@@ -2,7 +2,6 @@
 
 const mocks = require('mocks')
 
-const helper = require('../../../lib/helper')
 const constants = require('../../../lib/constants')
 const File = require('../../../lib/file')
 const Url = require('../../../lib/url')
@@ -12,7 +11,7 @@ const HttpRequestMock = mocks.http.ServerRequest
 
 describe('middleware.karma', () => {
   let serveFile
-  let filesDeferred
+  let currentFiles
   let nextSpy
   let response
 
@@ -37,7 +36,7 @@ describe('middleware.karma', () => {
 
   const createServeFile = require('../../../lib/middleware/common').createServeFile
   const createKarmaMiddleware = require('../../../lib/middleware/karma').create
-  let handler = serveFile = filesDeferred = nextSpy = response = null
+  let handler = serveFile = currentFiles = nextSpy = response = null
 
   const clientConfig = {
     foo: 'bar'
@@ -58,10 +57,10 @@ describe('middleware.karma', () => {
   beforeEach(() => {
     nextSpy = sinon.spy()
     response = new HttpResponseMock()
-    filesDeferred = helper.defer()
+    currentFiles = { files: { included: [], served: [] } }
     serveFile = createServeFile(fsMock, '/karma/static')
     handler = createKarmaMiddleware(
-      filesDeferred.promise,
+      currentFiles,
       serveFile,
       null,
       injector,
@@ -73,11 +72,11 @@ describe('middleware.karma', () => {
 
   // helpers
   const includedFiles = (files) => {
-    return filesDeferred.resolve({ included: files, served: [] })
+    currentFiles.files = { included: files, served: [] }
   }
 
   const servedFiles = (files) => {
-    return filesDeferred.resolve({ included: [], served: files })
+    currentFiles.files = { included: [], served: files }
   }
 
   const normalizedHttpRequest = (urlPath) => {
@@ -121,7 +120,7 @@ describe('middleware.karma', () => {
 
   it('should serve client.html', (done) => {
     handler = createKarmaMiddleware(
-      null,
+      currentFiles,
       serveFile,
       null,
       injector,
@@ -140,7 +139,7 @@ describe('middleware.karma', () => {
 
   it('should serve /?id=xxx', (done) => {
     handler = createKarmaMiddleware(
-      null,
+      currentFiles,
       serveFile,
       null,
       injector,
@@ -159,7 +158,7 @@ describe('middleware.karma', () => {
 
   it('should serve /?x-ua-compatible with replaced values', (done) => {
     handler = createKarmaMiddleware(
-      null,
+      currentFiles,
       serveFile,
       null,
       injector,
@@ -270,9 +269,9 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.html with included DOM content', (done) => {
-    filesDeferred = helper.defer()
+    currentFiles = { files: { included: [], served: [] } }
     handler = createKarmaMiddleware(
-      filesDeferred.promise,
+      currentFiles,
       serveFile,
       null,
       injector,
@@ -450,7 +449,7 @@ describe('middleware.karma', () => {
   it('should update handle updated configs', (done) => {
     let i = 0
     handler = createKarmaMiddleware(
-      filesDeferred.promise,
+      currentFiles,
       serveFile,
       null,
       {
@@ -481,11 +480,11 @@ describe('middleware.karma', () => {
       expect(response).to.beServedAs(200, 'window.__karma__.config = {"foo":"bar"};\n')
 
       response = new HttpResponseMock()
-      callHandlerWith('/__karma__/debug.html')
       response.once('end', () => {
         expect(response).to.beServedAs(200, 'window.__karma__.config = {"foo":"baz"};\n')
         done()
       })
+      callHandlerWith('/__karma__/debug.html')
     })
 
     callHandlerWith('/__karma__/debug.html')
