@@ -1,3 +1,11 @@
+## [6.0.1](https://github.com/karma-runner/karma/compare/v6.0.0...v6.0.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* **server:** set maxHttpBufferSize to the socket.io v2 default ([#3626](https://github.com/karma-runner/karma/issues/3626)) ([69baddc](https://github.com/karma-runner/karma/commit/69baddc843e4852a6770bfc1212fc2bce1f38fe7)), closes [#3621](https://github.com/karma-runner/karma/issues/3621)
+* restore `customFileHandlers` provider ([#3624](https://github.com/karma-runner/karma/issues/3624)) ([25d9abb](https://github.com/karma-runner/karma/commit/25d9abb76929b6ea8abe1cf040ba6db2f269d50e))
+
 # [6.0.0](https://github.com/karma-runner/karma/compare/v5.2.3...v6.0.0) (2021-01-13)
 
 
