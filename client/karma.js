@@ -240,8 +240,9 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
 
     // A test could have incorrectly issued a navigate. Wait one turn
     // to ensure the error from an incorrect navigate is processed.
-    setTimeout(() => {
-      if (this.config.clearContext) {
+    var config = this.config
+    setTimeout(function () {
+      if (config.clearContext) {
         navigateContextTo('about:blank')
       }
 
