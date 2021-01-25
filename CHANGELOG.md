@@ -1,3 +1,10 @@
+## [6.0.2](https://github.com/karma-runner/karma/compare/v6.0.1...v6.0.2) (2021-01-25)
+
+
+### Bug Fixes
+
+* avoid ES6+ syntax in client scripts ([#3629](https://github.com/karma-runner/karma/issues/3629)) ([6629e96](https://github.com/karma-runner/karma/commit/6629e96901dbeae24fbaa4d0bfa009618fb8ee75)), closes [#3630](https://github.com/karma-runner/karma/issues/3630)
+
 ## [6.0.1](https://github.com/karma-runner/karma/compare/v6.0.0...v6.0.1) (2021-01-20)
 
 
