@@ -29,7 +29,7 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     if (!titleElement || !bannerElement) {
       return
     }
-    titleElement.textContent = `Karma v ${VERSION} - ${connectionText}; test: ${testText}; ${pingText}`
+    titleElement.textContent = 'Karma v ' + VERSION + ' - ' + connectionText + '; test: ' + testText + '; ' + pingText
     bannerElement.className = connectionText === 'connected' ? 'online' : 'offline'
   }
 
@@ -46,32 +46,32 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     updateBanner()
   }
 
-  socket.on('connect', () => {
+  socket.on('connect', function () {
     updateConnectionStatus('connected')
   })
-  socket.on('disconnect', () => {
+  socket.on('disconnect', function () {
     updateConnectionStatus('disconnected')
   })
-  socket.on('reconnecting', (sec) => {
-    updateConnectionStatus(`reconnecting in ${sec} seconds`)
+  socket.on('reconnecting', function (sec) {
+    updateConnectionStatus('reconnecting in ' + sec + ' seconds')
   })
-  socket.on('reconnect', () => {
+  socket.on('reconnect', function () {
     updateConnectionStatus('reconnected')
   })
-  socket.on('reconnect_failed', () => {
+  socket.on('reconnect_failed', function () {
     updateConnectionStatus('reconnect_failed')
   })
 
   socket.on('info', updateBrowsersInfo)
-  socket.on('disconnect', () => {
+  socket.on('disconnect', function () {
     updateBrowsersInfo([])
   })
 
-  socket.on('ping', () => {
+  socket.on('ping', function () {
     updatePingStatus('ping...')
   })
-  socket.on('pong', (latency) => {
-    updatePingStatus(`ping ${latency}ms`)
+  socket.on('pong', function (latency) {
+    updatePingStatus('ping ' + latency + 'ms')
   })
 
   return { updateTestStatus: updateTestStatus }
