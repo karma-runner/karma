@@ -257,6 +257,7 @@
     "Kostiantyn Kahanskyi <kostiantyn.kahanskyi@googlemail.com>",
     "Kris Kowal <kris@cixar.com>",
     "Lenny Urbanowski <lenny@itslennysfault.com>",
+    "Long Ho <longlho@users.noreply.github.com>",
     "LoveIsGrief <just.another.michaelv@gmail.com>",
     "Lucas Theisen <lucastheisen@pastdev.com>",
     "Lukasz Zatorski <lzatorski@gmail.com>",
@@ -326,6 +327,7 @@
     "Remy Sharp <remy@remysharp.com>",
     "Ricardo Melo Joia <ricardo.joia@gmail.com>",
     "Rich Kuzsma <rkuzsma@gmail.com>",
+    "Rich Trott <rtrott@gmail.com>",
     "Richard Herrera <richard.herrera@nfl.com>",
     "Roarke Gaskill <rgaskill@nexvex.com>",
     "Rob Cherry <rcherry@reverbnation.com>",
@@ -482,7 +484,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.0.1",
+  "version": "6.0.2",
   "license": "MIT",
   "husky": {
     "hooks": {
