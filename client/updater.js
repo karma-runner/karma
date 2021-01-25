@@ -29,7 +29,7 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     if (!titleElement || !bannerElement) {
       return
     }
-    titleElement.textContent = `Karma v ${VERSION} - ${connectionText}; test: ${testText}; ${pingText}`
+    titleElement.textContent = 'Karma v ' + VERSION + ' -  ' + connectionText + ' test: ' + testText + '; ' + pingText
     bannerElement.className = connectionText === 'connected' ? 'online' : 'offline'
   }
 
@@ -53,7 +53,7 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     updateConnectionStatus('disconnected')
   })
   socket.on('reconnecting', (sec) => {
-    updateConnectionStatus(`reconnecting in ${sec} seconds`)
+    updateConnectionStatus('reconnecting in ' + sec + ' seconds')
   })
   socket.on('reconnect', () => {
     updateConnectionStatus('reconnected')
@@ -71,7 +71,7 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     updatePingStatus('ping...')
   })
   socket.on('pong', (latency) => {
-    updatePingStatus(`ping ${latency}ms`)
+    updatePingStatus('ping ' + latency + 'ms')
   })
 
   return { updateTestStatus: updateTestStatus }
