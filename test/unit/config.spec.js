@@ -46,6 +46,8 @@ describe('config', () => {
       '/conf/invalid.js': () => {
         throw new SyntaxError('Unexpected token =')
       },
+      '/conf/export-not-function.js': 'not-a-function',
+      // '/conf/export-null.js': null, // Same as `/conf/not-exist.js`?
       '/conf/exclude.js': wrapCfg({ exclude: ['one.js', 'sub/two.js'] }),
       '/conf/absolute.js': wrapCfg({ files: ['http://some.com', 'https://more.org/file.js'] }),
       '/conf/both.js': wrapCfg({ files: ['one.js', 'two.js'], exclude: ['third.js'] }),
@@ -57,6 +59,7 @@ describe('config', () => {
     m = loadFile(path.join(__dirname, '/../../lib/config.js'), mocks, {
       global: {},
       process: mocks.process,
+      Error: Error, // Without this, chai's `.throw()` assertion won't correctly check against constructors.
       require (path) {
         if (mockConfigs[path]) {
           return mockConfigs[path]
@@ -123,7 +126,20 @@ describe('config', () => {
       expect(mocks.process.exit).to.have.been.calledWith(1)
     })
 
-    it('should throw and log error if invalid file', () => {
+    it('should log error and throw if file does not exist AND throwErrors is true', () => {
+      function parseConfig () {
+        e.parseConfig('/conf/not-exist.js', {}, { throwErrors: true })
+      }
+
+      expect(parseConfig).to.throw(Error, 'Error in config file!\n  Error: Cannot find module \'/conf/not-exist.js\'')
+      expect(logSpy).to.have.been.called
+      const event = logSpy.lastCall.args
+      expect(event.toString().split('\n').slice(0, 2)).to.be.deep.equal(
+        ['Error in config file!', '  Error: Cannot find module \'/conf/not-exist.js\''])
+      expect(mocks.process.exit).not.to.have.been.called
+    })
+
+    it('should log an error and exit if invalid file', () => {
       e.parseConfig('/conf/invalid.js', {})
 
       expect(logSpy).to.have.been.called
@@ -131,6 +147,31 @@ describe('config', () => {
       expect(event[0]).to.eql('Error in config file!\n')
       expect(event[1].message).to.eql('Unexpected token =')
       expect(mocks.process.exit).to.have.been.calledWith(1)
+    })
+
+    it('should log error and throw if file does not export a function AND throwErrors is true', () => {
+      function parseConfig () {
+        e.parseConfig('/conf/export-not-function.js', {}, { throwErrors: true })
+      }
+
+      expect(parseConfig).to.throw(Error, 'Config file must export a function!\n')
+      expect(logSpy).to.have.been.called
+      const event = logSpy.lastCall.args
+      expect(event.toString().split('\n').slice(0, 1)).to.be.deep.equal(
+        ['Config file must export a function!'])
+      expect(mocks.process.exit).not.to.have.been.called
+    })
+
+    it('should log an error and throw if invalid file AND throwErrors is true', () => {
+      function parseConfig () {
+        e.parseConfig('/conf/invalid.js', {}, { throwErrors: true })
+      }
+      expect(parseConfig).to.throw(Error, 'Error in config file!\n SyntaxError: Unexpected token =')
+      expect(logSpy).to.have.been.called
+      const event = logSpy.lastCall.args
+      expect(event[0]).to.eql('Error in config file!\n')
+      expect(event[1].message).to.eql('Unexpected token =')
+      expect(mocks.process.exit).not.to.have.been.called
     })
 
     it('should override config with given cli options', () => {
