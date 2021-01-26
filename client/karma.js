@@ -128,8 +128,10 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
       }
     // run in iframe
     } else {
+      iframe.onload = () => {
+        karmaNavigating = false
+      }
       iframe.src = policy.createURL(url)
-      karmaNavigating = false
     }
   }
 

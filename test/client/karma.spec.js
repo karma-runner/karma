@@ -184,15 +184,17 @@ describe('Karma', function () {
       var mockWindow = {}
       ck.setupContext(mockWindow)
 
-      // Spy on our error handler
-      sinon.spy(k, 'error')
+      setTimeout(() => {
+        // Spy on our error handler
+        sinon.spy(k, 'error')
 
-      // Emulate an unload event
-      mockWindow.onbeforeunload()
+        // Emulate an unload event
+        mockWindow.onbeforeunload()
 
-      // Assert our spy was called
-      assert(k.error.calledWith('Some of your tests did a full page reload!'))
-      done()
+        // Assert our spy was called
+        assert(k.error.calledWith('Some of your tests did a full page reload!'))
+        done()
+      })
     })
   })
 
