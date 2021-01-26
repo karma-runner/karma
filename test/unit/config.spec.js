@@ -9,7 +9,6 @@ describe('config', () => {
   let m
   let e
   let mocks
-  let logUtilsModule
 
   const resolveWinPath = (p) => helper.normalizeWinPath(path.resolve(p))
 
@@ -55,14 +54,6 @@ describe('config', () => {
     }
 
     // load file under test
-    logUtilsModule = loadFile(
-      path.join(__dirname, '/../../lib/utils/log-utils.js'),
-      {},
-      {
-        process: mocks.process
-      }
-    )
-
     m = loadFile(path.join(__dirname, '/../../lib/config.js'), mocks, {
       global: {},
       process: mocks.process,
@@ -71,9 +62,6 @@ describe('config', () => {
           return mockConfigs[path]
         }
         if (path.indexOf('./') === 0) {
-          if (path.endsWith('utils/log-utils')) {
-            return logUtilsModule.exports
-          }
           return require('../../lib/' + path)
         } else {
           return require(path)
