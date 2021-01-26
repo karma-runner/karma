@@ -11,7 +11,7 @@ const HttpRequestMock = mocks.http.ServerRequest
 
 describe('middleware.karma', () => {
   let serveFile
-  let currentFiles
+  let currentWebFiles
   let nextSpy
   let response
 
@@ -36,7 +36,7 @@ describe('middleware.karma', () => {
 
   const createServeFile = require('../../../lib/middleware/common').createServeFile
   const createKarmaMiddleware = require('../../../lib/middleware/karma').create
-  let handler = serveFile = currentFiles = nextSpy = response = null
+  let handler = serveFile = currentWebFiles = nextSpy = response = null
 
   const clientConfig = {
     foo: 'bar'
@@ -57,10 +57,10 @@ describe('middleware.karma', () => {
   beforeEach(() => {
     nextSpy = sinon.spy()
     response = new HttpResponseMock()
-    currentFiles = { files: { included: [], served: [] } }
+    currentWebFiles = { included: [], served: [] }
     serveFile = createServeFile(fsMock, '/karma/static')
     handler = createKarmaMiddleware(
-      currentFiles,
+      currentWebFiles,
       serveFile,
       null,
       injector,
@@ -69,15 +69,6 @@ describe('middleware.karma', () => {
       { path: '/__proxy__/' }
     )
   })
-
-  // helpers
-  const includedFiles = (files) => {
-    currentFiles.files = { included: files, served: [] }
-  }
-
-  const servedFiles = (files) => {
-    currentFiles.files = { included: [], served: files }
-  }
 
   const normalizedHttpRequest = (urlPath) => {
     const req = new HttpRequestMock(urlPath)
@@ -120,7 +111,7 @@ describe('middleware.karma', () => {
 
   it('should serve client.html', (done) => {
     handler = createKarmaMiddleware(
-      currentFiles,
+      currentWebFiles,
       serveFile,
       null,
       injector,
@@ -139,7 +130,7 @@ describe('middleware.karma', () => {
 
   it('should serve /?id=xxx', (done) => {
     handler = createKarmaMiddleware(
-      currentFiles,
+      currentWebFiles,
       serveFile,
       null,
       injector,
@@ -158,7 +149,7 @@ describe('middleware.karma', () => {
 
   it('should serve /?x-ua-compatible with replaced values', (done) => {
     handler = createKarmaMiddleware(
-      currentFiles,
+      currentWebFiles,
       serveFile,
       null,
       injector,
@@ -176,7 +167,7 @@ describe('middleware.karma', () => {
   })
 
   it('should serve debug.html/?x-ua-compatible with replaced values', (done) => {
-    includedFiles([])
+    currentWebFiles.included = []
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -199,10 +190,10 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.html with replaced script tags', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/first.js', 'sha123'),
       new MockFile('/second.js', 'sha456')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -214,14 +205,14 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.html with replaced link tags', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/first.css', 'sha007'),
       new MockFile('/second.html', 'sha678'),
       new MockFile('/third', 'sha111', 'css'),
       new MockFile('/fourth', 'sha222', 'html'),
       new Url('http://some.url.com/fifth', 'css'),
       new Url('http://some.url.com/sixth', 'html')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -233,10 +224,10 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.html with the correct path for the script tags', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/some/abc/a.js', 'sha'),
       new MockFile('/base/path/b.js', 'shaaa')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -248,7 +239,7 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.html with the correct path for link tags', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/some/abc/a.css', 'sha1'),
       new MockFile('/base/path/b.css', 'sha2'),
       new MockFile('/some/abc/c.html', 'sha3'),
@@ -257,7 +248,7 @@ describe('middleware.karma', () => {
       new MockFile('/base/path/f', 'sha6', 'css'),
       new MockFile('/some/abc/g', 'sha7', 'html'),
       new MockFile('/base/path/h', 'sha8', 'html')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -269,9 +260,9 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.html with included DOM content', (done) => {
-    currentFiles = { files: { included: [], served: [] } }
+    currentWebFiles = { included: [], served: [] }
     handler = createKarmaMiddleware(
-      currentFiles,
+      currentWebFiles,
       serveFile,
       null,
       injector,
@@ -279,11 +270,11 @@ describe('middleware.karma', () => {
       '/'
     )
 
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/some/abc/a.dom', 'sha1', undefined, 'a'),
       new MockFile('/some/abc/b_test_dom.html', 'sha2', 'dom', 'b'),
       new MockFile('/some/abc/c', 'sha3', 'dom', 'c')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -295,7 +286,7 @@ describe('middleware.karma', () => {
   })
 
   it('should serve context.json with the correct paths for all files', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/some/abc/a.css', 'sha1'),
       new MockFile('/base/path/b.css', 'sha2'),
       new MockFile('/some/abc/c.html', 'sha3'),
@@ -304,7 +295,7 @@ describe('middleware.karma', () => {
       new MockFile('/base/path/f', 'sha6', 'css'),
       new MockFile('/some/abc/g', 'sha7', 'html'),
       new MockFile('/base/path/h', 'sha8', 'html')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -327,9 +318,9 @@ describe('middleware.karma', () => {
   })
 
   it('should not change urls', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new Url('http://some.url.com/whatever')
-    ])
+    ]
 
     response.once('end', () => {
       expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="http://some.url.com/whatever" crossorigin="anonymous"></script>')
@@ -342,7 +333,7 @@ describe('middleware.karma', () => {
   it('should send non-caching headers for context.html', (done) => {
     const ZERO_DATE = (new Date(0)).toUTCString()
 
-    includedFiles([])
+    currentWebFiles.included = []
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -358,11 +349,11 @@ describe('middleware.karma', () => {
 
   it('should inline mappings with all served files', (done) => {
     fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
-    servedFiles([
+    currentWebFiles.served = [
       new MockFile('/some/abc/a.js', 'sha_a'),
       new MockFile('/base/path/b.js', 'sha_b'),
       new MockFile('\\windows\\path\\uuu\\c.js', 'sha_c')
-    ])
+    ]
 
     response.once('end', () => {
       expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/some/abc/a.js': 'sha_a',\n  '/__proxy__/__karma__/base/b.js': 'sha_b',\n  '/__proxy__/__karma__/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n};\n")
@@ -374,10 +365,10 @@ describe('middleware.karma', () => {
 
   it('should escape quotes in mappings with all served files', (done) => {
     fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
-    servedFiles([
+    currentWebFiles.served = [
       new MockFile("/some/abc/a'b.js", 'sha_a'),
       new MockFile('/base/path/ba.js', 'sha_b')
-    ])
+    ]
 
     response.once('end', () => {
       expect(response).to.beServedAs(200, 'window.__karma__.files = {\n  \'/__proxy__/__karma__/absolute/some/abc/a\\\'b.js\': \'sha_a\',\n  \'/__proxy__/__karma__/base/ba.js\': \'sha_b\'\n};\n')
@@ -388,10 +379,10 @@ describe('middleware.karma', () => {
   })
 
   it('should serve debug.html with replaced script tags without timestamps', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/first.js'),
       new MockFile('/base/path/b.js')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -403,7 +394,7 @@ describe('middleware.karma', () => {
   })
 
   it('should serve debug.html with replaced link tags without timestamps', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/first.css'),
       new MockFile('/base/path/b.css'),
       new MockFile('/second.html'),
@@ -412,7 +403,7 @@ describe('middleware.karma', () => {
       new MockFile('/base/path/f', null, 'css'),
       new MockFile('/fourth', null, 'html'),
       new MockFile('/base/path/g', null, 'html')
-    ])
+    ]
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
@@ -424,9 +415,9 @@ describe('middleware.karma', () => {
   })
 
   it('should inline client config to debug.html', (done) => {
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/first.js')
-    ])
+    ]
     fsMock._touchFile('/karma/static/debug.html', 1, '%CLIENT_CONFIG%')
 
     response.once('end', () => {
@@ -438,7 +429,7 @@ describe('middleware.karma', () => {
   })
 
   it('should not serve other files even if they are in urlRoot', (done) => {
-    includedFiles([])
+    currentWebFiles.included = []
 
     callHandlerWith('/__karma__/something/else.js', () => {
       expect(response).to.beNotServed()
@@ -449,7 +440,7 @@ describe('middleware.karma', () => {
   it('should update handle updated configs', (done) => {
     let i = 0
     handler = createKarmaMiddleware(
-      currentFiles,
+      currentWebFiles,
       serveFile,
       null,
       {
@@ -471,9 +462,9 @@ describe('middleware.karma', () => {
       { path: '/__proxy__/' }
     )
 
-    includedFiles([
+    currentWebFiles.included = [
       new MockFile('/first.js')
-    ])
+    ]
     fsMock._touchFile('/karma/static/debug.html', 1, '%CLIENT_CONFIG%')
 
     response.once('end', () => {

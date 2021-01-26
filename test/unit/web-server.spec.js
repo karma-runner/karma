@@ -34,8 +34,9 @@ describe('web-server', () => {
   let customFileHandlers = server = emitter = null
   let beforeMiddlewareActive = false
   let middlewareActive = false
+  const mockCurrentWebFiles = { served: [], included: [] }
   const servedFiles = (files) => {
-    emitter.emit('file_list_modified', { included: [], served: files })
+    mockCurrentWebFiles.served = files
   }
 
   describe('request', () => {
@@ -60,7 +61,7 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', { files: { served: [], included: [] } }],
-        currentFiles: ['factory', m.createCurrentFiles],
+        currentWebFiles: ['value', mockCurrentWebFiles],
         serveStaticFile: ['factory', m.createServeStaticFile],
         serveFile: ['factory', m.createServeFile],
         capturedBrowsers: ['value', null],
@@ -228,7 +229,7 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', { files: { served: [], included: [] } }],
-        currentFiles: ['factory', m.createCurrentFiles],
+        currentWebFiles: ['value', mockCurrentWebFiles],
         serveStaticFile: ['factory', m.createServeStaticFile],
         serveFile: ['factory', m.createServeFile],
         capturedBrowsers: ['value', null],
@@ -272,7 +273,7 @@ describe('web-server', () => {
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', { files: { served: [], included: [] } }],
-        currentFiles: ['factory', m.createCurrentFiles],
+        currentWebFiles: ['value', mockCurrentWebFiles],
         serveStaticFile: ['factory', m.createServeStaticFile],
         serveFile: ['factory', m.createServeFile],
         capturedBrowsers: ['value', null],
