@@ -1,6 +1,7 @@
 const sinon = require('sinon')
 const chai = require('chai')
 const logger = require('../../lib/logger')
+const recording = require('log4js/lib/appenders/recording')
 
 // publish globals that all specs can use
 global.expect = chai.expect
@@ -15,13 +16,14 @@ chai.use(require('chai-subset'))
 beforeEach(() => {
   global.sinon = sinon.createSandbox()
 
-  // set logger to log INFO, but do not append to console
-  // so that we can assert logs by logger.on('info', ...)
-  logger.setup('INFO', false, [])
+  // Use https://log4js-node.github.io/log4js-node/recording.html to verify logs
+  const vcr = { vcr: { type: 'recording' } }
+  logger.setup('INFO', false, vcr)
 })
 
 afterEach(() => {
   global.sinon.restore()
+  recording.erase()
 })
 
 // TODO(vojta): move to helpers or something
