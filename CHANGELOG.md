@@ -1,3 +1,10 @@
+## [6.0.3](https://github.com/karma-runner/karma/compare/v6.0.2...v6.0.3) (2021-01-27)
+
+
+### Bug Fixes
+
+* **plugins:** refactor instantiatePlugin from preproprocessor ([#3628](https://github.com/karma-runner/karma/issues/3628)) ([e02858a](https://github.com/karma-runner/karma/commit/e02858ae0d0de3f05add976b10e4b6b935cc3dd7))
+
 ## [6.0.2](https://github.com/karma-runner/karma/compare/v6.0.1...v6.0.2) (2021-01-25)
 
 
