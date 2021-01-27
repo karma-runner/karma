@@ -149,6 +149,19 @@ describe('config', () => {
       expect(mocks.process.exit).to.have.been.calledWith(1)
     })
 
+    it('should log an error and throw if invalid file AND throwErrors is true', () => {
+      function parseConfig () {
+        e.parseConfig('/conf/invalid.js', {}, { throwErrors: true })
+      }
+
+      expect(parseConfig).to.throw(Error, 'Error in config file!\n SyntaxError: Unexpected token =')
+      expect(logSpy).to.have.been.called
+      const event = logSpy.lastCall.args
+      expect(event[0]).to.eql('Error in config file!\n')
+      expect(event[1].message).to.eql('Unexpected token =')
+      expect(mocks.process.exit).not.to.have.been.called
+    })
+
     it('should log error and throw if file does not export a function AND throwErrors is true', () => {
       function parseConfig () {
         e.parseConfig('/conf/export-not-function.js', {}, { throwErrors: true })
@@ -159,18 +172,6 @@ describe('config', () => {
       const event = logSpy.lastCall.args
       expect(event.toString().split('\n').slice(0, 1)).to.be.deep.equal(
         ['Config file must export a function!'])
-      expect(mocks.process.exit).not.to.have.been.called
-    })
-
-    it('should log an error and throw if invalid file AND throwErrors is true', () => {
-      function parseConfig () {
-        e.parseConfig('/conf/invalid.js', {}, { throwErrors: true })
-      }
-      expect(parseConfig).to.throw(Error, 'Error in config file!\n SyntaxError: Unexpected token =')
-      expect(logSpy).to.have.been.called
-      const event = logSpy.lastCall.args
-      expect(event[0]).to.eql('Error in config file!\n')
-      expect(event[1].message).to.eql('Unexpected token =')
       expect(mocks.process.exit).not.to.have.been.called
     })
 
