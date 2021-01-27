@@ -1,17 +1,18 @@
 'use strict'
 
 const mocks = require('mocks')
-const di = require('di')
 const path = require('path')
-
-const events = require('../../lib/events')
 
 describe('preprocessor', () => {
   let m
   let mockFs
-  let emitterSetting
   // mimic first few bytes of a pdf file
   const binarydata = Buffer.from([0x25, 0x50, 0x44, 0x66, 0x46, 0x00])
+
+  // Each test will define a spy; the fakeInstatiatePlugin will return it.
+  let fakePreprocessor
+
+  const simpleFakeInstantiatePlugin = () => { return fakePreprocessor }
 
   beforeEach(() => {
     mockFs = mocks.fs.create({
@@ -32,22 +33,16 @@ describe('preprocessor', () => {
       'graceful-fs': mockFs,
       minimatch: require('minimatch')
     }
-    emitterSetting = { emitter: ['value', new events.EventEmitter()] }
     m = mocks.loadFile(path.join(__dirname, '/../../lib/preprocessor.js'), mocks_)
   })
 
   it('should preprocess matching file', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       file.path = file.path + '-preprocessed'
       done(null, 'new-content')
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': [
-        'factory', function () { return fakePreprocessor }
-      ]
-    }, emitterSetting])
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -58,15 +53,12 @@ describe('preprocessor', () => {
   })
 
   it('should match directories starting with a dot', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       file.path = file.path + '-preprocessed'
       done(null, 'new-content')
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/.dir/a.js', path: 'path' }
 
@@ -77,15 +69,12 @@ describe('preprocessor', () => {
   })
 
   it('should get content if preprocessor is an async function or return Promise with content', async () => {
-    const fakePreprocessor = sinon.spy(async (content, file, done) => {
+    fakePreprocessor = sinon.spy(async (content, file, done) => {
       file.path = file.path + '-preprocessed'
       return 'new-content'
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/.dir/a.js', path: 'path' }
 
@@ -96,15 +85,12 @@ describe('preprocessor', () => {
   })
 
   it('should get content if preprocessor is an async function still calling done()', async () => {
-    const fakePreprocessor = sinon.spy(async (content, file, done) => {
+    fakePreprocessor = sinon.spy(async (content, file, done) => {
       file.path = file.path + '-preprocessed'
       done(null, 'new-content')
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/.dir/a.js', path: 'path' }
 
@@ -115,16 +101,13 @@ describe('preprocessor', () => {
   })
 
   it('should check patterns after creation when invoked', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       file.path = file.path + '-preprocessed'
       done(null, 'new-content')
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
     const config = { '**/*.txt': ['fake'] }
-    const pp = m.createPriorityPreprocessor(config, {}, null, injector)
+    const pp = m.createPriorityPreprocessor(config, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -137,14 +120,11 @@ describe('preprocessor', () => {
   })
 
   it('should ignore not matching file', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, '')
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/a.txt', path: 'path' }
 
@@ -153,34 +133,33 @@ describe('preprocessor', () => {
   })
 
   it('should apply all preprocessors', async () => {
-    const fakePreprocessor1 = sinon.spy((content, file, done) => {
-      file.path = file.path + '-p1'
-      done(null, content + '-c1')
-    })
+    const fakes = {
+      fake1: sinon.spy((content, file, done) => {
+        file.path = file.path + '-p1'
+        done(null, content + '-c1')
+      }),
+      fake2: sinon.spy((content, file, done) => {
+        file.path = file.path + '-p2'
+        done(content + '-c2')
+      })
+    }
+    function fakeInstatiatePlugin (kind, name) {
+      return fakes[name]
+    }
 
-    const fakePreprocessor2 = sinon.spy((content, file, done) => {
-      file.path = file.path + '-p2'
-      done(content + '-c2')
-    })
-
-    const injector = new di.Injector([{
-      'preprocessor:fake1': ['factory', function () { return fakePreprocessor1 }],
-      'preprocessor:fake2': ['factory', function () { return fakePreprocessor2 }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake1', 'fake2'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake1', 'fake2'] }, {}, null, fakeInstatiatePlugin)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
     await pp(file)
-    expect(fakePreprocessor1).to.have.been.calledOnce
-    expect(fakePreprocessor2).to.have.been.calledOnce
+    expect(fakes.fake1).to.have.been.calledOnce
+    expect(fakes.fake2).to.have.been.calledOnce
     expect(file.path).to.equal('path-p1-p2')
     expect(file.content).to.equal('content-c1-c2')
   })
 
   it('should compute SHA', async () => {
-    const pp = m.createPriorityPreprocessor({}, {}, null, new di.Injector([emitterSetting]))
+    const pp = m.createPriorityPreprocessor({}, {}, null, simpleFakeInstantiatePlugin)
     const file = { originalPath: '/some/a.js', path: 'path' }
 
     await pp(file)
@@ -198,15 +177,11 @@ describe('preprocessor', () => {
   })
 
   it('should compute SHA from content returned by a processor', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content + '-processed')
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/a.js': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/a.js': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const fileProcess = { originalPath: '/some/a.js', path: 'path' }
     const fileSkip = { originalPath: '/some/b.js', path: 'path' }
@@ -221,15 +196,11 @@ describe('preprocessor', () => {
   })
 
   it('should return error if any preprocessor fails', () => {
-    const failingPreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(new Error('Some error'), null)
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:failing': ['factory', function () { return failingPreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['failing'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['failing'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -241,20 +212,20 @@ describe('preprocessor', () => {
   })
 
   it('should stop preprocessing after an error', async () => {
-    const failingPreprocessor = sinon.spy((content, file, done) => {
-      done(new Error('Some error'), null)
-    })
+    const fakes = {
+      failing: sinon.spy((content, file, done) => {
+        done(new Error('Some error'), null)
+      }),
+      fake: sinon.spy((content, file, done) => {
+        done(null, content)
+      })
+    }
 
-    const fakePreprocessor = sinon.spy((content, file, done) => {
-      done(null, content)
-    })
+    function fakeInstantiatePlugin (kind, name) {
+      return fakes[name]
+    }
 
-    const injector = new di.Injector([{
-      'preprocessor:failing': ['factory', function () { return failingPreprocessor }],
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*.js': ['failing', 'fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*.js': ['failing', 'fake'] }, {}, null, fakeInstantiatePlugin)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
@@ -263,7 +234,7 @@ describe('preprocessor', () => {
     }, (err) => {
       expect(err.message).to.equal('Some error')
     })
-    expect(fakePreprocessor).not.to.have.been.called
+    expect(fakes.fake).not.to.have.been.called
   })
 
   describe('when fs.readFile fails', () => {
@@ -274,15 +245,11 @@ describe('preprocessor', () => {
     })
 
     it('should retry up to 3 times', async () => {
-      const fakePreprocessor = sinon.spy((content, file, done) => {
+      fakePreprocessor = sinon.spy((content, file, done) => {
         done(null, content)
       })
 
-      const injector = new di.Injector([{
-        'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-      }, emitterSetting])
-
-      const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, injector)
+      const pp = m.createPriorityPreprocessor({ '**/*.js': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
       await pp(file).then(() => {
         throw new Error('Should be rejected')
@@ -295,9 +262,7 @@ describe('preprocessor', () => {
     })
 
     it('should throw after 3 retries', async () => {
-      const injector = new di.Injector([{}, emitterSetting])
-
-      const pp = m.createPriorityPreprocessor({ '**/*.js': [] }, {}, null, injector)
+      const pp = m.createPriorityPreprocessor({ '**/*.js': [] }, {}, null, simpleFakeInstantiatePlugin)
 
       await pp(file).then(() => {
         throw new Error('Should be rejected')
@@ -309,15 +274,11 @@ describe('preprocessor', () => {
   })
 
   it('should not preprocess binary files by default', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content)
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/photo.png', path: 'path' }
 
@@ -327,15 +288,11 @@ describe('preprocessor', () => {
   })
 
   it('should not preprocess files configured to be binary', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content)
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/proto.pb', path: 'path', isBinary: true }
 
@@ -345,15 +302,11 @@ describe('preprocessor', () => {
   })
 
   it('should preprocess files configured not to be binary', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content)
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     // Explicit false for isBinary
     const file = { originalPath: '/some/proto.pb', path: 'path', isBinary: false }
@@ -364,16 +317,12 @@ describe('preprocessor', () => {
   })
 
   it('should preprocess binary files if handleBinaryFiles=true', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content)
     })
     fakePreprocessor.handleBinaryFiles = true
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { return fakePreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/photo.png', path: 'path' }
 
@@ -383,15 +332,11 @@ describe('preprocessor', () => {
   })
 
   it('should not preprocess binary files with capital letters in extension', async () => {
-    const fakePreprocessor = sinon.spy((content, file, done) => {
+    fakePreprocessor = sinon.spy((content, file, done) => {
       done(null, content)
     })
 
-    const injector = new di.Injector([{
-      'preprocessor:fake': ['factory', function () { fakePreprocessor }]
-    }, emitterSetting])
-
-    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, injector)
+    const pp = m.createPriorityPreprocessor({ '**/*': ['fake'] }, {}, null, simpleFakeInstantiatePlugin)
 
     const file = { originalPath: '/some/CAM_PHOTO.JPG', path: 'path' }
 
@@ -402,72 +347,68 @@ describe('preprocessor', () => {
 
   it('should merge lists of preprocessors using default priority', async () => {
     const callOrder = []
-    const fakePreprocessorA = sinon.spy((content, file, done) => {
-      callOrder.push('a')
-      done(null, content)
-    })
-    const fakePreprocessorB = sinon.spy((content, file, done) => {
-      callOrder.push('b')
-      done(null, content)
-    })
-    const fakePreprocessorC = sinon.spy((content, file, done) => {
-      callOrder.push('c')
-      done(null, content)
-    })
-    const fakePreprocessorD = sinon.spy((content, file, done) => {
-      callOrder.push('d')
-      done(null, content)
-    })
-
-    const injector = new di.Injector([{
-      'preprocessor:fakeA': ['factory', function () { return fakePreprocessorA }],
-      'preprocessor:fakeB': ['factory', function () { return fakePreprocessorB }],
-      'preprocessor:fakeC': ['factory', function () { return fakePreprocessorC }],
-      'preprocessor:fakeD': ['factory', function () { return fakePreprocessorD }]
-    }, emitterSetting])
+    const fakes = {
+      fakeA: sinon.spy((content, file, done) => {
+        callOrder.push('a')
+        done(null, content)
+      }),
+      fakeB: sinon.spy((content, file, done) => {
+        callOrder.push('b')
+        done(null, content)
+      }),
+      fakeC: sinon.spy((content, file, done) => {
+        callOrder.push('c')
+        done(null, content)
+      }),
+      fakeD: sinon.spy((content, file, done) => {
+        callOrder.push('d')
+        done(null, content)
+      })
+    }
+    function fakeInstantiatePlugin (kind, name) {
+      return fakes[name]
+    }
 
     const pp = m.createPriorityPreprocessor({
       '/*/a.js': ['fakeA', 'fakeB'],
       '/some/*': ['fakeB', 'fakeC'],
       '/some/a.js': ['fakeD']
-    }, {}, null, injector)
+    }, {}, null, fakeInstantiatePlugin)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
     await pp(file)
-    expect(fakePreprocessorA).to.have.been.called
-    expect(fakePreprocessorB).to.have.been.called
-    expect(fakePreprocessorC).to.have.been.called
-    expect(fakePreprocessorD).to.have.been.called
+    expect(fakes.fakeA).to.have.been.called
+    expect(fakes.fakeB).to.have.been.called
+    expect(fakes.fakeC).to.have.been.called
+    expect(fakes.fakeD).to.have.been.called
 
     expect(callOrder).to.eql(['a', 'b', 'c', 'd'])
   })
 
   it('should merge lists of preprocessors obeying priority', async () => {
     const callOrder = []
-    const fakePreprocessorA = sinon.spy((content, file, done) => {
-      callOrder.push('a')
-      done(null, content)
-    })
-    const fakePreprocessorB = sinon.spy((content, file, done) => {
-      callOrder.push('b')
-      done(null, content)
-    })
-    const fakePreprocessorC = sinon.spy((content, file, done) => {
-      callOrder.push('c')
-      done(null, content)
-    })
-    const fakePreprocessorD = sinon.spy((content, file, done) => {
-      callOrder.push('d')
-      done(null, content)
-    })
-
-    const injector = new di.Injector([{
-      'preprocessor:fakeA': ['factory', function () { return fakePreprocessorA }],
-      'preprocessor:fakeB': ['factory', function () { return fakePreprocessorB }],
-      'preprocessor:fakeC': ['factory', function () { return fakePreprocessorC }],
-      'preprocessor:fakeD': ['factory', function () { return fakePreprocessorD }]
-    }, emitterSetting])
+    const fakes = {
+      fakeA: sinon.spy((content, file, done) => {
+        callOrder.push('a')
+        done(null, content)
+      }),
+      fakeB: sinon.spy((content, file, done) => {
+        callOrder.push('b')
+        done(null, content)
+      }),
+      fakeC: sinon.spy((content, file, done) => {
+        callOrder.push('c')
+        done(null, content)
+      }),
+      fakeD: sinon.spy((content, file, done) => {
+        callOrder.push('d')
+        done(null, content)
+      })
+    }
+    function fakeInstantiatePlugin (kind, name) {
+      return fakes[name]
+    }
 
     const priority = { fakeA: -1, fakeB: 1, fakeD: 100 }
 
@@ -475,15 +416,15 @@ describe('preprocessor', () => {
       '/*/a.js': ['fakeA', 'fakeB'],
       '/some/*': ['fakeB', 'fakeC'],
       '/some/a.js': ['fakeD']
-    }, priority, null, injector)
+    }, priority, null, fakeInstantiatePlugin)
 
     const file = { originalPath: '/some/a.js', path: 'path' }
 
     await pp(file)
-    expect(fakePreprocessorA).to.have.been.called
-    expect(fakePreprocessorB).to.have.been.called
-    expect(fakePreprocessorC).to.have.been.called
-    expect(fakePreprocessorD).to.have.been.called
+    expect(fakes.fakeA).to.have.been.called
+    expect(fakes.fakeB).to.have.been.called
+    expect(fakes.fakeC).to.have.been.called
+    expect(fakes.fakeD).to.have.been.called
 
     expect(callOrder).to.eql(['d', 'b', 'c', 'a'])
   })
