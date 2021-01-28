@@ -146,10 +146,16 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: '8000',
       baseUrl: '/',
-      path: '/base/',
-      https: false
+      path: '/base/'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
+    expect(parsedProxyConfig[0].proxy).to.containSubset({
+      options: {
+        target: {
+          protocol: 'http:'
+        }
+      }
+    })
   })
 
   it('should set default http port', () => {
@@ -160,10 +166,16 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: '80',
       baseUrl: '/',
-      path: '/base/',
-      https: false
+      path: '/base/'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
+    expect(parsedProxyConfig[0].proxy).to.containSubset({
+      options: {
+        target: {
+          protocol: 'http:'
+        }
+      }
+    })
   })
 
   it('should set default https port', () => {
@@ -174,8 +186,7 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: '443',
       baseUrl: '/',
-      path: '/base/',
-      https: true
+      path: '/base/'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
     expect(parsedProxyConfig[0].proxy).to.containSubset({
@@ -195,10 +206,16 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: '8000',
       baseUrl: '/proxy',
-      path: '/base',
-      https: false
+      path: '/base'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
+    expect(parsedProxyConfig[0].proxy).to.containSubset({
+      options: {
+        target: {
+          protocol: 'http:'
+        }
+      }
+    })
   })
 
   it('should determine protocol', () => {
@@ -209,8 +226,7 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: '8000',
       baseUrl: '',
-      path: '/base',
-      https: true
+      path: '/base'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
     expect(parsedProxyConfig[0].proxy).to.containSubset({
@@ -231,8 +247,7 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: 9877,
       baseUrl: '/proxy/test',
-      path: '/base',
-      https: false
+      path: '/base'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
   })
@@ -246,8 +261,7 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: 9877,
       baseUrl: '/proxy/test/',
-      path: '/base/',
-      https: false
+      path: '/base/'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
   })
@@ -261,8 +275,7 @@ describe('middleware.proxy', () => {
       host: 'krinkle.dev',
       port: '80',
       baseUrl: '/w',
-      path: '/w',
-      https: false
+      path: '/w'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
   })
@@ -276,8 +289,7 @@ describe('middleware.proxy', () => {
       host: 'krinkle.dev',
       port: '443',
       baseUrl: '/w',
-      path: '/w',
-      https: true
+      path: '/w'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
   })
@@ -290,8 +302,7 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: '8000',
       baseUrl: '/proxy/test/',
-      path: '/base/',
-      https: false
+      path: '/base/'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
   })
@@ -307,16 +318,14 @@ describe('middleware.proxy', () => {
       host: 'gstatic.com',
       port: '80',
       baseUrl: '/something',
-      path: '/sub/some',
-      https: false
+      path: '/sub/some'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
     expect(parsedProxyConfig[1]).to.containSubset({
       host: 'localhost',
       port: '9000',
       baseUrl: '',
-      path: '/sub',
-      https: false
+      path: '/sub'
     })
     expect(parsedProxyConfig[1].proxy).to.exist
   })
@@ -331,8 +340,7 @@ describe('middleware.proxy', () => {
       host: 'localhost',
       port: '8000',
       baseUrl: '/',
-      path: '/base/',
-      https: false
+      path: '/base/'
     })
     expect(parsedProxyConfig[0].proxy).to.exist
   })
@@ -351,25 +359,5 @@ describe('middleware.proxy', () => {
 
   it('should handle empty proxy config', () => {
     expect(m.parseProxyConfig({})).to.deep.equal([])
-  })
-
-  it('should use http agent with keepAlive=true', () => {
-    const proxy = { '/base': 'http://localhost:8000/proxy' }
-    const parsedProxyConfig = m.parseProxyConfig(proxy, {})
-    expect(parsedProxyConfig).to.have.length(1)
-    expect(parsedProxyConfig[0].proxy.options.agent).to.containSubset({
-      keepAlive: true,
-      protocol: 'http:'
-    })
-  })
-
-  it('should use https agent with keepAlive=true', () => {
-    const proxy = { '/base': 'https://localhost:8000/proxy' }
-    const parsedProxyConfig = m.parseProxyConfig(proxy, {})
-    expect(parsedProxyConfig).to.have.length(1)
-    expect(parsedProxyConfig[0].proxy.options.agent).to.containSubset({
-      keepAlive: true,
-      protocol: 'https:'
-    })
   })
 })
