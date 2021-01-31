@@ -22,7 +22,7 @@ describe('Karma', function () {
       }
     }
     socket = new MockSocket()
-    iframe = {}
+    iframe = { contentWindow: {} }
     windowNavigator = {}
     windowLocation = { search: '' }
     windowStub = sinon.stub().returns({})
