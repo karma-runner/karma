@@ -17,7 +17,7 @@ describe('Karma', function () {
   beforeEach(function () {
     mockTestStatus = ''
     updater = {
-      updateTestStatus: (s) => {
+      updateTestStatus: function (s) {
         mockTestStatus = s
       }
     }
@@ -454,7 +454,7 @@ describe('Karma', function () {
       clock.tick(500)
 
       ck.complete()
-      setTimeout(() => {
+      setTimeout(function () {
         assert(windowLocation.href === 'http://return.com')
         done()
       }, 5)
