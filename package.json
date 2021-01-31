@@ -503,10 +503,6 @@
     "build:check": "node scripts/client.js check",
     "build:watch": "node scripts/client.js watch",
     "test:integration": "./scripts/integration-tests.sh",
-    "link": "node --eval \"path=require('path'); require('fs').symlinkSync(path.resolve(__dirname), path.resolve(__dirname, 'node_modules', 'karma'), 'junction')\"",
-    "unlink": "node --eval \"require('fs').unlinkSync(require('path').resolve(__dirname, 'node_modules', 'karma'))\"",
-    "init": "rm -rf node_modules/karma && cd node_modules && ln -nsf ../ karma && cd ../",
-    "init:windows": "(IF EXIST node_modules\\karma (rmdir node_modules\\karma /S /q)) && npm run link",
     "semantic-release": "semantic-release"
   }
 }

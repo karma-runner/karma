@@ -1,5 +1,3 @@
-const fs = require('fs')
-
 const TRAVIS_WITH_BS = !!process.env.BROWSER_STACK_ACCESS_KEY
 
 const launchers = {
@@ -44,28 +42,6 @@ const launchers = {
   //   os_version: '7'
   // }
 }
-
-// Verify the install. This will run async but that's ok we'll see the log.
-fs.lstat('node_modules/karma', (err, stats) => {
-  if (err) {
-    console.error('Cannot verify installation', err.stack || err)
-  }
-  if (stats && stats.isSymbolicLink()) {
-    return
-  }
-
-  console.log('**** Incorrect directory layout for karma self-tests ****')
-  console.log(`
-    $ npm install
-
-    $ npm run init
-    # or if you're on Windows
-    $ npm run init:windows
-
-    $ npm run build
-  `)
-  process.exit(1)
-})
 
 let browsers = ['Chrome']
 

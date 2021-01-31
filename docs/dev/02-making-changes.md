@@ -23,10 +23,6 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
 * Install for development. Use a recent npm version, ignore peerdep warnings
   ```bash
   $ npm install
-  
-  $ npm run init
-  # or if you're on Windows
-  $ npm run init:windows
   ```
 
 ## Testing and Building
