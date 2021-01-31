@@ -15,12 +15,12 @@ const launchers = {
     os: 'Windows',
     os_version: '10'
   },
-  // bs_safari: {
-  //   base: 'BrowserStack',
-  //   browser: 'Safari',
-  //   os: 'OS X',
-  //   os_version: 'Big Sur'
-  // },
+  bs_safari: {
+    base: 'BrowserStack',
+    browser: 'Safari',
+    os: 'OS X',
+    os_version: 'Big Sur'
+  },
   bs_ie: {
     base: 'BrowserStack',
     browser: 'IE',
