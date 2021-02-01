@@ -1,3 +1,12 @@
+## [6.0.4](https://github.com/karma-runner/karma/compare/v6.0.3...v6.0.4) (2021-02-01)
+
+
+### Bug Fixes
+
+* **cli:** temporarily disable strict parameters validation ([#3641](https://github.com/karma-runner/karma/issues/3641)) ([9c755e0](https://github.com/karma-runner/karma/commit/9c755e0d61f1e8fb0fed1281fc8a331d5f1734be)), closes [#3625](https://github.com/karma-runner/karma/issues/3625)
+* **client:** fix a false positive page reload error in Safari ([#3643](https://github.com/karma-runner/karma/issues/3643)) ([2a57b23](https://github.com/karma-runner/karma/commit/2a57b230cd6b27e1a6e903ca6557c5a6b3e31bf6))
+* ensure that Karma supports running tests on IE 11 ([#3642](https://github.com/karma-runner/karma/issues/3642)) ([dbd1943](https://github.com/karma-runner/karma/commit/dbd1943e6901c4cb86280db7663afde32f9ab86c))
+
 ## [6.0.3](https://github.com/karma-runner/karma/compare/v6.0.2...v6.0.3) (2021-01-27)
 
 
