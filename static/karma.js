@@ -15,7 +15,6 @@ var util = require('../common/util')
 function Karma (updater, socket, iframe, opener, navigator, location, document) {
   this.updater = updater
   var startEmitted = false
-  var karmaNavigating = false
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -93,21 +92,21 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
 
   var childWindow = null
   function navigateContextTo (url) {
-    karmaNavigating = true
     if (self.config.useIframe === false) {
       // run in new window
       if (self.config.runInParent === false) {
         // If there is a window already open, then close it
         // DEV: In some environments (e.g. Electron), we don't have setter access for location
         if (childWindow !== null && childWindow.closed !== true) {
+          // The onbeforeunload listener was added by context to catch
+          // unexpected navigations while running tests.
+          childWindow.onbeforeunload = undefined
           childWindow.close()
         }
         childWindow = opener(url)
-        karmaNavigating = false
       // run context on parent element (client_with_context)
       // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
-        karmaNavigating = false
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
             var parser = new DOMParser()
@@ -138,15 +137,10 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
       }
     // run in iframe
     } else {
+      // The onbeforeunload listener was added by the context to catch
+      // unexpected navigations while running tests.
+      iframe.contentWindow.onbeforeunload = undefined
       iframe.src = policy.createURL(url)
-      karmaNavigating = false
-    }
-  }
-
-  this.onbeforeunload = function () {
-    if (!karmaNavigating) {
-      // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
-      self.error('Some of your tests did a full page reload!')
     }
   }
 
