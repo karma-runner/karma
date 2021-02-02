@@ -49,7 +49,9 @@ describe('stringify', function () {
   if (window.Proxy) {
     it('should serialize proxied functions', function () {
       var defProxy = new Proxy(function (d, e, f) { return 'whatever' }, {})
-      assert.deepStrictEqual(stringify(defProxy), 'function () { ... }')
+      // In Safari stringified Proxy object has ProxyObject as a name, but
+      // in other browsers it does not.
+      assert.deepStrictEqual(/^function (ProxyObject)?\(\) { ... }$/.test(stringify(defProxy)), true)
     })
   }
 
