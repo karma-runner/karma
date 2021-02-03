@@ -31,8 +31,8 @@
     "Karma Bot <karmarunnerbot@gmail.com>",
     "Maksim Ryzhikov <rv.maksim@gmail.com>",
     "ukasz Usarz <lukasz.usarz@gmail.com>",
-    "Christian Budde Christensen <budde377@gmail.com>",
     "semantic-release-bot <semantic-release-bot@martynus.net>",
+    "Christian Budde Christensen <budde377@gmail.com>",
     "Wesley Cho <wesley.cho@gmail.com>",
     "taichi <ryushi@gmail.com>",
     "Liam Newman <bitwiseman@gmail.com>",
@@ -292,6 +292,7 @@
     "Nick Carter <thynctank@thynctank.com>",
     "Nick McCurdy <nick@nickmccurdy.com>",
     "Nick Payne <nick@kurai.co.uk>",
+    "Nick Petruzzelli <npetruzzelli@users.noreply.github.com>",
     "Nick Williams <mr.nicksta@gmail.com>",
     "Nicolas Artman <nicolasartman@users.noreply.github.com>",
     "Nicolas Ferrero <ferrero.nicolas@gmail.com>",
@@ -484,7 +485,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.0.4",
+  "version": "6.1.0",
   "license": "MIT",
   "husky": {
     "hooks": {
