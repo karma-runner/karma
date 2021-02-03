@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/karma-runner/karma/compare/v6.0.4...v6.1.0) (2021-02-03)
+
+
+### Features
+
+* **config:** improve `karma.config.parseConfig` error handling ([#3635](https://github.com/karma-runner/karma/issues/3635)) ([9dba1e2](https://github.com/karma-runner/karma/commit/9dba1e20af48d4885e1a1c6da8c08454acb0db9d))
+
 ## [6.0.4](https://github.com/karma-runner/karma/compare/v6.0.3...v6.0.4) (2021-02-01)
 
 
