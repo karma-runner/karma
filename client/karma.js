@@ -282,9 +282,6 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
     this.complete()
   }.bind(this))
 
-  // Report the browser name and Id. Note that this event can also fire if the connection has
-  // been temporarily lost, but the socket reconnected automatically. Read more in the docs:
-  // https://socket.io/docs/client-api/#Event-%E2%80%98connect%E2%80%99
   socket.on('connect', function () {
     socket.io.engine.on('upgrade', function () {
       resultsBufferLimit = 1

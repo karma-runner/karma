@@ -292,9 +292,6 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
     this.complete()
   }.bind(this))
 
-  // Report the browser name and Id. Note that this event can also fire if the connection has
-  // been temporarily lost, but the socket reconnected automatically. Read more in the docs:
-  // https://socket.io/docs/client-api/#Event-%E2%80%98connect%E2%80%99
   socket.on('connect', function () {
     socket.io.engine.on('upgrade', function () {
       resultsBufferLimit = 1
@@ -334,8 +331,10 @@ var BROWSER_SOCKET_TIMEOUT = constants.BROWSER_SOCKET_TIMEOUT
 
 // Connect to the server using socket.io https://socket.io/
 var socket = io(location.host, {
-  reconnectionDelay: 500,
-  reconnectionDelayMax: Infinity,
+  // We can't support reconnection without message replay: any messages sent
+  // after disconnect are lost.
+  reconnection: false,
+  // At this timeout the client disconnects and the server sees 'transport close'
   timeout: BROWSER_SOCKET_TIMEOUT,
   path: KARMA_PROXY_PATH + KARMA_URL_ROOT.substr(1) + 'socket.io',
   'sync disconnect on unload': true
