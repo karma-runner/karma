@@ -1,3 +1,11 @@
+## [6.1.1](https://github.com/karma-runner/karma/compare/v6.1.0...v6.1.1) (2021-02-12)
+
+
+### Bug Fixes
+
+* **config:** check extension before ts-node register ([#3651](https://github.com/karma-runner/karma/issues/3651)) ([474f4e1](https://github.com/karma-runner/karma/commit/474f4e1caff469cce87f19a11d9179e4e05552f9)), closes [#3329](https://github.com/karma-runner/karma/issues/3329)
+* report launcher process error when exit event is not emitted ([#3647](https://github.com/karma-runner/karma/issues/3647)) ([7ab86be](https://github.com/karma-runner/karma/commit/7ab86be25c334b07747632b0a6bdb1d650d881bc))
+
 # [6.1.0](https://github.com/karma-runner/karma/compare/v6.0.4...v6.1.0) (2021-02-03)
 
 
