@@ -3,15 +3,14 @@ const mocks = require('mocks')
 const request = require('supertest')
 var zlib = require('zlib')
 
-const helper = require('../../../lib/helper')
 const File = require('../../../lib/file')
 const createServeFile = require('../../../lib/middleware/common').createServeFile
 const createSourceFilesMiddleware = require('../../../lib/middleware/source_files').create
 
 describe('middleware.source_files', function () {
   let next
-  let files
-  let server = next = files = null
+  let currentWebFiles
+  let server = next = currentWebFiles = null
 
   const fsMock = mocks.fs.create({
     base: {
@@ -34,7 +33,7 @@ describe('middleware.source_files', function () {
   const serveFile = createServeFile(fsMock, null)
 
   function createServer (f, s, basePath) {
-    const handler = createSourceFilesMiddleware(f.promise, s, basePath)
+    const handler = createSourceFilesMiddleware(f, s, basePath)
     return http.createServer(function (req, res) {
       next = sinon.spy(function (err) {
         if (err) {
@@ -51,8 +50,8 @@ describe('middleware.source_files', function () {
   }
 
   beforeEach(function () {
-    files = helper.defer()
-    server = createServer(files, serveFile, '/base/path')
+    currentWebFiles = { included: [], served: [] }
+    server = createServer(currentWebFiles, serveFile, '/base/path')
     return server
   })
 
@@ -60,15 +59,11 @@ describe('middleware.source_files', function () {
     return next.resetHistory()
   })
 
-  function servedFiles (list) {
-    return files.resolve({ included: [], served: list })
-  }
-
   describe('Range headers', function () {
     beforeEach(function () {
-      servedFiles([
+      currentWebFiles.served = [
         new File('/src/some.js')
-      ])
+      ]
     })
 
     it('allows single explicit ranges', function () {
@@ -114,9 +109,9 @@ describe('middleware.source_files', function () {
     let file
     beforeEach(function () {
       file = new File('/src/some.js')
-      servedFiles([
+      currentWebFiles.served = [
         file
-      ])
+      ]
     })
 
     it('serves encoded files', function () {
@@ -146,9 +141,9 @@ describe('middleware.source_files', function () {
   })
 
   it('should serve absolute js source files ignoring timestamp', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/src/some.js')
-    ])
+    ]
 
     return request(server)
       .get('/absolute/src/some.js?123345')
@@ -156,9 +151,9 @@ describe('middleware.source_files', function () {
   })
 
   it('should serve js source files from base folder ignoring timestamp', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/base/path/a.js')
-    ])
+    ]
 
     return request(server)
       .get('/base/a.js?123345')
@@ -169,9 +164,9 @@ describe('middleware.source_files', function () {
   })
 
   it('should send strict caching headers for js source files with sha', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/src/some.js')
-    ])
+    ]
 
     return request(server)
       .get('/absolute/src/some.js?df43b8acf136389a8dd989bda397d1c9b4e048be')
@@ -183,9 +178,9 @@ describe('middleware.source_files', function () {
   })
 
   it('should send strict caching headers for js source files with sha (in basePath)', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/base/path/a.js')
-    ])
+    ]
 
     return request(server)
       .get('/base/a.js?df43b8acf136389a8dd989bda397d1c9b4e048be')
@@ -196,9 +191,9 @@ describe('middleware.source_files', function () {
   it('should send no-caching headers for js source files without timestamps', function () {
     const ZERO_DATE = new RegExp(new Date(0).toUTCString())
 
-    servedFiles([
+    currentWebFiles.served = [
       new File('/src/some.js')
-    ])
+    ]
 
     return request(server)
       .get('/absolute/src/some.js')
@@ -213,7 +208,7 @@ describe('middleware.source_files', function () {
   })
 
   it('should not serve files that are not in served', function () {
-    servedFiles([])
+    currentWebFiles.served = []
 
     return request(server)
       .get('/absolute/non-existing.html')
@@ -221,9 +216,9 @@ describe('middleware.source_files', function () {
   })
 
   it('should serve 404 if file is served but does not exist', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/non-existing.js')
-    ])
+    ]
 
     return request(server)
       .get('/absolute/non-existing.js')
@@ -231,11 +226,11 @@ describe('middleware.source_files', function () {
   })
 
   it('should serve js source file from base path containing utf8 chars', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/utf8ášč/some.js')
-    ])
+    ]
 
-    server = createServer(files, serveFile, '/utf8ášč')
+    server = createServer(currentWebFiles, serveFile, '/utf8ášč')
 
     return request(server)
       .get('/base/some.js')
@@ -246,11 +241,11 @@ describe('middleware.source_files', function () {
   })
 
   it('should serve js source file from paths containing HTML URL encoded chars', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/jenkins%2Fbranch/some.js')
-    ])
+    ]
 
-    server = createServer(files, serveFile, '')
+    server = createServer(currentWebFiles, serveFile, '')
 
     return request(server)
       .get('/base/jenkins%2Fbranch/some.js')
@@ -261,9 +256,9 @@ describe('middleware.source_files', function () {
   })
 
   it('should set content-type headers', function () {
-    servedFiles([
+    currentWebFiles.served = [
       new File('/base/path/index.html')
-    ])
+    ]
 
     return request(server)
       .get('/base/index.html')
@@ -275,9 +270,9 @@ describe('middleware.source_files', function () {
     const cachedFile = new File('/some/file.js')
     cachedFile.content = 'cached-content'
 
-    servedFiles([
+    currentWebFiles.served = [
       cachedFile
-    ])
+    ]
 
     return request(server)
       .get('/absolute/some/file.js')
@@ -292,9 +287,9 @@ describe('middleware.source_files', function () {
     cachedFile.content = 'cached-content'
     cachedFile.doNotCache = true
 
-    servedFiles([
+    currentWebFiles.served = [
       cachedFile
-    ])
+    ]
 
     return request(server)
       .get('/absolute/src/some.js')
