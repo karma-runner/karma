@@ -19,7 +19,9 @@ jobs:
     - node_js: "14"
       script:
         - npm run init
-        - commitlint-travis
+        - if [[ "$TRAVIS_BRANCH" != "master" ]]; then
+            commitlint-travis;
+          fi;
         - npm run lint
         - npm run build:check
         - npm run test:unit
