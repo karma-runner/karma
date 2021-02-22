@@ -246,13 +246,12 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
     // to ensure the error from an incorrect navigate is processed.
     var config = this.config
     setTimeout(function () {
+      socket.emit('complete', result || {})
       if (config.clearContext) {
         navigateContextTo('about:blank')
+      } else {
+        self.updater.updateTestStatus('complete')
       }
-
-      socket.emit('complete', result || {})
-      self.updater.updateTestStatus('complete')
-
       if (returnUrl) {
         location.href = returnUrl
       }
