@@ -388,6 +388,21 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
+  it('should ignore dollar replacement sequences in mappings with all served files', (done) => {
+    fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
+    servedFiles([
+      new MockFile('/some/abc/a$$b.js', 'sha_a'),
+      new MockFile('/base/path/ba.js', 'sha_b')
+    ])
+
+    response.once('end', () => {
+      expect(response).to.beServedAs(200, 'window.__karma__.files = {\n  \'/__proxy__/__karma__/absolute/some/abc/a$$b.js\': \'sha_a\',\n  \'/__proxy__/__karma__/base/ba.js\': \'sha_b\'\n};\n')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
   it('should serve debug.html with replaced script tags without timestamps', (done) => {
     includedFiles([
       new MockFile('/first.js'),
