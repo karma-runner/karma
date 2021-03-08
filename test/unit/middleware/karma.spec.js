@@ -28,6 +28,7 @@ describe('middleware.karma', () => {
     karma: {
       static: {
         'client.html': mocks.fs.file(0, 'CLIENT HTML\n%X_UA_COMPATIBLE%%X_UA_COMPATIBLE_URL%'),
+        'client_with_context.html': mocks.fs.file(0, 'CLIENT_WITH_CONTEXT\n%SCRIPT_URL_ARRAY%'),
         'context.html': mocks.fs.file(0, 'CONTEXT\n%SCRIPTS%'),
         'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%\n%X_UA_COMPATIBLE%'),
         'karma.js': mocks.fs.file(0, 'root: %KARMA_URL_ROOT%, proxy: %KARMA_PROXY_PATH%, v: %KARMA_VERSION%')
@@ -214,6 +215,21 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
+  it('should serve context.html without using special patterns when replacing script tags', (done) => {
+    includedFiles([
+      new MockFile('/.yarn/$$virtual/first.js', 'sha123'),
+      new MockFile('/.yarn/$$virtual/second.dart', 'sha456')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/first.js?sha123" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/second.dart?sha456" crossorigin="anonymous"></script>')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
   it('should serve context.html with replaced link tags', (done) => {
     includedFiles([
       new MockFile('/first.css', 'sha007'),
@@ -373,6 +389,20 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
+  it('should inline mappings without using special patterns', (done) => {
+    fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
+    servedFiles([
+      new MockFile('/.yarn/$$virtual/abc/a.js', 'sha_a')
+    ])
+
+    response.once('end', () => {
+      expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/.yarn/$$virtual/abc/a.js': 'sha_a'\n};\n")
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
   it('should escape quotes in mappings with all served files', (done) => {
     fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
     servedFiles([
@@ -489,5 +519,20 @@ describe('middleware.karma', () => {
     })
 
     callHandlerWith('/__karma__/debug.html')
+  })
+
+  it('should serve client_with_context.html without using special patterns when replacing script urls', (done) => {
+    includedFiles([
+      new MockFile('/.yarn/$$virtual/first.js', 'sha123'),
+      new MockFile('/.yarn/$$virtual/second.dart', 'sha456')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CLIENT_WITH_CONTEXT\nwindow.__karma__.scriptUrls = ["\\\\x3Cscript type=\\"text/javascript\\" src=\\"/__proxy__/__karma__/absolute/.yarn/$$virtual/first.js\\" crossorigin=\\"anonymous\\"\\\\x3E\\\\x3C/script\\\\x3E","\\\\x3Cscript type=\\"text/javascript\\" src=\\"/__proxy__/__karma__/absolute/.yarn/$$virtual/second.dart\\" crossorigin=\\"anonymous\\"\\\\x3E\\\\x3C/script\\\\x3E"];\n')
+      done()
+    })
+
+    callHandlerWith('/__karma__/client_with_context.html')
   })
 })
