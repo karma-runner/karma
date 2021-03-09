@@ -1,3 +1,11 @@
+## [6.1.2](https://github.com/karma-runner/karma/compare/v6.1.1...v6.1.2) (2021-03-09)
+
+
+### Bug Fixes
+
+* **commitlint:** skip task on master ([#3650](https://github.com/karma-runner/karma/issues/3650)) ([3fc6fda](https://github.com/karma-runner/karma/commit/3fc6fdadd6b0ed6838de048c15485b1bd815fe23))
+* patch karma to allow loading virtual packages ([#3663](https://github.com/karma-runner/karma/issues/3663)) ([5bfcf5f](https://github.com/karma-runner/karma/commit/5bfcf5f37de6f0a12abcf9914c2fad510395b4d6))
+
 ## [6.1.1](https://github.com/karma-runner/karma/compare/v6.1.0...v6.1.1) (2021-02-12)
 
 
