@@ -79,6 +79,7 @@
     "Bryan Smith <bryanrsmith@gmail.com>",
     "Bulat Shakirzyanov <mallluhuct@gmail.com>",
     "ChangZhuo Chen (陳昌倬) <czchen@gmail.com>",
+    "Chris Bottin <chrisbottin@users.noreply.github.com>",
     "Cyrus Chan <chan1cyrus2@gmail.com>",
     "DarthCharles <carlos.darth@gmail.com>",
     "David Herges <dherges@users.noreply.github.com>",
@@ -172,9 +173,9 @@
     "Carl Goldberg <carlgoldberg1236@gmail.com>",
     "Chad Smith <chad@configit.com>",
     "Chang Wang <cheapsteak@gmail.com>",
+    "Charles Suh <charlessuh@users.noreply.github.com>",
     "Chelsea Urquhart <curquhart@users.noreply.github.com>",
     "Chris <camargo.cac@gmail.com>",
-    "Chris Bottin <chrisbottin@users.noreply.github.com>",
     "Chris Chua <chris.sirhc@gmail.com>",
     "Chris Dawson <xrdawson@gmail.com>",
     "Christian Weiss <cweiss@stripe.com>",
@@ -487,7 +488,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.1.1",
+  "version": "6.1.2",
   "license": "MIT",
   "husky": {
     "hooks": {
