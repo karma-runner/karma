@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/karma-runner/karma/compare/v6.1.2...v6.2.0) (2021-03-10)
+
+
+### Features
+
+* **plugins:** add support wildcard config for scoped package plugin ([#3659](https://github.com/karma-runner/karma/issues/3659)) ([39831b1](https://github.com/karma-runner/karma/commit/39831b1c2f9cbeebdba94c73ce353efb7c44e802))
+
 ## [6.1.2](https://github.com/karma-runner/karma/compare/v6.1.1...v6.1.2) (2021-03-09)
 
 
