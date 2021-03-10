@@ -393,6 +393,7 @@
     "deepak1556 <hop2deep@gmail.com>",
     "dorey <dorey415@gmail.com>",
     "grifball <scottgriffy@gmail.com>",
+    "hdmr14 <58992133+hdmr14@users.noreply.github.com>",
     "hrgdavor <hrgdavor@gmail.com>",
     "ianjobling <ijobling@codio.com>",
     "inf3rno <laszlo.janszky@gmail.com>",
@@ -488,7 +489,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.1.2",
+  "version": "6.2.0",
   "license": "MIT",
   "husky": {
     "hooks": {
