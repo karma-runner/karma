@@ -156,19 +156,158 @@ stopper.stop({port: 9876}, function(exitCode) {
 })
 ```
 
-## karma.config.parseConfig([configFilePath], [cliOptions])
+## karma.config
+
+### config.parseConfig([configFilePath], [cliOptions], [parseOptions])
 
 This function will load given config file and returns a filled config object.
 This can be useful if you want to integrate karma into another tool and want to load
 the karma config while honoring the karma defaults. For example, the [stryker-karma-runner](https://github.com/stryker-mutator/stryker-karma-runner)
 uses this to load your karma configuration and use that in the stryker configuration.
 
+#### Usage
+
+##### Deprecated Behavior
+
+The following still works, but the way it behaves is deprecated and will be
+changed in a future major version.
+
 ```javascript
 const cfg = require('karma').config;
 const path = require('path');
 // Read karma.conf.js, but override port with 1337
-const karmaConfig = cfg.parseConfig(path.resolve('./karma.conf.js'), { port: 1337 } );
+const karmaConfig = cfg.parseConfig(
+  path.resolve('./karma.conf.js'),
+  { port: 1337 }
+);
 ```
+
+The new behavior in the future will involve throwing exceptions instead of
+exiting the process and aynchronous config files will be supported through the
+use of promises.
+
+##### New Behavior
+
+```javascript
+const cfg = require('karma').config;
+const path = require('path');
+// Read karma.conf.js, but override port with 1337
+const karmaConfig = cfg.parseConfig(
+  path.resolve('./karma.conf.js'),
+  { port: 1337 },
+  { throwErrors: true }
+)
+```
+
+##### New Behavior with Promise Support
+
+```javascript
+const cfg = require('karma').config;
+const path = require('path');
+// Read karma.conf.js, but override port with 1337
+cfg.parseConfig(
+  path.resolve('./karma.conf.js'),
+  { port: 1337 },
+  { promiseConfig: true, throwErrors: true }
+).then(
+  (karmaConfig) => { /* use the config with the public API */ },
+  (rejectReason) => { /* respond to the rejection reason error */ }
+);
+```
+
+
+#### `configFilePath` argument
+
+-   **Type:** String | `null` | `undefined`
+-   **Default Value:** `undefined`
+
+A string representing a file system path pointing to the config file whose
+default export is a function that will be used to set Karma configuration
+options. This function will be passed an instance of the `Config` class as its
+first argument. If this option is not provided, then only the options provided
+by the `cliOptions` argument will be set.
+
+-   JavaScript must use CommonJS modules.
+-   ECMAScript modules are not currently supported by Karma when using
+    JavaScript.
+    -   Other formats, such as TypeScript, may support ECMAScript modules.
+
+
+#### `cliOptions` argument
+
+-   **Type:** Object | `null` | `undefined`
+-   **Default Value:** `undefined`
+
+An object whose values will take priority over options set in the config file.
+The config object passed to function exported by the config file will already
+have these options applied. Any changes the config file makes to these options
+will effectively be ignored in the final configuration.
+
+Supports all the same options as the config file and is applied using the same
+`config.set()` method.
+
+The expected source of this argument is parsed command line options, but 
+programatic users may construct this object or leave it out entirely.
+
+
+#### `parseOptions` argument
+
+-   **Type:** Object | `null` | `undefined`
+-   **Default Value:** `undefined`
+
+`parseOptions` is an object whose properties are configuration options that
+allow additional control over parsing and opt-in access to new behaviors or
+features.
+
+These options are only related to parsing configuration files and object and are
+not related to the configuration of Karma itself.
+
+
+##### `parseOptions.promiseConfig` option
+
+-   **Type:** Boolean
+-   **Default Value:** `false`
+
+When `parseOptions.promiseConfig === true`, then `parseConfig` will return a
+promise instead of a configuration object.
+
+When this option is `true`, then the function exported by the config file may
+return a promise. The resolution of that promise indicates that all asynchronous
+activity has been completed. Internally, the resolved/fulfilled value is 
+ignored. As with synchronous usage, all changes to the config object must be
+done with the `config.set()` method.
+
+If the function exported by the config file does not return a promise, then
+parsing is completed and an immediately fulfilled promise is returned.
+
+Whether the function exported by the config file returns a promise or not, the
+promise returned by `parseConfig()` will resolve with a parsed configuration
+object, an instance of the `Config` class, as the value.
+
+_**In most cases, `parseOptions.throwErrors = true` should also be set. This
+disables process exiting and allows errors to result in rejected promises.**_
+
+
+##### `parseOptions.throwErrors` option
+
+-   **Type:** Boolean
+-   **Default Value:** `false`
+
+In the past, `parseConfig()` would call `process.exit(exitCode)` when it
+encountered a critical failure. This meant that your own code had no way of
+responding to failures before the Node.js process exited.
+
+By passing `parseOptions.throwErrors = true`, `parseConfig()` will disable
+process exiting.
+
+For synchronous usage, it will throw an exception instead of exiting the
+process. Your code can then catch the exception and respond how ever it needs
+to.
+
+If the asynchronous API (`parseOptions.promiseConfig = true`) is being used,
+then `parseOptions.throwErrors = true` allows the promise to be rejected
+instead of exiting the process.
+
 
 ## karma.constants
 
