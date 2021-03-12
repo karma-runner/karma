@@ -401,7 +401,7 @@ then `parseOptions.throwErrors = true` allows the promise to be rejected
 instead of exiting the process.
 
 
-## `constants`
+## `karma.constants`
 
 ### `constants.VERSION`
 
