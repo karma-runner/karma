@@ -150,7 +150,16 @@ This event gets triggered whenever all the browsers, which belong to a test run,
 
 ### **runner.run(options, [callback=process.exit])**
 
+-   **Returns:** `EventEmitter`
+
 The equivalent of `karma run`.
+
+#### Usage
+
+##### Deprecated Behavior
+
+The following still works, but the way it behaves is deprecated and will be
+changed in a future major version.
 
 ```javascript
 var runner = require('karma').runner
@@ -159,6 +168,35 @@ runner.run({port: 9876}, function(exitCode) {
   process.exit(exitCode)
 })
 ```
+
+##### New Behavior
+
+```javascript
+const karma = require('karma')
+
+karma.config.parseConfig(
+  null,
+  { port: 9876 },
+  { promiseConfig: true, throwErrors: true }
+).then(
+  (karmaConfig) => {
+    karma.runner.run(karmaConfig, function doneCallback(exitCode, possibleErrorCode) {
+      console.log('Karma has exited with ' + exitCode)
+      process.exit(exitCode)
+    })
+  },
+  (rejectReason) => { /* respond to the rejection reason error */ }
+);
+```
+
+#### `callback` argument
+
+The callback receives the exit code as the first argument.
+
+If there is an error, the error code will be provided as the second parameter to
+the error callback.
+
+#### runner Events
 
 `runner.run()` returns an `EventEmitter` which emits a `progress` event passing
 the reporter output as a `Buffer` object.
@@ -175,7 +213,15 @@ runner.run({port: 9876}).on('progress', function(data) {
 
 ### **stopper.stop(options, [callback=process.exit])**
 
-This function will signal a running server to stop.  The equivalent of `karma stop`.  
+This function will signal a running server to stop. The equivalent of
+`karma stop`.
+
+#### Usage
+
+##### Deprecated Behavior
+
+The following still works, but the way it behaves is deprecated and will be
+changed in a future major version.
 
 ```javascript
 var stopper = require('karma').stopper
@@ -186,6 +232,35 @@ stopper.stop({port: 9876}, function(exitCode) {
   process.exit(exitCode)
 })
 ```
+
+##### New Behavior
+
+```javascript
+const karma = require('karma')
+
+karma.config.parseConfig(
+  null,
+  { port: 9876 },
+  { promiseConfig: true, throwErrors: true }
+).then(
+  (karmaConfig) => {
+    karma.stopper.stop(karmaConfig, function doneCallback(exitCode, possibleErrorCode) {
+      if (exitCode === 0) {
+        console.log('Server stop as initiated')
+      }
+      process.exit(exitCode)
+    })
+  },
+  (rejectReason) => { /* respond to the rejection reason error */ }
+);
+```
+
+#### `callback` argument
+
+The callback receives the exit code as the first argument.
+
+If there is an error, the error code will be provided as the second parameter to
+the error callback.
 
 ## karma.config
 
@@ -383,7 +458,3 @@ The default console appender
 ### **constants.EXIT_CODE**
 
 The exit code
-
-## Callback function notes
-
-- If there is an error, the error code will be provided as the second parameter to the error callback.
