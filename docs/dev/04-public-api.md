@@ -6,6 +6,17 @@ You can, however, call Karma programmatically from your node module. Here is the
 
 ### Constructor
 
+-   **Returns:** `Server` instance.
+
+#### Usage
+
+Notice the capital 'S' on  `require('karma').Server`.
+
+##### Deprecated Behavior
+
+The following still works, but the way it behaves is deprecated and will be
+changed in a future major version.
+
 ```javascript
 var Server = require('karma').Server
 var karmaConfig = {port: 9876}
@@ -15,7 +26,27 @@ var server = new Server(karmaConfig, function(exitCode) {
 })
 ```
 
-Notice the capital 'S' on  `require('karma').Server`.
+##### New Behavior
+
+```javascript
+const karma = require('karma')
+const parseConfig = karma.config.parseConfig
+const Server = karma.Server
+
+parseConfig(
+  null,
+  { port: 9876 },
+  { promiseConfig: true, throwErrors: true }
+).then(
+  (karmaConfig) => {
+    const server = new Server(karmaConfig, function doneCallback(exitCode) {
+      console.log('Karma has exited with ' + exitCode)
+      process.exit(exitCode)
+    })
+  },
+  (rejectReason) => { /* respond to the rejection reason error */ }
+);
+```
 
 ### **server.start()**
 
