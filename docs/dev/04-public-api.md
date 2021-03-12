@@ -192,19 +192,6 @@ use of promises.
 const cfg = require('karma').config;
 const path = require('path');
 // Read karma.conf.js, but override port with 1337
-const karmaConfig = cfg.parseConfig(
-  path.resolve('./karma.conf.js'),
-  { port: 1337 },
-  { throwErrors: true }
-)
-```
-
-##### New Behavior with Promise Support
-
-```javascript
-const cfg = require('karma').config;
-const path = require('path');
-// Read karma.conf.js, but override port with 1337
 cfg.parseConfig(
   path.resolve('./karma.conf.js'),
   { port: 1337 },
