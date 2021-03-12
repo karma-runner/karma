@@ -4,7 +4,7 @@ You can, however, call Karma programmatically from your node module. Here is the
 
 ## karma.Server(options, [callback=process.exit])
 
-### Constructor
+### `constructor`
 
 -   **Returns:** `Server` instance.
 
@@ -48,7 +48,7 @@ parseConfig(
 );
 ```
 
-### **server.start()**
+### `server.start()`
 
 Equivalent of `karma start`.
 
@@ -56,7 +56,7 @@ Equivalent of `karma start`.
 server.start()
 ```
 
-### **server.refreshFiles()**
+### `server.refreshFiles()`
 
 Trigger a file list refresh. Returns a promise.
 
@@ -64,7 +64,7 @@ Trigger a file list refresh. Returns a promise.
 server.refreshFiles()
 ```
 
-### **server.refreshFile(path)**
+### `server.refreshFile(path)`
 
 Trigger a file refresh. Returns a promise.
 
@@ -148,7 +148,7 @@ This event gets triggered whenever all the browsers, which belong to a test run,
 
 ## karma.runner
 
-### **runner.run(options, [callback=process.exit])**
+### `runner.run(options, [callback=process.exit])`
 
 -   **Returns:** `EventEmitter`
 
@@ -211,7 +211,7 @@ runner.run({port: 9876}).on('progress', function(data) {
 
 ## karma.stopper
 
-### **stopper.stop(options, [callback=process.exit])**
+### `stopper.stop(options, [callback=process.exit])`
 
 This function will signal a running server to stop. The equivalent of
 `karma stop`.
@@ -264,7 +264,7 @@ the error callback.
 
 ## karma.config
 
-### config.parseConfig([configFilePath], [cliOptions], [parseOptions])
+### `config.parseConfig([configFilePath], [cliOptions], [parseOptions])`
 
 This function will load given config file and returns a filled config object.
 This can be useful if you want to integrate karma into another tool and want to load
@@ -401,60 +401,60 @@ then `parseOptions.throwErrors = true` allows the promise to be rejected
 instead of exiting the process.
 
 
-## karma.constants
+## `constants`
 
-### **constants.VERSION**
+### `constants.VERSION`
 
 The current version of karma
 
-### **constants.DEFAULT_PORT**
+### `constants.DEFAULT_PORT`
 
 The default port used for the karma server
 
-### **constants.DEFAULT_HOSTNAME**
+### `constants.DEFAULT_HOSTNAME`
 
 The default hostname used for the karma server
 
-### **constants.DEFAULT_LISTEN_ADDR**
+### `constants.DEFAULT_LISTEN_ADDR`
 
 The default address use for the karma server to listen on
 
-### **constants.LOG_DISABLE**
+### `constants.LOG_DISABLE`
 
 The value for disabling logs
 
-### **constants.LOG_ERROR**
+### `constants.LOG_ERROR`
 
 The value for the log `error` level
 
-### **constants.LOG_WARN**
+### `constants.LOG_WARN`
 
 The value for the log `warn` level
 
-### **constants.LOG_INFO**
+### `constants.LOG_INFO`
 
 The value for the log `info` level
 
-### **constants.LOG_DEBUG**
+### `constants.LOG_DEBUG`
 
 The value for the log `debug` level
 
-### **constants.LOG_PRIORITIES**
+### `constants.LOG_PRIORITIES`
 
 An array of log levels in descending order, i.e. `LOG_DISABLE`, `LOG_ERROR`, `LOG_WARN`, `LOG_INFO`, and `LOG_DEBUG`
 
-### **constants.COLOR_PATTERN**
+### `constants.COLOR_PATTERN`
 
 The default color pattern for log output
 
-### **constants.NO_COLOR_PATTERN**
+### `constants.NO_COLOR_PATTERN`
 
 The default pattern for log output without color
 
-### **constants.CONSOLE_APPENDER**
+### `constants.CONSOLE_APPENDER`
 
 The default console appender
 
-### **constants.EXIT_CODE**
+### `constants.EXIT_CODE`
 
 The exit code
