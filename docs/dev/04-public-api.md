@@ -162,8 +162,7 @@ stopper.stop({port: 9876}, function(exitCode) {
 
 This function will load given config file and returns a filled config object.
 This can be useful if you want to integrate karma into another tool and want to load
-the karma config while honoring the karma defaults. For example, the [stryker-karma-runner](https://github.com/stryker-mutator/stryker-karma-runner)
-uses this to load your karma configuration and use that in the stryker configuration.
+the karma config while honoring the karma defaults.
 
 #### Usage
 
