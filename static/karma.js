@@ -196,7 +196,6 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
 
     socket.emit('karma_error', message)
     self.updater.updateTestStatus('karma_error ' + message)
-    this.complete()
     return false
   }
 
