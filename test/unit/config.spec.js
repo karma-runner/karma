@@ -5,24 +5,6 @@ const loadFile = require('mocks').loadFile
 const helper = require('../../lib/helper')
 const logger = require('../../lib/logger.js')
 
-/**
- * If an object is "thenable", then it is considered to be a promise
- * implementation. It does not have to be an instance of ECMAScript's own
- * `Promise` class to be considered a promise.
- *
- * @param {*} value
- * @returns {boolean}
- *
- * @see {@link https://promisesaplus.com/}
- */
-function isPromiseLike (value) {
-  const valueType = typeof value
-  return (
-    ((value != null && valueType === 'object') || valueType === 'function') &&
-    typeof value.then === 'function'
-  )
-}
-
 describe('config', () => {
   let m
   let e
@@ -86,6 +68,7 @@ describe('config', () => {
       global: {},
       process: mocks.process,
       Error: Error, // Without this, chai's `.throw()` assertion won't correctly check against constructors.
+      Promise: Promise,
       require (path) {
         if (mockConfigs[path]) {
           return mockConfigs[path]
@@ -248,18 +231,18 @@ describe('config', () => {
           { promiseConfig: true }
         )
 
-        expect(
-          isPromiseLike(noConfigFilePromise),
+        expect(noConfigFilePromise).to.be.an.instanceof(
+          Promise,
           'Expected parseConfig to return a promise when no config file path is provided.'
-        ).to.be.true
-        expect(
-          isPromiseLike(syncConfigPromise),
+        )
+        expect(syncConfigPromise).to.be.an.instanceof(
+          Promise,
           'Expected parseConfig to return a promise when the config file DOES NOT return a promise.'
-        ).to.be.true
-        expect(
-          isPromiseLike(asyncConfigPromise),
+        )
+        expect(asyncConfigPromise).to.be.an.instanceof(
+          Promise,
           'Expected parseConfig to return a promise when the config file returns a promise.'
-        ).to.be.true
+        )
       })
 
       it('should log an error and exit if invalid file', () => {
