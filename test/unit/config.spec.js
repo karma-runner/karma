@@ -48,20 +48,8 @@ describe('config', () => {
   const wrapCfg = function (cfg) {
     return (config) => config.set(cfg)
   }
-  function wrapCfgResolvedPromise (cfg) {
-    return (config) => {
-      return new Promise((resolve, reject) => {
-        const delayMs = 50
-        setTimeout(() => {
-          try {
-            config.set(cfg)
-            resolve()
-          } catch (configSetException) {
-            reject(configSetException)
-          }
-        }, delayMs)
-      })
-    }
+  const wrapAsyncCfg = function (cfg) {
+    return async (config) => config.set(cfg)
   }
 
   beforeEach(() => {
@@ -87,7 +75,7 @@ describe('config', () => {
       '/conf/coffee.coffee': wrapCfg({ files: ['one.js', 'two.js'] }),
       '/conf/default-export.js': { default: wrapCfg({ files: ['one.js', 'two.js'] }) },
       '/conf/default-config': function noOperations () {},
-      '/conf/returns-promise-that-resolves.js': wrapCfgResolvedPromise({ foo: 'bar' }),
+      '/conf/returns-promise-that-resolves.js': wrapAsyncCfg({ foo: 'bar' }),
       '/conf/returns-promise-that-rejects.js': () => {
         return Promise.reject(new Error('Unexpected Error'))
       }
