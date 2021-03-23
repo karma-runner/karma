@@ -1,3 +1,10 @@
+# [6.3.0](https://github.com/karma-runner/karma/compare/v6.2.0...v6.3.0) (2021-03-23)
+
+
+### Features
+
+* support asynchronous `config.set()` call in karma.conf.js ([#3660](https://github.com/karma-runner/karma/issues/3660)) ([4c9097a](https://github.com/karma-runner/karma/commit/4c9097a59c666671aaa55177e03e8738e047e886))
+
 # [6.2.0](https://github.com/karma-runner/karma/compare/v6.1.2...v6.2.0) (2021-03-10)
 
 
