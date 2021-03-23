@@ -294,6 +294,7 @@
     "Nick Carter <thynctank@thynctank.com>",
     "Nick McCurdy <nick@nickmccurdy.com>",
     "Nick Payne <nick@kurai.co.uk>",
+    "Nick Petruzzelli <code.npetruzzelli@gmail.com>",
     "Nick Petruzzelli <npetruzzelli@users.noreply.github.com>",
     "Nick Williams <mr.nicksta@gmail.com>",
     "Nicolas Artman <nicolasartman@users.noreply.github.com>",
@@ -489,7 +490,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.2.0",
+  "version": "6.3.0",
   "license": "MIT",
   "husky": {
     "hooks": {
