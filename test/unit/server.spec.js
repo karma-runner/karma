@@ -2,6 +2,7 @@ const Server = require('../../lib/server')
 const NetUtils = require('../../lib/utils/net-utils')
 const BrowserCollection = require('../../lib/browser_collection')
 const Browser = require('../../lib/browser')
+const cfg = require('../../lib/config')
 const logger = require('../../lib/logger')
 
 describe('server', () => {
@@ -16,7 +17,9 @@ describe('server', () => {
   let mockBoundServer
   let mockExecutor
   let doneStub
+  let log
   let logErrorSpy
+  let logWarnStub
   let server = mockConfig = browserCollection = webServerOnError = null
   let fileListOnResolve = fileListOnReject = mockLauncher = null
   let mockFileList = mockWebServer = mockSocketServer = mockExecutor = doneStub = null
@@ -28,7 +31,9 @@ describe('server', () => {
     this.timeout(4000)
     browserCollection = new BrowserCollection()
     doneStub = sinon.stub()
-    logErrorSpy = sinon.spy(logger.create('karma-server'), 'error')
+    log = logger.create('karma-server')
+    logErrorSpy = sinon.spy(log, 'error')
+    logWarnStub = sinon.stub(log, 'warn')
 
     fileListOnResolve = fileListOnReject = null
 
@@ -46,7 +51,6 @@ describe('server', () => {
       browserDisconnectTolerance: 0,
       browserNoActivityTimeout: 0
     }
-
     server = new Server(mockConfig, doneStub)
 
     sinon.stub(server._injector, 'invoke').returns([])
@@ -124,6 +128,37 @@ describe('server', () => {
     injectorStub.callThrough()
 
     webServerOnError = null
+  })
+
+  afterEach(() => {
+    logWarnStub.restore()
+  })
+
+  describe('constructor', () => {
+    it('should log a warning when the first argument is not an instance of Config', async () => {
+      // Reset the spy interface on the stub. It may have already been called by
+      // code in the `before` or `beforeEach` hooks.
+      logWarnStub.resetHistory()
+
+      const rawConfig = {
+        karmaConfigForTest: true
+      }
+      return cfg.parseConfig(
+        null,
+        rawConfig,
+        { promiseConfig: true, throwErrors: true }
+      ).then((parsedConfig) => {
+        const messageSubstring =
+          'Passing raw CLI options to `new Server(config, done)` is ' +
+          'deprecated.'
+
+        const serverWithParsed = new Server(parsedConfig, doneStub) // eslint-disable-line no-unused-vars
+        expect(logWarnStub).to.not.have.been.calledWith(sinon.match(messageSubstring))
+
+        const serverWithRaw = new Server(rawConfig, doneStub) // eslint-disable-line no-unused-vars
+        expect(logWarnStub).to.have.been.calledOnceWith(sinon.match(messageSubstring))
+      })
+    })
   })
 
   describe('start', () => {
