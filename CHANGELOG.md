@@ -1,3 +1,10 @@
+## [6.3.1](https://github.com/karma-runner/karma/compare/v6.3.0...v6.3.1) (2021-03-24)
+
+
+### Bug Fixes
+
+* **client:** clearContext after complete sent ([#3657](https://github.com/karma-runner/karma/issues/3657)) ([c0962e3](https://github.com/karma-runner/karma/commit/c0962e34fb2c0a7a43bead8d600ad4a6dbb29c3d))
+
 # [6.3.0](https://github.com/karma-runner/karma/compare/v6.2.0...v6.3.0) (2021-03-23)
 
 
