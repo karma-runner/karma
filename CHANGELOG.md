@@ -1,3 +1,10 @@
+## [6.3.2](https://github.com/karma-runner/karma/compare/v6.3.1...v6.3.2) (2021-03-29)
+
+
+### Bug Fixes
+
+* fix running tests in IE9 ([#3668](https://github.com/karma-runner/karma/issues/3668)) ([0055bc5](https://github.com/karma-runner/karma/commit/0055bc5cbf75597fa1601661bc4bec8cc701a49a)), closes [/github.com/karma-runner/karma/blob/026fff870913fb6cd2858dd962935dc74c92b725/client/main.js#L14](https://github.com//github.com/karma-runner/karma/blob/026fff870913fb6cd2858dd962935dc74c92b725/client/main.js/issues/L14) [#3665](https://github.com/karma-runner/karma/issues/3665)
+
 ## [6.3.1](https://github.com/karma-runner/karma/compare/v6.3.0...v6.3.1) (2021-03-24)
 
 
