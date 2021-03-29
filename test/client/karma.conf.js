@@ -27,6 +27,13 @@ const launchers = {
     browser_version: '11.0',
     os: 'Windows',
     os_version: '10'
+  },
+  bs_ie9: {
+    base: 'BrowserStack',
+    browser: 'IE',
+    browser_version: '9.0',
+    os: 'Windows',
+    os_version: '7'
   }
 }
 
