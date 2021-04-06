@@ -48,7 +48,7 @@ So for testing purposes you can use pretty much anything you like. There are alr
 * [Jasmine]
 * [Mocha]
 * [QUnit]
-* and [many others](https://www.npmjs.org/browse/keyword/karma-adapter)
+* and [many others](https://www.npmjs.com/search?q=keywords:karma-adapter)
 
 If you can't find an adapter for your favourite framework, don't worry and write your own.
 It's not that hard and we are here to help.

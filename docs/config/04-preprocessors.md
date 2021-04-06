@@ -22,7 +22,7 @@ Note: Most of the preprocessors need to be loaded as [plugins].
   - If this preprocessor is disabled, included .html files will need `base/` added to beginning of their path reference. See [discussion in issue 788][issue788].
 - [coverage]
 - [ng-html2js]
-- [many more](https://www.npmjs.org/browse/keyword/karma-preprocessor)
+- [many more](https://www.npmjs.com/search?q=keywords:karma-preprocessor)
 
 Here's an example of how to add the CoffeScript preprocessor to your testing suite:
 

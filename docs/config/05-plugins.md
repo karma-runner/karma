@@ -53,5 +53,5 @@ config.set({
 
 Adding a plugin to the `plugins` array only makes Karma aware of the plugin, but it does not activate it. Depending on the plugin type you'll need to add a plugin name into `frameworks`, `reporters`, `preprocessors`, `middleware` or `browsers` configuration key to activate it. For the detailed information refer to the corresponding plugin documentation or check out [Developing plugins][developing plugins] guide for more in-depth explanation of how plugins work.
 
-[existing plugins]: https://npmjs.org/browse/keyword/karma-plugin
+[existing plugins]: https://www.npmjs.com/search?q=keywords:karma-plugin
 [developing plugins]: ../dev/plugins.html

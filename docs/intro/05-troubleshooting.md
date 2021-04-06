@@ -25,7 +25,7 @@ Issues with Angular setups are probably better debugged by consulting with other
 `karma` is all JavaScript code: perhaps you can debug your issue by adding logging?
 
 ### I'm getting an error during the installation related to the ```ws``` module, how can I solve it?
-This is a common Windows [issue](https://github.com/einaros/ws/issues/178), the compilation of the native [ws](https://www.npmjs.org/package/ws) module fails. Anyways, ```ws``` has a fallback JS implementation which NPM should take care using it. All you need to do is make sure that you're using an up-to-date version of NPM. To do that you can:
+This is a common Windows [issue](https://github.com/einaros/ws/issues/178), the compilation of the native [ws](https://www.npmjs.com/package/ws) module fails. Anyways, ```ws``` has a fallback JS implementation which NPM should take care using it. All you need to do is make sure that you're using an up-to-date version of NPM. To do that you can:
 
 #### Update NPM
 ```$ npm install -g npm```
