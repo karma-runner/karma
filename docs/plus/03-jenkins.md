@@ -59,6 +59,6 @@ subdirectory).
 
 
 
-[Jenkins CI]: http://jenkins-ci.org/
-[AngularJS]: http://angularjs.org
-[EnvInject]: https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin
+[Jenkins CI]: https://www.jenkins.io/
+[AngularJS]: https://angularjs.org
+[EnvInject]: https://plugins.jenkins.io/envinject/

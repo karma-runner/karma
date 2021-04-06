@@ -45,7 +45,7 @@ describe('stringify', function () {
   })
 
   // Conditionally run Proxy tests as it's not supported by all browsers yet
-  //   http://caniuse.com/#feat=proxy
+  //   https://caniuse.com/proxy
   if (window.Proxy) {
     it('should serialize proxied functions', function () {
       var defProxy = new Proxy(function (d, e, f) { return 'whatever' }, {})

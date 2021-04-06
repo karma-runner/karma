@@ -60,8 +60,8 @@ omitted. In smaller projects such as Karma plugins, the `<scope>` is empty.
 
 For more info about message body, see:
 
-* http://365git.tumblr.com/post/3308646748/writing-git-commit-messages
-* http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+* https://365git.tumblr.com/post/3308646748/writing-git-commit-messages
+* https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 
 
 ## Message footer

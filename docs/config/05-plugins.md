@@ -1,6 +1,6 @@
 Karma can be easily extended through plugins. In fact, all the existing preprocessors, reporters, browser launchers and frameworks are plugins. 
 
-You can install [existing plugins] from NPM or you can write [your own plugins][developing plugins] for Karma.
+You can install [existing plugins] from npm or you can write [your own plugins][developing plugins] for Karma.
 
 ## Installing Plugins
 
@@ -25,14 +25,14 @@ npm install karma-<plugin name> --save-dev
 
 ## Loading Plugins
 
-By default, Karma loads plugins from all sibling NPM packages which have a name starting with `karma-*`.
+By default, Karma loads plugins from all sibling npm packages which have a name starting with `karma-*`.
 
 You can also override this behavior and explicitly list plugins you want to load via the `plugins` configuration setting:
 
 ```javascript
 config.set({
   plugins: [
-    // Load a plugin you installed from NPM.
+    // Load a plugin you installed from npm.
     require('karma-jasmine'),
 
     // Load a plugin from the file in your project.
@@ -53,5 +53,5 @@ config.set({
 
 Adding a plugin to the `plugins` array only makes Karma aware of the plugin, but it does not activate it. Depending on the plugin type you'll need to add a plugin name into `frameworks`, `reporters`, `preprocessors`, `middleware` or `browsers` configuration key to activate it. For the detailed information refer to the corresponding plugin documentation or check out [Developing plugins][developing plugins] guide for more in-depth explanation of how plugins work.
 
-[existing plugins]: https://npmjs.org/browse/keyword/karma-plugin
+[existing plugins]: https://www.npmjs.com/search?q=keywords:karma-plugin
 [developing plugins]: ../dev/plugins.html

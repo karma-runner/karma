@@ -96,10 +96,10 @@ For any code changes to be accepted, the CLA must be signed. It's a quick proces
 
 - [Mailing List](https://groups.google.com/forum/#!forum/karma-users)
 - [Issue tracker](https://github.com/karma-runner/karma/issues)
-- [General GitHub documentation](http://help.github.com/)
-- [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
+- [General GitHub documentation](https://docs.github.com/)
+- [GitHub pull request documentation](https://docs.github.com/github/collaborating-with-issues-and-pull-requests/about-pull-requests#about-pull-requests)
 
 [commit message conventions]: git-commit-msg.html
-[simple click-through form]: http://code.google.com/legal/individual-cla-v1.0.html
-[the form]: http://code.google.com/legal/corporate-cla-v1.0.html
+[simple click-through form]: https://code.google.com/legal/individual-cla-v1.0.html
+[the form]: https://code.google.com/legal/corporate-cla-v1.0.html
 [Fork the repository]: https://github.com/karma-runner/karma/fork

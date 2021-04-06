@@ -20,5 +20,5 @@ Feature: Helpful warning and errors
       """
       WARN \[middleware:karma\]: Unable to determine file type from the file extension, defaulting to js.
         To silence the warning specify a valid type for .+modules/minus.mjs in the configuration file.
-        See http://karma-runner.github.io/latest/config/files.html
+        See https://karma-runner.github.io/latest/config/files.html
       """

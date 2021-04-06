@@ -101,7 +101,7 @@ This section outlines API requirements and conventions for different plugin type
 
 - example plugins: [karma-jasmine], [karma-mocha], [karma-requirejs]
 - use naming convention is `karma-*`
-- use NPM keywords `karma-plugin`, `karma-framework`.
+- use npm keywords `karma-plugin`, `karma-framework`.
 
 A framework connects existing testing libraries to Karma's API, so that their results can be displayed in a browser and sent back to the server.
 
@@ -142,19 +142,19 @@ statuses. The method takes an object of the form:
 
 - example plugins: [karma-growl-reporter], [karma-junit-reporter], [karma-material-reporter]
 - use naming convention is `karma-*-reporter`
-- use NPM keywords `karma-plugin`, `karma-reporter`
+- use npm keywords `karma-plugin`, `karma-reporter`
 
 ### Launchers
 
 - example plugins: [karma-chrome-launcher], [karma-sauce-launcher]
 - use naming convention is `karma-*-launcher`
-- use NPM keywords `karma-plugin`, `karma-launcher`
+- use npm keywords `karma-plugin`, `karma-launcher`
 
 ### Preprocessors
 
 - example plugins: [karma-coffee-preprocessor], [karma-ng-html2js-preprocessor]
 - use naming convention is `karma-*-preprocessor`
-- user NPM keywords `karma-plugin`, `karma-preprocessor`
+- user npm keywords `karma-plugin`, `karma-preprocessor`
 
 A preprocessor is a function that accepts three arguments (`content`, `file`, and `next`), mutates the content in some way, and passes it on to the next preprocessor.
 
