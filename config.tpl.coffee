@@ -9,7 +9,7 @@ module.exports = (config) ->
 
 
     # frameworks to use
-    # available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+    # available frameworks: https://www.npmjs.com/search?q=keywords:karma-adapter
     frameworks: [%FRAMEWORKS%]
 
 
@@ -24,14 +24,14 @@ module.exports = (config) ->
 
 
     # preprocess matching files before serving them to the browser
-    # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    # available preprocessors: https://www.npmjs.com/search?q=keywords:karma-preprocessor
     preprocessors: {%PREPROCESSORS%
     }
 
 
     # test results reporter to use
     # possible values: 'dots', 'progress'
-    # available reporters: https://npmjs.org/browse/keyword/karma-reporter
+    # available reporters: https://www.npmjs.com/search?q=keywords:karma-reporter
     reporters: ['progress']
 
 
@@ -58,7 +58,7 @@ module.exports = (config) ->
 
 
     # start these browsers
-    # available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    # available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
     browsers: [%BROWSERS%]
 
 
@@ -67,5 +67,5 @@ module.exports = (config) ->
     singleRun: false
 
     # Concurrency level
-    # how many browser should be started simultaneous
+    # how many browser instances should be started simultaneously
     concurrency: Infinity

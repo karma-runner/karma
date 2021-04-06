@@ -21,7 +21,7 @@ Of course! Check out the docs for [Jenkins], [Semaphore], [TeamCity] or [Travis]
 
 
 ### Which version of Karma should I use?
-The latest stable version from NPM (`npm install karma`). See [versioning] for more detailed information about Karma's release channels.
+The latest stable version from npm (`npm install karma`). See [versioning] for more detailed information about Karma's release channels.
 
 
 ### Which version of Node.js does Karma run with?

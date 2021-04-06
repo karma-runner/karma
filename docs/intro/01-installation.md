@@ -1,4 +1,4 @@
-Karma runs on [Node.js] and is available as an [NPM] package.
+Karma runs on [Node.js] and is available as an [npm] package.
 
 ## Installing Node.js
 
@@ -41,7 +41,7 @@ $ npm install -g karma-cli
 Then, you can run Karma simply by `karma` from anywhere and it will always run the local version.
 
 
-[Node.js]: http://nodejs.org/
-[NPM]: https://npmjs.org/package/karma
+[Node.js]: https://nodejs.org/
+[npm]: https://www.npmjs.com/package/karma
 [NVM]: https://github.com/creationix/nvm
 [FAQ]: ./faq.html

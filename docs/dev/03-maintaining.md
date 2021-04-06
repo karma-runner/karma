@@ -64,7 +64,7 @@ Nothing is set in a stone. If you feel like there is a way to improve this workf
 please send a proposal to [karma-devs@googlegroups.com](mailto:karma-devs@googlegroups.com).
 
 [gitter/karma-runner]: https://gitter.im/karma-runner
-[convention]: http://karma-runner.github.io/latest/dev/git-commit-msg.html
+[convention]: https://karma-runner.github.io/latest/dev/git-commit-msg.html
 [fetch_pr]: https://github.com/vojtajina/dotfiles/blob/master/bin/fetch_pr
 [merge_pr]: https://github.com/vojtajina/dotfiles/blob/master/bin/merge_pr
 [Contributing to Karma]: ./contributing.html

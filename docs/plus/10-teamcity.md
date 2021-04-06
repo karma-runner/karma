@@ -21,7 +21,7 @@ being installed during the build.
 
 ## Create a new TeamCity build step
 Add new build step to the build configuration: use Command Line runner and fill in `Custom
-script` text area. If you had decided not to install *all* your NPM dependencies globally
+script` text area. If you had decided not to install *all* your npm dependencies globally
 add `npm install` at the beginning of the script. Then add command to run Karma, e.g.:
 
     karma start --reporters teamcity --single-run --browsers PhantomJS --colors false
