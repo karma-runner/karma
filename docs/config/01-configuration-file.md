@@ -425,7 +425,7 @@ See [config/files] for more information.
 
 **Description:** List of test frameworks you want to use. Typically, you will set this to `['jasmine']`, `['mocha']` or `['qunit']`...
 
-Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via NPM).
+Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via npm).
 
 Additional information can be found in [plugins].
 
@@ -494,7 +494,7 @@ httpsServerOptions: {
 
 **Description:** List of names of additional middleware you want the karma server to use. Middleware will be used in the order listed.
 
-You must have installed the middleware via a plugin/framework (either inline or via NPM). Additional information can be found in [plugins].
+You must have installed the middleware via a plugin/framework (either inline or via npm). Additional information can be found in [plugins].
 
 The plugin must provide an express/connect middleware function (details about this can be found in [the Express docs](http://expressjs.com/guide/using-middleware.html). An example of custom inline middleware is shown below.
 
@@ -550,7 +550,7 @@ mime: {
 
 **Description:** List of plugins to load. A plugin can be either a plugin object, or a string containing name of the module which exports a plugin object. See [plugins] for more information on how to install and use plugins. 
 
-By default, Karma loads plugins from all sibling NPM packages which have a name starting with `karma-*`.
+By default, Karma loads plugins from all sibling npm packages which have a name starting with `karma-*`.
 
 
 ## port
@@ -584,7 +584,7 @@ If, after test execution or after Karma attempts to kill the browser, browser is
 
 Preprocessors can be loaded through [plugins].
 
-Note: Just about all preprocessors in Karma require an additional library to be installed (via NPM).
+Note: Just about all preprocessors in Karma require an additional library to be installed (via npm).
 
 Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance,
 if you are using the "coverage" preprocessor on your source files, if you then attempt to interactively debug
@@ -682,7 +682,7 @@ This is disabled by default (since the default value is 0).
 
 Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be loaded through [plugins].
 
-Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
+Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via npm).
 
 
 ## formatError

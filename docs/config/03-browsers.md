@@ -23,7 +23,7 @@ Note: Most of the browser launchers need to be loaded as [plugins].
 Here's an example of how to add Firefox to your testing suite:
 
 ```bash
-# Install the launcher first with NPM:
+# Install the launcher first with npm:
 $ npm install karma-firefox-launcher --save-dev
 ```
 
