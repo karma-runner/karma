@@ -33,7 +33,7 @@ This is a common Windows [issue](https://github.com/einaros/ws/issues/178), the 
 or
 
 #### Do a fresh NodeJS install
-If you have issues to update npm, you can just go to the [NodeJS](http://nodejs.org/) download the current version. It will come with the latest npm version.
+If you have issues to update npm, you can just go to the [NodeJS](https://nodejs.org/) download the current version. It will come with the latest npm version.
 
 
 ### The browser just does not start. What's going on?
@@ -61,7 +61,7 @@ Try to remove `karma` and `karma-*` modules from your `node_modules` first (for 
 ### My tests are running really slow. What's going on?
 Make sure the Karma's tab is active. Browsers give inactive tabs only minimum CPU.
 
-Note: If you can't find the solution for your issue here you can also ask for help in the [mailing-list](https://groups.google.com/d/forum/karma-users) or [Stack Overflow](http://stackoverflow.com/questions/tagged/karma-runner).
+Note: If you can't find the solution for your issue here you can also ask for help in the [mailing-list](https://groups.google.com/d/forum/karma-users) or [Stack Overflow](https://stackoverflow.com/questions/tagged/karma-runner).
 
 ### I'm really stuck. I tried every thing!
 Because of the complexity of test setups, we rarely work to fix bugs without steps to reproduce. The best approach is to create a github project that installs all the components and reproduces the bug.

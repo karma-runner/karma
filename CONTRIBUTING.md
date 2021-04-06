@@ -18,8 +18,8 @@ with a fix.
 **Working on your first Pull Request?** You can learn how from this *free* series
 [How to Contribute to an Open Source Project on GitHub][egghead_series]
 
-[docs_contributing]: http://karma-runner.github.io/latest/dev/contributing.html
+[docs_contributing]: https://karma-runner.github.io/latest/dev/contributing.html
 [gitter]: https://gitter.im/karma-runner/karma
-[stackoverflow]: http://stackoverflow.com/questions/tagged/karma-runner
+[stackoverflow]: https://stackoverflow.com/questions/tagged/karma-runner
 [github_newissue]: https://github.com/karma-runner/karma/issues/new
 [egghead_series]: https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github

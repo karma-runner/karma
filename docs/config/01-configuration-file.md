@@ -496,7 +496,7 @@ httpsServerOptions: {
 
 You must have installed the middleware via a plugin/framework (either inline or via npm). Additional information can be found in [plugins].
 
-The plugin must provide an express/connect middleware function (details about this can be found in [the Express docs](http://expressjs.com/guide/using-middleware.html). An example of custom inline middleware is shown below.
+The plugin must provide an express/connect middleware function (details about this can be found in [the Express docs](https://expressjs.com/en/guide/using-middleware.html). An example of custom inline middleware is shown below.
 
 **Example:**
 ```javascript
@@ -748,7 +748,7 @@ on whether all tests passed or any tests failed.
 **Default:** `['polling', 'websocket']`
 
 **Description:** An array of allowed transport methods between the browser and testing server. This configuration setting
-is handed off to [socket.io](http://socket.io/) (which manages the communication
+is handed off to [socket.io](https://socket.io/) (which manages the communication
 between browsers and the testing server).
 
 

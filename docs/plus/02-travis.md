@@ -81,7 +81,7 @@ karma start --browsers Firefox --single-run
 
 [Travis CI]: https://travis-ci.org/
 [Github]: https://github.com/
-[YAML]: http://www.yaml.org/
-[PhantomJS]: http://phantomjs.org/
-[GUI apps]: http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
-[Nock]: https://github.com/flatiron/nock
+[YAML]: https://yaml.org/
+[PhantomJS]: https://phantomjs.org/
+[GUI apps]: https://docs.travis-ci.com/user/gui-and-headless-browsers/
+[Nock]: https://github.com/nock/nock
