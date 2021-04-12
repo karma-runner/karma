@@ -6,19 +6,16 @@ jobs:
   include:
     - node_js: "10"
       script:
-        - npm run init
         - npm run test:unit
         - npm run test:e2e
 
     - node_js: "12"
       script:
-        - npm run init
         - npm run test:unit
         - npm run test:e2e
 
     - node_js: "14"
       script:
-        - npm run init
         - if [[ "$TRAVIS_BRANCH" != "master" ]]; then
             commitlint-travis;
           fi;
