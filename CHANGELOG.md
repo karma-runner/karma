@@ -2121,7 +2121,7 @@ module.exports = function(karma) {
 
 #### Breaking Changes
 
-* rename the project to "Karma":
+- rename the project to "Karma":
 - whenever you call the "testacular" binary, change it to "karma", eg. `testacular start` becomes `karma start`.
 - if you rely on default name of the config file, change it to `karma.conf.js`.
 - if you access `__testacular__` object in the client code, change it to `__karma__`, eg. `window.__testacular__.files` becomes `window.__karma__.files`. ([026a20f7](https://github.com/karma-runner/karma/commit/026a20f7b467eb3b39c68ed509acc06e5dad58e6))

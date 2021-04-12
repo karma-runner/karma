@@ -1,5 +1,7 @@
+---
 pageTitle: Travis CI
 menuTitle: Travis CI
+---
 
 [Travis CI] is a popular continuous integration service that
 integrates with your [Github] repository to automatically run your

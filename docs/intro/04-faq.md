@@ -1,5 +1,7 @@
+---
 pageTitle: Frequently Asked Questions
 menuTitle: FAQ
+---
 
 The list below is a collection of common questions regarding Karma and its use.
 If you have any other questions in mind, please visit the [mailing list] to let the community know.
