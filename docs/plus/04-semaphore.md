@@ -1,5 +1,7 @@
+---
 pageTitle: Semaphore CI
 menuTitle: Semaphore CI
+---
 
 [Semaphore] is a popular continuous integration service that
 supports a [wide range of programming languages]. Up-to-date 

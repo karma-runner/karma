@@ -1,5 +1,6 @@
+---
 pageTitle: Migration from v0.10
-
+---
 
 The good thing is that you don't have to migrate everything at once.
 You can leave all the existing projects using an older version of Karma and only use the latest

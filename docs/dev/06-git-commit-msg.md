@@ -1,4 +1,6 @@
+---
 showInMenu: false
+---
 
 ## The reasons for these conventions:
 - automatic generating of the changelog

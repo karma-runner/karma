@@ -1,5 +1,7 @@
+---
 pageTitle: Troubleshooting
 menuTitle: Troubleshooting
+---
 
 karma has an extensive set of tests and we have limited time to help with bugs. Here are some suggestions to get you unstuck.
 
