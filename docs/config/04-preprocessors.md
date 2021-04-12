@@ -108,9 +108,9 @@ preprocessors: {
 
 Then karma will execute `'a'` before executing `'b'`.
 
-If a file matches multiple keys, karma will use the `config.preprocessor_priority`
-map to set the order. If this config option is not set, karma do its best to
-execute the preprocessors in a reasonable order.  So if you have:
+If a file matches multiple keys, karma will use the `config.preprocessor_priority` map to control the execution order. The `config.preprocessor_priority` should be an object with property names equal to the preprocessor names and property values equal to the priority of execution. Higher priority preprocessors are run earlier. The default priority is 0.
+
+If this config option is not set, karma will do its best to execute the preprocessors in a reasonable order. So if you have:
 
 ```js
 preprocessors: {
