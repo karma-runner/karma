@@ -20,9 +20,6 @@ install:
   # Install our package dependencies
   - appveyor-retry npm install
 
-  # Install our current directory as a dependency of itself
-  - npm run init:windows
-
 test_script:
   - npm run test:unit
   - npm run test:client
