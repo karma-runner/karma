@@ -1,3 +1,10 @@
+## [6.3.3](https://github.com/karma-runner/karma/compare/v6.3.2...v6.3.3) (2021-06-01)
+
+
+### Bug Fixes
+
+* **server:** clean up vestigial code from proxy ([#3640](https://github.com/karma-runner/karma/issues/3640)) ([f4aeac3](https://github.com/karma-runner/karma/commit/f4aeac313ec07d61ce42edc2bd7ae5392a7b3fbc)), closes [/tools.ietf.org/html/std66#section-3](https://github.com//tools.ietf.org/html/std66/issues/section-3)
+
 ## [6.3.2](https://github.com/karma-runner/karma/compare/v6.3.1...v6.3.2) (2021-03-29)
 
 
