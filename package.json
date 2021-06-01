@@ -94,8 +94,10 @@
     "Ilya Goncharov <ilgonmic@gmail.com>",
     "James Ford <jford@psyked.co.uk>",
     "James Talmage <james@talmage.io>",
+    "Janderson Constantino <jandersonconstantino@gmail.com>",
     "Jonas Pommerening <jonas.pommerening@aixigo.de>",
     "Jonathan Freeman <freethejazz@gmail.com>",
+    "Jonathan Ginsburg <jon@than.ml>",
     "Josh <joshhunt180@gmail.com>",
     "KJ Tsanaktsidis <kjtsanaktsidis@gmail.com>",
     "Keen Yee Liau <kyliau@google.com>",
@@ -228,7 +230,6 @@
     "Jakub Z <jakzale@gmail.com>",
     "James Shore <jshore@jamesshore.com>",
     "Jan Molak <jan.molak@smartcodeltd.co.uk>",
-    "Janderson Constantino <jandersonconstantino@gmail.com>",
     "Jeff Froom <jeff@jfroom.com>",
     "Jeff Lage <jefflage@me.com>",
     "Jeff Yates <jeff.yates@alumni.manchester.ac.uk>",
@@ -241,7 +242,6 @@
     "Jon Bretman <jon.bretman@gmail.com>",
     "Jonathan ES Lin <ernsheong@gmail.com>",
     "Jonathan Felchlin <jonathan@xgecko.com>",
-    "Jonathan Ginsburg <jon@than.ml>",
     "Jonathan Niles <jniles@users.noreply.github.com>",
     "Josh Lory <josh.lory@code.org>",
     "João Marcos Duarte <joumd86@gmail.com>",
@@ -378,6 +378,7 @@
     "Volune <jeremy.judeaux@volune.net>",
     "Vova Bilonenko <bilonenko.v@gmail.com>",
     "Wizek <123.wizek@gmail.com>",
+    "XhmikosR <xhmikosr@gmail.com>",
     "Yaniv Efraim <yaniv.efraim@gmail.com>",
     "Yi Wang <e@yi-wang.me>",
     "Yvonne Yip <ykyyip@google.com>",
@@ -491,7 +492,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.2",
+  "version": "6.3.3",
   "license": "MIT",
   "husky": {
     "hooks": {
