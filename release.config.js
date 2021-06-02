@@ -1,7 +1,7 @@
 module.exports = {
   // Add logging for releases until we are fully confident of the release solution.
   debug: true,
-  branch: 'master',
+  branches: 'master',
   verifyConditions: [
     '@semantic-release/changelog',
     '@semantic-release/npm',
