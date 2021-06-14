@@ -1,3 +1,10 @@
+## [6.3.4](https://github.com/karma-runner/karma/compare/v6.3.3...v6.3.4) (2021-06-14)
+
+
+### Bug Fixes
+
+* bump production dependencies within SemVer ranges ([#3682](https://github.com/karma-runner/karma/issues/3682)) ([36467a8](https://github.com/karma-runner/karma/commit/36467a8ac357108343dde4131ef34099004711e5)), closes [#3680](https://github.com/karma-runner/karma/issues/3680)
+
 ## [6.3.3](https://github.com/karma-runner/karma/compare/v6.3.2...v6.3.3) (2021-06-01)
 
 
