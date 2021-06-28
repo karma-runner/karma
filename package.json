@@ -442,11 +442,11 @@
     "yargs": "^16.1.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.4",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@commitlint/travis-cli": "^8.3.5",
-    "@semantic-release/changelog": "^3.0.6",
-    "@semantic-release/git": "^7.0.18",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@commitlint/travis-cli": "^12.1.4",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
     "browserify": "^16.2.3",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -459,7 +459,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "http2": "^3.3.6",
-    "husky": "^4.2.5",
+    "husky": "^6.0.0",
     "jasmine-core": "^3.6.0",
     "karma": ".",
     "karma-browserify": "^7.0.0",
@@ -477,7 +477,7 @@
     "mocks": "^0.0.15",
     "proxyquire": "^2.1.3",
     "puppeteer": "^1.20.0",
-    "semantic-release": "^15.14.0",
+    "semantic-release": "^17.4.3",
     "sinon": "7.3.2",
     "sinon-chai": "^3.5.0",
     "supertest": "^4.0.2",
@@ -494,12 +494,6 @@
   },
   "version": "6.3.4",
   "license": "MIT",
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint"
-    }
-  },
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
     "lint:fix": "eslint . --ext js --ignore-pattern *.tpl.js --fix",
@@ -511,6 +505,8 @@
     "build:check": "node scripts/client.js check",
     "build:watch": "node scripts/client.js watch",
     "test:integration": "./scripts/integration-tests.sh",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "commitlint": "commitlint",
+    "prepare": "husky install"
   }
 }
