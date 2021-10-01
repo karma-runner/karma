@@ -1,0 +1,65 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  main:
+    name: Main
+    runs-on: ubuntu-latest
+    env:
+      BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
+      BROWSER_STACK_ACCESS_KEY: ${{ secrets.BROWSER_STACK_ACCESS_KEY }}
+      SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+      SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: npm
+      - run: npm ci
+      - run: npm run commitlint -- --from `git merge-base origin/master $GITHUB_SHA`
+      - run: npm run lint
+      - run: npm run build:check
+      - run: npm run test:unit
+      - run: npm run test:e2e
+      - run: npm run test:client
+      - run: npm run test:integration
+  linux:
+    name: Node ${{ matrix.node }} on Linux
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 10, 12 ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm run test:e2e
+  windows:
+    name: Node ${{ matrix.node }} on Windows
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node: [10, 12, 14]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm run test:client

@@ -444,7 +444,6 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
     "@commitlint/config-conventional": "^8.3.4",
-    "@commitlint/travis-cli": "^8.3.5",
     "@semantic-release/changelog": "^3.0.6",
     "@semantic-release/git": "^7.0.18",
     "browserify": "^16.2.3",
@@ -511,6 +510,7 @@
     "build:check": "node scripts/client.js check",
     "build:watch": "node scripts/client.js watch",
     "test:integration": "./scripts/integration-tests.sh",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "commitlint": "commitlint"
   }
 }
