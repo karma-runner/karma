@@ -14,7 +14,7 @@ Feature: ES Modules
       // manually enable modules).
       customLaunchers = {
         FirefoxWithModules: {
-          base: 'Firefox',
+          base: 'FirefoxHeadless',
           prefs: {
             'dom.moduleScripts.enabled': true
           }

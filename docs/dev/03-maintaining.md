@@ -21,7 +21,7 @@ An issue or pull request is untriaged (needs to be triaged) when it is not assig
 
 ## Merging a pull request
 Please, make sure:
-- Travis build is green.
+- CI build is green.
 - At least one owner (other than you) approved the PR
   - by commenting “LGTM” or something like that.
   - if it’s just a simple docs change or a typo fix, feel free to skip this step.
