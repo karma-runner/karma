@@ -10,7 +10,7 @@ on:
 
 jobs:
   main:
-    name: Main
+    name: Lint and Unit (Client and Server), E2E and Integration Test
     runs-on: ubuntu-latest
     env:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME}}
@@ -34,7 +34,7 @@ jobs:
       - run: npm run test:client
       - run: npm run test:integration
   linux:
-    name: Node ${{ matrix.node }} on Linux
+    name: "Node ${{ matrix.node }} on Linux: Server Unit and E2E Test"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -49,7 +49,7 @@ jobs:
       - run: npm run test:unit
       - run: npm run test:e2e
   windows:
-    name: Node ${{ matrix.node }} on Windows
+    name: "Node ${{ matrix.node }} on Windows: Server Unit and Client Unit Test"
     runs-on: windows-latest
     strategy:
       matrix:

@@ -7,7 +7,7 @@ on:
 
 jobs:
   main:
-    name: Main
+    name: Test, Tag Commit and Release to NPM
     runs-on: ubuntu-latest
     env:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME}}
