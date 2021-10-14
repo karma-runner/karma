@@ -1,8 +1,8 @@
 // When running pre-release tests we want tests to fail if BrowserStack is not
-// configured instead of falling back to the headless browser. That's what
-// KARMA_TEST_NO_FALLBACK variable controls.
+// configured, instead of implicitly falling back to the headless browser.
+// That's what the BROWSERSTACK_MISSING_FAIL variable controls.
 const useBrowserStack = (process.env.BROWSERSTACK_USERNAME && process.env.BROWSERSTACK_ACCESS_KEY) ||
-  process.env.KARMA_TEST_NO_FALLBACK
+  process.env.BROWSERSTACK_MISSING_FAIL
 
 const launchers = {
   bs_chrome: {

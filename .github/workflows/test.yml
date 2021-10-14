@@ -15,6 +15,7 @@ jobs:
     env:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME}}
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      BROWSERSTACK_MISSING_FAIL: 1
       SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
       SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
     steps:
@@ -51,6 +52,8 @@ jobs:
   windows:
     name: "Node ${{ matrix.node }} on Windows: Server Unit and Client Unit Test"
     runs-on: windows-latest
+    env:
+      BROWSERSTACK_MISSING_FAIL: 1
     strategy:
       matrix:
         node: [10, 12, 14]
