@@ -10,8 +10,8 @@ jobs:
     name: Main
     runs-on: ubuntu-latest
     env:
-      BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
-      BROWSER_STACK_ACCESS_KEY: ${{ secrets.BROWSER_STACK_ACCESS_KEY }}
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME}}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
       SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
