@@ -28,7 +28,7 @@ Feature: runInParent option
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js']
-      browsers = ['Firefox']
+      browsers = ['FirefoxHeadless']
       plugins = [
         'karma-jasmine',
         'karma-firefox-launcher'
