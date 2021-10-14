@@ -17,6 +17,7 @@ jobs:
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
       SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+      KARMA_TEST_NO_FALLBACK: 1
     steps:
       - uses: actions/checkout@v2
         with:
@@ -51,6 +52,8 @@ jobs:
   windows:
     name: "Node ${{ matrix.node }} on Windows: Server Unit and Client Unit Test"
     runs-on: windows-latest
+    env:
+      KARMA_TEST_NO_FALLBACK: 1
     strategy:
       matrix:
         node: [10, 12, 14]
