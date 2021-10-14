@@ -4,7 +4,7 @@
 const useBrowserStack = (process.env.BROWSERSTACK_USERNAME && process.env.BROWSERSTACK_ACCESS_KEY) ||
   process.env.KARMA_TEST_NO_FALLBACK
 
-console.log(`useBrowserStack: ${useBrowserStack}.`)
+console.log(`ENV: ${process.env}.`)
 
 const launchers = {
   bs_chrome: {
