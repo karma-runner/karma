@@ -103,9 +103,9 @@ module.exports = function (config) {
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
     captureTimeout: 3e5,
     browserDisconnectTolerance: 3,
-    browserDisconnectTimeout: 3e5,
+    browserDisconnectTimeout: 6e4,
     browserSocketTimeout: 1.2e5,
-    browserNoActivityTimeout: 3e5,
+    browserNoActivityTimeout: 6e4,
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
@@ -124,7 +124,7 @@ module.exports = function (config) {
       'karma-browserstack-launcher'
     ],
 
-    concurrency: 3,
+    concurrency: 2,
 
     forceJSONP: true,
 
