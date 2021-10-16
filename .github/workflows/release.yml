@@ -16,6 +16,7 @@ jobs:
       SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DOCS_GITHUB_TOKEN: ${{ secrets.DOCS_GITHUB_TOKEN }}
       KARMA_TEST_NO_FALLBACK: 1
     steps:
       - uses: actions/checkout@v2
