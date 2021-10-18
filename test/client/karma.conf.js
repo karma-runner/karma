@@ -1,4 +1,8 @@
-const TRAVIS_WITH_BS = !!process.env.BROWSER_STACK_ACCESS_KEY
+// When running pre-release tests we want tests to fail if BrowserStack is not
+// configured instead of falling back to the headless browser. That's what
+// KARMA_TEST_NO_FALLBACK variable controls.
+const useBrowserStack = (process.env.BROWSERSTACK_USERNAME && process.env.BROWSERSTACK_ACCESS_KEY) ||
+  process.env.KARMA_TEST_NO_FALLBACK
 
 const launchers = {
   bs_chrome: {
@@ -32,14 +36,6 @@ const launchers = {
     browser_version: '9.0',
     os: 'Windows',
     os_version: '7'
-  }
-}
-
-let browsers = ['Chrome']
-
-if (process.env.TRAVIS) {
-  if (TRAVIS_WITH_BS) {
-    browsers = Object.keys(launchers)
   }
 }
 
@@ -99,7 +95,7 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: browsers,
+    browsers: useBrowserStack ? Object.keys(launchers) : ['ChromeHeadless'],
 
     customLaunchers: launchers,
 
@@ -107,9 +103,9 @@ module.exports = function (config) {
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
     captureTimeout: 3e5,
     browserDisconnectTolerance: 3,
-    browserDisconnectTimeout: 3e5,
+    browserDisconnectTimeout: 6e4,
     browserSocketTimeout: 1.2e5,
-    browserNoActivityTimeout: 3e5,
+    browserNoActivityTimeout: 6e4,
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
@@ -128,7 +124,7 @@ module.exports = function (config) {
       'karma-browserstack-launcher'
     ],
 
-    concurrency: 3,
+    concurrency: 2,
 
     forceJSONP: true,
 

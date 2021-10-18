@@ -2,7 +2,7 @@
 TODO:
 - add more info about updating PR
   - rebasing/squashing changes
-  - making sure Travis is green
+  - making sure CI is green
 - how to run tests on sauce labs
 - how to set up plugins
 -->
