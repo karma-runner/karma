@@ -338,7 +338,8 @@ var socket = io(location.host, {
   reconnectionDelayMax: Infinity,
   timeout: BROWSER_SOCKET_TIMEOUT,
   path: KARMA_PROXY_PATH + KARMA_URL_ROOT.substr(1) + 'socket.io',
-  'sync disconnect on unload': true
+  'sync disconnect on unload': true,
+  useNativeTimers: true
 })
 
 // instantiate the updater of the view
