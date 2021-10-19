@@ -101,7 +101,7 @@ module.exports = function (config) {
 
     // Recommeneded browserstack timeouts
     // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
-    captureTimeout: 3e5,
+    captureTimeout: 6e4,
     browserDisconnectTolerance: 3,
     browserDisconnectTimeout: 6e4,
     browserSocketTimeout: 1.2e5,
