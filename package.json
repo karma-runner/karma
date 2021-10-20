@@ -43,6 +43,7 @@
     "Mark Trostler <mark@zzo.com>",
     "Ciro Nunes <ciroanunes@gmail.com>",
     "Christian Budde Christensen <christi@n-bud.de>",
+    "Jonathan Ginsburg <jon@than.ml>",
     "Pawel Kozlowski <pkozlowski.opensource@gmail.com>",
     "Robo <hop2deep@gmail.com>",
     "Shyam Seshadri <shyamseshadri@gmail.com>",
@@ -97,7 +98,6 @@
     "Janderson Constantino <jandersonconstantino@gmail.com>",
     "Jonas Pommerening <jonas.pommerening@aixigo.de>",
     "Jonathan Freeman <freethejazz@gmail.com>",
-    "Jonathan Ginsburg <jon@than.ml>",
     "Josh <joshhunt180@gmail.com>",
     "KJ Tsanaktsidis <kjtsanaktsidis@gmail.com>",
     "Keen Yee Liau <kyliau@google.com>",
@@ -284,7 +284,7 @@
     "Merott Movahedi <merott@merott.com>",
     "Merrick Christensen <merrick.christensen@gmail.com>",
     "Michael Krotscheck <krotscheck@gmail.com>",
-    "Michael Vartan <michaelvartan@google.com>",
+    "Michael Vartan <michael.wayne.vartan@gmail.com>",
     "Michał Siwek <mike21@aol.pl>",
     "Milan Aleksic <milanaleksic@gmail.com>",
     "Milana Stojadinov <mstojadinov@renderedtext.com>",
@@ -492,7 +492,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.4",
+  "version": "6.3.5",
   "license": "MIT",
   "husky": {
     "hooks": {
