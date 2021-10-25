@@ -210,6 +210,7 @@
     "Eldar Jafarov <djkojb@gmail.com>",
     "Eric Baer <me@ericbaer.com>",
     "Esteban Marin <estebanmarin@gmx.ch>",
+    "Evgeniy Chekan <hom3chuk@gmail.com>",
     "Fabian Beuke <mail@beuke.org>",
     "Filipe Silva <filipematossilva@gmail.com>",
     "Franck Garcia <garcia.franck@gmail.com>",
@@ -492,7 +493,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.5",
+  "version": "6.3.6",
   "license": "MIT",
   "husky": {
     "hooks": {
