@@ -1,3 +1,10 @@
+## [6.3.6](https://github.com/karma-runner/karma/compare/v6.3.5...v6.3.6) (2021-10-25)
+
+
+### Bug Fixes
+
+* bump vulnerable ua-parser-js version ([6f2b2ec](https://github.com/karma-runner/karma/commit/6f2b2ec6ed0218980eabf2cbf44e0c8f16fee661)), closes [#3713](https://github.com/karma-runner/karma/issues/3713)
+
 ## [6.3.5](https://github.com/karma-runner/karma/compare/v6.3.4...v6.3.5) (2021-10-20)
 
 
