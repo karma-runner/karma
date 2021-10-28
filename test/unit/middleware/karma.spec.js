@@ -27,10 +27,10 @@ describe('middleware.karma', () => {
   const fsMock = mocks.fs.create({
     karma: {
       static: {
-        'client.html': mocks.fs.file(0, 'CLIENT HTML\n%X_UA_COMPATIBLE%%X_UA_COMPATIBLE_URL%'),
+        'client.html': mocks.fs.file(0, 'CLIENT HTML%X_UA_COMPATIBLE%%X_UA_COMPATIBLE_URL%'),
         'client_with_context.html': mocks.fs.file(0, 'CLIENT_WITH_CONTEXT\n%SCRIPT_URL_ARRAY%'),
         'context.html': mocks.fs.file(0, 'CONTEXT\n%SCRIPTS%'),
-        'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%\n%X_UA_COMPATIBLE%'),
+        'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%%X_UA_COMPATIBLE%'),
         'karma.js': mocks.fs.file(0, 'root: %KARMA_URL_ROOT%, proxy: %KARMA_PROXY_PATH%, v: %KARMA_VERSION%')
       }
     }
@@ -170,7 +170,7 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CLIENT HTML\n<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>?x-ua-compatible=xxx%3Dyyy')
+      expect(response).to.beServedAs(200, 'CLIENT HTML<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>?x-ua-compatible=xxx%3Dyyy')
       done()
     })
 
@@ -182,7 +182,7 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'DEBUG\n\n<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>')
+      expect(response).to.beServedAs(200, 'DEBUG\n<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>')
       done()
     })
 
