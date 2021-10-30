@@ -9,7 +9,6 @@ TODO:
 
 If you are thinking about making Karma better, or you just want to hack on it, that’s great!
 Here are some tips on how to set up a Karma workspace and how to send a good pull request.
-**Please note we enforce [commit message conventions].**
 
 ## Setting up the Workspace
 
@@ -66,11 +65,15 @@ change the code, run the tests, etc.
 
 ## Sending a Pull Request
 
-- Commit your changes (**please follow our [commit message conventions]**):
+- Commit your changes (please follow [commit message conventions]):
   ```bash
   $ git commit -m "..."
   ```
-- Push to your github repo:
+- Verify that the last commit follows the conventions:
+  ```bash
+  $ npm run commit:check
+  ```
+- Push to your GitHub repo:
   ```bash
   $ git push origin <branch_name>
   ```

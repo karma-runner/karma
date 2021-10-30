@@ -460,7 +460,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "http2": "^3.3.6",
-    "husky": "^4.2.5",
     "jasmine-core": "^3.6.0",
     "karma": ".",
     "karma-browserify": "^7.0.0",
@@ -495,15 +494,10 @@
   },
   "version": "6.3.7",
   "license": "MIT",
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint"
-    }
-  },
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
     "lint:fix": "eslint . --ext js --ignore-pattern *.tpl.js --fix",
+    "commit:check": "commitlint --from HEAD~1",
     "test:unit": "mocha \"test/unit/**/*.spec.js\"",
     "test:e2e": "cucumber-js test/e2e/*.feature",
     "test:client": "node bin/karma start test/client/karma.conf.js",
