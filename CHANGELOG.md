@@ -1,3 +1,10 @@
+## [6.3.7](https://github.com/karma-runner/karma/compare/v6.3.6...v6.3.7) (2021-11-01)
+
+
+### Bug Fixes
+
+* **middleware:** replace %X_UA_COMPATIBLE% marker anywhere in the file ([f1aeaec](https://github.com/karma-runner/karma/commit/f1aeaec09e49856747b8f650d06b4dcc61eb637e)), closes [#3711](https://github.com/karma-runner/karma/issues/3711)
+
 ## [6.3.6](https://github.com/karma-runner/karma/compare/v6.3.5...v6.3.6) (2021-10-25)
 
 
