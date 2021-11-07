@@ -1,3 +1,10 @@
+## [6.3.8](https://github.com/karma-runner/karma/compare/v6.3.7...v6.3.8) (2021-11-07)
+
+
+### Bug Fixes
+
+* **reporter:** warning if stack trace contains generated code invocation ([4f23b14](https://github.com/karma-runner/karma/commit/4f23b14d3e774c0401f2c9eecb188b37aed020eb))
+
 ## [6.3.7](https://github.com/karma-runner/karma/compare/v6.3.6...v6.3.7) (2021-11-01)
 
 
