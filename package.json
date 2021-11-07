@@ -111,6 +111,7 @@
     "Parashuram <code@r.nparashuram.com>",
     "Pat Tullmann <pt@bebop.co>",
     "PatrickJS <github@gdi2290.com>",
+    "Paul Gschwendtner <paulgschwendtner@gmail.com>",
     "Richard Harrington <rwharrington87@gmail.com>",
     "Roarke Gaskill <roarke.gaskill@gmail.com>",
     "Robert Stein <SteinRobert@users.noreply.github.com>",
@@ -315,7 +316,6 @@
     "Patrick Lussan <patrick.lussan@componize.com>",
     "Patrick Neschkudla <neschkudla@gmail.com>",
     "Patrik Henningsson <patrik.henningsson@gmail.com>",
-    "Paul Gschwendtner <paulgschwendtner@gmail.com>",
     "Paweł Kapalla <pkapalla@xesenix.pl>",
     "Pedro Araujo <pedrotcaraujo@gmail.com>",
     "Pete Bacon Darwin <pete@bacondarwin.com>",
@@ -492,7 +492,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.7",
+  "version": "6.3.8",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
