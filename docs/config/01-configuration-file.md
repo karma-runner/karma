@@ -853,11 +853,11 @@ When running a browser in different environments, it can take different amounts 
 client socket to connect. If Karma cannot connect within the default timeout, you may see an
 error similar to the following:
 ```
-ChromeHeadless have not captured in 60000ms, killing.
+ChromeHeadless has not captured in 60000ms, killing.
 Trying to start ChromeHeadless again (1/2).
-ChromeHeadless have not captured in 60000ms, killing.
+ChromeHeadless has not captured in 60000ms, killing.
 Trying to start ChromeHeadless again (2/2).
-ChromeHeadless have not captured in 60000ms, killing.
+ChromeHeadless has not captured in 60000ms, killing.
 ChromeHeadless failed 2 times(timeout). Giving up.
 ```
 If you see this error, you can try increasing the socket connection timeout.
