@@ -17,5 +17,5 @@ Feature: Timeout
     When I start Karma
     Then it fails with like:
       """
-      have not captured in 100 ms
+      has not captured in 100 ms
       """
