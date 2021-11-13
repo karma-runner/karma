@@ -27,7 +27,11 @@ When('I stop a server programmatically', function (callback) {
 })
 
 When('I start a server in background', async function () {
-  await this.runBackgroundProcess(['start', '--log-level', 'debug', this.configFile])
+  await this.runBackgroundProcess(['start', this.configFile])
+})
+
+When('I start a server in background with additional arguments: {string}', async function (args) {
+  await this.runBackgroundProcess(['start', ...args.split(' '), this.configFile])
 })
 
 When('I wait until server output contains:', async function (expectedOutput) {
@@ -48,6 +52,11 @@ defineParameterType({
 
 When('I {command} Karma', async function (command) {
   await this.runForegroundProcess(`${command} ${this.configFile}`)
+})
+
+When('I touch file: {string}', async function (file) {
+  const now = new Date()
+  await fs.promises.utimes(path.join(this.workDir, file), now, now)
 })
 
 When('I {command} Karma with additional arguments: {string}', async function (command, args) {
@@ -148,4 +157,28 @@ Then(/^the file at ([a-zA-Z0-9/\\_.]+) contains:$/, function (filePath, expected
   if (!data.match(expectedOutput)) {
     throw new Error('Expected output to match the following:\n  ' + expectedOutput + '\nGot:\n  ' + data)
   }
+})
+
+Then(/^the background (stdout|stderr) (is exactly|contains|matches RegExp):$/, async function (outputType, comparison, expectedOutput) {
+  const message = comparison === 'is exactly' ? 'Expected output to be exactly as above, but got:'
+    : comparison === 'contains' ? 'Expected output to contain the above text, but got:'
+      : 'Expected output to match the above RegExp, but got:'
+
+  await waitForCondition(
+    () => {
+      const actualOutput = this.backgroundProcess[outputType].trim()
+      expectedOutput = expectedOutput.trim()
+
+      switch (comparison) {
+        case 'is exactly':
+          return actualOutput === expectedOutput
+        case 'contains':
+          return actualOutput.includes(expectedOutput)
+        case 'matches RegExp':
+          return new RegExp(expectedOutput).test(actualOutput)
+      }
+    },
+    5000,
+    () => new Error(`${message}\n\n${this.backgroundProcess[outputType]}`)
+  )
 })
