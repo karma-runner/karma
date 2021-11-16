@@ -1,3 +1,10 @@
+## [6.3.9](https://github.com/karma-runner/karma/compare/v6.3.8...v6.3.9) (2021-11-16)
+
+
+### Bug Fixes
+
+* restartOnFileChange option not restarting the test run ([92ffe60](https://github.com/karma-runner/karma/commit/92ffe6018451f6144e8bc7726d304057b5ac9d0a)), closes [#27](https://github.com/karma-runner/karma/issues/27) [#3724](https://github.com/karma-runner/karma/issues/3724)
+
 ## [6.3.8](https://github.com/karma-runner/karma/compare/v6.3.7...v6.3.8) (2021-11-07)
 
 

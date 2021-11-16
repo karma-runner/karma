@@ -358,6 +358,7 @@
     "Simone Gentili <sensorario@gmail.com>",
     "Slava Kotiya <sk@nexttuesday.de>",
     "Sophie Cooper <scooper91@users.noreply.github.com>",
+    "Stefan Becking <sb@web-computing.de>",
     "Stephen Hazleton <shazleto@gmail.com>",
     "Stuart Memo <stuartmemo@gmail.com>",
     "Taylor Buley <buley@outlook.com>",
@@ -492,7 +493,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.8",
+  "version": "6.3.9",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
