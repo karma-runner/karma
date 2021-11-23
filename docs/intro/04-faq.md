@@ -27,7 +27,7 @@ The latest stable version from npm (`npm install karma`). See [versioning] for m
 
 
 ### Which version of Node.js does Karma run with?
-Karma works on all active LTS versions of node as specified by the [Node.js Release Working Group](https://github.com/nodejs/Release/blob/master/README.md). The nodejs version numbers are set in the package.json. Older versions of karma work with older versions of nodejs, but are not maintained or updated.
+Karma works on all LTS versions of Node.js as specified by the [Node.js Release Working Group](https://github.com/nodejs/Release/blob/master/README.md). The Node.js version numbers are set in the package.json. Older versions of karma work with older versions of Node.js, but are not maintained or updated.
 
 [mailing list]: https://groups.google.com/d/forum/karma-users
 [karma-ng-scenario]: https://github.com/karma-runner/karma-ng-scenario
