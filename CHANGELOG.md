@@ -1,3 +1,10 @@
+## [6.3.10](https://github.com/karma-runner/karma/compare/v6.3.9...v6.3.10) (2022-01-08)
+
+
+### Bug Fixes
+
+* **logger:** create parent folders if they are missing ([0d24bd9](https://github.com/karma-runner/karma/commit/0d24bd937f7089d1456e2ecf04419d2c268c3144)), closes [#3734](https://github.com/karma-runner/karma/issues/3734)
+
 ## [6.3.9](https://github.com/karma-runner/karma/compare/v6.3.8...v6.3.9) (2021-11-16)
 
 

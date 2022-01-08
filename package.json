@@ -260,6 +260,7 @@
     "Kevin Ortman <kevin_ortman@msn.com>",
     "Kostiantyn Kahanskyi <kostiantyn.kahanskyi@googlemail.com>",
     "Kris Kowal <kris@cixar.com>",
+    "Lachlan Heywood <lachieh@users.noreply.github.com>",
     "Lenny Urbanowski <lenny@itslennysfault.com>",
     "Long Ho <longlho@users.noreply.github.com>",
     "LoveIsGrief <just.another.michaelv@gmail.com>",
@@ -493,7 +494,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.9",
+  "version": "6.3.10",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
