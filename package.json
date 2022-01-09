@@ -394,7 +394,7 @@
     "body-parser": "^1.16.1",
     "braces": "^3.0.2",
     "chokidar": "^3.0.0",
-    "colors": "^1.1.0",
+    "colors": "1.4.0",
     "connect": "^3.6.0",
     "di": "^0.0.1",
     "dom-serialize": "^2.2.0",
