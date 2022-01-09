@@ -1,7 +1,7 @@
 # Karma
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/karma-runner/karma) [![npm version](https://img.shields.io/npm/v/karma.svg?style=flat-square)](https://www.npmjs.com/package/karma) [![npm downloads](https://img.shields.io/npm/dm/karma.svg?style=flat-square)](https://npmcharts.com/compare/karma?minimal=true)
 
-[![Build Status](https://img.shields.io/travis/karma-runner/karma/master.svg?style=flat-square)](https://travis-ci.org/karma-runner/karma) [![Build Status](https://img.shields.io/appveyor/ci/dignifiedquire/karma/master.svg?style=flat-square)](https://ci.appveyor.com/project/dignifiedquire/karma) [![Code Climate](https://img.shields.io/codeclimate/github/karma-runner/karma.svg?style=flat-square)](https://codeclimate.com/github/karma-runner/karma) [![PRs Welcome](https://img.shields.io/badge/prs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Dependency Status](https://img.shields.io/david/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://img.shields.io/david/dev/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma#info=devDependencies)
+ [![Code Climate](https://img.shields.io/codeclimate/github/karma-runner/karma.svg?style=flat-square)](https://codeclimate.com/github/karma-runner/karma) [![PRs Welcome](https://img.shields.io/badge/prs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com/) [![Dependency Status](https://img.shields.io/david/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma) [![devDependency Status](https://img.shields.io/david/dev/karma-runner/karma.svg?style=flat-square)](https://david-dm.org/karma-runner/karma#info=devDependencies) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 A simple tool that allows you to execute JavaScript code in multiple
 _real_ browsers.
@@ -48,7 +48,7 @@ So for testing purposes you can use pretty much anything you like. There are alr
 * [Jasmine]
 * [Mocha]
 * [QUnit]
-* and [many others](https://www.npmjs.org/browse/keyword/karma-adapter)
+* and [many others](https://www.npmjs.com/search?q=keywords:karma-adapter)
 
 If you can't find an adapter for your favourite framework, don't worry and write your own.
 It's not that hard and we are here to help.
@@ -108,8 +108,8 @@ use the awesome [Socket.io] library and [Node.js].
 
 [AngularJS]: https://angularjs.org/
 [JSTD]: https://code.google.com/p/js-test-driver/
-[Socket.io]: http://socket.io/
-[Node.js]: http://nodejs.org/
+[Socket.io]: https://socket.io/
+[Node.js]: https://nodejs.org/
 [Jasmine]: https://github.com/karma-runner/karma-jasmine
 [Mocha]: https://github.com/karma-runner/karma-mocha
 [QUnit]: https://github.com/karma-runner/karma-qunit
@@ -117,7 +117,7 @@ use the awesome [Socket.io] library and [Node.js].
 [Mailing List]: https://groups.google.com/forum/#!forum/karma-users
 [Issue Tracker]: https://github.com/karma-runner/karma/issues
 [@JsKarma]: https://twitter.com/JsKarma
-[RequireJS]: http://requirejs.org/
+[RequireJS]: https://requirejs.org/
 [Istanbul]: https://github.com/gotwarlost/istanbul
 
 [browsers]: https://karma-runner.github.io/latest/config/browsers.html

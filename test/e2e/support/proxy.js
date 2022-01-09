@@ -1,43 +1,48 @@
 const http = require('http')
 const httpProxy = require('http-proxy')
+const { promisify } = require('util')
 
-function Proxy () {
-  const self = this
-  self.running = false
+module.exports = class Proxy {
+  constructor () {
+    this.running = false
+    this.proxyPathRegExp = null
 
-  self.proxy = httpProxy.createProxyServer({
-    target: 'http://localhost:9876'
-  })
+    this.proxy = httpProxy.createProxyServer({
+      target: 'http://localhost:9876'
+    })
 
-  self.server = http.createServer(function (req, res) {
-    const url = req.url
-    const match = url.match(self.proxyPathRegExp)
-    if (match) {
-      req.url = '/' + match[1]
-      self.proxy.web(req, res)
-    } else {
-      res.statusCode = 404
-      res.statusMessage = 'Not found'
-      res.end()
-    }
-  })
+    this.proxy.on('error', (err) => {
+      console.log('support/proxy onerror', err)
+    })
 
-  self.start = function (port, proxyPath, callback) {
-    self.proxyPathRegExp = new RegExp('^' + proxyPath + '(.*)')
-    self.server.listen(port, function (error) {
-      self.running = !error
-      callback(error)
+    this.server = http.createServer((req, res) => {
+      const url = req.url
+      const match = url.match(this.proxyPathRegExp)
+      if (match) {
+        req.url = '/' + match[1]
+        this.proxy.web(req, res)
+      } else {
+        res.statusCode = 404
+        res.statusMessage = 'Not found'
+        res.end()
+      }
+    })
+
+    this.server.on('clientError', (err) => {
+      console.log('support/proxy clientError', err)
     })
   }
 
-  self.stop = function (callback) {
-    if (self.running) {
-      self.running = false
-      self.server.close(callback)
-    } else {
-      callback()
+  async start (port, proxyPath) {
+    this.proxyPathRegExp = new RegExp('^' + proxyPath + '(.*)')
+    await promisify(this.server.listen.bind(this.server))(port)
+    this.running = true
+  }
+
+  async stopIfRunning () {
+    if (this.running) {
+      this.running = false
+      await promisify(this.server.close.bind(this.server))()
     }
   }
 }
-
-module.exports = new Proxy()

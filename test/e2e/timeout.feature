@@ -7,15 +7,15 @@ Feature: Timeout
     Given a configuration with:
       """
       files = ['timeout/specs.js'];
-      browsers = [__dirname + '/timeout/fake-browser.sh'];
+      browsers = [_resolve('timeout/fake-browser.sh')];
       plugins = [
         'karma-jasmine',
         'karma-script-launcher'
       ];
       captureTimeout = 100
       """
-    When I run Karma
+    When I start Karma
     Then it fails with like:
       """
-      have not captured in 100 ms
+      has not captured in 100 ms
       """

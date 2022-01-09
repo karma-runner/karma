@@ -1,6 +1,10 @@
-var TRAVIS_WITHOUT_BS = process.env.TRAVIS_SECURE_ENV_VARS === 'false'
+// When running pre-release tests we want tests to fail if BrowserStack is not
+// configured instead of falling back to the headless browser. That's what
+// KARMA_TEST_NO_FALLBACK variable controls.
+const useBrowserStack = (process.env.BROWSERSTACK_USERNAME && process.env.BROWSERSTACK_ACCESS_KEY) ||
+  process.env.KARMA_TEST_NO_FALLBACK
 
-var launchers = {
+const launchers = {
   bs_chrome: {
     base: 'BrowserStack',
     browser: 'chrome',
@@ -15,60 +19,24 @@ var launchers = {
   },
   bs_safari: {
     base: 'BrowserStack',
-    browser: 'safari',
-    browser_version: '9.0',
-    os_version: 'El Capitan',
-    os: 'OS X'
+    browser: 'Safari',
+    os: 'OS X',
+    os_version: 'Big Sur'
   },
-  bs_ie_11: {
+  bs_ie: {
     base: 'BrowserStack',
-    browser: 'ie',
+    browser: 'IE',
     browser_version: '11.0',
     os: 'Windows',
     os_version: '10'
   },
-  bs_ie_10: {
+  bs_ie9: {
     base: 'BrowserStack',
-    browser: 'ie',
-    browser_version: '10.0',
-    os: 'Windows',
-    os_version: '8'
-  },
-  bs_ie_9: {
-    base: 'BrowserStack',
-    browser: 'ie',
+    browser: 'IE',
     browser_version: '9.0',
     os: 'Windows',
     os_version: '7'
   }
-  // TODO: Figure out why these fail on browserstack
-  // ,
-  // bs_ie_8: {
-  //   base: 'BrowserStack',
-  //   browser: 'ie',
-  //   browser_version: '8.0',
-  //   os: 'Windows',
-  //   os_version: '7'
-  // },
-  // bs_ie_7: {
-  //   base: 'BrowserStack',
-  //   browser: 'ie',
-  //   browser_version: '7.0',
-  //   os: 'Windows',
-  //   os_version: 'XP'
-  // }
-}
-
-var browsers = []
-
-if (process.env.TRAVIS) {
-  if (TRAVIS_WITHOUT_BS) {
-    browsers.push('Firefox')
-  } else {
-    browsers = Object.keys(launchers)
-  }
-} else {
-  browsers.push('Chrome')
 }
 
 module.exports = function (config) {
@@ -94,7 +62,7 @@ module.exports = function (config) {
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress'
     // CLI --reporters progress
-    reporters: ['progress', 'junit'],
+    reporters: ['dots'],
 
     junitReporter: {
       // will be resolved to basePath (in the same way as files/exclude patterns)
@@ -116,7 +84,7 @@ module.exports = function (config) {
 
     // enable / disable watching file and executing tests whenever any file changes
     // CLI --auto-watch --no-auto-watch
-    autoWatch: true,
+    autoWatch: false,
 
     // Start these browsers, currently available:
     // - Chrome
@@ -127,17 +95,21 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: browsers,
+    browsers: useBrowserStack ? Object.keys(launchers) : ['ChromeHeadless'],
 
     customLaunchers: launchers,
 
-    // If browser does not capture in given timeout [ms], kill it
-    // CLI --capture-timeout 5000
-    captureTimeout: 50000,
+    // Recommeneded browserstack timeouts
+    // https://github.com/karma-runner/karma-browserstack-launcher/issues/61
+    captureTimeout: 6e4,
+    browserDisconnectTolerance: 3,
+    browserDisconnectTimeout: 6e4,
+    browserSocketTimeout: 1.2e5,
+    browserNoActivityTimeout: 6e4,
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
-    singleRun: false,
+    singleRun: true,
 
     // report which specs are slower than 500ms
     // CLI --report-slower-than 500
@@ -152,12 +124,16 @@ module.exports = function (config) {
       'karma-browserstack-launcher'
     ],
 
-    concurrency: 3,
+    concurrency: 2,
 
     forceJSONP: true,
 
     browserStack: {
-      project: 'Karma'
+      project: 'Karma',
+      // The karma-browserstack-launcher polls for each browser.
+      // With many browsers the 120 requests per minute limit is hit
+      // resulting in fails Error: 403 Forbidden (Rate Limit Exceeded)
+      pollingTimeout: 10000
     }
   })
 }

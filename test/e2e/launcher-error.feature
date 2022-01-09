@@ -7,13 +7,13 @@ Feature: Launcher error
     Given a configuration with:
       """
       files = ['launcher-error/specs.js'];
-      browsers = [__dirname + '/launcher-error/fake-browser.sh'];
+      browsers = [_resolve('launcher-error/fake-browser.sh')];
       plugins = [
         'karma-jasmine',
         'karma-script-launcher'
       ];
       """
-    When I run Karma
+    When I start Karma
     Then it fails with like:
       """
       Missing fake dependency

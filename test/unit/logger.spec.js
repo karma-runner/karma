@@ -11,7 +11,7 @@ describe('logger', () => {
         configuration = config
       }
     }
-    m = loadFile(path.join(__dirname, '/../../lib/logger.js'), { 'log4js': mockLog4Js })
+    m = loadFile(path.join(__dirname, '/../../lib/logger.js'), { log4js: mockLog4Js })
   })
 
   describe('setup', () => {
@@ -29,14 +29,14 @@ describe('logger', () => {
     })
     it('should allow setup() using log4js v2 object', () => {
       m.setup('WARN', true, {
-        'fileAppender': {
+        fileAppender: {
           type: 'file',
           filename: 'test/unit/test.log'
         }
       })
       expect(configuration).to.have.keys(['appenders', 'categories'])
       expect(configuration.appenders).to.have.keys(['fileAppender'])
-      expect(configuration.appenders['fileAppender'].type).to.equal('file')
+      expect(configuration.appenders.fileAppender.type).to.equal('file')
       expect(configuration.categories).to.have.keys(['default'])
       expect(configuration.categories.default.appenders[0]).to.equal('fileAppender')
       expect(configuration.categories.default.level).to.equal('WARN')

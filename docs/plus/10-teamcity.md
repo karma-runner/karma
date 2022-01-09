@@ -1,5 +1,7 @@
+---
 pageTitle: TeamCity
 menuTitle: TeamCity
+---
 
 Running Karma in your [TeamCity] build is as simple as adding command line build
 step to perform the task. That is basically it.
@@ -21,7 +23,7 @@ being installed during the build.
 
 ## Create a new TeamCity build step
 Add new build step to the build configuration: use Command Line runner and fill in `Custom
-script` text area. If you had decided not to install *all* your NPM dependencies globally
+script` text area. If you had decided not to install *all* your npm dependencies globally
 add `npm install` at the beginning of the script. Then add command to run Karma, e.g.:
 
     karma start --reporters teamcity --single-run --browsers PhantomJS --colors false

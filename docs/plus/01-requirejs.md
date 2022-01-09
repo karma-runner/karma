@@ -1,5 +1,7 @@
+---
 pageTitle: RequireJS
 menuTitle: RequireJS
+---
 
 To get Karma to run with [Require.js] we need two files:
 
@@ -231,5 +233,5 @@ $ karma run
 
 [Here is a running example of Karma with Require.js][example].
 
-[Require.js]: http://requirejs.org/
+[Require.js]: https://requirejs.org/
 [example]: https://github.com/kjbekkelund/karma-requirejs

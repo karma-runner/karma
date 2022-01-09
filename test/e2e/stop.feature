@@ -4,6 +4,7 @@ Feature: Stop karma
   I want to be able to stop Karma.
 
   Scenario: A server can't be stopped if it isn't running
+    Given a default configuration
     When I stop Karma
     Then it fails with like:
       """
@@ -37,7 +38,7 @@ Feature: Stop karma
       singleRun = false;
       """
     When I start a server in background
-    And I stop Karma with log-level info
+    And I stop Karma with additional arguments: "--log-level info"
     Then it passes with like:
     """
     Server stopped.

@@ -1,8 +1,7 @@
 const sinon = require('sinon')
 const chai = require('chai')
 const logger = require('../../lib/logger')
-
-require('bluebird').longStackTraces()
+const recording = require('log4js/lib/appenders/recording')
 
 // publish globals that all specs can use
 global.expect = chai.expect
@@ -17,13 +16,14 @@ chai.use(require('chai-subset'))
 beforeEach(() => {
   global.sinon = sinon.createSandbox()
 
-  // set logger to log INFO, but do not append to console
-  // so that we can assert logs by logger.on('info', ...)
-  logger.setup('INFO', false, [])
+  // Use https://log4js-node.github.io/log4js-node/recording.html to verify logs
+  const vcr = { vcr: { type: 'recording' } }
+  logger.setup('INFO', false, vcr)
 })
 
 afterEach(() => {
   global.sinon.restore()
+  recording.erase()
 })
 
 // TODO(vojta): move to helpers or something
@@ -45,39 +45,4 @@ chai.use((chai, utils) => {
     this.assert(response._body === null,
       `expected response body to not be set, it was '${response._body}'`)
   })
-})
-
-// TODO(vojta): move it somewhere ;-)
-const nextTickQueue = []
-const nextTickCallback = () => {
-  if (!nextTickQueue.length) throw new Error('Nothing scheduled!')
-  nextTickQueue.shift()()
-
-  if (nextTickQueue.length) process.nextTick(nextTickCallback)
-}
-global.scheduleNextTick = (action) => {
-  nextTickQueue.push(action)
-
-  if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
-}
-const nextQueue = []
-const nextCallback = () => {
-  // if not nextQueue.length then throw new Error 'Nothing scheduled!'
-  nextQueue.shift()()
-}
-
-global.scheduleNextTick = (action) => {
-  nextTickQueue.push(action)
-
-  if (nextTickQueue.length === 1) process.nextTick(nextTickCallback)
-}
-global.scheduleNext = (action) => {
-  nextQueue.push(action)
-}
-
-global.next = nextCallback
-
-beforeEach(() => {
-  nextTickQueue.length = 0
-  nextQueue.length = 0
 })

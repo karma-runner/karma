@@ -22,5 +22,5 @@ Feature: Custom Headers
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """

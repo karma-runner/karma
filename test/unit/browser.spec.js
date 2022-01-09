@@ -28,7 +28,7 @@ describe('Browser', () => {
   it('should set fullName and name', () => {
     const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
     browser = new Browser('id', fullName, collection, emitter, socket)
-    expect(browser.name).to.equal('Chrome 16.0.912 (Mac OS X 10.6.8)')
+    expect(browser.name).to.equal('Chrome 16.0.912.63 (Mac OS 10.6.8)')
     expect(browser.fullName).to.equal(fullName)
   })
 
@@ -66,7 +66,7 @@ describe('Browser', () => {
     it('should return browser name', () => {
       const fullName = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 ' + '(KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7'
       browser = new Browser('id', fullName, collection, emitter, socket)
-      expect(browser.toString()).to.equal('Chrome 16.0.912 (Mac OS X 10.6.8)')
+      expect(browser.toString()).to.equal('Chrome 16.0.912.63 (Mac OS 10.6.8)')
     })
 
     it('should return verbatim user agent string for unrecognized browser', () => {
@@ -215,7 +215,7 @@ describe('Browser', () => {
     })
   })
 
-  describe('onDisconnect', () => {
+  describe('onSocketDisconnect', () => {
     let timer = null
 
     beforeEach(() => {
@@ -227,7 +227,7 @@ describe('Browser', () => {
     it('should remove from parent collection', () => {
       expect(collection.length).to.equal(1)
 
-      browser.onDisconnect('socket.io-reason', socket)
+      browser.onSocketDisconnect('socket.io-reason', socket)
       expect(collection.length).to.equal(0)
     })
 
@@ -236,7 +236,7 @@ describe('Browser', () => {
       emitter.on('browser_complete', spy)
       browser.state = Browser.STATE_EXECUTING
 
-      browser.onDisconnect('socket.io-reason', socket)
+      browser.onSocketDisconnect('socket.io-reason', socket)
       timer.wind(20)
 
       expect(browser.lastResult.disconnected).to.equal(true)
@@ -248,7 +248,7 @@ describe('Browser', () => {
       emitter.on('browser_complete', spy)
       browser.state = Browser.STATE_CONNECTED
 
-      browser.onDisconnect('socket.io-reason', socket)
+      browser.onSocketDisconnect('socket.io-reason', socket)
       expect(spy).not.to.have.been.called
     })
   })
@@ -261,8 +261,8 @@ describe('Browser', () => {
       browser.init()
       browser.state = Browser.STATE_EXECUTING
 
-      browser.onDisconnect('socket.io-reason', socket)
-      browser.reconnect(mkSocket())
+      browser.onSocketDisconnect('socket.io-reason', socket)
+      browser.reconnect(mkSocket(), true)
 
       timer.wind(10)
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
@@ -275,7 +275,7 @@ describe('Browser', () => {
       browser.init()
       browser.state = Browser.STATE_EXECUTING
 
-      browser.reconnect(mkSocket())
+      browser.reconnect(mkSocket(), true)
 
       // still accept results on the old socket
       socket.emit('result', { success: true })
@@ -293,7 +293,7 @@ describe('Browser', () => {
       browser = new Browser('id', 'Chrome 25.0', collection, emitter, socket, null, 10)
       browser.state = Browser.STATE_DISCONNECTED
 
-      browser.reconnect(mkSocket())
+      browser.reconnect(mkSocket(), true)
 
       expect(browser.isConnected()).to.equal(true)
     })
@@ -306,7 +306,7 @@ describe('Browser', () => {
 
       browser.state = Browser.STATE_DISCONNECTED
 
-      browser.reconnect(mkSocket())
+      browser.reconnect(mkSocket(), false)
 
       expect(collection.length).to.equal(1)
     })
@@ -387,13 +387,18 @@ describe('Browser', () => {
   describe('execute and start', () => {
     it('should emit execute and change state to CONFIGURING', () => {
       const spyExecute = sinon.spy()
-      const config = {}
-      browser = new Browser('fake-id', 'full name', collection, emitter, socket)
+      const timer = undefined
+      const disconnectDelay = 0
+      const noActivityTimeout = 0
+      const singleRun = false
+      const clientConfig = {}
+      browser = new Browser('fake-id', 'full name', collection, emitter, socket,
+        timer, disconnectDelay, noActivityTimeout, singleRun, clientConfig)
       socket.on('execute', spyExecute)
-      browser.execute(config)
+      browser.execute()
 
       expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
-      expect(spyExecute).to.have.been.calledWith(config)
+      expect(spyExecute).to.have.been.calledWith(clientConfig)
     })
 
     it('should emit start and change state to EXECUTING', () => {
@@ -417,7 +422,7 @@ describe('Browser', () => {
       expect(browser.isConnected()).to.equal(false)
 
       const newSocket = mkSocket()
-      browser.reconnect(newSocket)
+      browser.reconnect(newSocket, true)
       expect(browser.isConnected()).to.equal(false)
 
       newSocket.emit('result', { success: false, suite: [], log: [] })
@@ -466,7 +471,7 @@ describe('Browser', () => {
       emitter.on('browser_register', () => browser.execute())
 
       // reconnect on a new socket (which triggers re-execution)
-      browser.reconnect(newSocket)
+      browser.reconnect(newSocket, false)
       expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
       newSocket.emit('start', { total: 11 })
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
@@ -487,13 +492,14 @@ describe('Browser', () => {
       expect(browser.state).to.equal(Browser.STATE_CONNECTED)
 
       browser.execute()
+      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
 
       // A second connection...
       const newSocket = mkSocket()
-      browser.reconnect(newSocket)
+      browser.reconnect(newSocket, true)
 
       // Disconnect the second connection...
-      browser.onDisconnect('socket.io-reason', newSocket)
+      browser.onSocketDisconnect('socket.io-reason', newSocket)
       expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
       socket.emit('start', { total: 1 })
       expect(browser.state).to.equal(Browser.STATE_EXECUTING)
@@ -512,7 +518,7 @@ describe('Browser', () => {
       browser.execute()
 
       // A second connection...
-      browser.reconnect(socket)
+      browser.reconnect(socket, true)
 
       socket.emit('result', { success: true, suite: [], log: [] })
       socket.emit('complete')

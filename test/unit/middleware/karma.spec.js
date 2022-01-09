@@ -27,9 +27,10 @@ describe('middleware.karma', () => {
   const fsMock = mocks.fs.create({
     karma: {
       static: {
-        'client.html': mocks.fs.file(0, 'CLIENT HTML\n%X_UA_COMPATIBLE%%X_UA_COMPATIBLE_URL%'),
+        'client.html': mocks.fs.file(0, 'CLIENT HTML%X_UA_COMPATIBLE%%X_UA_COMPATIBLE_URL%'),
+        'client_with_context.html': mocks.fs.file(0, 'CLIENT_WITH_CONTEXT\n%SCRIPT_URL_ARRAY%'),
         'context.html': mocks.fs.file(0, 'CONTEXT\n%SCRIPTS%'),
-        'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%\n%X_UA_COMPATIBLE%'),
+        'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%%X_UA_COMPATIBLE%'),
         'karma.js': mocks.fs.file(0, 'root: %KARMA_URL_ROOT%, proxy: %KARMA_PROXY_PATH%, v: %KARMA_VERSION%')
       }
     }
@@ -95,7 +96,7 @@ describe('middleware.karma', () => {
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs(301, 'MOVED PERMANENTLY')
-      expect(response._headers['Location']).to.equal('/__proxy__/__karma__/')
+      expect(response._headers.Location).to.equal('/__proxy__/__karma__/')
       done()
     })
 
@@ -169,7 +170,7 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CLIENT HTML\n<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>?x-ua-compatible=xxx%3Dyyy')
+      expect(response).to.beServedAs(200, 'CLIENT HTML<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>?x-ua-compatible=xxx%3Dyyy')
       done()
     })
 
@@ -181,7 +182,7 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'DEBUG\n\n<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>')
+      expect(response).to.beServedAs(200, 'DEBUG\n<meta http-equiv="X-UA-Compatible" content="xxx=yyy"/>')
       done()
     })
 
@@ -202,12 +203,27 @@ describe('middleware.karma', () => {
   it('should serve context.html with replaced script tags', (done) => {
     includedFiles([
       new MockFile('/first.js', 'sha123'),
-      new MockFile('/second.dart', 'sha456')
+      new MockFile('/second.js', 'sha456')
     ])
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="application/dart" src="/__proxy__/__karma__/absolute/second.dart?sha456" crossorigin="anonymous"></script>')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/second.js?sha456" crossorigin="anonymous"></script>')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
+  it('should serve context.html without using special patterns when replacing script tags', (done) => {
+    includedFiles([
+      new MockFile('/.yarn/$$virtual/first.js', 'sha123'),
+      new MockFile('/.yarn/$$virtual/second.dart', 'sha456')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/first.js?sha123" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/second.dart?sha456" crossorigin="anonymous"></script>')
       done()
     })
 
@@ -349,8 +365,8 @@ describe('middleware.karma', () => {
       expect(nextSpy).not.to.have.been.called
       expect(response._headers['Cache-Control']).to.equal('no-cache')
       // idiotic IE8 needs more
-      expect(response._headers['Pragma']).to.equal('no-cache')
-      expect(response._headers['Expires']).to.equal(ZERO_DATE)
+      expect(response._headers.Pragma).to.equal('no-cache')
+      expect(response._headers.Expires).to.equal(ZERO_DATE)
       done()
     })
 
@@ -367,6 +383,20 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/some/abc/a.js': 'sha_a',\n  '/__proxy__/__karma__/base/b.js': 'sha_b',\n  '/__proxy__/__karma__/absolute\\\\windows\\\\path\\\\uuu\\\\c.js': 'sha_c'\n};\n")
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
+  it('should inline mappings without using special patterns', (done) => {
+    fsMock._touchFile('/karma/static/context.html', 0, '%MAPPINGS%')
+    servedFiles([
+      new MockFile('/.yarn/$$virtual/abc/a.js', 'sha_a')
+    ])
+
+    response.once('end', () => {
+      expect(response).to.beServedAs(200, "window.__karma__.files = {\n  '/__proxy__/__karma__/absolute/.yarn/$$virtual/abc/a.js': 'sha_a'\n};\n")
       done()
     })
 
@@ -489,5 +519,20 @@ describe('middleware.karma', () => {
     })
 
     callHandlerWith('/__karma__/debug.html')
+  })
+
+  it('should serve client_with_context.html without using special patterns when replacing script urls', (done) => {
+    includedFiles([
+      new MockFile('/.yarn/$$virtual/first.js', 'sha123'),
+      new MockFile('/.yarn/$$virtual/second.dart', 'sha456')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CLIENT_WITH_CONTEXT\nwindow.__karma__.scriptUrls = ["\\\\x3Cscript type=\\"text/javascript\\" src=\\"/__proxy__/__karma__/absolute/.yarn/$$virtual/first.js\\" crossorigin=\\"anonymous\\"\\\\x3E\\\\x3C/script\\\\x3E","\\\\x3Cscript type=\\"text/javascript\\" src=\\"/__proxy__/__karma__/absolute/.yarn/$$virtual/second.dart\\" crossorigin=\\"anonymous\\"\\\\x3E\\\\x3C/script\\\\x3E"];\n')
+      done()
+    })
+
+    callHandlerWith('/__karma__/client_with_context.html')
   })
 })

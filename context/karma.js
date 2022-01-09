@@ -49,7 +49,7 @@ function ContextKarma (callParentKarmaMethod) {
     // remove reference to child iframe
     this.start = UNIMPLEMENTED_START
   }
-  // supposed to be overriden by the context
+  // supposed to be overridden by the context
   // TODO(vojta): support multiple callbacks (queue)
   this.start = UNIMPLEMENTED_START
 
@@ -77,9 +77,9 @@ function ContextKarma (callParentKarmaMethod) {
     contextWindow.onerror = function () {
       return self.error.apply(self, arguments)
     }
-    // DEV: We must defined a function since we don't want to pass the event object
-    contextWindow.onbeforeunload = function (e, b) {
-      callParentKarmaMethod('onbeforeunload', [])
+
+    contextWindow.onbeforeunload = function () {
+      return self.error('Some of your tests did a full page reload!')
     }
 
     contextWindow.dump = function () {

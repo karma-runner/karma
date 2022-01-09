@@ -77,7 +77,7 @@ Try `karma start --help` if you want to see all available options.
 
 
 [configuration file docs]: ../config/configuration-file.html
-[Grunt]: http://gruntjs.com/
+[Grunt]: https://gruntjs.com/
 [grunt-karma]: https://github.com/karma-runner/grunt-karma
-[Gulp]: http://gulpjs.com
+[Gulp]: https://gulpjs.com
 [gulp-karma]: https://github.com/karma-runner/gulp-karma
