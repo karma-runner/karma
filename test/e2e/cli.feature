@@ -30,7 +30,7 @@ Feature: CLI
     When I execute Karma with arguments: "--version"
     Then the stdout matches RegExp:
       """
-      ^\d\.\d\.\d$
+      ^\d+\.\d+\.\d+$
       """
 
   Scenario: Error when command is unknown
