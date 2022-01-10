@@ -418,13 +418,14 @@
     "toran billups <toranb@gmail.com>",
     "xel23 <sawqe1@yandex.ru>",
     "chalkerx@gmail.com>",
-    "weiran.zsd@outlook.com>"
+    "weiran.zsd@outlook.com>",
+    "mannyluvstacos <mannyis@typingona.computer>"
   ],
   "dependencies": {
     "body-parser": "^1.19.0",
     "braces": "^3.0.2",
     "chokidar": "^3.5.1",
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "connect": "^3.7.0",
     "di": "^0.0.1",
     "dom-serialize": "^2.2.1",
