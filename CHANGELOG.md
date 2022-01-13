@@ -1,3 +1,10 @@
+## [6.3.11](https://github.com/karma-runner/karma/compare/v6.3.10...v6.3.11) (2022-01-13)
+
+
+### Bug Fixes
+
+* **deps:** pin colors package to 1.4.0 due to security vulnerability ([a5219c5](https://github.com/karma-runner/karma/commit/a5219c52e2515248eefae4fe1863ac8ad3fdd43b))
+
 ## [6.3.10](https://github.com/karma-runner/karma/compare/v6.3.9...v6.3.10) (2022-01-08)
 
 

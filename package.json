@@ -72,6 +72,7 @@
     "Jérémy Judéaux <jeremy.judeaux@volune.net>",
     "Marcello Nuccio <marcello.nuccio@gmail.com>",
     "Pieter Mees <pietermees@users.noreply.github.com>",
+    "Sergei Startsev <ai@programist.ru>",
     "pavelgj <pavelgj@gmail.com>",
     "sylvain-hamel <sylvainhamel0@gmail.com>",
     "ywong <wongyok@gmail.com>",
@@ -119,7 +120,6 @@
     "Ruben Bridgewater <ruben.bridgewater@fintura.de>",
     "Réda Housni Alaoui <reda.housnialaoui@gmail.com>",
     "Sammy Jelin <sjelin@gmail.com>",
-    "Sergei Startsev <ai@programist.ru>",
     "Sergey Simonchik <sergey.simonchik@gmail.com>",
     "Sergey Simonchik <sergey.simonchik@jetbrains.com>",
     "Shane Russell <shane1337@gmail.com>",
@@ -497,7 +497,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.10",
+  "version": "6.3.11",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
