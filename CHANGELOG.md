@@ -1,3 +1,10 @@
+## [6.3.12](https://github.com/karma-runner/karma/compare/v6.3.11...v6.3.12) (2022-01-24)
+
+
+### Bug Fixes
+
+* remove depreciation warning from log4js ([41bed33](https://github.com/karma-runner/karma/commit/41bed33bf4b88c7e0787ca3a5ec15f2913b936fd))
+
 ## [6.3.11](https://github.com/karma-runner/karma/compare/v6.3.10...v6.3.11) (2022-01-13)
 
 

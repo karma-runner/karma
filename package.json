@@ -283,6 +283,7 @@
     "Matthias Oßwald <matz3@users.noreply.github.com>",
     "Matti Paksula <matti.paksula@iki.fi>",
     "Mattijs Kneppers <mattijs@arttech.nl>",
+    "Max Rose <max.rose366@gmail.com>",
     "Max Waterman <davidmaxwaterman@fastmail.co.uk>",
     "Merott Movahedi <merott@merott.com>",
     "Merrick Christensen <merrick.christensen@gmail.com>",
@@ -406,6 +407,7 @@
     "is-already-taken <1771602+is-already-taken@users.noreply.github.com>",
     "jjoos <jan@deelstra.org>",
     "jvalkeejarvi <jvalkeejarvi@gmail.com>",
+    "katrina95 <34797724+katrina95@users.noreply.github.com>",
     "kyo_ago <kyo.ago@gmail.com>",
     "lanshunfang <lanshunfang@gmail.com>",
     "lusarz <lukasz.usarz@gmail.com>",
@@ -497,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.11",
+  "version": "6.3.12",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
