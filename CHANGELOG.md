@@ -1,3 +1,10 @@
+## [6.3.13](https://github.com/karma-runner/karma/compare/v6.3.12...v6.3.13) (2022-01-31)
+
+
+### Bug Fixes
+
+* **deps:** bump log4js to resolve security issue ([5bf2df3](https://github.com/karma-runner/karma/commit/5bf2df304453c8f71ebc725653fd174ddb1dd28b)), closes [#3751](https://github.com/karma-runner/karma/issues/3751)
+
 ## [6.3.12](https://github.com/karma-runner/karma/compare/v6.3.11...v6.3.12) (2022-01-24)
 
 

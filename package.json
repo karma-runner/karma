@@ -499,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.12",
+  "version": "6.3.13",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
