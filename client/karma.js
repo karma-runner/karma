@@ -240,7 +240,12 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
     }
     if (returnUrl) {
       if (!/^https?:\/\//.test(returnUrl)) {
-        throw new Error(`Security: Navigation to ${returnUrl} was blocked to prevent malicious exploits.`)
+        throw new Error(
+          'Security: Navigation to '.concat(
+            returnUrl,
+            ' was blocked to prevent malicious exploits.'
+          )
+        )
       }
       location.href = returnUrl
     }
