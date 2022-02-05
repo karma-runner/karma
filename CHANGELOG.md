@@ -1,3 +1,54 @@
+## [6.3.15](https://github.com/karma-runner/karma/compare/v6.3.14...v6.3.15) (2022-02-05)
+
+
+### Bug Fixes
+
+* **helper:** make mkdirIfNotExists helper resilient to concurrent calls ([d9dade2](https://github.com/karma-runner/karma/commit/d9dade2f004a340e49c9a633177576200c286404)), closes [/github.com/karma-runner/karma-coverage/issues/434#issuecomment-1017939333](https://github.com//github.com/karma-runner/karma-coverage/issues/434/issues/issuecomment-1017939333)
+
+## [6.3.14](https://github.com/karma-runner/karma/compare/v6.3.13...v6.3.14) (2022-02-05)
+
+
+### Bug Fixes
+
+* remove string template from client code ([91d5acd](https://github.com/karma-runner/karma/commit/91d5acda6325caf91685da465d688527bd412b47))
+* warn when `singleRun` and `autoWatch` are `false` ([69cfc76](https://github.com/karma-runner/karma/commit/69cfc763c8f83e8e7e64d34e17829d0d3dcc0449))
+* **security:** remove XSS vulnerability in `returnUrl` query param ([839578c](https://github.com/karma-runner/karma/commit/839578c45a8ac42fbc1d72105f97eab77dd3eb8a))
+
+## [6.3.13](https://github.com/karma-runner/karma/compare/v6.3.12...v6.3.13) (2022-01-31)
+
+
+### Bug Fixes
+
+* **deps:** bump log4js to resolve security issue ([5bf2df3](https://github.com/karma-runner/karma/commit/5bf2df304453c8f71ebc725653fd174ddb1dd28b)), closes [#3751](https://github.com/karma-runner/karma/issues/3751)
+
+## [6.3.12](https://github.com/karma-runner/karma/compare/v6.3.11...v6.3.12) (2022-01-24)
+
+
+### Bug Fixes
+
+* remove depreciation warning from log4js ([41bed33](https://github.com/karma-runner/karma/commit/41bed33bf4b88c7e0787ca3a5ec15f2913b936fd))
+
+## [6.3.11](https://github.com/karma-runner/karma/compare/v6.3.10...v6.3.11) (2022-01-13)
+
+
+### Bug Fixes
+
+* **deps:** pin colors package to 1.4.0 due to security vulnerability ([a5219c5](https://github.com/karma-runner/karma/commit/a5219c52e2515248eefae4fe1863ac8ad3fdd43b))
+
+## [6.3.10](https://github.com/karma-runner/karma/compare/v6.3.9...v6.3.10) (2022-01-08)
+
+
+### Bug Fixes
+
+* **logger:** create parent folders if they are missing ([0d24bd9](https://github.com/karma-runner/karma/commit/0d24bd937f7089d1456e2ecf04419d2c268c3144)), closes [#3734](https://github.com/karma-runner/karma/issues/3734)
+
+## [6.3.9](https://github.com/karma-runner/karma/compare/v6.3.8...v6.3.9) (2021-11-16)
+
+
+### Bug Fixes
+
+* restartOnFileChange option not restarting the test run ([92ffe60](https://github.com/karma-runner/karma/commit/92ffe6018451f6144e8bc7726d304057b5ac9d0a)), closes [#27](https://github.com/karma-runner/karma/issues/27) [#3724](https://github.com/karma-runner/karma/issues/3724)
+
 ## [6.3.8](https://github.com/karma-runner/karma/compare/v6.3.7...v6.3.8) (2021-11-07)
 
 

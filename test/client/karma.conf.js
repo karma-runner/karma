@@ -124,7 +124,7 @@ module.exports = function (config) {
       'karma-browserstack-launcher'
     ],
 
-    concurrency: 2,
+    concurrency: 1,
 
     forceJSONP: true,
 

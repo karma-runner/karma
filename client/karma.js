@@ -232,20 +232,23 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
       resultsBuffer = []
     }
 
-    // A test could have incorrectly issued a navigate. Wait one turn
-    // to ensure the error from an incorrect navigate is processed.
-    var config = this.config
-    setTimeout(function () {
-      socket.emit('complete', result || {})
-      if (config.clearContext) {
-        navigateContextTo('about:blank')
-      } else {
-        self.updater.updateTestStatus('complete')
+    socket.emit('complete', result || {})
+    if (this.config.clearContext) {
+      navigateContextTo('about:blank')
+    } else {
+      self.updater.updateTestStatus('complete')
+    }
+    if (returnUrl) {
+      if (!/^https?:\/\//.test(returnUrl)) {
+        throw new Error(
+          'Security: Navigation to '.concat(
+            returnUrl,
+            ' was blocked to prevent malicious exploits.'
+          )
+        )
       }
-      if (returnUrl) {
-        location.href = returnUrl
-      }
-    })
+      location.href = returnUrl
+    }
   }
 
   this.info = function (info) {
