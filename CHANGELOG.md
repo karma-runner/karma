@@ -1,3 +1,12 @@
+## [6.3.14](https://github.com/karma-runner/karma/compare/v6.3.13...v6.3.14) (2022-02-05)
+
+
+### Bug Fixes
+
+* remove string template from client code ([91d5acd](https://github.com/karma-runner/karma/commit/91d5acda6325caf91685da465d688527bd412b47))
+* warn when `singleRun` and `autoWatch` are `false` ([69cfc76](https://github.com/karma-runner/karma/commit/69cfc763c8f83e8e7e64d34e17829d0d3dcc0449))
+* **security:** remove XSS vulnerability in `returnUrl` query param ([839578c](https://github.com/karma-runner/karma/commit/839578c45a8ac42fbc1d72105f97eab77dd3eb8a))
+
 ## [6.3.13](https://github.com/karma-runner/karma/compare/v6.3.12...v6.3.13) (2022-01-31)
 
 
