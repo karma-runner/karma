@@ -229,36 +229,23 @@ describe('helper', () => {
   })
 
   describe('mkdirIfNotExists', () => {
-    const fsMock = require('mocks').fs
     const loadFile = require('mocks').loadFile
 
-    const fs = fsMock.create({
-      home: { 'some.js': fsMock.file() }
-    })
+    const spy = sinon.spy()
 
     // load file under test
-    const m = loadFile(path.join(__dirname, '/../../lib/helper.js'), { 'graceful-fs': fs, lodash: require('lodash') })
+    const m = loadFile(path.join(__dirname, '/../../lib/helper.js'), {
+      mkdirp: (path, done) => {
+        spy(path)
+        done()
+      }
+    })
 
     const mkdirIfNotExists = m.exports.mkdirIfNotExists
 
-    it('should not do anything, if dir already exists', (done) => {
-      mkdirIfNotExists('/home', done)
-    })
-
-    it('should create directory if it does not exist', (done) => {
-      mkdirIfNotExists('/home/new', () => {
-        const stat = fs.statSync('/home/new')
-        expect(stat).to.exist
-        expect(stat.isDirectory()).to.equal(true)
-        done()
-      })
-    })
-
-    it('should create even parent directories if it does not exist', (done) => {
-      mkdirIfNotExists('/home/new/parent/child', () => {
-        const stat = fs.statSync('/home/new/parent/child')
-        expect(stat).to.exist
-        expect(stat.isDirectory()).to.equal(true)
+    it('should call mkdirp', (done) => {
+      mkdirIfNotExists('/path/to/dir', () => {
+        expect(spy).to.have.been.calledOnceWith('/path/to/dir')
         done()
       })
     })
