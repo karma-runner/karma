@@ -1,3 +1,10 @@
+## [6.3.15](https://github.com/karma-runner/karma/compare/v6.3.14...v6.3.15) (2022-02-05)
+
+
+### Bug Fixes
+
+* **helper:** make mkdirIfNotExists helper resilient to concurrent calls ([d9dade2](https://github.com/karma-runner/karma/commit/d9dade2f004a340e49c9a633177576200c286404)), closes [/github.com/karma-runner/karma-coverage/issues/434#issuecomment-1017939333](https://github.com//github.com/karma-runner/karma-coverage/issues/434/issues/issuecomment-1017939333)
+
 ## [6.3.14](https://github.com/karma-runner/karma/compare/v6.3.13...v6.3.14) (2022-02-05)
 
 
