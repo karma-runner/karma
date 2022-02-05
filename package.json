@@ -40,8 +40,8 @@
     "Anton <anton.redfox@gmail.com>",
     "Michał Gołębiowski-Owczarek <m.goleb@gmail.com>",
     "Todd Wolfson <todd@twolfson.com>",
-    "Mark Trostler <mark@zzo.com>",
     "Jonathan Ginsburg <jon@than.ml>",
+    "Mark Trostler <mark@zzo.com>",
     "Ciro Nunes <ciroanunes@gmail.com>",
     "Christian Budde Christensen <christi@n-bud.de>",
     "Pawel Kozlowski <pkozlowski.opensource@gmail.com>",
@@ -499,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.14",
+  "version": "6.3.15",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
