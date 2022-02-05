@@ -30,8 +30,8 @@
     "greenkeeperio-bot <support@greenkeeper.io>",
     "Karma Bot <karmarunnerbot@gmail.com>",
     "Maksim Ryzhikov <rv.maksim@gmail.com>",
-    "ukasz Usarz <lukasz.usarz@gmail.com>",
     "semantic-release-bot <semantic-release-bot@martynus.net>",
+    "ukasz Usarz <lukasz.usarz@gmail.com>",
     "Christian Budde Christensen <budde377@gmail.com>",
     "Wesley Cho <wesley.cho@gmail.com>",
     "taichi <ryushi@gmail.com>",
@@ -41,9 +41,9 @@
     "Michał Gołębiowski-Owczarek <m.goleb@gmail.com>",
     "Todd Wolfson <todd@twolfson.com>",
     "Mark Trostler <mark@zzo.com>",
+    "Jonathan Ginsburg <jon@than.ml>",
     "Ciro Nunes <ciroanunes@gmail.com>",
     "Christian Budde Christensen <christi@n-bud.de>",
-    "Jonathan Ginsburg <jon@than.ml>",
     "Pawel Kozlowski <pkozlowski.opensource@gmail.com>",
     "Robo <hop2deep@gmail.com>",
     "Shyam Seshadri <shyamseshadri@gmail.com>",
@@ -499,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.12",
+  "version": "6.3.14",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
