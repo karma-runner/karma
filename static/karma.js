@@ -249,7 +249,17 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
       self.updater.updateTestStatus('complete')
     }
     if (returnUrl) {
-      if (!/^https?:\/\//.test(returnUrl)) {
+      // TODO(https://github.com/karma-runner/karma/issues/3503): replace the for-loop below with the `Array.prototype.includes()` method, when dropping support for IE.
+      var isReturnUrlInAllowlist = false
+      for (var i = 0; i < this.config.allowedReturnUrls.length; i++) {
+        var allowedReturnUrl = this.config.allowedReturnUrls[i]
+        if (allowedReturnUrl === returnUrl) {
+          isReturnUrlInAllowlist = true
+          break
+        }
+      }
+      var isReturnUrlsSchemeBenign = /^https?:\/\//.test(returnUrl)
+      if (!isReturnUrlInAllowlist || !isReturnUrlsSchemeBenign) {
         throw new Error(
           'Security: Navigation to '.concat(
             returnUrl,

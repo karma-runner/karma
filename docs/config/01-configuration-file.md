@@ -277,6 +277,15 @@ upon the completion of running the tests. Setting this to false is useful when e
 
 If true, Karma does not display the banner and browser list. Useful when using karma on component tests with screenshots.
 
+## client.allowedReturnUrls
+**Type:** Array
+
+**Default:** `[]`
+
+**Description:** Define the allowed values for the `return_url` query parameter.
+
+If the value of the `return_url` query parameter is not in this list, navigation to it will be blocked. This mitigates the "Open Redirect Vulnerability".
+
 ## colors
 **Type:** Boolean
 

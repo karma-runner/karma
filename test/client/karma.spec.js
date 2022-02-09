@@ -442,15 +442,18 @@ describe('Karma', function () {
       assert(spyResult.called)
     })
 
-    it('should navigate the client to return_url if specified', function (done) {
+    it('should navigate the client to return_url if specified, benign and allowed', function (done) {
+      var config = {
+        allowedReturnUrls: ['http://return.com']
+      }
+
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
       k = new ClientKarma(updater, socket, iframe, windowStub, windowNavigator, windowLocation)
       clientWindow = { karma: k }
       ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
-      ck.config = {}
+      socket.emit('execute', config)
 
-      sinon.spy(socket, 'disconnect')
       clock.tick(500)
 
       ck.complete()
@@ -460,6 +463,26 @@ describe('Karma', function () {
       }, 5)
 
       clock.tick(10)
+    })
+
+    it.only('should not navigate the client to return_url if not benign', function () {
+      var config = {
+        allowedReturnUrls: ['javascript:alert(document.domain)']
+      }
+
+      windowLocation.search = '?id=567&return_url=javascript:alert(document.domain)'
+      socket = new MockSocket()
+      k = new ClientKarma(updater, socket, iframe, windowStub, windowNavigator, windowLocation)
+      clientWindow = { karma: k }
+      ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
+      socket.emit('execute', config)
+
+      try {
+        ck.complete()
+        throw new Error('An error should have been caught.')
+      } catch (error) {
+        assert(/Error: Security: Navigation to .* was blocked to prevent malicious exploits./.test(error))
+      }
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
