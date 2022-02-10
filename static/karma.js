@@ -249,7 +249,15 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
       self.updater.updateTestStatus('complete')
     }
     if (returnUrl) {
-      if (!/^https?:\/\//.test(returnUrl)) {
+      var isReturnUrlAllowed = false
+      for (var i = 0; i < this.config.allowedReturnUrlPatterns.length; i++) {
+        var allowedReturnUrlPattern = new RegExp(this.config.allowedReturnUrlPatterns[i])
+        if (allowedReturnUrlPattern.test(returnUrl)) {
+          isReturnUrlAllowed = true
+          break
+        }
+      }
+      if (!isReturnUrlAllowed) {
         throw new Error(
           'Security: Navigation to '.concat(
             returnUrl,
