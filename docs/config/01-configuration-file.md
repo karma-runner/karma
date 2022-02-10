@@ -277,6 +277,15 @@ upon the completion of running the tests. Setting this to false is useful when e
 
 If true, Karma does not display the banner and browser list. Useful when using karma on component tests with screenshots.
 
+## client.allowedReturnUrlPatterns
+**Type:** Array
+
+**Default:** `['^https?://']`
+
+**Description:** Define the string representations of the regular expressions that will be allowed for the `return_url` query parameter.
+
+If the value of the `return_url` query parameter does not match any regular expression derived from the string representation of each of the elements of this array, navigation to it will be blocked.
+
 ## colors
 **Type:** Boolean
 
