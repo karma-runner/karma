@@ -442,11 +442,11 @@ describe('Karma', function () {
       assert(spyResult.called)
     })
 
-    it('should navigate the client to return_url if specified, benign and allowed', function (done) {
+    it('should navigate the client to return_url if specified and allowed', function (done) {
       var config = {
-        allowedReturnUrls: ['http://return.com']
+        // The default value.
+        allowedReturnUrlPatterns: ['^https?://']
       }
-
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
       k = new ClientKarma(updater, socket, iframe, windowStub, windowNavigator, windowLocation)
@@ -465,9 +465,9 @@ describe('Karma', function () {
       clock.tick(10)
     })
 
-    it.only('should not navigate the client to return_url if not benign', function () {
+    it('should not navigate the client to return_url if not allowed', function () {
       var config = {
-        allowedReturnUrls: ['javascript:alert(document.domain)']
+        allowedReturnUrlPatterns: []
       }
 
       windowLocation.search = '?id=567&return_url=javascript:alert(document.domain)'
