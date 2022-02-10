@@ -1,3 +1,10 @@
+## [6.3.16](https://github.com/karma-runner/karma/compare/v6.3.15...v6.3.16) (2022-02-10)
+
+
+### Bug Fixes
+
+* **security:** mitigate the "Open Redirect Vulnerability" ([ff7edbb](https://github.com/karma-runner/karma/commit/ff7edbb2ffbcdd69761bece86b7dc1ef0740508d))
+
 ## [6.3.15](https://github.com/karma-runner/karma/compare/v6.3.14...v6.3.15) (2022-02-05)
 
 
