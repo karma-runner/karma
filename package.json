@@ -38,9 +38,9 @@
     "Liam Newman <bitwiseman@gmail.com>",
     "lukasz <lukasz.usarz@gmail.com>",
     "Anton <anton.redfox@gmail.com>",
+    "Jonathan Ginsburg <jon@than.ml>",
     "Michał Gołębiowski-Owczarek <m.goleb@gmail.com>",
     "Todd Wolfson <todd@twolfson.com>",
-    "Jonathan Ginsburg <jon@than.ml>",
     "Mark Trostler <mark@zzo.com>",
     "Ciro Nunes <ciroanunes@gmail.com>",
     "Christian Budde Christensen <christi@n-bud.de>",
@@ -499,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.15",
+  "version": "6.3.16",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
