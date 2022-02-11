@@ -53,6 +53,20 @@ module.exports = (config) => {
 }
 ```
 
+Alternatively, you can use an `async` function instead (since v6.3).
+
+```javascript
+// karma.conf.js
+module.exports = async (config) => {
+  const karmaConfig = await getKarmaConfig("dev");
+  
+  config.set({
+    ...karmaConfig
+  });
+};
+```
+
+
 ### Customized TypeScript Configuration
 Under the hood Karma uses ts-node to transpile TypeScript to JavaScript. If the resolved `tsconfig.json` has `module` configured as `ES` formats. You might get errors like `SyntaxError: Unexpected token`. This is due that in Node `ES` module formats are not supported. To overcome this issue you need to configure ts-node to use `commonjs` module format.
 
