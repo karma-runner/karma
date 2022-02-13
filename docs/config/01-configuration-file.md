@@ -67,6 +67,45 @@ require('ts-node').register({
 require('./karma.conf.ts');
 ```
 
+### Asynchronous Configuration
+
+The function exported by the configuration file may return a promise whose
+resolution will tell Karma when all configuration is complete, including the
+final call to `config.set()`.
+
+Just as with a synchronous configuration's return value not being used, an
+asynchronous configuration's resolved value will not be used. With both
+configuration types, `config.set()` MUST BE called to assign the configuration
+object.
+
+When using the command line interface, returning a promise is all that is
+needed.
+
+An example of a config that may need asynchronous support is a config that uses
+an async method to find an available port if the preferred port is already in
+use.
+
+```js
+// karma.conf.js
+const findAvailablePort = require('./findAvailablePort.js');
+
+module.exports = function configKarma(config) {
+  const myPreferredPort = 9876;
+  return findAvailablePort(myPreferredPort)
+    .then(function onFreePortResolved(freePort) {
+      config.set({
+        frameworks: ['jasmine'],
+        port: freePort,
+        // ... other Karma configuration
+      });
+    });
+}
+```
+
+If you are using the `parseConfig` method from the public API, then please see
+the [Public API Documentation][dev/public-api]] for details, usage, and
+addtional information.
+
 ## File Patterns
 All of the configuration options, which specify file paths, use the [minimatch][minimatch] library to facilitate flexible
 but concise file expressions so you can easily list all of the files you want to include and exclude.
@@ -512,7 +551,7 @@ The plugin must provide an express/connect middleware function (details about th
 function CustomMiddlewareFactory (config) {
   return function (request, response, /* next */) {
     response.writeHead(200)
-    return response.end("content!")
+    return response.end('content!')
   }
 }
 ```
@@ -876,5 +915,6 @@ If you see this error, you can try increasing the socket connection timeout.
 [config/files]: files.html
 [config/browsers]: browsers.html
 [config/preprocessors]: preprocessors.html
+[dev/public-api]: ../dev/public-api.html
 [log4js]: https://github.com/nomiddlename/log4js-node
 [minimatch]: https://github.com/isaacs/minimatch
