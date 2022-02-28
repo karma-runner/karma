@@ -191,6 +191,7 @@
     "Dan Thareja <danthareja@gmail.com>",
     "Danny Croft <danny.croft@yahoo.co.uk>",
     "Danny Tuppeny <danny@tuppeny.com>",
+    "David Hyde <DABH@users.noreply.github.com>",
     "David Jensen <david@frode.(none)>",
     "David M. Karr <dk068x@att.com>",
     "Derek Gould <dgould@birst.com>",
@@ -496,7 +497,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.16",
+  "version": "6.3.17",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",

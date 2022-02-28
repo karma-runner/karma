@@ -1,3 +1,10 @@
+## [6.3.17](https://github.com/karma-runner/karma/compare/v6.3.16...v6.3.17) (2022-02-28)
+
+
+### Bug Fixes
+
+* **deps:** update colors to maintained version ([#3763](https://github.com/karma-runner/karma/issues/3763)) ([fca1884](https://github.com/karma-runner/karma/commit/fca18843e7a04eeb67b86cb3cfc3db794d66f445))
+
 ## [6.3.16](https://github.com/karma-runner/karma/compare/v6.3.15...v6.3.16) (2022-02-10)
 
 
