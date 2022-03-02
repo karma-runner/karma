@@ -65,11 +65,6 @@ jobs:
       matrix:
         node: [10, 12, 14]
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v1
-        with:
-          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
