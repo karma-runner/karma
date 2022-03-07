@@ -87,37 +87,30 @@ The function exported by the configuration file may return a promise whose
 resolution will tell Karma when all configuration is complete, including the
 final call to `config.set()`.
 
-Just as with a synchronous configuration's return value not being used, an
-asynchronous configuration's resolved value will not be used. With both
-configuration types, `config.set()` MUST BE called to assign the configuration
-object.
-
-When using the command line interface, returning a promise is all that is
-needed.
-
-An example of a config that may need asynchronous support is a config that uses
-an async method to find an available port if the preferred port is already in
-use.
-
 ```js
 // karma.conf.js
-const findAvailablePort = require('./findAvailablePort.js');
+const getAsyncConfig = require('./getAsyncConfig.js');
 
 module.exports = function configKarma(config) {
-  const myPreferredPort = 9876;
-  return findAvailablePort(myPreferredPort)
-    .then(function onFreePortResolved(freePort) {
+  return getAsyncConfig()
+    .then(function onResolved(asyncInfo) {
       config.set({
+        basePath: '../..',
         frameworks: ['jasmine'],
-        port: freePort,
         // ... other Karma configuration
+        // ... including the use of `asyncInfo`
       });
     });
 }
 ```
 
+Just as with a synchronous configuration's return value not being used, an
+asynchronous configuration's resolved value will not be used. With both
+configuration types, `config.set()` MUST BE called to assign the configuration
+object.
+
 If you are using the `parseConfig` method from the public API, then please see
-the [Public API Documentation][dev/public-api]] for details, usage, and
+the [Public API Documentation][dev/public-api] for details, usage, and
 addtional information.
 
 ## File Patterns
