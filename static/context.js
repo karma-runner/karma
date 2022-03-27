@@ -123,7 +123,7 @@ exports.isDefined = function (value) {
 
 exports.parseQueryParams = function (locationSearch) {
   var params = {}
-  var pairs = locationSearch.substr(1).split('&')
+  var pairs = locationSearch.slice(1).split('&')
   var keyValue
 
   for (var i = 0; i < pairs.length; i++) {
