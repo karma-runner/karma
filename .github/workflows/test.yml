@@ -7,9 +7,11 @@ on:
 
 jobs:
   linux:
-    name: Lint and Unit (Client and Server), E2E and Integration Test
+    name: "[Node ${{ matrix.node }} on Linux] Lint (commit description and source) and Test: Unit (client and server), E2E and Integration"
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
+      fail-fast: false
       matrix:
         node:
           - 10
@@ -28,7 +30,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
       - run: npm ci
-      - run: npm run commitlint -- --from `git merge-base origin/master $GITHUB_SHA`
+      - run: npm run commitlint -- --verbose --from `git merge-base origin/master $GITHUB_SHA`
       - run: npm run lint
       - run: npm run build:check
       - run: npm run test:unit
@@ -36,9 +38,12 @@ jobs:
       - run: npm run test:client
       - run: npm run test:integration
   windows:
-    name: "Node ${{ matrix.node }} on Windows: Server Unit and Client Unit Test"
+    needs: linux
+    name: "[Node ${{ matrix.node }} on Windows] Lint (commit description and source) and Test: Unit (client and server), E2E and Integration"
     runs-on: windows-latest
     strategy:
+      max-parallel: 1
+      fail-fast: false
       matrix:
         node:
           - 10

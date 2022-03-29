@@ -502,7 +502,7 @@
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
     "lint:fix": "eslint . --ext js --ignore-pattern *.tpl.js --fix",
-    "commit:check": "commitlint --from HEAD~1",
+    "commit:check": "commitlint --verbose --from HEAD~1",
     "test:unit": "mocha \"test/unit/**/*.spec.js\"",
     "test:e2e": "cucumber-js test/e2e/*.feature",
     "test:client": "node bin/karma start test/client/karma.conf.js",
