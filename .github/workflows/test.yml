@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   linux:
     name: "[Node ${{ matrix.node }} on Linux] Lint (commit description and source) and Test: Unit (client and server), E2E and Integration"
