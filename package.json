@@ -424,10 +424,10 @@
     "weiran.zsd@outlook.com>"
   ],
   "dependencies": {
+    "@colors/colors": "1.5.0",
     "body-parser": "^1.19.0",
     "braces": "^3.0.2",
     "chokidar": "^3.5.1",
-    "@colors/colors": "1.5.0",
     "connect": "^3.7.0",
     "di": "^0.0.1",
     "dom-serialize": "^2.2.1",
@@ -443,7 +443,7 @@
     "qjobs": "^1.2.0",
     "range-parser": "^1.2.1",
     "rimraf": "^3.0.2",
-    "socket.io": "^4.2.0",
+    "socket.io": "^4.4.1",
     "source-map": "^0.6.1",
     "tmp": "^0.2.1",
     "ua-parser-js": "^0.7.30",
