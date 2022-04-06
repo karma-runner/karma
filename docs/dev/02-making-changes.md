@@ -19,7 +19,7 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
   $ git clone https://github.com/<your-username>/karma.git
   $ cd karma
   ```
-* Install for development
+* Install for development (make sure to use NPM 7+ as otherwise installation will fail)
   ```bash
   $ npm install
   ```
