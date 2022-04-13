@@ -1,3 +1,10 @@
+## [6.3.18](https://github.com/karma-runner/karma/compare/v6.3.17...v6.3.18) (2022-04-13)
+
+
+### Bug Fixes
+
+* **deps:** upgrade socket.io to v4.4.1 ([52a30bb](https://github.com/karma-runner/karma/commit/52a30bbc6e168333a8592c26c9f40678d6ab74ea))
+
 ## [6.3.17](https://github.com/karma-runner/karma/compare/v6.3.16...v6.3.17) (2022-02-28)
 
 
