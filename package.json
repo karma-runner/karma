@@ -71,8 +71,10 @@
     "Jeff Jewiss <jeffjewiss@gmail.com>",
     "Jérémy Judéaux <jeremy.judeaux@volune.net>",
     "Marcello Nuccio <marcello.nuccio@gmail.com>",
+    "Nico Jansen <jansennico@gmail.com>",
     "Pieter Mees <pietermees@users.noreply.github.com>",
     "Sergei Startsev <ai@programist.ru>",
+    "Tobias Speicher <rootcommander@gmail.com>",
     "pavelgj <pavelgj@gmail.com>",
     "sylvain-hamel <sylvainhamel0@gmail.com>",
     "ywong <wongyok@gmail.com>",
@@ -108,7 +110,6 @@
     "Levi Thomason <me@levithomason.com>",
     "Luke Page <luke.a.page@gmail.com>",
     "Matt Lewis <matthew.lewis@socialsignin.co.uk>",
-    "Nico Jansen <jansennico@gmail.com>",
     "Parashuram <code@r.nparashuram.com>",
     "Pat Tullmann <pt@bebop.co>",
     "PatrickJS <github@gdi2290.com>",
@@ -245,6 +246,7 @@
     "Jon Bretman <jon.bretman@gmail.com>",
     "Jonathan ES Lin <ernsheong@gmail.com>",
     "Jonathan Felchlin <jonathan@xgecko.com>",
+    "Jonathan Kingston <jkingston@duckduckgo.com>",
     "Jonathan Niles <jniles@users.noreply.github.com>",
     "Josh Lory <josh.lory@code.org>",
     "João Marcos Duarte <joumd86@gmail.com>",
@@ -497,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.17",
+  "version": "6.3.18",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
