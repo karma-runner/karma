@@ -91,16 +91,14 @@ final call to `config.set()`.
 // karma.conf.js
 const getAsyncConfig = require('./getAsyncConfig.js');
 
-module.exports = function configKarma(config) {
-  return getAsyncConfig()
-    .then(function onResolved(asyncInfo) {
-      config.set({
-        basePath: '../..',
-        frameworks: ['jasmine'],
-        // ... other Karma configuration
-        // ... including the use of `asyncInfo`
-      });
-    });
+module.exports = async (config) => {
+  const asyncInfo = await getAsyncConfig()
+  config.set({
+    basePath: '../..',
+    frameworks: ['jasmine'],
+    // ... other Karma configuration
+    // ... including the use of `asyncInfo`
+  });
 }
 ```
 
