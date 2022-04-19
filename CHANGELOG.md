@@ -1,3 +1,10 @@
+## [6.3.19](https://github.com/karma-runner/karma/compare/v6.3.18...v6.3.19) (2022-04-19)
+
+
+### Bug Fixes
+
+* **client:** error out when opening a new tab fails ([099b85e](https://github.com/karma-runner/karma/commit/099b85ed0a46e37dd7cb14fc1596cbb1b3eabce9))
+
 ## [6.3.18](https://github.com/karma-runner/karma/compare/v6.3.17...v6.3.18) (2022-04-13)
 
 

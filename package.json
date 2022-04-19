@@ -35,10 +35,10 @@
     "Christian Budde Christensen <budde377@gmail.com>",
     "Wesley Cho <wesley.cho@gmail.com>",
     "taichi <ryushi@gmail.com>",
+    "Jonathan Ginsburg <jon@than.ml>",
     "Liam Newman <bitwiseman@gmail.com>",
     "lukasz <lukasz.usarz@gmail.com>",
     "Anton <anton.redfox@gmail.com>",
-    "Jonathan Ginsburg <jon@than.ml>",
     "Michał Gołębiowski-Owczarek <m.goleb@gmail.com>",
     "Todd Wolfson <todd@twolfson.com>",
     "Mark Trostler <mark@zzo.com>",
@@ -499,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.18",
+  "version": "6.3.19",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
