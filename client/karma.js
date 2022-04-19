@@ -94,6 +94,9 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
           childWindow.close()
         }
         childWindow = opener(url)
+        if (childWindow === null) {
+          self.error('Opening a new tab/window failed, probably because pop-ups are blocked.')
+        }
       // run context on parent element (client_with_context)
       // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
