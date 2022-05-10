@@ -8,7 +8,7 @@ module.exports = class Proxy {
     this.proxyPathRegExp = null
 
     this.proxy = httpProxy.createProxyServer({
-      target: 'http://localhost:9876'
+      target: 'http://127.0.0.1:9876'
     })
 
     this.proxy.on('error', (err) => {
