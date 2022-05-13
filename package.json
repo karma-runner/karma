@@ -29,8 +29,8 @@
     "Yaroslav Admin <devoto13@gmail.com>",
     "greenkeeperio-bot <support@greenkeeper.io>",
     "Karma Bot <karmarunnerbot@gmail.com>",
-    "Maksim Ryzhikov <rv.maksim@gmail.com>",
     "semantic-release-bot <semantic-release-bot@martynus.net>",
+    "Maksim Ryzhikov <rv.maksim@gmail.com>",
     "ukasz Usarz <lukasz.usarz@gmail.com>",
     "Christian Budde Christensen <budde377@gmail.com>",
     "Wesley Cho <wesley.cho@gmail.com>",
@@ -499,7 +499,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.19",
+  "version": "6.3.20",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
