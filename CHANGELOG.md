@@ -1,3 +1,10 @@
+## [6.3.20](https://github.com/karma-runner/karma/compare/v6.3.19...v6.3.20) (2022-05-13)
+
+
+### Bug Fixes
+
+* prefer IPv4 addresses when resolving domains ([e17698f](https://github.com/karma-runner/karma/commit/e17698f950af83bf2b3edc540d2a3e1fb73cba59)), closes [#3730](https://github.com/karma-runner/karma/issues/3730)
+
 ## [6.3.19](https://github.com/karma-runner/karma/compare/v6.3.18...v6.3.19) (2022-04-19)
 
 
