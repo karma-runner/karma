@@ -17,8 +17,8 @@ describe('middleware.karma', () => {
   let response
 
   class MockFile extends File {
-    constructor (path, sha, type, content) {
-      super(path, undefined, undefined, type)
+    constructor (path, sha, type, content, integrity) {
+      super(path, undefined, undefined, type, undefined, integrity)
       this.sha = sha || 'sha-default'
       this.content = content
     }
@@ -224,6 +224,21 @@ describe('middleware.karma', () => {
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
       expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/first.js?sha123" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/.yarn/$$virtual/second.dart?sha456" crossorigin="anonymous"></script>')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
+  it('should serve context.html with script tags with integrity checking', (done) => {
+    includedFiles([
+      new MockFile('/first.js', 'sha123'),
+      new MockFile('/second.js', 'sha456', undefined, undefined, 'sha256-XXX')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/second.js?sha456" integrity="sha256-XXX" crossorigin="anonymous"></script>')
       done()
     })
 
