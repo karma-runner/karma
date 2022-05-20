@@ -54,6 +54,11 @@ The `files` array determines which files are included in the browser, watched, a
 * **Default.** `false`
 * **Description.** Should the files be served from disk on each request by Karma's webserver?
 
+### `integrity`
+* **Type.** String
+* **Default.** `undefined`
+* **Description.** Set the `integrity` HTML attribute value to the `<script>` or the `<link>` tag to load the resource that matches the given pattern if the pattern is an absolute URL.
+
 ## Pattern matching and `basePath`
 - All of the relative patterns will get resolved using the `basePath` first.
 - If the `basePath` is a relative path, it gets resolved to the
