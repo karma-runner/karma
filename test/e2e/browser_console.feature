@@ -152,6 +152,29 @@ Feature: Browser Console Configuration
       .
       Chrome Headless
       """
+  
+  Scenario: Execute logging path when a folder does not exist
+    Given a configuration with:
+      """
+      files = ['browser-console/log.js', 'browser-console/test.js'];
+      browsers = ['ChromeHeadlessNoSandbox'];
+      plugins = [
+        'karma-jasmine',
+        'karma-chrome-launcher'
+      ];
+      browserConsoleLogOptions = {
+        path: 'sandbox/nested/folder/console.log',
+        format: '%t:%T:%m',
+        level: 'warn'
+      };
+      """
+    When I start Karma
+    Then the file at sandbox/nested/folder/console.log contains:
+      """
+      log:LOG:'foo'
+      warn:WARN:'foobar'
+      error:ERROR:'barbaz'
+      """
 
   Scenario: Execute logging program and disabling terminal
     Given a configuration with:

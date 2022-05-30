@@ -1,3 +1,258 @@
+## [6.3.20](https://github.com/karma-runner/karma/compare/v6.3.19...v6.3.20) (2022-05-13)
+
+
+### Bug Fixes
+
+* prefer IPv4 addresses when resolving domains ([e17698f](https://github.com/karma-runner/karma/commit/e17698f950af83bf2b3edc540d2a3e1fb73cba59)), closes [#3730](https://github.com/karma-runner/karma/issues/3730)
+
+## [6.3.19](https://github.com/karma-runner/karma/compare/v6.3.18...v6.3.19) (2022-04-19)
+
+
+### Bug Fixes
+
+* **client:** error out when opening a new tab fails ([099b85e](https://github.com/karma-runner/karma/commit/099b85ed0a46e37dd7cb14fc1596cbb1b3eabce9))
+
+## [6.3.18](https://github.com/karma-runner/karma/compare/v6.3.17...v6.3.18) (2022-04-13)
+
+
+### Bug Fixes
+
+* **deps:** upgrade socket.io to v4.4.1 ([52a30bb](https://github.com/karma-runner/karma/commit/52a30bbc6e168333a8592c26c9f40678d6ab74ea))
+
+## [6.3.17](https://github.com/karma-runner/karma/compare/v6.3.16...v6.3.17) (2022-02-28)
+
+
+### Bug Fixes
+
+* **deps:** update colors to maintained version ([#3763](https://github.com/karma-runner/karma/issues/3763)) ([fca1884](https://github.com/karma-runner/karma/commit/fca18843e7a04eeb67b86cb3cfc3db794d66f445))
+
+## [6.3.16](https://github.com/karma-runner/karma/compare/v6.3.15...v6.3.16) (2022-02-10)
+
+
+### Bug Fixes
+
+* **security:** mitigate the "Open Redirect Vulnerability" ([ff7edbb](https://github.com/karma-runner/karma/commit/ff7edbb2ffbcdd69761bece86b7dc1ef0740508d))
+
+## [6.3.15](https://github.com/karma-runner/karma/compare/v6.3.14...v6.3.15) (2022-02-05)
+
+
+### Bug Fixes
+
+* **helper:** make mkdirIfNotExists helper resilient to concurrent calls ([d9dade2](https://github.com/karma-runner/karma/commit/d9dade2f004a340e49c9a633177576200c286404)), closes [/github.com/karma-runner/karma-coverage/issues/434#issuecomment-1017939333](https://github.com//github.com/karma-runner/karma-coverage/issues/434/issues/issuecomment-1017939333)
+
+## [6.3.14](https://github.com/karma-runner/karma/compare/v6.3.13...v6.3.14) (2022-02-05)
+
+
+### Bug Fixes
+
+* remove string template from client code ([91d5acd](https://github.com/karma-runner/karma/commit/91d5acda6325caf91685da465d688527bd412b47))
+* warn when `singleRun` and `autoWatch` are `false` ([69cfc76](https://github.com/karma-runner/karma/commit/69cfc763c8f83e8e7e64d34e17829d0d3dcc0449))
+* **security:** remove XSS vulnerability in `returnUrl` query param ([839578c](https://github.com/karma-runner/karma/commit/839578c45a8ac42fbc1d72105f97eab77dd3eb8a))
+
+## [6.3.13](https://github.com/karma-runner/karma/compare/v6.3.12...v6.3.13) (2022-01-31)
+
+
+### Bug Fixes
+
+* **deps:** bump log4js to resolve security issue ([5bf2df3](https://github.com/karma-runner/karma/commit/5bf2df304453c8f71ebc725653fd174ddb1dd28b)), closes [#3751](https://github.com/karma-runner/karma/issues/3751)
+
+## [6.3.12](https://github.com/karma-runner/karma/compare/v6.3.11...v6.3.12) (2022-01-24)
+
+
+### Bug Fixes
+
+* remove depreciation warning from log4js ([41bed33](https://github.com/karma-runner/karma/commit/41bed33bf4b88c7e0787ca3a5ec15f2913b936fd))
+
+## [6.3.11](https://github.com/karma-runner/karma/compare/v6.3.10...v6.3.11) (2022-01-13)
+
+
+### Bug Fixes
+
+* **deps:** pin colors package to 1.4.0 due to security vulnerability ([a5219c5](https://github.com/karma-runner/karma/commit/a5219c52e2515248eefae4fe1863ac8ad3fdd43b))
+
+## [6.3.10](https://github.com/karma-runner/karma/compare/v6.3.9...v6.3.10) (2022-01-08)
+
+
+### Bug Fixes
+
+* **logger:** create parent folders if they are missing ([0d24bd9](https://github.com/karma-runner/karma/commit/0d24bd937f7089d1456e2ecf04419d2c268c3144)), closes [#3734](https://github.com/karma-runner/karma/issues/3734)
+
+## [6.3.9](https://github.com/karma-runner/karma/compare/v6.3.8...v6.3.9) (2021-11-16)
+
+
+### Bug Fixes
+
+* restartOnFileChange option not restarting the test run ([92ffe60](https://github.com/karma-runner/karma/commit/92ffe6018451f6144e8bc7726d304057b5ac9d0a)), closes [#27](https://github.com/karma-runner/karma/issues/27) [#3724](https://github.com/karma-runner/karma/issues/3724)
+
+## [6.3.8](https://github.com/karma-runner/karma/compare/v6.3.7...v6.3.8) (2021-11-07)
+
+
+### Bug Fixes
+
+* **reporter:** warning if stack trace contains generated code invocation ([4f23b14](https://github.com/karma-runner/karma/commit/4f23b14d3e774c0401f2c9eecb188b37aed020eb))
+
+## [6.3.7](https://github.com/karma-runner/karma/compare/v6.3.6...v6.3.7) (2021-11-01)
+
+
+### Bug Fixes
+
+* **middleware:** replace %X_UA_COMPATIBLE% marker anywhere in the file ([f1aeaec](https://github.com/karma-runner/karma/commit/f1aeaec09e49856747b8f650d06b4dcc61eb637e)), closes [#3711](https://github.com/karma-runner/karma/issues/3711)
+
+## [6.3.6](https://github.com/karma-runner/karma/compare/v6.3.5...v6.3.6) (2021-10-25)
+
+
+### Bug Fixes
+
+* bump vulnerable ua-parser-js version ([6f2b2ec](https://github.com/karma-runner/karma/commit/6f2b2ec6ed0218980eabf2cbf44e0c8f16fee661)), closes [#3713](https://github.com/karma-runner/karma/issues/3713)
+
+## [6.3.5](https://github.com/karma-runner/karma/compare/v6.3.4...v6.3.5) (2021-10-20)
+
+
+### Bug Fixes
+
+* **client:** prevent socket.io from hanging due to mocked clocks ([#3695](https://github.com/karma-runner/karma/issues/3695)) ([105da90](https://github.com/karma-runner/karma/commit/105da90a9975c1050f96cda966bd30a3c677494e))
+
+## [6.3.4](https://github.com/karma-runner/karma/compare/v6.3.3...v6.3.4) (2021-06-14)
+
+
+### Bug Fixes
+
+* bump production dependencies within SemVer ranges ([#3682](https://github.com/karma-runner/karma/issues/3682)) ([36467a8](https://github.com/karma-runner/karma/commit/36467a8ac357108343dde4131ef34099004711e5)), closes [#3680](https://github.com/karma-runner/karma/issues/3680)
+
+## [6.3.3](https://github.com/karma-runner/karma/compare/v6.3.2...v6.3.3) (2021-06-01)
+
+
+### Bug Fixes
+
+* **server:** clean up vestigial code from proxy ([#3640](https://github.com/karma-runner/karma/issues/3640)) ([f4aeac3](https://github.com/karma-runner/karma/commit/f4aeac313ec07d61ce42edc2bd7ae5392a7b3fbc)), closes [/tools.ietf.org/html/std66#section-3](https://github.com//tools.ietf.org/html/std66/issues/section-3)
+
+## [6.3.2](https://github.com/karma-runner/karma/compare/v6.3.1...v6.3.2) (2021-03-29)
+
+
+### Bug Fixes
+
+* fix running tests in IE9 ([#3668](https://github.com/karma-runner/karma/issues/3668)) ([0055bc5](https://github.com/karma-runner/karma/commit/0055bc5cbf75597fa1601661bc4bec8cc701a49a)), closes [/github.com/karma-runner/karma/blob/026fff870913fb6cd2858dd962935dc74c92b725/client/main.js#L14](https://github.com//github.com/karma-runner/karma/blob/026fff870913fb6cd2858dd962935dc74c92b725/client/main.js/issues/L14) [#3665](https://github.com/karma-runner/karma/issues/3665)
+
+## [6.3.1](https://github.com/karma-runner/karma/compare/v6.3.0...v6.3.1) (2021-03-24)
+
+
+### Bug Fixes
+
+* **client:** clearContext after complete sent ([#3657](https://github.com/karma-runner/karma/issues/3657)) ([c0962e3](https://github.com/karma-runner/karma/commit/c0962e34fb2c0a7a43bead8d600ad4a6dbb29c3d))
+
+# [6.3.0](https://github.com/karma-runner/karma/compare/v6.2.0...v6.3.0) (2021-03-23)
+
+
+### Features
+
+* support asynchronous `config.set()` call in karma.conf.js ([#3660](https://github.com/karma-runner/karma/issues/3660)) ([4c9097a](https://github.com/karma-runner/karma/commit/4c9097a59c666671aaa55177e03e8738e047e886))
+
+# [6.2.0](https://github.com/karma-runner/karma/compare/v6.1.2...v6.2.0) (2021-03-10)
+
+
+### Features
+
+* **plugins:** add support wildcard config for scoped package plugin ([#3659](https://github.com/karma-runner/karma/issues/3659)) ([39831b1](https://github.com/karma-runner/karma/commit/39831b1c2f9cbeebdba94c73ce353efb7c44e802))
+
+## [6.1.2](https://github.com/karma-runner/karma/compare/v6.1.1...v6.1.2) (2021-03-09)
+
+
+### Bug Fixes
+
+* **commitlint:** skip task on master ([#3650](https://github.com/karma-runner/karma/issues/3650)) ([3fc6fda](https://github.com/karma-runner/karma/commit/3fc6fdadd6b0ed6838de048c15485b1bd815fe23))
+* patch karma to allow loading virtual packages ([#3663](https://github.com/karma-runner/karma/issues/3663)) ([5bfcf5f](https://github.com/karma-runner/karma/commit/5bfcf5f37de6f0a12abcf9914c2fad510395b4d6))
+
+## [6.1.1](https://github.com/karma-runner/karma/compare/v6.1.0...v6.1.1) (2021-02-12)
+
+
+### Bug Fixes
+
+* **config:** check extension before ts-node register ([#3651](https://github.com/karma-runner/karma/issues/3651)) ([474f4e1](https://github.com/karma-runner/karma/commit/474f4e1caff469cce87f19a11d9179e4e05552f9)), closes [#3329](https://github.com/karma-runner/karma/issues/3329)
+* report launcher process error when exit event is not emitted ([#3647](https://github.com/karma-runner/karma/issues/3647)) ([7ab86be](https://github.com/karma-runner/karma/commit/7ab86be25c334b07747632b0a6bdb1d650d881bc))
+
+# [6.1.0](https://github.com/karma-runner/karma/compare/v6.0.4...v6.1.0) (2021-02-03)
+
+
+### Features
+
+* **config:** improve `karma.config.parseConfig` error handling ([#3635](https://github.com/karma-runner/karma/issues/3635)) ([9dba1e2](https://github.com/karma-runner/karma/commit/9dba1e20af48d4885e1a1c6da8c08454acb0db9d))
+
+## [6.0.4](https://github.com/karma-runner/karma/compare/v6.0.3...v6.0.4) (2021-02-01)
+
+
+### Bug Fixes
+
+* **cli:** temporarily disable strict parameters validation ([#3641](https://github.com/karma-runner/karma/issues/3641)) ([9c755e0](https://github.com/karma-runner/karma/commit/9c755e0d61f1e8fb0fed1281fc8a331d5f1734be)), closes [#3625](https://github.com/karma-runner/karma/issues/3625)
+* **client:** fix a false positive page reload error in Safari ([#3643](https://github.com/karma-runner/karma/issues/3643)) ([2a57b23](https://github.com/karma-runner/karma/commit/2a57b230cd6b27e1a6e903ca6557c5a6b3e31bf6))
+* ensure that Karma supports running tests on IE 11 ([#3642](https://github.com/karma-runner/karma/issues/3642)) ([dbd1943](https://github.com/karma-runner/karma/commit/dbd1943e6901c4cb86280db7663afde32f9ab86c))
+
+## [6.0.3](https://github.com/karma-runner/karma/compare/v6.0.2...v6.0.3) (2021-01-27)
+
+
+### Bug Fixes
+
+* **plugins:** refactor instantiatePlugin from preproprocessor ([#3628](https://github.com/karma-runner/karma/issues/3628)) ([e02858a](https://github.com/karma-runner/karma/commit/e02858ae0d0de3f05add976b10e4b6b935cc3dd7))
+
+## [6.0.2](https://github.com/karma-runner/karma/compare/v6.0.1...v6.0.2) (2021-01-25)
+
+
+### Bug Fixes
+
+* avoid ES6+ syntax in client scripts ([#3629](https://github.com/karma-runner/karma/issues/3629)) ([6629e96](https://github.com/karma-runner/karma/commit/6629e96901dbeae24fbaa4d0bfa009618fb8ee75)), closes [#3630](https://github.com/karma-runner/karma/issues/3630)
+
+## [6.0.1](https://github.com/karma-runner/karma/compare/v6.0.0...v6.0.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* **server:** set maxHttpBufferSize to the socket.io v2 default ([#3626](https://github.com/karma-runner/karma/issues/3626)) ([69baddc](https://github.com/karma-runner/karma/commit/69baddc843e4852a6770bfc1212fc2bce1f38fe7)), closes [#3621](https://github.com/karma-runner/karma/issues/3621)
+* restore `customFileHandlers` provider ([#3624](https://github.com/karma-runner/karma/issues/3624)) ([25d9abb](https://github.com/karma-runner/karma/commit/25d9abb76929b6ea8abe1cf040ba6db2f269d50e))
+
+# [6.0.0](https://github.com/karma-runner/karma/compare/v5.2.3...v6.0.0) (2021-01-13)
+
+
+### Bug Fixes
+
+* **ci:** abandon browserstack tests for Safari and IE ([#3615](https://github.com/karma-runner/karma/issues/3615)) ([04a811d](https://github.com/karma-runner/karma/commit/04a811dc7a4b37aa56c0405880f03cb2493bf820))
+* **client:** do not reset karmaNavigating in unload handler ([#3591](https://github.com/karma-runner/karma/issues/3591)) ([4a8178f](https://github.com/karma-runner/karma/commit/4a8178f3a0504ef007b23ef0fd8f5ca128f0c5c6)), closes [#3482](https://github.com/karma-runner/karma/issues/3482)
+* **context:** do not error when karma is navigating ([#3565](https://github.com/karma-runner/karma/issues/3565)) ([05dc288](https://github.com/karma-runner/karma/commit/05dc28801627e3ce7054ae548046714dc2cf7a5e)), closes [#3560](https://github.com/karma-runner/karma/issues/3560)
+* **cve:** update ua-parser-js to 0.7.23 to fix CVE-2020-7793 ([#3584](https://github.com/karma-runner/karma/issues/3584)) ([f819fa8](https://github.com/karma-runner/karma/commit/f819fa843fa0633edbe2af6ac2889e25ea2cb639))
+* **cve:** update yargs to 16.1.1 to fix cve-2020-7774 in y18n ([#3578](https://github.com/karma-runner/karma/issues/3578)) ([3fed0bc](https://github.com/karma-runner/karma/commit/3fed0bc7dd042a09c8aec55c059654781a4584ec)), closes [#3577](https://github.com/karma-runner/karma/issues/3577)
+* **deps:** bump socket-io to v3 ([#3586](https://github.com/karma-runner/karma/issues/3586)) ([1b9e1de](https://github.com/karma-runner/karma/commit/1b9e1de7d081e1c205debff27c6b5e1fe0585dee)), closes [#3569](https://github.com/karma-runner/karma/issues/3569)
+* **middleware:** catch errors when loading a module ([#3605](https://github.com/karma-runner/karma/issues/3605)) ([fec972f](https://github.com/karma-runner/karma/commit/fec972ff63760f9606a4cef7673a68c55c880722)), closes [#3572](https://github.com/karma-runner/karma/issues/3572)
+* **server:** clean up close-server logic ([#3607](https://github.com/karma-runner/karma/issues/3607)) ([3fca456](https://github.com/karma-runner/karma/commit/3fca456a02a65304d6423d6311fb55f83e73d85e))
+* **test:** clear up clearContext ([#3597](https://github.com/karma-runner/karma/issues/3597)) ([8997b74](https://github.com/karma-runner/karma/commit/8997b7465de3c5f7e436078b57acae98de1ce39a))
+* **test:** mark all second connections reconnects ([#3598](https://github.com/karma-runner/karma/issues/3598)) ([1c9c2de](https://github.com/karma-runner/karma/commit/1c9c2de54fa1abcb2c0edceebb159440b77e4863))
+
+
+### Features
+
+* **cli:** error out on unexpected options or parameters ([#3589](https://github.com/karma-runner/karma/issues/3589)) ([603bbc0](https://github.com/karma-runner/karma/commit/603bbc0db2ef4e6b8474f97a8255587f2a5f924e))
+* **client:** update banner with connection, test status, ping times ([#3611](https://github.com/karma-runner/karma/issues/3611)) ([4bf90f7](https://github.com/karma-runner/karma/commit/4bf90f70f46cddf52a55d8f2b9ce0ccd2d4a4d3b))
+* **server:** print stack of unhandledrejections ([#3593](https://github.com/karma-runner/karma/issues/3593)) ([35a5842](https://github.com/karma-runner/karma/commit/35a584234b00297dc511300bb6e42eeaceac8345))
+* **server:** remove deprecated static methods ([#3595](https://github.com/karma-runner/karma/issues/3595)) ([1a65bf1](https://github.com/karma-runner/karma/commit/1a65bf1181bc9eb5c28ba0130ab7d90e89b21918))
+* remove support for running dart code in the browser ([#3592](https://github.com/karma-runner/karma/issues/3592)) ([7a3bd55](https://github.com/karma-runner/karma/commit/7a3bd5545fa1307c754419252fa35ff0b7572ae4))
+
+
+### BREAKING CHANGES
+
+* **server:** Deprecated `require('karma').server.start()` and `require('karma').Server.start()` variants were removed from the public API. Instead use canonical form:
+
+```
+const { Server } = require('karma');
+const server = new Server();
+server.start();
+```
+* **cli:** Karma is more strict and will error out if unknown option or argument is passed to CLI.
+* Using Karma to run Dart code in the browser is no longer supported. Use your favorite Dart-to-JS compiler instead.
+
+`dart` file type has been removed without a replacement.
+
+`customFileHandlers` DI token has been removed. Use [`middleware`](https://karma-runner.github.io/5.2/config/configuration-file.html#middleware) to achieve similar functionality.
+
+`customScriptTypes` DI token has been removed. It had no effect, so no replacement is provided.
+* **deps:** Some projects have socket.io tests that are version sensitive.
+
 ## [5.2.3](https://github.com/karma-runner/karma/compare/v5.2.2...v5.2.3) (2020-09-25)
 
 
@@ -1170,7 +1425,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **client:** Fix stringify serializing objects ([0d0972a5](http://github.com/karma-runner/karma/commit/0d0972a59e6e0354033c9fdfec72d5ddfbfe8e1e))
+* **client:** Fix stringify serializing objects ([0d0972a5](https://github.com/karma-runner/karma/commit/0d0972a59e6e0354033c9fdfec72d5ddfbfe8e1e))
 
 
 <a name="0.12.30"></a>
@@ -1179,7 +1434,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **socket.io:** Force 0.9.16 which works with Chrome ([840ee5f7](http://github.com/karma-runner/karma/commit/840ee5f771d547f0fd140c3728ecb92edadf835e))
+* **socket.io:** Force 0.9.16 which works with Chrome ([840ee5f7](https://github.com/karma-runner/karma/commit/840ee5f771d547f0fd140c3728ecb92edadf835e))
 
 
 <a name="0.12.29"></a>
@@ -1188,8 +1443,8 @@ to match this new format.
 
 #### Bug Fixes
 
-* **proxy:** proxy to correct port ([a483636e](http://github.com/karma-runner/karma/commit/a483636efd440c13e6db36f6b661861558464089))
-* **watcher:** Close file watchers on exit event ([71810257](http://github.com/karma-runner/karma/commit/718102572a13d7e70d1f2c0b48b6b60a766b76b2))
+* **proxy:** proxy to correct port ([a483636e](https://github.com/karma-runner/karma/commit/a483636efd440c13e6db36f6b661861558464089))
+* **watcher:** Close file watchers on exit event ([71810257](https://github.com/karma-runner/karma/commit/718102572a13d7e70d1f2c0b48b6b60a766b76b2))
 
 
 <a name="0.12.28"></a>
@@ -1198,7 +1453,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **server:** complete acknowledgment ([f4144b0d](http://github.com/karma-runner/karma/commit/f4144b0d2d5eafff7245301454305d2005e46449))
+* **server:** complete acknowledgment ([f4144b0d](https://github.com/karma-runner/karma/commit/f4144b0d2d5eafff7245301454305d2005e46449))
 
 
 <a name="0.12.27"></a>
@@ -1207,8 +1462,8 @@ to match this new format.
 
 #### Bug Fixes
 
-* **browser:** don't add already active socket again on reconnect ([37a7958a](http://github.com/karma-runner/karma/commit/37a7958ae5517b8bf16e36cc90fe0b1cf0c09afd))
-* **reporter:** sourcemap not working in windows ([a9516af2](http://github.com/karma-runner/karma/commit/a9516af2af87953154e81b6080214798a9b64da5))
+* **browser:** don't add already active socket again on reconnect ([37a7958a](https://github.com/karma-runner/karma/commit/37a7958ae5517b8bf16e36cc90fe0b1cf0c09afd))
+* **reporter:** sourcemap not working in windows ([a9516af2](https://github.com/karma-runner/karma/commit/a9516af2af87953154e81b6080214798a9b64da5))
 
 
 <a name="0.12.26"></a>
@@ -1217,7 +1472,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **cli:** override if an arg is defined multiple times ([31eb2c2c](http://github.com/karma-runner/karma/commit/31eb2c2c3ca1663eff94f0398768a9b582332a93), closes [#1192](http://github.com/karma-runner/karma/issues/1192))
+* **cli:** override if an arg is defined multiple times ([31eb2c2c](https://github.com/karma-runner/karma/commit/31eb2c2c3ca1663eff94f0398768a9b582332a93), closes [#1192](https://github.com/karma-runner/karma/issues/1192))
 
 
 <a name="0.12.25"></a>
@@ -1226,11 +1481,11 @@ to match this new format.
 
 #### Bug Fixes
 
-* add emscripten memory image as binary suffix ([f6b2b561](http://github.com/karma-runner/karma/commit/f6b2b561c5d5e083cd204df9564024cac163b611))
-* Wrap url.parse to always return an object for query property ([72452e9f](http://github.com/karma-runner/karma/commit/72452e9fce4c42dc843c1157c19c08d39e3996df), closes [#1182](http://github.com/karma-runner/karma/issues/1182))
-* **client.html:** always open debug.html in a new browser process ([d176bcf4](http://github.com/karma-runner/karma/commit/d176bcf47e9b3a7df8c6ae691f767f1012214c53))
-* **preprocessor:** calculate sha1 on content returned from a preprocessor ([6cf79557](http://github.com/karma-runner/karma/commit/6cf795576bd6d77decac68ecc4838871b6df4836), closes [#1204](http://github.com/karma-runner/karma/issues/1204))
-* **runner:** Fix typo in CSS class name for .idle ([fc5a7ce0](http://github.com/karma-runner/karma/commit/fc5a7ce0904a78ece6a9cfa29215b17bd5c1929d))
+* add emscripten memory image as binary suffix ([f6b2b561](https://github.com/karma-runner/karma/commit/f6b2b561c5d5e083cd204df9564024cac163b611))
+* Wrap url.parse to always return an object for query property ([72452e9f](https://github.com/karma-runner/karma/commit/72452e9fce4c42dc843c1157c19c08d39e3996df), closes [#1182](https://github.com/karma-runner/karma/issues/1182))
+* **client.html:** always open debug.html in a new browser process ([d176bcf4](https://github.com/karma-runner/karma/commit/d176bcf47e9b3a7df8c6ae691f767f1012214c53))
+* **preprocessor:** calculate sha1 on content returned from a preprocessor ([6cf79557](https://github.com/karma-runner/karma/commit/6cf795576bd6d77decac68ecc4838871b6df4836), closes [#1204](https://github.com/karma-runner/karma/issues/1204))
+* **runner:** Fix typo in CSS class name for .idle ([fc5a7ce0](https://github.com/karma-runner/karma/commit/fc5a7ce0904a78ece6a9cfa29215b17bd5c1929d))
 
 
 <a name="v0.12.24"></a>
@@ -1239,7 +1494,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* Wrap url.parse to always return an object for query property ([72452e9f](http://github.com/karma-runner/karma/commit/72452e9fce4c42dc843c1157c19c08d39e3996df), closes [#1182](http://github.com/karma-runner/karma/issues/1182))
+* Wrap url.parse to always return an object for query property ([72452e9f](https://github.com/karma-runner/karma/commit/72452e9fce4c42dc843c1157c19c08d39e3996df), closes [#1182](https://github.com/karma-runner/karma/issues/1182))
 
 <a name="0.12.23"></a>
 ### 0.12.23 (2014-08-28)
@@ -1247,13 +1502,13 @@ to match this new format.
 
 #### Bug Fixes
 
-* **file_list:** Incorrect response after remove and add file ([0dbc0201](http://github.com/karma-runner/karma/commit/0dbc0201b2d1f7c909f74816cc50bc68013fc70f))
-* **preprocessor:** Throw error if can't open file ([bb4edde9](http://github.com/karma-runner/karma/commit/bb4edde9f15a07e6dac0d4dc01731f1e277d34a4))
+* **file_list:** Incorrect response after remove and add file ([0dbc0201](https://github.com/karma-runner/karma/commit/0dbc0201b2d1f7c909f74816cc50bc68013fc70f))
+* **preprocessor:** Throw error if can't open file ([bb4edde9](https://github.com/karma-runner/karma/commit/bb4edde9f15a07e6dac0d4dc01731f1e277d34a4))
 
 
 #### Features
 
-* **init:** install coffee-script automatically ([e876db63](http://github.com/karma-runner/karma/commit/e876db63dc5c4708345f5cdc335195fe4a5b8808), closes [#1152](http://github.com/karma-runner/karma/issues/1152))
+* **init:** install coffee-script automatically ([e876db63](https://github.com/karma-runner/karma/commit/e876db63dc5c4708345f5cdc335195fe4a5b8808), closes [#1152](https://github.com/karma-runner/karma/issues/1152))
 
 
 <a name="0.12.22"></a>
@@ -1262,7 +1517,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **preprocessor:** treat *.tgz, *.tbz2, *.txz & *.xz as binary ([7b642449](http://github.com/karma-runner/karma/commit/7b642449811b0c0af63147f74159c6dbb8900563))
+* **preprocessor:** treat *.tgz, *.tbz2, *.txz & *.xz as binary ([7b642449](https://github.com/karma-runner/karma/commit/7b642449811b0c0af63147f74159c6dbb8900563))
 
 
 <a name="0.12.21"></a>
@@ -1271,7 +1526,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **web-server:** cache static files ([eb5bd53f](http://github.com/karma-runner/karma/commit/eb5bd53ff0b6dc01e247fce9af01d0ed97d8c9ba))
+* **web-server:** cache static files ([eb5bd53f](https://github.com/karma-runner/karma/commit/eb5bd53ff0b6dc01e247fce9af01d0ed97d8c9ba))
 
 
 <a name="0.12.20"></a>
@@ -1280,10 +1535,10 @@ to match this new format.
 
 #### Bug Fixes
 
-* **config:** #1113 Watching is not working properly on linux ([c91ffbc0](http://github.com/karma-runner/karma/commit/c91ffbc05f78f2c17dcc43039300cdf045e64ccc), closes [#1113](http://github.com/karma-runner/karma/issues/1113))
+* **config:** #1113 Watching is not working properly on linux ([c91ffbc0](https://github.com/karma-runner/karma/commit/c91ffbc05f78f2c17dcc43039300cdf045e64ccc), closes [#1113](https://github.com/karma-runner/karma/issues/1113))
 * **preprocessor:**
-  * treat *.gz files as binary ([1b56932f](http://github.com/karma-runner/karma/commit/1b56932fb49e0f3793f00599e11c24f6254236f4))
-  * treat *.swf files as binary ([62d7d387](http://github.com/karma-runner/karma/commit/62d7d3873ed3e046ab24530cb20297ddad51cf85))
+  * treat *.gz files as binary ([1b56932f](https://github.com/karma-runner/karma/commit/1b56932fb49e0f3793f00599e11c24f6254236f4))
+  * treat *.swf files as binary ([62d7d387](https://github.com/karma-runner/karma/commit/62d7d3873ed3e046ab24530cb20297ddad51cf85))
 
 
 <a name="0.12.19"></a>
@@ -1292,7 +1547,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **proxy:** More useful proxyError log message ([96640a75](http://github.com/karma-runner/karma/commit/96640a75dab089255c0619733ca9d5f9fe80127d))
+* **proxy:** More useful proxyError log message ([96640a75](https://github.com/karma-runner/karma/commit/96640a75dab089255c0619733ca9d5f9fe80127d))
 
 
 <a name="0.12.18"></a>
@@ -1301,7 +1556,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **watcher:** handle paths on Windows ([6164d869](http://github.com/karma-runner/karma/commit/6164d8699c0f07fd8fcbae88221eb35d99fb02e4))
+* **watcher:** handle paths on Windows ([6164d869](https://github.com/karma-runner/karma/commit/6164d8699c0f07fd8fcbae88221eb35d99fb02e4))
 
 
 <a name="0.12.17"></a>
@@ -1310,15 +1565,15 @@ to match this new format.
 
 #### Bug Fixes
 
-* **logging:** Summarize SKIPPED tests in debug.html. Before: hundreds of SKIPPING lines in con ([a01100f5](http://github.com/karma-runner/karma/commit/a01100f5c6404366dd4219b9bf6c3161300dc735), closes [#1111](http://github.com/karma-runner/karma/issues/1111))
-* **server:** Force clients disconnect on Windows ([28239f42](http://github.com/karma-runner/karma/commit/28239f420460bdb9dd3b71f8088a0dfc1277dca6), closes [#1109](http://github.com/karma-runner/karma/issues/1109))
-* **travis_ci:** converted node versions as string ([25ee6fc9](http://github.com/karma-runner/karma/commit/25ee6fc9c57e11a012ecc3910fcb72386a3403a1))
+* **logging:** Summarize SKIPPED tests in debug.html. Before: hundreds of SKIPPING lines in con ([a01100f5](https://github.com/karma-runner/karma/commit/a01100f5c6404366dd4219b9bf6c3161300dc735), closes [#1111](https://github.com/karma-runner/karma/issues/1111))
+* **server:** Force clients disconnect on Windows ([28239f42](https://github.com/karma-runner/karma/commit/28239f420460bdb9dd3b71f8088a0dfc1277dca6), closes [#1109](https://github.com/karma-runner/karma/issues/1109))
+* **travis_ci:** converted node versions as string ([25ee6fc9](https://github.com/karma-runner/karma/commit/25ee6fc9c57e11a012ecc3910fcb72386a3403a1))
 
 
 #### Features
 
-* serve ePub as binary files ([82ed0c6e](http://github.com/karma-runner/karma/commit/82ed0c6e94e77757270e6694f7082eac5ef5e066))
-* **preprocessor:** add 'mp3' and 'ogg' as binary formats to avoid media corruption in the browser. ([65a0767e](http://github.com/karma-runner/karma/commit/65a0767e8024879e3a5c4557f376d8b6684530e8))
+* serve ePub as binary files ([82ed0c6e](https://github.com/karma-runner/karma/commit/82ed0c6e94e77757270e6694f7082eac5ef5e066))
+* **preprocessor:** add 'mp3' and 'ogg' as binary formats to avoid media corruption in the browser. ([65a0767e](https://github.com/karma-runner/karma/commit/65a0767e8024879e3a5c4557f376d8b6684530e8))
 
 
 <a name="v0.12.16"></a>
@@ -1327,7 +1582,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **launcher:** cancel kill timeout when process exits cleanly ([bd662744](http://github.com/karma-runner/karma/commit/bd662744bfbe353ccb63c7a795f691d12530129c), closes [#946](http://github.com/karma-runner/karma/issues/946))
+* **launcher:** cancel kill timeout when process exits cleanly ([bd662744](https://github.com/karma-runner/karma/commit/bd662744bfbe353ccb63c7a795f691d12530129c), closes [#946](https://github.com/karma-runner/karma/issues/946))
 
 <a name="v0.12.15"></a>
 ### v0.12.15 (2014-05-08)
@@ -1335,7 +1590,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **server:** don't wait for socket.io store expiration timeout ([cd30a422](http://github.com/karma-runner/karma/commit/cd30a422fbc3d9d96b9aae791063a20d02a5f195))
+* **server:** don't wait for socket.io store expiration timeout ([cd30a422](https://github.com/karma-runner/karma/commit/cd30a422fbc3d9d96b9aae791063a20d02a5f195))
 
 <a name="v0.12.14"></a>
 ### v0.12.14 (2014-04-27)
@@ -1343,7 +1598,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **debug.html:** Added whitespace after 'SKIPPED' ([218ee859](http://github.com/karma-runner/karma/commit/218ee859d8c8f1c7d2f47435548030f367f1e05d))
+* **debug.html:** Added whitespace after 'SKIPPED' ([218ee859](https://github.com/karma-runner/karma/commit/218ee859d8c8f1c7d2f47435548030f367f1e05d))
 
 <a name="v0.12.13"></a>
 ### v0.12.13 (2014-04-27)
@@ -1351,7 +1606,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **preprocessor:** serve NaCl binaries ([1cc6a1e3](http://github.com/karma-runner/karma/commit/1cc6a1e34b24768bffdaf47fb5e36559f5dc5135))
+* **preprocessor:** serve NaCl binaries ([1cc6a1e3](https://github.com/karma-runner/karma/commit/1cc6a1e34b24768bffdaf47fb5e36559f5dc5135))
 
 <a name="v0.12.12"></a>
 ### v0.12.12 (2014-04-25)
@@ -1359,7 +1614,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **server:** properly close flash transport ([de89cd33](http://github.com/karma-runner/karma/commit/de89cd33b772d373569d2db2e9066c6656016aa3))
+* **server:** properly close flash transport ([de89cd33](https://github.com/karma-runner/karma/commit/de89cd33b772d373569d2db2e9066c6656016aa3))
 
 <a name="v0.12.11"></a>
 ### v0.12.11 (2014-04-25)
@@ -1367,7 +1622,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **preprocessor:** remove ts from binary extensions ([82698523](http://github.com/karma-runner/karma/commit/8269852304d2d420bb25a0e4bb13bba58a339f39))
+* **preprocessor:** remove ts from binary extensions ([82698523](https://github.com/karma-runner/karma/commit/8269852304d2d420bb25a0e4bb13bba58a339f39))
 
 <a name="v0.12.10"></a>
 ### v0.12.10 (2014-04-23)
@@ -1375,7 +1630,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **server:** clear web server close timeout on clean close ([34123fed](http://github.com/karma-runner/karma/commit/34123fed2fbe99b3a9a39ad5e0a141d55decb9f6))
+* **server:** clear web server close timeout on clean close ([34123fed](https://github.com/karma-runner/karma/commit/34123fed2fbe99b3a9a39ad5e0a141d55decb9f6))
 
 <a name="v0.12.9"></a>
 ### v0.12.9 (2014-04-14)
@@ -1383,7 +1638,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **web-server:** strip scheme, host and port ([06a0da09](http://github.com/karma-runner/karma/commit/06a0da09320340a988513285046b577b4a7518fd))
+* **web-server:** strip scheme, host and port ([06a0da09](https://github.com/karma-runner/karma/commit/06a0da09320340a988513285046b577b4a7518fd))
 
 <a name="v0.12.8"></a>
 ### v0.12.8 (2014-04-14)
@@ -1391,7 +1646,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **web-server:** inline the config, when serving debug.html ([1eb36430](http://github.com/karma-runner/karma/commit/1eb36430ca26a769cd8fd2ab5a471aecb31cad9f))
+* **web-server:** inline the config, when serving debug.html ([1eb36430](https://github.com/karma-runner/karma/commit/1eb36430ca26a769cd8fd2ab5a471aecb31cad9f))
 
 <a name="v0.12.7"></a>
 ### v0.12.7 (2014-04-14)
@@ -1399,8 +1654,8 @@ to match this new format.
 
 #### Bug Fixes
 
-* don't crash/terminate upon errors within chokidar ([2c389311](http://github.com/karma-runner/karma/commit/2c389311ce683646675adccf5a7b7b3160335148))
-* **preprocessor:** consider SVG files as text files, not binary files ([ff288036](http://github.com/karma-runner/karma/commit/ff2880369f0c4e8b78d95bb20365cead340f8fc9), closes [#1026](http://github.com/karma-runner/karma/issues/1026))
+* don't crash/terminate upon errors within chokidar ([2c389311](https://github.com/karma-runner/karma/commit/2c389311ce683646675adccf5a7b7b3160335148))
+* **preprocessor:** consider SVG files as text files, not binary files ([ff288036](https://github.com/karma-runner/karma/commit/ff2880369f0c4e8b78d95bb20365cead340f8fc9), closes [#1026](https://github.com/karma-runner/karma/issues/1026))
 
 <a name="v0.12.6"></a>
 ### v0.12.6 (2014-04-09)
@@ -1411,7 +1666,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **reporters:** format fix for console log ([d2d1377d](http://github.com/karma-runner/karma/commit/d2d1377d1be0da17196a1c82bf5584997d502b68), closes [#934](http://github.com/karma-runner/karma/issues/934))
+* **reporters:** format fix for console log ([d2d1377d](https://github.com/karma-runner/karma/commit/d2d1377d1be0da17196a1c82bf5584997d502b68), closes [#934](https://github.com/karma-runner/karma/issues/934))
 
 <a name="v0.12.4"></a>
 ### v0.12.4 (2014-04-06)
@@ -1419,7 +1674,7 @@ to match this new format.
 
 #### Bug Fixes
 
-* **init:** Fix type in init text ([e34465b0](http://github.com/karma-runner/karma/commit/e34465b01cc583cac9645acc98d20acbf471c856), closes [#954](http://github.com/karma-runner/karma/issues/954))
+* **init:** Fix type in init text ([e34465b0](https://github.com/karma-runner/karma/commit/e34465b01cc583cac9645acc98d20acbf471c856), closes [#954](https://github.com/karma-runner/karma/issues/954))
 
 <a name="v0.12.3"></a>
 ### v0.12.3 (2014-04-01)
@@ -1427,12 +1682,12 @@ to match this new format.
 
 #### Bug Fixes
 
-* **web-server:** implement a timeout on webServer.close() ([fe3dca78](http://github.com/karma-runner/karma/commit/fe3dca781def0a5f813e598fe73eb97b3f55d223), closes [#952](http://github.com/karma-runner/karma/issues/952))
+* **web-server:** implement a timeout on webServer.close() ([fe3dca78](https://github.com/karma-runner/karma/commit/fe3dca781def0a5f813e598fe73eb97b3f55d223), closes [#952](https://github.com/karma-runner/karma/issues/952))
 
 
 #### Features
 
-* **web-server:** run karma using multiple emulation modes, #631 ([b9a2930a](http://github.com/karma-runner/karma/commit/b9a2930a7fead5f29eb5f62b1a87739c4cf2e04b), closes [#936](http://github.com/karma-runner/karma/issues/936))
+* **web-server:** run karma using multiple emulation modes, #631 ([b9a2930a](https://github.com/karma-runner/karma/commit/b9a2930a7fead5f29eb5f62b1a87739c4cf2e04b), closes [#936](https://github.com/karma-runner/karma/issues/936))
 
 <a name="v0.12.2"></a>
 ### v0.12.2 (2014-03-30)
@@ -1443,7 +1698,7 @@ to match this new format.
 
 #### Features
 
-* **preprocessor:** Adding the `dat` file extension as a recognised binary. ([be923571](http://github.com/karma-runner/karma/commit/be923571751199e0d795f620425fdf6eaf3f9818))
+* **preprocessor:** Adding the `dat` file extension as a recognised binary. ([be923571](https://github.com/karma-runner/karma/commit/be923571751199e0d795f620425fdf6eaf3f9818))
 
 <a name="v0.12.0"></a>
 ## v0.12.0 (2014-03-10)
@@ -1451,21 +1706,21 @@ to match this new format.
 
 #### Bug Fixes
 
-* serving binary files ([8a30cf55](http://github.com/karma-runner/karma/commit/8a30cf55751bbaec672597f4f0ed66fe8742095f), closes [#864](http://github.com/karma-runner/karma/issues/864), [#885](http://github.com/karma-runner/karma/issues/885))
+* serving binary files ([8a30cf55](https://github.com/karma-runner/karma/commit/8a30cf55751bbaec672597f4f0ed66fe8742095f), closes [#864](https://github.com/karma-runner/karma/issues/864), [#885](https://github.com/karma-runner/karma/issues/885))
 * **config:**
-  * fail if client.args is set to a non array ([fe4eaec0](http://github.com/karma-runner/karma/commit/fe4eaec09f1b7d34270dec7f948cd9441ef6fe48))
-  * allow CoffeeScript 1.7 to be used ([a1583dec](http://github.com/karma-runner/karma/commit/a1583decd97438a241f99287159da2948eb3a95f))
-* **runner:** Karma hangs when file paths have \u in them #924 ([1199fc4d](http://github.com/karma-runner/karma/commit/1199fc4d7ee7be2d48a707876ddb857544cf2fb4), closes [#924](http://github.com/karma-runner/karma/issues/924))
+  * fail if client.args is set to a non array ([fe4eaec0](https://github.com/karma-runner/karma/commit/fe4eaec09f1b7d34270dec7f948cd9441ef6fe48))
+  * allow CoffeeScript 1.7 to be used ([a1583dec](https://github.com/karma-runner/karma/commit/a1583decd97438a241f99287159da2948eb3a95f))
+* **runner:** Karma hangs when file paths have \u in them #924 ([1199fc4d](https://github.com/karma-runner/karma/commit/1199fc4d7ee7be2d48a707876ddb857544cf2fb4), closes [#924](https://github.com/karma-runner/karma/issues/924))
 * **web-server:**
-  * detach listeners after running ([3baa8e19](http://github.com/karma-runner/karma/commit/3baa8e1979003e4136e48515c0ba1815a950ca19))
-  * close webserver after running ([f9dee468](http://github.com/karma-runner/karma/commit/f9dee4681cad716b56748e275680fb09e574978c))
+  * detach listeners after running ([3baa8e19](https://github.com/karma-runner/karma/commit/3baa8e1979003e4136e48515c0ba1815a950ca19))
+  * close webserver after running ([f9dee468](https://github.com/karma-runner/karma/commit/f9dee4681cad716b56748e275680fb09e574978c))
 
 
 #### Features
 
-* remove dependency on coffee-script ([af2d0e72](http://github.com/karma-runner/karma/commit/af2d0e72599d242c59ebefd6c3c965bf8496399e))
-* **config:** better error when Coffee/Live Script not installed ([aca84dc9](http://github.com/karma-runner/karma/commit/aca84dc9c6f4a966280bfcd080317c7c9d498f53))
-* **init:** generate test-main.(js/coffee) for RequireJS projects ([85900c93](http://github.com/karma-runner/karma/commit/85900c93f070264d71fdae6c257285767119c5c2))
+* remove dependency on coffee-script ([af2d0e72](https://github.com/karma-runner/karma/commit/af2d0e72599d242c59ebefd6c3c965bf8496399e))
+* **config:** better error when Coffee/Live Script not installed ([aca84dc9](https://github.com/karma-runner/karma/commit/aca84dc9c6f4a966280bfcd080317c7c9d498f53))
+* **init:** generate test-main.(js/coffee) for RequireJS projects ([85900c93](https://github.com/karma-runner/karma/commit/85900c93f070264d71fdae6c257285767119c5c2))
 
 <a name="v0.11.14"></a>
 ### v0.11.14 (2014-02-04)
@@ -1473,9 +1728,9 @@ to match this new format.
 
 #### Features
 
-* **preprocessor:** allow preprocessor to cancel test run ([4d669bf3](http://github.com/karma-runner/karma/commit/4d669bf36b091e8808c9a280900fe19c8b2a72cc), closes [#550](http://github.com/karma-runner/karma/issues/550))
-* **reporter:** use spaces rather than tabs when formatting errors ([112becf7](http://github.com/karma-runner/karma/commit/112becf7ffa79d2519777300be0beff568114fe6))
-* **web-server:** include html files as <link rel="import"> ([03d7b106](http://github.com/karma-runner/karma/commit/03d7b1065e31e6a42e67a0eb3e22009731865648))
+* **preprocessor:** allow preprocessor to cancel test run ([4d669bf3](https://github.com/karma-runner/karma/commit/4d669bf36b091e8808c9a280900fe19c8b2a72cc), closes [#550](https://github.com/karma-runner/karma/issues/550))
+* **reporter:** use spaces rather than tabs when formatting errors ([112becf7](https://github.com/karma-runner/karma/commit/112becf7ffa79d2519777300be0beff568114fe6))
+* **web-server:** include html files as <link rel="import"> ([03d7b106](https://github.com/karma-runner/karma/commit/03d7b1065e31e6a42e67a0eb3e22009731865648))
 
 <a name="v0.11.13"></a>
 ### v0.11.13 (2014-01-19)
@@ -1483,12 +1738,12 @@ to match this new format.
 
 #### Bug Fixes
 
-* **launcher:** compatibility with old launchers ([df557cec](http://github.com/karma-runner/karma/commit/df557cec8093de301a8d7dea4ddca8670629c0af))
+* **launcher:** compatibility with old launchers ([df557cec](https://github.com/karma-runner/karma/commit/df557cec8093de301a8d7dea4ddca8670629c0af))
 
 
 #### Features
 
-* support LiveScript configuration ([88deebe7](http://github.com/karma-runner/karma/commit/88deebe74a0b6f01e23f3ceefea5811183218600))
+* support LiveScript configuration ([88deebe7](https://github.com/karma-runner/karma/commit/88deebe74a0b6f01e23f3ceefea5811183218600))
 
 <a name="v0.11.12"></a>
 ### v0.11.12 (2013-12-25)
@@ -1496,14 +1751,14 @@ to match this new format.
 
 #### Bug Fixes
 
-* **client:** show error if an adapter is removed ([a8b250cf](http://github.com/karma-runner/karma/commit/a8b250cf6a89cf064f67ecb1e2c040cc224d91e9))
+* **client:** show error if an adapter is removed ([a8b250cf](https://github.com/karma-runner/karma/commit/a8b250cf6a89cf064f67ecb1e2c040cc224d91e9))
 
 
 #### Features
 
-* **deps:** update all deps ([355a762c](http://github.com/karma-runner/karma/commit/355a762c0fd709261ff1403213bb10db6aa0a396), closes [#794](http://github.com/karma-runner/karma/issues/794))
-* **reporter:** support source maps (rewrite stack traces) ([70e4abd9](http://github.com/karma-runner/karma/commit/70e4abd9b8db6b05de557ca6e9204339a21be06b), closes [#594](http://github.com/karma-runner/karma/issues/594))
-* **watcher:** use polling on Mac ([66f50d7e](http://github.com/karma-runner/karma/commit/66f50d7e584d4cbde820e70746be3f3378440fa8))
+* **deps:** update all deps ([355a762c](https://github.com/karma-runner/karma/commit/355a762c0fd709261ff1403213bb10db6aa0a396), closes [#794](https://github.com/karma-runner/karma/issues/794))
+* **reporter:** support source maps (rewrite stack traces) ([70e4abd9](https://github.com/karma-runner/karma/commit/70e4abd9b8db6b05de557ca6e9204339a21be06b), closes [#594](https://github.com/karma-runner/karma/issues/594))
+* **watcher:** use polling on Mac ([66f50d7e](https://github.com/karma-runner/karma/commit/66f50d7e584d4cbde820e70746be3f3378440fa8))
 
 <a name="v0.11.11"></a>
 ### v0.11.11 (2013-12-23)
@@ -1511,10 +1766,10 @@ to match this new format.
 
 #### Bug Fixes
 
-* **events:** resolve async events without any listener ([4e4bba88](http://github.com/karma-runner/karma/commit/4e4bba8803d1e4f461e568cc2e2ccf82e369721d))
+* **events:** resolve async events without any listener ([4e4bba88](https://github.com/karma-runner/karma/commit/4e4bba8803d1e4f461e568cc2e2ccf82e369721d))
 * **launcher:**
-  * compatibility with Node v0.8 ([6a46be96](http://github.com/karma-runner/karma/commit/6a46be96499876e9aa0892325d783627bd1c535d))
-  * compatibility with old launchers ([ffb74800](http://github.com/karma-runner/karma/commit/ffb74800638417910f453e108c8a4c6ffabaee29))
+  * compatibility with Node v0.8 ([6a46be96](https://github.com/karma-runner/karma/commit/6a46be96499876e9aa0892325d783627bd1c535d))
+  * compatibility with old launchers ([ffb74800](https://github.com/karma-runner/karma/commit/ffb74800638417910f453e108c8a4c6ffabaee29))
 
 <a name="v0.11.10"></a>
 ### v0.11.10 (2013-12-22)
@@ -1522,23 +1777,23 @@ to match this new format.
 
 #### Bug Fixes
 
-* **completion:** add missin --log-level for karma init ([1e79eb55](http://github.com/karma-runner/karma/commit/1e79eb553e40530adef36b30b35a79f7a8026ddf))
-* **init:** clean the terminal if killed ([e2aa7497](http://github.com/karma-runner/karma/commit/e2aa74972ce84388a49090533e353b61bd9b16ed))
+* **completion:** add missin --log-level for karma init ([1e79eb55](https://github.com/karma-runner/karma/commit/1e79eb553e40530adef36b30b35a79f7a8026ddf))
+* **init:** clean the terminal if killed ([e2aa7497](https://github.com/karma-runner/karma/commit/e2aa74972ce84388a49090533e353b61bd9b16ed))
 
 
 #### Features
 
-* revert default usePolling to false ([e88fbc24](http://github.com/karma-runner/karma/commit/e88fbc24dd34e7976cae2547bad07e6f044a768b))
+* revert default usePolling to false ([e88fbc24](https://github.com/karma-runner/karma/commit/e88fbc24dd34e7976cae2547bad07e6f044a768b))
 * **config:**
-  * remove default preprocessors (coffee, html2js) ([ada74d55](http://github.com/karma-runner/karma/commit/ada74d55aaf02882a5e12031838404e9ade07d36))
-  * Add the abillity to supress the client console. This adds the client config opti ([4734962d](http://github.com/karma-runner/karma/commit/4734962de747c2a8eab5c8078954bd567e4b4410), closes [#744](http://github.com/karma-runner/karma/issues/744))
-  * set default host/port from env vars ([0a6a0ee4](http://github.com/karma-runner/karma/commit/0a6a0ee4dd443250521d7898ab3086e7fc4f3afc))
-  * Allow tests be to run in a new window instead of iframe ([471e3a8a](http://github.com/karma-runner/karma/commit/471e3a8a506836ba9711637d325c680cfbfff64f))
+  * remove default preprocessors (coffee, html2js) ([ada74d55](https://github.com/karma-runner/karma/commit/ada74d55aaf02882a5e12031838404e9ade07d36))
+  * Add the abillity to supress the client console. This adds the client config opti ([4734962d](https://github.com/karma-runner/karma/commit/4734962de747c2a8eab5c8078954bd567e4b4410), closes [#744](https://github.com/karma-runner/karma/issues/744))
+  * set default host/port from env vars ([0a6a0ee4](https://github.com/karma-runner/karma/commit/0a6a0ee4dd443250521d7898ab3086e7fc4f3afc))
+  * Allow tests be to run in a new window instead of iframe ([471e3a8a](https://github.com/karma-runner/karma/commit/471e3a8a506836ba9711637d325c680cfbfff64f))
 * **init:**
-  * install karma-coffee-preprocessor ([29f5cf2d](http://github.com/karma-runner/karma/commit/29f5cf2d4b8c16a49d8528e02f781ef394e19191))
-  * add nodeunit, nunit frameworks ([b4da1a08](http://github.com/karma-runner/karma/commit/b4da1a08b98414e903440d6ec2df7e94b48daea8))
-  * install missing plugins (frameworks, launchers) ([1ba70a6f](http://github.com/karma-runner/karma/commit/1ba70a6fa673fbbb0c1750c777974662989dbf67))
-* **launcher:** log how long it took each browser to capture ([8dd54369](http://github.com/karma-runner/karma/commit/8dd54369f2ec3377ca1cf2d9c3cdacdc80a1331a))
+  * install karma-coffee-preprocessor ([29f5cf2d](https://github.com/karma-runner/karma/commit/29f5cf2d4b8c16a49d8528e02f781ef394e19191))
+  * add nodeunit, nunit frameworks ([b4da1a08](https://github.com/karma-runner/karma/commit/b4da1a08b98414e903440d6ec2df7e94b48daea8))
+  * install missing plugins (frameworks, launchers) ([1ba70a6f](https://github.com/karma-runner/karma/commit/1ba70a6fa673fbbb0c1750c777974662989dbf67))
+* **launcher:** log how long it took each browser to capture ([8dd54369](https://github.com/karma-runner/karma/commit/8dd54369f2ec3377ca1cf2d9c3cdacdc80a1331a))
 
 
 #### Breaking Changes
@@ -1554,7 +1809,7 @@ Removed plugins that need to be installed explicitly are:
 * karma-chrome-launcher
 * karma-firefox-launcher
 * karma-phantomjs-launcher
-* karma-script-launcher ([e033d561](http://github.com/karma-runner/karma/commit/e033d5618a98e1f83323bb650e0eaf89c339e5b5))
+* karma-script-launcher ([e033d561](https://github.com/karma-runner/karma/commit/e033d5618a98e1f83323bb650e0eaf89c339e5b5))
 
 <a name="v0.11.9"></a>
 ### v0.11.9 (2013-12-03)
@@ -1562,7 +1817,7 @@ Removed plugins that need to be installed explicitly are:
 
 #### Features
 
-* **browser:** add browserNoActivity configuration ([bca8faad](http://github.com/karma-runner/karma/commit/bca8faad91b91baa898e3eba74fe0fa7336971c3))
+* **browser:** add browserNoActivity configuration ([bca8faad](https://github.com/karma-runner/karma/commit/bca8faad91b91baa898e3eba74fe0fa7336971c3))
 
 <a name="v0.11.8"></a>
 ### v0.11.8 (2013-12-03)
@@ -1570,13 +1825,13 @@ Removed plugins that need to be installed explicitly are:
 
 #### Bug Fixes
 
-* **reporter:** remove SHAs from stack traces ([d7c31f97](http://github.com/karma-runner/karma/commit/d7c31f97be654f08d484563282a68d59638c5693))
-* **web-server:** correct caching headers for SHAs ([bf27e80b](http://github.com/karma-runner/karma/commit/bf27e80bb8ff3e60d19b408803596145c821bae7))
+* **reporter:** remove SHAs from stack traces ([d7c31f97](https://github.com/karma-runner/karma/commit/d7c31f97be654f08d484563282a68d59638c5693))
+* **web-server:** correct caching headers for SHAs ([bf27e80b](https://github.com/karma-runner/karma/commit/bf27e80bb8ff3e60d19b408803596145c821bae7))
 
 
 #### Features
 
-* **web-server:** disable gzip compression ([5ee886bc](http://github.com/karma-runner/karma/commit/5ee886bc16fc5a2bd08101d351027345530f87df))
+* **web-server:** disable gzip compression ([5ee886bc](https://github.com/karma-runner/karma/commit/5ee886bc16fc5a2bd08101d351027345530f87df))
 
 <a name="v0.11.7"></a>
 ### v0.11.7 (2013-12-02)
@@ -1584,14 +1839,14 @@ Removed plugins that need to be installed explicitly are:
 
 #### Bug Fixes
 
-* keep all sockets in the case an old socket will survive ([a5945ebc](http://github.com/karma-runner/karma/commit/a5945ebcf11c4b17b99c40b78d7e2946f79c77c2))
-* reuse browser instance when restarting disconnected browser ([1f1a8ebf](http://github.com/karma-runner/karma/commit/1f1a8ebf38827fe772c631de200fdfa4a705a40b))
-* **client:** redirect to redirect_url after all messages are sent ([4d05602c](http://github.com/karma-runner/karma/commit/4d05602c803a6645d6c0e9404a60ed380f0329ee))
+* keep all sockets in the case an old socket will survive ([a5945ebc](https://github.com/karma-runner/karma/commit/a5945ebcf11c4b17b99c40b78d7e2946f79c77c2))
+* reuse browser instance when restarting disconnected browser ([1f1a8ebf](https://github.com/karma-runner/karma/commit/1f1a8ebf38827fe772c631de200fdfa4a705a40b))
+* **client:** redirect to redirect_url after all messages are sent ([4d05602c](https://github.com/karma-runner/karma/commit/4d05602c803a6645d6c0e9404a60ed380f0329ee))
 
 
 #### Features
 
-* **plugins:** ignore some non-plugins package names ([01776030](http://github.com/karma-runner/karma/commit/01776030a294ef051b6454c2fb9bc3f980a6d36a))
+* **plugins:** ignore some non-plugins package names ([01776030](https://github.com/karma-runner/karma/commit/01776030a294ef051b6454c2fb9bc3f980a6d36a))
 
 <a name="v0.11.6"></a>
 ### v0.11.6 (2013-12-01)
@@ -1600,26 +1855,26 @@ Removed plugins that need to be installed explicitly are:
 #### Bug Fixes
 
 * **config:**
-  * ignore empty string patterns ([66c86a66](http://github.com/karma-runner/karma/commit/66c86a6689aaac82006fa47762bd86496ad76bf7))
-  * apply CLI logger options as soon as we can ([16179b08](http://github.com/karma-runner/karma/commit/16179b08021334cfab02a9dcba8d7f4bd219bc5e))
-* **preprocess:** set correct extension for the preprocessed path ([c9a64d2f](http://github.com/karma-runner/karma/commit/c9a64d2f1a94c0a7dab2fcde79696c139d958c57), closes [#843](http://github.com/karma-runner/karma/issues/843))
+  * ignore empty string patterns ([66c86a66](https://github.com/karma-runner/karma/commit/66c86a6689aaac82006fa47762bd86496ad76bf7))
+  * apply CLI logger options as soon as we can ([16179b08](https://github.com/karma-runner/karma/commit/16179b08021334cfab02a9dcba8d7f4bd219bc5e))
+* **preprocess:** set correct extension for the preprocessed path ([c9a64d2f](https://github.com/karma-runner/karma/commit/c9a64d2f1a94c0a7dab2fcde79696c139d958c57), closes [#843](https://github.com/karma-runner/karma/issues/843))
 
 
 #### Features
 
-* add `browserDisconnectTolerance` config option ([19590e1f](http://github.com/karma-runner/karma/commit/19590e1f66fd6c3b0d3fc9e90000c705198e0e70))
-* make autoWatch true by default ([8454898c](http://github.com/karma-runner/karma/commit/8454898c5e2b56cb81f0c808153b5f82cfac62a4))
-* **browser:** improve logging ([71b542ad](http://github.com/karma-runner/karma/commit/71b542adc6d6bd24d0ab2bb5cb0a473e1813804a))
-* **client:** show error if no adapter is included ([7213877f](http://github.com/karma-runner/karma/commit/7213877f3542a4c65d91d2dbde6633b928aba049))
+* add `browserDisconnectTolerance` config option ([19590e1f](https://github.com/karma-runner/karma/commit/19590e1f66fd6c3b0d3fc9e90000c705198e0e70))
+* make autoWatch true by default ([8454898c](https://github.com/karma-runner/karma/commit/8454898c5e2b56cb81f0c808153b5f82cfac62a4))
+* **browser:** improve logging ([71b542ad](https://github.com/karma-runner/karma/commit/71b542adc6d6bd24d0ab2bb5cb0a473e1813804a))
+* **client:** show error if no adapter is included ([7213877f](https://github.com/karma-runner/karma/commit/7213877f3542a4c65d91d2dbde6633b928aba049))
 * **web-server:**
-  * use SHA hash instead of timestamps ([6e31cb24](http://github.com/karma-runner/karma/commit/6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9), closes [#520](http://github.com/karma-runner/karma/issues/520))
-  * cache preprocessed files ([c786ee2e](http://github.com/karma-runner/karma/commit/c786ee2ea19d2fcef078a30cecb70d69036a4803))
+  * use SHA hash instead of timestamps ([6e31cb24](https://github.com/karma-runner/karma/commit/6e31cb249ee5b32d91f37ea516ca0f84bddc5aa9), closes [#520](https://github.com/karma-runner/karma/issues/520))
+  * cache preprocessed files ([c786ee2e](https://github.com/karma-runner/karma/commit/c786ee2ea19d2fcef078a30cecb70d69036a4803))
 
 
 #### Breaking Changes
 
 * `autoWatch` is `true` by default. If you rely on the default value being `false`, please set it in `karma.conf.js` explicitly to `false`.
- ([8454898c](http://github.com/karma-runner/karma/commit/8454898c5e2b56cb81f0c808153b5f82cfac62a4))
+ ([8454898c](https://github.com/karma-runner/karma/commit/8454898c5e2b56cb81f0c808153b5f82cfac62a4))
 
 <a name="v0.11.5"></a>
 ### v0.11.5 (2013-11-25)
@@ -1627,12 +1882,12 @@ Removed plugins that need to be installed explicitly are:
 
 #### Bug Fixes
 
-* do not execute already executing browsers ([00136cf6](http://github.com/karma-runner/karma/commit/00136cf6d818b9bc6e4d77504e3ce1ed3d23d611))
+* do not execute already executing browsers ([00136cf6](https://github.com/karma-runner/karma/commit/00136cf6d818b9bc6e4d77504e3ce1ed3d23d611))
 
 
 #### Features
 
-* **launcher:** send SIGKILL if SIGINT does not kill the browser ([c0fa49aa](http://github.com/karma-runner/karma/commit/c0fa49aa7c56f14a3836986e8629411a72515a78))
+* **launcher:** send SIGKILL if SIGINT does not kill the browser ([c0fa49aa](https://github.com/karma-runner/karma/commit/c0fa49aa7c56f14a3836986e8629411a72515a78))
 
 <a name="v0.11.4"></a>
 ### v0.11.4 (2013-11-21)
@@ -1640,7 +1895,7 @@ Removed plugins that need to be installed explicitly are:
 
 #### Bug Fixes
 
-* **browser:** reply "start" event ([4fde43de](http://github.com/karma-runner/karma/commit/4fde43deee22b53fcca52132c51c27f4012d2933))
+* **browser:** reply "start" event ([4fde43de](https://github.com/karma-runner/karma/commit/4fde43deee22b53fcca52132c51c27f4012d2933))
 
 <a name="v0.11.3"></a>
 ### v0.11.3 (2013-11-20)
@@ -1648,14 +1903,14 @@ Removed plugins that need to be installed explicitly are:
 
 #### Bug Fixes
 
-* **config:** not append empty module if no custom launcher/rep/prep ([ee15a4e4](http://github.com/karma-runner/karma/commit/ee15a4e446e9f35949a2fdde7cbdbecdd7ca0750))
-* **watcher:** allow parentheses in a pattern ([438eb8dd](http://github.com/karma-runner/karma/commit/438eb8ddbc0b82cd5ab299f6f27f5ae3cc29a20f), closes [#728](http://github.com/karma-runner/karma/issues/728))
+* **config:** not append empty module if no custom launcher/rep/prep ([ee15a4e4](https://github.com/karma-runner/karma/commit/ee15a4e446e9f35949a2fdde7cbdbecdd7ca0750))
+* **watcher:** allow parentheses in a pattern ([438eb8dd](https://github.com/karma-runner/karma/commit/438eb8ddbc0b82cd5ab299f6f27f5ae3cc29a20f), closes [#728](https://github.com/karma-runner/karma/issues/728))
 
 
 #### Features
 
-* remove `karma` binary in favor of karma-cli ([c7d46270](http://github.com/karma-runner/karma/commit/c7d46270aca83ecfe78f69fa923bc574c0b5bfdc))
-* **config:** log if no config file is specified ([ce4c5646](http://github.com/karma-runner/karma/commit/ce4c5646dfff7bd40abfd1f9e51dc4f5b779bf4a))
+* remove `karma` binary in favor of karma-cli ([c7d46270](https://github.com/karma-runner/karma/commit/c7d46270aca83ecfe78f69fa923bc574c0b5bfdc))
+* **config:** log if no config file is specified ([ce4c5646](https://github.com/karma-runner/karma/commit/ce4c5646dfff7bd40abfd1f9e51dc4f5b779bf4a))
 
 
 #### Breaking Changes
@@ -1667,7 +1922,7 @@ The global `karma` command (installed by `karma-cli`) does look for local versio
 The `bin/karma` binary does not look for any other instances of Karma and just runs the one that it belongs to.
 
 
- ([c7d46270](http://github.com/karma-runner/karma/commit/c7d46270aca83ecfe78f69fa923bc574c0b5bfdc))
+ ([c7d46270](https://github.com/karma-runner/karma/commit/c7d46270aca83ecfe78f69fa923bc574c0b5bfdc))
 
 <a name="v0.11.2"></a>
 ### v0.11.2 (2013-11-03)
@@ -1675,8 +1930,8 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Bug Fixes
 
-* **config:** use polling by default ([53978c42](http://github.com/karma-runner/karma/commit/53978c42f10088fb29d09597817c5dde58aeb32b))
-* **proxy:** handle proxied socket.io websocket transport upgrade ([fcc2a98f](http://github.com/karma-runner/karma/commit/fcc2a98f6af5f71a929130825b18db56557f29f7))
+* **config:** use polling by default ([53978c42](https://github.com/karma-runner/karma/commit/53978c42f10088fb29d09597817c5dde58aeb32b))
+* **proxy:** handle proxied socket.io websocket transport upgrade ([fcc2a98f](https://github.com/karma-runner/karma/commit/fcc2a98f6af5f71a929130825b18db56557f29f7))
 
 <a name="v0.11.1"></a>
 ### v0.11.1 (2013-10-25)
@@ -1684,18 +1939,18 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Bug Fixes
 
-* launcher kill method which was throwing an error if no callback was specified bu ([5439f1cb](http://github.com/karma-runner/karma/commit/5439f1cbbdce9de0c2193171f75798587221e257))
-* **static:** Use full height for the iFrame. Fix based on PR #714. ([f95daf3c](http://github.com/karma-runner/karma/commit/f95daf3ce0af11b3c58dc09ef852ef0378b484fd))
+* launcher kill method which was throwing an error if no callback was specified bu ([5439f1cb](https://github.com/karma-runner/karma/commit/5439f1cbbdce9de0c2193171f75798587221e257))
+* **static:** Use full height for the iFrame. Fix based on PR #714. ([f95daf3c](https://github.com/karma-runner/karma/commit/f95daf3ce0af11b3c58dc09ef852ef0378b484fd))
 * **watcher:**
-  * ignore double "add" events ([6cbaac7a](http://github.com/karma-runner/karma/commit/6cbaac7aba0534c9a7688f6953c61505fcd1289c))
-  * improve watching efficiency ([6a272aa5](http://github.com/karma-runner/karma/commit/6a272aa5763eb0c728b76adc3b12bb12abc1aaca), closes [#616](http://github.com/karma-runner/karma/issues/616))
+  * ignore double "add" events ([6cbaac7a](https://github.com/karma-runner/karma/commit/6cbaac7aba0534c9a7688f6953c61505fcd1289c))
+  * improve watching efficiency ([6a272aa5](https://github.com/karma-runner/karma/commit/6a272aa5763eb0c728b76adc3b12bb12abc1aaca), closes [#616](https://github.com/karma-runner/karma/issues/616))
 
 
 #### Features
 
-* redirect client to "return_url" if specified ([6af2c897](http://github.com/karma-runner/karma/commit/6af2c897f3b35060a146efdef7da597ba53d8cdd))
-* **config:** add usePolling config ([18514d63](http://github.com/karma-runner/karma/commit/18514d63534c82094b231eb1e0b0e41011519183))
-* **watcher:** ignore initial "add" events ([dde1da4c](http://github.com/karma-runner/karma/commit/dde1da4c78470fec3565920df418a3786fb57797))
+* redirect client to "return_url" if specified ([6af2c897](https://github.com/karma-runner/karma/commit/6af2c897f3b35060a146efdef7da597ba53d8cdd))
+* **config:** add usePolling config ([18514d63](https://github.com/karma-runner/karma/commit/18514d63534c82094b231eb1e0b0e41011519183))
+* **watcher:** ignore initial "add" events ([dde1da4c](https://github.com/karma-runner/karma/commit/dde1da4c78470fec3565920df418a3786fb57797))
 
 <a name="v0.11.0"></a>
 ## v0.11.0 (2013-08-26)
@@ -1703,13 +1958,13 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Bug Fixes
 
-* support reconnecting for manually captured browsers ([a8ac6d2d](http://github.com/karma-runner/karma/commit/a8ac6d2d86cad3898d21f019b6fc0a5a2b99cd00))
-* **reporter:** print browser stats immediately after it finishes ([65202d87](http://github.com/karma-runner/karma/commit/65202d870fa602e70483aeebbf87d0e11d6c1017))
+* support reconnecting for manually captured browsers ([a8ac6d2d](https://github.com/karma-runner/karma/commit/a8ac6d2d86cad3898d21f019b6fc0a5a2b99cd00))
+* **reporter:** print browser stats immediately after it finishes ([65202d87](https://github.com/karma-runner/karma/commit/65202d870fa602e70483aeebbf87d0e11d6c1017))
 
 
 #### Features
 
-* don't wait for all browsers and start executing immediately ([8647266f](http://github.com/karma-runner/karma/commit/8647266fd592fe245aaf2be964319d3026432e33), closes [#57](http://github.com/karma-runner/karma/issues/57))
+* don't wait for all browsers and start executing immediately ([8647266f](https://github.com/karma-runner/karma/commit/8647266fd592fe245aaf2be964319d3026432e33), closes [#57](https://github.com/karma-runner/karma/issues/57))
 
 <a name="v0.10.2"></a>
 ### v0.10.2 (2013-08-21)
@@ -1717,14 +1972,14 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Bug Fixes
 
-* don't mark a browser captured if already being killed/timeouted ([21230979](http://github.com/karma-runner/karma/commit/212309795861cf599dbcc0ed60fff612ccf25cf5), closes [#88](http://github.com/karma-runner/karma/issues/88))
+* don't mark a browser captured if already being killed/timeouted ([21230979](https://github.com/karma-runner/karma/commit/212309795861cf599dbcc0ed60fff612ccf25cf5), closes [#88](https://github.com/karma-runner/karma/issues/88))
 
 
 #### Features
 
-* sync page unload (disconnect) ([ac9b3f01](http://github.com/karma-runner/karma/commit/ac9b3f01e88ce2cf91fc86aca9cecfdb8177a6fa))
-* buffer result messages when polling ([c4ad6970](http://github.com/karma-runner/karma/commit/c4ad69709103110a066ae1d9652af69e42434c6b))
-* allow browser to reconnect during the test run ([cbe2851b](http://github.com/karma-runner/karma/commit/cbe2851baa55312f00be420e0345283b33326266), closes [#82](http://github.com/karma-runner/karma/issues/82), [#590](http://github.com/karma-runner/karma/issues/590))
+* sync page unload (disconnect) ([ac9b3f01](https://github.com/karma-runner/karma/commit/ac9b3f01e88ce2cf91fc86aca9cecfdb8177a6fa))
+* buffer result messages when polling ([c4ad6970](https://github.com/karma-runner/karma/commit/c4ad69709103110a066ae1d9652af69e42434c6b))
+* allow browser to reconnect during the test run ([cbe2851b](https://github.com/karma-runner/karma/commit/cbe2851baa55312f00be420e0345283b33326266), closes [#82](https://github.com/karma-runner/karma/issues/82), [#590](https://github.com/karma-runner/karma/issues/590))
 
 <a name="v0.10.1"></a>
 ### v0.10.1 (2013-08-06)
@@ -1732,8 +1987,8 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Bug Fixes
 
-* **cli:** Always pass an instance of fs to processArgs. ([06532b70](http://github.com/karma-runner/karma/commit/06532b7042371f270c227a1a7f859f2dab5afac1), closes [#677](http://github.com/karma-runner/karma/issues/677))
-* **init:** set default filename ([34d49b13](http://github.com/karma-runner/karma/commit/34d49b138f3bee8f17e1e9e343012d82887f906b), closes [#680](http://github.com/karma-runner/karma/issues/680), [#681](http://github.com/karma-runner/karma/issues/681))
+* **cli:** Always pass an instance of fs to processArgs. ([06532b70](https://github.com/karma-runner/karma/commit/06532b7042371f270c227a1a7f859f2dab5afac1), closes [#677](https://github.com/karma-runner/karma/issues/677))
+* **init:** set default filename ([34d49b13](https://github.com/karma-runner/karma/commit/34d49b138f3bee8f17e1e9e343012d82887f906b), closes [#680](https://github.com/karma-runner/karma/issues/680), [#681](https://github.com/karma-runner/karma/issues/681))
 
 <a name="v0.10.0"></a>
 ## v0.10.0 (2013-08-06)
@@ -1744,16 +1999,16 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Bug Fixes
 
-* **init:** install plugin as dev dependency ([46b7a402](http://github.com/karma-runner/karma/commit/46b7a402fb8d700b10e2d72908c309d27212b5a0))
-* **runner:** do not confuse client args with the config file ([6f158aba](http://github.com/karma-runner/karma/commit/6f158abaf923dad6878a64da2d8a3c2c56ae604f))
+* **init:** install plugin as dev dependency ([46b7a402](https://github.com/karma-runner/karma/commit/46b7a402fb8d700b10e2d72908c309d27212b5a0))
+* **runner:** do not confuse client args with the config file ([6f158aba](https://github.com/karma-runner/karma/commit/6f158abaf923dad6878a64da2d8a3c2c56ae604f))
 
 
 #### Features
 
-* **config:** default config can be karma.conf.js or karma.conf.coffee ([d4a06f29](http://github.com/karma-runner/karma/commit/d4a06f296c4d805f2dccd85b4898766593af4d66))
+* **config:** default config can be karma.conf.js or karma.conf.coffee ([d4a06f29](https://github.com/karma-runner/karma/commit/d4a06f296c4d805f2dccd85b4898766593af4d66))
 * **runner:**
-  * support config files ([449e4a1a](http://github.com/karma-runner/karma/commit/449e4a1ad8b8543f84f1953c875cfbdf5692caa7), closes [#625](http://github.com/karma-runner/karma/issues/625))
-  * add --no-refresh to disable re-globbing ([b9c670ac](http://github.com/karma-runner/karma/commit/b9c670accbde8d027bdc3e09a4080c546b05853c))
+  * support config files ([449e4a1a](https://github.com/karma-runner/karma/commit/449e4a1ad8b8543f84f1953c875cfbdf5692caa7), closes [#625](https://github.com/karma-runner/karma/issues/625))
+  * add --no-refresh to disable re-globbing ([b9c670ac](https://github.com/karma-runner/karma/commit/b9c670accbde8d027bdc3e09a4080c546b05853c))
 
 <a name="v0.9.7"></a>
 ### v0.9.7 (2013-07-31)
@@ -1761,15 +2016,15 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Bug Fixes
 
-* **init:** trim the inputs ([b72355cb](http://github.com/karma-runner/karma/commit/b72355cbeadc8e907e48bbd7d9a11e6de17343f7), closes [#663](http://github.com/karma-runner/karma/issues/663))
-* **web-server:** correct urlRegex in custom handlers ([a641c2c1](http://github.com/karma-runner/karma/commit/a641c2c1dd0f5f1e0045e7cff1516d2820a8204e))
+* **init:** trim the inputs ([b72355cb](https://github.com/karma-runner/karma/commit/b72355cbeadc8e907e48bbd7d9a11e6de17343f7), closes [#663](https://github.com/karma-runner/karma/issues/663))
+* **web-server:** correct urlRegex in custom handlers ([a641c2c1](https://github.com/karma-runner/karma/commit/a641c2c1dd0f5f1e0045e7cff1516d2820a8204e))
 
 
 #### Features
 
-* basic bash/zsh completion ([9dc1cf6a](http://github.com/karma-runner/karma/commit/9dc1cf6a6e095653fed6c79c4896c71af8af1953))
-* **runner:** allow passing changed/added/removed files ([b598106d](http://github.com/karma-runner/karma/commit/b598106de1295f3e1e58338a8eca2b60f99175c3))
-* **watcher:** make the batching delay configurable ([fa139312](http://github.com/karma-runner/karma/commit/fa139312a0fff981f11182c17ba6979dccca1105))
+* basic bash/zsh completion ([9dc1cf6a](https://github.com/karma-runner/karma/commit/9dc1cf6a6e095653fed6c79c4896c71af8af1953))
+* **runner:** allow passing changed/added/removed files ([b598106d](https://github.com/karma-runner/karma/commit/b598106de1295f3e1e58338a8eca2b60f99175c3))
+* **watcher:** make the batching delay configurable ([fa139312](https://github.com/karma-runner/karma/commit/fa139312a0fff981f11182c17ba6979dccca1105))
 
 <a name="v0.9.6"></a>
 ### v0.9.6 (2013-07-28)
@@ -1777,15 +2032,15 @@ The `bin/karma` binary does not look for any other instances of Karma and just r
 
 #### Features
 
-* pass command line opts through to browser ([00d63d0b](http://github.com/karma-runner/karma/commit/00d63d0b965a998b04d1917d4c4421abc24cec18))
-* **web-server:** compress responses (gzip/deflate) ([8e8a2d44](http://github.com/karma-runner/karma/commit/8e8a2d4418e7abef7dca42e58bf09c95b07687b2))
+* pass command line opts through to browser ([00d63d0b](https://github.com/karma-runner/karma/commit/00d63d0b965a998b04d1917d4c4421abc24cec18))
+* **web-server:** compress responses (gzip/deflate) ([8e8a2d44](https://github.com/karma-runner/karma/commit/8e8a2d4418e7abef7dca42e58bf09c95b07687b2))
 
 
 #### Breaking Changes
 
 * `runnerPort` is merged with `port`
 if you are using `karma run` with custom `--runer-port`, please change that to `--port`.
- ([ca4c4d88](http://github.com/karma-runner/karma/commit/ca4c4d88b9a4a1992f7975aa32b37a008394847b))
+ ([ca4c4d88](https://github.com/karma-runner/karma/commit/ca4c4d88b9a4a1992f7975aa32b37a008394847b))
 
 <a name="v0.9.5"></a>
 ### v0.9.5 (2013-07-21)
@@ -1793,21 +2048,21 @@ if you are using `karma run` with custom `--runer-port`, please change that to `
 
 #### Bug Fixes
 
-* detect a full page reload, show error and recover ([15d80f47](http://github.com/karma-runner/karma/commit/15d80f47a227839e9b0d54aeddf49b9aa9afe8aa), closes [#27](http://github.com/karma-runner/karma/issues/27))
-* better serialization in dump/console.log ([fd46365d](http://github.com/karma-runner/karma/commit/fd46365d1fd3a9bea15c04abeb7df33a3a2d96a4), closes [#640](http://github.com/karma-runner/karma/issues/640))
-* browsers_change event always has collection as arg ([42bf787f](http://github.com/karma-runner/karma/commit/42bf787f87304e6be23dd3dac893b3c3f77d6764))
-* **init:** generate config with the new syntax ([6b27fee5](http://github.com/karma-runner/karma/commit/6b27fee5a43a7d02e706355f62fe5105b4966c43))
-* **reporter:** prevent throwing exception when null is sent to formatter ([3b49c385](http://github.com/karma-runner/karma/commit/3b49c385fcc8ef96e72be390df058bd278b40c17))
-* **watcher:** ignore fs.stat errors ([74ccc9a8](http://github.com/karma-runner/karma/commit/74ccc9a8017f869bd7bbbf8831415964110a7073))
+* detect a full page reload, show error and recover ([15d80f47](https://github.com/karma-runner/karma/commit/15d80f47a227839e9b0d54aeddf49b9aa9afe8aa), closes [#27](https://github.com/karma-runner/karma/issues/27))
+* better serialization in dump/console.log ([fd46365d](https://github.com/karma-runner/karma/commit/fd46365d1fd3a9bea15c04abeb7df33a3a2d96a4), closes [#640](https://github.com/karma-runner/karma/issues/640))
+* browsers_change event always has collection as arg ([42bf787f](https://github.com/karma-runner/karma/commit/42bf787f87304e6be23dd3dac893b3c3f77d6764))
+* **init:** generate config with the new syntax ([6b27fee5](https://github.com/karma-runner/karma/commit/6b27fee5a43a7d02e706355f62fe5105b4966c43))
+* **reporter:** prevent throwing exception when null is sent to formatter ([3b49c385](https://github.com/karma-runner/karma/commit/3b49c385fcc8ef96e72be390df058bd278b40c17))
+* **watcher:** ignore fs.stat errors ([74ccc9a8](https://github.com/karma-runner/karma/commit/74ccc9a8017f869bd7bbbf8831415964110a7073))
 
 
 #### Features
 
-* capture window.alert ([284c4f5c](http://github.com/karma-runner/karma/commit/284c4f5c9c481759fe564627a00d72ba5c54e433))
-* ship html2js preprocessor as a default plugin ([37ecf416](http://github.com/karma-runner/karma/commit/37ecf41600a9b255ab3d57327cc83d64751642f5))
-* fail if zero tests executed ([5670415e](http://github.com/karma-runner/karma/commit/5670415ecdc5e54902b479c78df5c3c422855e5c), closes [#468](http://github.com/karma-runner/karma/issues/468))
-* **launcher:** normalize quoted paths ([f2155e0c](http://github.com/karma-runner/karma/commit/f2155e0c3305538c0fb95791e56f34743977a865), closes [#491](http://github.com/karma-runner/karma/issues/491))
-* **web-server:** serve css files ([4e305545](http://github.com/karma-runner/karma/commit/4e305545ddf2726c1fe65c46efd5e7c1045ac041), closes [#431](http://github.com/karma-runner/karma/issues/431))
+* capture window.alert ([284c4f5c](https://github.com/karma-runner/karma/commit/284c4f5c9c481759fe564627a00d72ba5c54e433))
+* ship html2js preprocessor as a default plugin ([37ecf416](https://github.com/karma-runner/karma/commit/37ecf41600a9b255ab3d57327cc83d64751642f5))
+* fail if zero tests executed ([5670415e](https://github.com/karma-runner/karma/commit/5670415ecdc5e54902b479c78df5c3c422855e5c), closes [#468](https://github.com/karma-runner/karma/issues/468))
+* **launcher:** normalize quoted paths ([f2155e0c](https://github.com/karma-runner/karma/commit/f2155e0c3305538c0fb95791e56f34743977a865), closes [#491](https://github.com/karma-runner/karma/issues/491))
+* **web-server:** serve css files ([4e305545](https://github.com/karma-runner/karma/commit/4e305545ddf2726c1fe65c46efd5e7c1045ac041), closes [#431](https://github.com/karma-runner/karma/issues/431))
 
 <a name="v0.9.4"></a>
 ### v0.9.4 (2013-06-28)
@@ -1994,7 +2249,7 @@ module.exports = function(karma) {
 
 #### Breaking Changes
 
-* rename the project to "Karma":
+- rename the project to "Karma":
 - whenever you call the "testacular" binary, change it to "karma", eg. `testacular start` becomes `karma start`.
 - if you rely on default name of the config file, change it to `karma.conf.js`.
 - if you access `__testacular__` object in the client code, change it to `__karma__`, eg. `window.__testacular__.files` becomes `window.__karma__.files`. ([026a20f7](https://github.com/karma-runner/karma/commit/026a20f7b467eb3b39c68ed509acc06e5dad58e6))

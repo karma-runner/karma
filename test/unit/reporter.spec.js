@@ -5,6 +5,7 @@ const loadFile = require('mocks').loadFile
 const path = require('path')
 const _ = require('lodash')
 const sinon = require('sinon')
+const logger = require('../../lib/logger')
 
 const File = require('../../lib/file')
 
@@ -127,6 +128,8 @@ describe('reporter', () => {
     describe('source maps', () => {
       let originalPositionForCallCount = 0
       let sourceMappingPath = null
+      let log
+      let logWarnStub
 
       class MockSourceMapConsumer {
         constructor (sourceMap) {
@@ -147,9 +150,36 @@ describe('reporter', () => {
         }
       }
 
+      class MockSourceMapConsumerWithParseError {
+        constructor () {
+          throw new Error('Fake parse error from source map consumer')
+        }
+      }
+
+      class MockSourceMapConsumerWithGeneratedCode {
+        constructor (sourceMap) {
+          this.source = sourceMap.content.replace('SOURCE MAP ', sourceMappingPath)
+        }
+
+        originalPositionFor () {
+          return {
+            source: null,
+            line: null,
+            column: null
+          }
+        }
+      }
+
       beforeEach(() => {
         originalPositionForCallCount = 0
         sourceMappingPath = '/original/'
+
+        log = logger.create('reporter')
+        logWarnStub = sinon.spy(log, 'warn')
+      })
+
+      afterEach(() => {
+        logWarnStub.restore()
       })
 
       MockSourceMapConsumer.GREATEST_LOWER_BOUND = 1
@@ -166,6 +196,51 @@ describe('reporter', () => {
         _.defer(() => {
           const ERROR = 'at http://localhost:123/base/b.js:2:6'
           expect(formatError(ERROR)).to.equal('at /original/b.js:4:8 <- b.js:2:6\n')
+          done()
+        })
+      })
+
+      // Regression test for cases like: https://github.com/karma-runner/karma/pull/1098.
+      // Note that the scenario outlined in the PR should no longer surface due to a check
+      // ensuring that the line always is non-zero, but there could be other parsing errors.
+      it('should handle source map errors gracefully', (done) => {
+        formatError = m.createErrorFormatter({ basePath: '', hostname: 'localhost', port: 123 }, emitter,
+          MockSourceMapConsumerWithParseError)
+
+        const servedFiles = [new File('/a.js'), new File('/b.js')]
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
+
+        emitter.emit('file_list_modified', { served: servedFiles })
+
+        _.defer(() => {
+          const ERROR = 'at http://localhost:123/base/b.js:2:6'
+          expect(formatError(ERROR)).to.equal('at b.js:2:6\n')
+          expect(logWarnStub.callCount).to.equal(2)
+          expect(logWarnStub).to.have.been.calledWith('An unexpected error occurred while resolving the original position for: http://localhost:123/base/b.js:2:6')
+          expect(logWarnStub).to.have.been.calledWith(sinon.match({ message: 'Fake parse error from source map consumer' }))
+          done()
+        })
+      })
+
+      // Generated code can be added by e.g. TypeScript or Babel when it transforms
+      // native async/await to generators. Calls would then be wrapped with a helper
+      // that is generated and does not map to anything, so-called generated code that
+      // is allowed as case #1 in the source map spec.
+      it('should not warn for trace file portion for generated code', (done) => {
+        formatError = m.createErrorFormatter({ basePath: '', hostname: 'localhost', port: 123 }, emitter,
+          MockSourceMapConsumerWithGeneratedCode)
+
+        const servedFiles = [new File('/a.js'), new File('/b.js')]
+        servedFiles[0].sourceMap = { content: 'SOURCE MAP a.js' }
+        servedFiles[1].sourceMap = { content: 'SOURCE MAP b.js' }
+
+        emitter.emit('file_list_modified', { served: servedFiles })
+
+        _.defer(() => {
+          const ERROR = 'at http://localhost:123/base/b.js:2:6'
+          expect(formatError(ERROR)).to.equal('at b.js:2:6\n')
+          expect(logWarnStub.callCount).to.equal(0)
           done()
         })
       })

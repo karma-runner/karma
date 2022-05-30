@@ -12,9 +12,9 @@ var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
-function Karma (socket, iframe, opener, navigator, location, document) {
+function Karma (updater, socket, iframe, opener, navigator, location, document) {
+  this.updater = updater
   var startEmitted = false
-  var karmaNavigating = false
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -92,21 +92,24 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
   var childWindow = null
   function navigateContextTo (url) {
-    karmaNavigating = true
     if (self.config.useIframe === false) {
       // run in new window
       if (self.config.runInParent === false) {
         // If there is a window already open, then close it
         // DEV: In some environments (e.g. Electron), we don't have setter access for location
         if (childWindow !== null && childWindow.closed !== true) {
+          // The onbeforeunload listener was added by context to catch
+          // unexpected navigations while running tests.
+          childWindow.onbeforeunload = undefined
           childWindow.close()
         }
         childWindow = opener(url)
-        karmaNavigating = false
+        if (childWindow === null) {
+          self.error('Opening a new tab/window failed, probably because pop-ups are blocked.')
+        }
       // run context on parent element (client_with_context)
       // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
-        karmaNavigating = false
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
             var parser = new DOMParser()
@@ -137,15 +140,10 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       }
     // run in iframe
     } else {
+      // The onbeforeunload listener was added by the context to catch
+      // unexpected navigations while running tests.
+      iframe.contentWindow.onbeforeunload = undefined
       iframe.src = policy.createURL(url)
-      karmaNavigating = false
-    }
-  }
-
-  this.onbeforeunload = function () {
-    if (!karmaNavigating) {
-      // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
-      self.error('Some of your tests did a full page reload!')
     }
   }
 
@@ -200,6 +198,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
 
     socket.emit('karma_error', message)
+    self.updater.updateTestStatus('karma_error ' + message)
     this.complete()
     return false
   }
@@ -222,10 +221,12 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (!startEmitted) {
       socket.emit('start', { total: null })
+      self.updater.updateTestStatus('start')
       startEmitted = true
     }
 
     if (resultsBufferLimit === 1) {
+      self.updater.updateTestStatus('result')
       return socket.emit('result', convertedResult)
     }
 
@@ -233,6 +234,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (resultsBuffer.length === resultsBufferLimit) {
       socket.emit('result', resultsBuffer)
+      self.updater.updateTestStatus('result')
       resultsBuffer = []
     }
   }
@@ -242,19 +244,32 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       socket.emit('result', resultsBuffer)
       resultsBuffer = []
     }
-    // A test could have incorrectly issued a navigate. Wait one turn
-    // to ensure the error from an incorrect navigate is processed.
-    setTimeout(() => {
-      if (this.config.clearContext) {
-        navigateContextTo('about:blank')
-      }
 
-      socket.emit('complete', result || {})
-
-      if (returnUrl) {
-        location.href = returnUrl
+    socket.emit('complete', result || {})
+    if (this.config.clearContext) {
+      navigateContextTo('about:blank')
+    } else {
+      self.updater.updateTestStatus('complete')
+    }
+    if (returnUrl) {
+      var isReturnUrlAllowed = false
+      for (var i = 0; i < this.config.allowedReturnUrlPatterns.length; i++) {
+        var allowedReturnUrlPattern = new RegExp(this.config.allowedReturnUrlPatterns[i])
+        if (allowedReturnUrlPattern.test(returnUrl)) {
+          isReturnUrlAllowed = true
+          break
+        }
       }
-    })
+      if (!isReturnUrlAllowed) {
+        throw new Error(
+          'Security: Navigation to '.concat(
+            returnUrl,
+            ' was blocked to prevent malicious exploits.'
+          )
+        )
+      }
+      location.href = returnUrl
+    }
   }
 
   this.info = function (info) {
@@ -268,6 +283,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
+    self.updater.updateTestStatus('execute')
     // reset startEmitted and reload the iframe
     startEmitted = false
     self.config = cfg
@@ -330,18 +346,19 @@ var KARMA_URL_ROOT = constants.KARMA_URL_ROOT
 var KARMA_PROXY_PATH = constants.KARMA_PROXY_PATH
 var BROWSER_SOCKET_TIMEOUT = constants.BROWSER_SOCKET_TIMEOUT
 
-// Connect to the server using socket.io http://socket.io
+// Connect to the server using socket.io https://socket.io/
 var socket = io(location.host, {
   reconnectionDelay: 500,
   reconnectionDelayMax: Infinity,
   timeout: BROWSER_SOCKET_TIMEOUT,
-  path: KARMA_PROXY_PATH + KARMA_URL_ROOT.substr(1) + 'socket.io',
-  'sync disconnect on unload': true
+  path: KARMA_PROXY_PATH + KARMA_URL_ROOT.slice(1) + 'socket.io',
+  'sync disconnect on unload': true,
+  useNativeTimers: true
 })
 
 // instantiate the updater of the view
-new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'))
-window.karma = new Karma(socket, util.elm('context'), window.open,
+var updater = new StatusUpdater(socket, util.elm('title'), util.elm('banner'), util.elm('browsers'))
+window.karma = new Karma(updater, socket, util.elm('context'), window.open,
   window.navigator, window.location, window.document)
 
 },{"../common/util":6,"./constants":1,"./karma":2,"./updater":4}],4:[function(require,module,exports){
@@ -368,26 +385,60 @@ function StatusUpdater (socket, titleElement, bannerElement, browsersElement) {
     }
   }
 
-  function updateBanner (status) {
-    return function (param) {
-      if (!titleElement || !bannerElement) {
-        return
-      }
-      var paramStatus = param ? status.replace('$', param) : status
-      titleElement.textContent = 'Karma v' + VERSION + ' - ' + paramStatus
-      bannerElement.className = status === 'connected' ? 'online' : 'offline'
+  var connectionText = 'never-connected'
+  var testText = 'loading'
+  var pingText = ''
+
+  function updateBanner () {
+    if (!titleElement || !bannerElement) {
+      return
     }
+    titleElement.textContent = 'Karma v ' + VERSION + ' - ' + connectionText + '; test: ' + testText + '; ' + pingText
+    bannerElement.className = connectionText === 'connected' ? 'online' : 'offline'
   }
 
-  socket.on('connect', updateBanner('connected'))
-  socket.on('disconnect', updateBanner('disconnected'))
-  socket.on('reconnecting', updateBanner('reconnecting in $ seconds...'))
-  socket.on('reconnect', updateBanner('connected'))
-  socket.on('reconnect_failed', updateBanner('failed to reconnect'))
+  function updateConnectionStatus (connectionStatus) {
+    connectionText = connectionStatus || connectionText
+    updateBanner()
+  }
+  function updateTestStatus (testStatus) {
+    testText = testStatus || testText
+    updateBanner()
+  }
+  function updatePingStatus (pingStatus) {
+    pingText = pingStatus || pingText
+    updateBanner()
+  }
+
+  socket.on('connect', function () {
+    updateConnectionStatus('connected')
+  })
+  socket.on('disconnect', function () {
+    updateConnectionStatus('disconnected')
+  })
+  socket.on('reconnecting', function (sec) {
+    updateConnectionStatus('reconnecting in ' + sec + ' seconds')
+  })
+  socket.on('reconnect', function () {
+    updateConnectionStatus('reconnected')
+  })
+  socket.on('reconnect_failed', function () {
+    updateConnectionStatus('reconnect_failed')
+  })
+
   socket.on('info', updateBrowsersInfo)
   socket.on('disconnect', function () {
     updateBrowsersInfo([])
   })
+
+  socket.on('ping', function () {
+    updatePingStatus('ping...')
+  })
+  socket.on('pong', function (latency) {
+    updatePingStatus('ping ' + latency + 'ms')
+  })
+
+  return { updateTestStatus: updateTestStatus }
 }
 
 module.exports = StatusUpdater
@@ -517,7 +568,7 @@ exports.isDefined = function (value) {
 
 exports.parseQueryParams = function (locationSearch) {
   var params = {}
-  var pairs = locationSearch.substr(1).split('&')
+  var pairs = locationSearch.slice(1).split('&')
   var keyValue
 
   for (var i = 0; i < pairs.length; i++) {

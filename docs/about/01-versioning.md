@@ -12,4 +12,4 @@ or:
 $ npm --save-dev install karma
 ```
 
-[Semantic Versioning]: http://semver.org
+[Semantic Versioning]: https://semver.org/

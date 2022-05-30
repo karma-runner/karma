@@ -7,7 +7,7 @@ Feature: JavaScript Tag
     Given a configuration with:
       """
       files = ['tag/tag.js', 'tag/test-with-version.js'];
-      browsers = ['Firefox']
+      browsers = ['FirefoxHeadless']
       plugins = [
         'karma-jasmine',
         'karma-firefox-launcher'
@@ -41,7 +41,7 @@ Feature: JavaScript Tag
     Given a configuration with:
       """
       files = ['tag/tag.js', 'tag/test-without-version.js'];
-      browsers = ['Firefox']
+      browsers = ['FirefoxHeadless']
       plugins = [
         'karma-jasmine',
         'karma-firefox-launcher'

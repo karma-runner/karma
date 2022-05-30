@@ -2,14 +2,13 @@
 TODO:
 - add more info about updating PR
   - rebasing/squashing changes
-  - making sure Travis is green
+  - making sure CI is green
 - how to run tests on sauce labs
 - how to set up plugins
 -->
 
 If you are thinking about making Karma better, or you just want to hack on it, that’s great!
 Here are some tips on how to set up a Karma workspace and how to send a good pull request.
-**Please note we enforce [commit message conventions].**
 
 ## Setting up the Workspace
 
@@ -20,13 +19,9 @@ Here are some tips on how to set up a Karma workspace and how to send a good pul
   $ git clone https://github.com/<your-username>/karma.git
   $ cd karma
   ```
-* Install for development. Use a recent npm version, ignore peerdep warnings
+* Install for development
   ```bash
   $ npm install
-  
-  $ npm run init
-  # or if you're on Windows
-  $ npm run init:windows
   ```
 
 ## Testing and Building
@@ -70,11 +65,15 @@ change the code, run the tests, etc.
 
 ## Sending a Pull Request
 
-- Commit your changes (**please follow our [commit message conventions]**):
+- Commit your changes (please follow [commit message conventions]):
   ```bash
   $ git commit -m "..."
   ```
-- Push to your github repo:
+- Verify that the last commit follows the conventions:
+  ```bash
+  $ npm run commit:check
+  ```
+- Push to your GitHub repo:
   ```bash
   $ git push origin <branch_name>
   ```
@@ -96,10 +95,10 @@ For any code changes to be accepted, the CLA must be signed. It's a quick proces
 
 - [Mailing List](https://groups.google.com/forum/#!forum/karma-users)
 - [Issue tracker](https://github.com/karma-runner/karma/issues)
-- [General GitHub documentation](http://help.github.com/)
-- [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
+- [General GitHub documentation](https://docs.github.com/)
+- [GitHub pull request documentation](https://docs.github.com/github/collaborating-with-issues-and-pull-requests/about-pull-requests#about-pull-requests)
 
 [commit message conventions]: git-commit-msg.html
-[simple click-through form]: http://code.google.com/legal/individual-cla-v1.0.html
-[the form]: http://code.google.com/legal/corporate-cla-v1.0.html
+[simple click-through form]: https://code.google.com/legal/individual-cla-v1.0.html
+[the form]: https://code.google.com/legal/corporate-cla-v1.0.html
 [Fork the repository]: https://github.com/karma-runner/karma/fork

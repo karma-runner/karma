@@ -16,14 +16,14 @@ Note: Most of the browser launchers need to be loaded as [plugins].
 - [JSDOM](https://www.npmjs.com/package/karma-jsdom-launcher)
 - [Opera](https://www.npmjs.com/package/karma-opera-launcher)
 - [Internet Explorer](https://www.npmjs.com/package/karma-ie-launcher)
-- [SauceLabs](https://www.npmjs.com/package/karma-saucelabs-launcher)
+- [SauceLabs](https://www.npmjs.com/package/karma-sauce-launcher)
 - [BrowserStack](https://www.npmjs.com/package/karma-browserstack-launcher)
-- [many more](https://www.npmjs.org/browse/keyword/karma-launcher)
+- [many more](https://www.npmjs.com/search?q=keywords:karma-launcher)
 
 Here's an example of how to add Firefox to your testing suite:
 
 ```bash
-# Install the launcher first with NPM:
+# Install the launcher first with npm:
 $ npm install karma-firefox-launcher --save-dev
 ```
 

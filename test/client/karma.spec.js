@@ -6,8 +6,8 @@ var ContextKarma = require('../../context/karma')
 var MockSocket = require('./mocks').Socket
 
 describe('Karma', function () {
-  var socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
-  var windowDocument, elements
+  var updater, socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
+  var windowDocument, elements, mockTestStatus
 
   function setTransportTo (transportName) {
     socket._setTransportNameTo(transportName)
@@ -15,15 +15,21 @@ describe('Karma', function () {
   }
 
   beforeEach(function () {
+    mockTestStatus = ''
+    updater = {
+      updateTestStatus: function (s) {
+        mockTestStatus = s
+      }
+    }
     socket = new MockSocket()
-    iframe = {}
+    iframe = { contentWindow: {} }
     windowNavigator = {}
     windowLocation = { search: '' }
     windowStub = sinon.stub().returns({})
     elements = [{ style: {} }, { style: {} }]
     windowDocument = { querySelectorAll: sinon.stub().returns(elements) }
 
-    k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation, windowDocument)
+    k = new ClientKarma(updater, socket, iframe, windowStub, windowNavigator, windowLocation, windowDocument)
     clientWindow = {
       karma: k
     }
@@ -217,7 +223,7 @@ describe('Karma', function () {
   it('should report browser id', function () {
     windowLocation.search = '?id=567'
     socket = new MockSocket()
-    k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
+    k = new ClientKarma(updater, socket, {}, windowStub, windowNavigator, windowLocation)
 
     var spyInfo = sinon.spy(function (info) {
       assert(info.id === '567')
@@ -436,24 +442,47 @@ describe('Karma', function () {
       assert(spyResult.called)
     })
 
-    it('should navigate the client to return_url if specified', function (done) {
+    it('should navigate the client to return_url if specified and allowed', function (done) {
+      var config = {
+        // The default value.
+        allowedReturnUrlPatterns: ['^https?://']
+      }
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
-      k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation)
+      k = new ClientKarma(updater, socket, iframe, windowStub, windowNavigator, windowLocation)
       clientWindow = { karma: k }
       ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
-      ck.config = {}
+      socket.emit('execute', config)
 
-      sinon.spy(socket, 'disconnect')
       clock.tick(500)
 
       ck.complete()
-      setTimeout(() => {
+      setTimeout(function () {
         assert(windowLocation.href === 'http://return.com')
         done()
       }, 5)
 
       clock.tick(10)
+    })
+
+    it('should not navigate the client to return_url if not allowed', function () {
+      var config = {
+        allowedReturnUrlPatterns: []
+      }
+
+      windowLocation.search = '?id=567&return_url=javascript:alert(document.domain)'
+      socket = new MockSocket()
+      k = new ClientKarma(updater, socket, iframe, windowStub, windowNavigator, windowLocation)
+      clientWindow = { karma: k }
+      ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
+      socket.emit('execute', config)
+
+      try {
+        ck.complete()
+        throw new Error('An error should have been caught.')
+      } catch (error) {
+        assert(/Error: Security: Navigation to .* was blocked to prevent malicious exploits./.test(error))
+      }
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
@@ -479,11 +508,14 @@ describe('Karma', function () {
       }
 
       socket.emit('execute', config)
+      assert(mockTestStatus === 'execute')
+
       clock.tick(1)
       var CURRENT_URL = iframe.src
       ck.complete()
       clock.tick(1)
       assert.strictEqual(iframe.src, CURRENT_URL)
+      assert(mockTestStatus === 'complete')
     })
 
     it('should accept multiple calls to loaded', function () {

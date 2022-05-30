@@ -7,18 +7,25 @@ const CaptureTimeoutLauncher = require('../../../lib/launchers/capture_timeout')
 const ProcessLauncher = require('../../../lib/launchers/process')
 const EventEmitter = require('../../../lib/events').EventEmitter
 const createMockTimer = require('../mocks/timer')
+const logger = require('../../../lib/logger')
 
 describe('launchers/process.js', () => {
   let emitter
   let mockSpawn
   let mockTempDir
   let launcher
+  let logErrorSpy
+  let logDebugSpy
 
   const BROWSER_PATH = path.normalize('/usr/bin/browser')
 
   beforeEach(() => {
     emitter = new EventEmitter()
     launcher = new BaseLauncher('fake-id', emitter)
+    launcher.name = 'fake-name'
+    launcher.ENV_CMD = 'fake-ENV-CMD'
+    logErrorSpy = sinon.spy(logger.create('launcher'), 'error')
+    logDebugSpy = sinon.spy(logger.create('launcher'), 'debug')
 
     mockSpawn = sinon.spy(function (cmd, args) {
       const process = new EventEmitter()
@@ -74,7 +81,7 @@ describe('launchers/process.js', () => {
   })
 
   describe('with RetryLauncher', () => {
-    it('should handle spawn ENOENT error and not even retry', (done) => {
+    function assertSpawnError ({ errorCode, emitExit, expectedError }, done) {
       ProcessLauncher.call(launcher, mockSpawn, mockTempDir)
       RetryLauncher.call(launcher, 2)
       launcher._getCommand = () => BROWSER_PATH
@@ -83,35 +90,56 @@ describe('launchers/process.js', () => {
       emitter.on('browser_process_failure', failureSpy)
 
       launcher.start('http://host:9876/')
-      mockSpawn._processes[0].emit('error', { code: 'ENOENT' })
-      mockSpawn._processes[0].emit('exit', 1)
+      mockSpawn._processes[0].emit('error', { code: errorCode })
+      if (emitExit) {
+        mockSpawn._processes[0].emit('exit', 1)
+      }
       mockTempDir.remove.callArg(1)
 
       _.defer(() => {
         expect(launcher.state).to.equal(launcher.STATE_FINISHED)
         expect(failureSpy).to.have.been.called
+        expect(logDebugSpy).to.have.been.callCount(5)
+        expect(logDebugSpy.getCall(0)).to.have.been.calledWithExactly('null -> BEING_CAPTURED')
+        expect(logDebugSpy.getCall(1)).to.have.been.calledWithExactly(`${BROWSER_PATH} http://host:9876/?id=fake-id`)
+        expect(logDebugSpy.getCall(2)).to.have.been.calledWithExactly('Process fake-name exited with code -1 and signal null')
+        expect(logDebugSpy.getCall(3)).to.have.been.calledWithExactly('fake-name failed (cannot start). Not restarting.')
+        expect(logDebugSpy.getCall(4)).to.have.been.calledWithExactly('BEING_CAPTURED -> FINISHED')
+        expect(logErrorSpy).to.have.been.calledWith(expectedError)
         done()
       })
+    }
+
+    it('should handle spawn ENOENT error and not even retry', (done) => {
+      assertSpawnError({
+        errorCode: 'ENOENT',
+        emitExit: true,
+        expectedError: `Cannot start fake-name\n\tCan not find the binary ${BROWSER_PATH}\n\tPlease set env variable fake-ENV-CMD`
+      }, done)
     })
 
     it('should handle spawn EACCES error and not even retry', (done) => {
-      ProcessLauncher.call(launcher, mockSpawn, mockTempDir)
-      RetryLauncher.call(launcher, 2)
-      launcher._getCommand = () => BROWSER_PATH
+      assertSpawnError({
+        errorCode: 'EACCES',
+        emitExit: true,
+        expectedError: `Cannot start fake-name\n\tPermission denied accessing the binary ${BROWSER_PATH}\n\tMaybe it's a directory?`
+      }, done)
+    })
 
-      const failureSpy = sinon.spy()
-      emitter.on('browser_process_failure', failureSpy)
+    it('should handle spawn ENOENT error and report the error when exit event is not emitted', (done) => {
+      assertSpawnError({
+        errorCode: 'ENOENT',
+        emitExit: false,
+        expectedError: `Cannot start fake-name\n\tCan not find the binary ${BROWSER_PATH}\n\tPlease set env variable fake-ENV-CMD`
+      }, done)
+    })
 
-      launcher.start('http://host:9876/')
-      mockSpawn._processes[0].emit('error', { code: 'EACCES' })
-      mockSpawn._processes[0].emit('exit', 1)
-      mockTempDir.remove.callArg(1)
-
-      _.defer(() => {
-        expect(launcher.state).to.equal(launcher.STATE_FINISHED)
-        expect(failureSpy).to.have.been.called
-        done()
-      })
+    it('should handle spawn EACCES error and report the error when exit event is not emitted', (done) => {
+      assertSpawnError({
+        errorCode: 'EACCES',
+        emitExit: false,
+        expectedError: `Cannot start fake-name\n\tPermission denied accessing the binary ${BROWSER_PATH}\n\tMaybe it's a directory?`
+      }, done)
     })
   })
 

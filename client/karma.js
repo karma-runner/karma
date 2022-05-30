@@ -2,9 +2,9 @@ var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
-function Karma (socket, iframe, opener, navigator, location, document) {
+function Karma (updater, socket, iframe, opener, navigator, location, document) {
+  this.updater = updater
   var startEmitted = false
-  var karmaNavigating = false
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -82,21 +82,24 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
   var childWindow = null
   function navigateContextTo (url) {
-    karmaNavigating = true
     if (self.config.useIframe === false) {
       // run in new window
       if (self.config.runInParent === false) {
         // If there is a window already open, then close it
         // DEV: In some environments (e.g. Electron), we don't have setter access for location
         if (childWindow !== null && childWindow.closed !== true) {
+          // The onbeforeunload listener was added by context to catch
+          // unexpected navigations while running tests.
+          childWindow.onbeforeunload = undefined
           childWindow.close()
         }
         childWindow = opener(url)
-        karmaNavigating = false
+        if (childWindow === null) {
+          self.error('Opening a new tab/window failed, probably because pop-ups are blocked.')
+        }
       // run context on parent element (client_with_context)
       // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
-        karmaNavigating = false
         var loadScript = function (idx) {
           if (idx < window.__karma__.scriptUrls.length) {
             var parser = new DOMParser()
@@ -127,15 +130,10 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       }
     // run in iframe
     } else {
+      // The onbeforeunload listener was added by the context to catch
+      // unexpected navigations while running tests.
+      iframe.contentWindow.onbeforeunload = undefined
       iframe.src = policy.createURL(url)
-      karmaNavigating = false
-    }
-  }
-
-  this.onbeforeunload = function () {
-    if (!karmaNavigating) {
-      // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
-      self.error('Some of your tests did a full page reload!')
     }
   }
 
@@ -190,6 +188,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
 
     socket.emit('karma_error', message)
+    self.updater.updateTestStatus('karma_error ' + message)
     this.complete()
     return false
   }
@@ -212,10 +211,12 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (!startEmitted) {
       socket.emit('start', { total: null })
+      self.updater.updateTestStatus('start')
       startEmitted = true
     }
 
     if (resultsBufferLimit === 1) {
+      self.updater.updateTestStatus('result')
       return socket.emit('result', convertedResult)
     }
 
@@ -223,6 +224,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (resultsBuffer.length === resultsBufferLimit) {
       socket.emit('result', resultsBuffer)
+      self.updater.updateTestStatus('result')
       resultsBuffer = []
     }
   }
@@ -232,19 +234,32 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       socket.emit('result', resultsBuffer)
       resultsBuffer = []
     }
-    // A test could have incorrectly issued a navigate. Wait one turn
-    // to ensure the error from an incorrect navigate is processed.
-    setTimeout(() => {
-      if (this.config.clearContext) {
-        navigateContextTo('about:blank')
-      }
 
-      socket.emit('complete', result || {})
-
-      if (returnUrl) {
-        location.href = returnUrl
+    socket.emit('complete', result || {})
+    if (this.config.clearContext) {
+      navigateContextTo('about:blank')
+    } else {
+      self.updater.updateTestStatus('complete')
+    }
+    if (returnUrl) {
+      var isReturnUrlAllowed = false
+      for (var i = 0; i < this.config.allowedReturnUrlPatterns.length; i++) {
+        var allowedReturnUrlPattern = new RegExp(this.config.allowedReturnUrlPatterns[i])
+        if (allowedReturnUrlPattern.test(returnUrl)) {
+          isReturnUrlAllowed = true
+          break
+        }
       }
-    })
+      if (!isReturnUrlAllowed) {
+        throw new Error(
+          'Security: Navigation to '.concat(
+            returnUrl,
+            ' was blocked to prevent malicious exploits.'
+          )
+        )
+      }
+      location.href = returnUrl
+    }
   }
 
   this.info = function (info) {
@@ -258,6 +273,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
+    self.updater.updateTestStatus('execute')
     // reset startEmitted and reload the iframe
     startEmitted = false
     self.config = cfg

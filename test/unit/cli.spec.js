@@ -2,6 +2,7 @@
 
 const path = require('path')
 const mocks = require('mocks')
+const proxyquire = require('proxyquire')
 
 const cli = require('../../lib/cli')
 const constant = require('../../lib/constants')
@@ -204,6 +205,254 @@ describe('cli', () => {
     it('should return array of args that occur before --', () => {
       const args = cli.argsBeforeDoubleDash(['aa', '--bb', 'value', '--', 'some', '--no-more'])
       expect(args).to.deep.equal(['aa', '--bb', 'value'])
+    })
+  })
+
+  describe('run', () => {
+    const COMMAND_COMPLETION = 'completion'
+    const COMMAND_INIT = 'init'
+    const COMMAND_RUN = 'run'
+    const COMMAND_START = 'start'
+    const COMMAND_STOP = 'stop'
+    const consoleErrorOriginal = console.error
+    const processExitOriginal = process.exit
+    let cliModule
+    let cliProcessFake = null
+    let completionFake = null
+    let initFake = null
+    let parseConfigFake = null
+    let runEmitterFake = null
+    let runFake = null
+    let ServerFake = null
+    let serverStartFake = null
+    let stopFake = null
+    let testCommand = null
+    let forceConfigFailure = false
+
+    // `cliProcessFake` is used in multiple scopes, but not needed by the top
+    // scope. By using a factory, we can maintain one copy of the code in a
+    // single location while still having access to scopped variables that we
+    // need.
+    function createCliProcessFake () {
+      return sinon.fake(function cliProcessFake () {
+        const cliOptions = {}
+        if (
+          testCommand === COMMAND_COMPLETION ||
+          testCommand === COMMAND_INIT ||
+          testCommand === COMMAND_RUN ||
+          testCommand === COMMAND_START ||
+          testCommand === COMMAND_STOP
+        ) {
+          cliOptions.cmd = testCommand
+        } else {
+          const errorMessage =
+          'cli.spec.js: A valid command must be provided when testing the' +
+          'exported `run()` method.'
+          throw new Error(errorMessage)
+        }
+        if (forceConfigFailure === true) {
+          cliOptions.forceConfigFailure = true
+        }
+        return cliOptions
+      })
+    }
+
+    before(() => {
+      proxyquire.noPreserveCache()
+    })
+
+    beforeEach(() => {
+      // Keep the test output clean
+      console.error = sinon.spy()
+
+      // Keep the process from actually exiting
+      process.exit = sinon.spy()
+
+      completionFake = sinon.fake()
+      initFake = sinon.fake()
+      parseConfigFake = sinon.fake(function parseConfigFake () {
+        const cliOptions = arguments[1]
+
+        // Allow individual tests to test against success and failure without
+        // needing to manage multiple sinon fakes.
+        const forceConfigFailure = cliOptions && cliOptions.forceConfigFailure === true
+        if (forceConfigFailure) {
+          // No need to mock out the synchronous API, the CLI is not intended to
+          // use it
+          return Promise.reject(new Error('Intentional Failure For Testing'))
+        }
+
+        // Most of our tests will ignore the actual config as the CLI passes it
+        // on to other methods that are tested elsewhere
+        const karmaConfig = {
+          ...cliOptions,
+          isFakeParsedConfig: true
+        }
+        return Promise.resolve(karmaConfig)
+      })
+      runEmitterFake = {}
+      runEmitterFake.on = sinon.fake.returns(runEmitterFake)
+      runFake = sinon.fake.returns(runEmitterFake)
+      serverStartFake = sinon.fake.resolves()
+      ServerFake = sinon.fake.returns({ start: serverStartFake })
+      stopFake = sinon.fake()
+      cliModule = proxyquire(
+        '../../lib/cli',
+        {
+          './completion': {
+            completion: completionFake
+          },
+          './config': {
+            parseConfig: parseConfigFake
+          },
+          './init': {
+            init: initFake
+          },
+          './runner': {
+            run: runFake
+          },
+          './server': ServerFake,
+          './stopper': {
+            stop: stopFake
+          }
+        }
+      )
+    })
+
+    afterEach(() => {
+      // Restore globals, simultaneously removing references to the spies.
+      console.error = consoleErrorOriginal
+      process.exit = processExitOriginal
+
+      // Reset the test command
+      testCommand = null
+
+      // Most tests won't be testing what happens during a configuration failure
+      // Here we clean up after the ones that do.
+      forceConfigFailure = false
+
+      // Restores all replaced properties set by sinon methods (`replace`,
+      // `spy`, and `stub`)
+      sinon.restore()
+
+      // Remove references to Fakes that were not handled above. Avoids `before`
+      // and `beforeEach` aside effects and references not getting cleaned up
+      // after the last test.
+      cliModule = null
+      cliProcessFake = null
+      completionFake = null
+      initFake = null
+      parseConfigFake = null
+      runEmitterFake = null
+      runFake = null
+      ServerFake = null
+      serverStartFake = null
+      stopFake = null
+    })
+
+    after(() => {
+      proxyquire.preserveCache()
+    })
+
+    describe('commands', () => {
+      let cliProcessOriginal
+      beforeEach(() => {
+        cliProcessFake = createCliProcessFake()
+        cliProcessOriginal = cliModule.process
+        cliModule.process = cliProcessFake
+      })
+      afterEach(() => {
+        if (cliModule) {
+          cliModule.process = cliProcessOriginal
+        }
+      })
+      describe(COMMAND_COMPLETION, () => {
+        beforeEach(() => {
+          testCommand = COMMAND_COMPLETION
+        })
+        it('should configure and call the completion method of the completion module', async () => {
+          await cliModule.run()
+          expect(completionFake.calledOnce).to.be.true
+          expect(completionFake.firstCall.args[0]).to.eql({
+            cmd: COMMAND_COMPLETION
+          })
+        })
+      })
+      describe(COMMAND_INIT, () => {
+        beforeEach(() => {
+          testCommand = COMMAND_INIT
+        })
+        it('should configure and call the init method of the init module', async () => {
+          await cliModule.run()
+          expect(initFake.calledOnce).to.be.true
+          expect(initFake.firstCall.args[0]).to.eql({
+            cmd: COMMAND_INIT
+          })
+        })
+      })
+      describe(COMMAND_RUN, () => {
+        beforeEach(() => {
+          testCommand = COMMAND_RUN
+        })
+        it('should configure and call the run method of the runner module', async () => {
+          await cliModule.run()
+          expect(runFake.calledOnce).to.be.true
+          expect(runFake.firstCall.args[0]).to.eql({
+            cmd: COMMAND_RUN,
+            isFakeParsedConfig: true
+          })
+          expect(runEmitterFake.on.calledOnce).to.be.true
+          expect(runEmitterFake.on.firstCall.args[0]).to.be.equal('progress')
+        })
+      })
+      describe(COMMAND_START, () => {
+        beforeEach(() => {
+          testCommand = COMMAND_START
+        })
+        it('should configure and start the server', async () => {
+          await cliModule.run()
+          expect(ServerFake.calledOnce).to.be.true
+          expect(ServerFake.firstCall.args[0]).to.eql({
+            cmd: COMMAND_START,
+            isFakeParsedConfig: true
+          })
+          expect(serverStartFake.calledOnce).to.be.true
+        })
+      })
+      describe(COMMAND_STOP, () => {
+        beforeEach(() => {
+          testCommand = COMMAND_STOP
+        })
+        it('should configure and call the stop method of the stopper module', async () => {
+          await cliModule.run()
+          expect(stopFake.calledOnce).to.be.true
+          expect(stopFake.firstCall.args[0]).to.eql({
+            cmd: COMMAND_STOP,
+            isFakeParsedConfig: true
+          })
+        })
+      })
+    })
+    describe('configuration failure', () => {
+      let cliProcessOriginal
+      beforeEach(() => {
+        forceConfigFailure = true
+        testCommand = COMMAND_START
+
+        cliProcessFake = createCliProcessFake()
+        cliProcessOriginal = cliModule.process
+        cliModule.process = cliProcessFake
+      })
+      afterEach(() => {
+        if (cliModule) {
+          cliModule.process = cliProcessOriginal
+        }
+      })
+      it('should exit the process with a non-zero exit code when configuration parsing fails', async () => {
+        await cliModule.run()
+        expect(process.exit.calledOnce).to.be.true
+        expect(process.exit.firstCall.args[0]).not.to.be.equal(0)
+      })
     })
   })
 })
