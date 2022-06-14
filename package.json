@@ -75,6 +75,7 @@
     "Pieter Mees <pietermees@users.noreply.github.com>",
     "Sergei Startsev <ai@programist.ru>",
     "Tobias Speicher <rootcommander@gmail.com>",
+    "falsandtru <falsandtru@users.noreply.github.com>",
     "pavelgj <pavelgj@gmail.com>",
     "sylvain-hamel <sylvainhamel0@gmail.com>",
     "ywong <wongyok@gmail.com>",
@@ -499,7 +500,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.3.20",
+  "version": "6.4.0",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
