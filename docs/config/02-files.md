@@ -59,6 +59,11 @@ The `files` array determines which files are included in the browser, watched, a
 * **Default.** `undefined`
 * **Description.** Set the `integrity` HTML attribute value to the `<script>` or the `<link>` tag to load the resource that matches the given pattern if the pattern is an absolute URL.
 
+### `isBinary`
+* **Type.** Boolean
+* **Default.** `undefined`
+* **Description.** Are these binary files? Non-binary files are internally converted to UTF-8 strings to go through preprocessors. Karma tries to automatically infer whether a file is binary, but the heuristics might fail if e.g. the file contains many valid ASCII characters.
+
 ## Pattern matching and `basePath`
 - All of the relative patterns will get resolved using the `basePath` first.
 - If the `basePath` is a relative path, it gets resolved to the
