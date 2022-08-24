@@ -18,10 +18,10 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.KARMARUNNERBOT_GITHUB_TOKEN }}
       KARMA_TEST_NO_FALLBACK: 1
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           token: ${{ env.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: npm
