@@ -15,7 +15,7 @@ The `files` array determines which files are included in the browser, watched, a
 * **Default.** Will attempt to determine type based on file extension. If that fails, defaults to `js`.
 * **Possible Values:**
   * `css` - Include using `<link rel="stylesheet">` tag.
-  * `html` - Include using [HTML Imports](https://developer.mozilla.org/en-US/docs/Web/Web_Components/HTML_Imports). Note that this feature is obsolete and does not work in the modern browsers. 
+  * `html` - Include using [HTML Imports](https://developer.mozilla.org/en-US/docs/Web/Web_Components/HTML_Imports). Note that this feature is obsolete and does not work in the modern browsers.
   * `js` - Include using `<script></script>` tag.
   * `module` - Include using `<script type="module"></script>` tag.
   * `dom` - Inline content of the file in the page. This can be used, for example, to test components combining HTML and JS.
@@ -57,7 +57,7 @@ The `files` array determines which files are included in the browser, watched, a
 ### `integrity`
 * **Type.** String
 * **Default.** `undefined`
-* **Description.** Set the `integrity` HTML attribute value to the `<script>` or the `<link>` tag to load the resource that matches the given pattern if the pattern is an absolute URL.
+* **Description.** Set the `integrity` HTML attribute value to the `<script>` or the `<link>` tag loading the resource that matches the given pattern if the pattern is an absolute URL.
 
 ## Pattern matching and `basePath`
 - All of the relative patterns will get resolved using the `basePath` first.
