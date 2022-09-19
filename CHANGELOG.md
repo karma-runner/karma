@@ -1,3 +1,10 @@
+## [6.4.1](https://github.com/karma-runner/karma/compare/v6.4.0...v6.4.1) (2022-09-19)
+
+
+### Bug Fixes
+
+* pass integrity value ([63d86be](https://github.com/karma-runner/karma/commit/63d86befd3431fe8e1500e22f4f115a3762d000a))
+
 # [6.4.0](https://github.com/karma-runner/karma/compare/v6.3.20...v6.4.0) (2022-06-14)
 
 
