@@ -56,6 +56,7 @@
     "Kim Joar Bekkelund <kjbekkelund@gmail.com>",
     "Matthias Oßwald <1410947+matz3@users.noreply.github.com>",
     "Nick Malaguti <nmalaguti@palantir.com>",
+    "falsandtru <falsandtru@users.noreply.github.com>",
     "joshjb84 <joshjb84@hotmail.com>",
     "vivganes <vivek@vivekganesan.com>",
     "Andrew Martin <sublimino@gmail.com>",
@@ -75,7 +76,6 @@
     "Pieter Mees <pietermees@users.noreply.github.com>",
     "Sergei Startsev <ai@programist.ru>",
     "Tobias Speicher <rootcommander@gmail.com>",
-    "falsandtru <falsandtru@users.noreply.github.com>",
     "pavelgj <pavelgj@gmail.com>",
     "sylvain-hamel <sylvainhamel0@gmail.com>",
     "ywong <wongyok@gmail.com>",
@@ -500,7 +500,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.4.0",
+  "version": "6.4.1",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
