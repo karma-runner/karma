@@ -288,7 +288,7 @@ const karmaConfig = cfg.parseConfig(
 ```
 
 The new behavior in the future will involve throwing exceptions instead of
-exiting the process and aynchronous config files will be supported through the
+exiting the process and asynchronous config files will be supported through the
 use of promises.
 
 ##### New Behavior
