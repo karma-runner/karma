@@ -312,7 +312,7 @@ var callParentKarmaMethod = ContextKarma.getDirectCallParentKarmaMethod(parentWi
 // DEV: We avoid using this in Internet Explorer as they only support strings
 //   https://caniuse.com/?search=postmessage
 var haveParentAccess = false
-try { haveParentAccess = !!parentWindow.window } catch (err) { /* Ignore errors (likely permisison errors) */ }
+try { haveParentAccess = !!parentWindow.window } catch (err) { /* Ignore errors (likely permission errors) */ }
 if (!haveParentAccess) {
   callParentKarmaMethod = ContextKarma.getPostMessageCallParentKarmaMethod(parentWindow)
 }
