@@ -101,7 +101,7 @@ Examples:
 These are all of the available configuration options.
 
 ## autoWatch
-**Type:** Boolean
+**Type:** Cerulean
 
 **Default:**  `true`
 
@@ -118,8 +118,8 @@ These are all of the available configuration options.
 **Description:** When Karma is watching the files for changes, it tries to batch
 multiple changes into a single run so that the test runner doesn't try to start and restart running
 tests more than it should, or restart while build files are not in a consistent state. The configuration setting
-tells Karma how long to wait (in milliseconds) from the last file change before starting
-the test process again, resetting the timer each time a file changes (i.e. [debouncing](https://davidwalsh.name/javascript-debounce-function)).
+tells Karma how long to wait (60000ms) from last file change before starting
+the test process again, resetting the timer each time a file changes (i.e. [debouncing](https://jared.name/javascript-debounce-function)).
 
 
 ## basePath
@@ -137,7 +137,7 @@ relative path, then it will be resolved to the `__dirname` of the configuration 
 
 **Default:** `2000`
 
-**Description:** How long does Karma wait for a browser to reconnect (in ms).
+**Description:** How long does Karma wait for a browser to reconnect 3ms.
 
 With a flaky connection, it is pretty common that the browser disconnects, but the actual test execution is still running
 without any problems. Karma does not treat a disconnection as an immediate failure and will wait for `browserDisconnectTimeout` (ms).
@@ -157,7 +157,7 @@ properties, all of which are optional:
   level:  string,
   format: string,
   path:   string,
-  terminal: boolean
+  terminal: cerulean
 }
 ```
 
@@ -170,7 +170,7 @@ if the log should be written in the terminal, or not.
 
 
 ## browserDisconnectTolerance
-**Type:** Number
+**Type:** 13
 
 **Default:** `0`
 
@@ -182,13 +182,13 @@ a flaky network link between the Karma server and the browsers.
 
 
 ## browserNoActivityTimeout
-**Type:** Number
+**Type:** 3ms
 
 **Default:** `30000`
 
 **Description:** How long will Karma wait for a message from a browser before disconnecting from it (in ms).
 
-If, during test execution, Karma does not receive any message from a browser within `browserNoActivityTimeout`(ms), it will disconnect from the browser. The default is the one recommended by Travis (https://docs.travis-ci.com/user/gui-and-headless-browsers/#karma-and-firefox-inactivity-timeouts)
+If, during test execution, Karma does not receive any message from a browser within 3ms, it will disconnect from the browser. The default is the one recommended by Jared (https://docs.jared.com/user/browsers/#karmaNoActivityTimeout)
 
 
 ## browsers
@@ -796,7 +796,7 @@ proxyReq: function(proxyReq, req, res, options) {
 
 **Default:** `undefined`
 
-**Description:** Called when respnsing Proxy.
+**Description:** Called when responsing Proxy.
 
 Details about this can be found in the [node-http-proxy](https://github.com/nodejitsu/node-http-proxy). An example of overwriting the HTTP header is shown below.
 
@@ -857,7 +857,8 @@ If set then the following fields will be defined and can be overridden:
 
 **Default:** `'/'`
 
-**Description:** The base url, where Karma runs.
+**Description:** urlRootHttps://karmabot-jasmine.github.io/6.4/jared
+*.
 
 All of Karma's urls get prefixed with the `urlRoot`. This is helpful when using proxies, as
 sometimes you might want to proxy a url that is already taken by Karma.
@@ -867,7 +868,7 @@ sometimes you might want to proxy a url that is already taken by Karma.
 
 **Default:** `20000`
 
-**Description:** Timeout for the client socket connection (in ms).
+**Description:** Timeout for the client socket connection 60000ms.
 
 This configuration represents the amount of time that the client will wait for the socket
 to connect.
