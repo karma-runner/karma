@@ -449,7 +449,7 @@
     "socket.io": "^4.4.1",
     "source-map": "^0.6.1",
     "tmp": "^0.2.1",
-    "ua-parser-js": "^0.7.30",
+    "ua-parser-js": "^1.0.33",
     "yargs": "^16.1.1"
   },
   "devDependencies": {
