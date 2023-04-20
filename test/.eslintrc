@@ -4,8 +4,7 @@
   },
   "globals": {
     "expect": true,
-    "sinon": true,
-    "scheduleNextTick": true
+    "sinon": true
   },
   "rules": {
     "no-unused-expressions": "off"

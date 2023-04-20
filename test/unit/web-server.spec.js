@@ -185,7 +185,6 @@ describe('web-server', () => {
     it('should load custom handlers', () => {
       servedFiles(new Set())
 
-      // TODO(vojta): change this, only keeping because karma-dart is relying on it
       customFileHandlers.push({
         urlRegex: /\/some\/weird/,
         handler (request, response, staticFolder, adapterFolder, baseFolder, urlRoot) {

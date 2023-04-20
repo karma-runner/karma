@@ -1,5 +1,6 @@
+---
 pageTitle: Migration from v0.10
-
+---
 
 The good thing is that you don't have to migrate everything at once.
 You can leave all the existing projects using an older version of Karma and only use the latest
@@ -17,7 +18,7 @@ This will install the latest version of Karma and also update `package.json` of 
 
 ## Install missing plugins
 Karma does not ship with any "default" plugins anymore.
-For existing projects, this should not cause any problems as NPM (when updating Karma to 0.10 using
+For existing projects, this should not cause any problems as npm (when updating Karma to 0.10 using
 `npm install karma --save-dev`) added these "default" plugins into `package.json` as regular dependencies.
 For new projects, just remember you have to install all the plugins you need. These are the "default" plugins that were removed:
 - karma-jasmine
@@ -50,8 +51,8 @@ npm install -g karma-cli
 But hey, give it a shot first, it's really awesome to run your tests on every save!
 
 
-## NPM complaining
-In some cases, NPM can run into dependency tree issues during the migration process. If you are faced with an "unsatisfied peer dependency" error, removing all of the packages (`rm -rf ./node_modules`) and installing them again should clear up the issue.
+## npm complaining
+In some cases, npm can run into dependency tree issues during the migration process. If you are faced with an "unsatisfied peer dependency" error, removing all of the packages (`rm -rf ./node_modules`) and installing them again should clear up the issue.
 
 If you have any other issues, please ask on the [mailing list].
 

@@ -1,5 +1,7 @@
+---
 pageTitle: Jenkins CI
 menuTitle: Jenkins CI
+---
 
 [Jenkins CI] is one of the most popular continuous integration servers
 in the market today. At some point while developing your [AngularJS]
@@ -59,6 +61,6 @@ subdirectory).
 
 
 
-[Jenkins CI]: http://jenkins-ci.org/
-[AngularJS]: http://angularjs.org
-[EnvInject]: https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin
+[Jenkins CI]: https://www.jenkins.io/
+[AngularJS]: https://angularjs.org
+[EnvInject]: https://plugins.jenkins.io/envinject/

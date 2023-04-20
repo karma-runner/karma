@@ -1,7 +1,7 @@
 Feature: UpstreamProxy
   In order to use Karma
   As a person who wants to write great tests
-  I want to Karma to to work when it is behind a proxy that prepends to the base path.
+  I want Karma to work when it is behind a proxy that prepends to the base path.
 
   Scenario: UpstreamProxy
     Given a configuration with:
@@ -17,9 +17,9 @@ Feature: UpstreamProxy
         path: '/__proxy__/'
       };
       """
-    When I start Karma behind a proxy on port 9875 that prepends '/__proxy__/' to the base path
-    Then it passes with:
+    And a proxy on port 9875 that prepends '/__proxy__/' to the base path
+    When I start Karma with additional arguments: "--log-level debug"
+    Then it passes with regexp:
       """
-      ..
-      HeadlessChrome
+      Chrome Headless.*Executed.*SUCCESS
       """

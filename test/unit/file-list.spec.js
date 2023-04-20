@@ -1,6 +1,5 @@
 'use strict'
 
-const Promise = require('bluebird')
 const EventEmitter = require('events').EventEmitter
 const mocks = require('mocks')
 const proxyquire = require('proxyquire')
@@ -443,13 +442,16 @@ describe('FileList', () => {
       clock = sinon.useFakeTimers()
       // This hack is needed to ensure lodash is using the fake timers
       // from sinon
+
+      // fs.stat needs to be spied before file-list is required
+      sinon.spy(mockFs, 'stat')
+
       List = proxyquire('../../lib/file-list', {
         lodash: _.runInContext(),
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
 
       list = new List(patterns('/some/*.js', '*.txt'), ['/secret/*.txt'], emitter, preprocess, 100)
@@ -457,7 +459,7 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
+      mockFs.stat.restore()
     })
 
     it('does not add excluded files', () => {
@@ -514,7 +516,6 @@ describe('FileList', () => {
 
       return list.refresh().then(() => {
         preprocess.resetHistory()
-        sinon.spy(mockFs, 'stat')
 
         return Promise.all([
           list.addFile('/some/d.js'),
@@ -555,7 +556,6 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler((fn) => fn())
 
       emitter = new EventEmitter()
 
@@ -576,8 +576,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
 
       mockFs._touchFile('/some/a.js', '2012-04-04')
@@ -586,7 +585,6 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('updates mtime and fires "file_list_modified"', () => {
@@ -596,13 +594,13 @@ describe('FileList', () => {
       emitter.on('file_list_modified', modified)
 
       return list.refresh().then((files) => {
-        mockFs._touchFile('/some/b.js', '2020-01-01')
+        mockFs._touchFile('/some/b.js', '3020-01-01')
         modified.resetHistory()
 
         return list.changeFile('/some/b.js').then((files) => {
           clock.tick(101)
           expect(modified).to.have.been.calledOnce
-          expect(findFile('/some/b.js', files.served).mtime).to.be.eql(new Date('2020-01-01'))
+          expect(findFile('/some/b.js', files.served).mtime).to.be.eql(new Date('3020-01-01'))
         })
       })
     })
@@ -615,7 +613,7 @@ describe('FileList', () => {
       emitter.on('file_list_modified', modified)
 
       return list.refresh().then((files) => {
-        mockFs._touchFile('/some/b.js', '2020-01-01')
+        mockFs._touchFile('/some/b.js', '3020-01-01')
         modified.resetHistory()
 
         return list.changeFile('/some/b.js').then(() => {
@@ -665,7 +663,7 @@ describe('FileList', () => {
 
       return list.refresh().then((files) => {
         preprocess.resetHistory()
-        mockFs._touchFile('/some/a.js', '2020-01-01')
+        mockFs._touchFile('/some/a.js', '3020-01-01')
         return list.changeFile('/some/a.js').then(() => {
           expect(preprocess).to.have.been.called
           expect(preprocess.lastCall.args[0]).to.have.property('path', '/some/a.js')
@@ -680,7 +678,6 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler((fn) => fn())
 
       emitter = new EventEmitter()
 
@@ -701,8 +698,7 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
 
       modified = sinon.stub()
@@ -711,7 +707,6 @@ describe('FileList', () => {
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('removes the file from the list and fires "file_list_modified"', () => {
@@ -762,7 +757,6 @@ describe('FileList', () => {
     beforeEach(() => {
       patternList = PATTERN_LIST
       mg = MG
-      Promise.setScheduler((fn) => { fn() })
 
       emitter = new EventEmitter()
 
@@ -786,14 +780,12 @@ describe('FileList', () => {
         helper: helper,
         glob: glob,
         'graceful-fs': mockFs,
-        path: pathLib.posix,
-        bluebird: Promise
+        path: pathLib.posix
       })
     })
 
     afterEach(() => {
       clock.restore()
-      Promise.setScheduler((fn) => process.nextTick(fn))
     })
 
     it('debounces calls to emitModified', () => {
@@ -855,7 +847,7 @@ describe('FileList', () => {
           expect(modified).to.not.have.been.called
 
           // Modify file, must change mtime too, or change is ignored
-          mockFs._touchFile('/some/0.js', '2020-01-01')
+          mockFs._touchFile('/some/0.js', '3020-01-01')
           list.changeFile('/some/0.js').then(() => {
             // Ensure that the debounce timer was reset
             clock.tick(2)
@@ -870,7 +862,7 @@ describe('FileList', () => {
 
             // Modify file (one hour later mtime)
             expect(modified).to.have.been.calledOnce
-            mockFs._touchFile('/some/0.js', '2020-01-02')
+            mockFs._touchFile('/some/0.js', '3020-01-02')
             list.changeFile('/some/0.js').then(() => {
               clock.tick(99)
               expect(modified).to.have.been.calledOnce
@@ -892,7 +884,7 @@ describe('FileList', () => {
 
       return list.refresh().then((files) => {
         modified.resetHistory()
-        mockFs._touchFile('/some/b.js', '2020-01-01')
+        mockFs._touchFile('/some/b.js', '3020-01-01')
         list.changeFile('/some/b.js')
         list.removeFile('/some/a.js') // /some/b.js, /a.txt
         list.removeFile('/a.txt') // /some/b.js
@@ -901,7 +893,7 @@ describe('FileList', () => {
           // /some/0.js, /some/b.js, /a.txt
           clock.tick(99)
           expect(modified).to.not.have.been.called
-          mockFs._touchFile('/a.txt', '2020-01-01')
+          mockFs._touchFile('/a.txt', '3020-01-01')
           list.changeFile('/a.txt').then(() => {
             clock.tick(2)
             expect(modified).to.not.have.been.called

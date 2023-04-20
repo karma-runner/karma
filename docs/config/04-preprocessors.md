@@ -22,12 +22,12 @@ Note: Most of the preprocessors need to be loaded as [plugins].
   - If this preprocessor is disabled, included .html files will need `base/` added to beginning of their path reference. See [discussion in issue 788][issue788].
 - [coverage]
 - [ng-html2js]
-- [many more](https://www.npmjs.org/browse/keyword/karma-preprocessor)
+- [many more](https://www.npmjs.com/search?q=keywords:karma-preprocessor)
 
 Here's an example of how to add the CoffeScript preprocessor to your testing suite:
 
 ```bash
-# Install it first with NPM
+# Install it first with npm
 $ npm install karma-coffee-preprocessor --save-dev
 ```
 
@@ -108,9 +108,9 @@ preprocessors: {
 
 Then karma will execute `'a'` before executing `'b'`.
 
-If a file matches multiple keys, karma will use the `config.preprocessor_priority`
-map to set the order. If this config option is not set, karma do its best to
-execute the preprocessors in a reasonable order.  So if you have:
+If a file matches multiple keys, karma will use the `config.preprocessor_priority` map to control the execution order. The `config.preprocessor_priority` should be an object with property names equal to the preprocessor names and property values equal to the priority of execution. Higher priority preprocessors are run earlier. The default priority is 0.
+
+If this config option is not set, karma will do its best to execute the preprocessors in a reasonable order. So if you have:
 
 ```js
 preprocessors: {

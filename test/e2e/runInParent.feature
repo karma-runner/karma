@@ -21,35 +21,14 @@ Feature: runInParent option
     Then it passes with:
       """
       ..
-      HeadlessChrome
-      """
-  @not-jenkins
-  Scenario: Execute a test in Chrome
-    Given a configuration with:
-      """
-      files = ['basic/plus.js', 'basic/test.js']
-      browsers = ['Chrome']
-      plugins = [
-        'karma-jasmine',
-        'karma-chrome-launcher'
-      ]
-      client = {
-        useIframe: false,
-        runInParent: true
-      }
-      """
-    When I start Karma
-    Then it passes with:
-      """
-      ..
-      Chrome
+      Chrome Headless
       """
 
   Scenario: Execute a test in Firefox
     Given a configuration with:
       """
       files = ['basic/plus.js', 'basic/test.js']
-      browsers = ['Firefox']
+      browsers = ['FirefoxHeadless']
       plugins = [
         'karma-jasmine',
         'karma-firefox-launcher'

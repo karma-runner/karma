@@ -1,43 +1,25 @@
-**The `files` array determines which files are included in the browser and which files are watched and served by Karma.**
+The `files` array determines which files are included in the browser, watched, and served by Karma.
 
-
-## Pattern matching and `basePath`
-- All of the relative patterns will get resolved using the `basePath` first.
-- If the `basePath` is a relative path, it gets resolved to the
-  directory where the configuration file is located.
-- Eventually, all the patterns will get resolved into files using
-  [glob], so you can use [minimatch] expressions like `test/unit/**/*.spec.js`.
-
-
-## Ordering
-- The order of patterns determines the order in which files are included in the browser.
-- Multiple files matching a single pattern are sorted alphabetically.
-- Each file is included exactly once. If multiple patterns match the
-  same file, it's included as if it only matched the first pattern.
-
-
-## Included, served, watched
-Each pattern is either a simple string or an object with the following properties:
+## `files`
+**Type.** Array
+**No Default.** This property is mandatory.
+**Description.** Each item is either a string (equivalent to `{ pattern: "<string>" }`) or an object with the following properties:
 
 ### `pattern`
 * **Type.** String
 * **No Default.** This property is mandatory.
-* **Description.** The pattern to use for matching.
+* **Description.** The pattern to use for matching. See below for details on how patterns are resolved.
 
 ### `type`
 * **Type.** String
 * **Default.** Will attempt to determine type based on file extension. If that fails, defaults to `js`.
-* **Description.** Choose the type to use when including a file.
 * **Possible Values:**
-  * `css`
-  * `html`
-  * `js`
-  * `dart`
-  * `module`
-  * `dom`
-* **Description.** The type determines the mechanism for including the file. The `css` and `html` types
-create `link` elements; the `js`, `dart`, and `module` elements create `script` elements. The `dom` type
-includes the file content in the page, used, for example, to test components combining HTML and JS.
+  * `css` - Include using `<link rel="stylesheet">` tag.
+  * `html` - Include using [HTML Imports](https://developer.mozilla.org/en-US/docs/Web/Web_Components/HTML_Imports). Note that this feature is obsolete and does not work in the modern browsers.
+  * `js` - Include using `<script></script>` tag.
+  * `module` - Include using `<script type="module"></script>` tag.
+  * `dom` - Inline content of the file in the page. This can be used, for example, to test components combining HTML and JS.
+* **Description.** The type determines the mechanism for including the file.
 
 ### `watched`
 * **Type.** Boolean
@@ -72,6 +54,23 @@ includes the file content in the page, used, for example, to test components com
 * **Default.** `false`
 * **Description.** Should the files be served from disk on each request by Karma's webserver?
 
+### `integrity`
+* **Type.** String
+* **Default.** `undefined`
+* **Description.** Set the `integrity` HTML attribute value to the `<script>` or the `<link>` tag loading the resource that matches the given pattern if the pattern is an absolute URL.
+
+## Pattern matching and `basePath`
+- All of the relative patterns will get resolved using the `basePath` first.
+- If the `basePath` is a relative path, it gets resolved to the
+  directory where the configuration file is located.
+- Eventually, all the patterns will get resolved into files using
+  [glob], so you can use [minimatch] expressions like `test/unit/**/*.spec.js`.
+
+## Ordering
+- The order of patterns determines the order in which files are included in the browser.
+- Multiple files matching a single pattern are sorted alphabetically.
+- Each file is included exactly once. If multiple patterns match the
+  same file, it's included as if it only matched the first pattern.
 
 ## Preprocessor transformations
 Depending on preprocessor configuration, be aware that files loaded may be transformed and no longer available in
@@ -103,6 +102,30 @@ files: [
   {pattern: 'compiled/app.js.map', included: false, served: true, watched: false, nocache: true}
 ],
 ```
+
+## Loading files from another server
+
+Pattern can also be an absolute URL. This allows including files which are not served by Karma.
+
+Example:
+
+```javascript
+config.set({
+  files: [
+    'https://example.com/my-lib.js',
+    { pattern: 'https://example.com/my-lib', type: 'js' }
+  ]
+})
+```
+
+Absolute URLs have some special rules comparing to the regular file paths:
+
+- Globing is not support, so each URL must be specified as a separate pattern.
+- Most of the regular options are not supported:
+    - `watched` is always `false`
+    - `included` is always `true`
+    - `served` is always `false`
+    - `nocache` is always `false`
 
 ## Loading Assets
 By default all assets are served at `http://localhost:[PORT]/base/`

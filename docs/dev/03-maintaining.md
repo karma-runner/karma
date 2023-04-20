@@ -1,6 +1,6 @@
+---
 pageTitle: Maintaining Karma
-
-
+---
 
 This document is for people working on Karma. It describes common tasks such as triaging or merging
 pull requests.
@@ -21,7 +21,7 @@ An issue or pull request is untriaged (needs to be triaged) when it is not assig
 
 ## Merging a pull request
 Please, make sure:
-- Travis build is green.
+- CI build is green.
 - At least one owner (other than you) approved the PR
   - by commenting “LGTM” or something like that.
   - if it’s just a simple docs change or a typo fix, feel free to skip this step.
@@ -64,7 +64,7 @@ Nothing is set in a stone. If you feel like there is a way to improve this workf
 please send a proposal to [karma-devs@googlegroups.com](mailto:karma-devs@googlegroups.com).
 
 [gitter/karma-runner]: https://gitter.im/karma-runner
-[convention]: http://karma-runner.github.io/latest/dev/git-commit-msg.html
+[convention]: https://karma-runner.github.io/latest/dev/git-commit-msg.html
 [fetch_pr]: https://github.com/vojtajina/dotfiles/blob/master/bin/fetch_pr
 [merge_pr]: https://github.com/vojtajina/dotfiles/blob/master/bin/merge_pr
 [Contributing to Karma]: ./contributing.html

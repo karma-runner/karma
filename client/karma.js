@@ -2,9 +2,9 @@ var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
-function Karma (socket, iframe, opener, navigator, location, document) {
+function Karma (updater, socket, iframe, opener, navigator, location, document) {
+  this.updater = updater
   var startEmitted = false
-  var reloadingContext = false
   var self = this
   var queryParams = util.parseQueryParams(location.search)
   var browserId = queryParams.id || util.generateId('manual-')
@@ -41,9 +41,11 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
   }
 
-  // This variable will be set to "true" whenever the socket lost connection and was able to
-  // reconnect to the Karma server. This will be passed to the Karma server then, so that
-  // Karma can differentiate between a socket client reconnect and a full browser reconnect.
+  // To start we will signal the server that we are not reconnecting. If the socket loses
+  // connection and was able to reconnect to the Karma server we will get a
+  // second 'connect' event. There we will pass 'true' and that will be passed to the
+  // Karma server then, so that Karma can differentiate between a socket client
+  // econnect and a full browser reconnect.
   var socketReconnect = false
 
   this.VERSION = constant.VERSION
@@ -86,9 +88,15 @@ function Karma (socket, iframe, opener, navigator, location, document) {
         // If there is a window already open, then close it
         // DEV: In some environments (e.g. Electron), we don't have setter access for location
         if (childWindow !== null && childWindow.closed !== true) {
+          // The onbeforeunload listener was added by context to catch
+          // unexpected navigations while running tests.
+          childWindow.onbeforeunload = undefined
           childWindow.close()
         }
         childWindow = opener(url)
+        if (childWindow === null) {
+          self.error('Opening a new tab/window failed, probably because pop-ups are blocked.')
+        }
       // run context on parent element (client_with_context)
       // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
@@ -122,14 +130,10 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       }
     // run in iframe
     } else {
+      // The onbeforeunload listener was added by the context to catch
+      // unexpected navigations while running tests.
+      iframe.contentWindow.onbeforeunload = undefined
       iframe.src = policy.createURL(url)
-    }
-  }
-
-  this.onbeforeunload = function () {
-    if (!reloadingContext) {
-      // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
-      self.error('Some of your tests did a full page reload!')
     }
   }
 
@@ -144,12 +148,6 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   this.stringify = stringify
-
-  function clearContext () {
-    reloadingContext = true
-
-    navigateContextTo('about:blank')
-  }
 
   function getLocation (url, lineno, colno) {
     var location = ''
@@ -190,6 +188,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
     }
 
     socket.emit('karma_error', message)
+    self.updater.updateTestStatus('karma_error ' + message)
     this.complete()
     return false
   }
@@ -199,7 +198,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     // Convert all array-like objects to real arrays.
     for (var propertyName in originalResult) {
-      if (originalResult.hasOwnProperty(propertyName)) {
+      if (Object.prototype.hasOwnProperty.call(originalResult, propertyName)) {
         var propertyValue = originalResult[propertyName]
 
         if (Object.prototype.toString.call(propertyValue) === '[object Array]') {
@@ -212,10 +211,12 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (!startEmitted) {
       socket.emit('start', { total: null })
+      self.updater.updateTestStatus('start')
       startEmitted = true
     }
 
     if (resultsBufferLimit === 1) {
+      self.updater.updateTestStatus('result')
       return socket.emit('result', convertedResult)
     }
 
@@ -223,6 +224,7 @@ function Karma (socket, iframe, opener, navigator, location, document) {
 
     if (resultsBuffer.length === resultsBufferLimit) {
       socket.emit('result', resultsBuffer)
+      self.updater.updateTestStatus('result')
       resultsBuffer = []
     }
   }
@@ -233,19 +235,31 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       resultsBuffer = []
     }
 
-    if (self.config.clearContext) {
-      // give the browser some time to breath, there could be a page reload, but because a bunch of
-      // tests could run in the same event loop, we wouldn't notice.
-      setTimeout(function () {
-        clearContext()
-      }, 0)
+    socket.emit('complete', result || {})
+    if (this.config.clearContext) {
+      navigateContextTo('about:blank')
+    } else {
+      self.updater.updateTestStatus('complete')
     }
-
-    socket.emit('complete', result || {}, function () {
-      if (returnUrl) {
-        location.href = returnUrl
+    if (returnUrl) {
+      var isReturnUrlAllowed = false
+      for (var i = 0; i < this.config.allowedReturnUrlPatterns.length; i++) {
+        var allowedReturnUrlPattern = new RegExp(this.config.allowedReturnUrlPatterns[i])
+        if (allowedReturnUrlPattern.test(returnUrl)) {
+          isReturnUrlAllowed = true
+          break
+        }
       }
-    })
+      if (!isReturnUrlAllowed) {
+        throw new Error(
+          'Security: Navigation to '.concat(
+            returnUrl,
+            ' was blocked to prevent malicious exploits.'
+          )
+        )
+      }
+      location.href = returnUrl
+    }
   }
 
   this.info = function (info) {
@@ -259,11 +273,11 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   }
 
   socket.on('execute', function (cfg) {
+    self.updater.updateTestStatus('execute')
     // reset startEmitted and reload the iframe
     startEmitted = false
     self.config = cfg
-    // if not clearing context, reloadingContext always true to prevent beforeUnload error
-    reloadingContext = !self.config.clearContext
+
     navigateContextTo(constant.CONTEXT_URL)
 
     if (self.config.clientDisplayNone) {
@@ -288,6 +302,11 @@ function Karma (socket, iframe, opener, navigator, location, document) {
   socket.on('connect', function () {
     socket.io.engine.on('upgrade', function () {
       resultsBufferLimit = 1
+      // Flush any results which were buffered before the upgrade to WebSocket protocol.
+      if (resultsBuffer.length > 0) {
+        socket.emit('result', resultsBuffer)
+        resultsBuffer = []
+      }
     })
     var info = {
       name: navigator.userAgent,
@@ -298,9 +317,6 @@ function Karma (socket, iframe, opener, navigator, location, document) {
       info.displayName = displayName
     }
     socket.emit('register', info)
-  })
-
-  socket.on('reconnect', function () {
     socketReconnect = true
   })
 }

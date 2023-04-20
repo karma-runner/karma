@@ -1,7 +1,6 @@
 const path = require('path')
 const EventEmitter = require('events').EventEmitter
 const mocks = require('mocks')
-const Promise = require('bluebird')
 const _ = require('lodash')
 
 const Browser = require('../../../lib/browser')
@@ -37,14 +36,6 @@ describe('middleware.runner', () => {
       config
     )
   }
-
-  before(() => {
-    Promise.setScheduler((fn) => fn())
-  })
-
-  after(() => {
-    Promise.setScheduler((fn) => process.nextTick(fn))
-  })
 
   beforeEach(() => {
     mockReporter = {

@@ -50,12 +50,12 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%t:%m'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
       log:'foo'
       debug:'bar'
@@ -74,12 +74,12 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%t:%T:%m'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
       log:LOG:'foo'
       debug:DEBUG:'bar'
@@ -98,13 +98,13 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%t:%T:%m',
         level: 'warn'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
       log:LOG:'foo'
       warn:WARN:'foobar'
@@ -121,14 +121,14 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%b'
       };
       """
     When I start Karma
-    Then the file at test/e2e/console.log contains:
+    Then the file at sandbox/console.log contains:
       """
-      HeadlessChrome
+      Chrome Headless
       """
 
   Scenario: Execute logging program and disabling terminal
@@ -141,7 +141,7 @@ Feature: Browser Console Configuration
         'karma-chrome-launcher'
       ];
       browserConsoleLogOptions = {
-        path: 'test/e2e/console.log',
+        path: 'sandbox/console.log',
         format: '%b',
         terminal: false
       };
@@ -150,7 +150,30 @@ Feature: Browser Console Configuration
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
+      """
+  
+  Scenario: Execute logging path when a folder does not exist
+    Given a configuration with:
+      """
+      files = ['browser-console/log.js', 'browser-console/test.js'];
+      browsers = ['ChromeHeadlessNoSandbox'];
+      plugins = [
+        'karma-jasmine',
+        'karma-chrome-launcher'
+      ];
+      browserConsoleLogOptions = {
+        path: 'sandbox/nested/folder/console.log',
+        format: '%t:%T:%m',
+        level: 'warn'
+      };
+      """
+    When I start Karma
+    Then the file at sandbox/nested/folder/console.log contains:
+      """
+      log:LOG:'foo'
+      warn:WARN:'foobar'
+      error:ERROR:'barbaz'
       """
 
   Scenario: Execute logging program and disabling terminal
@@ -170,7 +193,7 @@ Feature: Browser Console Configuration
     Then it passes with:
       """
       .
-      HeadlessChrome
+      Chrome Headless
       """
   Scenario: Execute logging program with singleRun
     Given a configuration with:
@@ -183,7 +206,12 @@ Feature: Browser Console Configuration
       ];
       singleRun = false;
       """
-    When I runOut Karma
+    When I start a server in background
+    And I wait until server output contains:
+      """
+      Executed 1 of 1 SUCCESS
+      """
+    And I run Karma
     Then it passes with like:
       """
       LOG: 'foo'

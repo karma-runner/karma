@@ -21,6 +21,7 @@ Feature: Passing Options
     When I start Karma
     Then it passes with:
       """
+      LOG: '============== START TEST =============='
       .....
-      HeadlessChrome
+      Chrome Headless
       """

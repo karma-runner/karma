@@ -53,6 +53,20 @@ module.exports = (config) => {
 }
 ```
 
+Alternatively, you can use an `async` function instead (since v6.3).
+
+```javascript
+// karma.conf.js
+module.exports = async (config) => {
+  const karmaConfig = await getKarmaConfig("dev");
+  
+  config.set({
+    ...karmaConfig
+  });
+};
+```
+
+
 ### Customized TypeScript Configuration
 Under the hood Karma uses ts-node to transpile TypeScript to JavaScript. If the resolved `tsconfig.json` has `module` configured as `ES` formats. You might get errors like `SyntaxError: Unexpected token`. This is due that in Node `ES` module formats are not supported. To overcome this issue you need to configure ts-node to use `commonjs` module format.
 
@@ -277,6 +291,15 @@ upon the completion of running the tests. Setting this to false is useful when e
 
 If true, Karma does not display the banner and browser list. Useful when using karma on component tests with screenshots.
 
+## client.allowedReturnUrlPatterns
+**Type:** Array
+
+**Default:** `['^https?://']`
+
+**Description:** Define the string representations of the regular expressions that will be allowed for the `return_url` query parameter.
+
+If the value of the `return_url` query parameter does not match any regular expression derived from the string representation of each of the elements of this array, navigation to it will be blocked.
+
 ## colors
 **Type:** Boolean
 
@@ -425,7 +448,7 @@ See [config/files] for more information.
 
 **Description:** List of test frameworks you want to use. Typically, you will set this to `['jasmine']`, `['mocha']` or `['qunit']`...
 
-Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via NPM).
+Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via npm).
 
 Additional information can be found in [plugins].
 
@@ -494,9 +517,9 @@ httpsServerOptions: {
 
 **Description:** List of names of additional middleware you want the karma server to use. Middleware will be used in the order listed.
 
-You must have installed the middleware via a plugin/framework (either inline or via NPM). Additional information can be found in [plugins].
+You must have installed the middleware via a plugin/framework (either inline or via npm). Additional information can be found in [plugins].
 
-The plugin must provide an express/connect middleware function (details about this can be found in [the Express docs](http://expressjs.com/guide/using-middleware.html). An example of custom inline middleware is shown below.
+The plugin must provide an express/connect middleware function (details about this can be found in [the Express docs](https://expressjs.com/en/guide/using-middleware.html). An example of custom inline middleware is shown below.
 
 **Example:**
 ```javascript
@@ -548,12 +571,9 @@ mime: {
 
 **Default:** `['karma-*']`
 
-**Description:** List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object.
-By default, Karma loads all sibling NPM modules which have a name starting with `karma-*`.
+**Description:** List of plugins to load. A plugin can be either a plugin object, or a string containing name of the module which exports a plugin object. See [plugins] for more information on how to install and use plugins. 
 
-Note: Just about all plugins in Karma require an additional library to be installed (via NPM).
-
-See [plugins] for more information.
+By default, Karma loads plugins from all sibling npm packages which have a name starting with `karma-*`.
 
 
 ## port
@@ -587,8 +607,7 @@ If, after test execution or after Karma attempts to kill the browser, browser is
 
 Preprocessors can be loaded through [plugins].
 
-Note: Just about all preprocessors in Karma (other than CoffeeScript and some other defaults)
-require an additional library to be installed (via NPM).
+Note: Just about all preprocessors in Karma require an additional library to be installed (via npm).
 
 Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance,
 if you are using the "coverage" preprocessor on your source files, if you then attempt to interactively debug
@@ -686,7 +705,7 @@ This is disabled by default (since the default value is 0).
 
 Additional reporters, such as `growl`, `junit`, `teamcity` or `coverage` can be loaded through [plugins].
 
-Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).
+Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via npm).
 
 
 ## formatError
@@ -752,7 +771,7 @@ on whether all tests passed or any tests failed.
 **Default:** `['polling', 'websocket']`
 
 **Description:** An array of allowed transport methods between the browser and testing server. This configuration setting
-is handed off to [socket.io](http://socket.io/) (which manages the communication
+is handed off to [socket.io](https://socket.io/) (which manages the communication
 between browsers and the testing server).
 
 
@@ -800,7 +819,7 @@ proxyRes: function(proxyRes, req, res) {
 
 **Description:** For use when the Karma server needs to be run behind a proxy that changes the base url, etc
 
-If set then the following fields will be defined and can be overriden:
+If set then the following fields will be defined and can be overridden:
 
 ### path
 **Type:** String
@@ -857,11 +876,11 @@ When running a browser in different environments, it can take different amounts 
 client socket to connect. If Karma cannot connect within the default timeout, you may see an
 error similar to the following:
 ```
-ChromeHeadless have not captured in 60000ms, killing.
+ChromeHeadless has not captured in 60000ms, killing.
 Trying to start ChromeHeadless again (1/2).
-ChromeHeadless have not captured in 60000ms, killing.
+ChromeHeadless has not captured in 60000ms, killing.
 Trying to start ChromeHeadless again (2/2).
-ChromeHeadless have not captured in 60000ms, killing.
+ChromeHeadless has not captured in 60000ms, killing.
 ChromeHeadless failed 2 times(timeout). Giving up.
 ```
 If you see this error, you can try increasing the socket connection timeout.
