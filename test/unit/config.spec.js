@@ -453,13 +453,18 @@ describe('config', () => {
     it('should convert patterns to objects and set defaults', () => {
       const config = normalizeConfigWithDefaults({
         basePath: '/base',
-        files: ['a/*.js', { pattern: 'b.js', watched: false, included: false }, { pattern: 'c.js' }],
+        files: [
+          'a/*.js',
+          { pattern: 'b.js', watched: false, included: false },
+          { pattern: 'c.js' },
+          { pattern: 'http://localhost/d.js', integrity: 'sha256-XXX' }
+        ],
         customContextFile: 'context.html',
         customDebugFile: 'debug.html',
         customClientContextFile: 'client_with_context.html'
       })
 
-      expect(config.files.length).to.equal(3)
+      expect(config.files.length).to.equal(4)
 
       let file = config.files.shift()
       expect(file.pattern).to.equal(resolveWinPath('/base/a/*.js'))
@@ -478,6 +483,13 @@ describe('config', () => {
       expect(file.included).to.equal(true)
       expect(file.served).to.equal(true)
       expect(file.watched).to.equal(true)
+
+      file = config.files.shift()
+      expect(file.pattern).to.equal('http://localhost/d.js')
+      expect(file.included).to.equal(true)
+      expect(file.served).to.equal(false)
+      expect(file.watched).to.equal(false)
+      expect(file.integrity).to.equal('sha256-XXX')
 
       expect(config.customContextFile).to.equal(resolveWinPath('/base/context.html'))
       expect(config.customDebugFile).to.equal(resolveWinPath('/base/debug.html'))

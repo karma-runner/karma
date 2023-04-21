@@ -7,7 +7,7 @@ on:
 
 jobs:
   main:
-    name: Lint and Unit (Client and Server), E2E and Integration Test
+    name: Unit (Client and Server), E2E and Integration Test
     runs-on: ubuntu-latest
     env:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
@@ -20,11 +20,9 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
           cache: npm
       - run: npm ci
-      - run: npm run commitlint -- --from `git merge-base origin/master $GITHUB_SHA`
-      - run: npm run lint
       - run: npm run build:check
       - run: npm run test:unit
       - run: npm run test:e2e
@@ -35,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [10, 12]
+        node: [10, 12, 14, 18]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -50,7 +48,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node: [10, 12, 14]
+        node: [10, 12, 14, 16, 18]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

@@ -53,6 +53,20 @@ module.exports = (config) => {
 }
 ```
 
+Alternatively, you can use an `async` function instead (since v6.3).
+
+```javascript
+// karma.conf.js
+module.exports = async (config) => {
+  const karmaConfig = await getKarmaConfig("dev");
+  
+  config.set({
+    ...karmaConfig
+  });
+};
+```
+
+
 ### Customized TypeScript Configuration
 Under the hood Karma uses ts-node to transpile TypeScript to JavaScript. If the resolved `tsconfig.json` has `module` configured as `ES` formats. You might get errors like `SyntaxError: Unexpected token`. This is due that in Node `ES` module formats are not supported. To overcome this issue you need to configure ts-node to use `commonjs` module format.
 
@@ -276,6 +290,15 @@ upon the completion of running the tests. Setting this to false is useful when e
 **Description:** Set style display none on client elements.
 
 If true, Karma does not display the banner and browser list. Useful when using karma on component tests with screenshots.
+
+## client.allowedReturnUrlPatterns
+**Type:** Array
+
+**Default:** `['^https?://']`
+
+**Description:** Define the string representations of the regular expressions that will be allowed for the `return_url` query parameter.
+
+If the value of the `return_url` query parameter does not match any regular expression derived from the string representation of each of the elements of this array, navigation to it will be blocked.
 
 ## colors
 **Type:** Boolean

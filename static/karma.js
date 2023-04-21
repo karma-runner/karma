@@ -104,6 +104,9 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
           childWindow.close()
         }
         childWindow = opener(url)
+        if (childWindow === null) {
+          self.error('Opening a new tab/window failed, probably because pop-ups are blocked.')
+        }
       // run context on parent element (client_with_context)
       // using window.__karma__.scriptUrls to get the html element strings and load them dynamically
       } else if (url !== 'about:blank') {
@@ -249,7 +252,15 @@ function Karma (updater, socket, iframe, opener, navigator, location, document) 
       self.updater.updateTestStatus('complete')
     }
     if (returnUrl) {
-      if (!/^https?:\/\//.test(returnUrl)) {
+      var isReturnUrlAllowed = false
+      for (var i = 0; i < this.config.allowedReturnUrlPatterns.length; i++) {
+        var allowedReturnUrlPattern = new RegExp(this.config.allowedReturnUrlPatterns[i])
+        if (allowedReturnUrlPattern.test(returnUrl)) {
+          isReturnUrlAllowed = true
+          break
+        }
+      }
+      if (!isReturnUrlAllowed) {
         throw new Error(
           'Security: Navigation to '.concat(
             returnUrl,
@@ -340,7 +351,7 @@ var socket = io(location.host, {
   reconnectionDelay: 500,
   reconnectionDelayMax: Infinity,
   timeout: BROWSER_SOCKET_TIMEOUT,
-  path: KARMA_PROXY_PATH + KARMA_URL_ROOT.substr(1) + 'socket.io',
+  path: KARMA_PROXY_PATH + KARMA_URL_ROOT.slice(1) + 'socket.io',
   'sync disconnect on unload': true,
   useNativeTimers: true
 })
@@ -557,7 +568,7 @@ exports.isDefined = function (value) {
 
 exports.parseQueryParams = function (locationSearch) {
   var params = {}
-  var pairs = locationSearch.substr(1).split('&')
+  var pairs = locationSearch.slice(1).split('&')
   var keyValue
 
   for (var i = 0; i < pairs.length; i++) {

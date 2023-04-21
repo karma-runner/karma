@@ -17,8 +17,8 @@ describe('middleware.karma', () => {
   let response
 
   class MockFile extends File {
-    constructor (path, sha, type, content) {
-      super(path, undefined, undefined, type)
+    constructor (path, sha, type, content, integrity) {
+      super(path, undefined, undefined, type, undefined, integrity)
       this.sha = sha || 'sha-default'
       this.content = content
     }
@@ -230,6 +230,21 @@ describe('middleware.karma', () => {
     callHandlerWith('/__karma__/context.html')
   })
 
+  it('should serve context.html with script tags with integrity checking', (done) => {
+    includedFiles([
+      new MockFile('/first.js', 'sha123'),
+      new MockFile('/second.js', 'sha456', undefined, undefined, 'sha256-XXX')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/first.js?sha123" crossorigin="anonymous"></script>\n<script type="text/javascript" src="/__proxy__/__karma__/absolute/second.js?sha456" integrity="sha256-XXX" crossorigin="anonymous"></script>')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
   it('should serve context.html with replaced link tags', (done) => {
     includedFiles([
       new MockFile('/first.css', 'sha007'),
@@ -242,7 +257,7 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css?sha007" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html?sha678" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third?sha111" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/fourth?sha222" rel="import">\n<link type="text/css" href="http://some.url.com/fifth" rel="stylesheet">\n<link href="http://some.url.com/sixth" rel="import">')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css?sha007" rel="stylesheet" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/absolute/second.html?sha678" rel="import" crossorigin="anonymous">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third?sha111" rel="stylesheet" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/absolute/fourth?sha222" rel="import" crossorigin="anonymous">\n<link type="text/css" href="http://some.url.com/fifth" rel="stylesheet" crossorigin="anonymous">\n<link href="http://some.url.com/sixth" rel="import" crossorigin="anonymous">')
       done()
     })
 
@@ -278,7 +293,22 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/a.css?sha1" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css?sha2" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/some/abc/c.html?sha3" rel="import">\n<link href="/__proxy__/__karma__/base/d.html?sha4" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/e?sha5" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/f?sha6" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/some/abc/g?sha7" rel="import">\n<link href="/__proxy__/__karma__/base/h?sha8" rel="import">')
+      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/a.css?sha1" rel="stylesheet" crossorigin="anonymous">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css?sha2" rel="stylesheet" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/absolute/some/abc/c.html?sha3" rel="import" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/base/d.html?sha4" rel="import" crossorigin="anonymous">\n<link type="text/css" href="/__proxy__/__karma__/absolute/some/abc/e?sha5" rel="stylesheet" crossorigin="anonymous">\n<link type="text/css" href="/__proxy__/__karma__/base/f?sha6" rel="stylesheet" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/absolute/some/abc/g?sha7" rel="import" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/base/h?sha8" rel="import" crossorigin="anonymous">')
+      done()
+    })
+
+    callHandlerWith('/__karma__/context.html')
+  })
+
+  it('should serve context.html with link tags with integrity checking', (done) => {
+    includedFiles([
+      new MockFile('/first.css', 'sha007', undefined, undefined, 'sha256-XXX'),
+      new MockFile('/second.html', 'sha678', undefined, undefined, 'sha256-XXX')
+    ])
+
+    response.once('end', () => {
+      expect(nextSpy).not.to.have.been.called
+      expect(response).to.beServedAs(200, 'CONTEXT\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css?sha007" rel="stylesheet" integrity="sha256-XXX" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/absolute/second.html?sha678" rel="import" integrity="sha256-XXX" crossorigin="anonymous">')
       done()
     })
 
@@ -447,7 +477,7 @@ describe('middleware.karma', () => {
 
     response.once('end', () => {
       expect(nextSpy).not.to.have.been.called
-      expect(response).to.beServedAs(200, 'DEBUG\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/second.html" rel="import">\n<link href="/__proxy__/__karma__/base/d.html" rel="import">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third" rel="stylesheet">\n<link type="text/css" href="/__proxy__/__karma__/base/f" rel="stylesheet">\n<link href="/__proxy__/__karma__/absolute/fourth" rel="import">\n<link href="/__proxy__/__karma__/base/g" rel="import">')
+      expect(response).to.beServedAs(200, 'DEBUG\n<link type="text/css" href="/__proxy__/__karma__/absolute/first.css" rel="stylesheet" crossorigin="anonymous">\n<link type="text/css" href="/__proxy__/__karma__/base/b.css" rel="stylesheet" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/absolute/second.html" rel="import" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/base/d.html" rel="import" crossorigin="anonymous">\n<link type="text/css" href="/__proxy__/__karma__/absolute/third" rel="stylesheet" crossorigin="anonymous">\n<link type="text/css" href="/__proxy__/__karma__/base/f" rel="stylesheet" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/absolute/fourth" rel="import" crossorigin="anonymous">\n<link href="/__proxy__/__karma__/base/g" rel="import" crossorigin="anonymous">')
       done()
     })
 

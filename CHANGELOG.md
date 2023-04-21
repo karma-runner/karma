@@ -1,3 +1,53 @@
+## [6.4.1](https://github.com/karma-runner/karma/compare/v6.4.0...v6.4.1) (2022-09-19)
+
+
+### Bug Fixes
+
+* pass integrity value ([63d86be](https://github.com/karma-runner/karma/commit/63d86befd3431fe8e1500e22f4f115a3762d000a))
+
+# [6.4.0](https://github.com/karma-runner/karma/compare/v6.3.20...v6.4.0) (2022-06-14)
+
+
+### Features
+
+* support SRI verification of link tags ([dc51a2e](https://github.com/karma-runner/karma/commit/dc51a2e0e9b9805f7740f52fde01bcd20adc2dfc))
+* support SRI verification of script tags ([6a54b1c](https://github.com/karma-runner/karma/commit/6a54b1c2a1df8214c470b8a5cc8036912874637e))
+
+## [6.3.20](https://github.com/karma-runner/karma/compare/v6.3.19...v6.3.20) (2022-05-13)
+
+
+### Bug Fixes
+
+* prefer IPv4 addresses when resolving domains ([e17698f](https://github.com/karma-runner/karma/commit/e17698f950af83bf2b3edc540d2a3e1fb73cba59)), closes [#3730](https://github.com/karma-runner/karma/issues/3730)
+
+## [6.3.19](https://github.com/karma-runner/karma/compare/v6.3.18...v6.3.19) (2022-04-19)
+
+
+### Bug Fixes
+
+* **client:** error out when opening a new tab fails ([099b85e](https://github.com/karma-runner/karma/commit/099b85ed0a46e37dd7cb14fc1596cbb1b3eabce9))
+
+## [6.3.18](https://github.com/karma-runner/karma/compare/v6.3.17...v6.3.18) (2022-04-13)
+
+
+### Bug Fixes
+
+* **deps:** upgrade socket.io to v4.4.1 ([52a30bb](https://github.com/karma-runner/karma/commit/52a30bbc6e168333a8592c26c9f40678d6ab74ea))
+
+## [6.3.17](https://github.com/karma-runner/karma/compare/v6.3.16...v6.3.17) (2022-02-28)
+
+
+### Bug Fixes
+
+* **deps:** update colors to maintained version ([#3763](https://github.com/karma-runner/karma/issues/3763)) ([fca1884](https://github.com/karma-runner/karma/commit/fca18843e7a04eeb67b86cb3cfc3db794d66f445))
+
+## [6.3.16](https://github.com/karma-runner/karma/compare/v6.3.15...v6.3.16) (2022-02-10)
+
+
+### Bug Fixes
+
+* **security:** mitigate the "Open Redirect Vulnerability" ([ff7edbb](https://github.com/karma-runner/karma/commit/ff7edbb2ffbcdd69761bece86b7dc1ef0740508d))
+
 ## [6.3.15](https://github.com/karma-runner/karma/compare/v6.3.14...v6.3.15) (2022-02-05)
 
 
