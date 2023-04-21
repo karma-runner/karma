@@ -1,3 +1,10 @@
+## [6.4.2](https://github.com/karma-runner/karma/compare/v6.4.1...v6.4.2) (2023-04-21)
+
+
+### Bug Fixes
+
+* few typos ([c6a4271](https://github.com/karma-runner/karma/commit/c6a42710b40e81269f1e6c5d5bb55d01188a8872))
+
 ## [6.4.1](https://github.com/karma-runner/karma/compare/v6.4.0...v6.4.1) (2022-09-19)
 
 
