@@ -9,6 +9,20 @@ _real_ browsers.
 > The main purpose of Karma is to make your test-driven development easy,
 >  fast, and fun.
 
+## Karma is deprecated and is not accepting new features or general bug fixes.
+
+The web testing space has evolved significantly in the [10+ years](https://testing.googleblog.com/2012/11/testacular-spectacular-test-runner-for.html) since Karma's creation. The web landscape looks very different today and new patterns and tools have emerged in the ecosystem. New test runners offer more performant alternatives, and Karma no longer provides clear unique value.
+
+Based on the current state of the web testing ecosystem, we have made the hard decision to deprecate Karma.
+
+We know Karma is used particularly commonly in the Angular ecosystem, so Angular is adding [Jest](https://jestjs.io/) and [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/) support to provide a migration path off of Karma. See the [Angular blog](https://blog.angular.io/moving-angular-cli-to-jest-and-web-test-runner-ef85ef69ceca) for more details.
+
+Critical security issues in Karma will still be triaged and fixed as necessary. This will continue until 12 months after Angular CLI's Web Test Runner support is marked stable.
+
+For those outside Angular looking to migrate off Karma, both [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/) and [`jasmine-browser-runner`](https://github.com/jasmine/jasmine-browser-runner) provide browser-based unit testing solutions which can be used as a direct alternative. [Jest](https://jestjs.io/) and [Vitest](https://vitest.dev/) also provide Node-based alternatives.
+
+It has been incredible to see Karma's impact on the web testing ecosystem and we greatly appreciate the support of everyone who contributed to an awesome community. Keep testing. ✅
+
 
 ## Help and Support
 
