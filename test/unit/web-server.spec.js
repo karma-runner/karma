@@ -256,7 +256,7 @@ describe('web-server', () => {
   })
 
   describe('http2', () => {
-    const http2 = require('http2/')
+    const https = require('node:https')
 
     beforeEach(() => {
       const credentials = {
@@ -268,7 +268,7 @@ describe('web-server', () => {
       emitter = new EventEmitter()
 
       const injector = new di.Injector([{
-        config: ['value', { basePath: '/base/path', urlRoot: '/', httpModule: http2, protocol: 'https:', httpsServerOptions: credentials }],
+        config: ['value', { basePath: '/base/path', urlRoot: '/', httpModule: https, protocol: 'https:', httpsServerOptions: credentials }],
         customFileHandlers: ['value', customFileHandlers],
         emitter: ['value', emitter],
         fileList: ['value', { files: { served: [], included: [] } }],
@@ -285,7 +285,7 @@ describe('web-server', () => {
     })
 
     it('should be an instance of httpModule provided in config', () => {
-      expect(server instanceof http2.Server).to.equal(true)
+      expect(server instanceof https.Server).to.equal(true)
     })
   })
 })

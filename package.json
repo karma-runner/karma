@@ -450,7 +450,7 @@
     "socket.io": "^4.4.1",
     "source-map": "^0.6.1",
     "tmp": "^0.2.1",
-    "ua-parser-js": "^0.7.30",
+    "ua-parser-js": "^1.0.35",
     "yargs": "^16.1.1"
   },
   "devDependencies": {
@@ -469,7 +469,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "http2": "^3.3.6",
     "jasmine-core": "^3.6.0",
     "karma": ".",
     "karma-browserify": "^7.0.0",
