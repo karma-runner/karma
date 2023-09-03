@@ -1,4 +1,4 @@
-Karma runs on [Node.js] and is available as an [npm] package.
+# Karma runs on [Node.js] and is available as an [npm] package.
 
 ## Installing Node.js
 
