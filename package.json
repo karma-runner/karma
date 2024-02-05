@@ -133,6 +133,7 @@
     "SymbioticKilla <59652865+SymbioticKilla@users.noreply.github.com>",
     "Terry <zhangwenlp@vip.qq.com>",
     "Thomas Parisot <thomas@oncle-tom.net>",
+    "Tim Gates <tim.gates@iress.com>",
     "Tom Erik Støwer <tomerik@getkahoot.com>",
     "Vivek Ganesan <caliberoviv@gmail.com>",
     "Vladimir Starkov <iamstarkov@users.noreply.github.com>",
@@ -373,7 +374,6 @@
     "Thai Pangsakulyanont @ Taskworld <thai.p@taskworld.com>",
     "Thijs Triemstra <info@collab.nl>",
     "Thomas Parisot <thomas.parisot@bbc.co.uk>",
-    "Tim Gates <tim.gates@iress.com>",
     "Tim Hartman <tbhartman@gmail.com>",
     "Tim Olshansky <tim.olshansky@gmail.com>",
     "Timo Tijhof <krinklemail@gmail.com>",
@@ -388,6 +388,7 @@
     "Vova Bilonenko <bilonenko.v@gmail.com>",
     "Wizek <123.wizek@gmail.com>",
     "XhmikosR <xhmikosr@gmail.com>",
+    "Yang09701194 <mustnecessity@gmail.com>",
     "Yaniv Efraim <yaniv.efraim@gmail.com>",
     "Yi Wang <e@yi-wang.me>",
     "Yvonne Yip <ykyyip@google.com>",
@@ -500,7 +501,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.4.1",
+  "version": "6.4.2",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
