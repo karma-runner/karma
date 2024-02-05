@@ -1,3 +1,25 @@
+## [6.4.2](https://github.com/karma-runner/karma/compare/v6.4.1...v6.4.2) (2023-04-21)
+
+
+### Bug Fixes
+
+* few typos ([c6a4271](https://github.com/karma-runner/karma/commit/c6a42710b40e81269f1e6c5d5bb55d01188a8872))
+
+## [6.4.1](https://github.com/karma-runner/karma/compare/v6.4.0...v6.4.1) (2022-09-19)
+
+
+### Bug Fixes
+
+* pass integrity value ([63d86be](https://github.com/karma-runner/karma/commit/63d86befd3431fe8e1500e22f4f115a3762d000a))
+
+# [6.4.0](https://github.com/karma-runner/karma/compare/v6.3.20...v6.4.0) (2022-06-14)
+
+
+### Features
+
+* support SRI verification of link tags ([dc51a2e](https://github.com/karma-runner/karma/commit/dc51a2e0e9b9805f7740f52fde01bcd20adc2dfc))
+* support SRI verification of script tags ([6a54b1c](https://github.com/karma-runner/karma/commit/6a54b1c2a1df8214c470b8a5cc8036912874637e))
+
 ## [6.3.20](https://github.com/karma-runner/karma/compare/v6.3.19...v6.3.20) (2022-05-13)
 
 
