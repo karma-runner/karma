@@ -32,7 +32,8 @@ module.exports = {
     { revert: true, release: 'patch' },
     { type: 'feat', release: 'minor' },
     { type: 'fix', release: 'patch' },
-    { type: 'perf', release: 'patch' }
+    { type: 'perf', release: 'patch' },
+    { type: 'build', release: 'patch' }
   ],
 
   // The preset determines which commits are included in the changelog and how
