@@ -1,3 +1,10 @@
+## [6.4.3](https://github.com/karma-runner/karma/compare/v6.4.2...v6.4.3) (2024-02-24)
+
+
+### Bug Fixes
+
+* add build commits for patch release ([d7f2d69](https://github.com/karma-runner/karma/commit/d7f2d69ff41a5811552412080519b1984ff48669))
+
 ## [6.4.2](https://github.com/karma-runner/karma/compare/v6.4.1...v6.4.2) (2023-04-21)
 
 
