@@ -464,32 +464,32 @@ describe('FileList', () => {
 
     it('does not add excluded files', () => {
       return list.refresh().then((before) => {
-        return list.addFile('/secret/hello.txt').then((files) => {
-          expect(files.served).to.be.eql(before.served)
+        return list.addFile('/secret/hello.txt').then(() => {
+          expect(list.files.served).to.be.eql(before.served)
         })
       })
     })
 
     it('does not add already existing files', () => {
       return list.refresh().then((before) => {
-        return list.addFile('/some/a.js').then((files) => {
-          expect(files.served).to.be.eql(before.served)
+        return list.addFile('/some/a.js').then(() => {
+          expect(list.files.served).to.be.eql(before.served)
         })
       })
     })
 
     it('does not add unmatching files', () => {
       return list.refresh().then((before) => {
-        return list.addFile('/some/a.ex').then((files) => {
-          expect(files.served).to.be.eql(before.served)
+        return list.addFile('/some/a.ex').then(() => {
+          expect(list.files.served).to.be.eql(before.served)
         })
       })
     })
 
     it('adds the file to the correct bucket', () => {
       return list.refresh().then((before) => {
-        return list.addFile('/some/d.js').then((files) => {
-          expect(pathsFrom(files.served)).to.contain('/some/d.js')
+        return list.addFile('/some/d.js').then(() => {
+          expect(pathsFrom(list.files.served)).to.contain('/some/d.js')
           const bucket = list.buckets.get('/some/*.js')
           expect(pathsFrom(bucket)).to.contain('/some/d.js')
         })
@@ -531,8 +531,8 @@ describe('FileList', () => {
       list = new List(patterns('/a.*'), [], emitter, preprocess)
 
       return list.refresh().then(() => {
-        return list.addFile('/a.js').then((files) => {
-          expect(findFile('/a.js', files.served).mtime).to.eql(new Date('2012-01-01'))
+        return list.addFile('/a.js').then(() => {
+          expect(findFile('/a.js', list.files.served).mtime).to.eql(new Date('2012-01-01'))
         })
       })
     })
@@ -597,10 +597,10 @@ describe('FileList', () => {
         mockFs._touchFile('/some/b.js', '3020-01-01')
         modified.resetHistory()
 
-        return list.changeFile('/some/b.js').then((files) => {
+        return list.changeFile('/some/b.js').then(() => {
           clock.tick(101)
           expect(modified).to.have.been.calledOnce
-          expect(findFile('/some/b.js', files.served).mtime).to.be.eql(new Date('3020-01-01'))
+          expect(findFile('/some/b.js', list.files.served).mtime).to.be.eql(new Date('3020-01-01'))
         })
       })
     })
@@ -719,8 +719,8 @@ describe('FileList', () => {
       return list.refresh().then((files) => {
         modified.resetHistory()
         return list.removeFile('/some/a.js')
-      }).then((files) => {
-        expect(pathsFrom(files.served)).to.be.eql([
+      }).then(() => {
+        expect(pathsFrom(list.files.served)).to.be.eql([
           '/some/b.js',
           '/a.txt'
         ])
