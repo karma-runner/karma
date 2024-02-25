@@ -40,6 +40,12 @@ $ npm install -g karma-cli
 
 Then, you can run Karma simply by `karma` from anywhere and it will always run the local version.
 
+Alternatively, you can install `karma-cli` for the current project only and use scripts. First add `"karma": "karma"` to your package.json.
+```bash
+$ npm install karma-cli --save-dev
+$ npm run karma start
+```
+
 
 [Node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/package/karma
