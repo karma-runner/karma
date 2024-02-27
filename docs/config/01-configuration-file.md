@@ -78,7 +78,7 @@ require('ts-node').register({
     module: 'commonjs'
   }
 });
-require('./karma.conf.ts');
+module.exports = require('./karma.conf.ts');
 ```
 
 ## File Patterns
