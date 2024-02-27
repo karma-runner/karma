@@ -16,6 +16,7 @@ describe('Browser', () => {
     const s = new e.EventEmitter()
     socketId = socketId + 1
     s.id = socketId
+    s.disconnect = () => {}
     return s
   }
 
@@ -174,35 +175,20 @@ describe('Browser', () => {
       sinon.stub(Date, 'now')
       Date.now.returns(12345)
       browser = new Browser('fake-id', 'full name', collection, emitter, socket)
+      collection.add(browser)
     })
 
     afterEach(() => {
       Date.now.restore()
     })
 
-    it('should set isConnected to true', () => {
-      browser.state = Browser.STATE_EXECUTING
-      browser.onComplete()
-      expect(browser.isConnected()).to.equal(true)
-    })
-
-    it('should fire "browsers_change" event', () => {
+    it('should disconnect the socket', () => {
       const spy = sinon.spy()
-      emitter.on('browsers_change', spy)
+      socket.disconnect = spy
 
       browser.state = Browser.STATE_EXECUTING
       browser.onComplete()
-      expect(spy).to.have.been.calledWith(collection)
-    })
-
-    it('should ignore if browser not executing', () => {
-      const spy = sinon.spy()
-      emitter.on('browsers_change', spy)
-      emitter.on('browser_complete', spy)
-
-      browser.state = Browser.STATE_CONNECTED
-      browser.onComplete()
-      expect(spy).not.to.have.been.called
+      expect(spy).to.have.been.called
     })
 
     it('should set totalTime', () => {
@@ -220,6 +206,7 @@ describe('Browser', () => {
 
     beforeEach(() => {
       timer = createMockTimer()
+      socket.disconnect = sinon.spy()
       browser = new Browser('fake-id', 'full name', collection, emitter, socket, timer, 10)
       browser.init()
     })
@@ -229,86 +216,54 @@ describe('Browser', () => {
 
       browser.onSocketDisconnect('socket.io-reason', socket)
       expect(collection.length).to.equal(0)
+      expect(socket.disconnect).to.have.been.called
     })
 
-    it('should complete if browser executing', () => {
+    it('should send "browser_complete"', () => {
       const spy = sinon.spy()
       emitter.on('browser_complete', spy)
+      browser.onSocketDisconnect('socket.io-reason', socket)
+      expect(spy).to.have.been.called
+    })
+
+    it('should error if browser executing', () => {
+      const spy = sinon.spy()
+      emitter.on('browser_complete', spy)
+      const errorSpy = sinon.spy()
+      emitter.on('browser_error', errorSpy)
       browser.state = Browser.STATE_EXECUTING
 
       browser.onSocketDisconnect('socket.io-reason', socket)
       timer.wind(20)
 
-      expect(browser.lastResult.disconnected).to.equal(true)
       expect(spy).to.have.been.called
+      expect(errorSpy).to.have.been.called
     })
 
-    it('should not complete if browser not executing', () => {
+    it('should not error if browser is connected', () => {
       const spy = sinon.spy()
       emitter.on('browser_complete', spy)
-      browser.state = Browser.STATE_CONNECTED
+      const errorSpy = sinon.spy()
+      emitter.on('browser_error', errorSpy)
+
+      browser.state = Browser.STATE_DISCONNECTED
 
       browser.onSocketDisconnect('socket.io-reason', socket)
       expect(spy).not.to.have.been.called
+      expect(errorSpy).not.to.have.been.called
     })
-  })
 
-  describe('reconnect', () => {
-    it('should cancel disconnecting', () => {
-      const timer = createMockTimer()
+    it('should not error if browser is disconnected', () => {
+      const spy = sinon.spy()
+      emitter.on('browser_complete', spy)
+      const errorSpy = sinon.spy()
+      emitter.on('browser_error', errorSpy)
 
-      browser = new Browser('id', 'Chrome 19.0', collection, emitter, socket, timer, 10)
-      browser.init()
-      browser.state = Browser.STATE_EXECUTING
+      browser.state = Browser.STATE_DISCONNECTED
 
       browser.onSocketDisconnect('socket.io-reason', socket)
-      browser.reconnect(mkSocket(), true)
-
-      timer.wind(10)
-      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
-    })
-
-    it('should ignore disconnects on old sockets, but accept other messages', () => {
-      // IE on polling sometimes reconnect on another socket (before disconnecting)
-
-      browser = new Browser('id', 'Chrome 19.0', collection, emitter, socket, null, 0)
-      browser.init()
-      browser.state = Browser.STATE_EXECUTING
-
-      browser.reconnect(mkSocket(), true)
-
-      // still accept results on the old socket
-      socket.emit('result', { success: true })
-      expect(browser.lastResult.success).to.equal(1)
-
-      socket.emit('karma_error', {})
-      expect(browser.lastResult.error).to.equal(true)
-
-      // should be ignored, keep executing
-      socket.emit('disconnect', 'socket.io reason')
-      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
-    })
-
-    it('should reconnect a disconnected browser', () => {
-      browser = new Browser('id', 'Chrome 25.0', collection, emitter, socket, null, 10)
-      browser.state = Browser.STATE_DISCONNECTED
-
-      browser.reconnect(mkSocket(), true)
-
-      expect(browser.isConnected()).to.equal(true)
-    })
-
-    it('should not add a disconnected browser to the collection multiple times', () => {
-      browser = new Browser('id', 'Chrome 25.0', collection, emitter, socket, null, 10)
-      browser.init()
-
-      expect(collection.length).to.equal(1)
-
-      browser.state = Browser.STATE_DISCONNECTED
-
-      browser.reconnect(mkSocket(), false)
-
-      expect(collection.length).to.equal(1)
+      expect(spy).not.to.have.been.called
+      expect(errorSpy).not.to.have.been.called
     })
   })
 
@@ -389,11 +344,11 @@ describe('Browser', () => {
       const spyExecute = sinon.spy()
       const timer = undefined
       const disconnectDelay = 0
-      const noActivityTimeout = 0
+      const pingTimeout = 17
       const singleRun = false
       const clientConfig = {}
       browser = new Browser('fake-id', 'full name', collection, emitter, socket,
-        timer, disconnectDelay, noActivityTimeout, singleRun, clientConfig)
+        timer, disconnectDelay, pingTimeout, singleRun, clientConfig)
       socket.on('execute', spyExecute)
       browser.execute()
 
@@ -412,38 +367,22 @@ describe('Browser', () => {
   })
 
   describe('scenario:', () => {
-    it('reconnecting during the run', () => {
-      const timer = createMockTimer()
-      browser = new Browser('fake-id', 'full name', collection, emitter, socket, timer, 10)
-      browser.init()
-      browser.state = Browser.STATE_EXECUTING
-      socket.emit('result', { success: true, suite: [], log: [] })
-      socket.emit('disconnect', 'socket.io reason')
-      expect(browser.isConnected()).to.equal(false)
-
-      const newSocket = mkSocket()
-      browser.reconnect(newSocket, true)
-      expect(browser.isConnected()).to.equal(false)
-
-      newSocket.emit('result', { success: false, suite: [], log: [] })
-      newSocket.emit('complete')
-      expect(browser.isConnected()).to.equal(true)
-      expect(browser.lastResult.success).to.equal(1)
-      expect(browser.lastResult.failed).to.equal(1)
+    beforeEach(() => {
+      socket.disconnect = sinon.spy()
     })
 
-    it('disconecting during the run', () => {
+    it('disconnecting during the run', () => {
       const spy = sinon.spy()
       emitter.on('browser_complete', spy)
+      const spyBrowserError = sinon.spy()
+      emitter.on('browser_error', spyBrowserError)
       const timer = createMockTimer()
       browser = new Browser('fake-id', 'full name', collection, emitter, socket, timer, 10)
+
       browser.init()
       browser.state = Browser.STATE_EXECUTING
       socket.emit('result', { success: true, suite: [], log: [] })
       socket.emit('disconnect', 'socket.io reason')
-
-      const spyBrowserError = sinon.spy()
-      emitter.on('browser_error', spyBrowserError)
 
       timer.wind(10)
       expect(browser.lastResult.disconnected).to.equal(true)
@@ -466,67 +405,9 @@ describe('Browser', () => {
       timer.wind(10) // wait-for reconnecting delay
       expect(browser.state).to.equal(Browser.STATE_DISCONNECTED)
       expect(browser.disconnectsCount).to.equal(1)
-
-      const newSocket = mkSocket()
-      emitter.on('browser_register', () => browser.execute())
-
-      // reconnect on a new socket (which triggers re-execution)
-      browser.reconnect(newSocket, false)
-      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
-      newSocket.emit('start', { total: 11 })
-      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
-      socket.emit('result', { success: true, suite: [], log: [] })
-
-      // expected cleared last result (should not include the results from previous run)
-      expect(browser.lastResult.total).to.equal(11)
-      expect(browser.lastResult.success).to.equal(1)
-      expect(browser.lastResult.failed).to.equal(0)
-      expect(browser.lastResult.skipped).to.equal(0)
     })
 
-    it('keeping multiple active sockets', () => {
-      // If there is a new connection (socket) for an already connected browser,
-      // we need to keep the old socket, in the case that the new socket will disconnect.
-      browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, null, 10)
-      browser.init()
-      expect(browser.state).to.equal(Browser.STATE_CONNECTED)
-
-      browser.execute()
-      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
-
-      // A second connection...
-      const newSocket = mkSocket()
-      browser.reconnect(newSocket, true)
-
-      // Disconnect the second connection...
-      browser.onSocketDisconnect('socket.io-reason', newSocket)
-      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
-      socket.emit('start', { total: 1 })
-      expect(browser.state).to.equal(Browser.STATE_EXECUTING)
-
-      // It should still be listening on the old socket.
-      socket.emit('result', { success: true, suite: [], log: [] })
-      expect(browser.lastResult.success).to.equal(1)
-    })
-
-    it('complete only once after reconnect on the same socket', () => {
-      // If there is a new connection on the same socket,
-      // we should emit complete message only once.
-      browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, null, 10)
-      browser.onComplete = sinon.spy()
-      browser.init()
-      browser.execute()
-
-      // A second connection...
-      browser.reconnect(socket, true)
-
-      socket.emit('result', { success: true, suite: [], log: [] })
-      socket.emit('complete')
-
-      expect(browser.onComplete.callCount).to.equal(1)
-    })
-
-    it('disconnect when no message during the run', () => {
+    it('disconnect when pingTimeout is exceeded during the run', () => {
       const timer = createMockTimer()
       browser = new Browser('fake-id', 'Chrome 31.0', collection, emitter, socket, timer, 10, 20)
       browser.init()
@@ -538,7 +419,12 @@ describe('Browser', () => {
       socket.emit('start', { total: 11 })
       socket.emit('result', { success: true, suite: [], log: [] })
 
+      // Simulate ping timeout
       timer.wind(20)
+      socket.emit('disconnect', 'ping timeout')
+      // Simulate retry
+      timer.wind(10)
+
       expect(browser.state).to.equal(Browser.STATE_DISCONNECTED)
       expect(browser.disconnectsCount).to.equal(1)
       expect(spyBrowserComplete).to.have.been.called
