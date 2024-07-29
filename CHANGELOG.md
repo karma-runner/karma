@@ -1,3 +1,5 @@
+## [6.4.4](https://github.com/karma-runner/karma/compare/v6.4.3...v6.4.4) (2024-07-29)
+
 ## [6.4.3](https://github.com/karma-runner/karma/compare/v6.4.2...v6.4.3) (2024-02-24)
 
 

@@ -76,6 +76,7 @@
     "Pieter Mees <pietermees@users.noreply.github.com>",
     "Sergei Startsev <ai@programist.ru>",
     "Tobias Speicher <rootcommander@gmail.com>",
+    "dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
     "pavelgj <pavelgj@gmail.com>",
     "sylvain-hamel <sylvainhamel0@gmail.com>",
     "ywong <wongyok@gmail.com>",
@@ -138,7 +139,6 @@
     "Vivek Ganesan <caliberoviv@gmail.com>",
     "Vladimir Starkov <iamstarkov@users.noreply.github.com>",
     "comdiv <fagim.sadykov@gmail.com>",
-    "dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
     "karmarunnerbot <karmarunnerbot@gmail.com>",
     "ngiebel <ngiebel@starkinvestments.com>",
     "rdodev <rubenoz@gmail.com>",
@@ -505,7 +505,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "version": "6.4.3",
+  "version": "6.4.4",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext js --ignore-pattern *.tpl.js",
