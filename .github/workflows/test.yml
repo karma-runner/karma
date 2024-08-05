@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
   main:
     name: Unit (Client and Server), E2E and Integration Test

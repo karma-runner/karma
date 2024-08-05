@@ -5,8 +5,13 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
   main:
+    permissions:
+      contents: none
     name: Test, Tag Commit and Release to NPM
     runs-on: ubuntu-latest
     env:
