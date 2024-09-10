@@ -1,7 +1,6 @@
 const Server = require('../../lib/server')
 const NetUtils = require('../../lib/utils/net-utils')
 const BrowserCollection = require('../../lib/browser_collection')
-const Browser = require('../../lib/browser')
 const cfg = require('../../lib/config')
 const logger = require('../../lib/logger')
 
@@ -423,46 +422,6 @@ describe('server', () => {
 
         expect(await exitCode()).to.have.equal(1)
       })
-    })
-  })
-
-  describe('reconnecting browser', () => {
-    let mockBrowserSocket
-
-    beforeEach(async () => {
-      browserCollection = new BrowserCollection(server)
-      await server._start(mockConfig, mockLauncher, null, mockFileList, browserCollection, mockExecutor, doneStub)
-
-      mockBrowserSocket = {
-        id: 'browser-socket-id',
-        on: () => {},
-        emit: () => {}
-      }
-    })
-
-    it('should re-configure disconnected browser which has been restarted', () => {
-      const testBrowserId = 'my-id'
-      const browser = new Browser(testBrowserId, 'Chrome 19.0', browserCollection, server,
-        mockBrowserSocket, undefined, 0, 0, true, {})
-      const registerFn = mockSocketEventListeners.get('register')
-
-      browser.init()
-      browserCollection.add(browser)
-
-      // We assume that our browser was running when it disconnected randomly.
-      browser.setState(Browser.STATE_EXECUTING_DISCONNECTED)
-
-      // We now simulate a "connect" event from the Karma client where it registers
-      // a previous browser that disconnected while executing. Usually if it was just a
-      // socket.io reconnect, we would not want to restart the execution, but since this is
-      // a complete reconnect, we want to configure the browser and start a new execution.
-      registerFn({
-        name: 'fake-name',
-        id: testBrowserId,
-        isSocketReconnect: false
-      })
-
-      expect(browser.state).to.equal(Browser.STATE_CONFIGURING)
     })
   })
 })

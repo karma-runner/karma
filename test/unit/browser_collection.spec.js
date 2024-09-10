@@ -96,7 +96,7 @@ describe('BrowserCollection', () => {
     it('return all non-ready browsers', () => {
       const browsers = [new Browser(), new Browser(), new Browser()]
       browsers[0].state = Browser.STATE_EXECUTING
-      browsers[1].state = Browser.STATE_EXECUTING_DISCONNECTED
+      browsers[1].state = Browser.STATE_DISCONNECTED
       browsers[2].state = Browser.STATE_CONNECTED
       browsers.forEach((browser) => collection.add(browser))
 
