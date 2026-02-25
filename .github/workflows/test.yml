@@ -4,56 +4,71 @@ on:
   pull_request:
     branches:
       - master
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   main:
-    name: Unit (Client and Server), E2E and Integration Test
+    name: Full Test Suite (Node 22, Linux)
     runs-on: ubuntu-latest
-    env:
-      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-      SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-      SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
           cache: npm
+
       - run: npm ci
       - run: npm run build:check
       - run: npm run test:unit
       - run: npm run test:e2e
       - run: npm run test:client
       - run: npm run test:integration
+
   linux:
-    name: "Node ${{ matrix.node }} on Linux: Server Unit and E2E Test"
+    name: "Node ${{ matrix.node }} on Linux: Server Unit and E2E"
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        node: [10, 12, 14, 18]
+        node: [20, 22]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: npm
+
       - run: npm ci
       - run: npm run test:unit
       - run: npm run test:e2e
+
   windows:
-    name: "Node ${{ matrix.node }} on Windows: Server Unit and Client Unit Test"
+    name: "Node ${{ matrix.node }} on Windows: Server Unit"
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
-        node: [10, 12, 14, 16, 18]
+        node: [20, 22]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: npm
+
       - run: npm ci
       - run: npm run test:unit

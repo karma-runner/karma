@@ -4,22 +4,37 @@ on:
   pull_request:
     branches:
       - master
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   linux:
     name: Linux - Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
           cache: npm
+
       - run: npm ci
-      - run: |
-          npm run commitlint -- \
-          --verbose \
-          --from `git merge-base origin/master $GITHUB_SHA`
+
+      - name: Validate commit messages
+        if: github.event_name == 'pull_request'
+        run: |
+          BASE_SHA="$(git merge-base origin/${{ github.base_ref }} "$GITHUB_SHA")"
+          npm run commitlint -- --verbose --from "$BASE_SHA" --to "$GITHUB_SHA"
+
       - run: npm run lint
